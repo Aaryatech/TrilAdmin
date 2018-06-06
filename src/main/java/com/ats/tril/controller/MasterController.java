@@ -14,8 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Scope("session")
 public class MasterController {
 	
-	
-	
+	 
 	RestTemplate rest = new RestTemplate();
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
