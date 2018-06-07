@@ -469,6 +469,8 @@
 								class="fa fa-files-o icon"></i>Add Tax Form</a> <a
 								href="${pageContext.request.contextPath}/addFinancialYear"><i
 								class="fa fa-files-o icon"></i>Add Financial Year</a>
+								<a href="${pageContext.request.contextPath}/addAccountHead"><i
+								class="fa fa-files-o icon"></i>Add Account Head</a>
 
 						</div>
 

@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.DeliveryTerms;
 import com.ats.tril.model.Dept;
@@ -523,5 +524,100 @@ public class MasterController {
 
 		return "redirect:/addSubDepartment";
 	}
+	
+	@RequestMapping(value = "/addAccountHead", method = RequestMethod.GET)
+	public ModelAndView addAccountHead(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addAccountHead");
+		try {
+
+			 
+			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed", AccountHead[].class);
+			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
+
+			model.addObject("accountHeadList", accountHeadList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/insertAccountHead", method = RequestMethod.POST)
+	public String insertAccountHead(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+			String accHeadId = request.getParameter("accHeadId"); 
+			String accHeadDesc = request.getParameter("accHeadDesc"); 
+
+			AccountHead insert = new AccountHead();
+
+			if (accHeadId == "" || accHeadId == null)
+				insert.setAccHeadId(0);
+			else
+				insert.setAccHeadId(Integer.parseInt(accHeadId));
+			insert.setAccHeadDesc(accHeadDesc); 
+			insert.setIsUsed(1);
+			insert.setCreatedIn(1);
+
+			System.out.println("AccountHead" + insert);
+
+			AccountHead res = rest.postForObject(Constants.url + "/saveAccountHead", insert, AccountHead.class);
+
+			System.out.println("res " + res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addAccountHead";
+	}
+
+	@RequestMapping(value = "/editAccountHead/{accHeadId}", method = RequestMethod.GET)
+	public ModelAndView editAccountHead(@PathVariable int accHeadId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addAccountHead");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("accHeadId", accHeadId);
+
+			AccountHead res = rest.postForObject(Constants.url + "/getAccontHeadByAccHeadId", map, AccountHead.class);
+			model.addObject("editAccountHead", res);
+
+			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed", AccountHead[].class);
+			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
+
+			model.addObject("accountHeadList", accountHeadList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteAccountHead/{accHeadId}", method = RequestMethod.GET)
+	public String deleteAccountHead(@PathVariable int accHeadId, HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/empDetail");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("accHeadId", accHeadId);
+			map.add("deletedIn", 0);
+			ErrorMessage res = rest.postForObject(Constants.url + "/deleteAccountHead", map, ErrorMessage.class);
+			System.out.println(res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addAccountHead";
+	}
+	
 
 }
