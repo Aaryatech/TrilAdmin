@@ -91,10 +91,10 @@
 							<div class="col-md-3">
 								<input id="grpCode" class="form-control"
 									placeholder="Group Code" style="text-align: left;"
-									name="grpCode" type="text" required>
-								<%-- <input id="grpId" class="form-control" name="grpId"
-									value="${customer.grpId}" type="hidden">
- --%>
+									name="grpCode" value="${editItemGroup.grpCode}" type="text"
+									required> <input id="grpId" class="form-control"
+									name="grpId" value="${editItemGroup.grpId}" type="hidden">
+
 							</div>
 							<div class="col-md-1"></div>
 
@@ -104,23 +104,17 @@
 							<div class="col-md-3">
 								<input id="grpDesc" class="form-control"
 									placeholder="Delivery Term Description"
-									style="text-align: left;" name="grpDesc" type="text" required>
-								<input id="empId" class="form-control" name="empId"
-									value="${customer.custId}" type="hidden">
+									style="text-align: left;" name="grpDesc" type="text"
+									value="${editItemGroup.grpDesc}" required>
+
 
 							</div>
-							<%-- <div class="col-md-2">
-							<div class="col1title" align="left">E-Mail*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="email" class="form-control"
-								placeholder="Email" name="email" type="email" style="text-align: left;" value="${customer.custEmailId}" required>
 
-						</div> --%>
 
 						</div>
 
 						<div class="colOuter">
+
 
 							<div class="col-md-2">
 								<div class="col1title" align="left">Select Category*:</div>
@@ -128,14 +122,26 @@
 
 							<div class="col-md-2">
 								<select class="selectpicker" data-live-search="true"
-									title="Please Select" name="catId" id="catId">
+									title="Please Select" name="catId" id="catId" required>
 
-									<c:forEach items="${empList}" var="empList">
-										<option value="${empList.empId}">${empList.empName}</option>
+									<c:forEach items="${categoryList}" var="categoryList">
+										<c:choose>
+											<c:when test="${categoryList.catId==editItemGroup.catId}">
+												<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+											</c:otherwise>
+										</c:choose>
+
 
 									</c:forEach>
 								</select>
 							</div>
+
+
+
+
 							<div class="col-md-2"></div>
 							<div class="col-md-2">
 								<div class="col1title" align="left">Group Value*:</div>
@@ -144,7 +150,8 @@
 							<div class="col-md-2">
 								<input id="grpValueyn" class="form-control"
 									placeholder="Group Value" style="text-align: left;"
-									name="grpValueyn" type="text" required>
+									name="grpValueyn" type="text"
+									value="${editItemGroup.grpValueyn}" required>
 
 							</div>
 						</div>

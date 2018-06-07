@@ -74,8 +74,7 @@
 				<div class="sidebarright">
 
 					<form name="frm_search" id="frm_search" method="post"
-						action="${pageContext.request.contextPath}/insertItemSubGroup"
-						enctype="multipart/form-data">
+						action="${pageContext.request.contextPath}/insertItemSubGroup">
 
 						<div class="col-md -3">
 
@@ -101,7 +100,7 @@
 
 							</div>
 							<div class="col-md-1"></div>
-							<div class="col-md-2">
+							<%-- <div class="col-md-2">
 								<div class="col1title" align="left">Select Group*:</div>
 							</div>
 
@@ -114,7 +113,31 @@
 
 									</c:forEach>
 								</select>
+							</div> --%>
+
+							<div class="col-md-2">
+								<div class="col1title" align="left">Select Group*:</div>
 							</div>
+
+							<div class="col-md-2">
+								<select class="selectpicker" data-live-search="true"
+									title="Please Select" name="grpId" id="grpId" required>
+
+									<c:forEach items="${itemGroupList}" var="itemGroupList">
+										<c:choose>
+											<c:when test="${itemGroupList.grpId==editItemSubGroup.grpId}">
+												<option value="${itemGroupList.grpId}" selected>${itemGroupList.grpDesc}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${itemGroupList.grpId}">${itemGroupList.grpDesc}</option>
+											</c:otherwise>
+										</c:choose>
+
+
+									</c:forEach>
+								</select>
+							</div>
+
 
 						</div>
 
