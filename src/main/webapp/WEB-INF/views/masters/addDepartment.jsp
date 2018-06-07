@@ -68,8 +68,8 @@
 		 
 			<div class="sidebarright">
 				 
-				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertVisitor"
-				enctype="multipart/form-data"> 
+				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertDepartment"
+				 > 
 					 
 						<div class="col-md -3">
 							
@@ -82,10 +82,10 @@
 							<div class="col1title" align="left">Department Code*: </div>
 						</div>
 						<div class="col-md-3">
-							<input id="deptName" class="form-control"
-								placeholder="Department Code"   style="text-align: left;" name="deptName" type="text" required>
-								<input id="empId" class="form-control"
-								  name="empId" value="${customer.custId}" type="hidden" >
+							<input id="deptCode" class="form-control"
+								placeholder="Department Code"  value="${editDept.deptCode}" style="text-align: left;" name="deptCode" type="text" required>
+								<input id="deptId" class="form-control"
+								  name="deptId" value="${editDept.deptId}" type="hidden" >
 
 						</div>
 						<div class="col-md-1">
@@ -97,10 +97,8 @@
 						</div>
 						<div class="col-md-3">
 							<input id="deptDesc" class="form-control"
-								placeholder="Department Description"   style="text-align: left;" name="deptDesc" type="text" required>
-								<input id="empId" class="form-control"
-								  name="empId" value="${customer.custId}" type="hidden" >
-
+								placeholder="Department Description" value="${editDept.deptDesc}"   style="text-align: left;" name="deptDesc" type="text" required>
+								 
 						</div>
 						<%-- <div class="col-md-2">
 							<div class="col1title" align="left">E-Mail*: </div>
@@ -137,23 +135,23 @@
 											</thead>
 											<tbody>
 											
-											<%-- <c:forEach items="${uomlist}" var="uomlist"
+										  <c:forEach items="${deparmentList}" var="deparmentList"
 									varStatus="count">
 									<tr>
 										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
 										  
 											 
-										 <td class="col-md-1"><c:out value="${uomlist.uomName}" /></td>
-										<td class="col-md-1"><c:out value="${uomlist.uomDescription}" /></td>		 
+										 <td class="col-md-1"><c:out value="${deparmentList.deptCode}" /></td>
+										<td class="col-md-1"><c:out value="${deparmentList.deptDesc}" /></td>		 
 										
 									 <td>
-									 <a href="${pageContext.request.contextPath}/editUom/${uomlist.uomId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-									 <a href="${pageContext.request.contextPath}/deleteUom/${uomlist.uomId}"><abbr title="Delete"><i onclick="del('+key+')" class="fa fa-trash"></i></abbr></a>
+									 <a href="${pageContext.request.contextPath}/editDepartment/${deparmentList.deptId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+									 <a href="${pageContext.request.contextPath}/deleteDepartment/${deparmentList.deptId}"><abbr title="Delete"><i onclick="del('+key+')" class="fa fa-trash"></i></abbr></a>
 									
 									 </td>
 										 
 									</tr>
-								</c:forEach> --%>
+								</c:forEach>  
 
 											</tbody>
 

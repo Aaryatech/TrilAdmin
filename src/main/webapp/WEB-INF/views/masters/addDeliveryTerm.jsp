@@ -68,8 +68,8 @@
 		 
 			<div class="sidebarright">
 				 
-				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertVisitor"
-				enctype="multipart/form-data"> 
+				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertDeliveryTerm"
+				 > 
 					 
 						<div class="col-md -3">
 							
@@ -83,9 +83,9 @@
 						</div>
 						<div class="col-md-3">
 							<input id="deliveryDesc" class="form-control"
-								placeholder="Delivery Term Description"   style="text-align: left;" name="deliveryDesc" type="text" required>
-								<input id="empId" class="form-control"
-								  name="empId" value="${customer.custId}" type="hidden" >
+								placeholder="Delivery Term Description" value="${editDeliveryTerms.deliveryDesc}"  style="text-align: left;" name="deliveryDesc" type="text" required>
+								<input id="deliveryTermId" class="form-control"
+								  name="deliveryTermId" value="${editDeliveryTerms.deliveryTermId}" type="hidden" >
 
 						</div>
 						<div class="col-md-1">
@@ -126,23 +126,21 @@
 											</thead>
 											<tbody>
 											
-											<%-- <c:forEach items="${uomlist}" var="uomlist"
+											  <c:forEach items="${deliveryTermsList}" var="deliveryTermsList"
 									varStatus="count">
 									<tr>
 										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
 										  
 											 
-										 <td class="col-md-1"><c:out value="${uomlist.uomName}" /></td>
-										<td class="col-md-1"><c:out value="${uomlist.uomDescription}" /></td>		 
-										
+										 <td class="col-md-1"><c:out value="${deliveryTermsList.deliveryDesc}" /></td> 
 									 <td>
-									 <a href="${pageContext.request.contextPath}/editUom/${uomlist.uomId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-									 <a href="${pageContext.request.contextPath}/deleteUom/${uomlist.uomId}"><abbr title="Delete"><i onclick="del('+key+')" class="fa fa-trash"></i></abbr></a>
+									 <a href="${pageContext.request.contextPath}/editDeliveryTerms/${deliveryTermsList.deliveryTermId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+									 <a href="${pageContext.request.contextPath}/deleteDeliveryTerms/${deliveryTermsList.deliveryTermId}"><abbr title="Delete"><i onclick="del('+key+')" class="fa fa-trash"></i></abbr></a>
 									
 									 </td>
 										 
 									</tr>
-								</c:forEach> --%>
+								</c:forEach>  
 
 											</tbody>
 

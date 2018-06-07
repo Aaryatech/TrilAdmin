@@ -68,8 +68,8 @@
 		 
 			<div class="sidebarright">
 				 
-				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertVisitor"
-				enctype="multipart/form-data"> 
+				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertsubDept"
+				 > 
 					 
 						<div class="col-md -3">
 							
@@ -84,9 +84,9 @@
 						</div>
 						<div class="col-md-3">
 							<input id="subDeptDesc" class="form-control"
-								placeholder="Department Description"   style="text-align: left;" name="subDeptDesc" type="text" required>
-								<input id="empId" class="form-control"
-								  name="empId" value="${customer.custId}" type="hidden" >
+								placeholder="Department Description" value="${editSubDept.subDeptDesc}"  style="text-align: left;" name="subDeptDesc" type="text" required>
+								<input id="subDeptId" class="form-control"
+								  name="subDeptId" value="${editSubDept.subDeptId}" type="hidden" >
 
 						</div>
 						<div class="col-md-1"></div>
@@ -95,7 +95,7 @@
 						</div>
 						<div class="col-md-3">
 							<input id="subGroupCode" class="form-control"
-								placeholder="Sub Group Description"   style="text-align: left;" name="subGroupCode" type="text" required>
+								placeholder="Sub Group Description"  value="${editSubDept.subDeptCode}" style="text-align: left;" name="subGroupCode" type="text" required>
 								 
 						</div>
 					 
@@ -111,8 +111,16 @@
 						<select class="selectpicker" data-live-search="true"  title="Please Select" 
 															name="deptId" id="deptId"  required> 
 														 
-																<c:forEach items="${empList}" var="empList">
-																	<option value="${empList.empId}">${empList.empName}</option>
+																<c:forEach items="${deparmentList}" var="deparmentList">
+																<c:choose>
+																	<c:when test="${deparmentList.deptId==editSubDept.deptId}">
+																		<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}</option>
+																	</c:when>
+																	<c:otherwise>
+																		<option value="${deparmentList.deptId}">${deparmentList.deptCode}</option>
+																	</c:otherwise>
+																</c:choose>
+																	
 																
 																</c:forEach>
 															 </select>
@@ -145,23 +153,23 @@
 											</thead>
 											<tbody>
 											
-											<%-- <c:forEach items="${uomlist}" var="uomlist"
+											  <c:forEach items="${subDeptList}" var="subDeptList"
 									varStatus="count">
 									<tr>
 										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
 										  
 											 
-										 <td class="col-md-1"><c:out value="${uomlist.uomName}" /></td>
-										<td class="col-md-1"><c:out value="${uomlist.uomDescription}" /></td>		 
-										
+										 <td class="col-md-1"><c:out value="${subDeptList.subDeptDesc}" /></td>
+										<td class="col-md-1"><c:out value="${subDeptList.subDeptCode}" /></td>		 
+										<td class="col-md-1"><c:out value="${subDeptList.deptCode}" /></td>
 									 <td>
-									 <a href="${pageContext.request.contextPath}/editUom/${uomlist.uomId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-									 <a href="${pageContext.request.contextPath}/deleteUom/${uomlist.uomId}"><abbr title="Delete"><i onclick="del('+key+')" class="fa fa-trash"></i></abbr></a>
+									 <a href="${pageContext.request.contextPath}/editSubDept/${subDeptList.subDeptId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+									 <a href="${pageContext.request.contextPath}/deleteSubDept/${subDeptList.subDeptId}"><abbr title="Delete"><i onclick="del('+key+')" class="fa fa-trash"></i></abbr></a>
 									
 									 </td>
 										 
 									</tr>
-								</c:forEach> --%>
+								</c:forEach>  
 
 											</tbody>
 
