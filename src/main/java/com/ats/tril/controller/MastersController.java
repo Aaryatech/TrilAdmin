@@ -1,5 +1,9 @@
 package com.ats.tril.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.model.Category;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetItemGroup;
@@ -307,6 +312,11 @@ public class MastersController {
 					GetItemGroup[].class);
 			model.addObject("itemGroupList", itemGroupList);
 
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+
+			model.addObject("categoryList", categoryList);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -333,7 +343,7 @@ public class MastersController {
 				itemGroup.setGrpId(0);
 			else
 				itemGroup.setGrpId(Integer.parseInt(grpId));
-			itemGroup.setCatId(Integer.parseInt("1"));
+			itemGroup.setCatId(Integer.parseInt(catId));
 			itemGroup.setGrpCode(grpCode);
 			itemGroup.setGrpValueyn(grpValueyn);
 			itemGroup.setGrpDesc(grpDesc);
@@ -356,7 +366,7 @@ public class MastersController {
 	public ModelAndView editItemGroup(@PathVariable int grpId, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("masters/addPaymentTerm");
+		ModelAndView model = new ModelAndView("masters/addItemGroup");
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -368,11 +378,34 @@ public class MastersController {
 					GetItemGroup[].class);
 			model.addObject("itemGroupList", itemGroupList);
 
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+
+			model.addObject("categoryList", categoryList);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+
+	@RequestMapping(value = "/deleteItemGroup/{grpId}", method = RequestMethod.GET)
+	public String deleteItemGroup(@PathVariable int grpId, HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("grpId", grpId);
+			map.add("deletedIn", 0);
+			ErrorMessage delete = rest.postForObject(Constants.url + "/deleteItemGroup", map, ErrorMessage.class);
+			System.out.println(delete);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addItemGroup";
 	}
 
 	@RequestMapping(value = "/addItemSubGroup", method = RequestMethod.GET)
@@ -405,7 +438,9 @@ public class MastersController {
 
 			String subGrpDesc = request.getParameter("subGrpDesc");
 			String grpId = request.getParameter("grpId");
+
 			ItemSubGroup itemSubGroup = new ItemSubGroup();
+
 			if (subgrpId == "" || subgrpId == null)
 				itemSubGroup.setSubgrpId(0);
 			else
@@ -446,11 +481,33 @@ public class MastersController {
 					GetItemSubGrp[].class);
 			model.addObject("itemSubGroupList", itemSubGroupList);
 
+			GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
+					GetItemGroup[].class);
+			model.addObject("itemGroupList", itemGroupList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+
+	@RequestMapping(value = "/deleteItemSubGroup/{subgrpId}", method = RequestMethod.GET)
+	public String deleteItemSubGroup(@PathVariable int subgrpId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("subgrpId", subgrpId);
+			map.add("deletedIn", 0);
+			ErrorMessage delete = rest.postForObject(Constants.url + "/deleteItemSubGroup", map, ErrorMessage.class);
+			System.out.println(delete);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addItemSubGroup";
 	}
 
 }
