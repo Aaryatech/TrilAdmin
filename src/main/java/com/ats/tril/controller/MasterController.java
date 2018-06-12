@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.DeliveryTerms;
@@ -23,6 +24,7 @@ import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.Item;
 import com.ats.tril.model.SubDept;
 
 @Controller
@@ -617,6 +619,144 @@ public class MasterController {
 		}
 
 		return "redirect:/addAccountHead";
+	}
+	
+	
+	@RequestMapping(value = "/addItem", method = RequestMethod.GET)
+	public ModelAndView addItem(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addItem");
+		try {
+
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/insertItem", method = RequestMethod.POST)
+	public String insertItem(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+			String itemId = request.getParameter("itemId"); 
+			String itemCode = request.getParameter("itemCode"); 
+			String itemDesc = request.getParameter("itemDesc"); 
+			String uom = request.getParameter("uom"); 
+			String itemDate = request.getParameter("itemDate");
+			int opQty = Integer.parseInt(request.getParameter("opQty")); 
+			float opRate = Float.parseFloat(request.getParameter("opRate"));
+			int clQty = Integer.parseInt(request.getParameter("clQty")); 
+			float clRate = Float.parseFloat(request.getParameter("clRate"));
+			int minLevel = Integer.parseInt(request.getParameter("minLevel")); 
+			int maxLevel = Integer.parseInt(request.getParameter("maxLevel")); 
+			int rodLevel = Integer.parseInt(request.getParameter("rodLevel")); 
+			float itemWeight = Float.parseFloat(request.getParameter("itemWeight")); 
+			String itemLocation = request.getParameter("itemLocation"); 
+			String itemAbc = request.getParameter("itemAbc"); 
+			String itemLife = request.getParameter("itemLife"); 
+			String itemSchd = request.getParameter("itemSchd"); 
+			int isCritical = Integer.parseInt(request.getParameter("isCritical")); 
+			int isCapital = Integer.parseInt(request.getParameter("isCapital")); 
+			int itemCon = Integer.parseInt(request.getParameter("itemCon")); 
+
+			Item insert = new Item();
+
+			if(itemId.equalsIgnoreCase("") || itemId.equalsIgnoreCase(null))
+				insert.setItemId(0);
+			else
+				insert.setItemId(Integer.parseInt(itemId));
+			insert.setItemCode(itemCode);
+			insert.setItemDesc(itemDesc);
+			insert.setItemDate(DateConvertor.convertToYMD(itemDate));
+			insert.setItemUom(uom);
+			insert.setItemOpQty(opQty);
+			insert.setItemOpRate(opRate);
+			insert.setItemClQty(clQty);
+			insert.setItemClRate(clRate);
+			insert.setItemMinLevel(minLevel);
+			insert.setItemMaxLevel(maxLevel);
+			insert.setItemRodLevel(rodLevel);
+			insert.setItemWt(itemWeight);
+			insert.setItemLocation(itemLocation);
+			insert.setItemAbc(itemAbc);
+			insert.setItemLife(itemLife);
+			insert.setItemSchd(itemSchd);
+			insert.setItemIsCritical(isCritical);
+			insert.setItemIsCapital(isCapital);
+			insert.setIsUsed(1);
+			insert.setCreatedIn(1);
+			insert.setItemIsCons(itemCon);
+			
+			System.out.println("insert" + insert);
+
+			Item res = rest.postForObject(Constants.url + "/saveItem", insert, Item.class);
+
+			System.out.println("res " + res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/getItemList";
+	}
+	
+	@RequestMapping(value = "/getItemList", method = RequestMethod.GET)
+	public ModelAndView getItemList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/getItemList");
+		try {
+
+			Item[] item = rest.getForObject(Constants.url + "/getAllItems",  Item[].class);
+			List<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
+			model.addObject("itemList", itemList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/editItem/{itemId}", method = RequestMethod.GET)
+	public ModelAndView editItem(@PathVariable int itemId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addItem");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("itemId", itemId);
+			Item  item = rest.postForObject(Constants.url + "/getItemByItemId",map, Item .class);
+			 model.addObject("editItem", item);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/deleteItem/{itemId}", method = RequestMethod.GET)
+	public String deleteItem(@PathVariable int itemId, HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("itemId", itemId);
+			map.add("deletedIn", 0);
+			ErrorMessage  errorMessage = rest.postForObject(Constants.url + "/deleteItem",map, ErrorMessage .class);
+			System.out.println(errorMessage);
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/getItemList";
 	}
 	
 
