@@ -468,6 +468,8 @@
 								class="fa fa-files-o icon"></i>Add Account Head</a> <a
 								href="${pageContext.request.contextPath}/addVendor"><i
 								class="fa fa-files-o icon"></i>Add Vendor</a> <a
+								href="${pageContext.request.contextPath}/vendorList"><i
+								class="fa fa-files-o icon"></i>Vendor List</a><a
 								href="${pageContext.request.contextPath}/addItem"><i
 								class="fa fa-files-o icon"></i>Add Item</a>
 
