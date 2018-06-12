@@ -125,7 +125,7 @@
 											<td class="col-md-1"><c:out
 													value="${vendorList.vendorItem}" /></td>
 
-											<td class="col-md-1"><c:out
+											<td class="col-md-2"><c:out
 													value="${vendorList.vendorDate}" /></td>
 
 											<td class="col-md-1"><c:out

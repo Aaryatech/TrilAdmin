@@ -560,12 +560,6 @@ public class MastersController {
 			String vendorItem = request.getParameter("vendorItem");
 			String vendorDate = request.getParameter("vendorDate");
 
-			SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-YY");
-
-			Date dmyVendorDate = originalFormat.parse(vendorDate);
-
-			SimpleDateFormat targetFormat = new SimpleDateFormat("YY-MM-dd");
-
 			Vendor vendor = new Vendor();
 			if (vendorId == "" || vendorId == null)
 				vendor.setVendorId(0);
@@ -591,7 +585,7 @@ public class MastersController {
 
 			vendor.setVendorItem(vendorItem);
 			vendor.setVendorGstNo(vendorGstNo);
-			vendor.setVendorDate(targetFormat.format(dmyVendorDate));
+			vendor.setVendorDate(DateConvertor.convertToYMD(vendorDate));
 
 			vendor.setVendorApprvBy("113");
 			vendor.setVendorType(Integer.parseInt(vendorType));
