@@ -238,8 +238,7 @@
 								<%
 									//else
 													} else {
-								%> <abbr title='${menu.menuDesc}'><a
-									class="listareaBox"
+								%> <abbr title='${menu.menuDesc}'><a class="listareaBox"
 									href="${pageContext.request.contextPath}/showRegularSpCakeOrder/${loop.index}"><div
 											class="listareaBoximg"></abbr> <%
  	}
@@ -250,13 +249,11 @@
  					{
 
  						//if
- %> <abbr title='${menu.menuDesc}'><a
-									class="listareaBoxBlue"
+ %> <abbr title='${menu.menuDesc}'><a class="listareaBoxBlue"
 									href="${pageContext.request.contextPath}/showSavouries/${loop.index}">
 										<div class="listareaBoximg"></abbr> <%
  	} else {
- %> <abbr title='${menu.menuDesc}'> <a
-									class="listareaBox"
+ %> <abbr title='${menu.menuDesc}'> <a class="listareaBox"
 									href="${pageContext.request.contextPath}/showSavouries/${loop.index}">
 										<div class="listareaBoximg"></abbr> <%
  	}
@@ -266,14 +263,12 @@
 
  				// if
  				if (settingType != 1) {
- %> <abbr title='${menu.menuDesc}'><a
-									class="listareaBoxBlue"
+ %> <abbr title='${menu.menuDesc}'><a class="listareaBoxBlue"
 									href="${pageContext.request.contextPath}/showSpCakeOrder/${loop.index}">
 										<div class="listareaBoximg"></abbr> <%
  	//else
  				} else {
- %> <abbr title='${menu.menuDesc}'><a
-									class="listareaBox"
+ %> <abbr title='${menu.menuDesc}'><a class="listareaBox"
 									href="${pageContext.request.contextPath}/showSpCakeOrder/${loop.index}">
 										<div class="listareaBoximg"></abbr> <%
  	}
@@ -468,9 +463,13 @@
 								href="${pageContext.request.contextPath}/addTaxForm"><i
 								class="fa fa-files-o icon"></i>Add Tax Form</a> <a
 								href="${pageContext.request.contextPath}/addFinancialYear"><i
-								class="fa fa-files-o icon"></i>Add Financial Year</a>
-								<a href="${pageContext.request.contextPath}/addAccountHead"><i
-								class="fa fa-files-o icon"></i>Add Account Head</a>
+								class="fa fa-files-o icon"></i>Add Financial Year</a> <a
+								href="${pageContext.request.contextPath}/addAccountHead"><i
+								class="fa fa-files-o icon"></i>Add Account Head</a> <a
+								href="${pageContext.request.contextPath}/addVendor"><i
+								class="fa fa-files-o icon"></i>Add Vendor</a> <a
+								href="${pageContext.request.contextPath}/addItem"><i
+								class="fa fa-files-o icon"></i>Add Item</a>
 
 						</div>
 
