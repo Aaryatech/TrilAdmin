@@ -710,9 +710,10 @@ public class MasterController {
 		ModelAndView model = new ModelAndView("masters/getItemList");
 		try {
 
-			Item[] item = rest.getForObject(Constants.url + "/getAllItems",  Item[].class);
+			Item[] item = rest.getForObject(Constants.url + "/getAllItems",  Item[].class); 
 			List<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
 			model.addObject("itemList", itemList);
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
