@@ -1,86 +1,67 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
-
-</head>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
-	--%>
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	<c:url var="editFrSupplier" value="/editFrSupplier"></c:url>
-
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
-
-	<!--datepicker-->
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
-	<script>
-		$(function() {
-			$("#fromdatepicker").datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
-		});
-		$(function() {
-			$("#todatepicker").datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
-		});
-	</script>
-	<!--datepicker-->
-
-	<!--topLeft-nav-->
-	<div class="sidebarOuter"></div>
-	<!--topLeft-nav-->
-
-	<!--wrapper-start-->
-	<div class="wrapper">
-
-		<!--topHeader-->
-		<c:url var="findAddOnRate" value="/getAddOnRate" />
-		<c:url var="findItemsByCatId" value="/getFlavourBySpfId" />
-		<c:url var="findAllMenus" value="/getAllTypes" />
-		<jsp:include page="/WEB-INF/views/include/logo.jsp"></jsp:include>
+	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
+	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
-		<!--topHeader-->
+	<div class="container" id="main-container">
 
-		<!--rightContainer-->
-		<div class="fullGrid center">
-			<!--fullGrid-->
-			<div class="wrapperIn2">
+		<!-- BEGIN Sidebar -->
+		<div id="sidebar" class="navbar-collapse collapse">
 
-				<!--leftNav-->
+			<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
 
-				<jsp:include page="/WEB-INF/views/include/left.jsp">
-					<jsp:param name="myMenu" value="${menuList}" />
-				</jsp:include>
-				<div class="sidebarright">
-					<div class="col-md -3">
+			<div id="sidebar-collapse" class="visible-lg">
+				<i class="fa fa-angle-double-left"></i>
+			</div>
+			<!-- END Sidebar Collapse Button -->
+		</div>
+		<!-- END Sidebar -->
 
-						<div class="col1title" align="left">
-							<h3>Vendor List</h3>
+		<!-- BEGIN Content -->
+		<div id="main-content">
+			<!-- BEGIN Page Title -->
+			<div class="page-title">
+				<div>
+					<h1>
+
+						<i class="fa fa-file-o"></i>Item List
+
+					</h1>
+				</div>
+			</div>
+			<!-- END Page Title -->
+
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="box" id="todayslist">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>Vendor List
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/addVendor">
+									Add Vendor</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
 						</div>
+ 
+								<div class="box-content">
 
-					</div>
-					<div id="table-scroll" class="table-scroll">
-						<div id="faux-table" class="faux-table" aria="hidden"></div>
-						<div class="table-wrap table-wrap-custbill">
-							<table id="table_grid1" class="main-table small-td">
-								<thead>
+					<br /> <br />
+					<div class="clearfix"></div>
+					<div class="table-responsive" style="border: 0">
+						<table class="table table-advance" id="table1">  
+									<thead>
 									<tr class="bgpink">
 										<th class="col-sm-1">Sr no.</th>
 										<th class="col-md-1">Code</th>
@@ -134,118 +115,130 @@
 
 											<td><a
 												href="${pageContext.request.contextPath}/editVendor/${vendorList.vendorId}"><abbr
-													title="Edit"><i class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-												<a
-												href="${pageContext.request.contextPath}/deleteVendor/${vendorList.vendorId}"><abbr
-													title="Delete"><i onclick="del('+key+')"
-														class="fa fa-trash"></i></abbr></a></td>
+													title="Edit"><i class="fa fa-edit"></i></abbr></a>
+													<a href="${pageContext.request.contextPath}/deleteVendor/${vendorList.vendorId}" onClick="return confirm('Are you sure want to delete this record');"><span
+												class="glyphicon glyphicon-remove"></span></a>
+												 </td>
 
 										</tr>
 									</c:forEach>
 
 								</tbody>
 
-							</table>
+								</table>
+  
+					</div>
+				</div>
+							 
+
+
 						</div>
 					</div>
 
 
-
 				</div>
-				<!--tabNavigation-->
-				<!--<div class="order-btn"><a href="#" class="saveOrder">SAVE ORDER</a></div>-->
-				<%-- <div class="order-btn textcenter">
-						<a
-							href="${pageContext.request.contextPath}/showBillDetailProcess/${billNo}"
-							class="buttonsaveorder">VIEW DETAILS</a>
-						<!--<input name="" class="buttonsaveorder" value="EXPORT TO EXCEL" type="button">-->
-					</div> --%>
+			</div>
 
+
+			<div class=" box-content">
+
+				
 
 			</div>
-			<!--rightSidebar-->
 
+			<!-- END Main Content -->
+			<footer>
+				<p>2018 © AARYATECH SOLUTIONS</p>
+			</footer>
+
+			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!--fullGrid-->
+		<!-- END Content -->
 	</div>
-	<!--rightContainer-->
+	<!-- END Container -->
 
-	</div>
-	<!--wrapper-end-->
-	<!--easyTabs-->
-	<!--easyTabs-->
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-	<!--easyTabs-->
-
-
+	<!--basic scripts-->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script>
-		function edit(suppId) {
-
-			$('#loader').show();
-
-			$
-					.getJSON(
-							'${editFrSupplier}',
-
-							{
-
-								suppId : suppId,
-								ajax : 'true'
-
-							},
-							function(data) {
-
-								document.getElementById("suppId").value = data.suppId;
-								document.getElementById("suppName").value = data.suppName;
-								document.getElementById("suppAdd").value = data.suppAddr;
-								document.getElementById("city").value = data.suppCity;
-								document.getElementById("mob").value = data.mobileNo;
-								document.getElementById("email").value = data.email;
-								document.getElementById("gstnNo").value = data.gstnNo;
-								document.getElementById("panNo").value = data.panNo;
-								document.getElementById("liceNo").value = data.suppFdaLic;
-								document.getElementById("creditDays").value = data.suppCreditDays;
-								document.getElementById("isSameState").value = data.isSameState;
-								document.getElementById("cancel").disabled = false;
-							});
-
-		}
-
-		function cancel1() {
-
-			//alert("cancel");
-			document.getElementById("suppId").value = "";
-			document.getElementById("suppName").value = "";
-			document.getElementById("suppAdd").value = "";
-			document.getElementById("city").value = "";
-			document.getElementById("mob").value = "";
-			document.getElementById("email").value = "";
-			document.getElementById("gstnNo").value = "";
-			document.getElementById("panNo").value = "";
-			document.getElementById("liceNo").value = "";
-			document.getElementById("creditDays").value = "";
-			document.getElementById("isSameState").value = "";
-			document.getElementById("cancel").disabled = false;
-
-		}
-		(function() {
-			var fauxTable = document.getElementById("faux-table");
-			var mainTable = document.getElementById("table_grid");
-			var clonedElement = table_grid.cloneNode(true);
-			var clonedElement2 = table_grid.cloneNode(true);
-			clonedElement.id = "";
-			clonedElement2.id = "";
-			fauxTable.appendChild(clonedElement);
-			fauxTable.appendChild(clonedElement2);
-		})();
+		window.jQuery
+				|| document
+						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
 	</script>
-	<script>
-		function getStateName() {
-			//alert("ala");
-			var stateId = $('#stateId option:selected').text();
-			//alert("stateId " +stateId);
-			document.getElementById("stateName").value = stateId;
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 
+	<!--page specific plugin scripts-->
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.resize.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.pie.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.stack.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.tooltip.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/sparkline/jquery.sparkline.min.js"></script>
+
+
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
+
+
+
+
+
+	<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+	<script type="text/javascript">
+		function passwordValidation() {
+
+			var pass = document.getElementById("password").value;
+			var pass1 = document.getElementById("rePassword").value;
+
+			if (pass != "" && pass1 != "") {
+				if (pass != pass1) {
+					alert("Password Not Matched ");
+					document.getElementById("submit").disabled = true;
+				} else {
+					document.getElementById("submit").disabled = false;
+
+				}
+
+			}
 		}
 	</script>
 

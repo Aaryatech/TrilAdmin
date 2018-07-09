@@ -1,288 +1,266 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
- 
-
-</head>
-<body>
- --%>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<c:url var="editFrSupplier" value="/editFrSupplier"></c:url>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
-
-<!--datepicker-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
-<script>
-		$(function() {
-			$("#fromdatepicker").datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
-		});
-		$(function() {
-			$("#todatepicker").datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
-		});
-	</script>
-<!--datepicker-->
-
-<!--topLeft-nav-->
-<div class="sidebarOuter"></div>
-<!--topLeft-nav-->
-
-<!--wrapper-start-->
-<div class="wrapper">
-
-	<!--topHeader-->
-	<c:url var="findAddOnRate" value="/getAddOnRate" />
-	<c:url var="findItemsByCatId" value="/getFlavourBySpfId" />
-	<c:url var="findAllMenus" value="/getAllTypes" />
-	<jsp:include page="/WEB-INF/views/include/logo.jsp"></jsp:include>
+<body>
 
 
-	<!--topHeader-->
+	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
+	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="exhibitorMobileNo" value="/exhibitorMobileNo"></c:url>
 
-	<!--rightContainer-->
-	<div class="fullGrid center">
-		<!--fullGrid-->
-		<div class="wrapperIn2">
-
-			<!--leftNav-->
-
-			<jsp:include page="/WEB-INF/views/include/left.jsp">
-				<jsp:param name="myMenu" value="${menuList}" />
-			</jsp:include>
+	<c:url var="isMobileNoExist" value="/isMobileNoExist"></c:url>
 
 
-		 
-			<div class="sidebarright">
-				 
-				<form name="frm_search" id="frm_search" method="post" action="${pageContext.request.contextPath}/insertItem"
-				 > 
-					 
-						<div class="col-md -3">
-							
-								<div class="col1title" align="left"><h3>Add Item</h3></div>
-								 
+	<div class="container" id="main-container">
+
+		<!-- BEGIN Sidebar -->
+		<div id="sidebar" class="navbar-collapse collapse">
+
+			<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
+
+			<div id="sidebar-collapse" class="visible-lg">
+				<i class="fa fa-angle-double-left"></i>
+			</div>
+			<!-- END Sidebar Collapse Button -->
+		</div>
+		<!-- END Sidebar -->
+
+		<!-- BEGIN Content -->
+		<div id="main-content">
+			<!-- BEGIN Page Title -->
+			<div class="page-title">
+				<div>
+					<h1>
+
+						<i class="fa fa-file-o"></i> 
+									 Add Item 
+
+					</h1>
+				</div>
+			</div>
+			<!-- END Page Title -->
+
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="box" id="todayslist">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>
+								<c:choose>
+									<c:when test="${edit==1}">Edit Exhibitor</c:when>
+									<c:otherwise>Add Item</c:otherwise>
+								</c:choose> 
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/getItemList">
+									Item List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
 						</div>
-						
-					<div class="colOuter">
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Code*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemCode" class="form-control"
+
+						<div class=" box-content">
+							<form id="addSupplier"
+								action="${pageContext.request.contextPath}/insertItem"
+								method="post" >
+
+								<div class="box-content">
+
+									<div class="col-md-2">Item Code*</div>
+									<div class="col-md-3">
+										<input id="itemCode" class="form-control"
 								placeholder="Item Code" value="${editItem.itemCode}" style="text-align: left;" name="itemCode" type="text" required>
 								<input id="itemId" class="form-control"
 								  name="itemId" value="${editItem.itemId}" type="hidden" >
-
-						</div>
-						<div class="col-md-1">
-							 
-						</div>
-
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Description*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemDesc" class="form-control"
+								  
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Description*</div>
+									<div class="col-md-3">
+										<input id="itemDesc" class="form-control"
 								placeholder="Item Code" value="${editItem.itemDesc}" style="text-align: left;" name="itemDesc" type="text" required>
-						</div>
-					 
-					</div>
-					
-					<div class="colOuter">
-						 
-						
-						<div class="col-md-2">
-							<div class="col1title" align="left">UOM*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="uom" class="form-control"
+									</div>
+
+
+								</div>
+								<br><br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">UOM*</div>
+									<div class="col-md-3">
+										<input id="uom" class="form-control"
 								placeholder="UOM" value="${editItem.itemUom}" style="text-align: left;" name="uom" type="text" required>
-						
-						</div>
-						<div class="col-md-1"> </div>
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Date*: </div>
-						</div>
-						 
-						<div class="col-md-2">
-							<input id="fromdatepicker" class="texboxitemcode texboxcal"
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Date*</div>
+									<div class="col-md-3">
+										<input id="itemDate" class="form-control date-picker"
 								 placeholder="Item Date" value="${editItem.itemDate}" name="itemDate" type="text" required>
-								 
-						</div>
-						
-						
-						 
-				 
-					</div>
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item OP Rate*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="opRate" class="form-control"
-								placeholder="Item OP Rate" name="opRate" value="${editItem.itemOpRate}" pattern="[+-]?([0-9]*[.])?[0-9]+" style="text-align: left;" title="Enter in Number Formate"  type="text" required>
 
-						</div>
-						 
-						 <div class="col-md-1"> </div>
-						 
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item OP Qty*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="opQty" class="form-control"
-								placeholder="Item OP Qty" name="opQty" value="${editItem.itemOpQty}"  style="text-align: left;" title="Enter in Number Formate"  type="number" required>
 
-						</div>
-						 
-					</div>
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item CL Rate*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="clRate" class="form-control"
-								placeholder="Item CL Rate" name="clRate" value="${editItem.itemClRate}" pattern="[+-]?([0-9]*[.])?[0-9]+" style="text-align: left;" title="Enter in Number Formate"  type="text" required>
+									</div>
+									  
+								</div>
+								<br><br>
 
-						</div>
-						 
-						 <div class="col-md-1"> </div>
-						 
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item CL Qty*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="clQty" class="form-control"
-								placeholder="Item OP Qty" name="clQty" value="${editItem.itemClQty}" style="text-align: left;"  title="Enter in Number Formate" type="number" required>
+								<div class="box-content">
 
-						</div>
-						 
-					</div>
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item Min Level*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="minLevel" class="form-control"
-								placeholder="Item Min Level" name="minLevel" value="${editItem.itemMinLevel}"  style="text-align: left;" title="Enter in Number Formate"  type="number" required>
+									<div class="col-md-2">Item OP Rate*</div>
+									<div class="col-md-3">
+										<input id="opRate" class="form-control"
+								placeholder="Item OP Rate" name="opRate" value="${editItem.itemOpRate}" pattern="[+-]?([0-9]*[.])?[0-9]+" 
+								style="text-align: left;" title="Enter in Number Formate"  type="text" required>
 
-						</div>
-						 
-						 <div class="col-md-1"> </div>
-						 
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Max Level*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="maxLevel" class="form-control"
-								placeholder="Item Max Level" name="maxLevel" value="${editItem.itemMaxLevel}" style="text-align: left;" title="Enter in Number Formate"  type="number" required>
+									</div>
 
-						</div>
-						 
-					</div>
-					 
-					 <div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item Rod Level*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="rodLevel" class="form-control"
-								placeholder="Item Rod Level" name="rodLevel" value="${editItem.itemRodLevel}" style="text-align: left;" title="Enter in Number Formate"  type="number" required>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item OP Qty*</div>
+									<div class="col-md-3">
+										<input id="opQty" class="form-control"
+								placeholder="Item OP Qty" name="opQty" value="${editItem.itemOpQty}"  style="text-align: left;" 
+								title="Enter in Number Formate"  type="number" required>
 
-						</div>
-						 
-						 <div class="col-md-1"> </div>
-						 
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Weight*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemWeight" class="form-control"
-								placeholder="Item Weight" name="itemWeight" value="${editItem.itemWt}" pattern="[+-]?([0-9]*[.])?[0-9]+" style="text-align: left;" title="Enter in Number Formate"  type="text" required>
 
-						</div>
-						 
-					</div>
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item Location*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemLocation" class="form-control"
-								placeholder="Item Rod Level" name="itemLocation" value="${editItem.itemLocation}"  style="text-align: left;"    type="text" required>
+									</div>
 
-						</div>
-						 
-						 <div class="col-md-1"> </div>
-						 
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Abc*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemAbc" class="form-control"
+
+								</div>
+								<br><br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Item CL Rate*</div>
+									<div class="col-md-3">
+										<input id="clRate" class="form-control"
+								placeholder="Item CL Rate" name="clRate" value="${editItem.itemClRate}" pattern="[+-]?([0-9]*[.])?[0-9]+" 
+								style="text-align: left;" title="Enter in Number Formate"  type="text" required>
+
+
+									</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item CL Qty*</div>
+									<div class="col-md-3">
+										<input id="clQty" class="form-control"
+								placeholder="Item OP Qty" name="clQty" value="${editItem.itemClQty}" style="text-align: left;"  
+								title="Enter in Number Formate" type="number" required>
+
+
+									</div>
+
+
+								</div>
+								<br><br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Item Min Level*</div>
+									<div class="col-md-3">
+										<input id="minLevel" class="form-control"
+								placeholder="Item Min Level" name="minLevel" value="${editItem.itemMinLevel}"  style="text-align: left;" 
+								title="Enter in Number Formate"  type="number" required>
+
+
+									</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Max Level*</div>
+									<div class="col-md-3">
+										<input id="maxLevel" class="form-control"
+								placeholder="Item Max Level" name="maxLevel" value="${editItem.itemMaxLevel}" style="text-align: left;" 
+								title="Enter in Number Formate"  type="number" required>
+
+
+									</div>
+
+
+								</div>
+								<br><br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Item Rod Level*</div>
+									<div class="col-md-3">
+										<input id="rodLevel" class="form-control"
+								placeholder="Item Rod Level" name="rodLevel" value="${editItem.itemRodLevel}" style="text-align: left;"
+								 title="Enter in Number Formate"  type="number" required>
+
+
+									</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Weight*</div>
+									<div class="col-md-3">
+										<input id="itemWeight" class="form-control"
+								placeholder="Item Weight" name="itemWeight" value="${editItem.itemWt}" pattern="[+-]?([0-9]*[.])?[0-9]+" 
+								style="text-align: left;" title="Enter in Number Formate"  type="text" required>
+
+
+									</div>
+
+
+								</div>
+								<br><br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Item Location*</div>
+									<div class="col-md-3">
+										<input id="itemLocation" class="form-control"
+								placeholder="Item Rod Level" name="itemLocation" value="${editItem.itemLocation}"  style="text-align: left;"
+								    type="text" required>
+
+
+									</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Abc*</div>
+									<div class="col-md-3">
+										<input id="itemAbc" class="form-control"
 								placeholder="Item Abc" name="itemAbc"   style="text-align: left;" value="${editItem.itemAbc}"   type="text" required>
 
-						</div>
-						 
-					</div>
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item Life*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemLife" class="form-control"
-								placeholder="Item Life" name="itemLife"   style="text-align: left;"   value="${editItem.itemLife}" type="text" required>
 
-						</div>
-						 
-						 <div class="col-md-1"> </div>
-						 
-						<div class="col-md-2">
-							<div class="col1title" align="left">Item Schd*: </div>
-						</div>
-						<div class="col-md-3">
-							<input id="itemSchd" class="form-control"
+									</div>
+
+
+								</div>
+								<br><br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Item Life*</div>
+									<div class="col-md-3">
+									<input id="itemLife" class="form-control"
+								placeholder="Item Life" name="itemLife"   style="text-align: left;"   value="${editItem.itemLife}" type="text" required>
+ 
+									</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Schd*</div>
+									<div class="col-md-3">
+										<input id="itemSchd" class="form-control"
 								placeholder="Item Schd" name="itemSchd"   style="text-align: left;"   value="${editItem.itemSchd}" type="text" required>
 
-						</div>
-						 
-					</div>
-					
-					<!-- data-live-search="true" -->
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item Is Critical*: </div>
-						</div>
-						  
-						<div class="col-md-2">
-						<select class="selectpicker"  title="Please Select" 
+
+									</div>
+
+
+								</div>
+								<br><br>
+								<div class="box-content">
+
+									<div class="col-md-2">Item Is Critical*</div>
+									<div class="col-md-3">
+									<select class="form-control chosen"  title="Please Select" 
 															name="isCritical" id="isCritical"   required> 
 														 <c:choose>
 														 	<c:when test="${editItem.itemIsCritical==0}">
@@ -301,16 +279,12 @@
 														 </c:choose>
 																  
 															 </select>
-															 </div>
-						 
-						 <div class="col-md-2"> </div>
-						 
-						 <div class="col-md-2">
-							<div class="col1title" align="left">Item Is Capital*: </div>
-						</div>
-						 
-						<div class="col-md-2">
-						<select class="selectpicker"   title="Please Select" 
+									</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item Is Capital*</div>
+									<div class="col-md-3">
+										 <select class="form-control chosen"   title="Please Select" 
 															name="isCapital" id="isCapital"  required> 
 														  <c:choose>
 														 	<c:when test="${editItem.itemIsCapital==0}">
@@ -329,18 +303,17 @@
 														 </c:choose>
 																  
 															 </select>
-															 </div>
-						  
-					</div>
-					
-					<div class="colOuter">
-					
-					<div class="col-md-2">
-							<div class="col1title" align="left">Item Con*: </div>
-						</div>
-						  
-						<div class="col-md-2">
-						<select class="selectpicker"  title="Please Select" 
+
+									</div>
+
+
+								</div><br>
+								
+								<div class="box-content">
+
+									<div class="col-md-2">Item Con*</div>
+									<div class="col-md-3">
+									<select class="form-control chosen"  title="Please Select" 
 															name="itemCon" id="itemCon"  required> 
 														 
 																 
@@ -361,122 +334,165 @@
 														 </c:choose>
 																 
 															 </select>
-															 </div>
-						 
-						 <div class="col-md-2"> </div>
-						 
-						  
-					</div>
-					 
-					    
-					<div class="colOuter">
-						<div align="center">
-							<input name="submit" class="buttonsaveorder" value="Submit"
-								type="submit" align="center">
-								<!-- <input type="button" class="buttonsaveorder" value="Cancel" id="cancel" onclick="cancel1()" disabled> -->
+									</div>
+
+									<div class="col-md-1"></div>
+									  
+								</div>
+								 
+								<br>  
+
+								<div class=" box-content">
+									<div class="col-md-12" style="text-align: center">
+									 
+									 
+									<input type="submit" class="btn btn-info" value="Submit"
+											  id="submit"  >
+										 
+									</div>
+								</div>
+							</form>
+
+
 						</div>
-				 
 					</div>
-					
-					  
 
-				</form>
 
-				 
+				</div>
 			</div>
-			<!--tabNavigation-->
-			<!--<div class="order-btn"><a href="#" class="saveOrder">SAVE ORDER</a></div>-->
-			<%-- <div class="order-btn textcenter">
-						<a
-							href="${pageContext.request.contextPath}/showBillDetailProcess/${billNo}"
-							class="buttonsaveorder">VIEW DETAILS</a>
-						<!--<input name="" class="buttonsaveorder" value="EXPORT TO EXCEL" type="button">-->
-					</div> --%>
+			<!-- END Main Content -->
+			<footer>
+				<p>2018 © AARYATECH SOLUTIONS</p>
+			</footer>
 
-
+			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!--rightSidebar-->
-
+		<!-- END Content -->
 	</div>
-	<!--fullGrid-->
-</div>
-<!--rightContainer-->
+	<!-- END Container -->
 
-</div>
-<!--wrapper-end-->
-<!--easyTabs-->
-<!--easyTabs-->
-<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-<!--easyTabs-->
-
-
-<script>
-function edit(suppId) {
- 
-	  
-	$('#loader').show();
-
-	$
-			.getJSON(
-					'${editFrSupplier}',
-
-					{
-						 
-						suppId : suppId, 
-						ajax : 'true'
-
-					},
-					function(data) { 
-						
-						document.getElementById("suppId").value=data.suppId;
-						document.getElementById("suppName").value=data.suppName;  
-						document.getElementById("suppAdd").value=data.suppAddr;
-						document.getElementById("city").value=data.suppCity;
-						document.getElementById("mob").value=data.mobileNo;
-						document.getElementById("email").value=data.email;
-						document.getElementById("gstnNo").value=data.gstnNo;
-						document.getElementById("panNo").value=data.panNo;
-						document.getElementById("liceNo").value=data.suppFdaLic;
-						document.getElementById("creditDays").value=data.suppCreditDays;
-						document.getElementById("isSameState").value=data.isSameState; 
-						document.getElementById("cancel").disabled=false;
-					});
-
- 
-	   
-
-}
-
-function cancel1() {
-
-    //alert("cancel");
-	document.getElementById("suppId").value="";
-	document.getElementById("suppName").value="";  
-	document.getElementById("suppAdd").value="";
-	document.getElementById("city").value="";
-	document.getElementById("mob").value="";
-	document.getElementById("email").value="";
-	document.getElementById("gstnNo").value="";
-	document.getElementById("panNo").value="";
-	document.getElementById("liceNo").value="";
-	document.getElementById("creditDays").value="";
-	document.getElementById("isSameState").value=""; 
-	document.getElementById("cancel").disabled=false;
-
-}
-(function() {
-  var fauxTable = document.getElementById("faux-table");
-  var mainTable = document.getElementById("table_grid");
-  var clonedElement = table_grid.cloneNode(true);
-  var clonedElement2 = table_grid.cloneNode(true);
-  clonedElement.id = "";
-  clonedElement2.id = "";
-  fauxTable.appendChild(clonedElement);
-  fauxTable.appendChild(clonedElement2);
-})();
-
-
+	<!--basic scripts-->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
 	</script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+
+	<!--page specific plugin scripts-->
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.resize.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.pie.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.stack.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.tooltip.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/sparkline/jquery.sparkline.min.js"></script>
+
+
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
+
+
+
+
+
+	<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+	<script type="text/javascript">
+		function passwordValidation() {
+
+			var pass = document.getElementById("password").value;
+			var pass1 = document.getElementById("rePassword").value;
+
+			if (pass != "" && pass1 != "") {
+				if (pass != pass1) {
+					alert("Password Not Matched ");
+					document.getElementById("submit").disabled = true;
+				} else {
+					document.getElementById("submit").disabled = false;
+
+				}
+
+			}
+		}
+
+		function check() {
+
+			var companyTypeId = document.getElementById("companyTypeId").value;
+			var location = document.getElementById("location").value;
+
+			if (companyTypeId == "" || companyTypeId == null) {
+				alert("Select Company Type");
+			} else if (location == "" || location == null) {
+				alert("Select Location");
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		function checkMobileNo() {
+
+			var userMob = $('#usesrMob').val();
+
+			if (userMob.length == 10) {
+
+				$.getJSON('${exhibitorMobileNo}', {
+					userMob : userMob,
+
+					ajax : 'true'
+				}, function(data) {
+
+					/* 				document.getElementById("").value = data; */
+					if (data.exhId == 0) {
+						document.getElementById("submit").disabled = false;
+					} else {
+						document.getElementById("submit").disabled = true;
+						alert("Number Already Registered");
+					}
+				});
+			}
+		}
+	</script>
+
 
 </body>
 </html>

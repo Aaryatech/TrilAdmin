@@ -1,175 +1,182 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-<title>Monginis</title>
-<link href="${pageContext.request.contextPath}/resources/css/monginis.css" rel="stylesheet" type="text/css"/>
-<link rel="icon" href="${pageContext.request.contextPath}/resources/images/feviconicon.png" type="image/x-icon"/> 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.10.2.min.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Dashboard - Admin</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+<!--base css styles-->
+<link rel="stylesheet"
+	href="resources/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="resources/assets/font-awesome/css/font-awesome.min.css">
 
-<!--rightNav-->
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/menuzord.js"></script>
-<script type="text/javascript">
-jQuery(document).ready(function(){
-	jQuery("#menuzord").menuzord({
-		align:"left"
-	});
-});
-</script>
+<!--page specific css styles-->
 
+<!--flaty css styles-->
+<link rel="stylesheet" href="resources/css/flaty.css">
+<link rel="stylesheet" href="resources/css/flaty-responsive.css">
 
+<link rel="shortcut icon" href="resources/img/favicon.png">
 
-<!--rightNav-->
-
-        
 </head>
-<body>
+<body class="login-page">
 
-<!--wrapper-start-->
-<div class="wrapper">
-
-
-
-<!--topHeader-->
-<div class="fullGrid center logoBarbg slideposi">
-	<div class="wrapperIn positionR">
-    	<div class="logoBarLeft"><a href=""><img src="${pageContext.request.contextPath}/resources/images/monginislogo.jpg" alt="monginis"></a></div>  
-        <div class="logoBarRight"><div id="menuzord" class="menuzord red menuzord-responsive">
-            <ul class="menuzord-menu menuzord-right menuzord-indented scrollable">
-               <%--  <li><a href="#"><div class="usericon">John doe</div> <div class="userimg"><img src="${pageContext.request.contextPath}/resources/images/userimg.jpg"></div> </a>
-                	<ul class="dropdown">
-                        <li><a href="#">My Account</a></li>
-						<li><a href="#">Edit Profile</a></li>
-						<li><a href="#">Setting</a></li>
-						<li><a href="#">Log out</a></li>
-					</ul>
-                </li> --%>
-            </ul>
-        </div></div>
-    </div>
-</div>
-<!--topHeader-->
-
-<!--rightContainer-->
-<div class="fullGrid center">
-<!--fullGrid-->
-<div class="wrapperIn2">
+	<!-- BEGIN Main Content -->
+	<div class="login-wrapper">
+		<!-- BEGIN Login Form -->
+		<form id="form-login" action="loginProcess" method="post">
+			<h3>Login to your account</h3>
+		
+		
 
 
-<!-- <form method="POST" action="uploadFile" enctype="multipart/form-data">
-    File to upload: <input type="file" name="file" >
-    <br />
-    Name: <input type="text" name="name" >
-    <br />
-    <br />
-    <input type="submit" value="Upload">
-</form> -->
+			<hr />
+			<div class="form-group">
+				<div class="controls">
+					<input type="text" placeholder="Username" class="	form-control"
+						path="username" name="username" id="username" />
 
-
-<c:if test="${not empty message}">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<input type="password" placeholder="Password" class="form-control"
+						path="userpassword" name="password" id="userpassword" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<label class="checkbox"> <input type="checkbox"
+						value="remember" /> Remember me
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary form-control">Sign
+						In</button>
+				</div>
+				
+				<c:if test="${not empty loginResponseMessage}">
    <!-- here would be a message with a result of processing -->
-    <div class="messages messagesErr"> ${message} </div>
+    <div> ${loginResponseMessage} </div>
         	
 </c:if>
+				
+				
+			</div>
+			<hr />
+			<p class="clearfix">
+				<a href="#" class="goto-forgot pull-left">Forgot Password?</a> <a
+					href="#" class="goto-register pull-right">Sign up now</a>
+			</p>
+		</form>
+		<!-- END Login Form -->
 
+		<!-- BEGIN Forgot Password Form -->
+		<form id="form-forgot" action="index.html" method="get"
+			style="display: none">
+			<h3>Get back your password</h3>
+			<hr />
+			<div class="form-group">
+				<div class="controls">
+					<input type="text" placeholder="Email" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary form-control">Recover</button>
+				</div>
+			</div>
+			<hr />
+			<p class="clearfix">
+				<a href="#" class="goto-login pull-left">Back to login form</a>
+			</p>
+		</form>
+		<!-- END Forgot Password Form -->
 
-	<form id="form-login" action="loginProcess" method="post">
-<div class="loginInner">
-	<h2>Login to your <span>Account</span></h2>
-	<div class="loginBox">
-		<div class="loginUser"><img src="${pageContext.request.contextPath}/resources/images/loginuser.png" align="img"></div>
-			<form action="login" class="form-horizontal"
-										id="validation-form" method="post">
-		
-		
-		<div class="loginfildset"><input class="texboxlogin" placeholder="Username" name="username" type="text"  data-rule-required="true"></div>
-		<div class="loginfildset"><input class="texboxlogin" placeholder="Password" name="password" type="password"  required></div>
-		
-		
-		
-		<div class="loginfildset"><input name="" class="buttonlogin" value="LOGIN" type="submit"></div>
-		<div class="loginfildset">
-			<div class="logintexboxleft"><a href="showforgotpassword"><i class="fa fa-lock"></i> Forgot your Password</a></div>
-			<div class="checkbox">
-			<input id="check1" type="checkbox" name="check" value="check1">
-			<label for="check1">Remember me</label>
-		</div>
-		</div>
-</form>	
+		<!-- BEGIN Register Form -->
+		<form id="form-register" action="index.html" method="get"
+			style="display: none">
+			<h3>Sign up</h3>
+			<hr />
+			<div class="form-group">
+				<div class="controls">
+					<input type="text" placeholder="Email" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<input type="text" placeholder="Username" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<input type="password" placeholder="Password" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<input type="password" placeholder="Repeat Password"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<label class="checkbox"> <input type="checkbox"
+						value="remember" /> I accept the <a href="#">user aggrement</a>
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary form-control">Sign
+						up</button>
+				</div>
+			</div>
+			<hr />
+			<p class="clearfix">
+				<a href="#" class="goto-login pull-left"> Back to login form</a>
+			</p>
+		</form>
+		<!-- END Register Form -->
 	</div>
-	
-	<%-- <div class="loginBox">
-		<div class="loginUser"><img src="${pageContext.request.contextPath}/resources/images/loginuser.png" align="img"></div>
-		
-		<h3> Forgot your Password</h3>
-		
-		<div class="loginfildset">
-		<div class="loginfildset"><input class="texboxlogin" placeholder="Enter Password" name="" type="text"></div>
-		<div class="loginfildset"><input name="" class="buttonlogin" value="SUBMIT" type="button"></div>
-		</div>
-	
-	</div> --%>
-</div>
-</form>
-<!-- <div class="messages messagesErr">err message</div>
-        <div class="messages messagesInfo">info message</div>
-        <div class="messages messagesSuccess">success message </div>
- -->
-</div>
-<!--fullGrid-->
-</div>
-<!--rightContainer-->
+	<!-- END Main Content -->
 
-</div>
-<!--wrapper-end-->
-
-<!--easyTabs-->
-<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-<!--easyTabs-->
-<script src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
+	<!--basic scripts-->
 	<script
-				src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-			<script>
-				window.jQuery
-						|| document
-								.write('<script src="resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
-			</script>
-			
-	<script>
-$("#login").validate();
-</script>
-<script>
-function openNav() {
-    document.getElementById("mySidenav").style.width = "100%";
-}
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')</script>
+	<script src="resources/assets/bootstrap/js/bootstrap.min.js"></script>
 
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-function openNav1() {
-    document.getElementById("mySidenav1").style.width = "100%";
-}
-
-function closeNav1() {
-    document.getElementById("mySidenav1").style.width = "0";
-}
-function openNav3() {
-    document.getElementById("mySidenav3").style.width = "100%";
-}
-
-function closeNav3() {
-    document.getElementById("mySidenav3").style.width = "0";
-}
-
-</script>
-
-
+	<script type="text/javascript">
+            function goToForm(form)
+            {
+                $('.login-wrapper > form:visible').fadeOut(500, function(){
+                    $('#form-' + form).fadeIn(500);
+                });
+            }
+            $(function() {
+                $('.goto-login').click(function(){
+                    goToForm('login');
+                });
+                $('.goto-forgot').click(function(){
+                    goToForm('forgot');
+                });
+                $('.goto-register').click(function(){
+                    goToForm('register');
+                });
+            });
+        </script>
 </body>
 </html>

@@ -634,6 +634,7 @@ public class MastersController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("vendorId", vendorId);
 			Vendor vendorList = rest.postForObject(Constants.url + "/getVendorByVendorId", map, Vendor.class);
+			vendorList.setVendorDate(DateConvertor.convertToDMY(vendorList.getVendorDate()));
 			model.addObject("editVendor", vendorList);
 
 			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);

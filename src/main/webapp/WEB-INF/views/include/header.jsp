@@ -1,82 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
-
-<!DOCTYPE html>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-<title>Monginis</title>
-<link
-	href="${pageContext.request.contextPath}/resources/css/monginis.css"
-	rel="stylesheet" type="text/css" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Exhibition - Admin</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/assets/bootstrap/css/lightbox.css">
-<link rel="icon"
-	href="${pageContext.request.contextPath}/resources/images/feviconicon.png"
-	type="image/x-icon" />
-	
-	<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
-	
-	<!--new css added by kalpesh -->
-	<link href="${pageContext.request.contextPath}/resources/css/style.css"
-	rel="stylesheet" type="text/css" />
-	
-	<!--new css added by kalpesh -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.mCustomScrollbar.css">
-	<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/jquery-1.10.2.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/lightbox.js"></script>
-
-<!--rightNav-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/menuzord.js"></script>
-<script type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery("#menuzord").menuzord({
-			align : "left"
-		});
-	});
-</script>
-<!--rightNav-->
-
-<!--selectlistbox-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/jquery.selectlistbox.js"></script>
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.css" />
-<!--selectlistbox-->
 
-<!--datepicker-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
-	
-<script>
-	$(function() {
-		$("#datepicker").datepicker({
-			dateFormat : 'dd-mm-yy'
-		});
-	});
-	$(function() {
-		$("#datepicker2").datepicker({
-			dateFormat : 'dd-mm-yy'
-		});
-	});
-</script>
-<!--datepicker-->
- 
+<!--base css styles-->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.min.css" />
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+<!--page specific css styles-->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/loader.css">
+<!--flaty css styles-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaty.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaty-responsive.css">
+
+<link rel="icon" href="${pageContext.request.contextPath}/resources/img/atslogo.png" type="image/x-icon" >
 </head>
 <body>
 
+
+	<!-- BEGIN Navbar -->
+
+	<div id="navbar" class="navbar"  style="width:100%; text-align:center; padding:0px 0px;">
+		<button type="button" class="navbar-toggle navbar-btn collapsed"
+			data-toggle="collapse" data-target="#sidebar">
+			<span class="fa fa-bars"></span>
+		</button>
+
+		<!-- BEGIN Navbar Buttons -->
+		<ul class="nav flaty-nav pull-right">
+
+			<!-- BEGIN Button User -->
+			<li class="user-profile"><a data-toggle="dropdown" href="#"
+				class="user-menu dropdown-toggle"> <!--<img class="nav-user-photo" src="resoucres/img/demo/avatar/avatar1.jpg" alt="Penny's Photo" />-->
+					<span class="hhh" id="user_info" style="color: blue;"> Admin  <i
+					class="fa fa-caret-down"></i></span>
+			</a> <!-- BEGIN User Dropdown -->
+				<ul class="dropdown-menu dropdown-navbar" id="user_menu">
+					<!--<li class="nav-header">
+                            <i class="fa fa-clock-o"></i>
+                            Logined From 20:45
+                        </li>-->
+                        
+                        
+
+					<li>
+						<%-- <c:url value="/logout" var="logoutUser" />
+					
+					<a href=""> <i
+							class="fa fa-off"></i> Logout
+					</a> --%> <a href="${pageContext.request.contextPath}/logout">Logout <c:out
+								value="${sessionScope.organiser.orgName}" />
+					</a>
+
+					</li>
+</ul>
+					
+			
+	</div>
+	<!-- END Navbar -->
+
+	
+	
+	<%-- <script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
+	</script>
+	<script src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+
+	page specific plugin scripts
+	<script src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.resize.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.pie.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.stack.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.tooltip.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/sparkline/jquery.sparkline.min.js"></script>
+
+	flaty scripts
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+ --%>
+</body>
+</html>
