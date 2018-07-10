@@ -773,8 +773,8 @@ public class MasterController {
 		ModelAndView model = new ModelAndView("masters/getItemList");
 		try {
 
-			Item[] item = rest.getForObject(Constants.url + "/getAllItems",  Item[].class); 
-			List<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
+			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			model.addObject("itemList", itemList);
 			 
 
