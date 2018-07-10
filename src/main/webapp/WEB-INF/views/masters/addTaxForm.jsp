@@ -82,8 +82,43 @@
 
 
 								</div>
-								<br> <br>
-								 
+								<br> 
+								<div class="box-content">
+
+									<div class="col-md-2">SGST*</div>
+									<div class="col-md-3">
+										<input id="sgst" class="form-control"
+									placeholder="SGST" style="text-align: left;"
+									name="sgst" type="text" value="${editTaxForm.sgstPer }"
+									required> 
+									
+									</div>
+									<div class="col-md-1"></div>
+									
+									<div class="col-md-2">CGST*</div>
+									<div class="col-md-3">
+										<input id="cgst" class="form-control"
+									placeholder="CGST" style="text-align: left;"
+									name="cgst" type="text" value="${editTaxForm.cgstPer}"
+									required>
+									</div>
+
+
+								</div>
+								<br>
+								<div class="box-content">
+
+									<div class="col-md-2">IGST*</div>
+									<div class="col-md-3">
+										<input id="igst" class="form-control"
+									placeholder="IGST" style="text-align: left;"
+									name="igst" type="text" value="${editTaxForm.igstPer }"
+									required> 
+									
+									</div>
+									<div class="col-md-1"></div>
+									 
+								</div> 
 					<br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">

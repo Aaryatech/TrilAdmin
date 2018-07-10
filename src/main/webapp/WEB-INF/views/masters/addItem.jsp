@@ -10,8 +10,8 @@
 <body>
 
 
-	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
-	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
+	<c:url var="getSubGroupIdByGroupId" value="/getSubGroupIdByGroupId"></c:url>
 	<c:url var="exhibitorMobileNo" value="/exhibitorMobileNo"></c:url>
 
 	<c:url var="isMobileNoExist" value="/isMobileNoExist"></c:url>
@@ -90,8 +90,8 @@
 
 
 								</div>
-								<br><br>
-
+								<br> 
+ 
 								<div class="box-content">
 
 									<div class="col-md-2">UOM*</div>
@@ -110,7 +110,81 @@
 									</div>
 									  
 								</div>
-								<br><br>
+								<br> 
+								
+								<div class="box-content">
+
+									<div class="col-md-2">Select Category*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" onchange="getgroupIdByCatId()"  name="catId" id="catId"   required>
+									<option value="">select</option>
+									<c:forEach items="${categoryList}" var="categoryList">
+										<c:choose>
+											<c:when test="${categoryList.catId==editItem.catId}">
+												<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+											</c:otherwise>
+										</c:choose>
+
+
+									</c:forEach>
+								</select>
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Select Group*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" onchange="getSubGroupIdByGroupId()"  name="grpId" id="grpId"   required>
+										 <c:forEach items="${getItemGroupList}" var="getItemGroupList">
+										<c:choose>
+											<c:when test="${getItemGroupList.grpId==editItem.grpId}">
+												<option value="${getItemGroupList.grpId}" selected>${getItemGroupList.grpCode}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${getItemGroupList.grpId}">${getItemGroupList.grpCode}</option>
+											</c:otherwise>
+										</c:choose>
+
+
+									</c:forEach>  
+										
+										</select>
+
+
+									</div>
+									  
+								</div>
+								<br> 
+								
+								<div class="box-content">
+
+									 
+									<div class="col-md-2">Select Sub-Group*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen"  name="subGrpId" id="subGrpId"   required>
+										
+										<c:forEach items="${getItemSubGrpList}" var="getItemSubGrpList">
+										<c:choose>
+											<c:when test="${getItemSubGrpList.subgrpId==editItem.subGrpId}">
+												<option value="${getItemSubGrpList.subgrpId}" selected>${getItemSubGrpList.subgrpDesc}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${getItemSubGrpList.subgrpId}">${getItemSubGrpList.subgrpDesc}</option>
+											</c:otherwise>
+										</c:choose>
+
+
+									</c:forEach>
+										
+										</select>
+
+
+									</div>
+									  
+								</div>
+								<br> 
 
 								<div class="box-content">
 
@@ -134,7 +208,7 @@
 
 
 								</div>
-								<br><br>
+								<br> 
 
 								<div class="box-content">
 
@@ -159,7 +233,7 @@
 
 
 								</div>
-								<br><br>
+								<br> 
 
 								<div class="box-content">
 
@@ -184,7 +258,7 @@
 
 
 								</div>
-								<br><br>
+								<br> 
 
 								<div class="box-content">
 
@@ -209,7 +283,7 @@
 
 
 								</div>
-								<br><br>
+								<br> 
 
 								<div class="box-content">
 
@@ -233,7 +307,7 @@
 
 
 								</div>
-								<br><br>
+								<br> 
 
 								<div class="box-content">
 
@@ -255,7 +329,7 @@
 
 
 								</div>
-								<br><br>
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Item Is Critical*</div>
@@ -469,27 +543,52 @@
 	</script>
 
 	<script type="text/javascript">
-		function checkMobileNo() {
+		function getgroupIdByCatId() {
 
-			var userMob = $('#usesrMob').val();
+			var catId=document.getElementById("catId").value;
+			
+			$.getJSON('${getgroupIdByCatId}', {
+				
+				catId : catId,
+				ajax : 'true'
+			},
+					function(data) {
+				 
+				var html = '<option value="">Select Category</option>';
+				
+				var len = data.length;
+				for ( var i = 0; i < len; i++) {
+					html += '<option value="' + data[i].grpId + '">'
+							+ data[i].grpCode + '</option>';
+				}
+				html += '</option>';
+				$('#grpId').html(html);
+				$("#grpId").trigger("chosen:updated"); 	
+					});
+		}
+		
+		function getSubGroupIdByGroupId() {
 
-			if (userMob.length == 10) {
-
-				$.getJSON('${exhibitorMobileNo}', {
-					userMob : userMob,
-
-					ajax : 'true'
-				}, function(data) {
-
-					/* 				document.getElementById("").value = data; */
-					if (data.exhId == 0) {
-						document.getElementById("submit").disabled = false;
-					} else {
-						document.getElementById("submit").disabled = true;
-						alert("Number Already Registered");
-					}
-				});
-			}
+			var grpId=document.getElementById("grpId").value;
+			
+			$.getJSON('${getSubGroupIdByGroupId}', {
+				
+				grpId : grpId,
+				ajax : 'true'
+			},
+					function(data) {
+				 
+				var html = '<option value="">Select Sub-Category</option>';
+				
+				var len = data.length;
+				for ( var i = 0; i < len; i++) {
+					html += '<option value="' + data[i].subgrpId + '">'
+							+ data[i].subgrpDesc + '</option>';
+				}
+				html += '</option>';
+				$('#subGrpId').html(html);
+				$("#subGrpId").trigger("chosen:updated"); 	
+					});
 		}
 	</script>
 

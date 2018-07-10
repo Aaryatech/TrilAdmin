@@ -153,7 +153,10 @@ public class MastersController {
 			System.out.println("taxId" + taxId);
 			String taxPer = request.getParameter("taxPer");
 			String taxDesc = request.getParameter("taxDesc");
-
+			float sgst = Float.parseFloat(request.getParameter("sgst"));
+			float cgst = Float.parseFloat(request.getParameter("cgst"));
+			float igst = Float.parseFloat(request.getParameter("igst"));
+			
 			TaxForm taxForm = new TaxForm();
 			if (taxId == "" || taxId == null)
 				taxForm.setTaxId(0);
@@ -161,6 +164,9 @@ public class MastersController {
 				taxForm.setTaxId(Integer.parseInt(taxId));
 			taxForm.setTaxDesc(taxDesc);
 			taxForm.setTaxPer(Float.parseFloat(taxPer));
+			taxForm.setSgstPer(sgst);
+			taxForm.setCgstPer(cgst);
+			taxForm.setIgstPer(igst);
 			taxForm.setIsUsed(1);
 			taxForm.setCreatedIn(1);
 			taxForm.setDeletedIn(0);
@@ -328,6 +334,8 @@ public class MastersController {
 
 		return model;
 	}
+	
+	
 
 	@RequestMapping(value = "/insertItemGroup", method = RequestMethod.POST)
 	public String insertItemGroup(HttpServletRequest request, HttpServletResponse response) {

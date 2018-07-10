@@ -70,7 +70,32 @@
 								  
 									</div>
 									<div class="col-md-1"></div>
-									
+									<div class="col-md-2">Category Prefix*</div>
+									<div class="col-md-3">
+										<input id="catPrefix" class="form-control"
+								placeholder="Category Prefix" value="${editCategory.catPrefix}"  style="text-align: left;" name="catPrefix" type="text" required>
+								 
+								  
+									</div>
+									 
+								</div>
+								<br>
+								<div class="box-content">
+
+									<div class="col-md-2">Monthly Limit*</div>
+									<div class="col-md-3">
+										<input id="monthlyLimit" class="form-control"
+								placeholder="Monthly Limit" value="${editCategory.monthlyLimit}"  style="text-align: left;" name="monthlyLimit" type="text" required>
+								  
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Yearly Limit*</div>
+									<div class="col-md-3">
+										<input id="yearlyLimit" class="form-control"
+								placeholder="Yearly Limit" value="${editCategory.yearlyLimit}"  style="text-align: left;" name="yearlyLimit" type="text" required>
+								 
+								  
+									</div>
 									 
 								</div>
 								<br> <br>

@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,9 @@ import com.ats.tril.model.DeliveryTerms;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetItemGroup;
+import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.SubDept;
@@ -59,6 +63,9 @@ public class MasterController {
 
 			String catId = request.getParameter("catId");
 			String catDesc = request.getParameter("catDesc");
+			String catPrefix = request.getParameter("catPrefix");
+			int monthlyLimit = Integer.parseInt(request.getParameter("monthlyLimit"));
+			int yearlyLimit = Integer.parseInt(request.getParameter("yearlyLimit"));
 
 			Category category = new Category();
 
@@ -67,6 +74,9 @@ public class MasterController {
 			else
 				category.setCatId(Integer.parseInt(catId));
 			category.setCatDesc(catDesc);
+			category.setCatPrefix(catPrefix);
+			category.setMonthlyLimit(monthlyLimit);
+			category.setYearlyLimit(yearlyLimit);
 			category.setIsUsed(1);
 			category.setCreatedIn(1);
 
@@ -628,13 +638,59 @@ public class MasterController {
 		ModelAndView model = new ModelAndView("masters/addItem");
 		try {
 
-			 
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+			model.addObject("categoryList", categoryList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/getgroupIdByCatId", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetItemGroup> getgroupIdByCatId(HttpServletRequest request, HttpServletResponse response) {
+ 
+		List<GetItemGroup> getItemGroupList = new ArrayList<GetItemGroup>();
+		try {
+
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			System.out.println(catId);
+			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+			map.add("catId", catId);
+			GetItemGroup[] itemGroupList = rest.postForObject(Constants.url + "/getgroupListByCatId",map,
+					GetItemGroup[].class);
+			getItemGroupList = new ArrayList<>(Arrays.asList(itemGroupList));
+			System.out.println(getItemGroupList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getItemGroupList;
+	}
+	
+	@RequestMapping(value = "/getSubGroupIdByGroupId", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetItemSubGrp> getSubGroupIdByGroupId(HttpServletRequest request, HttpServletResponse response) {
+ 
+		List<GetItemSubGrp> getItemSubGrpList = new ArrayList<GetItemSubGrp>();
+		try {
+			int grpId = Integer.parseInt(request.getParameter("grpId"));
+			
+			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+			map.add("grpId", grpId);
+			GetItemSubGrp[] itemSubGroupList = rest.postForObject(Constants.url + "/getSubGroupByGroupId",map,
+					GetItemSubGrp[].class);
+			getItemSubGrpList = new ArrayList<>(Arrays.asList(itemSubGroupList));
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getItemSubGrpList;
 	}
 	
 	@RequestMapping(value = "/insertItem", method = RequestMethod.POST)
@@ -662,6 +718,10 @@ public class MasterController {
 			int isCritical = Integer.parseInt(request.getParameter("isCritical")); 
 			int isCapital = Integer.parseInt(request.getParameter("isCapital")); 
 			int itemCon = Integer.parseInt(request.getParameter("itemCon")); 
+			
+			int catId = Integer.parseInt(request.getParameter("catId")); 
+			int grpId = Integer.parseInt(request.getParameter("grpId"));  
+			int subGrpId = Integer.parseInt(request.getParameter("subGrpId")); 
 
 			Item insert = new Item();
 
@@ -690,6 +750,9 @@ public class MasterController {
 			insert.setIsUsed(1);
 			insert.setCreatedIn(1);
 			insert.setItemIsCons(itemCon);
+			insert.setCatId(catId);
+			insert.setGrpId(grpId);
+			insert.setSubGrpId(subGrpId);
 			
 			System.out.println("insert" + insert);
 
@@ -730,8 +793,28 @@ public class MasterController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("itemId", itemId);
-			Item  item = rest.postForObject(Constants.url + "/getItemByItemId",map, Item .class);
+			GetItem  item = rest.postForObject(Constants.url + "/getItemByItemId",map, GetItem .class);
 			 model.addObject("editItem", item);
+			 
+			 System.out.println(item);
+			 
+			 Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+				model.addObject("categoryList", categoryList);
+				
+				 map = new LinkedMultiValueMap<String,Object>();
+				map.add("catId", item.getCatId());
+				GetItemGroup[] itemGroupList = rest.postForObject(Constants.url + "/getgroupListByCatId",map,
+						GetItemGroup[].class);
+				List<GetItemGroup> getItemGroupList = new ArrayList<>(Arrays.asList(itemGroupList));
+				model.addObject("getItemGroupList", getItemGroupList);
+				
+				map = new LinkedMultiValueMap<String,Object>();
+				map.add("grpId", item.getGrpId());
+				GetItemSubGrp[] itemSubGroupList = rest.postForObject(Constants.url + "/getSubGroupByGroupId",map,
+						GetItemSubGrp[].class);
+				List<GetItemSubGrp> getItemSubGrpList = new ArrayList<>(Arrays.asList(itemSubGroupList));
+				model.addObject("getItemSubGrpList", getItemSubGrpList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
