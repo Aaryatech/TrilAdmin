@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Item List
+						<i class="fa fa-file-o"></i>Enquiry List
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Vendor List
+								<i class="fa fa-table"></i>Enquiry List
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addEnquiry">
@@ -82,6 +82,17 @@
 										<input type="button" class="btn btn-primary" value="Search Enquiry" onclick="search()">  
 									</div>
 								</div><br>
+								
+								<div align="center" id="loader" style="display: none">
+
+							<span>
+								<h4>
+									<font color="#343690">Loading</font>
+								</h4>
+							</span> <span class="l-1"></span> <span class="l-2"></span> <span
+						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+					<span class="l-6"></span>
+				</div>
 
 					<br /> <br />
 					<div class="clearfix"></div>
