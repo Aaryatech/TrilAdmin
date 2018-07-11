@@ -1,22 +1,21 @@
 package com.ats.tril.model;
  
-
-public class EnquiryDetail {
+public class GetEnquiryDetail {
 	 
 	private int enqDetailId; 
 	private int enqId; 
 	private String enqDetailDate; 
 	private int indId; 
 	private int vendId; 
+	private String vendorName; 
 	private int itemId; 
 	private String itemCode; 
 	private int enqQty; 
 	private String enqUom; 
 	private String enqItemDesc; 
 	private String enqRemark; 
-	private String indNo;
+	private String indNo; 
 	private int delStatus;
-	
 	public int getEnqDetailId() {
 		return enqDetailId;
 	}
@@ -47,11 +46,23 @@ public class EnquiryDetail {
 	public void setVendId(int vendId) {
 		this.vendId = vendId;
 	}
+	public String getVendorName() {
+		return vendorName;
+	}
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
+	}
 	public int getItemId() {
 		return itemId;
 	}
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
+	}
+	public String getItemCode() {
+		return itemCode;
+	}
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
 	}
 	public int getEnqQty() {
 		return enqQty;
@@ -83,26 +94,18 @@ public class EnquiryDetail {
 	public void setIndNo(String indNo) {
 		this.indNo = indNo;
 	}
-	
 	public int getDelStatus() {
 		return delStatus;
 	}
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
-	
-	public String getItemCode() {
-		return itemCode;
-	}
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
 	@Override
 	public String toString() {
-		return "EnquiryDetail [enqDetailId=" + enqDetailId + ", enqId=" + enqId + ", enqDetailDate=" + enqDetailDate
-				+ ", indId=" + indId + ", vendId=" + vendId + ", itemId=" + itemId + ", itemCode=" + itemCode
-				+ ", enqQty=" + enqQty + ", enqUom=" + enqUom + ", enqItemDesc=" + enqItemDesc + ", enqRemark="
-				+ enqRemark + ", indNo=" + indNo + ", delStatus=" + delStatus + "]";
+		return "GetEnquiryDetail [enqDetailId=" + enqDetailId + ", enqId=" + enqId + ", enqDetailDate=" + enqDetailDate
+				+ ", indId=" + indId + ", vendId=" + vendId + ", vendorName=" + vendorName + ", itemId=" + itemId
+				+ ", itemCode=" + itemCode + ", enqQty=" + enqQty + ", enqUom=" + enqUom + ", enqItemDesc="
+				+ enqItemDesc + ", enqRemark=" + enqRemark + ", indNo=" + indNo + ", delStatus=" + delStatus + "]";
 	}
 	
 	

@@ -8,9 +8,9 @@
 	<body>
 	
 	 
-<c:url var="addItmeInEnquiryList" value="/addItmeInEnquiryList"></c:url>
-	<c:url var="editItemInAddEnquiry" value="/editItemInAddEnquiry"></c:url>
-	<c:url var="deleteItemFromEnquiry" value="/deleteItemFromEnquiry"></c:url>
+<c:url var="addItmeInEditEnquiryList" value="/addItmeInEditEnquiryList"></c:url>
+	<c:url var="editItemInEditEnquiry" value="/editItemInEditEnquiry"></c:url>
+	<c:url var="deleteItemFromEditEnquiry" value="/deleteItemFromEditEnquiry"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -35,7 +35,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Add Enquiry
+						<i class="fa fa-file-o"></i>Edit Enquiry
 					</h1>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Enquiry
+								<i class="fa fa-table"></i>Edit Enquiry
 							</h3>
 							
 							<div class="box-tool">
@@ -60,26 +60,21 @@
 						
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/insertEnquiry" method="post" >
+							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitEditEnquiry" method="post" >
 							 
 							
 							<div class="box-content">
 							
-								<div class="col-md-2">Select Vendor</div>
+								<div class="col-md-2">Vendor Name</div>
 									<div class="col-md-3">
 									
-									<select name="vendId" id="vendId" class="form-control chosen" multiple="multiple" tabindex="6" required>
-											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList"> 
-												<option value="${vendorList.vendorId}"><c:out value="${vendorList.vendorName}"></c:out> </option>
-											 </c:forEach>
-										</select>
+								<input id="enqDate" class="form-control" value="${editEnquiry.vendorName}" type="text" readonly>
 									
 									</div>
 								<div class="col-md-2">Enquiry Remark</div>
 									<div class="col-md-3">
 									<input class="form-control" id="enqRemark" size="16"
-									 placeholder="Enquiry Remark"		type="text" name="enqRemark"    />
+									 placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}" type="text" name="enqRemark"    />
 									</div>
 								
 				 
@@ -90,7 +85,7 @@
 								<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
-								 placeholder="Enquiry Date"  name="enqDate" type="text" required>
+								 placeholder="Enquiry Date" value="${editEnquiry.enqDate}" name="enqDate" type="text" required>
 
 
 									</div>
@@ -163,7 +158,6 @@
 				</div>
 											
 							
-							
 							<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive">
@@ -171,22 +165,42 @@
 								style="width: 100%" id="table_grid">
 								<thead>
 									<tr>
-										<th>Sr.No.</th>
-										<th>Name</th> 
-										<th>Qty</th>
-										<th>Item Date</th>
-										<th>Action</th>
+										<th class="col-sm-1">Sr.No.</th>
+										<th class="col-sm-1">Name</th> 
+										<th class="col-sm-1">Qty</th>
+										<th class="col-sm-1">Item Date</th>
+										<th class="col-sm-1">Action</th>
 
 									</tr>
 								</thead>
 								<tbody>
+								<c:forEach items="${editEnquiry.enquiryDetailList}" var="enquiryDetailList"
+										varStatus="count">
+										<tr>
+											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+ 
+											<td class="col-md-1"><c:out
+													value="${enquiryDetailList.itemCode}" /></td>
+
+											<td class="col-md-1"><c:out
+													value="${enquiryDetailList.enqQty}" /></td>
+
+											<td class="col-md-1"><c:out
+													value="${enquiryDetailList.enqDetailDate}" /></td>
+ 
+											<td><a href="#"><span class='glyphicon glyphicon-edit' onclick="edit(${count.index})" id="edit${count.index}"></span></a> 
+		                                         <a href="#"><span class="glyphicon glyphicon-remove" onclick="del(${count.index})" id="del${count.index}"></span></a>
+												 </td>
+
+										</tr>
+									</c:forEach>
 
 								</tbody>
 							</table>
 						</div>
 					</div>
 								</div>
-								
+							  
 							<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
@@ -300,7 +314,7 @@
 
 				$
 						.getJSON(
-								'${addItmeInEnquiryList}',
+								'${addItmeInEditEnquiryList}',
 
 								{
 									 
@@ -328,15 +342,17 @@
 												function(key, itemList) {
 												
 
+													if(itemList.delStatus==1)
+													 {
 													var tr = $('<tr></tr>'); 
 												  	tr.append($('<td></td>').html(key+1)); 
 												  	tr.append($('<td></td>').html(itemList.itemCode)); 
 												  	tr.append($('<td></td>').html(itemList.enqQty));
 												  	tr.append($('<td></td>').html(itemList.enqDetailDate));
-												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+												  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-edit" onclick="edit('+key+')" id="edit'+key+'"></span></a>'+ 
+					                                         '<a href="#"><span class="glyphicon glyphicon-remove" onclick="del('+key+')" id="del'+key+'"></span></a>'));
 												    $('#table_grid tbody').append(tr);
-
-													 
+													 }
  
 												})  
 												
@@ -362,7 +378,7 @@
 
 			$
 					.getJSON(
-							'${editItemInAddEnquiry}',
+							'${editItemInEditEnquiry}',
 
 							{
 								 
@@ -393,7 +409,7 @@
 			$('#loader').show();
 			$
 			.getJSON(
-					'${deleteItemFromEnquiry}',
+					'${deleteItemFromEditEnquiry}',
 
 					{
 						 
@@ -412,17 +428,19 @@
 						}
 					 
 
-					  $.each(
-									data,
+					  $.each( data,
 									function(key, itemList) {
-									 
+									 if(itemList.delStatus==1)
+										 {
 										var tr = $('<tr></tr>'); 
 									  	tr.append($('<td></td>').html(key+1)); 
 									  	tr.append($('<td></td>').html(itemList.itemCode)); 
 									  	tr.append($('<td></td>').html(itemList.enqQty));
 									  	tr.append($('<td></td>').html(itemList.enqDetailDate));
-									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+									  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-edit" onclick="edit('+key+')" id="edit'+key+'"></span></a>'+ 
+		                                         '<a href="#"><span class="glyphicon glyphicon-remove" onclick="del('+key+')" id="del'+key+'"></span></a>'));
 									    $('#table_grid tbody').append(tr);
+										 }
 									  	
 									})
 						
@@ -460,7 +478,7 @@ function validation()
 return isValid;
 	
 }
-function check()
+/* function check()
 {
 	
 	var vendId = $("#vendId").val();
@@ -470,7 +488,7 @@ function check()
 		alert("Select Vendor");
 		}
 	 
-}
+} */
 </script>
 	
 								
