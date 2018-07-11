@@ -26,6 +26,7 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
+import com.ats.tril.model.GetpassItem;
 import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.ItemSubGroup;
 import com.ats.tril.model.PaymentTerms;
@@ -156,7 +157,7 @@ public class MastersController {
 			float sgst = Float.parseFloat(request.getParameter("sgst"));
 			float cgst = Float.parseFloat(request.getParameter("cgst"));
 			float igst = Float.parseFloat(request.getParameter("igst"));
-			
+
 			TaxForm taxForm = new TaxForm();
 			if (taxId == "" || taxId == null)
 				taxForm.setTaxId(0);
@@ -334,8 +335,6 @@ public class MastersController {
 
 		return model;
 	}
-	
-	
 
 	@RequestMapping(value = "/insertItemGroup", method = RequestMethod.POST)
 	public String insertItemGroup(HttpServletRequest request, HttpServletResponse response) {
@@ -671,6 +670,120 @@ public class MastersController {
 		}
 
 		return "redirect:/vendorList";
+	}
+
+	@RequestMapping(value = "/addGetpassItem", method = RequestMethod.GET)
+	public ModelAndView addGetpassItem(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/getpassItem");
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/insertGetpassItem", method = RequestMethod.POST)
+	public String insertGetpassItem(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			String gpItemId = request.getParameter("gpItemId");
+
+			System.out.println("gpItemId" + gpItemId);
+			String itemName = request.getParameter("itemName");
+			String itemDesc = request.getParameter("itemDesc");
+			String itemCost = request.getParameter("itemCost");
+			String warrantyDate = request.getParameter("warrantyDate");
+
+			GetpassItem getpassItem = new GetpassItem();
+			if (gpItemId == "" || gpItemId == null)
+				getpassItem.setGpItemId(0);
+			else
+				getpassItem.setGpItemId(Integer.parseInt(gpItemId));
+			getpassItem.setIsUsed(1);
+
+			getpassItem.setItemCost(Float.parseFloat(itemCost));
+			getpassItem.setItemDesc(itemDesc);
+			getpassItem.setItemName(itemName);
+			getpassItem.setWarrantyDate(DateConvertor.convertToYMD(warrantyDate));
+
+			GetpassItem res = rest.postForObject(Constants.url + "/saveGatePass", getpassItem, GetpassItem.class);
+
+			System.out.println("res " + res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addGetpassItem";
+	}
+
+	@RequestMapping(value = "/editGetpassItem/{gpItemId}", method = RequestMethod.GET)
+	public ModelAndView editGetpassItem(@PathVariable int gpItemId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/getpassItem");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("gpItemId", gpItemId);
+			GetpassItem editGetPassItem = rest.postForObject(Constants.url + "/getGpItemByGetPassId", map,
+					GetpassItem.class);
+			System.out.println("editGetPassItem" + editGetPassItem.toString());
+			model.addObject("date", DateConvertor.convertToDMY(editGetPassItem.getWarrantyDate()));
+			model.addObject("editItem", editGetPassItem);
+
+			GetpassItem[] itemList = rest.getForObject(Constants.url + "/getAllGpItemByIsUsed", GetpassItem[].class);
+			model.addObject("itemList", itemList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/getpassItemList", method = RequestMethod.GET)
+	public ModelAndView getpassItemList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/getpassItemList");
+		try {
+			GetpassItem[] getpassItemRes = rest.getForObject(Constants.url + "/getAllGpItemByIsUsed",
+					GetpassItem[].class);
+			List<GetpassItem> getpassItemList = new ArrayList<GetpassItem>(Arrays.asList(getpassItemRes));
+
+			model.addObject("getpassItemList", getpassItemList);
+			for (int i = 0; i < getpassItemList.size(); i++) {
+				getpassItemList.get(i)
+						.setWarrantyDate(DateConvertor.convertToDMY(getpassItemList.get(i).getWarrantyDate()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteGetpassItem/{gpItemId}", method = RequestMethod.GET)
+	public String deleteGetpassItem(@PathVariable int gpItemId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("gpItemId", gpItemId);
+
+			ErrorMessage delete = rest.postForObject(Constants.url + "/deleteGetpassItem", map, ErrorMessage.class);
+			System.out.println(delete);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/getpassItemList";
 	}
 
 }
