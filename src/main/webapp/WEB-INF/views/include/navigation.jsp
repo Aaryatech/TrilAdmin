@@ -159,6 +159,12 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
+
+					<a href="${pageContext.request.contextPath}/showIndent">Add
+						Indent</a>
+					<a href="${pageContext.request.contextPath}/getIndents">Get Indent</a>
+
+
 					<a href="${pageContext.request.contextPath}/addCategory">Add
 						Category</a>
 					</li>
