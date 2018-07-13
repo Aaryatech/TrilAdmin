@@ -11,18 +11,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.model.DeliveryTerms;
 import com.ats.tril.model.DispatchMode;
+import com.ats.tril.model.EnquiryDetail;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.indent.GetIndentByStatus;
+import com.ats.tril.model.indent.IndentTrans;
 
 @Controller
 @Scope("session")
@@ -65,15 +71,40 @@ public class PurchaseOrderController {
 
 			model.addObject("deliveryTermsList", deliveryTermsList);
 			
-			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
-			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
-			model.addObject("itemList", itemList);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1");
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus",map,  GetIndentByStatus[].class); 
+			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			model.addObject("intedList", intedList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/geIntendDetailByIndId", method = RequestMethod.GET)
+	@ResponseBody
+	public List<IndentTrans> geIntendDetailByIndId(HttpServletRequest request, HttpServletResponse response) {
+
+		List<IndentTrans> intendDetailList = new ArrayList<>();
+		
+		try {
+			
+			int indId = Integer.parseInt(request.getParameter("indId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("indId", indId);
+			IndentTrans[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId",map,  IndentTrans[].class); 
+			intendDetailList = new ArrayList<IndentTrans>(Arrays.asList(indentTrans));
+			 
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return intendDetailList;
 	}
 
 }
