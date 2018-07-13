@@ -61,6 +61,16 @@ public class GetPODetail {
 	private String itemName;
 	private String uom;
 	private String poNo;
+	
+	private int receivedQty;
+	
+	
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
 	public int getPoDetailId() {
 		return poDetailId;
 	}
@@ -241,6 +251,7 @@ public class GetPODetail {
 	public void setPoNo(String poNo) {
 		this.poNo = poNo;
 	}
+	
 	@Override
 	public String toString() {
 		return "GetPODetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
@@ -251,7 +262,7 @@ public class GetPODetail {
 				+ ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor
 				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
 				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + ", itemName="
-				+ itemName + ", uom=" + uom + ", poNo=" + poNo + "]";
+				+ itemName + ", uom=" + uom + ", poNo=" + poNo + ", receivedQty=" + receivedQty + "]";
 	}
 	
 }
