@@ -163,8 +163,8 @@
 					<a href="${pageContext.request.contextPath}/showIndent">Add
 						Indent</a>
 					<a href="${pageContext.request.contextPath}/getIndents">Get Indent</a>
-
-
+					
+				
 					<a href="${pageContext.request.contextPath}/addCategory">Add
 						Category</a>
 					</li>
@@ -179,6 +179,9 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/addDispachMode">Add
 						Dispach Mode</a>
+							<a href="${pageContext.request.contextPath}/showAddMrn">Add MRN</a>
+
+						
 					</li>
 
 					<c:choose>

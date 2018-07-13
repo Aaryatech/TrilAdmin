@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -39,6 +40,8 @@ import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
 
 @Controller
+@Scope("session")
+
 public class IndentController {
 
 	RestTemplate rest = new RestTemplate();
@@ -323,6 +326,8 @@ public class IndentController {
 
 			indent.setDeptId(dept);
 			indent.setSubDeptId(subDept);
+			
+			indent.setDelStatus(Constants.delStatus);
 
 			List<IndentTrans> indTrasList = new ArrayList<IndentTrans>();
 			for (int i = 0; i < tempIndentList.size(); i++) {
