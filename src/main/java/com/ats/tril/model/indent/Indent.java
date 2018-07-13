@@ -30,6 +30,15 @@ public class Indent {
 	private int deptId;
 	private int subDeptId;
 	
+	int delStatus;
+	
+	
+	public int getDelStatus() {
+		return delStatus;
+	}
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
 	List<IndentTrans> indentTrans;
 	
 	
@@ -122,7 +131,9 @@ public class Indent {
 		return "Indent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType=" + indMType
 				+ ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev + ", indRemark=" + indRemark
 				+ ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus + ", deptId=" + deptId
-				+ ", subDeptId=" + subDeptId + ", indentTrans=" + indentTrans + "]";
+				+ ", subDeptId=" + subDeptId + ", delStatus=" + delStatus + ", indentTrans=" + indentTrans + "]";
 	}
-
+	
+	
+	
 }

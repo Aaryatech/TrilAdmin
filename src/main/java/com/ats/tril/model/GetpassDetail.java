@@ -1,16 +1,21 @@
 package com.ats.tril.model;
 
-import java.util.Date;
-
 public class GetpassDetail {
 	private int gpDetailId;
 	private int gpId;
+
 	private int gpItemId;
 	private float gpQty;
 	private int gpNoDays;
-	private Date gpReturnDate;
+	private String gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
+	private String itemCode;
+	private int catId;
+	private int groupId;
+
+	private float gpRemQty;
+	private float gpRetQty;
 
 	public int getGpDetailId() {
 		return gpDetailId;
@@ -52,14 +57,6 @@ public class GetpassDetail {
 		this.gpNoDays = gpNoDays;
 	}
 
-	public Date getGpReturnDate() {
-		return gpReturnDate;
-	}
-
-	public void setGpReturnDate(Date gpReturnDate) {
-		this.gpReturnDate = gpReturnDate;
-	}
-
 	public int getGpStatus() {
 		return gpStatus;
 	}
@@ -76,11 +73,60 @@ public class GetpassDetail {
 		this.isUsed = isUsed;
 	}
 
+	public String getGpReturnDate() {
+		return gpReturnDate;
+	}
+
+	public void setGpReturnDate(String gpReturnDate) {
+		this.gpReturnDate = gpReturnDate;
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
+
+	public float getGpRemQty() {
+		return gpRemQty;
+	}
+
+	public void setGpRemQty(float gpRemQty) {
+		this.gpRemQty = gpRemQty;
+	}
+
+	public float getGpRetQty() {
+		return gpRetQty;
+	}
+
+	public void setGpRetQty(float gpRetQty) {
+		this.gpRetQty = gpRetQty;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetail [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId + ", gpQty="
 				+ gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus
-				+ ", isUsed=" + isUsed + "]";
+				+ ", isUsed=" + isUsed + ", itemCode=" + itemCode + ", catId=" + catId + ", groupId=" + groupId
+				+ ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + "]";
 	}
 
 }
