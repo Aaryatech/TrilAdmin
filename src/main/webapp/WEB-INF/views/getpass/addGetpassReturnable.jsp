@@ -11,7 +11,8 @@
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 
 	<c:url var="editItemInAddGetpass" value="/editItemInAddGetpass"></c:url>
-	<c:url var="addItemInGetpassList" value="/addItemInGetpassList"></c:url>
+	<c:url var="addItemInGetpassReturnableList"
+		value="/addItemInGetpassReturnableList"></c:url>
 	<c:url var="deleteItemFromGetpass" value="/deleteItemFromGetpass"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -37,7 +38,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Add Getpass
+						<i class="fa fa-file-o"></i>Add Getpass Returnable
 					</h1>
 				</div>
 			</div>
@@ -49,12 +50,13 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Getpass
+								<i class="fa fa-table"></i>Add Getpass Returnable
 							</h3>
 
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/listOfGetpass">Getpass
-									List</a> <a data-action="collapse" href="#"><i
+								<a
+									href="${pageContext.request.contextPath}/listOfGetpassReturnable">Returnable
+									Getpass List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -64,7 +66,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/insertGetpassNonreturnable"
+								action="${pageContext.request.contextPath}/insertGetpassReturnable"
 								method="post">
 
 
@@ -142,6 +144,7 @@
 											<option value="1">Replace</option>
 										</select>
 									</div>
+
 								</div>
 								<br />
 
@@ -151,8 +154,7 @@
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen"
-											onchange="getgroupIdByCatId()" name="catId" id="catId"
-											 >
+											onchange="getgroupIdByCatId()" name="catId" id="catId">
 											<option value="">Select Category</option>
 											<c:forEach items="${catList}" var="catList">
 												<c:choose>
@@ -173,8 +175,7 @@
 										<div class="col-md-2">Select Group*</div>
 										<div class="col-md-3">
 											<select class="form-control chosen"
-												onchange="getItemIdByGroupId()" name="grpId" id="grpId"
-												 >
+												onchange="getItemIdByGroupId()" name="grpId" id="grpId">
 												<c:forEach items="${getItemGroupList}"
 													var="getItemGroupList">
 													<c:choose>
@@ -226,14 +227,19 @@
 									</div>
 
 								</div>
-
-
-								<div class="col-md-2">
-									<input type="button" class="btn btn-primary" value="Add Item"
-										onclick="addItem()">
-								</div>
 								<br> <br>
-
+								<div class="box-content">
+									<div class="col-md-2">No of Days</div>
+									<div class="col-md-3">
+										<input class="form-control" id="noOfDays"
+											placeholder="No of Days" type="text" name="noOfDays" />
+									</div>
+									<div class="col-md-2">
+										<input type="button" class="btn btn-primary" value="Add Item"
+											onclick="addItem()">
+									</div>
+									<br> <br>
+								</div>
 								<div align="center" id="loader" style="display: none">
 
 									<span>
@@ -257,6 +263,7 @@
 														<th>Sr.No.</th>
 														<th>Name</th>
 														<th>Qty</th>
+														<th>No Of Days</th>
 
 														<th>Action</th>
 
@@ -432,6 +439,7 @@
 								document.getElementById("editIndex").value = key;
 								document.getElementById("qty").value = data.gpQty;
 								document.getElementById("catId").value = data.catId;
+								document.getElementById("noOfDays").value = data.gpNoDays;
 								$('#catId').trigger("chosen:updated");
 
 								$
@@ -507,6 +515,7 @@
 			var catId = $("#catId").val();
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
+			var noOfDays = $("#noOfDays").val();
 
 			var editIndex = $("#editIndex").val();
 
@@ -514,7 +523,7 @@
 
 			$
 					.getJSON(
-							'${addItemInGetpassList}',
+							'${addItemInGetpassReturnableList}',
 
 							{
 
@@ -522,7 +531,7 @@
 								qty : qty,
 								catId : catId,
 								grpId : grpId,
-
+								noOfDays : noOfDays,
 								editIndex : editIndex,
 								ajax : 'true'
 
@@ -555,6 +564,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.gpNoDays));
 
 													tr
 															.append($(

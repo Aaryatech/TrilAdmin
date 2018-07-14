@@ -2,15 +2,16 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
- <link rel="stylesheet" type="text/css"
+
+<link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-	<body>
-	
-	 
-<c:url var="addItmeInEditEnquiryList" value="/addItmeInEditEnquiryList"></c:url>
+<body>
+
+
+	<c:url var="addItmeInEditEnquiryList" value="/addItmeInEditEnquiryList"></c:url>
 	<c:url var="editItemInEditEnquiry" value="/editItemInEditEnquiry"></c:url>
-	<c:url var="deleteItemFromEditEnquiry" value="/deleteItemFromEditEnquiry"></c:url>
+	<c:url var="deleteItemFromEditEnquiry"
+		value="/deleteItemFromEditEnquiry"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -49,185 +50,208 @@
 							<h3>
 								<i class="fa fa-table"></i>Edit Enquiry
 							</h3>
-							
+
 							<div class="box-tool">
-								  <a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>  
+								<a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry
+									List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
 							</div>
-							
+
 						</div>
-						
-						
+
+
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitEditEnquiry" method="post" >
-							 
-							
-							<div class="box-content">
-							
-								<div class="col-md-2">Vendor Name</div>
+							<form id="submitMaterialStore"
+								action="${pageContext.request.contextPath}/submitEditEnquiry"
+								method="post">
+
+
+								<div class="box-content">
+
+									<div class="col-md-2">Vendor Name</div>
 									<div class="col-md-3">
-									
-								<input id="enqDate" class="form-control" value="${editEnquiry.vendorName}" type="text" readonly>
-									
+
+										<input id="enqDate" class="form-control"
+											value="${editEnquiry.vendorName}" type="text" readonly>
+
 									</div>
-								<div class="col-md-2">Enquiry Remark</div>
+									<div class="col-md-2">Enquiry Remark</div>
 									<div class="col-md-3">
-									<input class="form-control" id="enqRemark" size="16"
-									 placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}" type="text" name="enqRemark"    />
+										<input class="form-control" id="enqRemark" size="16"
+											placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}"
+											type="text" name="enqRemark" />
 									</div>
-								
-				 
-							</div><br>
-							
-							<div class="box-content">
-							
-								<div class="col-md-2">Enquiry Date*</div>
+
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
-								 placeholder="Enquiry Date" value="${editEnquiry.enqDate}" name="enqDate" type="text" required>
+											placeholder="Enquiry Date" value="${editEnquiry.enqDate}"
+											name="enqDate" type="text" required>
 
 
 									</div>
-								
-				 
-							</div><br>
-							
-							  
-							<hr/>
-							
-							<div class="box-content">
-								
-									<div class="col-md-2" >Select Item</div>
+
+
+								</div>
+								<br>
+
+
+								<hr />
+
+								<div class="box-content">
+
+									<div class="col-md-2">Select Item</div>
 									<div class="col-md-3">
-										<select data-placeholder="Select RM Name" class="form-control chosen" name="itemId" tabindex="-1"
-											id="itemId"  >
-											<option   value="">Select Item</option>
-											
+										<select data-placeholder="Select RM Name"
+											class="form-control chosen" name="itemId" tabindex="-1"
+											id="itemId">
+											<option value="">Select Item</option>
+
 											<c:forEach items="${itemList}" var="itemList">
-                                               
-														<option value="${itemList.itemId}"><c:out value="${itemList.itemCode}"></c:out> </option>
-													
+
+												<option value="${itemList.itemId}"><c:out
+														value="${itemList.itemCode}"></c:out>
+												</option>
+
 
 											</c:forEach>
-											</select>
+										</select>
 									</div>
-									
-									<input type="hidden" name=editIndex id="editIndex"   />
-											 
+
+									<input type="hidden" name=editIndex id="editIndex" />
+
 									<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
-										<input type="text" name="qty" id="qty"
-											placeholder="Qty" class="form-control"
-											 pattern="\d+"  />
-												 
+										<input type="text" name="qty" id="qty" placeholder="Qty"
+											class="form-control" pattern="\d+" />
+
 									</div>
-									 
-								</div><br> 
+
+								</div>
+								<br>
 								<div class="box-content">
-							
-								<div class="col-md-2">Enquiry Item Date*</div>
+
+									<div class="col-md-2">Enquiry Item Date*</div>
 									<div class="col-md-3">
 										<input id="enqItemDate" class="form-control date-picker"
-								 placeholder="Enquiry Date"  name="enqItemDate" type="text"  >
+											placeholder="Enquiry Date" name="enqItemDate" type="text">
 
 
 									</div>
-								<div class="col-md-2">Enquiry Remark</div>
+									<div class="col-md-2">Enquiry Remark</div>
 									<div class="col-md-3">
-									<input class="form-control" id="itemRemark" size="16"
-									 placeholder="Enquiry Remark"		type="text" name="itemRemark"    />
+										<input class="form-control" id="itemRemark" size="16"
+											placeholder="Enquiry Remark" type="text" name="itemRemark" />
 									</div>
-				 
-							</div><br><br>
-							<div class="form-group">
+
+								</div>
+								<br>
+								<br>
+								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="button" class="btn btn-primary" value="Add Item" onclick="addItem()">  
+										<input type="button" class="btn btn-primary" value="Add Item"
+											onclick="addItem()">
 									</div>
-								</div><br><br>
-							
+								</div>
+								<br>
+								<br>
+
 								<div align="center" id="loader" style="display: none">
 
-							<span>
-								<h4>
-									<font color="#343690">Loading</font>
-								</h4>
-							</span> <span class="l-1"></span> <span class="l-2"></span> <span
-						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-					<span class="l-6"></span>
-				</div>
-											
-							
-							<div class=" box-content">
-					<div class="row">
-						<div class="col-md-12 table-responsive">
-							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%" id="table_grid">
-								<thead>
-									<tr>
-										<th class="col-sm-1">Sr.No.</th>
-										<th class="col-sm-1">Name</th> 
-										<th class="col-sm-1">Qty</th>
-										<th class="col-sm-1">Item Date</th>
-										<th class="col-sm-1">Action</th>
-
-									</tr>
-								</thead>
-								<tbody>
-								<c:forEach items="${editEnquiry.enquiryDetailList}" var="enquiryDetailList"
-										varStatus="count">
-										<tr>
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
- 
-											<td class="col-md-1"><c:out
-													value="${enquiryDetailList.itemCode}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${enquiryDetailList.enqQty}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${enquiryDetailList.enqDetailDate}" /></td>
- 
-											<td><a href="#"><span class='glyphicon glyphicon-edit' onclick="edit(${count.index})" id="edit${count.index}"></span></a> 
-		                                         <a href="#"><span class="glyphicon glyphicon-remove" onclick="del(${count.index})" id="del${count.index}"></span></a>
-												 </td>
-
-										</tr>
-									</c:forEach>
-
-								</tbody>
-							</table>
-						</div>
-					</div>
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
 								</div>
-							  
-							<div class="form-group">
-									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
-<!-- 										<button type="button" class="btn">Cancel</button>
- -->									</div>
-								</div><br><br>
-						
-							
-							
 
-						</form>
-						</div>	
+
+								<div class=" box-content">
+									<div class="row">
+										<div class="col-md-12 table-responsive">
+											<table class="table table-bordered table-striped fill-head "
+												style="width: 100%" id="table_grid">
+												<thead>
+													<tr>
+														<th class="col-sm-1">Sr.No.</th>
+														<th class="col-sm-1">Name</th>
+														<th class="col-sm-1">Qty</th>
+														<th class="col-sm-1">Item Date</th>
+														<th class="col-sm-1">Action</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${editEnquiry.enquiryDetailList}"
+														var="enquiryDetailList" varStatus="count">
+														<tr>
+															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+															<td class="col-md-1"><c:out
+																	value="${enquiryDetailList.itemCode}" /></td>
+
+															<td class="col-md-1"><c:out
+																	value="${enquiryDetailList.enqQty}" /></td>
+
+															<td class="col-md-1"><c:out
+																	value="${enquiryDetailList.enqDetailDate}" /></td>
+
+															<td><a href="#"><span
+																	class='glyphicon glyphicon-edit'
+																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>
+																<a href="#"><span class="glyphicon glyphicon-remove"
+																	onclick="del(${count.index})" id="del${count.index}"></span></a>
+															</td>
+
+														</tr>
+													</c:forEach>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+										<input type="submit" class="btn btn-primary" value="Submit"
+											onclick="check();">
+										<!-- 										<button type="button" class="btn">Cancel</button>
+ -->
+									</div>
+								</div>
+								<br>
+								<br>
+
+
+
+
+							</form>
 						</div>
 					</div>
 				</div>
-				
-				<footer>
-			<p>2017 © MONGINIS.</p>
-			</footer>
 			</div>
-			
-			<!-- END Main Content -->
-			
 
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
-		
+			<footer>
+				<p>2017 © MONGINIS.</p>
+			</footer>
+		</div>
+
+		<!-- END Main Content -->
+
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+
 		<!-- END Content -->
 	</div>
 	<!-- END Container -->
@@ -295,7 +319,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		
 		
 		function addItem() {
@@ -449,7 +473,7 @@
 			
 		}
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function validation()
 {
 	var itemId = $("#itemId").val();
@@ -490,9 +514,9 @@ return isValid;
 	 
 } */
 </script>
-	
-								
-							
-	
+
+
+
+
 </body>
 </html>

@@ -1,12 +1,10 @@
 package com.ats.tril.model;
 
-import java.util.Date;
-import java.util.List;
-
-public class GetpassHeader {
+public class GetpassItemVen {
 	private int gpId;
 	private int gpNo;
 	private int gpVendor;
+	private String vendorName;
 	private int gpType;
 	private String gpReturnDate;
 	private int gpStatus;
@@ -18,8 +16,6 @@ public class GetpassHeader {
 	private int isStockable;
 	private int forRepair;
 	private String gpDate;
-
-	List<GetpassDetail> getpassDetail;
 
 	public int getGpId() {
 		return gpId;
@@ -117,14 +113,6 @@ public class GetpassHeader {
 		this.forRepair = forRepair;
 	}
 
-	public List<GetpassDetail> getGetpassDetail() {
-		return getpassDetail;
-	}
-
-	public void setGetpassDetail(List<GetpassDetail> getpassDetail) {
-		this.getpassDetail = getpassDetail;
-	}
-
 	public String getGpDate() {
 		return gpDate;
 	}
@@ -133,17 +121,21 @@ public class GetpassHeader {
 		this.gpDate = gpDate;
 	}
 
-	@Override
-	public String toString() {
-		return "GetpassHeader [gpId=" + gpId + ", gpNo=" + gpNo + ", gpVendor=" + gpVendor + ", gpType=" + gpType
-				+ ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus + ", isUsed=" + isUsed + ", remark1="
-				+ remark1 + ", remark2=" + remark2 + ", sendingWith=" + sendingWith + ", isStockable=" + isStockable
-				+ ", forRepair=" + forRepair + ", gpDate=" + gpDate + ", getpassDetail=" + getpassDetail + "]";
+	public String getVendorName() {
+		return vendorName;
 	}
 
-	public void add(GetpassHeader getpassHeader) {
-		// TODO Auto-generated method stub
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
+	}
 
+	@Override
+	public String toString() {
+		return "GetpassItemVen [gpId=" + gpId + ", gpNo=" + gpNo + ", gpVendor=" + gpVendor + ", vendorName="
+				+ vendorName + ", gpType=" + gpType + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus
+				+ ", isUsed=" + isUsed + ", remark1=" + remark1 + ", remark2=" + remark2 + ", sendingWith="
+				+ sendingWith + ", isStockable=" + isStockable + ", forRepair=" + forRepair + ", gpDate=" + gpDate
+				+ "]";
 	}
 
 }

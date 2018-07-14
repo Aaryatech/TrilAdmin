@@ -37,7 +37,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Add Getpass
+						<i class="fa fa-file-o"></i>Edit Getpass
 					</h1>
 				</div>
 			</div>
@@ -49,7 +49,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Getpass
+								<i class="fa fa-table"></i>Edit Getpass
 							</h3>
 
 							<div class="box-tool">
@@ -64,7 +64,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/insertGetpassNonreturnable"
+								action="${pageContext.request.contextPath}/submitEditGetpass"
 								method="post">
 
 
@@ -77,9 +77,15 @@
 											tabindex="6" required>
 											<option value="">Select Vendor</option>
 											<c:forEach items="${vendorList}" var="vendorList">
-												<option value="${vendorList.vendorId}"><c:out
-														value="${vendorList.vendorName}"></c:out>
-												</option>
+												<c:choose>
+													<c:when
+														test="${vendorList.vendorId==editGetpassHeader.gpVendor}">
+														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${vendorList.vendorId}">${vendorList.vendorName}</option>
+													</c:otherwise>
+												</c:choose>
 											</c:forEach>
 										</select>
 
@@ -87,7 +93,7 @@
 									<div class="col-md-2">Getpass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
-											type="text" name="gpNo" />
+											type="text" name="gpNo" value="${editGetpassHeader.gpNo}" />
 									</div>
 
 
@@ -99,7 +105,8 @@
 									<div class="col-md-2">Getpass Date*</div>
 									<div class="col-md-3">
 										<input id="gpDate" class="form-control date-picker"
-											placeholder="Getpass Date" name="gpDate" type="text" required>
+											placeholder="Getpass Date" name="gpDate" type="text"
+											value="${editGetpassHeader.gpDate}" required>
 
 
 									</div>
@@ -108,8 +115,24 @@
 									<div class="col-md-3">
 										<select name="stock" id="stock" class="form-control chosen"
 											tabindex="6" required>
-											<option value="0">Yes</option>
-											<option value="1">No</option>
+
+
+
+											<c:choose>
+												<c:when test="${editGetpassHeader.isStockable==0}">
+													<option value="0" selected>Yes</option>
+													<option value="1">No</option>
+												</c:when>
+												<c:when test="${editGetpassHeader.isStockable==1}">
+													<option value="0">Yes</option>
+													<option value="1" selected>No</option>
+												</c:when>
+												<c:otherwise>
+													<option value="0">Yes</option>
+													<option value="1">No</option>
+												</c:otherwise>
+											</c:choose>
+
 										</select>
 									</div>
 								</div>
@@ -118,7 +141,8 @@
 									<div class="col-md-2">Sending With</div>
 									<div class="col-md-3">
 										<input type="text" name="sendingWith" id="sendingWith"
-											placeholder="Sending With" class="form-control" />
+											placeholder="Sending With" class="form-control"
+											value="${editGetpassHeader.sendingWith}" />
 
 									</div>
 
@@ -126,7 +150,8 @@
 									<div class="col-md-2">Remark</div>
 									<div class="col-md-3">
 										<input type="text" name="remark1" id="remark1"
-											placeholder="Remark" class="form-control" />
+											placeholder="Remark" class="form-control"
+											value="${editGetpassHeader.remark1}" />
 
 									</div>
 								</div>
@@ -138,8 +163,23 @@
 									<div class="col-md-3">
 										<select name="returnFor" id="returnFor"
 											class="form-control chosen" tabindex="6" required>
-											<option value="0">Repair</option>
-											<option value="1">Replace</option>
+
+											<c:choose>
+												<c:when test="${editGetpassHeader.forRepair==0}">
+													<option value="0" selected>Repair</option>
+													<option value="1">Replace</option>
+												</c:when>
+												<c:when test="${editGetpassHeader.forRepair==1}">
+													<option value="0">Repair</option>
+													<option value="1" selected>Replace</option>
+												</c:when>
+												<c:otherwise>
+													<option value="0">Repair</option>
+													<option value="1">Replace</option>
+												</c:otherwise>
+											</c:choose>
+
+
 										</select>
 									</div>
 								</div>
@@ -151,8 +191,7 @@
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen"
-											onchange="getgroupIdByCatId()" name="catId" id="catId"
-											 >
+											onchange="getgroupIdByCatId()" name="catId" id="catId">
 											<option value="">Select Category</option>
 											<c:forEach items="${catList}" var="catList">
 												<c:choose>
@@ -173,8 +212,7 @@
 										<div class="col-md-2">Select Group*</div>
 										<div class="col-md-3">
 											<select class="form-control chosen"
-												onchange="getItemIdByGroupId()" name="grpId" id="grpId"
-												 >
+												onchange="getItemIdByGroupId()" name="grpId" id="grpId">
 												<c:forEach items="${getItemGroupList}"
 													var="getItemGroupList">
 													<c:choose>
@@ -263,6 +301,27 @@
 													</tr>
 												</thead>
 												<tbody>
+													<c:forEach items="${editGetpassHeader.getpassDetail}"
+														var="getpassDetail" varStatus="count">
+														<tr>
+															<td><c:out value="${count.index+1}" /></td>
+
+															<td><c:out value="${getpassDetail.itemCode}" /></td>
+
+															<td><c:out value="${getpassDetail.gpQty}" /></td>
+
+
+
+															<td><a href="#"><span
+																	class='glyphicon glyphicon-edit'
+																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>
+																<a href="#"><span class="glyphicon glyphicon-remove"
+																	onclick="del(${count.index})" id="del${count.index}"></span></a>
+															</td>
+
+														</tr>
+													</c:forEach>
+
 
 												</tbody>
 											</table>
