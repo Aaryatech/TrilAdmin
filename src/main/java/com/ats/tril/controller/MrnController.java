@@ -1,7 +1,10 @@
 package com.ats.tril.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +26,9 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.Indent;
+import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.po.PoHeader;
@@ -227,6 +232,8 @@ public class MrnController {
 			
 			for(GetPODetail detail: poDetailList) {
 				
+				if(detail.getReceivedQty()>0) {
+				
 				MrnDetail mrnDetail=new MrnDetail();
 				
 				mrnDetail.setIndentQty(detail.getIndedQty());
@@ -245,7 +252,12 @@ public class MrnController {
 				
 				mrnDetail.setBatchNo("Default Batch KKKK-00456");
 				mrnDetail.setDelStatus(Constants.delStatus);
+				
+				mrnDetail.setPoDetailId(detail.getPoDetailId());
+				
 				mrnDetailList.add(mrnDetail);
+				
+				}
 			}
 			
 			mrnHeader.setMrnDetailList(mrnDetailList);
@@ -270,5 +282,68 @@ public class MrnController {
 	return 1;
 	
 	}
+	
+	String fromDate,toDate;
+	List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
+
+	@RequestMapping(value = "/getMrnHeaders", method = RequestMethod.GET)
+	public ModelAndView getMrnHeaders(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			// String fromDate,toDate;
+
+			if (request.getParameter("from_date") == null || request.getParameter("to_date") == null) {
+				Date date = new Date();
+				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				fromDate = df.format(date);
+				toDate = df.format(date);
+				System.out.println("From Date And :" + fromDate + "To DATE" + toDate);
+
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+				System.out.println("inside if ");
+			} else {
+				fromDate = request.getParameter("from_date");
+				toDate = request.getParameter("to_date");
+
+				System.out.println("inside Else ");
+
+				System.out.println("fromDate " + fromDate);
+
+				System.out.println("toDate " + toDate);
+
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			}
+			//map.add("status", 0);
+
+			model = new ModelAndView("mrn/viewmrn");
+			GetMrnHeader[] mrnHead = rest.postForObject(Constants.url + "/getMrnHeaderByDate", map, GetMrnHeader[].class);
+
+			mrnHeaderList = new ArrayList<GetMrnHeader>();
+
+			mrnHeaderList = new ArrayList<GetMrnHeader>(Arrays.asList(mrnHead));
+
+			System.out.println("Indent List using /getIndents   " + mrnHeaderList.toString());
+
+			model.addObject("mrnHeaderList", mrnHeaderList);
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in getMrnHeader MRN" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
 	
 }

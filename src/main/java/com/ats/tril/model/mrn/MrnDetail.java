@@ -30,6 +30,8 @@ public class MrnDetail {
 	
 	private int poId;
 	
+	private int poDetailId;
+	
 	private String poNo;
 	
 	private int mrnDetailStatus;
@@ -164,14 +166,24 @@ public class MrnDetail {
 		this.delStatus = delStatus;
 	}
 
+	public int getPoDetailId() {
+		return poDetailId;
+	}
+
+	public void setPoDetailId(int poDetailId) {
+		this.poDetailId = poDetailId;
+	}
+
 	@Override
 	public String toString() {
 		return "MrnDetail [indMId=" + indMId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty=" + indentQty
 				+ ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty
 				+ ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
-				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", mrnDetailStatus="
-				+ mrnDetailStatus + ", delStatus=" + delStatus + "]";
+				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poDetailId=" + poDetailId + ", poNo=" + poNo
+				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + "]";
 	}
+
+	
 	
 
 }

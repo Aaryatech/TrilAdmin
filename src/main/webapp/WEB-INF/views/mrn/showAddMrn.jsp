@@ -605,6 +605,7 @@ body {
 
 				$.each(data, function(key, itemList) {
 					alert("data received "+data[0]);
+					
 					var tr = $('<tr></tr>');
 					
 					tr
@@ -620,10 +621,17 @@ body {
 					tr
 					.append($(
 							'<td></td>')
-					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+")' value="+itemList.receivedQty+" />"));
-										
-					//tr.append($('<td></td>').html(itemList.itemQty));//textbox
-					tr.append($('<td></td>').html(itemList.pendingQty));
+					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
+			/* 		var pendQty=0;
+					if(itemList.receivedQty==0){
+						
+						pendQty=itemList.pendingQty;
+					}else{ */
+					var	pendQty=itemList.pendingQty-itemList.receivedQty;
+					//}
+					
+//tr.append($('<td></td>').html(itemList.itemQty));//textbox
+tr.append($('<td></td>').html(pendQty));
 					tr.append($('<td></td>').html(itemList.poNo));
 					tr.append($('<td></td>').html(itemList.status));
 					$('#table_grid1 tbody').append(tr);
@@ -651,18 +659,27 @@ body {
 				}
 			}
 		}
-		function callMe(qty,poDId){
-			alert("Hi" +poDId);
+		function callMe(qty,poDId,pendingQty){
+			alert("pending qty " +pendingQty);
+			alert("Qty  " +qty);
 			
-			getPoDetail(qty,poDId);
+			if(parseInt(qty)>parseInt(pendingQty)){
+
+				alert("Received Qty can not be greater than Pending Qty");
+				
+
+			}else{
+				
+				getPoDetail(qty,poDId);
+
+
+			}
+			
 		}
 		function checkMe(checking){
 			alert("check " +checking);
 		}
 	</script>
-
-
-
 
 	<script>
 
@@ -702,10 +719,17 @@ body {
 					tr
 					.append($(
 							'<td></td>')
-					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+")' value="+itemList.receivedQty+" disabled />"));
+					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" disabled />"));
+										var pendQty=0;
+										if(itemList.receivedQty==0){
+											
+											pendQty=itemList.pendingQty;
+										}else{
+											pendQty=itemList.pendingQty-itemList.receivedQty;
+										}
 										
 					//tr.append($('<td></td>').html(itemList.itemQty));//textbox
-					tr.append($('<td></td>').html(itemList.pendingQty));
+					tr.append($('<td></td>').html(pendQty));
 					tr.append($('<td></td>').html(itemList.poNo));
 					tr.append($('<td></td>').html(itemList.status));
 					$('#table_grid2 tbody').append(tr);
