@@ -55,24 +55,40 @@
 							</div>
 
 						</div>
-
-
 						<div class="box-content">
 
-							<div class="col-md-2">Select Getpass Vendor</div>
-							<div class="col-md-3">
+							<div class="box-content">
 
-								<select name="vendId" id="vendId" class="form-control chosen"
-									tabindex="6" required>
-									<option value="0">All Vendors</option>
-									<c:forEach items="${vendorList}" var="vendorList">
-										<option value="${vendorList.vendorId}"><c:out
-												value="${vendorList.vendorName}"></c:out>
-										</option>
-									</c:forEach>
-								</select>
+								<div class="col-md-2">Select Getpass Vendor</div>
+								<div class="col-md-3">
 
+									<select name="vendId" id="vendId" class="form-control chosen"
+										tabindex="6" required>
+										<option value="0">All Vendors</option>
+										<c:forEach items="${vendorList}" var="vendorList">
+											<option value="${vendorList.vendorId}"><c:out
+													value="${vendorList.vendorName}"></c:out>
+											</option>
+										</c:forEach>
+									</select>
+
+								</div>
+								<div class="col-md-2">Select Getpass Status</div>
+								<div class="col-md-3">
+
+									<select name="gpStatusList[]" id="gpStatusList"
+										class="form-control chosen" multiple="multiple" tabindex="6"
+										required>
+										<option value="0">All</option>
+										<option value="1">Pending</option>
+										<option value="2">Partial Pending</option>
+										<option value="3">Return</option>
+
+									</select>
+
+								</div>
 							</div>
+							<br> <br>
 
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
@@ -82,82 +98,103 @@
 							</div>
 							<br>
 
-						</div>
-
-						<div class="box-content">
-
-							<br /> <br />
-							<div class="clearfix"></div>
-							<div class="table-responsive" style="border: 0">
-								<table class="table table-advance" id="table1">
-									<thead>
-										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
-											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Getpass No</th>
-											<th class="col-md-1">Return Date</th>
-											<th class="col-md-1">Remark</th>
-											<th class="col-md-1">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-
-										<c:forEach items="${passList}" var="passList"
-											varStatus="count">
-											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
-												<td class="col-md-1"><c:out
-														value="${passList.vendorName}" /></td>
+							<div class="box-content">
 
-												<td class="col-md-1"><c:out value="${passList.gpNo}" /></td>
-
-												<td class="col-md-1"><c:out
-														value="${passList.gpReturnDate}" /></td>
-
-												<td class="col-md-1"><c:out value="${passList.remark1}" /></td>
-
-
-
-												<td><a
-													href="${pageContext.request.contextPath}/editGetpassHeaderRet/${passList.gpId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteGetpassHeaderReturnable/${passList.gpId}"
-													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a></td>
-
+								<br /> <br />
+								<div class="clearfix"></div>
+								<div class="table-responsive" style="border: 0">
+									<table class="table table-advance" id="table1">
+										<thead>
+											<tr class="bgpink">
+												<th class="col-sm-1">Sr no.</th>
+												<th class="col-md-1">Vendor Name</th>
+												<th class="col-md-1">Getpass No</th>
+												<th class="col-md-1">Return Date</th>
+												<th class="col-md-1">Remark</th>
+												<th class="col-md-1">Status</th>
+												<th class="col-md-1">Action</th>
+												<th class="col-md-1">Return</th>
 											</tr>
-										</c:forEach>
+										</thead>
+										<tbody>
 
-									</tbody>
+											<c:forEach items="${passList}" var="passList"
+												varStatus="count">
 
-								</table>
+												<c:choose>
+													<c:when test="${passList.gpStatus==1}">
+														<c:set var="modType" value="Pending"></c:set>
 
+													</c:when>
+													<c:when test="${passList.gpStatus==2}">
+														<c:set var="modType" value="Partial Pending"></c:set>
+
+													</c:when>
+													<c:when test="${passList.gpStatus==3}">
+														<c:set var="modType" value="Return"></c:set>
+
+													</c:when>
+
+												</c:choose>
+												<tr>
+													<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+													<td class="col-md-1"><c:out
+															value="${passList.vendorName}" /></td>
+
+													<td class="col-md-1"><c:out value="${passList.gpNo}" /></td>
+
+													<td class="col-md-1"><c:out
+															value="${passList.gpReturnDate}" /></td>
+
+													<td class="col-md-1"><c:out
+															value="${passList.remark1}" /></td>
+													<td class="col-md-1"><c:out value="${modType}" /></td>
+
+
+
+
+													<td><a
+														href="${pageContext.request.contextPath}/editGetpassHeaderRet/${passList.gpId}"><abbr
+															title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
+														href="${pageContext.request.contextPath}/deleteGetpassHeaderReturnable/${passList.gpId}"
+														onClick="return confirm('Are you sure want to delete this record');"><span
+															class="glyphicon glyphicon-remove"></span></a></td>
+
+												</tr>
+											</c:forEach>
+
+										</tbody>
+
+									</table>
+
+								</div>
 							</div>
+
+
+
 						</div>
-
-
-
 					</div>
+
+
 				</div>
-
-
 			</div>
+
+
+			<div class=" box-content"></div>
+
+			<!-- END Main Content -->
+			<footer>
+				<p>2018 © AARYATECH SOLUTIONS</p>
+			</footer>
+
+			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+				class="fa fa-chevron-up"></i></a>
 		</div>
-
-
-		<div class=" box-content"></div>
-
-		<!-- END Main Content -->
-		<footer>
-			<p>2018 © AARYATECH SOLUTIONS</p>
-		</footer>
-
-		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-			class="fa fa-chevron-up"></i></a>
-	</div>
-	<!-- END Content -->
+		<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -250,6 +287,7 @@
 		function search() {
 
 			var vendId = $("#vendId").val();
+			var gpStatusList = $("#gpStatusList").val();
 			$('#loader').show();
 
 			$
@@ -258,6 +296,7 @@
 
 							{
 								vendId : vendId,
+								gpStatusList : gpStatusList,
 
 								ajax : 'true'
 
@@ -300,6 +339,18 @@
 																	'<td></td>')
 																	.html(
 																			itemList.remark1));
+
+													var modType;
+													if (itemList.gpStatus == 1) {
+														modType = "Pending";
+													} else if (itemList.gpStatus == 2) {
+														modType = "Partial Pending";
+													} else if (itemList.gpStatus == 3) {
+														modType = "Return";
+													}
+
+													tr.append($('<td></td>')
+															.html(modType));
 													tr
 															.append($(
 																	'<td></td>')
@@ -307,10 +358,25 @@
 																			'<a href="${pageContext.request.contextPath}/editGetpassHeaderRet/'+itemList.gpId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteGetpassHeaderReturnable/'
 																					+ itemList.gpId
-																					+ '"'
 																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													if (itemList.gpStatus == 1
+															|| itemList.gpStatus == 2) {
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				'<a href="${pageContext.request.contextPath}/addGetpassReturn/'+itemList.gpId+'"><button name="a" class="btn btn-primary">Return</button></a>'));
+													} else {
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				'<a href="${pageContext.request.contextPath}/editGetpassHeaderRet/'+itemList.gpId+'"></a>'));
+
+													}
 													$('#table1 tbody').append(
 															tr);
+
 												})
 
 							});

@@ -33,8 +33,12 @@ import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetpassDetail;
+import com.ats.tril.model.GetpassDetailItemName;
 import com.ats.tril.model.GetpassHeader;
+import com.ats.tril.model.GetpassHeaderItemName;
 import com.ats.tril.model.GetpassItemVen;
+import com.ats.tril.model.GetpassReturn;
+import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.item.ItemList;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
@@ -45,7 +49,11 @@ public class GetpassController {
 
 	RestTemplate rest = new RestTemplate();
 	List<GetpassDetail> addItemInGetpassDetail = new ArrayList<GetpassDetail>();
+	List<GetpassReturnDetail> getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();
+	List<GetpassDetailItemName> getpassDetailItemName = new ArrayList<GetpassDetailItemName>();
+
 	GetpassHeader editGetpassHeader = new GetpassHeader();
+	GetpassReturn getpassReturn = new GetpassReturn();
 
 	@RequestMapping(value = "/addGetpassHeader", method = RequestMethod.GET)
 	public ModelAndView addGetpassHeader(HttpServletRequest request, HttpServletResponse response) {
@@ -565,9 +573,20 @@ public class GetpassController {
 		try {
 
 			String vendId = request.getParameter("vendId");
+			String[] gpStatusList = request.getParameterValues("gpStatusList[]");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < gpStatusList.length; i++) {
+				sb = sb.append(gpStatusList[i] + ",");
+
+			}
+			String items = sb.toString();
+			items = items.substring(0, items.length() - 1);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("vendId", vendId);
+			map.add("gpStatusList", items);
 
 			GetpassItemVen[] list = rest.postForObject(Constants.url + "/getGetpassReturnable", map,
 					GetpassItemVen[].class);
@@ -637,6 +656,74 @@ public class GetpassController {
 		}
 
 		return model;
+	}
+
+	@RequestMapping(value = "/addGetpassReturn/{gpId}", method = RequestMethod.GET)
+	public ModelAndView addGetpassReturn(@PathVariable int gpId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("getpass/return");
+		try {
+			addItemInGetpassDetail = new ArrayList<GetpassDetail>();
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("gpId", gpId);
+
+			GetpassHeaderItemName getpassHeaderItemName = rest.postForObject(
+					Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map, GetpassHeaderItemName.class);
+			getpassDetailItemName = getpassHeaderItemName.getGetpassDetailItemNameList();
+			model.addObject("getpassHeaderItemName", getpassHeaderItemName);
+			model.addObject("getpassDetailItemName", getpassDetailItemName);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/insertGetpassReturn", method = RequestMethod.POST)
+	public String insertGetpassReturn(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			GetpassReturn getpassReturnRes = new GetpassReturn();
+
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			int returnNo = Integer.parseInt(request.getParameter("returnNo"));
+			String gpDate = request.getParameter("gpDate");
+
+			String remark = request.getParameter("remark");
+
+			String Date = DateConvertor.convertToYMD(gpDate);
+
+			GetpassReturn getpassReturn = new GetpassReturn();
+			getpassReturn.setVendorId(vendId);
+			getpassReturn.setGpNo(gpNo);
+			getpassReturn.setGpReturnDate(Date);
+			getpassReturn.setIsUsed(1);
+			getpassReturn.setRemark(remark);
+			getpassReturn.setRemark1("null");
+			getpassReturn.setReturnNo(returnNo);
+
+			getpassReturn.setGetpassReturnDetailList(getpassReturnDetailList);
+
+			System.out.println(getpassReturn);
+			GetpassReturn res = rest.postForObject(Constants.url + "/saveGetPassReturnHeaderDetail", getpassReturn,
+					GetpassReturn.class);
+			System.out.println(res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addGetpassReturn";
 	}
 
 }

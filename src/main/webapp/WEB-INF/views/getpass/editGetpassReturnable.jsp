@@ -38,7 +38,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Add Getpass Returnable
+						<i class="fa fa-file-o"></i>Edit Getpass Returnable
 					</h1>
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Getpass Returnable
+								<i class="fa fa-table"></i>Edit Getpass Returnable
 							</h3>
 
 							<div class="box-tool">
