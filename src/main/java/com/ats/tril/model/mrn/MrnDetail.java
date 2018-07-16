@@ -4,7 +4,7 @@ package com.ats.tril.model.mrn;
 public class MrnDetail {
 	
 	
-	private int indMId;
+	private int mrnDetailId;
 	
 	private int mrnId;
 	
@@ -38,10 +38,7 @@ public class MrnDetail {
 	
 	private int delStatus;
 
-	public int getIndMId() {
-		return indMId;
-	}
-
+	
 	public int getMrnId() {
 		return mrnId;
 	}
@@ -102,10 +99,7 @@ public class MrnDetail {
 		return delStatus;
 	}
 
-	public void setIndMId(int indMId) {
-		this.indMId = indMId;
-	}
-
+	
 	public void setMrnId(int mrnId) {
 		this.mrnId = mrnId;
 	}
@@ -173,17 +167,25 @@ public class MrnDetail {
 	public void setPoDetailId(int poDetailId) {
 		this.poDetailId = poDetailId;
 	}
+	
+	
+
+	public int getMrnDetailId() {
+		return mrnDetailId;
+	}
+
+	public void setMrnDetailId(int mrnDetailId) {
+		this.mrnDetailId = mrnDetailId;
+	}
 
 	@Override
 	public String toString() {
-		return "MrnDetail [indMId=" + indMId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty=" + indentQty
-				+ ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty
-				+ ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
+		return "MrnDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty="
+				+ indentQty + ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty="
+				+ rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poDetailId=" + poDetailId + ", poNo=" + poNo
 				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + "]";
 	}
 
-	
-	
 
 }

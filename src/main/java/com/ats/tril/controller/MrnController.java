@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,7 @@ import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.Indent;
+import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
@@ -345,5 +347,47 @@ public class MrnController {
 		return model;
 	}
 
+	//showEditViewMrnDetail/
 	
+	
+	@RequestMapping(value = "/showEditViewMrnDetail/{mrnId}", method = RequestMethod.GET)
+	public ModelAndView editIndent(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("mrnId") int mrnId) {
+
+		ModelAndView model = null;
+		try {
+			model=new ModelAndView("mrn/editMrnDetail");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			map.add("mrnId", mrnId);
+			
+			GetMrnDetail[] mrnDetail = rest.postForObject(Constants.url + "/getMrnDetailByMrnId", map, GetMrnDetail[].class);
+
+		List<GetMrnDetail>	mrnDetailList = new ArrayList<GetMrnDetail>();
+
+		mrnDetailList = new ArrayList<GetMrnDetail>(Arrays.asList(mrnDetail));
+		
+		GetMrnHeader getMrnHeader=new GetMrnHeader();
+		
+		for(int i=0;i<mrnHeaderList.size();i++) {
+			
+			if(mrnHeaderList.get(i).getMrnId()==mrnId) {
+				
+				getMrnHeader=mrnHeaderList.get(i);
+				break;
+				
+			}
+			
+		}
+		
+		model.addObject("mrnDetailList", mrnDetailList);
+
+		model.addObject("mrnHeader", getMrnHeader);
+
+
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return model;
+	}
 }

@@ -180,7 +180,7 @@
 					<a href="${pageContext.request.contextPath}/addDispachMode">Add
 						Dispach Mode</a>
 							<a href="${pageContext.request.contextPath}/showAddMrn">Add MRN</a>
-
+							<a href="${pageContext.request.contextPath}/getMrnHeaders">View MRN</a>
 						
 					</li>
 
