@@ -1,5 +1,9 @@
 package com.ats.tril.model.po;
 
+import java.util.List;
+
+import com.ats.tril.model.PoDetail;
+
 public class PoHeader {
 	
 	private int poId;
@@ -77,6 +81,8 @@ public class PoHeader {
 	private int delStatus;
 	
 	private int approvStatus;
+	
+	List<PoDetail> poDetailList;
 	
 	public int getPoId() {
 		return poId;
@@ -382,6 +388,14 @@ public class PoHeader {
 		this.approvStatus = approvStatus;
 	}
 	
+	public List<PoDetail> getPoDetailList() {
+		return poDetailList;
+	}
+
+	public void setPoDetailList(List<PoDetail> poDetailList) {
+		this.poDetailList = poDetailList;
+	}
+
 	@Override
 	public String toString() {
 		return "PoHeader [poId=" + poId + ", poType=" + poType + ", poNo=" + poNo + ", poDate=" + poDate + ", vendId="
@@ -396,7 +410,7 @@ public class PoHeader {
 				+ deliveryId + ", dispatchId=" + dispatchId + ", paymentTermId=" + paymentTermId + ", poRemark="
 				+ poRemark + ", poStatus=" + poStatus + ", prnStatus=" + prnStatus + ", prnCopies=" + prnCopies
 				+ ", indId=" + indId + ", indNo=" + indNo + ", userId=" + userId + ", delStatus=" + delStatus
-				+ ", approvStatus=" + approvStatus + "]";
+				+ ", approvStatus=" + approvStatus + ", poDetailList=" + poDetailList + "]";
 	}
 	
 }
