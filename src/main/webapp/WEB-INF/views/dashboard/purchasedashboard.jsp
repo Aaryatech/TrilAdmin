@@ -276,6 +276,77 @@ li.fancyTab.active a {
 		
 }
 </style>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body{
+  font-family: 'Roboto', sans-serif;
+}
+
+h2{
+  margin:0px;
+  text-transform: uppercase;
+}
+
+h6{
+  margin:0px;
+  color:#777;
+}
+
+.wrapper{
+ /*  text-align:center;
+  margin:50px auto; */
+}
+
+.tabs1{
+ /*  margin-top:50px; */
+  font-size:15px;
+  padding:0px;
+  list-style:none;
+  background:#fff;
+  box-shadow:0px 5px 20px rgba(0,0,0,0.1);
+  display:inline-block;
+  border-radius:50px;
+  position:relative;
+}
+
+.tabs1 a{
+  text-decoration:none;
+  color: #777;
+  text-transform:uppercase;
+  padding:10px 20px;
+  display:inline-block;
+  position:relative;
+  z-index:1;
+  transition-duration:0.6s;
+}
+
+.tabs1 a.active{
+  color:#fff;
+}
+
+.tabs1 a i{
+  margin-right:5px;
+}
+
+.tabs1 .selector1{
+  height:100%;
+  display:inline-block;
+  position:absolute;
+  left:0px;
+  top:0px;
+  z-index:1;
+  border-radius:50px;
+  transition-duration:0.6s;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  background: #05abe0;
+  background: -moz-linear-gradient(45deg, #05abe0 0%, #8200f4 100%);
+  background: -webkit-linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+  background: linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#05abe0', endColorstr='#8200f4',GradientType=1 );
+}
+</style>
 </head>
 <body>
      <c:url var="getPoListRes" value="/getPoListRes"></c:url>
@@ -320,23 +391,34 @@ li.fancyTab.active a {
 			</div> -->
 			<!-- END Breadcrumb -->
 <div class="container"> 
+<div class="wrapper">
+ 
+  <nav class="tabs1">
+    <div class="selector1"></div>
+    <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart"></i>Purchase Order</a>
+    <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending MRN</a>
+    <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Consumption Report</a>
+    <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
+  </nav>
+</div>
+<div id="poPending">
 <section id="fancyTabWidget" class="tabs t-tabs">
         <ul class="nav nav-tabs fancyTabs" role="tablist" >
         
                     <li class="tab fancyTab active">
                     <div class="arrow-down"><div class="arrow-down-inner"></div></div>	
-                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-desktop"><!--  </span><span class="hidden-xs"> -->  Indent Request</span></a>
+                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-desktop"><!--  </span><span class="hidden-xs"> -->  Pending PO </span></a>
                     	<div class="whiteBlock"></div>
                     </li>
                     
                     <li class="tab fancyTab">
                     <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-question-circle"> <!-- </span><span class="hidden-xs">  --> Pending PO</span></a>
+                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-question-circle"> <!-- </span><span class="hidden-xs">  --> Partial PO</span></a>
                         <div class="whiteBlock"></div>
                     </li>
                     <li class="tab fancyTab">
                     <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab5" href="#tabBody5" role="tab" aria-controls="tabBody5" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-question-circle"><!-- </span><span class="hidden-xs"> -->  Pending MRN</span></a>
+                        <a id="tab5" href="#tabBody5" role="tab" aria-controls="tabBody5" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-question-circle"><!-- </span><span class="hidden-xs"> -->  Enquiry Done</span></a>
                         <div class="whiteBlock"></div>
                     </li>
         </ul>
@@ -347,9 +429,9 @@ li.fancyTab.active a {
                             	
                                 <div class="col-md-12">
                         		<div class="box" id="todayslist">
-						<div class="box-title">
+							<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Mechanical
+								<i class="fa fa-table"></i>Pending PO 
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -358,7 +440,6 @@ li.fancyTab.active a {
 							</div>
 
 						</div>
- 
 								<div class="box-content">
 
 					
@@ -368,32 +449,44 @@ li.fancyTab.active a {
 									<thead>
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">Item Code</th>
-											<th class="col-md-1">Name</th>
-											<th class="col-md-1">Item Weight</th>
-											<th class="col-md-1">Item UOM</th>
-											<th class="col-md-1">Current Stock</th>
-											<th class="col-md-1">ROL</th>
-											<th class="col-md-1">Max</th>
+											<th class="col-md-1">Indent No.</th>
+											<th class="col-md-1">Date</th>
+											<th class="col-md-1">Category</th>
+											<th class="col-md-1">Indent Type</th>
+											<th class="col-md-1">Account Head</th>
+											<th class="col-md-1">Is Monthly</th>
+											<th class="col-md-1">Status</th>
 											 <th class="col-md-1">Action</th> 
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${itemList}" var="itemList" varStatus="count">
+									<c:forEach items="${indentListRes1}" var="indent" varStatus="count">
 											<tr>
 												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${itemList.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemDate}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemWt}" /></td>
- 												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
- 												<td><a href="${pageContext.request.contextPath}/editItem/${itemList.itemId}" data-toggle="tooltip" title="Edit"><span
-												class="glyphicon glyphicon-edit"></span></a> 
-											<a href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
-											onClick="return confirm('Are you sure want to delete this record');" data-toggle="tooltip" title="Delete"><span
-												class="glyphicon glyphicon-remove"></span></a></td>  
+												<td class="col-md-2"><c:out value="${indent.indMNo}" /></td>
+												<td class="col-md-2"><c:out value="${indent.indMDate}" /></td>
+												<td class="col-md-1"><c:out value="${indent.catDesc}" /></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.indMType==1}">Regular</c:when><c:when test="${indent.indMType==2}">Job Work</c:when><c:when test="${indent.indMType==3}">General</c:when></c:choose></td>
+ 												<td class="col-md-1"><c:out value="${indent.accountHead}" /></td>
+ 												<td class="col-md-1" style="color: red;">
+ 												<c:choose><c:when test="${indent.indIsmonthly==1}">YES</c:when><c:when test="${indent.indIsmonthly==0}">NO</c:when></c:choose></td>
+ 												<td class="col-md-1"><c:out value="Pending" /></td>
+										       <%--  <td class="col-md-1">
+										        <c:choose>
+										        <c:when test="${indent.indDStatus==0}">
+										          <c:out value="Pending"/>
+										        </c:when>
+										       <c:otherwise>
+										        <c:out value="closed"/>
+										       </c:otherwise>
+										        </c:choose>
+										      </td> --%>
+											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+										
 											</tr>
 										</c:forEach>
+
 										</tbody>
 
 								</table>
@@ -404,110 +497,21 @@ li.fancyTab.active a {
 
 
 						</div>
-						<br>
-							<div class="box" id="todayslist">
-						<div class="box-title">
-							<h3>
-								<i class="fa fa-table"></i>Electrical
-							</h3>
-							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addItem">
-									</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
-							</div>
-
-						</div>
- 
-								<div class="box-content">
-
 					
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
-										<tr class="bgpink">
-											<th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">Item Code</th>
-											<th class="col-md-1">Name</th>
-											<th class="col-md-1">Item Weight</th>
-											<th class="col-md-1">Item UOM</th>
-											<th class="col-md-1">Current Stock</th>
-											<th class="col-md-1">ROL</th>
-											<th class="col-md-1">Max</th>
-											 <th class="col-md-1">Action</th> 
-										</tr>
-									</thead>
-									<tbody>
-
-										<c:forEach items="${itemList}" var="itemList" varStatus="count">
-											<tr>
-												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${itemList.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemDate}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemWt}" /></td>
- 												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
- 												<td><a href="${pageContext.request.contextPath}/editItem/${itemList.itemId}" data-toggle="tooltip" title="Edit"><span
-												class="glyphicon glyphicon-edit"></span></a> 
-											<a href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
-											onClick="return confirm('Are you sure want to delete this record');" data-toggle="tooltip" title="Delete"><span
-												class="glyphicon glyphicon-remove"></span></a></td>  
-											</tr>
-										</c:forEach>
-										</tbody>
-
-								</table>
-  
-					</div>
-				</div>
-							 
-
-
-						</div>
 						  </div>
                                 
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
-                 <c:forEach items="${indentListRes}" var="indentList" varStatus="count">
-                                          <div class="box-content">
- <div class="row">
-									<div class="col-md-2">Indent No: </div>
-									<div class="col-md-2">
-								${indentList.indMNo}
-									</div>
-									
-									<div class="col-md-1">Date:</div>
-									<div class="col-md-2">
-										${indentList.indMDate} 
-									</div>
-									 <div class="col-md-2">Account Head:</div>
-									<div class="col-md-2">
-										${indentList.accountHead}  
-									</div>
-									 
-								</div>
-							<br>
-							<div class="row">
-							<div class="col-md-2">Status:</div>
-									<div class="col-md-2">
-										<c:choose>
-										<c:when test="${indentList.indMStatus==0}">
-										Pending
-										</c:when>
-										<c:when test="${indentList.indMStatus==1}">
-										Partial Pending
-										</c:when>
-										</c:choose>
-									</div>
-							</div></div><br>
+                                         <br>
                               <div class="row" >
                         <div class="col-md-12">
                         
                         			<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Pending PO Details
+								<i class="fa fa-table"></i>Partial PO 
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -524,43 +528,41 @@ li.fancyTab.active a {
 						<table class="table table-advance" id="table1">  
 									<thead>
 										<tr class="bgpink">
-										<th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">Item Code</th>
-											<th class="col-md-1">Name</th>
-											<th class="col-md-1">Item UOM</th>
-											<th class="col-md-1">Qty</th>
-											<th class="col-md-1">Current Stock</th>
+										    <th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">Indent No.</th>
 											<th class="col-md-1">Date</th>
+											<th class="col-md-1">Category</th>
+											<th class="col-md-1">Indent Type</th>
+											<th class="col-md-1">Account Head</th>
+											<th class="col-md-1">Is Monthly</th>
 											<th class="col-md-1">Status</th>
+											 <th class="col-md-1">Action</th> 
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${indentList.dashIndentDetailList}" var="indent" varStatus="count">
+										<c:forEach items="${indentListRes2}" var="indent" varStatus="count">
 											<tr>
 												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${indent.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${indent.indItemDesc}" /></td>
-												<td class="col-md-1"><c:out value="${indent.indItemUom}" /></td>
- 												<td class="col-md-1"><c:out value="${indent.indQty}" /></td>
- 												<td class="col-md-1"><c:out value="${indent.indItemCurstk}" /></td>
- 												<td class="col-md-1"><c:out value="${indent.indItemSchddt}" /></td>
-										        <td class="col-md-1">
+												<td class="col-md-2"><c:out value="${indent.indMNo}" /></td>
+												<td class="col-md-2"><c:out value="${indent.indMDate}" /></td>
+												<td class="col-md-1"><c:out value="${indent.catDesc}" /></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.indMType==1}">Regular</c:when><c:when test="${indent.indMType==2}">Job Work</c:when><c:when test="${indent.indMType==3}">General</c:when></c:choose></td>
+ 												<td class="col-md-1"><c:out value="${indent.accountHead}" /></td>
+ 												<td class="col-md-1">
+ 												<c:choose><c:when test="${indent.indIsmonthly==1}">YES</c:when><c:when test="${indent.indIsmonthly==0}">NO</c:when></c:choose></td>
+ 												<td class="col-md-1"><c:out value="Pending" /></td>
+										       <%--  <td class="col-md-1">
 										        <c:choose>
 										        <c:when test="${indent.indDStatus==0}">
 										          <c:out value="Pending"/>
-										        </c:when>
-										          <c:when test="${indent.indDStatus==1}">
-										          <c:out value="Enquiry"/>
-										        </c:when>
-										        <c:when test="${indent.indDStatus==2}">
-										          <c:out value="Partial Pending"/>
 										        </c:when>
 										       <c:otherwise>
 										        <c:out value="closed"/>
 										       </c:otherwise>
 										        </c:choose>
-										      </td>
+										      </td> --%>
+											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
@@ -576,48 +578,18 @@ li.fancyTab.active a {
 						</div>
                                 </div>
                             </div><br><br>
-                            </c:forEach>
                     </div>
                  
                    
                     <div class="tab-pane  fade" id="tabBody5" role="tabpanel" aria-labelledby="tab5" aria-hidden="true" tabindex="0">
-      <div class="row">  	<div class="box-content">
-
-									<div class="col-md-2">PO Type*</div>
-									<div class="col-md-2">
-									<select class="form-control chosen" name="poType" id="poType"
-										required>
-										<option value="">Select PO Type</option>
-										<option value="1">Regular</option>
-										<option value="2">Job Work</option>
-										<option value="3">General</option>
-									</select>
-								</div>
-									<div class="col-md-1"></div>
-                          	<div class="col-md-2">Status*</div>
-									<div class="col-md-2">
-									<select class="form-control chosen" name="status" id="status"
-										required>
-										<option value="">Select Status</option>
-										<option value="0">ALL</option>
-										<option value="1">Open</option>
-										<option value="2">Partially Closed</option>
-									</select>
-								</div>
-<div class="col-md-1"><input type="button" class="btn btn-info" value="Search"
-											id="search" onclick="getPoList()"></div>
-											<div class="col-md-2"><button class="buttonload" id="loader">
-                                   <i class="fa fa-spinner fa-spin"></i>&nbsp;Loading
-                                   </button></div>
-								</div>
-                  </div><br>
+    <br>
                     <div class="row">
                         <div class="col-md-12">
                       
                         			<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Pending MRN
+								<i class="fa fa-table"></i>Enquiry
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -635,33 +607,44 @@ li.fancyTab.active a {
 						<table class="table table-advance" id="mrnTable" >  
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">Indent No</th>
+										  <th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">Indent No.</th>
 											<th class="col-md-1">Date</th>
-											<th class="col-md-1">PO No.</th>
-
-											<th class="col-md-1">PO Date</th>
-											 <th class="col-md-1">PO Type</th> 
-											 <th class="col-md-1">PO Status</th> 
+											<th class="col-md-1">Category</th>
+											<th class="col-md-1">Indent Type</th>
+											<th class="col-md-1">Account Head</th>
+											<th class="col-md-1">Is Monthly</th>
+											<th class="col-md-1">Status</th>
 											 <th class="col-md-1">Action</th> 
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${itemList}" var="itemList" varStatus="count">
+										<c:forEach items="${indentListRes3}" var="indent" varStatus="count">
 											<tr>
-												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${itemList.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemDate}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemWt}" /></td>
- 												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
- 												<td><a href="${pageContext.request.contextPath}/editItem/${itemList.itemId}" data-toggle="tooltip" title="Edit"><span
-												class="glyphicon glyphicon-edit"></span></a> 
-											<a href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
-											onClick="return confirm('Are you sure want to delete this record');" data-toggle="tooltip" title="Delete"><span
-												class="glyphicon glyphicon-remove"></span></a></td>  
+											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
+												<td class="col-md-2"><c:out value="${indent.indMNo}" /></td>
+												<td class="col-md-2"><c:out value="${indent.indMDate}" /></td>
+												<td class="col-md-1"><c:out value="${indent.catDesc}" /></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.indMType==1}">Regular</c:when><c:when test="${indent.indMType==2}">Job Work</c:when><c:when test="${indent.indMType==3}">General</c:when></c:choose></td>
+ 												<td class="col-md-1"><c:out value="${indent.accountHead}" /></td>
+ 												<td class="col-md-1">
+ 												<c:choose><c:when test="${indent.indIsmonthly==0}">No</c:when><c:when test="${indent.indIsmonthly==1}">Yes</c:when></c:choose></td>
+ 												<td class="col-md-1"><c:out value="Pending" /></td>       <%--  <td class="col-md-1">
+										        <c:choose>
+										        <c:when test="${indent.indDStatus==0}">
+										          <c:out value="Pending"/>
+										        </c:when>
+										       <c:otherwise>
+										        <c:out value="closed"/>
+										       </c:otherwise>
+										        </c:choose>
+										      </td> --%>
+												<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+										
 											</tr>
 										</c:forEach>
+
 										</tbody>
 
 								</table>
@@ -675,26 +658,146 @@ li.fancyTab.active a {
         </div>
 
     </section>
+    </div><br>
+    <div id="mrnPending" >
+      <div class="row">
+                        <div class="col-md-12">
+                      <div class="box" id="todayslist">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>Pending MRN
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/addItem">
+									</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
+						</div>
+				<div class="box-content">
+					<div class="clearfix"></div>
+					<div class="table-responsive" style="border: 1px; ">
+						<table class="table table-advance" id="mrnTable" >  
+									<thead>
+													<tr class="bgpink">
+											<th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">Indent No</th>
+											<th class="col-md-1">Date</th>
+											<th class="col-md-1">PO No.</th>
+
+											<th class="col-md-1">PO Date</th>
+											 <th class="col-md-1">PO Type</th> 
+											 <th class="col-md-1">PO Status</th> 
+											 <th class="col-md-1">Action</th> 
+										</tr>
+									</thead>
+									<tbody>
+
+										<c:forEach items="${headerList}" var="indent" varStatus="count">
+											<tr>
+											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
+												<td class="col-md-2"><c:out value="${indent.indNo}" /></td>
+												<td class="col-md-2"><c:out value="${indent.indDate}" /></td>
+												<td class="col-md-1"><c:out value="${indent.poNo}" /></td>
+												<td class="col-md-1"><c:out value="${indent.poDate}" /></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.poType==1}">Regular</c:when><c:when test="${indent.poType==2}">Job Work</c:when><c:when test="${indent.poType==3}">General</c:when></c:choose></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==1}">Pending Mrn</c:when></c:choose></td>
+												<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+										
+											</tr>
+										</c:forEach>
+
+										</tbody>
+
+								</table>
+  
+					</div>
+				</div>
+						</div>
+                                </div>
+                            </div>
+    </div><br>
+    <div id="consumptionReport">
+      <div class="row">
+                        <div class="col-md-12">
+                      <div class="box" id="todayslist">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>Consumption Report
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/addItem">
+									</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
+						</div>
+				<div class="box-content">
+					<div class="clearfix"></div>
+					<div class="table-responsive" >
+						<table class="table table-advance" id="mrnTable" border="1" style="border-left:1px solid black;">  
+									<thead>
+									<tr class="bgpink">
+										  <th class="col-sm-1"></th>
+											<th class="col-md-1"></th>
+												<c:forEach items="${categoryList}" var="category" varStatus="count">
+											<th class="col-md-1" colspan="2">${category.catDesc}</th>
+											</c:forEach>
+										</tr>
+										<tr class="bgpink">
+										  <th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">PO Type.</th>
+												<c:forEach items="${categoryList}" var="category" varStatus="count">
+											
+											<th class="col-md-1">Target</th>
+											<th class="col-md-1">Value</th>
+											</c:forEach>
+										</tr>
+									</thead>
+									<tbody>
+                                      <tr>
+                                      <td class="col-sm-1"><c:out value="1" /></td>
+                                      <td class="col-sm-1"><c:out value="Regular" /></td>
+										<c:forEach items="${regularList}" var="regular" varStatus="count">
+											
+											<td class="col-md-2"><c:out value="${regular.target}" /></td>
+												<td class="col-md-1"><c:out value="${regular.totalValue}" /></td>
+												
+											
+										</c:forEach>
+                                      </tr>
+                                        <tr>
+                                       <td class="col-sm-1"><c:out value="2" /></td>
+                                      <td class="col-sm-1"><c:out value="Job Work" /></td>
+										<c:forEach items="${jobWorkList}" var="jobWork" varStatus="count">
+												<td class="col-md-2"><c:out value="${jobWork.target}" /></td>
+												<td class="col-md-1"><c:out value="${jobWork.totalValue}" /></td>
+												
+											
+										</c:forEach>
+										</tr>
+										  <tr>
+                                       <td class="col-sm-1"><c:out value="3" /></td>
+                                      <td class="col-sm-1"><c:out value="General" /></td>
+										<c:forEach items="${generalList}" var="general" varStatus="count">
+												<td class="col-md-2"><c:out value="${general.target}" /></td>
+												<td class="col-md-1"><c:out value="${general.totalValue}" /></td>
+												
+										</c:forEach>
+										</tr>
+										</tbody>
+
+								</table>
+  
+					</div>
+				</div>
+						</div>
+                                </div>
+                            </div>
+    </div>
 </div>
 <br>
-			<!-- BEGIN Tiles -->
-			<div class="row">
-
-
-
-					<div class="col-md-12">
-					<div class="box">
-					
-		 
-						<div class="box-content">
-							
-							</div><br>
-						 
-					</div>
-
-
-				</div>
-			</div>
+		
 
 
 			<footer>
@@ -863,6 +966,58 @@ function getPoList() {
 }
 
 
+</script>
+<script type="text/javascript">
+var tabs = $('.tabs1');
+var items = $('.tabs1').find('a').length;
+var selector = $(".tabs1").find(".selector1");
+var activeItem = tabs.find('.active');
+var activeWidth = activeItem.innerWidth();
+$(".selector1").css({
+  "left": activeItem.position.left + "px", 
+  "width": activeWidth + "px"
+});
+
+$(".tabs1").on("click","a",function(){
+  $('.tabs1 a').removeClass("active");
+  $(this).addClass('active');
+  var activeWidth = $(this).innerWidth();
+  var itemPos = $(this).position();
+  $(".selector1").css({
+    "left":itemPos.left + "px", 
+    "width": activeWidth + "px"
+  });
+});
+</script>
+<script type="text/javascript">
+function enableDiv(status) {
+	if(status==1){
+    var x = document.getElementById("poPending");
+    x.style.display = "block";
+    var y = document.getElementById("mrnPending");
+    y.style.display = "none";
+    var z = document.getElementById("consumptionReport");
+    z.style.display = "none";
+	}
+	else if(status==2)
+		{
+		 var x = document.getElementById("poPending");
+		    x.style.display = "none";
+		    var y = document.getElementById("mrnPending");
+		    y.style.display = "block";
+		    var z = document.getElementById("consumptionReport");
+		    z.style.display = "none";
+		}
+	else if(status==3)
+	{
+		 var x = document.getElementById("poPending");
+		    x.style.display = "none";
+		    var y = document.getElementById("mrnPending");
+		    y.style.display = "none";
+		    var z = document.getElementById("consumptionReport");
+		    z.style.display = "block";
+	}
+}
 </script>
 </body>
 </html>

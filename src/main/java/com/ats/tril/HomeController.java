@@ -1,6 +1,7 @@
 package com.ats.tril;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,10 +20,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ats.tril.common.Constants;
+import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.indent.GetIndents;
+import com.ats.tril.model.po.GetPoHeader;
+import com.ats.tril.model.po.PoHeader;
  
 
 /**
@@ -32,7 +41,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+	RestTemplate restTemp = new RestTemplate();
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -79,8 +89,28 @@ public class HomeController {
 				if (name.equals("Tester") && password.equals("1234")) {
 					mav = new ModelAndView("home");
 					
-					 
+					try {
+				/*	Date date = new Date();*/
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+/*					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+*/					/*String fromDate = df.format(date);
+					String toDate = df.format(date);
+                   
+					map.add("fromDate", fromDate);
+					map.add("toDate",toDate);*/
+					map.add("status", "0,1");
+					GetIndents[] indentList = restTemp.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
+					List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
+					System.err.println(indentListRes.toString());
+					mav.addObject("indentListRes", indentListRes);
+					
+				
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+					return mav;
 				} else {
 
 					mav = new ModelAndView("login");
@@ -100,4 +130,26 @@ public class HomeController {
 
 	}
 	
+	@RequestMapping(value = "/getPoListRes", method = RequestMethod.GET)
+	public @ResponseBody List<GetPoHeader> getPoList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
+		try {
+			int poType=Integer.parseInt(request.getParameter("poType"));
+			int status=Integer.parseInt(request.getParameter("status"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("poType", poType);
+			map.add("status",status);
+			headerList=restTemp.postForObject(Constants.url+"getPoHeaderDashList", map, List.class);
+	     
+			System.err.println(headerList.toString());
+		}
+		catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return headerList;
+	}
 }
