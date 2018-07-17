@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -25,17 +27,25 @@ import com.ats.tril.model.Category;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.EnquiryDetail;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.GetIndents;
+import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
+import com.ats.tril.model.mrn.MrnDetail;
+import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.po.GetPoHeader;
+import com.ats.tril.model.po.PoHeader;
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 
 @Controller
 @Scope("session")
 public class DashboardController {
 
 	RestTemplate rest = new RestTemplate();
-
+	GetMrnHeader getMrnHeader=null;
+	List<GetMrnDetail> getMrnDetailList=null;
+	
 	@RequestMapping(value = "/showPurchaseDashboard", method = RequestMethod.GET)
 	public ModelAndView showPurchaseDashboard(HttpServletRequest request, HttpServletResponse response) {
 
@@ -130,7 +140,7 @@ public class DashboardController {
 	@RequestMapping(value = "/showMrnForInspection", method = RequestMethod.GET)
 	public ModelAndView showMrnForInspection(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("mrn/mrnInspectionDetail");
+		ModelAndView model = new ModelAndView("mrn/mrnInspectionHeader");
 		try {
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
@@ -153,5 +163,107 @@ public class DashboardController {
 
 		return model;
 	}
+	@RequestMapping(value = "/getMrnDetail/{mrnId}", method = RequestMethod.GET)
+	public ModelAndView getMrnDetail(@PathVariable("mrnId")int mrnId,HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("mrn/mrnInspectionDetail");
+		 getMrnHeader=new GetMrnHeader();
+		try {
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("status","0,1");
+			 map.add("venId","0");
+			GetMrnHeader[] getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  GetMrnHeader[].class);
+            List<GetMrnHeader> headerList=new ArrayList<>(Arrays.asList(getMrnHeaderList));
+			for(int i=0;i<headerList.size();i++)
+            {
+            	if(mrnId==headerList.get(i).getMrnId())
+            	{
+            		getMrnHeader=headerList.get(i);
+            	}
+            }
+            model.addObject("getMrnHeader", getMrnHeader);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
 	
+	
+	@RequestMapping(value = "/submitMrnInspectionList", method = RequestMethod.POST) 
+	public ModelAndView submitMrnInspectionList(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		ModelAndView model = new ModelAndView("mrn/mrnInspectionDetail");
+		
+		try {
+		 getMrnDetailList = new ArrayList<>();
+			
+			int mrnId =Integer.parseInt(request.getParameter("mrnId"));
+			String[] checkbox=request.getParameterValues("select_to_approve");
+			
+			
+			for (int i = 0; i < getMrnHeader.getGetMrnDetailList().size(); i++) 
+			{
+				for(int j=0;j<checkbox.length;j++) 
+				{
+					if(Integer.parseInt(checkbox[j])==getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId()) 
+					{
+						 getMrnHeader.getGetMrnDetailList().get(i).setApproveQty(Integer.parseInt(request.getParameter("approveQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
+						 getMrnHeader.getGetMrnDetailList().get(i).setRejectQty(Integer.parseInt(request.getParameter("rejectQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
+						 getMrnDetailList.add(getMrnHeader.getGetMrnDetailList().get(i));
+					}
+						 
+				}
+			}
+			model.addObject("getMrnDetailList", getMrnDetailList);
+			model.addObject("mrnId", mrnId);
+			model.addObject("getMrnHeader", getMrnHeader);
+			
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitMrnInspection", method = RequestMethod.POST) 
+	public String submitMrnInspection(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			
+			RestTemplate restTemp = new RestTemplate();
+             if(!getMrnDetailList.isEmpty()) {
+            	 for(int i=0;i<getMrnDetailList.size();i++)
+            	 {
+
+            		 getMrnDetailList.get(i).setMrnDetailStatus(1);
+            	 }
+			getMrnHeader.setGetMrnDetailList(getMrnDetailList);
+			System.err.println("details: "+getMrnDetailList.toString());
+             }
+             Date date = new SimpleDateFormat("dd-MM-yyyy").parse(getMrnHeader.getMrnDate());
+				String mrnDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+				Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(getMrnHeader.getBillDate());
+				String billDate = new SimpleDateFormat("yyyy-MM-dd").format(date1);
+				Date date2= new SimpleDateFormat("dd-MM-yyyy").parse(getMrnHeader.getLrDate());
+				String lrDate = new SimpleDateFormat("yyyy-MM-dd").format(date2);
+				getMrnHeader.setMrnDate(mrnDate);
+				getMrnHeader.setBillDate(billDate);
+				getMrnHeader.setLrDate(lrDate);
+				System.err.println(getMrnHeader.toString());
+			List<MrnDetail> mrnDetailList = restTemp.postForObject(Constants.url + "/saveMrnData", getMrnDetailList, List.class);
+
+			System.err.println("mrnDetailList " + mrnDetailList.toString());
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/showMrnForInspection";
+	}
 }

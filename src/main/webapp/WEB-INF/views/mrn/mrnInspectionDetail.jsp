@@ -148,32 +148,32 @@ body {
 					 
 		<div class="box">
 			<form id="submitPurchaseOrder"
-				action="${pageContext.request.contextPath}/submitPurchaseOrder"
+				action="${pageContext.request.contextPath}/submitMrnInspection"
 				method="post">
 			<div class="box-content">
 				<div class="col-md-2">MRN No.  </div>
-				<div class="col-md-3">M001</div>
+				<div class="col-md-3">${getMrnHeader.mrnNo}</div>
 				<div class="col-md-2">MRN Date</div> 
-				<div class="col-md-3">11-03-2018	</div>
+				<div class="col-md-3">${getMrnHeader.mrnDate}</div>
 				</div><br/>
 				<div class="box-content">
 				<div class="col-md-2" >Vendor Name</div>
 									<div class="col-md-3">
-										Akshay
+										${getMrnHeader.vendorName}
 									</div>
 					<div class="col-md-2" >MRN Type</div>
 									<div class="col-md-3">
 										<c:choose>
-											<c:when test="${poTypeTemp==1}">
+											<c:when test="${getMrnHeader.mrnType==1}">
 												Regular
 											</c:when>
-											<c:when test="${poTypeTemp==2}">
+											<c:when test="${getMrnHeader.mrnType==2}">
 												Job Work
 											</c:when>
-											<c:when test="${poTypeTemp==3}">
+											<c:when test="${getMrnHeader.mrnType==3}">
 								             General
 											</c:when>
-											<c:when test="${poTypeTemp==4}">
+											<c:when test="${getMrnHeader.mrnType==4}">
 												Other
 											</c:when>
 										
@@ -186,11 +186,11 @@ body {
 			<div class="box-content">
 			<div class="col-md-2" >Bill No.</div>
 					<div class="col-md-3">
-										123
+									${getMrnHeader.billNo}
 					</div>
 						<div class="col-md-2" >Bill Date</div>
 							<div class="col-md-2">
-									12-06-2018
+								${getMrnHeader.billDate}
 							</div>
 			<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item For MRN Inspection "  id="myBtn"></div>
 		
@@ -216,38 +216,29 @@ body {
 										</thead>
 										<tbody>
 										
-										<c:forEach items="${poDetailList}" var="poDetailList"
+										<c:forEach items="${getMrnDetailList}" var="getMrnDetail"
 													varStatus="count">
 													 
 													<tr>
 													  
 														<td><c:out value="${count.index+1}" /></td>
   
-																<td align="left"><c:out value="${poDetailList.itemCode}" /></td>
-																<td align="left"><c:out value="${poDetailList.itemUom}" /></td>
-																<td align="right"><c:out value="${poDetailList.indedQty}" /></td>
-																<td align="right"><c:out value="${poDetailList.itemQty}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.balanceQty}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.itemRate}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.discPer}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.schDays}" /></td>
-													  			<td align="left"><c:out value="${poDetailList.schRemark}" /></td> 
-																</tr>
+																<td align="left"><c:out value="${getMrnDetail.itemCode}" /></td>
+																<td align="left"><c:out value="${getMrnDetail.itemName}" /></td>
+																<td align="right"><c:out value="${getMrnDetail.poQty}" /></td>
+																<td align="right"><c:out value="${getMrnDetail.mrnQty}" /></td>
+													  			<td align="right"><c:out value="${getMrnDetail.approveQty}" /></td>
+													  			<td align="right"><c:out value="${getMrnDetail.rejectQty}" /></td>
+													  			</tr>
 												</c:forEach>
- 
 										</tbody>
 									</table>
 								</div>
 							</div>
- 
 		</div>
-		 		
-							
-							   
-			
 			<div class="row">
 						<div class="col-md-12" style="text-align: center">
-							<input type="submit" class="btn btn-info" value="Submit" onclick="check()">
+							<input type="submit" class="btn btn-info" value="Submit">
 
 
 						</div>
@@ -256,18 +247,10 @@ body {
 			</form>
 			
 			 <form id="submitList"
-				action="${pageContext.request.contextPath}/submitList"
+				action="${pageContext.request.contextPath}/submitMrnInspectionList"
 				method="post">
 			<div id="myModal" class="modal">
-					<input   type="hidden" value="0" name="indMId" id="indMId"    >
-					<input   type="hidden" value="0" name="vendIdTemp" id="vendIdTemp"    >
-					<input   type="text" value="0" name="quotationTemp" id="quotationTemp"    >
-					<input   type="hidden" value="0" name="poTypeTemp" id="poTypeTemp"    >
-					<input   type="hidden" value="0" name="quotationDateTemp" id="quotationDateTemp"    >
-					<input   type="hidden" value="0" name="payIdTemp" id="payIdTemp"    >
-					<input   type="hidden" value="0" name="deliveryIdTemp" id="deliveryIdTemp"    >
-					<input   type="hidden" value="0" name="dispatchModeTemp" id="dispatchModeTemp"    >
-					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
+					<input  type="hidden" value="0" name="mrnId" id="mrnId"    >
 					
 										      
 					<div class="modal-content" style="color: black;">
@@ -292,7 +275,23 @@ body {
 									</tr>
 										</thead>
 										<tbody>
- 
+ 	<c:forEach items="${getMrnHeader.getMrnDetailList}" var="getMrnDetail"
+													varStatus="count">
+													 
+													<tr>					
+													
+													  <td><input type="checkbox" name="select_to_approve"
+										id="select_to_approve" value="${getMrnDetail.mrnDetailId}" /></td>
+														<td><c:out value="${count.index+1}" /></td>
+  
+																<td align="left"><c:out value="${getMrnDetail.itemCode}" /></td>
+																<td align="left"><c:out value="${getMrnDetail.itemName}" /></td>
+																<td align="right"><c:out value="${getMrnDetail.poQty}" /></td>
+																<td align="right"><c:out value="${getMrnDetail.mrnQty}" /></td>
+													  			<td align="right"><input style="text-align:right; width:100px" type="number" id="approveQty${getMrnDetail.mrnDetailId}" name="approveQty${getMrnDetail.mrnDetailId}" value="${getMrnDetail.approveQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" onchange="changeApproveQty(this.value,${getMrnDetail.mrnDetailId},${getMrnDetail.mrnQty})" max="${getMrnDetail.mrnQty}"></td>
+													  			<td align="right"><input style="text-align:right; width:100px" type="number" id="rejectQty${getMrnDetail.mrnDetailId}" name="rejectQty${getMrnDetail.mrnDetailId}" value="${getMrnDetail.rejectQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" max="${getMrnDetail.mrnQty}"></td>
+													  			</tr>
+												</c:forEach>
 										</tbody>
 									</table>
 								</div>
@@ -301,7 +300,7 @@ body {
 						</div><br>
 						<div class="row">
 						<div class="col-md-12" style="text-align: center">
-							<input type="submit" class="btn btn-info" value="Submit" onclick="checkIndId()">
+							<input type="submit" class="btn btn-info" value="Submit" >
 
 
 						</div>
@@ -456,8 +455,8 @@ var btn = document.getElementById("myBtn");
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
-    itemByIntendId(); 
-    getValue();
+   /*  itemByIntendId(); 
+    getValue(); */
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -621,7 +620,14 @@ function itemByIntendId()
   	
   }
 </script>
+	<script type="text/javascript">
+	function changeApproveQty(qty,mrnDetailId,mrnQty)
+	{
+		var actQty=mrnQty-qty;
+		document.getElementById('rejectQty'+mrnDetailId).value=actQty;
 		
+	}
+	</script>	
 		
 </body>
 </html>
