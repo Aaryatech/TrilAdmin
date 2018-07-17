@@ -623,8 +623,18 @@ function itemByIntendId()
 	<script type="text/javascript">
 	function changeApproveQty(qty,mrnDetailId,mrnQty)
 	{
-		var actQty=mrnQty-qty;
-		document.getElementById('rejectQty'+mrnDetailId).value=actQty;
+		if(qty<=mrnQty)
+		{
+		   var actQty=mrnQty-qty;
+		   document.getElementById('rejectQty'+mrnDetailId).value=actQty;
+		}
+		else
+		{
+			alert("Please Enter Valid Approve Qty")
+			document.getElementById('approveQty'+mrnDetailId).value=0;
+			document.getElementById('rejectQty'+mrnDetailId).value=0;
+			
+		}
 		
 	}
 	</script>	

@@ -52,23 +52,16 @@ public class DashboardController {
 		ModelAndView model = new ModelAndView("dashboard/purchasedashboard");
 		try {
 			try {
-				/*Date date = new Date();*/
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				/*DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-				String fromDate = df.format(date);
-				String toDate = df.format(date);
-               
-				map.add("fromDate", fromDate);
-				map.add("toDate",toDate);
-				*/map.add("status", "0");
+			
+				map.add("status", "0");
 				GetIndents[] indentList1 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
 				List<GetIndents> indentListRes1 = new ArrayList<GetIndents>(Arrays.asList(indentList1));
 				System.err.println(indentListRes1.toString());
 				model.addObject("indentListRes1", indentListRes1);
 				map = new LinkedMultiValueMap<String, Object>();
-			/*	map.add("fromDate", fromDate);
-				map.add("toDate",toDate);*/
+			
 				map.add("status", "2");
 				GetIndents[] indentList2 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
@@ -76,8 +69,7 @@ public class DashboardController {
 				System.err.println(indentListRes2.toString());
 				model.addObject("indentListRes2", indentListRes2);
 				map = new LinkedMultiValueMap<String, Object>();
-				/*map.add("fromDate", fromDate);
-				map.add("toDate",toDate);*/
+			
 				map.add("status", "1");
 				GetIndents[] indentList3 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
@@ -87,8 +79,7 @@ public class DashboardController {
 				
 				List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
 				try {
-					
-					 map = new LinkedMultiValueMap<String, Object>();
+					map = new LinkedMultiValueMap<String, Object>();
 					map.add("poType", 1);
 					map.add("status",1);
 					headerList=rest.postForObject(Constants.url+"getPoHeaderDashList", map, List.class);
@@ -243,18 +234,7 @@ public class DashboardController {
             		 getMrnDetailList.get(i).setMrnDetailStatus(1);
             	 }
 			getMrnHeader.setGetMrnDetailList(getMrnDetailList);
-			System.err.println("details: "+getMrnDetailList.toString());
              }
-             Date date = new SimpleDateFormat("dd-MM-yyyy").parse(getMrnHeader.getMrnDate());
-				String mrnDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-				Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(getMrnHeader.getBillDate());
-				String billDate = new SimpleDateFormat("yyyy-MM-dd").format(date1);
-				Date date2= new SimpleDateFormat("dd-MM-yyyy").parse(getMrnHeader.getLrDate());
-				String lrDate = new SimpleDateFormat("yyyy-MM-dd").format(date2);
-				getMrnHeader.setMrnDate(mrnDate);
-				getMrnHeader.setBillDate(billDate);
-				getMrnHeader.setLrDate(lrDate);
-				System.err.println(getMrnHeader.toString());
 			List<MrnDetail> mrnDetailList = restTemp.postForObject(Constants.url + "/saveMrnData", getMrnDetailList, List.class);
 
 			System.err.println("mrnDetailList " + mrnDetailList.toString());
