@@ -292,11 +292,15 @@
 			var retQty = $('#retQty'+key).val();
 			var remQty = $('#remQty'+key).val();
 			
-			alert("retQty" + retQty);
-			alert("remQty" + remQty);
+		
 			var remQtyRes=remQty-retQty;
+			if(remQty <= retQty ){
 				 
 				document.getElementById("remQty"+key).value = remQtyRes;
+			}else
+				{
+				alert("Please Enter Valid Quanity");
+				}
 				 
 		 }
 	</script>

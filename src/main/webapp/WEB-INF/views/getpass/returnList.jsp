@@ -158,9 +158,9 @@
 
 
 												<td><a
-													href="${pageContext.request.contextPath}/editEnquiry/${list.returnId}"><abbr
+													href="${pageContext.request.contextPath}/editReturnList/${list.returnId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteEnquiry/${list.returnId}"
+													href="${pageContext.request.contextPath}/deleteGetpassHeaderReturn/${list.returnId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 

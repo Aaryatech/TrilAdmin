@@ -60,7 +60,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/editGetpassReturn"
+								action="${pageContext.request.contextPath}/submitGetpassReturn"
 								method="post">
 
 
@@ -92,7 +92,7 @@
 											type="text" name="gpNo" value="${editReturnList.gpNo}"
 											readonly />
 									</div>
-									<input type="hidden" name="gpId" id="gpId"
+									<input type="hidden" name="returnId" id="returnId"
 										value="${editReturnList.returnId}" />
 
 								</div>
@@ -131,12 +131,80 @@
 								</div>
 
 								<br>
+								<div align="center" id="loader" style="display: none">
+
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
+								</div>
+
+								<br /> <br />
+
+								<div class=" box-content">
+									<div class="row">
+										<div class="col-md-12 table-responsive">
+											<table class="table table-bordered table-striped fill-head "
+												style="width: 100%" id="table_grid">
+												<thead>
+													<tr>
+														<th>Sr.No.</th>
+
+														<th>Qty</th>
+														<th>Remaining Qty</th>
+														<th>Return Qty</th>
+														<th>Remark</th>
 
 
+													</tr>
+												</thead>
+
+												<tbody>
+
+													<c:forEach items="${list}" var="list" varStatus="count">
+														<tr>
+															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+
+
+															<td class="col-md-2"><input class="form-control"
+																id="gpQty${count.index}" placeholder="Qty" type="text"
+																name="gpQty${count.index}" value="${list.gpQty}"
+																Readonly /></td>
+
+															<td class="col-md-2"><input class="form-control"
+																id="remQty${count.index}" placeholder=" Rem Qty"
+																type="text" name="remQty${count.index}"
+																value="${list.remQty}" Readonly /></td>
+
+
+															<td class="col-md-2"><input class="form-control"
+																id="retQty${count.index}" placeholder="Return Qty"
+																type="text" name="retQty${count.index}"
+																onchange="check(${count.index})"
+																value="${list.returnQty}"></td>
+
+															<td class="col-md-2"><input class="form-control"
+																id="remarkDetail" placeholder="Remark" type="text"
+																name="remarkDetail" value="${list.remark}"></td>
+														</tr>
+													</c:forEach>
+
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit">
+										<input type="submit" class="btn btn-primary"
+											value="Save Changes">
 
 									</div>
 								</div>
@@ -238,11 +306,13 @@
 			var retQty = $('#retQty' + key).val();
 			var remQty = $('#remQty' + key).val();
 
-			alert("retQty" + retQty);
-			alert("remQty" + remQty);
-			var remQtyRes = remQty - retQty;
-
-			document.getElementById("remQty" + key).value = remQtyRes;
+			if(retQty > remQty){
+				 
+				document.getElementById("remQty"+key).value = remQtyRes;
+			}else
+				{
+				alert("Please Enter Valid Quanity");
+				}
 
 		}
 	</script>

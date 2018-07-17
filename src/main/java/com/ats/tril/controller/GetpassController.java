@@ -695,6 +695,7 @@ public class GetpassController {
 		try {
 
 			GetpassReturn getpassReturnRes = new GetpassReturn();
+			int returnId = Integer.parseInt(request.getParameter("returnId"));
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
 			int gpId = Integer.parseInt(request.getParameter("gpId"));
@@ -866,6 +867,7 @@ public class GetpassController {
 
 			model.addObject("editReturnList", getpassReturn);
 			model.addObject("date", DateConvertor.convertToDMY(getpassReturn.getGpReturnDate()));
+			model.addObject("list", getpassReturnDetailList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -893,4 +895,44 @@ public class GetpassController {
 
 		return "redirect:/listOfGetpassReturn";
 	}
+
+	@RequestMapping(value = "/submitGetpassReturn", method = RequestMethod.POST)
+	public String submitGetpassReturn(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();
+
+			String date = request.getParameter("date");
+			String remark = request.getParameter("remark");
+
+			GetpassReturn getpassReturn = new GetpassReturn();
+			getpassReturn.setGpRemark(remark);
+			getpassReturn.setGpReturnDate(date);
+
+			getpassReturnDetailList = getpassReturn.getGetpassReturnDetailList();
+
+			for (int i = 0; i < getpassDetailItemName.size(); i++) {
+				GetpassReturnDetail getpassReturnDetail = new GetpassReturnDetail();
+
+				getpassReturnDetail.setReturnQty(Float.parseFloat(request.getParameter("retQty" + i)));
+				getpassReturnDetail.setRemQty(getpassDetailItemName.get(i).getGpRemQty());
+
+				getpassDetailItemName.get(i).setGpRemQty(Float.parseFloat(request.getParameter("remQty" + i)));
+				getpassDetailItemName.get(i).setGpRetQty(Float.parseFloat(request.getParameter("retQty" + i)));
+				getpassReturnDetailList.add(getpassReturnDetail);
+
+			}
+
+			GetpassReturn res = rest.postForObject(Constants.url + "/saveGetPassReturnHeaderDetail", getpassReturn,
+					GetpassReturn.class);
+			System.out.println(res);
+			System.out.println(getpassDetailItemName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/listOfGetpassReturn";
+	}
+
 }
