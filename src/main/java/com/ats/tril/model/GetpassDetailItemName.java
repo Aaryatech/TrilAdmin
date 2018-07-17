@@ -8,7 +8,7 @@ public class GetpassDetailItemName {
 	private int gpItemId;
 	private float gpQty;
 	private int gpNoDays;
-	private Date gpReturnDate;
+	private String gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
 	private float gpRemQty;
@@ -55,11 +55,11 @@ public class GetpassDetailItemName {
 		this.gpNoDays = gpNoDays;
 	}
 
-	public Date getGpReturnDate() {
+	public String getGpReturnDate() {
 		return gpReturnDate;
 	}
 
-	public void setGpReturnDate(Date gpReturnDate) {
+	public void setGpReturnDate(String gpReturnDate) {
 		this.gpReturnDate = gpReturnDate;
 	}
 

@@ -1,9 +1,10 @@
 package com.ats.tril.model;
 
-import java.util.Date;
 import java.util.List;
 
-public class GetpassReturn {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class GetpassReturnVendor {
 
 	private int returnId;
 	private int returnNo;
@@ -17,6 +18,7 @@ public class GetpassReturn {
 	private String gpRemark1;
 	private int status;
 	private int isUsed;
+	private String vendorName;
 
 	List<GetpassReturnDetail> getpassReturnDetailList;
 
@@ -60,16 +62,18 @@ public class GetpassReturn {
 		this.vendorId = vendorId;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	public String getGpRemark() {
+		return gpRemark;
+	}
+
 	public String getGpReturnDate() {
 		return gpReturnDate;
 	}
 
 	public void setGpReturnDate(String gpReturnDate) {
 		this.gpReturnDate = gpReturnDate;
-	}
-
-	public String getGpRemark() {
-		return gpRemark;
 	}
 
 	public void setGpRemark(String gpRemark) {
@@ -108,12 +112,20 @@ public class GetpassReturn {
 		this.getpassReturnDetailList = getpassReturnDetailList;
 	}
 
+	public String getVendorName() {
+		return vendorName;
+	}
+
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
+	}
+
 	@Override
 	public String toString() {
-		return "GetpassReturn [returnId=" + returnId + ", returnNo=" + returnNo + ", gpId=" + gpId + ", gpNo=" + gpNo
-				+ ", vendorId=" + vendorId + ", gpReturnDate=" + gpReturnDate + ", gpRemark=" + gpRemark
-				+ ", gpRemark1=" + gpRemark1 + ", status=" + status + ", isUsed=" + isUsed
-				+ ", getpassReturnDetailList=" + getpassReturnDetailList + "]";
+		return "GetpassReturnVendor [returnId=" + returnId + ", returnNo=" + returnNo + ", gpId=" + gpId + ", gpNo="
+				+ gpNo + ", vendorId=" + vendorId + ", gpReturnDate=" + gpReturnDate + ", gpRemark=" + gpRemark
+				+ ", gpRemark1=" + gpRemark1 + ", status=" + status + ", isUsed=" + isUsed + ", vendorName="
+				+ vendorName + ", getpassReturnDetailList=" + getpassReturnDetailList + "]";
 	}
 
 }

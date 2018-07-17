@@ -39,8 +39,10 @@ import com.ats.tril.model.GetpassHeaderItemName;
 import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
+import com.ats.tril.model.GetpassReturnVendor;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.item.ItemList;
+import com.fasterxml.jackson.databind.util.Converter;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 @Controller
@@ -454,7 +456,7 @@ public class GetpassController {
 				getpassDetail.setGpStatus(0);
 				getpassDetail.setCatId(catId);
 				getpassDetail.setGroupId(grpId);
-				getpassDetail.setGpRemQty(0);
+				getpassDetail.setGpRemQty(qty);
 				getpassDetail.setGpRetQty(0);
 
 				addItemInGetpassDetail.add(getpassDetail);
@@ -470,7 +472,7 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setCatId(catId);
 				addItemInGetpassDetail.get(index).setGroupId(grpId);
 				addItemInGetpassDetail.get(index).setIsUsed(1);
-				addItemInGetpassDetail.get(index).setGpRemQty(0);
+				addItemInGetpassDetail.get(index).setGpRemQty(qty);
 				addItemInGetpassDetail.get(index).setGpRetQty(0);
 				addItemInGetpassDetail.get(index).setGpNoDays(noOfDays);
 
@@ -695,22 +697,66 @@ public class GetpassController {
 			GetpassReturn getpassReturnRes = new GetpassReturn();
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			int gpId = Integer.parseInt(request.getParameter("gpId"));
 			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
 			int returnNo = Integer.parseInt(request.getParameter("returnNo"));
-			String gpDate = request.getParameter("gpDate");
+			String date = request.getParameter("date");
+			// float retQty = Float.parseFloat(request.getParameter("retQty"));
+
+			String remarkDetail = request.getParameter("remarkDetail");
 
 			String remark = request.getParameter("remark");
 
-			String Date = DateConvertor.convertToYMD(gpDate);
+			String Date = DateConvertor.convertToYMD(date);
+			System.out.println("date" + Date);
 
 			GetpassReturn getpassReturn = new GetpassReturn();
+			GetpassHeader getpassHeader = new GetpassHeader();
 			getpassReturn.setVendorId(vendId);
 			getpassReturn.setGpNo(gpNo);
 			getpassReturn.setGpReturnDate(Date);
 			getpassReturn.setIsUsed(1);
-			getpassReturn.setRemark(remark);
-			getpassReturn.setRemark1("null");
+			getpassReturn.setGpRemark(remark);
+			getpassReturn.setGpRemark1("null");
 			getpassReturn.setReturnNo(returnNo);
+			getpassReturn.setGpId(gpId);
+			getpassReturn.setStatus(1);
+			getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();
+
+			for (int i = 0; i < getpassDetailItemName.size(); i++) {
+				GetpassReturnDetail getpassReturnDetail = new GetpassReturnDetail();
+				getpassReturnDetail.setGpQty(getpassDetailItemName.get(i).getGpQty());
+				getpassReturnDetail.setGpItemId(getpassDetailItemName.get(i).getGpItemId());
+				getpassReturnDetail.setIsUsed(1);
+				getpassReturnDetail.setRemark(remarkDetail);
+				getpassReturnDetail.setRemark1("null");
+				getpassReturnDetail.setReturnQty(Float.parseFloat(request.getParameter("retQty" + i)));
+				getpassReturnDetail.setRemQty(getpassDetailItemName.get(i).getGpRemQty());
+				getpassReturnDetail.setStatus(1);
+				getpassDetailItemName.get(i).setGpRemQty(Float.parseFloat(request.getParameter("remQty" + i)));
+				getpassDetailItemName.get(i).setGpRetQty(Float.parseFloat(request.getParameter("retQty" + i)));
+				getpassReturnDetailList.add(getpassReturnDetail);
+			}
+
+			List<GetpassDetail> getpassDetailList = new ArrayList<>();
+
+			for (GetpassDetailItemName passItemName : getpassDetailItemName) {
+				GetpassDetail getpassDetail = new GetpassDetail();
+
+				getpassDetail.setGpRemQty(passItemName.getGpRemQty());
+				getpassDetail.setGpRetQty(passItemName.getGpRetQty());
+				getpassDetail.setGpId(passItemName.getGpId());
+
+				getpassDetail.setGpDetailId(passItemName.getGpDetailId());
+				getpassDetail.setGpNoDays(passItemName.getGpNoDays());
+				getpassDetail.setGpQty(passItemName.getGpQty());
+				getpassDetail.setGpReturnDate(passItemName.getGpReturnDate());
+				getpassDetail.setGpStatus(passItemName.getGpStatus());
+				getpassDetail.setGpItemId(passItemName.getGpItemId());
+
+				getpassDetailList.add(getpassDetail);
+
+			}
 
 			getpassReturn.setGetpassReturnDetailList(getpassReturnDetailList);
 
@@ -718,12 +764,133 @@ public class GetpassController {
 			GetpassReturn res = rest.postForObject(Constants.url + "/saveGetPassReturnHeaderDetail", getpassReturn,
 					GetpassReturn.class);
 			System.out.println(res);
+			System.out.println(getpassDetailItemName);
+			List<GetpassDetail> result = rest.postForObject(Constants.url + "/saveGatePassDetailList",
+					getpassDetailList, List.class);
+			System.out.println(result);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "redirect:/addGetpassReturn";
+		return "redirect:/listOfGetpassReturn";
 	}
 
+	@RequestMapping(value = "/listOfGetpassReturn", method = RequestMethod.GET)
+	public ModelAndView listOfGetpassReturn(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("getpass/returnList");
+		try {
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/getListOfReturnGetpass", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetpassReturnVendor> getListOfReturnGetpass(HttpServletRequest request, HttpServletResponse response) {
+
+		List<GetpassReturnVendor> list = new ArrayList<GetpassReturnVendor>();
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("vendId", vendId);
+
+			GetpassReturnVendor[] getlist = rest.postForObject(Constants.url + "/getGetpassReturnVendor", map,
+					GetpassReturnVendor[].class);
+			list = new ArrayList<GetpassReturnVendor>(Arrays.asList(getlist));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@RequestMapping(value = "/getGetpassReturn", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetpassItemVen> getGetpassReturn(HttpServletRequest request, HttpServletResponse response) {
+
+		List<GetpassItemVen> passList = new ArrayList<GetpassItemVen>();
+		try {
+
+			String vendId = request.getParameter("vendId");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("vendId", vendId);
+
+			GetpassItemVen[] list = rest.postForObject(Constants.url + "/getGetpassReturnable", map,
+					GetpassItemVen[].class);
+			passList = new ArrayList<GetpassItemVen>(Arrays.asList(list));
+			System.out.println("passList" + passList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return passList;
+	}
+
+	@RequestMapping(value = "/editReturnList/{returnId}", method = RequestMethod.GET)
+	public ModelAndView editEnquiry(@PathVariable int returnId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("getpass/editGetpassReturn");
+		try {
+			getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("returnId", returnId);
+
+			getpassReturn = rest.postForObject(Constants.url + "/getGetpassReturnItemHeaderAndDetail", map,
+					GetpassReturn.class);
+			getpassReturnDetailList = getpassReturn.getGetpassReturnDetailList();
+
+			model.addObject("editReturnList", getpassReturn);
+			model.addObject("date", DateConvertor.convertToDMY(getpassReturn.getGpReturnDate()));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteGetpassHeaderReturn/{returnId}", method = RequestMethod.GET)
+	public String deleteGetpassHeaderReturn(@PathVariable int returnId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("returnId", returnId);
+
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteGetpassReturn", map,
+					ErrorMessage.class);
+			System.out.println(errorMessage);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/listOfGetpassReturn";
+	}
 }

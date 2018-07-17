@@ -33,7 +33,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Getpass Return
+						<i class="fa fa-file-o"></i>Edit Getpass Return
 					</h1>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Getpass Return
+								<i class="fa fa-table"></i>Edit Getpass Return
 							</h3>
 
 							<div class="box-tool">
@@ -60,7 +60,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/insertGetpassReturn"
+								action="${pageContext.request.contextPath}/editGetpassReturn"
 								method="post">
 
 
@@ -75,7 +75,7 @@
 											<c:forEach items="${vendorList}" var="vendorList">
 												<c:choose>
 													<c:when
-														test="${vendorList.vendorId==getpassHeaderItemName.gpVendor}">
+														test="${vendorList.vendorId==editReturnList.vendorId}">
 														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}</option>
 													</c:when>
 													<c:otherwise>
@@ -89,10 +89,11 @@
 									<div class="col-md-2">Getpass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
-											type="text" name="gpNo" value="${getpassHeaderItemName.gpNo}" />
+											type="text" name="gpNo" value="${editReturnList.gpNo}"
+											readonly />
 									</div>
 									<input type="hidden" name="gpId" id="gpId"
-										value="${getpassHeaderItemName.gpId}">
+										value="${editReturnList.returnId}" />
 
 								</div>
 								<br>
@@ -102,7 +103,8 @@
 									<div class="col-md-2">Return Date*</div>
 									<div class="col-md-3">
 										<input id="date" class="form-control date-picker"
-											placeholder="Return Date" name="date" type="text" required>
+											placeholder="Return Date" name="date" type="text"
+											value="${date}" required>
 
 
 									</div>
@@ -110,7 +112,8 @@
 									<div class="col-md-2">Return No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="returnNo"
-											placeholder="Return No" type="text" name="returnNo" />
+											placeholder="Return No" type="text" name="returnNo"
+											value="${editReturnList.returnNo}" Readonly />
 									</div>
 								</div>
 								<br>
@@ -121,101 +124,45 @@
 									<div class="col-md-2">Remark</div>
 									<div class="col-md-3">
 										<input type="text" name="remark" id="remark"
-											placeholder="Remark" class="form-control" />
+											placeholder="Remark" class="form-control"
+											value="${editReturnList.gpRemark}" />
 
 									</div>
 								</div>
 
 								<br>
-						</div>
-
-						<div class=" box-content">
-							<div class="row">
-								<div class="col-md-12 table-responsive">
-									<table class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid">
-										<thead>
-											<tr>
-												<th>Sr.No.</th>
-												<th>Name</th>
-												<th>Qty</th>
-												<th>Remaining Qty</th>
-												<th>Return Qty</th>
-												<th>Remark</th>
 
 
-											</tr>
-										</thead>
 
-										<tbody>
+								<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+										<input type="submit" class="btn btn-primary" value="Submit">
 
-											<c:forEach items="${getpassDetailItemName}"
-												var="getpassDetailItemName" varStatus="count">
-												<tr>
-													<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-
-
-													<td class="col-md-3"><c:out
-															value="${getpassDetailItemName.itemCode}" /></td>
-
-													<td class="col-md-2"><input class="form-control"
-														id="gpQty${count.index}" placeholder="Qty" type="text"
-														name="gpQty${count.index}"
-														value="${getpassDetailItemName.gpQty}" Readonly /></td>
-
-													<td class="col-md-2"><input class="form-control"
-														id="remQty${count.index}" placeholder=" Rem Qty"
-														type="text" name="remQty${count.index}"
-														value="${getpassDetailItemName.gpRemQty}" Readonly /></td>
-
-
-													<td class="col-md-2"><input class="form-control"
-														id="retQty${count.index}" placeholder="Return Qty"
-														type="text" name="retQty${count.index}" value="0"
-														onchange="check(${count.index})"></td>
-
-													<td class="col-md-2"><input class="form-control"
-														id="remarkDetail" placeholder="Remark" type="text"
-														name="remarkDetail"></td>
-												</tr>
-											</c:forEach>
-
-
-										</tbody>
-									</table>
+									</div>
 								</div>
-							</div>
+								<br> <br>
+
+
+
+							</form>
 						</div>
-
-						<div class="form-group">
-							<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-								<input type="submit" class="btn btn-primary" value="Submit">
-
-							</div>
-						</div>
-						<br> <br>
-
-
-
-
-						</form>
 					</div>
 				</div>
 			</div>
+
+
+			<footer>
+				<p>2017 © MONGINIS.</p>
+			</footer>
 		</div>
 
-		<footer>
-			<p>2017 © MONGINIS.</p>
-		</footer>
-	</div>
-
-	<!-- END Main Content -->
+		<!-- END Main Content -->
 
 
-	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-		class="fa fa-chevron-up"></i></a>
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
 
-	<!-- END Content -->
+		<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -287,18 +234,17 @@
 
 	<script>
 		function check(key) {
-			
-			
-			var retQty = $('#retQty'+key).val();
-			var remQty = $('#remQty'+key).val();
-			
+
+			var retQty = $('#retQty' + key).val();
+			var remQty = $('#remQty' + key).val();
+
 			alert("retQty" + retQty);
 			alert("remQty" + remQty);
-			var remQtyRes=remQty-retQty;
-				 
-				document.getElementById("remQty"+key).value = remQtyRes;
-				 
-		 }
+			var remQtyRes = remQty - retQty;
+
+			document.getElementById("remQty" + key).value = remQtyRes;
+
+		}
 	</script>
 
 

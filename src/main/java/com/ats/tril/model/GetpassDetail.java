@@ -1,5 +1,7 @@
 package com.ats.tril.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class GetpassDetail {
 	private int gpDetailId;
 	private int gpId;
@@ -73,6 +75,7 @@ public class GetpassDetail {
 		this.isUsed = isUsed;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public String getGpReturnDate() {
 		return gpReturnDate;
 	}
