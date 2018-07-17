@@ -162,9 +162,10 @@
 
 					<a href="${pageContext.request.contextPath}/showIndent">Add
 						Indent</a>
-					<a href="${pageContext.request.contextPath}/getIndents">Get Indent</a>
-					
-				
+					<a href="${pageContext.request.contextPath}/getIndents">Get
+						Indent</a>
+
+
 					<a href="${pageContext.request.contextPath}/addCategory">Add
 						Category</a>
 					</li>
@@ -179,9 +180,10 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/addDispachMode">Add
 						Dispach Mode</a>
-							<a href="${pageContext.request.contextPath}/showAddMrn">Add MRN</a>
-							<a href="${pageContext.request.contextPath}/getMrnHeaders">View MRN</a>
-						
+					<a href="${pageContext.request.contextPath}/showAddMrn">Add MRN</a>
+					<a href="${pageContext.request.contextPath}/getMrnHeaders">View
+						MRN</a>
+
 					</li>
 
 					<c:choose>
@@ -334,13 +336,48 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/addGetpassItem">Add
-						Getpass Item</a>
+
 					</li>
 
 				</ul>
 				</li>
 
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==1}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Getpass Item</span> <b class="arrow fa fa-angle-right"></b>
+
+				</a>
+
+				<ul class="submenu">
+
+					<c:choose>
+						<c:when test="${Constants.subAct==11}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+
+					<a href="${pageContext.request.contextPath}/addGetpassReturnable">Add
+						Returnable Getpass</a>
+					<a href="${pageContext.request.contextPath}/addGetpassHeader">Add
+						Getpass Nonreturnable</a>
+
+
+					<a href="${pageContext.request.contextPath}/addGetpassItem">Add
+						Getpass Item</a>
+					</li>
+				</ul>
 				<%-- <c:choose>
 							<c:when test="${Constants.mainAct==2}">
 								<li class="active">
