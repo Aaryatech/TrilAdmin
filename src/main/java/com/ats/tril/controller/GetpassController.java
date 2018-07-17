@@ -53,6 +53,7 @@ public class GetpassController {
 	List<GetpassDetail> addItemInGetpassDetail = new ArrayList<GetpassDetail>();
 	List<GetpassReturnDetail> getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();
 	List<GetpassDetailItemName> getpassDetailItemName = new ArrayList<GetpassDetailItemName>();
+	List<GetpassDetail> getpassDetailList = new ArrayList<>();
 
 	GetpassHeader editGetpassHeader = new GetpassHeader();
 	GetpassReturn getpassReturn = new GetpassReturn();
@@ -739,7 +740,7 @@ public class GetpassController {
 				getpassReturnDetailList.add(getpassReturnDetail);
 			}
 
-			List<GetpassDetail> getpassDetailList = new ArrayList<>();
+			getpassDetailList = new ArrayList<>();
 
 			for (GetpassDetailItemName passItemName : getpassDetailItemName) {
 				GetpassDetail getpassDetail = new GetpassDetail();
@@ -908,7 +909,8 @@ public class GetpassController {
 
 			GetpassReturn getpassReturn = new GetpassReturn();
 			getpassReturn.setGpRemark(remark);
-			getpassReturn.setGpReturnDate(date);
+			getpassReturn.setGpReturnDate(DateConvertor.convertToYMD(date));
+			getpassReturn.setGetpassReturnDetailList(getpassReturnDetailList);
 
 			getpassReturnDetailList = getpassReturn.getGetpassReturnDetailList();
 
@@ -920,7 +922,6 @@ public class GetpassController {
 
 				getpassDetailItemName.get(i).setGpRemQty(Float.parseFloat(request.getParameter("remQty" + i)));
 				getpassDetailItemName.get(i).setGpRetQty(Float.parseFloat(request.getParameter("retQty" + i)));
-				getpassReturnDetailList.add(getpassReturnDetail);
 
 			}
 
@@ -928,6 +929,9 @@ public class GetpassController {
 					GetpassReturn.class);
 			System.out.println(res);
 			System.out.println(getpassDetailItemName);
+			List<GetpassDetail> result = rest.postForObject(Constants.url + "/saveGatePassDetailList",
+					getpassDetailList, List.class);
+			System.out.println(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
