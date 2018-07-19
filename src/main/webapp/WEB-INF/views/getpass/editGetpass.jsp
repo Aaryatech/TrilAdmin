@@ -10,9 +10,9 @@
 	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 
-	<c:url var="editItemInAddGetpass" value="/editItemInAddGetpass"></c:url>
-	<c:url var="addItemInGetpassList" value="/addItemInGetpassList"></c:url>
-	<c:url var="deleteItemFromGetpass" value="/deleteItemFromGetpass"></c:url>
+	<c:url var="editItemInEditGetpass" value="/editItemInEditGetpass"></c:url>
+	<c:url var="addItemInEditGetpassReturnableList" value="/addItemInEditGetpassReturnableList"></c:url>
+	<c:url var="deleteItemFromEditGetpass" value="/deleteItemFromEditGetpass"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -64,7 +64,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/submitEditGetpass"
+								action="${pageContext.request.contextPath}/submitEditGetpassNonReturnable"
 								method="post">
 
 
@@ -79,7 +79,7 @@
 											<c:forEach items="${vendorList}" var="vendorList">
 												<c:choose>
 													<c:when
-														test="${vendorList.vendorId==editGetpassHeader.gpVendor}">
+														test="${vendorList.vendorId==editGetpassHeaderNon.gpVendor}">
 														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}</option>
 													</c:when>
 													<c:otherwise>
@@ -93,7 +93,7 @@
 									<div class="col-md-2">Getpass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
-											type="text" name="gpNo" value="${editGetpassHeader.gpNo}" />
+											type="text" name="gpNo" value="${editGetpassHeaderNon.gpNo}" />
 									</div>
 
 
@@ -106,7 +106,7 @@
 									<div class="col-md-3">
 										<input id="gpDate" class="form-control date-picker"
 											placeholder="Getpass Date" name="gpDate" type="text"
-											value="${editGetpassHeader.gpDate}" required>
+											value="${editGetpassHeaderNon.gpDate}" required>
 
 
 									</div>
@@ -119,11 +119,11 @@
 
 
 											<c:choose>
-												<c:when test="${editGetpassHeader.isStockable==0}">
+												<c:when test="${editGetpassHeaderNon.isStockable==0}">
 													<option value="0" selected>Yes</option>
 													<option value="1">No</option>
 												</c:when>
-												<c:when test="${editGetpassHeader.isStockable==1}">
+												<c:when test="${editGetpassHeaderNon.isStockable==1}">
 													<option value="0">Yes</option>
 													<option value="1" selected>No</option>
 												</c:when>
@@ -142,7 +142,7 @@
 									<div class="col-md-3">
 										<input type="text" name="sendingWith" id="sendingWith"
 											placeholder="Sending With" class="form-control"
-											value="${editGetpassHeader.sendingWith}" />
+											value="${editGetpassHeaderNon.sendingWith}" />
 
 									</div>
 
@@ -151,7 +151,7 @@
 									<div class="col-md-3">
 										<input type="text" name="remark1" id="remark1"
 											placeholder="Remark" class="form-control"
-											value="${editGetpassHeader.remark1}" />
+											value="${editGetpassHeaderNon.remark1}" />
 
 									</div>
 								</div>
@@ -165,11 +165,11 @@
 											class="form-control chosen" tabindex="6" required>
 
 											<c:choose>
-												<c:when test="${editGetpassHeader.forRepair==0}">
+												<c:when test="${editGetpassHeaderNon.forRepair==0}">
 													<option value="0" selected>Repair</option>
 													<option value="1">Replace</option>
 												</c:when>
-												<c:when test="${editGetpassHeader.forRepair==1}">
+												<c:when test="${editGetpassHeaderNon.forRepair==1}">
 													<option value="0">Repair</option>
 													<option value="1" selected>Replace</option>
 												</c:when>
@@ -253,7 +253,8 @@
 											</c:forEach>
 										</select>
 									</div>
-
+									<input type="hidden" name=noOfDays id="noOfDays" value="0"/>
+									
 									<input type="hidden" name=editIndex id="editIndex" />
 
 									<div class="col-md-2">Qty</div>
@@ -301,17 +302,15 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach items="${editGetpassHeader.getpassDetail}"
-														var="getpassDetail" varStatus="count">
+													<c:forEach items="${editGetpassHeaderNon.getpassDetailItemNameList}"
+														var="getpassDetailItemNameList" varStatus="count">
 														<tr>
 															<td><c:out value="${count.index+1}" /></td>
 
-															<td><c:out value="${getpassDetail.itemCode}" /></td>
+															<td><c:out value="${getpassDetailItemNameList.itemCode}" /></td>
 
-															<td><c:out value="${getpassDetail.gpQty}" /></td>
-
-
-
+															<td><c:out value="${getpassDetailItemNameList.gpQty}" /></td>
+ 
 															<td><a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>
@@ -477,7 +476,7 @@
 
 			$
 					.getJSON(
-							'${editItemInAddGetpass}',
+							'${editItemInEditGetpass}',
 
 							{
 
@@ -507,7 +506,7 @@
 
 													var len = data1.length;
 													for (var i = 0; i < len; i++) {
-														if (data1[i].grpId == data.groupId) {
+														if (data1[i].grpId == data.grpId) {
 															html += '<option value="' + data1[i].grpId + '" selected>'
 																	+ data1[i].grpCode
 																	+ '</option>';
@@ -530,7 +529,7 @@
 												'${getItemIdByGroupId}',
 												{
 
-													grpId : data.groupId,
+													grpId : data.grpId,
 													ajax : 'true'
 												},
 												function(data2) {
@@ -573,7 +572,7 @@
 
 			$
 					.getJSON(
-							'${addItemInGetpassList}',
+							'${addItemInEditGetpassReturnableList}',
 
 							{
 
@@ -581,7 +580,7 @@
 								qty : qty,
 								catId : catId,
 								grpId : grpId,
-
+								noOfDays :0,
 								editIndex : editIndex,
 								ajax : 'true'
 
@@ -601,6 +600,8 @@
 												data,
 												function(key, itemList) {
 
+													if(itemList.isUsed==1)
+														{
 													var tr = $('<tr></tr>');
 													tr.append($('<td></td>')
 															.html(key + 1));
@@ -634,12 +635,14 @@
 																					+ '"></span>'));
 													$('#table_grid tbody')
 															.append(tr);
-
+														}
 												})
 
 								document.getElementById("qty").value = "";
 								document.getElementById("catId").value = "";
+								$('#catId').trigger("chosen:updated");
 								document.getElementById("grpId").value = "";
+								$('#grpId').trigger("chosen:updated");
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
@@ -689,7 +692,7 @@
 			$('#loader').show();
 			$
 					.getJSON(
-							'${deleteItemFromGetpass}',
+							'${deleteItemFromEditGetpass}',
 
 							{
 
@@ -707,11 +710,10 @@
 
 								}
 
-								$
-										.each(
-												data,
-												function(key, itemList) {
-
+								$ .each( data, function(key, itemList) { 
+									
+									if(itemList.isUsed==1)
+									{
 													var tr = $('<tr></tr>');
 													tr.append($('<td></td>')
 															.html(key + 1));
@@ -746,7 +748,7 @@
 																					+ '"></span>'));
 													$('#table_grid tbody')
 															.append(tr);
-
+									}
 												})
 
 							});

@@ -56,6 +56,8 @@ public class GetpassController {
 	List<GetpassDetail> getpassDetailList = new ArrayList<>();
 	
 	GetpassHeaderItemName editGatepassHeader = new GetpassHeaderItemName();
+	GetpassHeaderItemName editGetpassHeaderNon = new GetpassHeaderItemName();
+	
 	List<GetpassDetailItemName> editGatepassHeaderList = new ArrayList<>();
 	GetpassHeader editGetpassHeader = new GetpassHeader();
 	GetpassReturn getpassReturn = new GetpassReturn();
@@ -291,7 +293,7 @@ public class GetpassController {
 
 		ModelAndView model = new ModelAndView("getpass/editGetpass");
 		try {
-			addItemInGetpassDetail = new ArrayList<GetpassDetail>();
+			editGatepassHeaderList = new ArrayList<>();
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
@@ -306,17 +308,17 @@ public class GetpassController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("gpId", gpId);
 
-			editGetpassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetail", map,
-					GetpassHeader.class);
-			addItemInGetpassDetail = editGetpassHeader.getGetpassDetail();
-			
+			editGetpassHeaderNon = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map,
+					GetpassHeaderItemName.class);
+			editGatepassHeaderList = editGetpassHeaderNon.getGetpassDetailItemNameList();
 			 
-
+			System.out.println(editGetpassHeaderNon);
+			  System.out.println(editGatepassHeaderList);
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			model.addObject("itemList", itemList);
 
-			model.addObject("editGetpassHeader", editGetpassHeader);
+			model.addObject("editGetpassHeaderNon", editGetpassHeaderNon);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -633,7 +635,7 @@ public class GetpassController {
 
 		ModelAndView model = new ModelAndView("getpass/editGetpassReturnable");
 		try {
-			addItemInGetpassDetail = new ArrayList<GetpassDetail>();
+			editGatepassHeaderList = new ArrayList<>();
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
@@ -787,9 +789,7 @@ public class GetpassController {
 	public String submitEditGetpassReturnable(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-
-		 
-
+ 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
 			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
 			String gpDate = request.getParameter("gpDate");
@@ -849,6 +849,56 @@ public class GetpassController {
 		}
 
 		return "redirect:/addGetpassHeader";
+	}
+	
+	@RequestMapping(value = "/submitEditGetpassNonReturnable", method = RequestMethod.POST)
+	public String submitEditGetpassNonReturnable(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+ 
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpDate = request.getParameter("gpDate");
+			int stock = Integer.parseInt(request.getParameter("stock"));
+			String sendingWith = request.getParameter("sendingWith");
+			String remark1 = request.getParameter("remark1");
+			int returnFor = Integer.parseInt(request.getParameter("returnFor"));
+			 
+			String Date = DateConvertor.convertToYMD(gpDate);
+
+			 
+			 
+			System.out.println(editGetpassHeaderNon);
+			  System.out.println(editGatepassHeaderList);
+			 
+			  editGetpassHeaderNon.setGpVendor(vendId);
+			  editGetpassHeaderNon.setGpNo(gpNo);
+			  editGetpassHeaderNon.setGpReturnDate("");
+			  editGetpassHeaderNon.setIsUsed(1);
+			  editGetpassHeaderNon.setForRepair(returnFor);
+			  editGetpassHeaderNon.setSendingWith(sendingWith);
+			  editGetpassHeaderNon.setRemark1(remark1);
+			  editGetpassHeaderNon.setRemark2("null");
+			  editGetpassHeaderNon.setIsStockable(stock);
+			  editGetpassHeaderNon.setGpType(0);
+			  editGetpassHeaderNon.setGpDate(Date); 
+			
+			for(int i = 0 ; i< editGatepassHeaderList.size();i++)
+			{
+				editGatepassHeaderList.get(i).setGpReturnDate(DateConvertor.convertToYMD(editGatepassHeaderList.get(i).getGpReturnDate()));
+			}
+			editGetpassHeaderNon.setGetpassDetail(editGatepassHeaderList);
+
+			System.out.println(editGetpassHeaderNon);
+			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", editGetpassHeaderNon,
+					GetpassHeader.class);
+			System.out.println(res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/listOfGetpass";
 	}
 
 	@RequestMapping(value = "/addGetpassReturn/{gpId}", method = RequestMethod.GET)
