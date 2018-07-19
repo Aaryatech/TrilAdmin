@@ -54,7 +54,9 @@ public class GetpassController {
 	List<GetpassReturnDetail> getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();
 	List<GetpassDetailItemName> getpassDetailItemName = new ArrayList<GetpassDetailItemName>();
 	List<GetpassDetail> getpassDetailList = new ArrayList<>();
-
+	
+	GetpassHeaderItemName editGatepassHeader = new GetpassHeaderItemName();
+	List<GetpassDetailItemName> editGatepassHeaderList = new ArrayList<>();
 	GetpassHeader editGetpassHeader = new GetpassHeader();
 	GetpassReturn getpassReturn = new GetpassReturn();
 
@@ -307,6 +309,8 @@ public class GetpassController {
 			editGetpassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetail", map,
 					GetpassHeader.class);
 			addItemInGetpassDetail = editGetpassHeader.getGetpassDetail();
+			
+			 
 
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
@@ -644,21 +648,207 @@ public class GetpassController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("gpId", gpId);
 
-			editGetpassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetail", map,
-					GetpassHeader.class);
-			addItemInGetpassDetail = editGetpassHeader.getGetpassDetail();
-
+			 editGatepassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map,
+					GetpassHeaderItemName.class);
+			  
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			model.addObject("itemList", itemList);
+			
+			System.out.println(editGatepassHeader);
 
-			model.addObject("editGetpassHeader", editGetpassHeader);
+			 editGatepassHeaderList = editGatepassHeader.getGetpassDetailItemNameList();
+			model.addObject("editGetpassHeader", editGatepassHeader);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/editItemInEditGetpass", method = RequestMethod.GET)
+	@ResponseBody
+	public GetpassDetailItemName editItemInEditGetpass(HttpServletRequest request, HttpServletResponse response) {
+
+		GetpassDetailItemName edit = new GetpassDetailItemName();
+
+		try {
+
+			int index = Integer.parseInt(request.getParameter("index"));
+
+			edit = editGatepassHeaderList.get(index);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return edit;
+	}
+	
+	@RequestMapping(value = "/deleteItemFromEditGetpass", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetpassDetailItemName> deleteItemFromEditGetpass(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			int index = Integer.parseInt(request.getParameter("index"));
+
+			if(editGatepassHeaderList.get(index).getGpDetailId()==0)
+				editGatepassHeaderList.remove(index);
+			else
+				editGatepassHeaderList.get(index).setIsUsed(0);
+			
+			System.out.println(editGatepassHeaderList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return editGatepassHeaderList;
+	} 
+	
+	@RequestMapping(value = "/addItemInEditGetpassReturnableList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetpassDetailItemName> addItemInEditGetpassReturnableList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int grpId = Integer.parseInt(request.getParameter("grpId"));
+			float qty = Float.parseFloat(request.getParameter("qty"));
+			int noOfDays = Integer.parseInt(request.getParameter("noOfDays"));
+			String editIndex = request.getParameter("editIndex");
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			String Date = sf.format(date);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemId", itemId);
+			GetItem item = rest.postForObject(Constants.url + "/getItemByItemId", map, GetItem.class);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			try {
+
+				c.setTime(sdf.parse(Date));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			c.add(Calendar.DAY_OF_MONTH, noOfDays);
+			String newDate = sdf.format(c.getTime());
+
+			System.out.println("Date after Addition: " + newDate);
+
+			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
+				GetpassDetailItemName getpassDetail = new GetpassDetailItemName();
+				getpassDetail.setGpItemId(itemId);
+				getpassDetail.setItemCode(item.getItemCode());
+				getpassDetail.setGpQty(qty);
+				getpassDetail.setIsUsed(1);
+				getpassDetail.setGpDetailId(0);
+				getpassDetail.setGpNoDays(noOfDays);
+				getpassDetail.setGpReturnDate(newDate);
+				getpassDetail.setGpStatus(0);
+				getpassDetail.setCatId(catId);
+				getpassDetail.setGrpId(grpId);
+				getpassDetail.setGpRemQty(qty);
+				getpassDetail.setGpRetQty(0);
+
+				editGatepassHeaderList.add(getpassDetail);
+			} else {
+				int index = Integer.parseInt(editIndex);
+				editGatepassHeaderList.get(index).setGpItemId(itemId);
+				editGatepassHeaderList.get(index).setGpQty(qty); 
+				editGatepassHeaderList.get(index).setGpReturnDate(newDate);
+				editGatepassHeaderList.get(index).setItemCode(item.getItemCode());
+				editGatepassHeaderList.get(index).setGpStatus(0);
+				editGatepassHeaderList.get(index).setCatId(catId);
+				editGatepassHeaderList.get(index).setGrpId(grpId);
+				editGatepassHeaderList.get(index).setIsUsed(1);
+				editGatepassHeaderList.get(index).setGpRemQty(qty);
+				editGatepassHeaderList.get(index).setGpRetQty(0);
+				editGatepassHeaderList.get(index).setGpNoDays(noOfDays);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return editGatepassHeaderList;
+	}
+	
+	@RequestMapping(value = "/submitEditGetpassReturnable", method = RequestMethod.POST)
+	public String submitEditGetpassReturnable(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+		 
+
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpDate = request.getParameter("gpDate");
+			int stock = Integer.parseInt(request.getParameter("stock"));
+			String sendingWith = request.getParameter("sendingWith");
+			String remark1 = request.getParameter("remark1");
+			int returnFor = Integer.parseInt(request.getParameter("returnFor"));
+			int noOfDays = Integer.parseInt(request.getParameter("noOfDays"));
+
+			String Date = DateConvertor.convertToYMD(gpDate);
+
+			String oldDate = "2017-01-29";
+			System.out.println("Date before Addition: " + oldDate);
+			// Specifying date format that matches the given date
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			try {
+				// Setting the date to the given date
+				c.setTime(sdf.parse(gpDate));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			// Number of Days to add
+			c.add(Calendar.DAY_OF_MONTH, noOfDays);
+			// Date after adding the days to the given date
+			String newDate = sdf.format(c.getTime());
+			// Displaying the new Date after addition of Days
+			System.out.println("Date after Addition: " + newDate);
+
+			 
+			editGatepassHeader.setGpVendor(vendId);
+			editGatepassHeader.setGpNo(gpNo);
+			editGatepassHeader.setGpReturnDate(newDate);
+			editGatepassHeader.setIsUsed(1);
+			editGatepassHeader.setForRepair(returnFor);
+			editGatepassHeader.setSendingWith(sendingWith);
+			editGatepassHeader.setRemark1(remark1);
+			editGatepassHeader.setRemark2("null");
+			editGatepassHeader.setIsStockable(stock);
+			editGatepassHeader.setGpType(1);
+			editGatepassHeader.setGpDate(Date); 
+			
+			for(int i = 0 ; i< editGatepassHeaderList.size();i++)
+			{
+				editGatepassHeaderList.get(i).setGpReturnDate(DateConvertor.convertToYMD(editGatepassHeaderList.get(i).getGpReturnDate()));
+			}
+			editGatepassHeader.setGetpassDetail(editGatepassHeaderList);
+
+			System.out.println(editGatepassHeader);
+			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", editGatepassHeader,
+					GetpassHeader.class);
+			System.out.println(res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addGetpassHeader";
 	}
 
 	@RequestMapping(value = "/addGetpassReturn/{gpId}", method = RequestMethod.GET)

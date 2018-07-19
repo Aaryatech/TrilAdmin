@@ -14,6 +14,8 @@ public class GetpassDetailItemName {
 	private float gpRemQty;
 	private float gpRetQty;
 	private String itemCode;
+	private int catId;
+	private int grpId;
 
 	public int getGpDetailId() {
 		return gpDetailId;
@@ -103,12 +105,28 @@ public class GetpassDetailItemName {
 		this.itemCode = itemCode;
 	}
 
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
+	public int getGrpId() {
+		return grpId;
+	}
+
+	public void setGrpId(int grpId) {
+		this.grpId = grpId;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetailItemName [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId
 				+ ", gpQty=" + gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus="
 				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", itemCode="
-				+ itemCode + "]";
+				+ itemCode + ", catId=" + catId + ", grpId=" + grpId + "]";
 	}
 
 }

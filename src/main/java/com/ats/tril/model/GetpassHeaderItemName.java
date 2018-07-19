@@ -10,7 +10,7 @@ public class GetpassHeaderItemName {
 	private int gpNo;
 	private int gpVendor;
 	private int gpType;
-	private Date gpReturnDate;
+	private String gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
 
@@ -19,10 +19,12 @@ public class GetpassHeaderItemName {
 	private String sendingWith;
 	private int isStockable;
 	private int forRepair;
-	private Date gpDate;
+	private String gpDate;
 
 	
 	List<GetpassDetailItemName> getpassDetailItemNameList;
+	
+	List<GetpassDetailItemName> getpassDetail;
 
 	public int getGpId() {
 		return gpId;
@@ -56,11 +58,11 @@ public class GetpassHeaderItemName {
 		this.gpType = gpType;
 	}
 
-	public Date getGpReturnDate() {
+	public String getGpReturnDate() {
 		return gpReturnDate;
 	}
 
-	public void setGpReturnDate(Date gpReturnDate) {
+	public void setGpReturnDate(String gpReturnDate) {
 		this.gpReturnDate = gpReturnDate;
 	}
 
@@ -120,11 +122,11 @@ public class GetpassHeaderItemName {
 		this.forRepair = forRepair;
 	}
 
-	public Date getGpDate() {
+	public String getGpDate() {
 		return gpDate;
 	}
 
-	public void setGpDate(Date gpDate) {
+	public void setGpDate(String gpDate) {
 		this.gpDate = gpDate;
 	}
 
@@ -136,13 +138,21 @@ public class GetpassHeaderItemName {
 		this.getpassDetailItemNameList = getpassDetailItemNameList;
 	}
 
+	public List<GetpassDetailItemName> getGetpassDetail() {
+		return getpassDetail;
+	}
+
+	public void setGetpassDetail(List<GetpassDetailItemName> getpassDetail) {
+		this.getpassDetail = getpassDetail;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassHeaderItemName [gpId=" + gpId + ", gpNo=" + gpNo + ", gpVendor=" + gpVendor + ", gpType="
 				+ gpType + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus + ", isUsed=" + isUsed
 				+ ", remark1=" + remark1 + ", remark2=" + remark2 + ", sendingWith=" + sendingWith + ", isStockable="
 				+ isStockable + ", forRepair=" + forRepair + ", gpDate=" + gpDate + ", getpassDetailItemNameList="
-				+ getpassDetailItemNameList + "]";
+				+ getpassDetailItemNameList + ", getpassDetail=" + getpassDetail + "]";
 	}
 	
 

@@ -10,10 +10,9 @@
 	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 
-	<c:url var="editItemInAddGetpass" value="/editItemInAddGetpass"></c:url>
-	<c:url var="addItemInGetpassReturnableList"
-		value="/addItemInGetpassReturnableList"></c:url>
-	<c:url var="deleteItemFromGetpass" value="/deleteItemFromGetpass"></c:url>
+	<c:url var="editItemInEditGetpass" value="/editItemInEditGetpass"></c:url>
+	<c:url var="addItemInEditGetpassReturnableList" value="/addItemInEditGetpassReturnableList"></c:url>
+	<c:url var="deleteItemFromEditGetpass" value="/deleteItemFromEditGetpass"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -66,7 +65,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/insertGetpassReturnable"
+								action="${pageContext.request.contextPath}/submitEditGetpassReturnable"
 								method="post">
 
 
@@ -293,16 +292,41 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Name</th>
-														<th>Qty</th>
-														<th>No Of Days</th>
+														<th class="col-md-1">Sr.No.</th>
+														<th class="col-md-1">Name</th>
+														<th class="col-md-1">Qty</th>
+														<th class="col-md-1">No Of Days</th>
 
-														<th>Action</th>
+														<th class="col-md-1">Action</th>
 
 													</tr>
 												</thead>
 												<tbody>
+												
+												<c:forEach items="${editGetpassHeader.getpassDetailItemNameList}"
+														var="getpassDetailItemNameList" varStatus="count">
+														<tr>
+															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+															<td class="col-md-1"><c:out
+																	value="${getpassDetailItemNameList.itemCode}" /></td>
+															
+															<td class="col-md-1"><c:out
+																	value="${getpassDetailItemNameList.gpQty}" /></td>
+
+															<td class="col-md-1"><c:out
+																	value="${getpassDetailItemNameList.gpNoDays}" /></td>
+
+															 
+															<td><a href="#"><span
+																	class='glyphicon glyphicon-edit'
+																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>
+																<a href="#"><span class="glyphicon glyphicon-remove"
+																	onclick="del(${count.index})" id="del${count.index}"></span></a>
+															</td>
+
+														</tr>
+													</c:forEach>
 
 												</tbody>
 											</table>
@@ -458,7 +482,7 @@
 
 			$
 					.getJSON(
-							'${editItemInAddGetpass}',
+							'${editItemInEditGetpass}',
 
 							{
 
@@ -489,7 +513,7 @@
 
 													var len = data1.length;
 													for (var i = 0; i < len; i++) {
-														if (data1[i].grpId == data.groupId) {
+														if (data1[i].grpId == data.grpId) {
 															html += '<option value="' + data1[i].grpId + '" selected>'
 																	+ data1[i].grpCode
 																	+ '</option>';
@@ -502,8 +526,7 @@
 													}
 													html += '</option>';
 													$('#grpId').html(html);
-													$("#grpId").trigger(
-															"chosen:updated");
+													$("#grpId").trigger("chosen:updated");
 
 												});
 
@@ -512,7 +535,7 @@
 												'${getItemIdByGroupId}',
 												{
 
-													grpId : data.groupId,
+													grpId : data.grpId,
 													ajax : 'true'
 												},
 												function(data2) {
@@ -556,7 +579,7 @@
 
 			$
 					.getJSON(
-							'${addItemInGetpassReturnableList}',
+							'${addItemInEditGetpassReturnableList}',
 
 							{
 
@@ -583,29 +606,33 @@
 										.each(
 												data,
 												function(key, itemList) {
+													
+													
+													if(itemList.isUsed==1)
+														{
 
 													var tr = $('<tr></tr>');
-													tr.append($('<td></td>')
+													tr.append($('<td class="col-md-1"></td>')
 															.html(key + 1));
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			itemList.itemCode));
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			itemList.gpQty));
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			itemList.gpNoDays));
 
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			'<span class="glyphicon glyphicon-edit" id="edit'
 																					+ key
@@ -622,6 +649,7 @@
 																					+ '"></span>'));
 													$('#table_grid tbody')
 															.append(tr);
+														}
 
 												})
 
@@ -677,7 +705,7 @@
 			$('#loader').show();
 			$
 					.getJSON(
-							'${deleteItemFromGetpass}',
+							'${deleteItemFromEditGetpass}',
 
 							{
 
@@ -699,25 +727,33 @@
 										.each(
 												data,
 												function(key, itemList) {
+													//alert(itemList.isUsed);
+													if(itemList.isUsed==1)
+													{
 
 													var tr = $('<tr></tr>');
-													tr.append($('<td></td>')
+													tr.append($('<td class="col-md-1"></td>')
 															.html(key + 1));
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			itemList.itemCode));
 
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			itemList.gpQty));
+													tr
+													.append($(
+															'<td class="col-md-1"></td>')
+															.html(
+																	itemList.gpNoDays));
 
 													tr
 															.append($(
-																	'<td></td>')
+																	'<td class="col-md-1"></td>')
 																	.html(
 																			'<span class="glyphicon glyphicon-edit" id="edit'
 																					+ key
@@ -734,6 +770,7 @@
 																					+ '"></span>'));
 													$('#table_grid tbody')
 															.append(tr);
+													}
 
 												})
 
