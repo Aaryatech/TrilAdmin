@@ -104,7 +104,7 @@
 									<div class="col-md-3">
 										<input id="date" class="form-control date-picker"
 											placeholder="Return Date" name="date" type="text"
-											value="${date}" required>
+											value="${editReturnList.gpReturnDate}" required>
 
 
 									</div>
@@ -151,8 +151,8 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-
+														<th>Sr.No.</th> 
+														<th>Item Name</th>
 														<th>Qty</th>
 														<th>Remaining Qty</th>
 														<th>Return Qty</th>
@@ -166,11 +166,9 @@
 
 													<c:forEach items="${list}" var="list" varStatus="count">
 														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-
-
-
-
+															<td class="col-md-1"><c:out value="${count.index+1}" /></td> 
+															<td class="col-md-1"><c:out value="${list.index+1}" /></td>
+															
 															<td class="col-md-2"><input class="form-control"
 																id="gpQty${count.index}" placeholder="Qty" type="text"
 																name="gpQty${count.index}" value="${list.gpQty}"
@@ -179,9 +177,8 @@
 															<td class="col-md-2"><input class="form-control"
 																id="remQty${count.index}" placeholder=" Rem Qty"
 																type="text" name="remQty${count.index}"
-																value="${list.remQty}" Readonly /></td>
-
-
+																value="${list.balanceQty}" Readonly /></td>
+ 
 															<td class="col-md-2"><input class="form-control"
 																id="retQty${count.index}" placeholder="Return Qty"
 																type="text" name="retQty${count.index}"

@@ -126,8 +126,8 @@
 									</div>
 								</div>
 
-								<br>
-						</div>
+								<br><br>
+						
 
 						<div class=" box-content">
 							<div class="row">
@@ -142,8 +142,7 @@
 												<th>Remaining Qty</th>
 												<th>Return Qty</th>
 												<th>Remark</th>
-
-
+ 
 											</tr>
 										</thead>
 
@@ -163,7 +162,10 @@
 														name="gpQty${count.index}"
 														value="${getpassDetailItemName.gpQty}" Readonly /></td>
 
-													<td class="col-md-2"><input class="form-control"
+													<td class="col-md-2">
+													<input id="existingRemQty${count.index}" type="hidden" name="existingRemQty${count.index}"
+														value="${getpassDetailItemName.gpRemQty}"   />
+														<input class="form-control"
 														id="remQty${count.index}" placeholder=" Rem Qty"
 														type="text" name="remQty${count.index}"
 														value="${getpassDetailItemName.gpRemQty}" Readonly /></td>
@@ -195,18 +197,20 @@
 						</div>
 						<br> <br>
 
+</form>
 
-
-
-						</form>
+</div>
+						
 					</div>
+					
 				</div>
 			</div>
-		</div>
-
-		<footer>
+			<footer>
 			<p>2017 © MONGINIS.</p>
 		</footer>
+		</div>
+
+		
 	</div>
 
 	<!-- END Main Content -->
@@ -287,19 +291,19 @@
 
 	<script>
 		function check(key) {
-			
-			
-			var retQty = $('#retQty'+key).val();
-			var remQty = $('#remQty'+key).val();
-			
-		
-			var remQtyRes=remQty-retQty;
-			if(remQty <= retQty ){
-				 
-				document.getElementById("remQty"+key).value = remQtyRes;
+			 
+			var existingRemQty = parseInt($('#existingRemQty'+key).val());
+			var retQty = parseInt($('#retQty'+key).val());
+			var remQty = parseInt($('#remQty'+key).val());
+			 
+			 
+			if(retQty > existingRemQty ){
+				alert("Please Enter Valid Quanity");
+				document.getElementById("remQty"+key).value = existingRemQty;
+				document.getElementById("retQty"+key).value = 0;
 			}else
 				{
-				alert("Please Enter Valid Quanity");
+				document.getElementById("remQty"+key).value = existingRemQty-retQty;
 				}
 				 
 		 }

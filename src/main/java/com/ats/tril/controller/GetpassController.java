@@ -32,6 +32,8 @@ import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
+import com.ats.tril.model.GetPassReturnDetailWithItemName;
+import com.ats.tril.model.GetPassReturnHeader;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassDetailItemName;
 import com.ats.tril.model.GetpassHeader;
@@ -907,8 +909,7 @@ public class GetpassController {
 
 		ModelAndView model = new ModelAndView("getpass/return");
 		try {
-			addItemInGetpassDetail = new ArrayList<GetpassDetail>();
-
+			 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
@@ -952,8 +953,7 @@ public class GetpassController {
 			String Date = DateConvertor.convertToYMD(date);
 			System.out.println("date" + Date);
 
-			GetpassReturn getpassReturn = new GetpassReturn();
-			GetpassHeader getpassHeader = new GetpassHeader();
+			GetpassReturn getpassReturn = new GetpassReturn(); 
 			getpassReturn.setVendorId(vendId);
 			getpassReturn.setGpNo(gpNo);
 			getpassReturn.setGpReturnDate(Date);
@@ -973,7 +973,7 @@ public class GetpassController {
 				getpassReturnDetail.setRemark(remarkDetail);
 				getpassReturnDetail.setRemark1("null");
 				getpassReturnDetail.setReturnQty(Float.parseFloat(request.getParameter("retQty" + i)));
-				getpassReturnDetail.setRemQty(getpassDetailItemName.get(i).getGpRemQty());
+				getpassReturnDetail.setRemQty(Float.parseFloat(request.getParameter("remQty" + i)));
 				getpassReturnDetail.setStatus(1);
 				getpassDetailItemName.get(i).setGpRemQty(Float.parseFloat(request.getParameter("remQty" + i)));
 				getpassDetailItemName.get(i).setGpRetQty(Float.parseFloat(request.getParameter("retQty" + i)));
@@ -982,7 +982,7 @@ public class GetpassController {
 
 			getpassDetailList = new ArrayList<>();
 
-			for (GetpassDetailItemName passItemName : getpassDetailItemName) {
+			/*for (GetpassDetailItemName passItemName : getpassDetailItemName) {
 				GetpassDetail getpassDetail = new GetpassDetail();
 
 				getpassDetail.setGpRemQty(passItemName.getGpRemQty());
@@ -998,7 +998,7 @@ public class GetpassController {
 
 				getpassDetailList.add(getpassDetail);
 
-			}
+			}*/
 
 			getpassReturn.setGetpassReturnDetailList(getpassReturnDetailList);
 
@@ -1008,7 +1008,7 @@ public class GetpassController {
 			System.out.println(res);
 			System.out.println(getpassDetailItemName);
 			List<GetpassDetail> result = rest.postForObject(Constants.url + "/saveGatePassDetailList",
-					getpassDetailList, List.class);
+					getpassDetailItemName, List.class);
 			System.out.println(result);
 
 		} catch (Exception e) {
@@ -1087,6 +1087,8 @@ public class GetpassController {
 		return passList;
 	}
 
+	GetPassReturnHeader getPassReturnHeader = new GetPassReturnHeader();
+	
 	@RequestMapping(value = "/editReturnList/{returnId}", method = RequestMethod.GET)
 	public ModelAndView editEnquiry(@PathVariable int returnId, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -1102,13 +1104,32 @@ public class GetpassController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("returnId", returnId);
 
-			getpassReturn = rest.postForObject(Constants.url + "/getGetpassReturnItemHeaderAndDetail", map,
-					GetpassReturn.class);
-			getpassReturnDetailList = getpassReturn.getGetpassReturnDetailList();
+			 getPassReturnHeader = rest.postForObject(Constants.url + "/getPassReturnHeaderAndDetail", map,
+					GetPassReturnHeader.class);
+			List<GetPassReturnDetailWithItemName> getPassReturnDetailWithItemNamelList = getPassReturnHeader.getGetPassReturnDetailList();
 
-			model.addObject("editReturnList", getpassReturn);
-			model.addObject("date", DateConvertor.convertToDMY(getpassReturn.getGpReturnDate()));
-			model.addObject("list", getpassReturnDetailList);
+			 map = new LinkedMultiValueMap<>();
+			map.add("gpId", getPassReturnHeader.getGpId());
+
+			 editGatepassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map,
+					GetpassHeaderItemName.class);
+			    
+			 editGatepassHeaderList = editGatepassHeader.getGetpassDetailItemNameList();
+			 
+			 for(int i =0 ;i<getPassReturnDetailWithItemNamelList.size();i++)
+			 {
+				 for(int j=0 ; j<editGatepassHeaderList.size() ; j++)
+				 {
+					 if(getPassReturnDetailWithItemNamelList.get(i).getGpItemId()==editGatepassHeaderList.get(j).getGpItemId())
+					 {
+						 getPassReturnDetailWithItemNamelList.get(i).setBalanceQty(editGatepassHeaderList.get(j).getGpRemQty());
+						 break;
+					 }
+				 }
+			 }
+			 
+			model.addObject("editReturnList", getPassReturnHeader); 
+			model.addObject("list", getPassReturnDetailWithItemNamelList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
