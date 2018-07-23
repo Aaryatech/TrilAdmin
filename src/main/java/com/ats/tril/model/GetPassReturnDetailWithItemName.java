@@ -13,6 +13,8 @@ public class GetPassReturnDetailWithItemName {
 	private String remark1; 
 	private int status; 
 	private int isUsed; 
+	
+	
 	private String itemCode;
 	private float balanceQty;
 	 

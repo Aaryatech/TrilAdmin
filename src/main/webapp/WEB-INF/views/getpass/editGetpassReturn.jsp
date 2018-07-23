@@ -60,7 +60,7 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/submitGetpassReturn"
+								action="${pageContext.request.contextPath}/submitEditGetpassReturn"
 								method="post">
 
 
@@ -167,19 +167,28 @@
 													<c:forEach items="${list}" var="list" varStatus="count">
 														<tr>
 															<td class="col-md-1"><c:out value="${count.index+1}" /></td> 
-															<td class="col-md-1"><c:out value="${list.index+1}" /></td>
 															
-															<td class="col-md-2"><input class="form-control"
+															<td class="col-md-1"><c:out value="${list.itemCode}" /></td>
+															
+															<td class="col-md-2">
+															
+															<input class="form-control"
 																id="gpQty${count.index}" placeholder="Qty" type="text"
 																name="gpQty${count.index}" value="${list.gpQty}"
 																Readonly /></td>
 
-															<td class="col-md-2"><input class="form-control"
+															<td class="col-md-2">
+															<input id="existingRemQty${count.index}" type="hidden" name="existingRemQty${count.index}"
+														value="${list.balanceQty}"   />
+															<input class="form-control"
 																id="remQty${count.index}" placeholder=" Rem Qty"
 																type="text" name="remQty${count.index}"
 																value="${list.balanceQty}" Readonly /></td>
  
-															<td class="col-md-2"><input class="form-control"
+															<td class="col-md-2">
+															<input id="existingReturnQty${count.index}" type="hidden" name="existingReturnQty${count.index}"
+														value="${list.returnQty}"   />
+															<input class="form-control"
 																id="retQty${count.index}" placeholder="Return Qty"
 																type="text" name="retQty${count.index}"
 																onchange="check(${count.index})"
@@ -300,15 +309,20 @@
 	<script>
 		function check(key) {
 
-			var retQty = $('#retQty' + key).val();
-			var remQty = $('#remQty' + key).val();
+			var existingRemQty = parseInt($('#existingRemQty'+key).val());
+			var existingReturnQty = parseInt($('#existingReturnQty'+key).val());
+			
+			var retQty = parseInt($('#retQty'+key).val());
+			var remQty = parseInt($('#remQty'+key).val());
 
-			if(retQty > remQty){
+			if((existingRemQty+existingReturnQty) >= retQty){
 				 
-				document.getElementById("remQty"+key).value = remQtyRes;
+				document.getElementById("remQty"+key).value = existingRemQty+existingReturnQty-retQty;
 			}else
 				{
 				alert("Please Enter Valid Quanity");
+				document.getElementById("remQty"+key).value = existingRemQty;
+				document.getElementById("retQty"+key).value = existingReturnQty;
 				}
 
 		}
