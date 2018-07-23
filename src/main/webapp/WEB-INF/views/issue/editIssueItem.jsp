@@ -453,7 +453,7 @@
 												  	tr.append($('<td></td>').html(itemList.deptCode));
 												  	tr.append($('<td></td>').html(itemList.subDeptCode));
 												  	tr.append($('<td></td>').html(itemList.itemIssueQty));
-												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+												  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span></a><a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
 												    $('#table_grid tbody').append(tr);
 													 }
  
@@ -607,7 +607,7 @@
 									  	tr.append($('<td></td>').html(itemList.deptCode));
 									  	tr.append($('<td></td>').html(itemList.subDeptCode));
 									  	tr.append($('<td></td>').html(itemList.itemIssueQty));
-									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+									  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span></a><a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
 									    $('#table_grid tbody').append(tr);
 										 }
 									  	
