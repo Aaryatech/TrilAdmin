@@ -68,22 +68,18 @@
 
 									<div class="col-md-2">Select Getpass Vendor</div>
 									<div class="col-md-3">
-
-										<select name="vendId" id="vendId" class="form-control chosen"
-											tabindex="6" required>
-											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList">
+ 
+										<c:forEach items="${vendorList}" var="vendorList">
+										
 												<c:choose>
-													<c:when
-														test="${vendorList.vendorId==editReturnList.vendorId}">
-														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}</option>
+													<c:when test="${vendorList.vendorId==editReturnList.vendorId}">
+														<input class="form-control" id="vendName" placeholder="Getpass No"
+											type="text" name="vendName" value="${vendorList.vendorName}" readonly/>
 													</c:when>
-													<c:otherwise>
-														<option value="${vendorList.vendorId}">${vendorList.vendorName}</option>
-													</c:otherwise>
+													 
 												</c:choose>
+												 
 											</c:forEach>
-										</select>
 
 									</div>
 									<div class="col-md-2">Getpass No</div>

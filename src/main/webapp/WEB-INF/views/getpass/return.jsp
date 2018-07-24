@@ -111,9 +111,7 @@
 								</div>
 								<br>
 								<div class="box-content">
-
-
-
+ 
 									<div class="col-md-2">Remark</div>
 									<div class="col-md-3">
 										<input type="text" name="remark" id="remark"

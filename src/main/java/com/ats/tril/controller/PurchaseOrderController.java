@@ -509,10 +509,46 @@ public class PurchaseOrderController {
 		try {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("poId",poId);
-			
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deletePo",map,  ErrorMessage.class); 
-			System.out.println(errorMessage);
+			map.add("poId", poId);
+			GetPoHeaderList purchaseOrder= rest.postForObject(Constants.url + "/getPoHeaderAndDetailByHeaderId",map, GetPoHeaderList.class); 
+			 
+			 map = new LinkedMultiValueMap<>();
+				map.add("indId", purchaseOrder.getIndId());
+				 GetIntendDetail[]  GetIntendDetail= rest.postForObject(Constants.url + "/getIntendsDetailByIntendId",map, GetIntendDetail[].class);
+				 List<GetIntendDetail> updateIntendQty = new ArrayList<>(Arrays.asList(GetIntendDetail));
+				 
+				  
+				 for(int i=0 ; i<updateIntendQty.size();i++)
+					{
+						for(int j = 0 ; j<purchaseOrder.getPoDetailList().size();j++)
+							{
+								 if(purchaseOrder.getPoDetailList().get(j).getItemId()==updateIntendQty.get(i).getItemId())
+								 {
+									 updateIntendQty.get(i).setIndFyr(purchaseOrder.getPoDetailList().get(j).getItemQty()+updateIntendQty.get(i).getIndFyr());
+									 break;
+								 }
+								
+							}
+						updateIntendQty.get(i).setIndMDate(DateConvertor.convertToYMD(updateIntendQty.get(i).getIndMDate()));
+						if(updateIntendQty.get(i).getIndFyr()==0) 
+							updateIntendQty.get(i).setIndDStatus(2); 
+						else if(updateIntendQty.get(i).getIndFyr()>0 && updateIntendQty.get(i).getIndFyr()<updateIntendQty.get(i).getIndQty())
+							updateIntendQty.get(i).setIndDStatus(1);
+						else
+							updateIntendQty.get(i).setIndDStatus(0);
+						
+					}
+					ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",updateIntendQty, ErrorMessage.class); 
+					System.out.println(errorMessage);
+					
+					if(errorMessage.isError()==false)
+					{
+						map = new LinkedMultiValueMap<>();
+						map.add("poId",poId);
+						
+						 errorMessage = rest.postForObject(Constants.url + "/deletePo",map,  ErrorMessage.class); 
+						System.out.println(errorMessage);
+					}
 			 
 
 		} catch (Exception e) {
