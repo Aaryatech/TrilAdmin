@@ -378,7 +378,9 @@
 						Getpass Item</a>
 					</li>
 				</ul>
-				<%-- <c:choose>
+				
+				
+				 <c:choose>
 							<c:when test="${Constants.mainAct==2}">
 								<li class="active">
 							</c:when>
@@ -389,13 +391,11 @@
 						</c:choose>
 
 						<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-							<span>Admin Transaction</span> <b class="arrow fa fa-angle-right"></b>
+							<span>Enquiry</span> <b class="arrow fa fa-angle-right"></b>
 						</a>
 						<!-- BEGIN Submenu -->
 						<ul class="submenu">
-
-
-
+ 
 							<c:choose>
 								<c:when test="${Constants.subAct==21}">
 									<li class="active">
@@ -404,8 +404,7 @@
 									<li>
 								</c:otherwise>
 							</c:choose>
-							<a href="${pageContext.request.contextPath}/exhibitorPakageList">Exhibitor
-								Package List</a>
+							<a href="${pageContext.request.contextPath}/addEnquiry">Add Enquiry </a>
 							</li>
 							<c:choose>
 								<c:when test="${Constants.subAct==22}">
@@ -415,87 +414,14 @@
 									<li>
 								</c:otherwise>
 							</c:choose>
-							<a href="${pageContext.request.contextPath}/addExhibitorPackage">Add
-								Exhibitor Package </a>
+							<a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry List</a>
 							</li>
 
-							<c:choose>
-								<c:when test="${Constants.subAct==23}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/organizerPakageList">Organizer
-								Package List</a>
-							</li>
-							<c:choose>
-								<c:when test="${Constants.subAct==24}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/addOrganizerPackage">Add
-								Organizer Package </a>
-							</li>
-
-							<c:choose>
-								<c:when test="${Constants.subAct==25}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/showOrgSubscription">Add
-								Organizer Subscription</a>
-							</li>
-							<c:choose>
-								<c:when test="${Constants.subAct==26}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/orgSubscriptionList">Organizer
-								Subscription List</a>
-							</li>
-
-							<c:choose>
-								<c:when test="${Constants.subAct==27}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/showExhibitor">Add
-								Exhibitor Subscription</a>
-							</li>
-
-							<c:choose>
-								<c:when test="${Constants.subAct==28}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a
-								href="${pageContext.request.contextPath}/showExhibitorSubscriptionList">Exhibitor
-								Subscription List</a>
-							</li>
-
-
-
+							 
 						</ul>
-						</li> --%>
+						</li>  
 
-				<%-- <c:choose>
+				 <c:choose>
 							<c:when test="${Constants.mainAct==3}">
 								<li class="active">
 							</c:when>
@@ -506,7 +432,7 @@
 						</c:choose>
 
 						<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-							<span>Super Admin Report</span> <b
+							<span>Indent</span> <b
 							class="arrow fa fa-angle-right"></b>
 						</a>
 						<!-- BEGIN Submenu -->
@@ -522,8 +448,7 @@
 									<li>
 								</c:otherwise>
 							</c:choose>
-							<a href="${pageContext.request.contextPath}/showExhibitorList">All
-								Event Map Exhibitor List</a>
+							<a href="${pageContext.request.contextPath}/showIndent">Add Indent</a>
 							</li>
 
 							<c:choose>
@@ -535,26 +460,51 @@
 								</c:otherwise>
 							</c:choose>
 							<a
-								href="${pageContext.request.contextPath}/exhibitorListByLocationAndCompType">All
-								Exhibitor By Place And Company</a>
+								href="${pageContext.request.contextPath}/getIndents">Indent List</a>
 							</li>
+ 
+						</ul>
+						</li> 
+						
+						<c:choose>
+							<c:when test="${Constants.mainAct==3}">
+								<li class="active">
+							</c:when>
 
+							<c:otherwise>
+								<li>
+							</c:otherwise>
+						</c:choose>
 
+						<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+							<span>Purchase Order</span> <b
+							class="arrow fa fa-angle-right"></b>
+						</a>
+						<!-- BEGIN Submenu -->
+						<ul class="submenu">
+ 
 							<c:choose>
-								<c:when test="${Constants.subAct==32}">
+								<c:when test="${Constants.subAct==33}">
 									<li class="active">
 								</c:when>
 								<c:otherwise>
 									<li>
 								</c:otherwise>
 							</c:choose>
-							<a
-								href="${pageContext.request.contextPath}/showVisitorSortedList">All
-								Visitors </a>
+							<a href="${pageContext.request.contextPath}/addPurchaseOrder">Add Purchase Order</a>
 							</li>
 
-
-
+							 <c:choose>
+								<c:when test="${Constants.subAct==33}">
+									<li class="active">
+								</c:when>
+								<c:otherwise>
+									<li>
+								</c:otherwise>
+							</c:choose>
+							<a href="${pageContext.request.contextPath}/listOfPurachaseOrder">Purchase Order List</a>
+							</li>
+ 
 						</ul>
 						</li> 
 
@@ -568,7 +518,7 @@
 					</c:otherwise>
 				</c:choose>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Organizer Master</span> <b class="arrow fa fa-angle-right"></b>
+					<span>MRN</span> <b class="arrow fa fa-angle-right"></b>
 				</a>
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
@@ -581,7 +531,7 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/addEvent">Add Event</a>
+					<a href="${pageContext.request.contextPath}/showAddMrn">Add MRN</a>
 					</li>
 					<c:choose>
 						<c:when test="${Constants.subAct==42}">
@@ -591,94 +541,12 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/eventList">All
-						Event List</a>
+					<a href="${pageContext.request.contextPath}/getMrnHeaders">MRN List</a>
 					</li>
-					<c:choose>
-						<c:when test="${Constants.subAct==43}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/scheduleList">Event
-						Schedule List</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==46}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addSchedule">Add
-						Event Schedule</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==44}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addCommitteeMember">Add
-						Committee Member</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==45}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/committeeMemberList">Committee
-						Member List</a>
-					</li>
-					<c:choose>
-						<c:when test="${Constants.subAct==57}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/showGallary">Gallary</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==58}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addSponsor">Add
-						Sponsor</a>
-					</li>
-
-
-					<c:choose>
-						<c:when test="${Constants.subAct==54}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/showFloarMap">Floar
-						Map</a>
-					</li>
-
+					  
 				</ul>
 				</li>
+				
 				<c:choose>
 					<c:when test="${Constants.mainAct==5}">
 						<li class="active">
@@ -689,7 +557,7 @@
 					</c:otherwise>
 				</c:choose>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Organizer Transaction</span> <b
+					<span>Issue</span> <b
 					class="arrow fa fa-angle-right"></b>
 				</a>
 				<!-- BEGIN Submenu -->
@@ -703,8 +571,7 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/addExhibitor">Add
-						Exhibitor</a>
+					<a href="${pageContext.request.contextPath}/addIssueItem">Add Issue</a>
 					</li>
 
 					<c:choose>
@@ -715,175 +582,12 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/exhibitorList">Exhibitor
-						List</a>
+					<a href="${pageContext.request.contextPath}/issueList">Issue List</a>
 					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==53}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/eventMapToExhibitor">Exhibitor
-						Event Map</a>
-					</li>
-
-
-					<c:choose>
-						<c:when test="${Constants.subAct==55}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/searchExhibitor">Search
-						And Map Exhibitor</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==56}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a
-						href="${pageContext.request.contextPath}/showExhEventSubscription">Approve
-						Subscribed Exhibitor For Event</a>
-					</li>
-
-
-
-
-					<li><a
-						href="${pageContext.request.contextPath}/editOrg/${sessionScope.organiser.orgId}/1">Edit
-							Profile</a></li>
-
+ 
 				</ul>
-				</li> --%>
-
-				<%-- <a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Reports</span> <b class="arrow fa fa-angle-right"></b>
-				</a>
-				<!-- BEGIN Submenu -->
-				<ul class="submenu">
-					<li> 
-					<a href="${pageContext.request.contextPath}/viewEmpConsumptionReport">Employee Consumption Report</a>
-					</li>
-				     <li> 
-				 	<a href="${pageContext.request.contextPath}/viewEmpAllocatedWorkReport">Employee Allocated Work</a>
-					</li>
-				    <li> 
-				  	<a href="${pageContext.request.contextPath}/viewEmpPerformanceReport">Employee Performance</a>
-					</li>
-					 
-					 <li> 
-				  	<a href="${pageContext.request.contextPath}/viewDevelopmentHrsReport">Development Hours</a>
-					</li>
-					
-					<li> 
-				  	<a href="${pageContext.request.contextPath}/viewProjectPhaseTrackingReport">Project Phase Tracking</a>
-					</li>
-					
-					<li> 
-				  	<a href="${pageContext.request.contextPath}/ongoingProjecList">Ongoing Project List</a>
-					</li>
-					
-					<li> 
-				  	<a href="${pageContext.request.contextPath}/projectCostReport">Project Cost Report</a>
-					</li>
-					 
-				</ul> --%>
-
-
-				<%-- <a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Stock</span> <b class="arrow fa fa-angle-right"></b>
-				</a>
-				<!-- BEGIN Submenu -->
-				<ul class="submenu">
-					<li> 
-					<a href="${pageContext.request.contextPath}/itemStock">Insert Opening Stock</a>
-					</li>
-					
-					<li> 
-					<a href="${pageContext.request.contextPath}/getCurrentStock">Get Current Stock</a>
-					</li>
-				
-				</ul>
-				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>GRN/GVN</span> <b class="arrow fa fa-angle-right"></b>
-				</a>
-				<!-- BEGIN Submenu -->
-				<ul class="submenu">
-					<li> 
-					<a href="${pageContext.request.contextPath}/insertGrn">GRN GVN</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/replaceQtyFromCustmer">Replace Item</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/grnItemHistory">GRN GVN List</a>
-					</li>
-				</ul>
-				
-				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Purchase Report</span> <b class="arrow fa fa-angle-right"></b>
-				</a>
-				<!-- BEGIN Submenu -->
-				<ul class="submenu">
-				
-					
-					<li> 
-					<a href="${pageContext.request.contextPath}/billWise">Bill Wise Report</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/supplierWise">Supplier Wise Report</a>
-					</li>
-				    <li> 
-					<a href="${pageContext.request.contextPath}/dateWise">Date Wise Report</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/monthWise">Month Wise Report</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/itemWise">Item Wise Report</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/grnReportItemWise">GRN Report</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/replaceItemList">Replace Item List</a>
-					</li>
-					</ul>
-					
-					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Sale Report</span> <b class="arrow fa fa-angle-right"></b>
-				</a>
-				<!-- BEGIN Submenu -->
-				<ul class="submenu">
-				
-					
-					<li> 
-					<a href="${pageContext.request.contextPath}/saleReportByDate">Sale Report Datewise</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/saleReportGroupByDate">Sale Report(Group By Date)</a>
-					</li>
-				    <li> 
-					<a href="${pageContext.request.contextPath}/saleByItemAndHsncodeWise">Sale Report(Itemwise And Hsncodewise)</a>
-					</li>
-					<li> 
-					<a href="${pageContext.request.contextPath}/saleByMonthWise">Sale Report(Monthwise)</a>
-					</li>
-					
-					
-					</ul>  --%>
-
+				</li> 
+ 
 				<c:choose>
 					<c:when test="${Constants.mainAct==6}">
 						<li class="active">
