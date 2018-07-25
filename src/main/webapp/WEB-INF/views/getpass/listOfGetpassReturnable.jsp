@@ -351,6 +351,7 @@
 
 													tr.append($('<td></td>')
 															.html(modType));
+													
 													tr
 															.append($(
 																	'<td></td>')
