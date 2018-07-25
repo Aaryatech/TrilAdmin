@@ -88,7 +88,7 @@ public class HomeController {
 
 				if (name.equals("Tester") && password.equals("1234")) {
 					mav = new ModelAndView("home");
-					
+					HttpSession session = request.getSession();
 					try {
 				/*	Date date = new Date();*/
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();

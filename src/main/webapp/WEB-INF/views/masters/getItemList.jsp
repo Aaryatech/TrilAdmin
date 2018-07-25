@@ -10,7 +10,7 @@
 	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
-
+	<c:url var="getItemListExportToExcel" value="/getItemListExportToExcel" />
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -48,19 +48,19 @@
 								<i class="fa fa-table"></i>Item List
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addItem">
-									Add Item</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addItem"> Add
+									Item</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
- 
-								<div class="box-content">
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
+						<div class="box-content">
+
+							<br /> <br />
+							<div class="clearfix"></div>
+							<div class="table-responsive" style="border: 0">
+								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr No</th>
@@ -69,57 +69,70 @@
 											<th class="col-md-1">Item Weight</th>
 
 											<th class="col-md-1">Item UOM</th>
-											 <th class="col-md-1">Action</th> 
+											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${itemList}" var="itemList" varStatus="count">
+										<c:forEach items="${itemList}" var="itemList"
+											varStatus="count">
 											<tr>
 												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${itemList.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemDate}" /></td>
+												<td class="col-md-2"><c:out
+														value="${itemList.itemCode}" /></td>
+												<td class="col-md-1"><c:out
+														value="${itemList.itemDate}" /></td>
 												<td class="col-md-1"><c:out value="${itemList.itemWt}" /></td>
- 												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
- 												<td><a href="${pageContext.request.contextPath}/editItem/${itemList.itemId}" data-toggle="tooltip" title="Edit"><span
-												class="glyphicon glyphicon-edit"></span></a> 
-											<a href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
-											onClick="return confirm('Are you sure want to delete this record');" data-toggle="tooltip" title="Delete"><span
-												class="glyphicon glyphicon-remove"></span></a></td>  
+												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
+												<td><a
+													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
+													data-toggle="tooltip" title="Edit"><span
+														class="glyphicon glyphicon-edit"></span></a> <a
+													href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
+													onClick="return confirm('Are you sure want to delete this record');"
+													data-toggle="tooltip" title="Delete"><span
+														class="glyphicon glyphicon-remove"></span></a></td>
 											</tr>
 										</c:forEach>
-										</tbody>
+									</tbody>
 
 								</table>
-  
-					</div>
-				</div>
-							 
 
-
+							</div>
 						</div>
+
 					</div>
-
-
 				</div>
+
+				<div class="form-group" id="range">
+
+
+
+					<div class="col-sm-3  controls">
+						<input type="button" id="expExcel" class="btn btn-primary"
+							value="EXPORT TO Excel" onclick="exportToExcel();">
+					</div>
+				</div>
+				<button class="btn btn-primary" value="PDF" id="PDFButton"
+					disabled="disabled" onclick="genPdf()">PDF</button>
+
+
+
 			</div>
-
-
-			<div class=" box-content">
-
-				
-
-			</div>
-
-			<!-- END Main Content -->
-			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
-			</footer>
-
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!-- END Content -->
+
+
+		<div class=" box-content"></div>
+
+		<!-- END Main Content -->
+		<footer>
+			<p>2018 © AARYATECH SOLUTIONS</p>
+		</footer>
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+	</div>
+	<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -187,25 +200,41 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-
 	<script type="text/javascript">
-		function passwordValidation() {
+		function exportToExcel() {
 
-			var pass = document.getElementById("password").value;
-			var pass1 = document.getElementById("rePassword").value;
+			$.getJSON('${getItemListExportToExcel}', {
 
-			if (pass != "" && pass1 != "") {
-				if (pass != pass1) {
-					alert("Password Not Matched ");
-					document.getElementById("submit").disabled = true;
-				} else {
-					document.getElementById("submit").disabled = false;
+				ajax : 'true',
 
+			}, function(data) {
+
+				var len = data.length;
+
+				if (data == "") {
+					document.getElementById("expExcel").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 				}
-
+				document.getElementById("PDFButton").disabled = false;
+				alert("asd");
+				exportExcel();
 			}
+
+			);
+
+		}
+		function exportExcel() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
 
+	<script type="text/javascript">
+		function genPdf() {
+			window.open('${pageContext.request.contextPath}/itemListPdf/');
+
+		}
+	</script>
 </body>
 </html>

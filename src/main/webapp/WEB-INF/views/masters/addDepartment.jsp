@@ -9,6 +9,7 @@
 
 	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getDeptListExportToExcel" value="/getDeptListExportToExcel"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -48,40 +49,41 @@
 								<i class="fa fa-table"></i>Add Department
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
+								<a href="${pageContext.request.contextPath}/"> </a> <a
+									data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
 
 						<div class=" box-content">
 							<form id="addSupplier"
-								action="${pageContext.request.contextPath}/insertDepartment""
+								action="${pageContext.request.contextPath}/insertDepartment"
+								"
 								method="post">
 								<div class="box-content">
 
 									<div class="col-md-2">Department Code*</div>
 									<div class="col-md-3">
 										<input id="deptCode" class="form-control"
-								placeholder="Department Code"  value="${editDept.deptCode}" style="text-align: left;" name="deptCode" type="text" required>
-								<input id="deptId" class="form-control"
-								  name="deptId" value="${editDept.deptId}" type="hidden" >
+											placeholder="Department Code" value="${editDept.deptCode}"
+											style="text-align: left;" name="deptCode" type="text"
+											required> <input id="deptId" class="form-control"
+											name="deptId" value="${editDept.deptId}" type="hidden">
 									</div>
 									<div class="col-md-1"></div>
-									
+
 									<div class="col-md-2">Department Description*</div>
 									<div class="col-md-3">
 										<input id="deptDesc" class="form-control"
-								placeholder="Department Description" value="${editDept.deptDesc}"   style="text-align: left;" name="deptDesc" type="text" required>
-								
+											placeholder="Department Description"
+											value="${editDept.deptDesc}" style="text-align: left;"
+											name="deptDesc" type="text" required>
+
 									</div>
 
 
 								</div>
-								<br> <br>
-								 
-					<br>
+								<br> <br> <br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 										<input type="submit" class="btn btn-info" value="Submit"
@@ -91,73 +93,87 @@
 
 									</div>
 								</div>
-								
+
 								<div class="box-content">
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
+									<br /> <br />
+									<div class="clearfix"></div>
+									<div class="table-responsive" style="border: 0">
+										<table class="table table-advance" id="table1">
+											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1">Sr no.</th> 
+													<th class="col-sm-1">Sr no.</th>
 													<th class="col-md-1">Department Code</th>
-													<th class="col-md-1">Department Description</th> 
+													<th class="col-md-1">Department Description</th>
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<tbody>
-											
-										  <c:forEach items="${deparmentList}" var="deparmentList"
-									varStatus="count">
-									<tr>
-										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
-										  
-											 
-										 <td class="col-md-1"><c:out value="${deparmentList.deptCode}" /></td>
-										<td class="col-md-1"><c:out value="${deparmentList.deptDesc}" /></td>		 
-										
-									 <td>
-									 <a href="${pageContext.request.contextPath}/editDepartment/${deparmentList.deptId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-									  <a href="${pageContext.request.contextPath}/deleteDepartment/${deparmentList.deptId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-									 </td>
-										 
-									</tr>
-								</c:forEach>  
+
+												<c:forEach items="${deparmentList}" var="deparmentList"
+													varStatus="count">
+													<tr>
+														<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+														<td class="col-md-1"><c:out
+																value="${deparmentList.deptCode}" /></td>
+														<td class="col-md-1"><c:out
+																value="${deparmentList.deptDesc}" /></td>
+
+														<td><a
+															href="${pageContext.request.contextPath}/editDepartment/${deparmentList.deptId}"><abbr
+																title="Edit"><i class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+															<a
+															href="${pageContext.request.contextPath}/deleteDepartment/${deparmentList.deptId}"
+															onClick="return confirm('Are you sure want to delete this record');"><span
+																class="glyphicon glyphicon-remove"></span></a></td>
+
+													</tr>
+												</c:forEach>
 
 											</tbody>
 
-								</table>
-  
-					</div>
-				</div>
+										</table>
+
+									</div>
+								</div>
 							</form>
-
-
 						</div>
 					</div>
+					<div class="form-group" id="range">
+
+
+
+						<div class="col-sm-3  controls">
+							<input type="button" id="expExcel" class="btn btn-primary"
+								value="EXPORT TO Excel" onclick="exportToExcel();">
+						</div>
+					</div>
+					<button class="btn btn-primary" value="PDF" id="PDFButton"
+						disabled="disabled" onclick="genPdf()">PDF</button>
+
+
 
 
 				</div>
-			</div>
 
-
-			<div class=" box-content">
-
-				
 
 			</div>
-
-			<!-- END Main Content -->
-			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
-			</footer>
-
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!-- END Content -->
+
+
+		<div class=" box-content"></div>
+
+		<!-- END Main Content -->
+		<footer>
+			<p>2018 © AARYATECH SOLUTIONS</p>
+		</footer>
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+	</div>
+	<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -227,21 +243,39 @@
 
 
 	<script type="text/javascript">
-		function passwordValidation() {
+		function exportToExcel() {
 
-			var pass = document.getElementById("password").value;
-			var pass1 = document.getElementById("rePassword").value;
+			$.getJSON('${getDeptListExportToExcel}', {
 
-			if (pass != "" && pass1 != "") {
-				if (pass != pass1) {
-					alert("Password Not Matched ");
-					document.getElementById("submit").disabled = true;
-				} else {
-					document.getElementById("submit").disabled = false;
+				ajax : 'true',
 
+			}, function(data) {
+
+				var len = data.length;
+
+				if (data == "") {
+					document.getElementById("expExcel").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 				}
-
+				document.getElementById("PDFButton").disabled = false;
+				alert("asd");
+				exportExcel();
 			}
+
+			);
+
+		}
+		function exportExcel() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
+		}
+	</script>
+
+	<script type="text/javascript">
+		function genPdf() {
+			window.open('${pageContext.request.contextPath}/deptListPdf/');
+
 		}
 	</script>
 

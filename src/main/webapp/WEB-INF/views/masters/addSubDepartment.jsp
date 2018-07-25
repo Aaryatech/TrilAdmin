@@ -9,6 +9,8 @@
 
 	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getSubDeptListExportToExcel"
+		value="/getSubDeptListExportToExcel"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -64,50 +66,53 @@
 									<div class="col-md-2">Department Description*</div>
 									<div class="col-md-3">
 										<input id="subDeptDesc" class="form-control"
-								placeholder="Department Description" value="${editSubDept.subDeptDesc}"  style="text-align: left;" name="subDeptDesc" type="text" required>
-								<input id="subDeptId" class="form-control"
-								  name="subDeptId" value="${editSubDept.subDeptId}" type="hidden" >
-								  
+											placeholder="Department Description"
+											value="${editSubDept.subDeptDesc}" style="text-align: left;"
+											name="subDeptDesc" type="text" required> <input
+											id="subDeptId" class="form-control" name="subDeptId"
+											value="${editSubDept.subDeptId}" type="hidden">
+
 									</div>
 									<div class="col-md-1"></div>
-									
+
 									<div class="col-md-2">Sub Department Code*</div>
 									<div class="col-md-3">
 										<input id="subGroupCode" class="form-control"
-								placeholder="Sub Group Description"  value="${editSubDept.subDeptCode}" style="text-align: left;" name="subGroupCode" type="text" required>
-							
-								  
+											placeholder="Sub Group Description"
+											value="${editSubDept.subDeptCode}" style="text-align: left;"
+											name="subGroupCode" type="text" required>
+
+
 									</div>
-									 
+
 								</div>
-								<br> 
+								<br>
 								<div class="box-content">
- 
+
 									<div class="col-md-2">Select Department*</div>
 									<div class="col-md-3">
-									 
-										<select class="form-control chosen"  
-															name="deptId" id="deptId"  required> 
-														 
-																<c:forEach items="${deparmentList}" var="deparmentList">
-																<c:choose>
-																	<c:when test="${deparmentList.deptId==editSubDept.deptId}">
-																		<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}</option>
-																	</c:when>
-																	<c:otherwise>
-																		<option value="${deparmentList.deptId}">${deparmentList.deptCode}</option>
-																	</c:otherwise>
-																</c:choose>
-																	
-																
-																</c:forEach>
-															 </select>
+
+										<select class="form-control chosen" name="deptId" id="deptId"
+											required>
+
+											<c:forEach items="${deparmentList}" var="deparmentList">
+												<c:choose>
+													<c:when test="${deparmentList.deptId==editSubDept.deptId}">
+														<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${deparmentList.deptId}">${deparmentList.deptCode}</option>
+													</c:otherwise>
+												</c:choose>
+
+
+											</c:forEach>
+										</select>
 									</div>
 
 
-								</div><br>
-								 
-					<br>
+								</div>
+								<br> <br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 										<input type="submit" class="btn btn-info" value="Submit"
@@ -117,64 +122,76 @@
 
 									</div>
 								</div>
-								
+
 								<div class="box-content">
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
+									<br /> <br />
+									<div class="clearfix"></div>
+									<div class="table-responsive" style="border: 0">
+										<table class="table table-advance" id="table1">
+											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1">Sr no.</th>  
-													<th class="col-md-1">Sub Department Discription</th>  
-													<th class="col-md-1">Sub Department Code</th>  
+													<th class="col-sm-1">Sr no.</th>
+													<th class="col-md-1">Sub Department Discription</th>
+													<th class="col-md-1">Sub Department Code</th>
 													<th class="col-md-1">Department</th>
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<tbody>
-											
-											  <c:forEach items="${subDeptList}" var="subDeptList"
-									varStatus="count">
-									<tr>
-										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
-										  
-											 
-										 <td class="col-md-1"><c:out value="${subDeptList.subDeptDesc}" /></td>
-										<td class="col-md-1"><c:out value="${subDeptList.subDeptCode}" /></td>		 
-										<td class="col-md-1"><c:out value="${subDeptList.deptCode}" /></td>
-									 <td>
-									 <a href="${pageContext.request.contextPath}/editSubDept/${subDeptList.subDeptId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-									 <a href="${pageContext.request.contextPath}/deleteSubDept/${subDeptList.subDeptId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-									 </td>
-										 
-									</tr>
-								</c:forEach>  
+
+												<c:forEach items="${subDeptList}" var="subDeptList"
+													varStatus="count">
+													<tr>
+														<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+														<td class="col-md-1"><c:out
+																value="${subDeptList.subDeptDesc}" /></td>
+														<td class="col-md-1"><c:out
+																value="${subDeptList.subDeptCode}" /></td>
+														<td class="col-md-1"><c:out
+																value="${subDeptList.deptCode}" /></td>
+														<td><a
+															href="${pageContext.request.contextPath}/editSubDept/${subDeptList.subDeptId}"><abbr
+																title="Edit"><i class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+															<a
+															href="${pageContext.request.contextPath}/deleteSubDept/${subDeptList.subDeptId}"
+															onClick="return confirm('Are you sure want to delete this record');"><span
+																class="glyphicon glyphicon-remove"></span></a></td>
+
+													</tr>
+												</c:forEach>
 
 											</tbody>
 
-								</table>
-  
-					</div>
-				</div>
+										</table>
+
+									</div>
+								</div>
 							</form>
 
 
 						</div>
 					</div>
 
+					<div class="form-group" id="range">
+
+
+
+						<div class="col-sm-3  controls">
+							<input type="button" id="expExcel" class="btn btn-primary"
+								value="EXPORT TO Excel" onclick="exportToExcel();">
+						</div>
+					</div>
+					<button class="btn btn-primary" value="PDF" id="PDFButton"
+						disabled="disabled" onclick="genPdf()">PDF</button>
 
 				</div>
 			</div>
 
 
-			<div class=" box-content">
-
-				
-
-			</div>
+			<div class=" box-content"></div>
 
 			<!-- END Main Content -->
 			<footer>
@@ -254,23 +271,40 @@
 
 
 	<script type="text/javascript">
-		function passwordValidation() {
+		function exportToExcel() {
 
-			var pass = document.getElementById("password").value;
-			var pass1 = document.getElementById("rePassword").value;
+			$.getJSON('${getSubDeptListExportToExcel}', {
 
-			if (pass != "" && pass1 != "") {
-				if (pass != pass1) {
-					alert("Password Not Matched ");
-					document.getElementById("submit").disabled = true;
-				} else {
-					document.getElementById("submit").disabled = false;
+				ajax : 'true',
 
+			}, function(data) {
+
+				var len = data.length;
+
+				if (data == "") {
+					document.getElementById("expExcel").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 				}
-
+				document.getElementById("PDFButton").disabled = false;
+				alert("asd");
+				exportExcel();
 			}
+
+			);
+
+		}
+		function exportExcel() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
 
+	<script type="text/javascript">
+		function genPdf() {
+			window.open('${pageContext.request.contextPath}/subDeptListPdf/');
+
+		}
+	</script>
 </body>
 </html>

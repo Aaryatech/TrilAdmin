@@ -9,6 +9,8 @@
 
 	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getVendorListExportToExcel"
+		value="/getVendorListExportToExcel" />
 
 
 	<div class="container" id="main-container">
@@ -32,7 +34,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Item List
+						<i class="fa fa-file-o"></i>Vendor List
 
 					</h1>
 				</div>
@@ -48,113 +50,120 @@
 								<i class="fa fa-table"></i>Vendor List
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addVendor">
-									Add Vendor</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addVendor"> Add
+									Vendor</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
- 
-								<div class="box-content">
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
+						<div class="box-content">
+
+							<br /> <br />
+							<div class="clearfix"></div>
+							<div class="table-responsive" style="border: 0">
+								<table class="table table-advance" id="table1">
 									<thead>
-									<tr class="bgpink">
-										<th class="col-sm-1">Sr no.</th>
-										<th class="col-md-1">Code</th>
-										<th class="col-md-1">Name</th>
-										<th class="col-md-1">City</th>
-										<th class="col-md-1">State</th>
-										<th class="col-md-1">Email</th>
-										<th class="col-md-1">Gst No</th>
-										<th class="col-md-1">Item</th>
-										<th class="col-md-1">Date</th>
-										<th class="col-md-1">Mobile</th>
-										<th class="col-md-1">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-
-									<c:forEach items="${vendorList}" var="vendorList"
-										varStatus="count">
-										<tr>
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorCode}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorName}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorCity}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorState}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorEmail}" /></td>
-
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorGstNo}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorItem}" /></td>
-
-											<td class="col-md-2"><c:out
-													value="${vendorList.vendorDate}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${vendorList.vendorMobile}" /></td>
-
-
-											<td><a
-												href="${pageContext.request.contextPath}/editVendor/${vendorList.vendorId}"><abbr
-													title="Edit"><i class="fa fa-edit"></i></abbr></a>
-													<a href="${pageContext.request.contextPath}/deleteVendor/${vendorList.vendorId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-												 </td>
-
+										<tr class="bgpink">
+											<th class="col-sm-1">Sr no.</th>
+											<th class="col-md-1">Code</th>
+											<th class="col-md-1">Name</th>
+											<th class="col-md-1">City</th>
+											<th class="col-md-1">State</th>
+											<th class="col-md-1">Email</th>
+											<th class="col-md-1">Gst No</th>
+											<th class="col-md-1">Item</th>
+											<th class="col-md-1">Date</th>
+											<th class="col-md-1">Mobile</th>
+											<th class="col-md-1">Action</th>
 										</tr>
-									</c:forEach>
+									</thead>
+									<tbody>
 
-								</tbody>
+										<c:forEach items="${vendorList}" var="vendorList"
+											varStatus="count">
+											<tr>
+												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorCode}" /></td>
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorName}" /></td>
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorCity}" /></td>
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorState}" /></td>
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorEmail}" /></td>
+
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorGstNo}" /></td>
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorItem}" /></td>
+
+												<td class="col-md-2"><c:out
+														value="${vendorList.vendorDate}" /></td>
+
+												<td class="col-md-1"><c:out
+														value="${vendorList.vendorMobile}" /></td>
+
+
+												<td><a
+													href="${pageContext.request.contextPath}/editVendor/${vendorList.vendorId}"><abbr
+														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
+													href="${pageContext.request.contextPath}/deleteVendor/${vendorList.vendorId}"
+													onClick="return confirm('Are you sure want to delete this record');"><span
+														class="glyphicon glyphicon-remove"></span></a></td>
+
+											</tr>
+										</c:forEach>
+
+									</tbody>
 
 								</table>
-  
-					</div>
-				</div>
-							 
 
-
+							</div>
 						</div>
+
+
+
 					</div>
-
-
 				</div>
+				<div class="form-group" id="range">
+
+
+
+					<div class="col-sm-3  controls">
+						<input type="button" id="expExcel" class="btn btn-primary"
+							value="EXPORT TO Excel" onclick="exportToExcel();">
+					</div>
+				</div>
+				<button class="btn btn-primary" value="PDF" id="PDFButton"
+					disabled="disabled" onclick="genPdf()">PDF</button>
+
+
 			</div>
-
-
-			<div class=" box-content">
-
-				
-
-			</div>
-
-			<!-- END Main Content -->
-			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
-			</footer>
-
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!-- END Content -->
+
+
+		<div class=" box-content"></div>
+
+		<!-- END Main Content -->
+		<footer>
+			<p>2018 © AARYATECH SOLUTIONS</p>
+		</footer>
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+	</div>
+	<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -224,21 +233,39 @@
 
 
 	<script type="text/javascript">
-		function passwordValidation() {
+		function exportToExcel() {
 
-			var pass = document.getElementById("password").value;
-			var pass1 = document.getElementById("rePassword").value;
+			$.getJSON('${getVendorListExportToExcel}', {
 
-			if (pass != "" && pass1 != "") {
-				if (pass != pass1) {
-					alert("Password Not Matched ");
-					document.getElementById("submit").disabled = true;
-				} else {
-					document.getElementById("submit").disabled = false;
+				ajax : 'true',
 
+			}, function(data) {
+
+				var len = data.length;
+
+				if (data == "") {
+					document.getElementById("expExcel").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 				}
-
+				document.getElementById("PDFButton").disabled = false;
+				alert("asd");
+				exportExcel();
 			}
+
+			);
+
+		}
+		function exportExcel() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
+		}
+	</script>
+
+	<script type="text/javascript">
+		function genPdf() {
+			window.open('${pageContext.request.contextPath}/vendorListPdf/');
+
 		}
 	</script>
 
