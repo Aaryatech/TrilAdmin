@@ -157,27 +157,32 @@ public class RejectionController {
 
 					if (Integer.parseInt(mrnIdList[i]) == getMrnList.get(j).getMrnId()) {
 
-						RejectionMemoDetail rejectionMemoDetail = new RejectionMemoDetail();
-						GetMrnDetail getMrnDetail = getMrnList.get(j).getGetMrnDetailList().get(j);
-						rejectionMemoDetail.setIsUsed(1);
-						rejectionMemo.setMrnNo(getMrnList.get(j).getMrnNo());
+						
+						for(int k=0 ; k<getMrnList.get(j).getGetMrnDetailList().size();k++)
+						{
+							RejectionMemoDetail rejectionMemoDetail = new RejectionMemoDetail();
+							GetMrnDetail getMrnDetail = getMrnList.get(j).getGetMrnDetailList().get(k);
+							rejectionMemoDetail.setIsUsed(1);
+							rejectionMemo.setMrnNo(getMrnList.get(j).getMrnNo());
 
-						rejectionMemoDetail.setItemId(getMrnDetail.getItemId());
-						rejectionMemoDetail.setMemoQty(
-								Float.parseFloat(request.getParameter("memoQty" + getMrnList.get(j).getMrnId())));
-						rejectionMemoDetail.setMrnDate(DateConvertor.convertToYMD(getMrnList.get(j).getMrnDate()));
-						rejectionMemoDetail.setMrnNo(getMrnList.get(j).getMrnNo());
-						rejectionMemoDetail.setRejectionQty(getMrnDetail.getRejectQty());
-						rejectionMemoDetail.setStatus(1);
-						// rejectionMemoDetail.setRejectionId(rejectionId);
-						rejectionMemoDetailList.add(rejectionMemoDetail);
+							rejectionMemoDetail.setItemId(getMrnDetail.getItemId());
+							rejectionMemoDetail.setMemoQty(
+									Float.parseFloat(request.getParameter("memoQty" + getMrnList.get(j).getMrnId())));
+							rejectionMemoDetail.setMrnDate(DateConvertor.convertToYMD(getMrnList.get(j).getMrnDate()));
+							rejectionMemoDetail.setMrnNo(getMrnList.get(j).getMrnNo());
+							rejectionMemoDetail.setRejectionQty(getMrnDetail.getRejectQty());
+							rejectionMemoDetail.setStatus(1);
+							// rejectionMemoDetail.setRejectionId(rejectionId);
+							rejectionMemoDetailList.add(rejectionMemoDetail);
+						}
+						
 					}
 				}
 				rejectionMemo.setRejectionMemoDetailList(rejectionMemoDetailList);
 				rejectionMemoList.add(rejectionMemo);
 
 			}
-			System.out.println("rejectionMemo" + rejectionMemo);
+			System.out.println("rejectionMemoList" + rejectionMemoList);
 			List<RejectionMemo> res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
 					rejectionMemoList, List.class);
 			System.out.println("response:" + res);
