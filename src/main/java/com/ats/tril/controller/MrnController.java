@@ -86,7 +86,7 @@ public class MrnController {
 
 			map.add("vendId", vendorId);
 			map.add("delStatus", Constants.delStatus);
-			map.add("statusList", "1,2");
+			map.add("statusList", "0,1");
 
 			PoHeader[] poHeadRes = rest.postForObject(Constants.url + "/getPOHeaderList", map, PoHeader[].class);
 			poHeadList = new ArrayList<PoHeader>(Arrays.asList(poHeadRes));
