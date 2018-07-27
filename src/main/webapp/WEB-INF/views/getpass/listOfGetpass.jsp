@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Getpass Nonreturnable List
+						<i class="fa fa-file-o"></i>Gatepass Nonreturnable List
 
 					</h1>
 				</div>
@@ -45,11 +45,11 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Getpass Nonreturnable List
+								<i class="fa fa-table"></i>Gatepass Nonreturnable List
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addGetpassHeader">
-									Add Getpass Nonreturnable</a> <a data-action="collapse" href="#"><i
+									Add Gatepass Nonreturnable</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -58,7 +58,7 @@
 
 						<div class="box-content">
 
-							<div class="col-md-2">Select Getpass Vendor</div>
+							<div class="col-md-2">Select Gatepass Vendor</div>
 							<div class="col-md-3">
 
 								<select name="vendId" id="vendId" class="form-control chosen"
@@ -93,7 +93,7 @@
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr no.</th>
 											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Getpass No</th>
+											<th class="col-md-1">Gatepass No</th>
 											<th class="col-md-1">Return Date</th>
 											<th class="col-md-1">Remark</th>
 											<th class="col-md-1">Action</th>

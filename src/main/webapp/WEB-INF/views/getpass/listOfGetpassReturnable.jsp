@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Getpass Returnable List
+						<i class="fa fa-file-o"></i>Gatepass Returnable List
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Getpass Returnable List
+								<i class="fa fa-table"></i>Gatepass Returnable List
 							</h3>
 							<div class="box-tool">
 								<a
@@ -59,7 +59,7 @@
 
 							<div class="box-content">
 
-								<div class="col-md-2">Select Getpass Vendor</div>
+								<div class="col-md-2">Select Gatepass Vendor</div>
 								<div class="col-md-3">
 
 									<select name="vendId" id="vendId" class="form-control chosen"
@@ -73,7 +73,7 @@
 									</select>
 
 								</div>
-								<div class="col-md-2">Select Getpass Status</div>
+								<div class="col-md-2">Select Gatepass Status</div>
 								<div class="col-md-3">
 
 									<select name="gpStatusList[]" id="gpStatusList"
@@ -110,7 +110,7 @@
 											<tr class="bgpink">
 												<th class="col-sm-1">Sr no.</th>
 												<th class="col-md-1">Vendor Name</th>
-												<th class="col-md-1">Getpass No</th>
+												<th class="col-md-1">Gatepass No</th>
 												<th class="col-md-1">Return Date</th>
 												<th class="col-md-1">Remark</th>
 												<th class="col-md-1">Status</th>

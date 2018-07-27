@@ -85,7 +85,7 @@
 								<div class="col-md-2">Select Vendor</div>
 								<div class="col-md-3">
 
-									<select name="vendorIdList[]" id="vendId"
+									<select name="vendorIdList[]" id="vendorIdList"
 										class="form-control chosen" multiple="multiple"
 										placeholder="Select Vendor">
 										<option value="0">All Vendors</option>
@@ -100,7 +100,7 @@
 								<div class="col-md-2">Select PO Type</div>
 								<div class="col-md-3">
 
-									<select name="poTypeList[]" id="poType"
+									<select name="poTypeList[]" id="poTypeList"
 										class="form-control chosen" tabindex="6" multiple="multiple">
 										<option value="0">All</option>
 										<option value="1">Regular</option>
@@ -135,6 +135,9 @@
 									<input type="button" class="btn btn-primary" value="Search "
 										onclick="search()">
 								</div>
+
+
+
 							</div>
 							<br>
 
@@ -188,7 +191,18 @@
 									</tbody>
 
 								</table>
+								<div class="form-group" id="range">
 
+
+
+									<div class="col-sm-3  controls">
+										<input type="button" id="expExcel" class="btn btn-primary"
+											disabled="disabled" value="EXPORT TO Excel"
+											onclick="exportToExcel();">
+									</div>
+								</div>
+								<button class="btn btn-primary" value="PDF" id="PDFButton"
+									disabled="disabled" onclick="genPdf()">PDF</button>
 							</div>
 						</div>
 
@@ -281,10 +295,11 @@
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-			var vendId = $("#vendId").val();
-			var poType = $("#poType").val();
+			var vendorIdList = $("#vendorIdList").val();
+			var poTypeList = $("#poTypeList").val();
 			var poStatus = $("#poStatus").val();
 			alert("hii");
+			alert(vendorIdList);
 			$('#loader').show();
 
 			$.getJSON('${getPoListReport}',
@@ -293,9 +308,9 @@
 
 				fromDate : fromDate,
 				toDate : toDate,
-				vendId : vendId,
-				poType : poType,
+				vendorIdList : vendorIdList,
 				poStatus : poStatus,
+				poTypeList : poTypeList,
 
 				ajax : 'true'
 
@@ -303,12 +318,15 @@
 
 				$('#table1 td').remove();
 				$('#loader').hide();
-
+				document.getElementById("expExcel").disabled = false;
+				document.getElementById("PDFButton").disabled = false;
 				if (data == "") {
 					alert("No records found !!");
+					document.getElementById("expExcel").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 
 				}
-
+			
 				$.each(data, function(key, itemList) {
 
 					var tr = $('<tr></tr>');
@@ -316,13 +334,54 @@
 					tr.append($('<td></td>').html(itemList.poDate));
 					tr.append($('<td></td>').html(itemList.vendorName));
 					tr.append($('<td></td>').html(itemList.poNo));
-					tr.append($('<td></td>').html(itemList.poStatus));
-					tr.append($('<td></td>').html(itemList.poType));
+
+					if (itemList.poStatus == 0) {
+						modType = "Pending";
+
+					} else if (itemList.poStatus == 1) {
+						modType = "Partial Pending";
+					} else if (itemList.poStatus == 2) {
+						modType = "Return";
+					} else {
+						modType = "Closed";
+					}
+					tr.append($('<td></td>').html(modType));
+
+					if (itemList.poType == 1) {
+						modType1 = "Regular";
+
+					} else if (itemList.poType == 2) {
+						modType1 = "Job Work";
+					} else if (itemList.poType == 3) {
+						modType1 = "General";
+					} else if (itemList.poType == 4) {
+						modType1 = "Other";
+					}
+					tr.append($('<td></td>').html(modType1));
 
 					$('#table1 tbody').append(tr);
 				})
 
 			});
+		}
+	</script>
+	<script type="text/javascript">
+		function exportToExcel() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
+		}
+	</script>
+
+	<script type="text/javascript">
+		function genPdf() {
+			alert("hiii");
+			var fromDate = document.getElementById("fromDate").value;
+			var toDate = document.getElementById("toDate").value;
+
+			window.open('${pageContext.request.contextPath}/showPOPdf/'
+					+ fromDate + '/' + toDate);
+
 		}
 	</script>
 

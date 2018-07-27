@@ -108,16 +108,6 @@
 
 
 
-								<input type="button" id="expExcel" class="btn btn-primary"
-									value="EXPORT TO Excel" onclick="exportToExcel()">
-
-
-								<button class="btn btn-primary" value="PDF" id="PDFButton"
-									onclick="genPdf()">PDF</button>
-
-
-
-								<br>
 							</div>
 
 							<div align="center" id="loader" style="display: none">
@@ -195,6 +185,20 @@
 									</tbody>
 
 								</table>
+								<div class="form-group" id="range">
+
+
+
+									<div class="col-sm-3  controls">
+										<input type="button" id="expExcel" class="btn btn-primary"
+											disabled="disabled" value="EXPORT TO Excel"
+											onclick="exportToExcel();">
+									</div>
+								</div>
+								<button class="btn btn-primary" value="PDF" id="PDFButton"
+									disabled="disabled" onclick="genPdf()">PDF</button>
+
+
 
 							</div>
 						</div>
@@ -306,9 +310,13 @@
 
 				$('#table1 td').remove();
 				$('#loader').hide();
+				document.getElementById("expExcel").disabled = false;
+				document.getElementById("PDFButton").disabled = false;
 
 				if (data == "") {
 					alert("No records found !!");
+					document.getElementById("expExcel").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 
 				}
 

@@ -33,7 +33,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Getpass Return
+						<i class="fa fa-file-o"></i>Gatepass Return
 					</h1>
 				</div>
 			</div>
@@ -45,12 +45,12 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Getpass Return
+								<i class="fa fa-table"></i>GeGatepasstpass Return
 							</h3>
 
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/listOfGetpassReturn">Return
-									Getpass List</a> <a data-action="collapse" href="#"><i
+									Gatepass List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -66,7 +66,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Select Getpass Vendor</div>
+									<div class="col-md-2">Select Gatepass Vendor</div>
 									<div class="col-md-3">
 
 										 
@@ -82,7 +82,7 @@
 											</c:forEach>
 										 
 									</div>
-									<div class="col-md-2">Getpass No</div>
+									<div class="col-md-2">Gatepass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
 											type="text" name="gpNo" value="${getpassHeaderItemName.gpNo}" readonly/>

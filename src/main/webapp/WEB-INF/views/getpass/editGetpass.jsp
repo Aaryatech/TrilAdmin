@@ -11,8 +11,10 @@
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 
 	<c:url var="editItemInEditGetpass" value="/editItemInEditGetpass"></c:url>
-	<c:url var="addItemInEditGetpassReturnableList" value="/addItemInEditGetpassReturnableList"></c:url>
-	<c:url var="deleteItemFromEditGetpass" value="/deleteItemFromEditGetpass"></c:url>
+	<c:url var="addItemInEditGetpassReturnableList"
+		value="/addItemInEditGetpassReturnableList"></c:url>
+	<c:url var="deleteItemFromEditGetpass"
+		value="/deleteItemFromEditGetpass"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -37,7 +39,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Edit Getpass
+						<i class="fa fa-file-o"></i>Edit Gatepass
 					</h1>
 				</div>
 			</div>
@@ -49,11 +51,11 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Edit Getpass
+								<i class="fa fa-table"></i>Edit Gatepass
 							</h3>
 
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/listOfGetpass">Getpass
+								<a href="${pageContext.request.contextPath}/listOfGetpass">Gatepass
 									List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
@@ -70,7 +72,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Select Getpass Vendor</div>
+									<div class="col-md-2">Select Gatepass Vendor</div>
 									<div class="col-md-3">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
@@ -90,7 +92,7 @@
 										</select>
 
 									</div>
-									<div class="col-md-2">Getpass No</div>
+									<div class="col-md-2">Gatepass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
 											type="text" name="gpNo" value="${editGetpassHeaderNon.gpNo}" />
@@ -102,7 +104,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Getpass Date*</div>
+									<div class="col-md-2">Gatepass Date*</div>
 									<div class="col-md-3">
 										<input id="gpDate" class="form-control date-picker"
 											placeholder="Getpass Date" name="gpDate" type="text"
@@ -253,9 +255,8 @@
 											</c:forEach>
 										</select>
 									</div>
-									<input type="hidden" name=noOfDays id="noOfDays" value="0"/>
-									
-									<input type="hidden" name=editIndex id="editIndex" />
+									<input type="hidden" name=noOfDays id="noOfDays" value="0" /> <input
+										type="hidden" name=editIndex id="editIndex" />
 
 									<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
@@ -302,15 +303,18 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach items="${editGetpassHeaderNon.getpassDetailItemNameList}"
+													<c:forEach
+														items="${editGetpassHeaderNon.getpassDetailItemNameList}"
 														var="getpassDetailItemNameList" varStatus="count">
 														<tr>
 															<td><c:out value="${count.index+1}" /></td>
 
-															<td><c:out value="${getpassDetailItemNameList.itemCode}" /></td>
+															<td><c:out
+																	value="${getpassDetailItemNameList.itemCode}" /></td>
 
-															<td><c:out value="${getpassDetailItemNameList.gpQty}" /></td>
- 
+															<td><c:out
+																	value="${getpassDetailItemNameList.gpQty}" /></td>
+
 															<td><a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>

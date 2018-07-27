@@ -353,7 +353,7 @@
 					</c:otherwise>
 				</c:choose>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Getpass Item</span> <b class="arrow fa fa-angle-right"></b>
+					<span>Gatepass Item</span> <b class="arrow fa fa-angle-right"></b>
 
 				</a>
 
@@ -369,144 +369,147 @@
 					</c:choose>
 
 					<a href="${pageContext.request.contextPath}/addGetpassReturnable">Add
-						Returnable Getpass</a>
+						Returnable Gatepass</a>
 					<a href="${pageContext.request.contextPath}/addGetpassHeader">Add
-						Getpass Nonreturnable</a>
+						Gatepass Nonreturnable</a>
 
 
 					<a href="${pageContext.request.contextPath}/addGetpassItem">Add
-						Getpass Item</a>
+						Gatepass Item</a>
 					</li>
 				</ul>
-				
-				
-				 <c:choose>
-							<c:when test="${Constants.mainAct==2}">
-								<li class="active">
-							</c:when>
-
-							<c:otherwise>
-								<li>
-							</c:otherwise>
-						</c:choose>
-
-						<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-							<span>Enquiry</span> <b class="arrow fa fa-angle-right"></b>
-						</a>
-						<!-- BEGIN Submenu -->
-						<ul class="submenu">
- 
-							<c:choose>
-								<c:when test="${Constants.subAct==21}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/addEnquiry">Add Enquiry </a>
-							</li>
-							<c:choose>
-								<c:when test="${Constants.subAct==22}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry List</a>
-							</li>
-
-							 
-						</ul>
-						</li>  
-
-				 <c:choose>
-							<c:when test="${Constants.mainAct==3}">
-								<li class="active">
-							</c:when>
-
-							<c:otherwise>
-								<li>
-							</c:otherwise>
-						</c:choose>
-
-						<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-							<span>Indent</span> <b
-							class="arrow fa fa-angle-right"></b>
-						</a>
-						<!-- BEGIN Submenu -->
-						<ul class="submenu">
 
 
+				<c:choose>
+					<c:when test="${Constants.mainAct==2}">
+						<li class="active">
+					</c:when>
 
-							<c:choose>
-								<c:when test="${Constants.subAct==33}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/showIndent">Add Indent</a>
-							</li>
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
 
-							<c:choose>
-								<c:when test="${Constants.subAct==31}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a
-								href="${pageContext.request.contextPath}/getIndents">Indent List</a>
-							</li>
- 
-						</ul>
-						</li> 
-						
-						<c:choose>
-							<c:when test="${Constants.mainAct==3}">
-								<li class="active">
-							</c:when>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Enquiry</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
 
-							<c:otherwise>
-								<li>
-							</c:otherwise>
-						</c:choose>
+					<c:choose>
+						<c:when test="${Constants.subAct==21}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addEnquiry">Add
+						Enquiry </a>
+					</li>
+					<c:choose>
+						<c:when test="${Constants.subAct==22}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry
+						List</a>
+					</li>
 
-						<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-							<span>Purchase Order</span> <b
-							class="arrow fa fa-angle-right"></b>
-						</a>
-						<!-- BEGIN Submenu -->
-						<ul class="submenu">
- 
-							<c:choose>
-								<c:when test="${Constants.subAct==33}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/addPurchaseOrder">Add Purchase Order</a>
-							</li>
 
-							 <c:choose>
-								<c:when test="${Constants.subAct==33}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a href="${pageContext.request.contextPath}/listOfPurachaseOrder">Purchase Order List</a>
-							</li>
- 
-						</ul>
-						</li> 
+				</ul>
+				</li>
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==3}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Indent</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+
+
+					<c:choose>
+						<c:when test="${Constants.subAct==33}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/showIndent">Add
+						Indent</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==31}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/getIndents">Indent
+						List</a>
+					</li>
+
+				</ul>
+				</li>
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==3}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Purchase Order</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+					<c:choose>
+						<c:when test="${Constants.subAct==33}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addPurchaseOrder">Add
+						Purchase Order</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==33}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/listOfPurachaseOrder">Purchase
+						Order List</a>
+					</li>
+
+				</ul>
+				</li>
 
 				<c:choose>
 					<c:when test="${Constants.mainAct==4}">
@@ -541,12 +544,23 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/getMrnHeaders">MRN List</a>
+					<a href="${pageContext.request.contextPath}/getMrnHeaders">MRN
+						List</a>
+					<c:choose>
+						<c:when test="${Constants.subAct==42}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/showMrnForInspection">Approve
+						MRN</a>
 					</li>
-					  
+
 				</ul>
 				</li>
-				
+
 				<c:choose>
 					<c:when test="${Constants.mainAct==5}">
 						<li class="active">
@@ -557,8 +571,7 @@
 					</c:otherwise>
 				</c:choose>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Issue</span> <b
-					class="arrow fa fa-angle-right"></b>
+					<span>Issue</span> <b class="arrow fa fa-angle-right"></b>
 				</a>
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
@@ -571,7 +584,8 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/addIssueItem">Add Issue</a>
+					<a href="${pageContext.request.contextPath}/addIssueItem">Add
+						Issue</a>
 					</li>
 
 					<c:choose>
@@ -582,12 +596,13 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/issueList">Issue List</a>
+					<a href="${pageContext.request.contextPath}/issueList">Issue
+						List</a>
 					</li>
- 
+
 				</ul>
-				</li> 
- 
+				</li>
+
 				<c:choose>
 					<c:when test="${Constants.mainAct==6}">
 						<li class="active">
@@ -597,11 +612,148 @@
 						<li>
 					</c:otherwise>
 				</c:choose>
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==5}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Logout</span> <b class="arrow fa fa-angle-right"></b>
+					<span>Reports</span> <b class="arrow fa fa-angle-right"></b>
 				</a>
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
+
+					<c:choose>
+						<c:when test="${Constants.subAct==51}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/indetReportList">Indent
+						Report</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/poReportList">PO
+						Report</a>
+					</li>
+
+				</ul>
+				</li>
+
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==6}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==5}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Rejection Memo</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+					<c:choose>
+						<c:when test="${Constants.subAct==51}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/showRejectionMemo">Add
+						Rejection Memo</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/listOfRejectionMemo">Rejection
+						Memo List</a>
+					</li>
+
+				</ul>
+				</li>
+
+
+
+
+
+				<c:choose>
+					<c:when test="${Constants.mainAct==6}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Logout</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+
 
 
 					<li><a href="${pageContext.request.contextPath}/logout">Logout</a>
@@ -610,7 +762,6 @@
 
 
 				</ul>
-
 				<!-- END Submenu -->
 				</li>
 

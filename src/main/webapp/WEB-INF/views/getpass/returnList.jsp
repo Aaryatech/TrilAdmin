@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Retun Getpass List
+						<i class="fa fa-file-o"></i>Retun Gatepass List
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Return Getpass List
+								<i class="fa fa-table"></i>Return Gatepass List
 							</h3>
 							<div class="box-tool">
 								<a
@@ -84,7 +84,7 @@
 
 							<div class="box-content">
 
-								<div class="col-md-2">Select Getpass Vendor</div>
+								<div class="col-md-2">Select Gatepass Vendor</div>
 								<div class="col-md-3">
 
 									<select name="vendId" id="vendId" class="form-control chosen"

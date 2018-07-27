@@ -37,7 +37,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Edit Getpass Returnable
+						<i class="fa fa-file-o"></i>Edit Gatepass Returnable
 					</h1>
 				</div>
 			</div>
@@ -49,13 +49,13 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Edit Getpass Returnable
+								<i class="fa fa-table"></i>Edit Gatepass Returnable
 							</h3>
 
 							<div class="box-tool">
 								<a
 									href="${pageContext.request.contextPath}/listOfGetpassReturnable">Returnable
-									Getpass List</a> <a data-action="collapse" href="#"><i
+									Gatepass List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -71,7 +71,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Select Getpass Vendor</div>
+									<div class="col-md-2">Select Gatepass Vendor</div>
 									<div class="col-md-3">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
@@ -91,7 +91,7 @@
 										</select>
 
 									</div>
-									<div class="col-md-2">Getpass No</div>
+									<div class="col-md-2">Gatepass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
 											type="text" name="gpNo" value="${editGetpassHeader.gpNo}" />
@@ -103,7 +103,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Getpass Date*</div>
+									<div class="col-md-2">Gatepass Date*</div>
 									<div class="col-md-3">
 										<input id="gpDate" class="form-control date-picker"
 											placeholder="Getpass Date" name="gpDate" type="text"
