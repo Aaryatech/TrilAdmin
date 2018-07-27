@@ -40,6 +40,7 @@ import com.ats.tril.model.Category;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassReturnVendor;
@@ -68,6 +69,7 @@ public class ReportController {
 	List<Dept> deparmentList = null;
 	List<GetSubDept> getSubDeptList = null;
 	List<IndentReport> getlist1 = null;
+	List<GetPoHeaderList> getPoList = null;
 
 	@RequestMapping(value = "/getItemListExportToExcel", method = RequestMethod.GET)
 	public @ResponseBody List<GetItem> getItemListExportToExcel(HttpServletRequest request,
@@ -1005,77 +1007,6 @@ public class ReportController {
 		return model;
 	}
 
-	@RequestMapping(value = "/getIndentListReport", method = RequestMethod.GET)
-	@ResponseBody
-	public List<IndentReport> getIndentListReport(HttpServletRequest request, HttpServletResponse response) {
-
-		try {
-
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
-			String[] catIdList = request.getParameterValues("catIdList[]");
-
-			StringBuilder sb = new StringBuilder();
-
-			for (int i = 0; i < catIdList.length; i++) {
-				sb = sb.append(catIdList[i] + ",");
-
-			}
-			String items = sb.toString();
-			items = items.substring(0, items.length() - 1);
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
-			map.add("catIdList", items);
-
-			IndentReport[] getlist = rest.postForObject(Constants.url + "/getIndentListReport", map,
-					IndentReport[].class);
-			System.out.println("getList" + getlist);
-			getlist1 = new ArrayList<IndentReport>(Arrays.asList(getlist));
-
-			// export to excel
-
-			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
-
-			ExportToExcel expoExcel = new ExportToExcel();
-			List<String> rowData = new ArrayList<String>();
-
-			rowData.add("Sr. No");
-			rowData.add("Indent No");
-			rowData.add("Indent Date");
-			rowData.add("Indent Status");
-			rowData.add("No Of Days");
-
-			expoExcel.setRowData(rowData);
-			exportToExcelList.add(expoExcel);
-			int cnt = 1;
-			for (int i = 0; i < getlist1.size(); i++) {
-				expoExcel = new ExportToExcel();
-				rowData = new ArrayList<String>();
-				cnt = cnt + i;
-				rowData.add("" + (cnt));
-				rowData.add("" + getlist1.get(i).getIndMNo());
-				rowData.add("" + getlist1.get(i).getIndMDate());
-				rowData.add("" + getlist1.get(i).getIndMStatus());
-				rowData.add("" + getlist1.get(i).getNoOfDays());
-
-				expoExcel.setRowData(rowData);
-				exportToExcelList.add(expoExcel);
-
-			}
-
-			HttpSession session = request.getSession();
-			session.setAttribute("exportExcelList", exportToExcelList);
-			session.setAttribute("excelName", "IndentReport");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return getlist1;
-	}
-
 	@RequestMapping(value = "/showIndentPdf/{fromDate}/{toDate}", method = RequestMethod.GET)
 	public void showIndentPdf(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate,
 			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
@@ -1248,6 +1179,77 @@ public class ReportController {
 
 	}
 
+	@RequestMapping(value = "/getIndentListReport", method = RequestMethod.GET)
+	@ResponseBody
+	public List<IndentReport> getIndentListReport(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			String[] catIdList = request.getParameterValues("catIdList[]");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < catIdList.length; i++) {
+				sb = sb.append(catIdList[i] + ",");
+
+			}
+			String items = sb.toString();
+			items = items.substring(0, items.length() - 1);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("catIdList", items);
+
+			IndentReport[] getlist = rest.postForObject(Constants.url + "/getIndentListReport", map,
+					IndentReport[].class);
+			System.out.println("getList" + getlist);
+			getlist1 = new ArrayList<IndentReport>(Arrays.asList(getlist));
+
+			// export to excel
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Indent No");
+			rowData.add("Indent Date");
+			rowData.add("Indent Status");
+			rowData.add("No Of Days");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < getlist1.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+				rowData.add("" + (cnt));
+				rowData.add("" + getlist1.get(i).getIndMNo());
+				rowData.add("" + getlist1.get(i).getIndMDate());
+				rowData.add("" + getlist1.get(i).getIndMStatus());
+				rowData.add("" + getlist1.get(i).getNoOfDays());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "IndentReport");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getlist1;
+	}
+
 	@RequestMapping(value = "/poReportList", method = RequestMethod.GET)
 	public ModelAndView poReportList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1262,6 +1264,97 @@ public class ReportController {
 		}
 
 		return model;
+	}
+
+	@RequestMapping(value = "/getPoListReport", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetPoHeaderList> getPoListReport(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			String[] vendorIdList = request.getParameterValues("vendorIdList[]");
+			String[] poTypeList = request.getParameterValues("poTypeList[]");
+			String[] poStatus = request.getParameterValues("poStatus[]");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < vendorIdList.length; i++) {
+				sb = sb.append(vendorIdList[i] + ",");
+
+			}
+			String items = sb.toString();
+			items = items.substring(0, items.length() - 1);
+			sb = new StringBuilder();
+			for (int j = 0; j < poTypeList.length; j++) {
+				sb = sb.append(poTypeList[j] + ",");
+
+			}
+			String items1 = sb.toString();
+			items1 = items1.substring(0, items1.length() - 1);
+			sb = new StringBuilder();
+			for (int k = 0; k < poStatus.length; k++) {
+				sb = sb.append(poStatus[k] + ",");
+
+			}
+			String items2 = sb.toString();
+			items2 = items2.substring(0, items2.length() - 1);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("vendorIdList", items);
+			map.add("poTypeList", items1);
+			map.add("poStatus", items2);
+
+			GetPoHeaderList[] getlist = rest.postForObject(Constants.url + "/getPoHeaderListReport", map,
+					GetPoHeaderList[].class);
+			System.out.println("getList" + getlist);
+			getPoList = new ArrayList<GetPoHeaderList>(Arrays.asList(getlist));
+
+			// export to excel
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("PO Date");
+			rowData.add("Vendor Name");
+			rowData.add("Po No");
+			rowData.add("Po Status");
+			rowData.add("Po Type");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < getPoList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+				rowData.add("" + (cnt));
+				rowData.add("" + getPoList.get(i).getPoDate());
+				rowData.add("" + getPoList.get(i).getVendorName());
+				rowData.add("" + getPoList.get(i).getPoNo());
+				rowData.add("" + getPoList.get(i).getPoStatus());
+				rowData.add("" + getPoList.get(i).getPoType());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "GetPoHeaderList");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getPoList;
 	}
 
 }

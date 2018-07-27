@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getListOfReturnGetpass" value="/getListOfReturnGetpass"></c:url>
+	<c:url var="getPoListReport" value="/getPoListReport"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -85,8 +85,9 @@
 								<div class="col-md-2">Select Vendor</div>
 								<div class="col-md-3">
 
-									<select name="vendId" id="vendId" class="form-control chosen"
-										tabindex="6" multiple="multiple" placeholder="Select Vendor">
+									<select name="vendorIdList[]" id="vendId"
+										class="form-control chosen" multiple="multiple"
+										placeholder="Select Vendor">
 										<option value="0">All Vendors</option>
 										<c:forEach items="${vendorList}" var="vendorList">
 
@@ -99,13 +100,13 @@
 								<div class="col-md-2">Select PO Type</div>
 								<div class="col-md-3">
 
-									<select name="poType" id="poType" class="form-control chosen"
-										tabindex="6" multiple="multiple">
-										<option value="4">All</option>
-										<option value="0">Regular</option>
-										<option value="1">Job Work</option>
-										<option value="2">General</option>
-										<option value="3">Other</option>
+									<select name="poTypeList[]" id="poType"
+										class="form-control chosen" tabindex="6" multiple="multiple">
+										<option value="0">All</option>
+										<option value="1">Regular</option>
+										<option value="2">Job Work</option>
+										<option value="3">General</option>
+										<option value="4">Other</option>
 
 									</select>
 
@@ -113,10 +114,10 @@
 							</div>
 							<br>
 							<div class="box-content">
-								<div class="col-md-2">Select Getpass Status</div>
+								<div class="col-md-2">Select Status</div>
 								<div class="col-md-3">
 
-									<select name="gpStatusList[]" id="gpStatusList"
+									<select name="poStatus[]" id="poStatus"
 										class="form-control chosen" multiple="multiple" tabindex="6"
 										required>
 										<option value="0">All</option>
@@ -155,11 +156,11 @@
 									<thead>
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr no.</th>
-											<th class="col-md-1">Date</th>
+											<th class="col-md-1">PO Date</th>
 											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Gp No</th>
-											<th class="col-md-1">Return No</th>
-											<th class="col-md-1">Action</th>
+											<th class="col-md-1">Po No</th>
+											<th class="col-md-1">Po Status</th>
+											<th class="col-md-1">Po Type</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -169,23 +170,17 @@
 												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
-												<td class="col-md-1"><c:out
-														value="${list.gpReturnDate}" /></td>
+												<td class="col-md-1"><c:out value="${list.poDate}" /></td>
 
 												<td class="col-md-1"><c:out value="${list.vendorName}" /></td>
 
-												<td class="col-md-1"><c:out value="${list.gpNo}" /></td>
+												<td class="col-md-1"><c:out value="${list.poNo}" /></td>
 
-												<td class="col-md-1"><c:out value="${list.returnNo}" /></td>
+												<td class="col-md-1"><c:out value="${list.poStatus}" /></td>
+												<td class="col-md-1"><c:out value="${list.poType}" /></td>
 
 
 
-												<td><a
-													href="${pageContext.request.contextPath}/editReturnList/${list.returnId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteGetpassHeaderReturn/${list.returnId}"
-													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a></td>
 
 											</tr>
 										</c:forEach>
@@ -287,73 +282,47 @@
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
 			var vendId = $("#vendId").val();
-
+			var poType = $("#poType").val();
+			var poStatus = $("#poStatus").val();
+			alert("hii");
 			$('#loader').show();
 
-			$
-					.getJSON(
-							'${getListOfReturnGetpass}',
+			$.getJSON('${getPoListReport}',
 
-							{
+			{
 
-								fromDate : fromDate,
-								toDate : toDate,
-								vendId : vendId,
-								ajax : 'true'
+				fromDate : fromDate,
+				toDate : toDate,
+				vendId : vendId,
+				poType : poType,
+				poStatus : poStatus,
 
-							},
-							function(data) {
+				ajax : 'true'
 
-								$('#table1 td').remove();
-								$('#loader').hide();
+			}, function(data) {
 
-								if (data == "") {
-									alert("No records found !!");
+				$('#table1 td').remove();
+				$('#loader').hide();
 
-								}
+				if (data == "") {
+					alert("No records found !!");
 
-								$
-										.each(
-												data,
-												function(key, itemList) {
+				}
 
-													var tr = $('<tr></tr>');
-													tr.append($('<td></td>')
-															.html(key + 1));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			itemList.gpReturnDate));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			itemList.vendorName));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			itemList.gpNo));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			itemList.returnNo));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			'<a href="${pageContext.request.contextPath}/editReturnList/'+itemList.returnId+'"><abbr'+
-													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteGetpassHeaderReturn/'
-																					+ itemList.returnId
-																					+ '"'
-																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
-													$('#table1 tbody').append(
-															tr);
-												})
+				$.each(data, function(key, itemList) {
 
-							});
+					var tr = $('<tr></tr>');
+					tr.append($('<td></td>').html(key + 1));
+					tr.append($('<td></td>').html(itemList.poDate));
+					tr.append($('<td></td>').html(itemList.vendorName));
+					tr.append($('<td></td>').html(itemList.poNo));
+					tr.append($('<td></td>').html(itemList.poStatus));
+					tr.append($('<td></td>').html(itemList.poType));
+
+					$('#table1 tbody').append(tr);
+				})
+
+			});
 		}
 	</script>
 
