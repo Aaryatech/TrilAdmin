@@ -97,13 +97,13 @@
 								<div class="col-md-2">Select Grn Type</div>
 								<div class="col-md-3">
 
-									<select name="poType" id="poType" class="form-control chosen"
+									<select name="grnType" id="grn_type" class="form-control chosen"
 										tabindex="6" multiple="multiple">
 										<option value="-1">All</option>
-										<option value="0">Regular</option>
-										<option value="1">Job Work</option>
-										<option value="2">General</option>
-										<option value="3">Other</option>
+										<option value="1">Regular</option>
+										<option value="2">Job Work</option>
+										<option value="3">General</option>
+										<option value="4">Other</option>
 
 									</select>
 
@@ -114,13 +114,13 @@
 								<div class="col-md-2">Select Mrn Status</div>
 								<div class="col-md-3">
 
-									<select name="gpStatusList[]" id="gpStatusList"
+									<select name="gpStatusList[]" id="mrn_status"
 										class="form-control chosen" multiple="multiple" tabindex="6"
 										required>
 										<option value="-1">All</option>
-										<option value="1">Pending</option>
-										<option value="2">Partial Pending</option>
-										<option value="3">Return</option>
+										<option value="0">Pending</option>
+										<option value="1">Partial Pending</option>
+										<option value="2">Completed</option>
 
 									</select>
 
@@ -284,9 +284,9 @@
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-			var grnTypeList = $("#selectFr").val();
-			var vendorList = $("#selectFr").val();
-			var statusList = $("#selectFr").val();
+			var grnTypeList = $("#grn_type").val();
+			var vendorList = $("#vendId").val();
+			var statusList = $("#mrn_status").val();
 
 			
 			$('#loader').show();

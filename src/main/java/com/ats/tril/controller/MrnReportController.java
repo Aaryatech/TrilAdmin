@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.IndentReport;
 import com.ats.tril.model.mrn.GetMrnHeader;
@@ -60,34 +61,24 @@ public class MrnReportController {
 
 			mrnReportHeadList=new ArrayList<GetMrnHeader>();
 			
-			
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 			//String[] grnTypeList = request.getParameterValues("grn_type_list");
 			
 			String selectedVendor = request.getParameter("vendor_list");
-			selectedVendor = selectedVendor.substring(1, selectedVendor.length() - 1);
-			selectedVendor = selectedVendor.replaceAll("\"", "");
-			List<String> vendorList = new ArrayList<String>();
-			vendorList = Arrays.asList(selectedVendor);
-			if(vendorList.contains(-1)) {
-				
-				map.add("vendorList", "-1");
-			}
-			else {
-				
-				map.add("vendorList", selectedVendor);
-			}
-			
-			
 			
 			String selectedGrnType = request.getParameter("grn_type_list");
+
+			String selectedStatus = request.getParameter("status_list");
+			
+
 			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
 			selectedGrnType = selectedGrnType.replaceAll("\"", "");
+
 			List<String> grnTypeList = new ArrayList<String>();
 			grnTypeList = Arrays.asList(selectedGrnType);
 			
-			if(grnTypeList.contains(-1)) {
+			if(grnTypeList.contains("-1")) {
 				
 				map.add("grnTypeList", "3"+","+"1"+","+"2"+","+"4");
 			}
@@ -96,13 +87,27 @@ public class MrnReportController {
 				map.add("grnTypeList", selectedGrnType);
 			}
 			
-			String selectedStatus = request.getParameter("status_list");
+			
+			
+			selectedVendor = selectedVendor.substring(1, selectedVendor.length() - 1);
+			selectedVendor = selectedVendor.replaceAll("\"", "");
+			List<String> vendorList = new ArrayList<String>();
+			vendorList = Arrays.asList(selectedVendor);
+			if(vendorList.contains("-1")) {
+				
+				map.add("vendorIdList", "-1");
+			}
+			else {
+				
+				map.add("vendorIdList", selectedVendor);
+			}
+			
 			selectedStatus = selectedStatus.substring(1, selectedStatus.length() - 1);
 			selectedStatus = selectedStatus.replaceAll("\"", "");
 			List<String> statusList = new ArrayList<String>();
 			statusList = Arrays.asList(selectedStatus);
 			
-			if(statusList.contains(-1)) {
+			if(statusList.contains("-1")) {
 				
 				map.add("statusList", "0"+","+"1"+","+"2"+","+"3");
 			}
@@ -110,6 +115,17 @@ public class MrnReportController {
 				
 				map.add("statusList", selectedStatus);
 			}
+			
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			
+			GetMrnHeader[] mrnHead = restTemplate.postForObject(Constants.url + "/getMrnHeadReport", map,
+					GetMrnHeader[].class);
+
+
+			mrnReportHeadList = new ArrayList<GetMrnHeader>(Arrays.asList(mrnHead));
+
+			System.err.println("Mrn Head Report  " +mrnReportHeadList.toString());
 			
 		}
 		catch (Exception e) {
@@ -119,6 +135,7 @@ public class MrnReportController {
 			e.printStackTrace();
 	
 		}
+		
 		return mrnReportHeadList;
 		
 	}
