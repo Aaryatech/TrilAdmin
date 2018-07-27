@@ -12,6 +12,7 @@
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
+<c:url var="editMemoQty" value="/editMemoQty"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -201,7 +202,7 @@
 																value="${editRejectionDetailList.rejectionQty}" Readonly /></td>
 
 															<td class="col-md-2"><input class="form-control"
-																id="memoQty${count.index}" placeholder=" memo Qty"
+																id="memoQty${editRejectionDetailList.rejDetailId}" placeholder=" memo Qty" onchange="editMemoQty(this.value,${editRejectionDetailList.rejDetailId})"
 																type="text" name="memoQty${count.index}" value="${editRejectionDetailList.memoQty}"></td>
 
 
@@ -371,7 +372,25 @@
 							});
 		}
 	</script>
+	
+	<script type="text/javascript">
+	function editMemoQty(memoQty,rejDetailId){
+	
 
+		 $.getJSON('${editMemoQty}',{
+
+			 rejDetailId : rejDetailId,
+			 memoQty : memoQty,
+		    	ajax : 'true',
+
+		    }, function(data) {
+				
+			    $("#loader").hide();
+
+			});
+		
+	}
+	</script>
 
 
 </body>
