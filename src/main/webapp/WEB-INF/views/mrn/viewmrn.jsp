@@ -118,11 +118,11 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th width="180" style="text-align: center;" style="width: 150px">Mrn No</th>
-													<th width="150" style="text-align: center;" align="center">Date</th>
-													<th width="150"  style="text-align: center;" align="center">Vendor</th>
-													<th width="150" style="text-align: center;" align="center">Type</th>
-													<th width="150" style="text-align: center;" align="center">Action</th>
+													<th class="col-md-2" style="text-align: center;" style="width: 150px">Mrn No</th>
+													<th class="col-md-2" style="text-align: center;" align="center">Date</th>
+													<th class="col-md-2"  style="text-align: center;" align="center">Vendor</th>
+													<th class="col-md-2" style="text-align: center;" align="center">Type</th>
+													<th class="col-md-2" style="text-align: center;" align="center">Action</th>
 												</tr>
 											</thead>
 											<!-- 	<div class="table-responsive" style="border: 0">
@@ -140,9 +140,9 @@
 											<tbody>
 												<c:forEach items="${mrnHeaderList}" var="mrn">
 													<tr>
-														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnNo}" /></td>
-														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnDate}" /></td>
-														<td align="left" style="text-align: center;"><c:out value="${mrn.vendorName}" /></td>
+														<td class="col-md-2" style="text-align: center;"><c:out value="${mrn.mrnNo}" /></td>
+														<td class="col-md-2" style="text-align: center;"><c:out value="${mrn.mrnDate}" /></td>
+														<td class="col-md-2" style="text-align: center;"><c:out value="${mrn.vendorName}" /></td>
 														<c:set var="mrnType" value="o"></c:set>
 														<c:choose>
 															<c:when test="${mrn.mrnType==1}">
@@ -159,17 +159,17 @@
 															</c:otherwise>
 														</c:choose>
 													
-														<td align="left" style="text-align: center;"><c:out value="${mrnType}" /></td>
+														<td class="col-md-2" style="text-align: center;"><c:out value="${mrnType}" /></td>
 
-														<td align="left" style="text-align: center;"><a
+														<td class="col-md-2" style="text-align: center;"><a
 															href="${pageContext.request.contextPath}/showEditViewMrnDetail/${mrn.mrnId}"><span
-																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+																class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<%-- 	<a
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
 																class="glyphicon glyphicon-info-sign"></span></a> --%>
 																<a
 															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}"><span
-																class="fa fa-edit"></span></a>
+																class="glyphicon glyphicon-trash"></span></a>
 														</td>
 													</tr>
 												</c:forEach>

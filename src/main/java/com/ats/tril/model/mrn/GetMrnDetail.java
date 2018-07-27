@@ -39,8 +39,34 @@ public class GetMrnDetail implements Serializable{
 	private int mrnDetailStatus;
 	
 	private int delStatus;
+	
+	
 
     
+	private int poPendingQty;//new added on 25-07 2018 Sachin
+	
+	private int poDetailId;//new added on 25-07 2018 Sachin
+	
+	private int mrnQtyBeforeEdit ;//new added on 25-07 2018 Sachin
+	
+	
+	
+	
+	public int getPoDetailId() {
+		return poDetailId;
+	}
+
+	public int getMrnQtyBeforeEdit() {
+		return mrnQtyBeforeEdit;
+	}
+
+	public void setPoDetailId(int poDetailId) {
+		this.poDetailId = poDetailId;
+	}
+
+	public void setMrnQtyBeforeEdit(int mrnQtyBeforeEdit) {
+		this.mrnQtyBeforeEdit = mrnQtyBeforeEdit;
+	}
 
 	public int getMrnDetailId() {
 		return mrnDetailId;
@@ -186,14 +212,25 @@ public class GetMrnDetail implements Serializable{
 		this.delStatus = delStatus;
 	}
 
+	public int getPoPendingQty() {
+		return poPendingQty;
+	}
+
+	public void setPoPendingQty(int poPendingQty) {
+		this.poPendingQty = poPendingQty;
+	}
+
 	@Override
 	public String toString() {
-		return "GetMrnDetail [indMId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", itemName=" + itemName
-				+ ", itemCode=" + itemCode + ", indentQty=" + indentQty + ", poQty=" + poQty + ", mrnQty=" + mrnQty
-				+ ", approveQty=" + approveQty + ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark
+		return "GetMrnDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", itemName="
+				+ itemName + ", itemCode=" + itemCode + ", indentQty=" + indentQty + ", poQty=" + poQty + ", mrnQty="
+				+ mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark
 				+ ", batchNo=" + batchNo + ", issueQty=" + issueQty + ", remainingQty=" + remainingQty + ", poId="
-				+ poId + ", poNo=" + poNo + ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + "]";
+				+ poId + ", poNo=" + poNo + ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus
+				+ ", poPendingQty=" + poPendingQty + ", poDetailId=" + poDetailId + ", mrnQtyBeforeEdit="
+				+ mrnQtyBeforeEdit + "]";
 	}
-	
+
+
 	
 }

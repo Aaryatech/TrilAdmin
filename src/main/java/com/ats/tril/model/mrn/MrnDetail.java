@@ -37,8 +37,17 @@ public class MrnDetail {
 	private int mrnDetailStatus;
 	
 	private int delStatus;
-
 	
+private int mrnQtyBeforeEdit;
+	
+	public int getMrnQtyBeforeEdit() {
+	return mrnQtyBeforeEdit;
+}
+
+public void setMrnQtyBeforeEdit(int mrnQtyBeforeEdit) {
+	this.mrnQtyBeforeEdit = mrnQtyBeforeEdit;
+}
+
 	public int getMrnId() {
 		return mrnId;
 	}
@@ -184,7 +193,8 @@ public class MrnDetail {
 				+ indentQty + ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty="
 				+ rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poDetailId=" + poDetailId + ", poNo=" + poNo
-				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + "]";
+				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", mrnQtyBeforeEdit="
+				+ mrnQtyBeforeEdit + "]";
 	}
 
 

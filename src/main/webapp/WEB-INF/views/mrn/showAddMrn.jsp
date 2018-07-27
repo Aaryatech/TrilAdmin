@@ -181,6 +181,8 @@ body {
 										<select name="vendor_id" id="vendor_id"
 											class="form-control chosen" placeholder="Vendor"
 											data-rule-required="true">
+											<option value="-1"><c:out value="SELECT VENDOR"/></option>
+
 											<c:forEach items="${vendorList}" var="vendor"
 												varStatus="count">
 												<option value="${vendor.vendorId}"><c:out value="${vendor.vendorName}"/></option>
@@ -304,15 +306,21 @@ body {
 														style="width: 100%" id="table_grid1">
 														<thead>
 															<tr>
-																<th>Select</th>
-																<th>Sr.No.</th>
-																<th>Item Code</th>
-																<th>Item Name</th>
-																<th>PO QTY</th>
-																<th>Received QTY</th>
-																<th>Pending QTY</th>
-																<th>PO No</th>
-																<th>Status</th>
+																<th class="col-md-1" style="text-align: center;">Select</th>
+																<th class="col-md-1" style="text-align: center;">Sr.No.</th>
+																<th class="col-md-2" style="text-align: center;">Item
+																	Code</th>
+																<th class="col-md-3" style="text-align: center;">Item
+																	Name</th>
+																<th class="col-md-1" style="text-align: center;">PO
+																	QTY</th>
+																<th class="col-md-1" style="text-align: center;">Rec
+																	QTY</th>
+																<th class="col-md-2" style="text-align: center;">Pending
+																	QTY</th>
+																<th class="col-md-1" style="text-align: center;">PO
+																	No</th>
+																<th class="col-md-1" style="text-align: center;">Status</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -348,14 +356,20 @@ body {
 												style="width: 100%" id="table_grid2">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Item Code</th>
-														<th>Item Name</th>
-														<th>PO QTY</th>
-														<th>Received QTY</th>
-														<th>Pending QTY</th>
-														<th>PO No</th>
-														<th>Status</th>
+														<th class="col-md-1" style="text-align: center;">Sr.No.</th>
+														<th class="col-md-2" style="text-align: center;">Item
+															Code</th>
+														<th class="col-md-3" style="text-align: center;">Item
+															Name</th>
+														<th class="col-md-1" style="text-align: center;">PO
+															QTY</th>
+														<th class="col-md-1" style="text-align: center;">Rec
+															QTY</th>
+														<th class="col-md-2" style="text-align: center;">Pending
+															QTY</th>
+														<th class="col-md-1" style="text-align: center;">PO
+															No</th>
+														<th class="col-md-1" style="text-align: center;">Status</th>
 													</tr>
 												</thead>
 
@@ -537,7 +551,7 @@ body {
 									var len = data.length;
 
 									$('#po_list').find('option').remove().end()
-									// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+									// $("#po_list").append($("<option></option>").attr( "value",-1).text("SELECT PO"));
 									for (var i = 0; i < len; i++) {
 
 										$("#po_list").append(
@@ -565,7 +579,7 @@ body {
 		// When the user clicks the button, open the modal 
 		btn.onclick = function() {
 			modal.style.display = "block";
-			getPoDetail(0,0);
+			getPoDetail(0, 0);
 		}
 
 		// When the user clicks on <span> (x), close the modal
@@ -581,62 +595,136 @@ body {
 			}
 		}
 
-		function getPoDetail(qty,poDId) {
+		function getPoDetail(qty, poDId) {
 			//alert("inside Indent Insetr");
 
 			//alert("called Button")
 			var selectedPoIds = $("#po_list").val();
-			
+
 			alert(" Selected PO Id  " + selectedPoIds);
 
-			$.getJSON('${getPODetailList}', {
-				poIds : JSON.stringify(selectedPoIds),
-				qty	: qty,
-				poDId : poDId,
-				ajax : 'true',
-			}, function(data) {
-				$('#table_grid1 td').remove();
-				$('#loader').hide();
+			$
+					.getJSON(
+							'${getPODetailList}',
+							{
+								poIds : JSON.stringify(selectedPoIds),
+								qty : qty,
+								poDId : poDId,
+								ajax : 'true',
+							},
+							function(data) {
+								$('#table_grid1 td').remove();
+								$('#loader').hide();
 
-				if (data == "") {
-					alert("No records found !!");
+								if (data == "") {
+									alert("No records found !!");
 
-				}
+								}
 
-				$.each(data, function(key, itemList) {
-					alert("data received "+data[0]);
-					
-					var tr = $('<tr></tr>');
-					
-					tr
-					.append($(
-							'<td></td>')
-					.html("<input type=checkbox style='text-align:right; width:40px' class=form-control name=checkBox"+itemList.poDetailId+""+itemList.itemId+" id=checkBox"+itemList.poDetailId+""+itemList.itemId+" oninput='checkMe(this.value)'  />"));
-										
-					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(itemList.itemCode));
-					tr.append($('<td></td>').html(itemList.itemDesc));
-					tr.append($('<td></td>').html(itemList.itemQty));
-					
-					tr
-					.append($(
-							'<td></td>')
-					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
-			/* 		var pendQty=0;
-					if(itemList.receivedQty==0){
-						
-						pendQty=itemList.pendingQty;
-					}else{ */
-					var	pendQty=itemList.pendingQty-itemList.receivedQty;
-					//}
-					
-//tr.append($('<td></td>').html(itemList.itemQty));//textbox
-tr.append($('<td></td>').html(pendQty));
-					tr.append($('<td></td>').html(itemList.poNo));
-					tr.append($('<td></td>').html(itemList.status));
-					$('#table_grid1 tbody').append(tr);
-				})
-			});
+								$
+										.each(
+												data,
+												function(key, itemList) {
+													alert("data received "
+															+ data[0]);
+
+													var tr = $('<tr></tr>');
+
+													tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			"<input type=checkbox style='text-align:center; width:40px' class=form-control name=checkBox"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " id=checkBox"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " oninput='checkMe(this.value)'  />"));
+
+													tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			key + 1));
+													tr
+															.append($(
+																	'<td class="col-md-2" style="text-align: center;"></td>')
+																	.html(
+																			itemList.itemCode));
+													tr
+															.append($(
+																	'<td class="col-md-3" style="text-align: center;"></td>')
+																	.html(
+																			itemList.itemName));
+													tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			itemList.itemQty));
+
+													tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			"<input type=text style='text-align:center; width:90px' class=form-control name=recQty"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " id=recQty"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " onchange='callMe(this.value,"
+																					+ itemList.poDetailId
+																					+ ","
+																					+ itemList.pendingQty
+																					+ ","
+																					+ itemList.itemId
+																					+ ")' value="
+																					+ itemList.receivedQty
+																					+ " />"));
+													/* 		var pendQty=0;
+															if(itemList.receivedQty==0){
+																
+																pendQty=itemList.pendingQty;
+															}else{ */
+													var pendQty = itemList.pendingQty
+															- itemList.receivedQty;
+													//}
+
+													//tr.append($('<td></td>').html(itemList.itemQty));//textbox
+
+													var status;
+													if (itemList.status == 1) {
+														status = "Pending";
+													} else if (itemList.status == 1) {
+
+														status = "Partial";
+													} else {
+														status = "Closed";
+													}
+													tr
+															.append($(
+																	'<td class="col-md-2" style="text-align: center;"></td>')
+																	.html(
+																			pendQty));
+													tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			itemList.poNo));
+													tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			status));
+													$('#table_grid1 tbody')
+															.append(tr);
+												})
+							});
 		}
 	</script>
 	<!--  akshay call -->
@@ -659,163 +747,221 @@ tr.append($('<td></td>').html(pendQty));
 				}
 			}
 		}
-		function callMe(qty,poDId,pendingQty){
-			alert("pending qty " +pendingQty);
-			alert("Qty  " +qty);
-			
-			if(parseInt(qty)>parseInt(pendingQty)){
+		function callMe(qty, poDId, pendingQty, itemId) {
+			//alert("pending qty " +pendingQty);
+			//alert("Qty  " +qty);
 
+			if (parseInt(qty) > parseInt(pendingQty)) {
+				document.getElementById("recQty" + poDId + itemId).value = 0;
 				alert("Received Qty can not be greater than Pending Qty");
-				
 
-			}else{
-				
-				getPoDetail(qty,poDId);
+			} else {
 
+				getPoDetail(qty, poDId);
 
 			}
-			
+
 		}
-		function checkMe(checking){
-			alert("check " +checking);
+		function checkMe(checking) {
+			alert("check " + checking);
 		}
 	</script>
 
 	<script>
-
 		function tempSubmit() {
 			//alert("inside Indent Insetr");
 
 			//alert("called Button")
-		
-			$.getJSON('${getTempPoDetail}', {
-			
-				ajax : 'true',
-			}, function(data) {
-				$('#table_grid2 td').remove();
-				$('#loader').hide();
 
-				if (data == "") {
-					alert("No records found !!");
+			$
+					.getJSON(
+							'${getTempPoDetail}',
+							{
 
-				}
-				var cnt=0;
-				$.each(data, function(key, itemList) {
-					alert("data received "+data[0]);
-					 
-					if(itemList.receivedQty>0){
-					var tr = $('<tr></tr>');
-					cnt=cnt+1;
-					/* tr
-					.append($(
-							'<td></td>')
-					.html("<input type=checkbox style='text-align:right; width:40px' class=form-control name=checkBox"+itemList.poDetailId+""+itemList.itemId+" id=checkBox"+itemList.poDetailId+""+itemList.itemId+" oninput='checkMe(this.value)'  />"));
-							cnt=			 */
-					tr.append($('<td></td>').html(cnt));
-					tr.append($('<td></td>').html(itemList.itemCode));
-					tr.append($('<td></td>').html(itemList.itemDesc));
-					tr.append($('<td></td>').html(itemList.itemQty));
-					
-					tr
-					.append($(
-							'<td></td>')
-					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" disabled />"));
-										var pendQty=0;
-										if(itemList.receivedQty==0){
-											
-											pendQty=itemList.pendingQty;
-										}else{
-											pendQty=itemList.pendingQty-itemList.receivedQty;
-										}
-										
-					//tr.append($('<td></td>').html(itemList.itemQty));//textbox
-					tr.append($('<td></td>').html(pendQty));
-					tr.append($('<td></td>').html(itemList.poNo));
-					tr.append($('<td></td>').html(itemList.status));
-					$('#table_grid2 tbody').append(tr);
-					}//end of if received Qty >0
-					modal.style.display = "none";
+								ajax : 'true',
+							},
+							function(data) {
+								$('#table_grid2 td').remove();
+								$('#loader').hide();
 
-				})
-			});
+								if (data == "") {
+									alert("No records found !!");
+
+								}
+								var cnt = 0;
+								$
+										.each(
+												data,
+												function(key, itemList) {
+													alert("data received "
+															+ data[0]);
+
+													if (itemList.receivedQty > 0) {
+														var tr = $('<tr></tr>');
+														cnt = cnt + 1;
+														/* tr
+														.append($(
+																'<td></td>')
+														.html("<input type=checkbox style='text-align:right; width:40px' class=form-control name=checkBox"+itemList.poDetailId+""+itemList.itemId+" id=checkBox"+itemList.poDetailId+""+itemList.itemId+" oninput='checkMe(this.value)'  />"));
+																cnt=			 */
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		.html(
+																				cnt));
+														tr
+																.append($(
+																		'<td class="col-md-2" style="text-align: center;"></td>')
+																		.html(
+																				itemList.itemCode));
+														tr
+																.append($(
+																		'<td class="col-md-3" style="text-align: center;"></td>')
+																		.html(
+																				itemList.itemName));
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		.html(
+																				itemList.itemQty));
+
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		.html(
+																				"<input type=text style='text-align:center; width:90px' class=form-control name=recQty"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=recQty"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")' value="
+																						+ itemList.receivedQty
+																						+ " disabled />"));
+														var pendQty = 0;
+														if (itemList.receivedQty == 0) {
+
+															pendQty = itemList.pendingQty;
+														} else {
+															pendQty = itemList.pendingQty
+																	- itemList.receivedQty;
+														}
+
+														//tr.append($('<td></td>').html(itemList.itemQty));//textbox
+
+														var status;
+														if (itemList.status == 1) {
+															status = "Pending";
+														} else if (itemList.status == 1) {
+
+															status = "Partial";
+														} else {
+															status = "Closed";
+														}
+														tr
+																.append($(
+																		'<td class="col-md-2" style="text-align: center;"></td>')
+																		.html(
+																				pendQty));
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		.html(
+																				itemList.poNo));
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		.html(
+																				status));
+														$('#table_grid2 tbody')
+																.append(tr);
+													}//end of if received Qty >0
+													modal.style.display = "none";
+
+												})
+							});
 		}
 	</script>
 	<script type="text/javascript">
-	function insertMrn(){
-		
-		alert("Insert Mrn ");
-	}
-	
+		function insertMrn() {
+
+			alert("Insert Mrn ");
+		}
 	</script>
 
 
 	<script type="text/javascript">
-	function insertMrn(){
+		function insertMrn() {
 			//alert("Hi ");
-					$('#loader').show();
+			$('#loader').show();
 
-						var grn_type = $("#grn_type").val();
-						
-						var vendor_id = $("#vendor_id").val();
+			var grn_type = $("#grn_type").val();
 
-						var grn_no = $("#grn_no").val();
+			var vendor_id = $("#vendor_id").val();
 
-						var grn_date = $("#grn_date").val();
+			var grn_no = $("#grn_no").val();
 
-						var gate_entry_no = $("#gate_entry_no").val();
+			var grn_date = $("#grn_date").val();
 
-						var gate_entry_date = $("#gate_entry_date").val();
+			var gate_entry_no = $("#gate_entry_no").val();
 
-						var chalan_no = $("#chalan_no").val();
+			var gate_entry_date = $("#gate_entry_date").val();
 
-						var chalan_date = $("#chalan_date").val();
+			var chalan_no = $("#chalan_no").val();
 
-						var bill_no = $("#bill_no").val();
+			var chalan_date = $("#chalan_date").val();
 
-						var bill_date = $("#bill_date").val();
+			var bill_no = $("#bill_no").val();
 
-						var po_list = $("#po_list").val();
-						
-						//
-						
-						var lorry_date = $("#lorry_date").val();
+			var bill_date = $("#bill_date").val();
 
-						var lorry_no = $("#lorry_no").val();
+			var po_list = $("#po_list").val();
 
-						var lorry_remark = $("#lorry_remark").val();
+			//
 
-						var transport = $("#transport").val();
+			var lorry_date = $("#lorry_date").val();
 
+			var lorry_no = $("#lorry_no").val();
 
-							$.getJSON('${insertMrnProcess}',{
-								
-								grn_type : grn_type,
-								vendor_id : vendor_id,
-								grn_no : grn_no,
-								grn_date : grn_date,
-								gate_entry_no : gate_entry_no,
-								gate_entry_date : gate_entry_date,
-								chalan_no : chalan_no,
-								chalan_date : chalan_date,
-								bill_no : bill_no,
-								bill_date : bill_date,
-								lorry_date : lorry_date,
-								lorry_no : lorry_no,
-								lorry_remark : lorry_remark,
-								transport : transport,
+			var lorry_remark = $("#lorry_remark").val();
 
-								ajax : 'true',
-							 },
-							 function(data) {
-								 $('#loader').hide();
+			var transport = $("#transport").val();
 
-								window.location.reload();
-									window.open("${pageContext.request.contextPath}/showAddMrn");
-								 
+			$.getJSON('${insertMrnProcess}', {
+
+				grn_type : grn_type,
+				vendor_id : vendor_id,
+				grn_no : grn_no,
+				grn_date : grn_date,
+				gate_entry_no : gate_entry_no,
+				gate_entry_date : gate_entry_date,
+				chalan_no : chalan_no,
+				chalan_date : chalan_date,
+				bill_no : bill_no,
+				bill_date : bill_date,
+				lorry_date : lorry_date,
+				lorry_no : lorry_no,
+				lorry_remark : lorry_remark,
+				transport : transport,
+
+				ajax : 'true',
+			}, function(data) {
+				$('#loader').hide();
+
+				window.location.reload();
+				window.open("${pageContext.request.contextPath}/showAddMrn");
+
 			});
-		//	alert("Hi End  ");
-	}
-	
+			//	alert("Hi End  ");
+		}
 	</script>
 
 
