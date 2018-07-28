@@ -1607,4 +1607,19 @@ public class ReportController {
 
 	}
 
+	@RequestMapping(value = "/rejectionReportVendorwise", method = RequestMethod.GET)
+	public ModelAndView rejectionReportVendorwise(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/rejectionVendorwise");
+		try {
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
 }
