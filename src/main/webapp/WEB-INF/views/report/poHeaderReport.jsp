@@ -326,7 +326,7 @@
 					document.getElementById("PDFButton").disabled = true;
 
 				}
-			
+
 				$.each(data, function(key, itemList) {
 
 					var tr = $('<tr></tr>');
@@ -381,6 +381,7 @@
 
 			window.open('${pageContext.request.contextPath}/showPOPdf/'
 					+ fromDate + '/' + toDate);
+			document.getElementById("expExcel").disabled = true;
 
 		}
 	</script>

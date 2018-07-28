@@ -1187,6 +1187,7 @@ public class ReportController {
 	public List<IndentReport> getIndentListReport(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
+			getlist1 = new ArrayList<>();
 
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
@@ -1284,6 +1285,7 @@ public class ReportController {
 	public List<GetPoHeaderList> getPoListReport(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
+			getPoList = new ArrayList<>();
 
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
@@ -1631,7 +1633,7 @@ public class ReportController {
 	public List<RejectionReport> getRejectionVendorwise(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-
+			getRejList = new ArrayList<>();
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 			String[] vendorIdList = request.getParameterValues("vendorIdList[]");
@@ -1669,7 +1671,7 @@ public class ReportController {
 			rowData.add("Rejection No");
 			rowData.add("Rejection Date");
 			rowData.add("Item Name");
-			rowData.add("Quantity");
+			rowData.add("Memo Quantity");
 			rowData.add("Mrn No");
 
 			expoExcel.setRowData(rowData);
@@ -1685,7 +1687,7 @@ public class ReportController {
 				rowData.add("" + getRejList.get(i).getRejectionNo());
 				rowData.add("" + getRejList.get(i).getRejectionDate());
 				rowData.add("" + getRejList.get(i).getItemDesc());
-				rowData.add("" + getRejList.get(i).getRejectionQty());
+				rowData.add("" + getRejList.get(i).getMemoQty());
 				rowData.add("" + getRejList.get(i).getMrnNo());
 
 				expoExcel.setRowData(rowData);
@@ -1782,7 +1784,7 @@ public class ReportController {
 
 			table.addCell(hcell);
 
-			hcell = new PdfPCell(new Phrase("Quantity", headFont1));
+			hcell = new PdfPCell(new Phrase("Memo Quantity", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -1841,7 +1843,7 @@ public class ReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + bill.getRejectionQty(), headFont));
+				cell = new PdfPCell(new Phrase("" + bill.getMemoQty(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -1960,6 +1962,8 @@ public class ReportController {
 
 		try {
 
+			getRejList = new ArrayList<>();
+
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 			String[] itemIdList = request.getParameterValues("itemIdList[]");
@@ -1999,7 +2003,7 @@ public class ReportController {
 			rowData.add("Rejection No");
 			rowData.add("Rejection Date");
 
-			rowData.add("Quantity");
+			rowData.add("Memo Quantity");
 			rowData.add("Mrn No");
 
 			expoExcel.setRowData(rowData);
@@ -2017,7 +2021,7 @@ public class ReportController {
 				rowData.add("" + getRejList.get(i).getRejectionNo());
 				rowData.add("" + getRejList.get(i).getRejectionDate());
 
-				rowData.add("" + getRejList.get(i).getRejectionQty());
+				rowData.add("" + getRejList.get(i).getMemoQty());
 				rowData.add("" + getRejList.get(i).getMrnNo());
 
 				expoExcel.setRowData(rowData);
@@ -2120,7 +2124,7 @@ public class ReportController {
 
 			table.addCell(hcell);
 
-			hcell = new PdfPCell(new Phrase("Quantity", headFont1));
+			hcell = new PdfPCell(new Phrase("Memo Quantity", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -2186,7 +2190,7 @@ public class ReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + bill.getRejectionQty(), headFont));
+				cell = new PdfPCell(new Phrase("" + bill.getMemoQty(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -2206,7 +2210,7 @@ public class ReportController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph(" "));
-			Paragraph company = new Paragraph("Rejection Vendorwise Report\n", f);
+			Paragraph company = new Paragraph("Rejection Itemwise Report\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			document.add(new Paragraph(" "));

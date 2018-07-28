@@ -133,7 +133,7 @@
 											<th class="col-md-1">Rejection No</th>
 											<th class="col-md-1">Rejection Date</th>
 											<th class="col-md-1">Item Name</th>
-											<th class="col-md-1">Quantity</th>
+											<th class="col-md-1">Memo Quantity</th>
 											<th class="col-md-1">Mrn No</th>
 										</tr>
 									</thead>
@@ -304,7 +304,7 @@
 					tr.append($('<td></td>').html(itemList.rejectionNo));
 					tr.append($('<td></td>').html(itemList.rejectionDate));
 					tr.append($('<td></td>').html(itemList.itemDesc));
-					tr.append($('<td></td>').html(itemList.rejectionQty));
+					tr.append($('<td></td>').html(itemList.memoQty));
 					tr.append($('<td></td>').html(itemList.mrnNo));
 
 					$('#table1 tbody').append(tr);
@@ -330,6 +330,7 @@
 			window
 					.open('${pageContext.request.contextPath}/showRejectionVendorwisePdf/'
 							+ fromDate + '/' + toDate);
+			document.getElementById("expExcel").disabled = true;
 
 		}
 	</script>

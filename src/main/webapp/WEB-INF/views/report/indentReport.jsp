@@ -365,6 +365,7 @@
 
 			window.open('${pageContext.request.contextPath}/showIndentPdf/'
 					+ fromDate + '/' + toDate);
+			document.getElementById("expExcel").disabled = true;
 
 		}
 	</script>
