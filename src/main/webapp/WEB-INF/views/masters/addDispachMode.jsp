@@ -61,7 +61,7 @@
 								method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Dispach Mode Description*</div>
+									<div class="col-md-2">Dispach Mode*</div>
 									<div class="col-md-3">
 										<input id="dispModeDesc" class="form-control"
 								placeholder="Dispach Mode Description" value="${editDispatchMode.dispModeDesc}"  style="text-align: left;" name="dispModeDesc" type="text" required>
@@ -94,7 +94,7 @@
 									<thead>
 												<tr class="bgpink">
 													<th class="col-sm-1">Sr no.</th> 
-													<th class="col-md-1">Dispach Mode Description</th> 
+													<th class="col-md-1">Dispach Mode</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -143,7 +143,7 @@
 
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

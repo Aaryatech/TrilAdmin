@@ -10,7 +10,7 @@
 <body>
 
 
-	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
+	<c:url var="checkVendCodeExist" value="/checkVendCodeExist"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 	<c:url var="exhibitorMobileNo" value="/exhibitorMobileNo"></c:url>
 
@@ -39,7 +39,8 @@
 					<h1>
 
 						<i class="fa fa-file-o"></i> 
-									 Add Vendor 
+									
+									  Vendor
 
 					</h1>
 				</div>
@@ -54,7 +55,14 @@
 							<h3>
 								<i class="fa fa-table"></i>
 								 
-								 Add Vendor 
+								 <c:choose>
+										<c:when test="${isEdit==1}">
+										Edit Vendor
+										</c:when>
+										<c:otherwise>
+										 Add Vendor 
+										</c:otherwise>
+									</c:choose>
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/vendorList">
@@ -73,10 +81,25 @@
 
 									<div class="col-md-2">Vendor Code*</div>
 									<div class="col-md-3">
+									
+									<c:choose>
+										<c:when test="${isEdit==1}">
 										<input id="vendorCode" class="form-control"
 									placeholder="Vendor Code" style="text-align: left;"
 									name="vendorCode" value="${editVendor.vendorCode}" type="text"
-									required> <input id="vendorId" class="form-control"
+									readonly>  
+										</c:when>
+			  			 			<c:otherwise>
+										<input id="vendorCode" class="form-control"
+									placeholder="Vendor Code" maxlength="6" onchange="checkVendCodeExist()" onkeydown="upperCaseF(this)" style="text-align: left;"
+									name="vendorCode" value="${editVendor.vendorCode}" type="text"
+									required> 
+										</c:otherwise>
+									</c:choose>
+										
+									
+									
+									<input id="vendorId" class="form-control"
 									name="vendorId" value="${editVendor.vendorId}" type="hidden">
 								  
 									</div>
@@ -91,8 +114,7 @@
 
 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor Add 1*</div>
@@ -112,11 +134,9 @@
 									required>
 
 
-									</div>
-									  
+									</div> 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor Add 3*</div>
@@ -141,8 +161,7 @@
 
 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor State*</div>
@@ -173,17 +192,16 @@
 									<div class="col-md-2">Vendor Contact Person*</div>
 									<div class="col-md-3">
 										<input id="vendorContactPerson" class="form-control"
-									placeholder="Vendor Contact Person" pattern="\d{10}" style="text-align: left;"
+									placeholder="Vendor Contact Person" style="text-align: left;"
 									name="vendorContactPerson" type="text"
-									value="${editVendor.vendorContactPerson}" maxlength="10" required>
+									value="${editVendor.vendorContactPerson}"  required>
 
 
 									</div>
 
 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor City*</div>
@@ -209,8 +227,7 @@
 
 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor Email*</div>
@@ -218,7 +235,7 @@
 										<input id="vendorEmail" class="form-control"
 									placeholder="Vendor Email" style="text-align: left;"
 									name="vendorEmail" value="${editVendor.vendorEmail}"
-									type="text" required>
+									type="email" required>
 
 
 									</div>
@@ -236,8 +253,7 @@
 
 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor Item*</div>
@@ -262,15 +278,14 @@
 
 
 								</div>
-								<br><br>
-
+								<br> 
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor Gst NO*</div>
 									<div class="col-md-3">
 									<input id="vendorGstNo" class="form-control"
 									placeholder="Vendor Gst No" style="text-align: left;"
-									name="vendorGstNo" value="${editVendor.vendorGstNo}"
+									name="vendorGstNo" maxlength="15" value="${editVendor.vendorGstNo}"
 									type="text" required>
 									</div>
 
@@ -290,17 +305,21 @@
 
 
 								</div>
-								<br><br>
-								  
+								<br> 
 								<br>  
 
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
-									 
-									 
-									<input type="submit" class="btn btn-info" value="Submit"
-											  id="submit"  >
-										 
+									 <c:choose>
+										<c:when test="${isEdit==1}">
+										<input type="submit" class="btn btn-info" value="Submit"
+											id="submit">
+										</c:when>
+										<c:otherwise>
+										<input type="submit" class="btn btn-info" value="Submit"
+											id="submit" disabled>
+										</c:otherwise>
+									</c:choose> 
 									</div>
 								</div>
 							</form>
@@ -314,7 +333,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -390,6 +409,35 @@
 
 
 	<script type="text/javascript">
+			
+	function checkVendCodeExist() {
+		
+		var vendorCode = $("#vendorCode").val(); 
+
+		$.getJSON('${checkVendCodeExist}', {
+
+			vendorCode : vendorCode,
+			ajax : 'true',
+
+		}, function(data) {
+			
+			if(data==0) 
+			{
+				document.getElementById("submit").disabled = false;  
+			}
+			else if(vendorCode=="" || vendorCode==null)
+			{
+				document.getElementById("submit").disabled = true; 
+			}
+			else
+			{
+				alert("Code Is Available ");
+				document.getElementById("submit").disabled = true;
+			}
+	 
+		});
+
+	}
 	function getStateName() {
 		//alert("ala");
 		var stateId = $('#stateId option:selected').text();
@@ -450,6 +498,12 @@
 					}
 				});
 			}
+		}
+		
+		function upperCaseF(a){
+		    setTimeout(function(){
+		        a.value = a.value.toUpperCase();
+		    }, 1);
 		}
 	</script>
 

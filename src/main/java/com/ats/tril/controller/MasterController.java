@@ -1,7 +1,9 @@
 package com.ats.tril.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +32,16 @@ import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.SubDept;
+import com.ats.tril.model.Uom;
 
 @Controller
 @Scope("session")
 public class MasterController {
 
 	RestTemplate rest = new RestTemplate();
+	List<Dept> deparmentList = new ArrayList<>();
+	List<GetSubDept> getSubDeptList = new ArrayList<>();
+	List<GetItem> itemList = new ArrayList<>();
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
@@ -144,7 +150,7 @@ public class MasterController {
 		try {
 
 			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
-			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
+			deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
 
 			model.addObject("deparmentList", deparmentList);
 
@@ -153,6 +159,31 @@ public class MasterController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/checkDeptCodeExist", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkDeptCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		 int exist = 0 ;
+		 
+		try {
+
+			String deptCode = request.getParameter("deptCode");
+			 
+			 for(int i = 0 ; i < deparmentList.size() ; i++)
+			 {
+				 if(deparmentList.get(i).getDeptCode().equals(deptCode.trim()))
+				 {
+					 exist = 1;
+					 break;
+				 }
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return exist;
 	}
 
 	@RequestMapping(value = "/insertDepartment", method = RequestMethod.POST)
@@ -206,6 +237,7 @@ public class MasterController {
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
 
 			model.addObject("deparmentList", deparmentList);
+			model.addObject("isEdit", 1);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -437,7 +469,7 @@ public class MasterController {
 		try {
 
 			GetSubDept[] getSubDept = rest.getForObject(Constants.url + "/getAllSubDept", GetSubDept[].class);
-			List<GetSubDept> getSubDeptList = new ArrayList<GetSubDept>(Arrays.asList(getSubDept));
+			getSubDeptList = new ArrayList<GetSubDept>(Arrays.asList(getSubDept));
 
 			model.addObject("subDeptList", getSubDeptList);
 
@@ -451,6 +483,31 @@ public class MasterController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/checkSubDeptCodeExist", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkSubDeptCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		 int exist = 0 ;
+		 
+		try {
+
+			String subGroupCode = request.getParameter("subGroupCode");
+			 
+			 for(int i = 0 ; i < getSubDeptList.size() ; i++)
+			 {
+				 if(getSubDeptList.get(i).getSubDeptCode().equals(subGroupCode.trim()))
+				 {
+					 exist = 1;
+					 break;
+				 }
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return exist;
 	}
 
 	@RequestMapping(value = "/insertsubDept", method = RequestMethod.POST)
@@ -510,6 +567,7 @@ public class MasterController {
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
 
 			model.addObject("deparmentList", deparmentList);
+			model.addObject("isEdit", 1);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -637,16 +695,52 @@ public class MasterController {
 
 		ModelAndView model = new ModelAndView("masters/addItem");
 		try {
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			model.addObject("date", sf.format(date));
 
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
 			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
 			model.addObject("categoryList", categoryList);
+			
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
+			
+			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+			itemList = new ArrayList<GetItem>(Arrays.asList(item));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		 int exist = 0 ;
+		 
+		try {
+
+			String itemCode = request.getParameter("itemCode");
+			 
+			 for(int i = 0 ; i < itemList.size() ; i++)
+			 {
+				 if(itemList.get(i).getItemCode().equals(itemCode.trim()))
+				 {
+					 exist = 1;
+					 break;
+				 }
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return exist;
 	}
 	
 	@RequestMapping(value = "/getgroupIdByCatId", method = RequestMethod.GET)
@@ -664,6 +758,7 @@ public class MasterController {
 					GetItemGroup[].class);
 			getItemGroupList = new ArrayList<>(Arrays.asList(itemGroupList));
 			System.out.println(getItemGroupList);
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -766,7 +861,7 @@ public class MasterController {
 
 		return "redirect:/getItemList";
 	}
-	
+	 
 	@RequestMapping(value = "/getItemList", method = RequestMethod.GET)
 	public ModelAndView getItemList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -815,6 +910,14 @@ public class MasterController {
 						GetItemSubGrp[].class);
 				List<GetItemSubGrp> getItemSubGrpList = new ArrayList<>(Arrays.asList(itemSubGroupList));
 				model.addObject("getItemSubGrpList", getItemSubGrpList);
+				
+				Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+				List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+				model.addObject("uomList", uomList);
+				
+				model.addObject("isEdit", 1);
+				
+				model.addObject("date",item.getItemDate());
 
 		} catch (Exception e) {
 			e.printStackTrace();

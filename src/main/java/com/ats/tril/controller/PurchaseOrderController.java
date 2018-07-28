@@ -251,7 +251,7 @@ public class PurchaseOrderController {
 						poDetail.setIndMNo(intendDetailList.get(i).getIndMNo());
 						poDetail.setBasicValue(poDetail.getItemQty()*poDetail.getItemRate());
 						poDetail.setDiscValue((poDetail.getDiscPer()/100)*poDetail.getBasicValue());
-						poDetail.setLandingCost(poDetail.getItemQty()*poDetail.getItemRate());
+						poDetail.setLandingCost(poDetail.getItemQty()*poDetail.getItemRate()-poDetail.getDiscValue());
 						poBasicValue=poBasicValue+poDetail.getBasicValue();
 						discValue = discValue + poDetail.getDiscValue();
 						poDetailList.add(poDetail);

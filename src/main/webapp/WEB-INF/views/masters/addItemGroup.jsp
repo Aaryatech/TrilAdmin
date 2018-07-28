@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
+	<c:url var="checkGroupCodeExist" value="/checkGroupCodeExist"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Add Item Group
+						<i class="fa fa-file-o"></i>Item Group
 
 					</h1>
 				</div>
@@ -45,11 +45,19 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Item Group
+								<i class="fa fa-table"></i> 
+								<c:choose>
+										<c:when test="${isEdit==1}">
+										Edit Item Group
+										</c:when>
+										<c:otherwise>
+										Add Item Group
+										</c:otherwise>
+									</c:choose>
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addItemGroup">
+									Add Item Group</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -63,10 +71,22 @@
 
 									<div class="col-md-2">Group Code*</div>
 									<div class="col-md-3">
+									<c:choose>
+										<c:when test="${isEdit==1}">
 										<input id="grpCode" class="form-control"
 									placeholder="Group Code" style="text-align: left;"
 									name="grpCode" value="${editItemGroup.grpCode}" type="text"
-									required> <input id="grpId" class="form-control"
+									readonly> 
+										</c:when>
+										<c:otherwise>
+										<input id="grpCode" class="form-control"
+									placeholder="Group Code" style="text-align: left;"
+									name="grpCode" maxlength="2" onchange="checkGroupCodeExist()" onkeydown="upperCaseF(this)" value="${editItemGroup.grpCode}" type="text"
+									required> 
+										</c:otherwise>
+									</c:choose>
+									
+										<input id="grpId" class="form-control"
 									name="grpId" value="${editItemGroup.grpId}" type="hidden">
 									
 									</div>
@@ -83,10 +103,10 @@
 
 
 								</div>
-								<br> <br>
+								<br> 
 								<div class="box-content">
 
-									<div class="col-md-2">Select Group*</div>
+									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3"> 
 								<select class="form-control chosen"  name="catId" id="catId"   required>
 									<option value="">select</option>
@@ -109,8 +129,8 @@
 									<div class="col-md-2">Group Value*</div>
 									<div class="col-md-3">
 										<input id="grpValueyn" class="form-control"
-									placeholder="Group Value" style="text-align: left;"
-									name="grpValueyn" type="text"
+									placeholder="Group Value" style="text-align: right: ;"
+									pattern="[+-]?([0-9]*[.])?[0-9]+" name="grpValueyn" type="text"
 									value="${editItemGroup.grpValueyn}" required>
 									
 									</div>
@@ -122,9 +142,17 @@
 					<br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
-										<input type="submit" class="btn btn-info" value="Submit"
+										 
+									<c:choose>
+										<c:when test="${isEdit==1}">
+										<input type="submit" class="btn btn-info" onclick="check()" value="Submit"
 											id="submit">
-
+										</c:when>
+										<c:otherwise>
+										<input type="submit" class="btn btn-info" onclick="check()" value="Submit"
+											id="submit" disabled>
+										</c:otherwise>
+									</c:choose> 
 
 
 									</div>
@@ -201,7 +229,7 @@
 
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -277,21 +305,46 @@
 
 
 	<script type="text/javascript">
-		function passwordValidation() {
+	function checkGroupCodeExist() {
+		
+		var grpCode = $("#grpCode").val(); 
 
-			var pass = document.getElementById("password").value;
-			var pass1 = document.getElementById("rePassword").value;
+		$.getJSON('${checkGroupCodeExist}', {
 
-			if (pass != "" && pass1 != "") {
-				if (pass != pass1) {
-					alert("Password Not Matched ");
-					document.getElementById("submit").disabled = true;
-				} else {
-					document.getElementById("submit").disabled = false;
+			grpCode : grpCode,
+			ajax : 'true',
 
-				}
-
+		}, function(data) {
+			
+			if(data==0) 
+			{
+				document.getElementById("submit").disabled = false;  
 			}
+			else if(grpCode=="" || grpCode==null)
+			{
+				document.getElementById("submit").disabled = true; 
+			}
+			else
+			{
+				alert("Code Is Available ");
+				document.getElementById("submit").disabled = true;
+			}
+	 
+		});
+
+	}
+		function check() {
+
+			var catId = $("#catId").val(); 
+			 if(catId=="" || catId==null)
+				 {
+				 alert("Select Category");
+				 }
+		}
+		function upperCaseF(a){
+		    setTimeout(function(){
+		        a.value = a.value.toUpperCase();
+		    }, 1);
 		}
 	</script>
 

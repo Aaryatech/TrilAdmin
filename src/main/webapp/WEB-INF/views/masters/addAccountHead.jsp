@@ -48,8 +48,8 @@
 								<i class="fa fa-table"></i>Add Account Head
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addAccountHead">
+									Add Account Head</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -61,10 +61,10 @@
 								method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Account Head Description*</div>
+									<div class="col-md-2">Account Head*</div>
 									<div class="col-md-3">
 										<input id="accHeadDesc" class="form-control"
-								placeholder="Account Head Description" value="${editAccountHead.accHeadDesc}"  style="text-align: left;" name="accHeadDesc" type="text" required>
+								placeholder="Account Head" value="${editAccountHead.accHeadDesc}"  style="text-align: left;" name="accHeadDesc" type="text" required>
 								<input id="accHeadId" class="form-control"
 								  name="accHeadId" value="${editAccountHead.accHeadId}" type="hidden" >
 									</div>
@@ -94,7 +94,7 @@
 									<thead>
 												<tr class="bgpink">
 													<th class="col-sm-1">Sr no.</th> 
-													<th class="col-md-1">Account Head Description</th> 
+													<th class="col-md-1">Account Head</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -142,7 +142,7 @@
 
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

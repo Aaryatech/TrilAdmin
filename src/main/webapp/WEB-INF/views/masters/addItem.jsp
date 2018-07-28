@@ -14,7 +14,7 @@
 	<c:url var="getSubGroupIdByGroupId" value="/getSubGroupIdByGroupId"></c:url>
 	<c:url var="exhibitorMobileNo" value="/exhibitorMobileNo"></c:url>
 
-	<c:url var="isMobileNoExist" value="/isMobileNoExist"></c:url>
+	<c:url var="checkItemCodeExist" value="/checkItemCodeExist"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -38,7 +38,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i> Add Item
+						<i class="fa fa-file-o"></i>Item
 
 					</h1>
 				</div>
@@ -53,7 +53,7 @@
 							<h3>
 								<i class="fa fa-table"></i>
 								<c:choose>
-									<c:when test="${edit==1}">Edit Exhibitor</c:when>
+									<c:when test="${isEdit==1}">Edit Item</c:when>
 									<c:otherwise>Add Item</c:otherwise>
 								</c:choose>
 							</h3>
@@ -74,10 +74,21 @@
 
 									<div class="col-md-2">Item Code*</div>
 									<div class="col-md-3">
+									<c:choose>
+										<c:when test="${isEdit==1}">
 										<input id="itemCode" class="form-control"
 											placeholder="Item Code" value="${editItem.itemCode}"
 											style="text-align: left;" name="itemCode" type="text"
-											required> <input id="itemId" class="form-control"
+											readonly>
+										</c:when>
+										<c:otherwise>
+										<input id="itemCode" class="form-control"
+											placeholder="Item Code" value="${editItem.itemCode}"
+											style="text-align: left;" maxlength="6" onchange="checkItemCodeExist()" onkeydown="upperCaseF(this)" name="itemCode" type="text"
+											required>
+										</c:otherwise>
+									</c:choose>
+										 <input id="itemId" class="form-control"
 											name="itemId" value="${editItem.itemId}" type="hidden">
 
 									</div>
@@ -98,17 +109,36 @@
 
 									<div class="col-md-2">UOM*</div>
 									<div class="col-md-3">
-										<input id="uom" class="form-control" placeholder="UOM"
-											value="${editItem.itemUom}" style="text-align: left;"
-											name="uom" type="text" required>
+									
+									<select class="form-control chosen" name="uom"
+											id="uom" required>
+											<option value="">Select UOM</option>
+											  <c:forEach items="${uomList}"
+												var="uomList">
+												<c:set var="uomString" value="${uomList.uomId}"></c:set>
+												<c:choose>
+													<c:when
+														test="${editItem.itemUom eq uomString}">
+														<option value="${uomList.uomId}" selected>${uomList.uom}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${uomList.uomId}">${uomList.uom}</option>
+													</c:otherwise>
+												</c:choose>
+
+
+											</c:forEach>  
+
+										</select>
+										 
 
 									</div>
 									<div class="col-md-1"></div>
 									<div class="col-md-2">Item Date*</div>
 									<div class="col-md-3">
 										<input id="itemDate" class="form-control date-picker"
-											placeholder="Item Date" value="${editItem.itemDate}"
-											name="itemDate" type="text" required>
+											placeholder="Item Date" value="${date}"
+											name="itemDate" type="text" readonly>
 
 
 									</div>
@@ -449,9 +479,16 @@
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 
-
+								<c:choose>
+										<c:when test="${isEdit==1}">
 										<input type="submit" class="btn btn-info" value="Submit"
 											id="submit">
+										</c:when>
+										<c:otherwise>
+										<input type="submit" class="btn btn-info" value="Submit"
+											id="submit" disabled>
+										</c:otherwise>
+									</c:choose> 
 
 									</div>
 								</div>
@@ -466,7 +503,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -542,6 +579,35 @@
 
 
 	<script type="text/javascript">
+	
+	function checkItemCodeExist() {
+		
+		var itemCode = $("#itemCode").val(); 
+
+		$.getJSON('${checkItemCodeExist}', {
+
+			itemCode : itemCode,
+			ajax : 'true',
+
+		}, function(data) {
+			
+			if(data==0) 
+			{
+				document.getElementById("submit").disabled = false;  
+			}
+			else if(itemCode=="" || itemCode==null)
+			{
+				document.getElementById("submit").disabled = true; 
+			}
+			else
+			{
+				alert("Code Is Available ");
+				document.getElementById("submit").disabled = true;
+			}
+	 
+		});
+
+	}
 		function passwordValidation() {
 
 			var pass = document.getElementById("password").value;
@@ -617,6 +683,11 @@
 				$('#subGrpId').html(html);
 				$("#subGrpId").trigger("chosen:updated");
 			});
+		}
+		function upperCaseF(a){
+		    setTimeout(function(){
+		        a.value = a.value.toUpperCase();
+		    }, 1);
 		}
 	</script>
 

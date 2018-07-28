@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
+	<c:url var="checkSubDeptCodeExist" value="/checkSubDeptCodeExist"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 	<c:url var="getSubDeptListExportToExcel"
 		value="/getSubDeptListExportToExcel"></c:url>
@@ -34,7 +34,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Add Sub Department
+						<i class="fa fa-file-o"></i>Sub Department
 
 					</h1>
 				</div>
@@ -47,11 +47,19 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Sub Department
+								<i class="fa fa-table"></i>
+								<c:choose>
+										<c:when test="${isEdit==1}">
+										Edit Sub Department
+										</c:when>
+										<c:otherwise>
+										Add Sub Department
+										</c:otherwise>
+									</c:choose> 
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addSubDepartment">
+									Add Sub Department</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -63,12 +71,12 @@
 								method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Department Description*</div>
+									<div class="col-md-2">Sub Department Description*</div>
 									<div class="col-md-3">
 										<input id="subDeptDesc" class="form-control"
-											placeholder="Department Description"
+											placeholder="Sub Department Description"
 											value="${editSubDept.subDeptDesc}" style="text-align: left;"
-											name="subDeptDesc" type="text" required> <input
+											name="subDeptDesc"  type="text" required> <input
 											id="subDeptId" class="form-control" name="subDeptId"
 											value="${editSubDept.subDeptId}" type="hidden">
 
@@ -77,10 +85,22 @@
 
 									<div class="col-md-2">Sub Department Code*</div>
 									<div class="col-md-3">
+									
+									<c:choose>
+										<c:when test="${isEdit==1}">
 										<input id="subGroupCode" class="form-control"
 											placeholder="Sub Group Description"
 											value="${editSubDept.subDeptCode}" style="text-align: left;"
-											name="subGroupCode" type="text" required>
+											name="subGroupCode" type="text" readonly>
+										</c:when>
+										<c:otherwise>
+										<input id="subGroupCode" class="form-control"
+											placeholder="Sub Group Description"
+											value="${editSubDept.subDeptCode}" style="text-align: left;"
+											name="subGroupCode" maxlength="6" onchange="checkSubDeptCodeExist()" onkeydown="upperCaseF(this)" type="text" required>
+										</c:otherwise>
+									</c:choose> 
+										
 
 
 									</div>
@@ -98,10 +118,10 @@
 											<c:forEach items="${deparmentList}" var="deparmentList">
 												<c:choose>
 													<c:when test="${deparmentList.deptId==editSubDept.deptId}">
-														<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}</option>
+														<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}&nbsp;&nbsp;${deparmentList.deptDesc}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${deparmentList.deptId}">${deparmentList.deptCode}</option>
+														<option value="${deparmentList.deptId}">${deparmentList.deptCode}&nbsp;&nbsp;${deparmentList.deptDesc}</option>
 													</c:otherwise>
 												</c:choose>
 
@@ -115,11 +135,16 @@
 								<br> <br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
+										<c:choose>
+										<c:when test="${isEdit==1}">
 										<input type="submit" class="btn btn-info" value="Submit"
 											id="submit">
-
-
-
+										</c:when>
+										<c:otherwise>
+										<input type="submit" class="btn btn-info" value="Submit"
+											id="submit" disabled>
+										</c:otherwise>
+									</c:choose> 
 									</div>
 								</div>
 
@@ -169,24 +194,22 @@
 
 									</div>
 								</div>
+								
+								<div class=" box-content">
+									<div class="col-md-12" style="text-align: center">
+										<input type="button" id="expExcel" class="btn btn-primary"
+								value="EXPORT TO Excel" onclick="exportToExcel();">
+								<button class="btn btn-primary" value="PDF" id="PDFButton"
+						disabled="disabled" onclick="genPdf()">PDF</button>
+									</div>
+								</div>
 							</form>
 
 
 						</div>
 					</div>
 
-					<div class="form-group" id="range">
-
-
-
-						<div class="col-sm-3  controls">
-							<input type="button" id="expExcel" class="btn btn-primary"
-								value="EXPORT TO Excel" onclick="exportToExcel();">
-						</div>
-					</div>
-					<button class="btn btn-primary" value="PDF" id="PDFButton"
-						disabled="disabled" onclick="genPdf()">PDF</button>
-
+					 
 				</div>
 			</div>
 
@@ -195,7 +218,7 @@
 
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -271,6 +294,36 @@
 
 
 	<script type="text/javascript">
+	
+	function checkSubDeptCodeExist() {
+		
+		var subGroupCode = $("#subGroupCode").val(); 
+
+		$.getJSON('${checkSubDeptCodeExist}', {
+
+			subGroupCode : subGroupCode,
+			ajax : 'true',
+
+		}, function(data) {
+			
+			if(data==0) 
+			{
+				document.getElementById("submit").disabled = false;  
+			}
+			else if(subGroupCode=="" || subGroupCode==null)
+			{
+				document.getElementById("submit").disabled = true; 
+			}
+			else
+			{
+				alert("Code Is Available ");
+				document.getElementById("submit").disabled = true;
+			}
+	 
+		});
+
+	}
+	
 		function exportToExcel() {
 
 			$.getJSON('${getSubDeptListExportToExcel}', {
@@ -304,6 +357,11 @@
 		function genPdf() {
 			window.open('${pageContext.request.contextPath}/subDeptListPdf/');
 
+		}
+		function upperCaseF(a){
+		    setTimeout(function(){
+		        a.value = a.value.toUpperCase();
+		    }, 1);
 		}
 	</script>
 </body>

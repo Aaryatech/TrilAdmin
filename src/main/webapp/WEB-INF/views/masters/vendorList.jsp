@@ -157,7 +157,7 @@
 
 		<!-- END Main Content -->
 		<footer>
-			<p>2018 © AARYATECH SOLUTIONS</p>
+			<p>2018 © TRAMBAK RUBBER</p>
 		</footer>
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

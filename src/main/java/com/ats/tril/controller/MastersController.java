@@ -16,6 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,6 +40,8 @@ import com.ats.tril.model.Vendor;
 public class MastersController {
 
 	RestTemplate rest = new RestTemplate();
+	List<GetItemGroup> itemGroupList = new ArrayList<>();
+	List<Vendor> vendorList = new ArrayList<>();
 
 	@RequestMapping(value = "/addFinancialYear", method = RequestMethod.GET)
 	public ModelAndView addFinancialYear(HttpServletRequest request, HttpServletResponse response) {
@@ -242,11 +245,10 @@ public class MastersController {
 	public String insertPaymentTerm(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			String pymtTermId = request.getParameter("pymtTermId");
-
-			System.out.println("pymtTermId" + pymtTermId);
+			String pymtTermId = request.getParameter("pymtTermId"); 
 
 			String pymtDesc = request.getParameter("pymtDesc");
+			int days = Integer.parseInt(request.getParameter("days"));
 
 			PaymentTerms paymentTerms = new PaymentTerms();
 			if (pymtTermId == "" || pymtTermId == null)
@@ -254,7 +256,7 @@ public class MastersController {
 			else
 				paymentTerms.setPymtTermId(Integer.parseInt(pymtTermId));
 			paymentTerms.setPymtDesc(pymtDesc);
-
+			paymentTerms.setDays(days);
 			paymentTerms.setIsUsed(1);
 			paymentTerms.setCreatedIn(1);
 			paymentTerms.setDeletedIn(0);
@@ -320,8 +322,9 @@ public class MastersController {
 		ModelAndView model = new ModelAndView("masters/addItemGroup");
 		try {
 
-			GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
+			GetItemGroup[] getItemGroup = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
 					GetItemGroup[].class);
+			itemGroupList = new ArrayList<GetItemGroup>(Arrays.asList(getItemGroup));
 			model.addObject("itemGroupList", itemGroupList);
 
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
@@ -334,6 +337,32 @@ public class MastersController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/checkGroupCodeExist", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkGroupCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		 int exist = 0 ;
+		 
+		try {
+
+			String grpCode = request.getParameter("grpCode");
+			System.out.println("grpCode " + grpCode);
+			 
+			 for(int i = 0 ; i < itemGroupList.size() ; i++)
+			 {
+				 if(itemGroupList.get(i).getGrpCode().equals(grpCode.trim()))
+				 {
+					 exist = 1;
+					 break;
+				 }
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return exist;
 	}
 
 	@RequestMapping(value = "/insertItemGroup", method = RequestMethod.POST)
@@ -394,6 +423,7 @@ public class MastersController {
 			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
 
 			model.addObject("categoryList", categoryList);
+			model.addObject("isEdit", 1);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -527,15 +557,42 @@ public class MastersController {
 
 		ModelAndView model = new ModelAndView("masters/addVendor");
 		try {
-			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
-
+			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class); 
 			model.addObject("stateList", stateList);
+			
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			 vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/checkVendCodeExist", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		 int exist = 0 ;
+		 
+		try {
+
+			String vendorCode = request.getParameter("vendorCode");
+			 
+			 for(int i = 0 ; i < vendorList.size() ; i++)
+			 {
+				 if(vendorList.get(i).getVendorCode().equals(vendorCode.trim()))
+				 {
+					 exist = 1;
+					 break;
+				 }
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return exist;
 	}
 
 	@RequestMapping(value = "/insertVendor", method = RequestMethod.POST)
@@ -646,6 +703,8 @@ public class MastersController {
 
 			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
 			model.addObject("stateList", stateList);
+			
+			model.addObject("isEdit", 1);
 
 		} catch (Exception e) {
 			e.printStackTrace();

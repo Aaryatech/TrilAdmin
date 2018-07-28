@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Add Payment Description
+						<i class="fa fa-file-o"></i>Add Payment Term
 
 					</h1>
 				</div>
@@ -45,11 +45,11 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Payment Description
+								<i class="fa fa-table"></i>Add Payment Term
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addPaymentTerm">
+									Add Payment Term</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -73,6 +73,14 @@
 									</div>
 									<div class="col-md-1"></div>
 									
+									<div class="col-md-2">Payment Days*</div>
+									<div class="col-md-3">
+										<input id="days" class="form-control"
+									placeholder="Payment days"
+									style="text-align: left;" name=days type="number"
+									value="${editPaymentTerms.days}" required> 
+									
+									</div>
 									  
 								</div>
 								<br> <br>
@@ -98,6 +106,7 @@
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr no.</th>
 											<th class="col-md-1">Payment Description</th>
+											<th class="col-md-1">Payment Days</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -110,6 +119,9 @@
 
 												<td class="col-md-1"><c:out
 														value="${paymentTermsList.pymtDesc}" /></td>
+														
+												<td class="col-md-1"><c:out
+														value="${paymentTermsList.days}" /></td>
 
 												<td><a
 													href="${pageContext.request.contextPath}/editPaymentTerm/${paymentTermsList.pymtTermId}"><abbr
@@ -146,7 +158,7 @@
 
 			<!-- END Main Content -->
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
