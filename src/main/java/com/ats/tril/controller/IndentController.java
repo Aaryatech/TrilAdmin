@@ -51,7 +51,7 @@ public class IndentController {
 
 		ModelAndView model = null;
 		try {
-
+			tempIndentList = new ArrayList<TempIndentDetail>();
 			model = new ModelAndView("indent/addindent");
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
 			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));

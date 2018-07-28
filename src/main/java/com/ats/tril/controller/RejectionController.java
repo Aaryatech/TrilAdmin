@@ -251,7 +251,8 @@ public class RejectionController {
 
 		return "redirect:/listOfRejectionMemo";
 	}
-
+	List<GetRejectionMemoDetail> getRejectionMemoDetailList = new ArrayList<GetRejectionMemoDetail>();
+	GetRejectionMemo editRejection=new GetRejectionMemo();
 	@RequestMapping(value = "/editRejectionMemo/{rejectionId}", method = RequestMethod.GET)
 	public ModelAndView editRejectionMemo(@PathVariable int rejectionId, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -268,13 +269,12 @@ public class RejectionController {
 			model.addObject("mrnList", mrnList);
 	
 			
-			
-			List<GetRejectionMemoDetail> getRejectionMemoDetailList = new ArrayList<GetRejectionMemoDetail>();
+			getRejectionMemoDetailList = new ArrayList<GetRejectionMemoDetail>();
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("rejectionId", rejectionId);
 
-			GetRejectionMemo editRejection = rest.postForObject(Constants.url + "/getRejectionHeaderAndDetail", map,
+			 editRejection = rest.postForObject(Constants.url + "/getRejectionHeaderAndDetail", map,
 					GetRejectionMemo.class);
 			getRejectionMemoDetailList = editRejection.getGetRejectionMemoDetail();
 
@@ -287,5 +287,141 @@ public class RejectionController {
 
 		return model;
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = { "/editMemoQty" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetRejectionMemoDetail> editMemoQty(HttpServletRequest request, HttpServletResponse response) {
 
+		try {
+
+			int memoQty = Integer.parseInt(request.getParameter("memoQty"));
+
+			int rejDetailId = Integer.parseInt(request.getParameter("rejDetailId"));
+
+			if (getRejectionMemoDetailList.size() > 0) {
+
+				System.err.println("Inside getRejectionMemoDetailList.size >0 ");
+
+				for (int i = 0; i < getRejectionMemoDetailList.size(); i++) {
+
+					if (getRejectionMemoDetailList.get(i).getRejDetailId() == rejDetailId) {
+						System.err.println("Inside rejDetailId matched  ");
+
+						getRejectionMemoDetailList.get(i).setMemoQty(memoQty);
+
+					} else {
+
+						System.err.println("getRejectionMemoDetailList no match");
+					}
+				}
+				
+			}
+
+			System.err.println("getRejectionMemoDetailList  List Using Ajax Call  " + getRejectionMemoDetailList.toString());
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in getting getRejectionMemoDetailList @editMemoQty By Ajax Call " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return getRejectionMemoDetailList;
+
+	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/submitEditRejectionMemo", method = RequestMethod.POST)
+	public String submitEditRejectionMemo(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			List<RejectionMemo> rejectionMemoList = new ArrayList<RejectionMemo>();
+
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+
+			int rejectionNo = Integer.parseInt(request.getParameter("rejectionNo"));
+
+			String rejectionDate = request.getParameter("rejectionDate");
+
+			String docDate = request.getParameter("docDate");
+
+			String mrnIdList = request.getParameter("mrnId[]");
+			String remark = request.getParameter("remark");
+
+			String remark1 = request.getParameter("remark1");
+
+			int docNo = Integer.parseInt(request.getParameter("docNo"));
+
+			String rejDate = DateConvertor.convertToYMD(rejectionDate);
+
+			String docuDate = DateConvertor.convertToYMD(docDate);
+
+			RejectionMemo rejectionMemo = new RejectionMemo();
+				rejectionMemo = new RejectionMemo();
+				rejectionMemo.setDcoDate(docuDate);
+				rejectionMemo.setDcoId(docNo);
+				rejectionMemo.setIsUsed(1);
+				rejectionMemo.setMrnId(editRejection.getMrnId());
+				rejectionMemo.setRejectionDate(rejDate);
+				rejectionMemo.setRejectionNo(rejectionNo);
+				rejectionMemo.setRejectionRemark(remark);
+				rejectionMemo.setRejectionRemark1(remark1);
+				rejectionMemo.setStatus(1);
+				rejectionMemo.setVendorId(vendId);
+				rejectionMemo.setMrnNo(mrnIdList);
+				
+				rejectionMemo.setRejectionId(editRejection.getRejectionId());
+				
+				
+				
+				rejectionMemoDetailList = new ArrayList<RejectionMemoDetail>();
+
+				
+				for(GetRejectionMemoDetail detail :getRejectionMemoDetailList) {
+					
+					RejectionMemoDetail rejectionMemoDetail = new RejectionMemoDetail();
+
+					rejectionMemoDetail.setRejDetailId(detail.getRejDetailId());
+					rejectionMemoDetail.setMemoQty(detail.getMemoQty());
+					
+					rejectionMemoDetail.setIsUsed(detail.getIsUsed());
+					rejectionMemoDetail.setItemId(detail.getItemId());
+					rejectionMemoDetail.setMrnDate(detail.getMrnDate());
+					rejectionMemoDetail.setMrnNo(detail.getMrnNo());
+					
+					rejectionMemoDetail.setRejectionId(detail.getRejectionId());
+					rejectionMemoDetail.setRejectionQty(detail.getRejectionQty());
+					rejectionMemoDetail.setStatus(detail.getStatus());
+					
+					rejectionMemoDetailList.add(rejectionMemoDetail);
+
+				}
+				
+				rejectionMemo.setRejectionMemoDetailList(rejectionMemoDetailList);
+				rejectionMemoList.add(rejectionMemo);
+		
+			System.out.println("rejectionMemoList" + rejectionMemoList);
+			List<RejectionMemo> res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
+					rejectionMemoList, List.class);
+			System.out.println("edit rejectionMemoList response:" + res);
+
+		} catch (Exception e) {
+			
+			System.err.println("Exception in submitEditRejectionMemo @Rejec Controller ");
+			e.printStackTrace();
+		}
+
+		return "redirect:/showRejectionMemo";
+	}
+	
 }
+
+
+

@@ -227,7 +227,7 @@ public class GetpassController {
 			GetpassHeader getpassHeader = new GetpassHeader();
 			getpassHeader.setGpVendor(vendId);
 			getpassHeader.setGpNo(gpNo);
-			getpassHeader.setGpReturnDate(Date);
+			getpassHeader.setGpReturnDate(gpDate);
 			getpassHeader.setIsUsed(1);
 			getpassHeader.setForRepair(returnFor);
 			getpassHeader.setSendingWith(sendingWith);
@@ -516,10 +516,11 @@ public class GetpassController {
 			System.out.println("Date before Addition: " + oldDate);
 			// Specifying date format that matches the given date
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			Calendar c = Calendar.getInstance();
 			try {
 				// Setting the date to the given date
-				c.setTime(sdf.parse(gpDate));
+				c.setTime(sf.parse(Date));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -534,7 +535,7 @@ public class GetpassController {
 			GetpassHeader getpassHeader = new GetpassHeader();
 			getpassHeader.setGpVendor(vendId);
 			getpassHeader.setGpNo(gpNo);
-			getpassHeader.setGpReturnDate(newDate);
+			getpassHeader.setGpReturnDate(DateConvertor.convertToYMD(newDate));
 			getpassHeader.setIsUsed(1);
 			getpassHeader.setForRepair(returnFor);
 			getpassHeader.setSendingWith(sendingWith);
@@ -542,8 +543,8 @@ public class GetpassController {
 			getpassHeader.setRemark2("null");
 			getpassHeader.setIsStockable(stock);
 			getpassHeader.setGpType(1);
-			getpassHeader.setGpDate(Date);
-
+			getpassHeader.setGpDate(gpDate);
+			getpassHeader.setGpStatus(1);
 			getpassHeader.setGetpassDetail(addItemInGetpassDetail);
 
 			System.out.println(getpassHeader);
