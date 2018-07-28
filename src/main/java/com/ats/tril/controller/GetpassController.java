@@ -999,7 +999,7 @@ public class GetpassController {
 
 				}
 				getpassHeaderItemName.setGpDate(DateConvertor.convertToYMD(getpassHeaderItemName.getGpDate()));
-				getpassHeaderItemName.setGpReturnDate(DateConvertor.convertToYMD(getpassHeaderItemName.getGpReturnDate()));
+				getpassHeaderItemName.setGpReturnDate(DateConvertor.convertToYMD(getpassHeaderItemName.getGpDate()));
 				getpassHeaderItemName.setGpStatus(status);
 				getpassHeaderItemName.setGetpassDetail(getpassDetailItemName);
 				System.out.println("getpassHeaderItemName " + getpassHeaderItemName);
