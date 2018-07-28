@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .buttonload {
-    background-color: white; /* Green background */
+    background-color: #fdf3e5; /* Green background */
     border: none; /* Remove borders */
     color: #ec268f; /* White text */
     padding: 12px 20px; /* Some padding */
@@ -41,240 +41,76 @@
 
 </style>
 <style type="text/css">
-.container {
- /*  margin-top:30px; */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body{
+  font-family: 'Roboto', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
- /*  font-family: 'Source Sans Pro'; */
- /*  font-weight:700; */
+h2{
+  margin:0px;
+  text-transform: uppercase;
 }
 
-.fancyTab {
-	
-	 text-align: center;
-     padding:10px 0;
-     background-color: #eee;
-	 box-shadow: 0 0 0 1px #ddd;
-	 top:15px;	
-     transition: top .2s;
+h6{
+  margin:0px;
+  color:#777;
 }
 
-.fancyTab.active {
-  top:0;
-  transition:top .2s;
+.wrapper{
+ /*  text-align:center;
+  margin:50px auto; */
 }
 
-.whiteBlock {
-  display:none;
-}
-
-.fancyTab.active .whiteBlock {
-  display:block;
-  height:2px;
-  bottom:-2px;
-  background-color:#fff;
-  width:99%;
-  position:absolute;
-  z-index:1;
-}
-
-.fancyTab a {
-	font-family: 'Source Sans Pro';
-	font-size:1.65em;
-	font-weight:200;
-  transition:.2s;
-  color:#333;
-}
-
-/*.fancyTab .hidden-xs {
-  white-space:nowrap;
-}*/
-
-.fancyTabs {
-	border-bottom:2px solid #ddd;
-  margin: 15px 0 0;
-}
-
-li.fancyTab a {
-  padding-top: 15px;
-  top:-15px;
-  padding-bottom:0;
-}
-
-li.fancyTab.active a {
-  padding-top: inherit;
-}
-
-.fancyTab .fa {
-  font-size: 20px;
-	width:100%;
-	padding: 15px 0 5px;
-  color:#666;
-}
-
-.fancyTab.active .fa {
-  color: #cfb87c;
-}
-
-.fancyTab a:focus {
-	outline:none;
-}
-
-.fancyTabContent {
-  border-color: transparent;
-  box-shadow: 0 -2px 0 -1px #fff, 0 0 0 1px #ddd;
-  padding: 30px 15px 15px;
+.tabs1{
+ /*  margin-top:50px; */
+  font-size:13px;
+  padding:0px;
+  list-style:none;
+  background:#fff;
+  box-shadow:0px 5px 20px rgba(0,0,0,0.1);
+  display:inline-block;
+  border-radius:50px;
   position:relative;
-  background-color:#fff;
 }
 
-.nav-tabs > li.fancyTab.active > a, 
-.nav-tabs > li.fancyTab.active > a:focus,
-.nav-tabs > li.fancyTab.active > a:hover {
-	border-width:0;
-	height:10px;
+.tabs1 a{
+  text-decoration:none;
+  color: #777;
+  text-transform:uppercase;
+  padding:10px 20px;
+  display:inline-block;
+  position:relative;
+  z-index:1;
+  transition-duration:0.6s;
 }
 
-.nav-tabs > li.fancyTab:hover {
-	background-color:#f9f9f9;
-	box-shadow: 0 0 0 1px #ddd;
+.tabs1 a.active{
+  color:#fff;
 }
 
-.nav-tabs > li.fancyTab.active:hover {
-  background-color:#fff;
-  box-shadow: 1px 1px 0 1px #fff, 0 0px 0 1px #ddd, -1px 1px 0 0px #ddd inset;
+.tabs1 a i{
+  margin-right:5px;
 }
 
-.nav-tabs > li.fancyTab:hover a {
-	border-color:transparent;
-}
-
-.nav.nav-tabs .fancyTab a[data-toggle="tab"] {
-  background-color:transparent;
-  border-bottom:0;
-}
-
-.nav-tabs > li.fancyTab:hover a {
-  border-right: 1px solid transparent;
-}
-
-.nav-tabs > li.fancyTab > a {
-	margin-right:0;
-	border-top:0;
-  padding-bottom: 30px;
-  margin-bottom: -45px;
-}
-
-.nav-tabs > li.fancyTab {
-	margin-right:0;
-	margin-bottom:0;
-}
-
-.nav-tabs > li.fancyTab:last-child a {
-  border-right: 1px solid transparent;
-}
-
-.nav-tabs > li.fancyTab.active:last-child {
-  border-right: 0px solid #ddd;
-	box-shadow: 0px 2px 0 0px #fff, 0px 0px 0 1px #ddd;
-}
-
-.fancyTab:last-child {
-  box-shadow: 0 0 0 1px #ddd;
-}
-
-.tabs .nav-tabs li.fancyTab.active a {
-	box-shadow:none;
-  top:0;
-}
-
-
-.fancyTab.active {
-  background: #fff;
-	box-shadow: 1px 1px 0 1px #fff, 0 0px 0 1px #ddd, -1px 1px 0 0px #ddd inset;
-  padding-bottom:30px;
-}
-
-.arrow-down {
-  display:none;
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-top: 22px solid #ddd;
-  position: absolute;
-  top: -1px;
-  left: calc(50% - 20px);
-}
-
-.arrow-down-inner {
-  width: 0;
-  height: 0;
-  border-left: 18px solid transparent;
-  border-right: 18px solid transparent;
-  border-top: 12px solid #fff;
-  position: absolute;
-  top: -22px;
-  left: -18px;
-}
-
-.fancyTab.active .arrow-down {
-  display: block;
-}
-
-@media (max-width: 1200px) {
+.tabs1 .selector1{
+  height:100%;
+  display:inline-block;
+  position:absolute;
+  left:0px;
+  top:0px;
+  z-index:1;
+  border-radius:50px;
+  transition-duration:0.6s;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   
-  .fancyTab .fa {
-/*   	font-size: 36px;
- */  }
-  
-  .fancyTab .hidden-xs {
-    font-size:22px;
-	}
-		
+  background: #05abe0;
+  background: -moz-linear-gradient(45deg, #05abe0 0%, #8200f4 100%);
+  background: -webkit-linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+  background: linear-gradient(45deg, #058fe0 0%,#8c8537 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#05abe0', endColorstr='#8200f4',GradientType=1 );
 }
-	
-	
-@media (max-width: 992px) {
-    
-  .fancyTab .fa {
-  	/* font-size: 33px; */
-  }
-    
-  .fancyTab .hidden-xs {
-  	font-size:13px;
-    font-weight:normal;
-  }
-		
-}
-	
-	
-@media (max-width: 768px) {
-    
-  .fancyTab > a {
-    font-size:18px;
-  }
-    
-  .nav > li.fancyTab > a {
-    padding:15px 0;
-    margin-bottom:inherit;
-  }
-    
-  .fancyTab .fa {
-    font-size:15px;
-  }
-    
-  .nav-tabs > li.fancyTab > a {
-    border-right:1px solid transparent;
-    padding-bottom:0;
-  }
-    
-  .fancyTab.active .fa {
-    color: #333;
-	}
-		
-}
+
 </style>
 </head>
 <body>
@@ -301,48 +137,19 @@ li.fancyTab.active a {
 
 		<!-- BEGIN Content -->
 		<div id="main-content">
-			<!-- BEGIN Page Title -->
-			<!-- <div class="page-title">
-				<div>
-					<h5>
-						<i class="fa fa-file-o"></i> Dashboard
-					</h5>
-					
-				</div>
-			</div>  -->
-			<!-- END Page Title -->
-
-			<!-- BEGIN Breadcrumb -->
-			<!-- <div id="breadcrumbs">
-				<ul class="breadcrumb">
-					<li class="active"><i class="fa fa-home"></i> Home</li>
-				</ul>
-			</div> -->
-			<!-- END Breadcrumb -->
+			
 <div class="container"> 
-<section id="fancyTabWidget" class="tabs t-tabs">
-        <ul class="nav nav-tabs fancyTabs" role="tablist" >
-        
-                    <li class="tab fancyTab active">
-                    <div class="arrow-down"><div class="arrow-down-inner"></div></div>	
-                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-desktop"><!--  </span><span class="hidden-xs"> -->  Indent Request</span></a>
-                    	<div class="whiteBlock"></div>
-                    </li>
-                    
-                    <li class="tab fancyTab">
-                    <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-question-circle"> <!-- </span><span class="hidden-xs">  --> Pending PO</span></a>
-                        <div class="whiteBlock"></div>
-                    </li>
-                    <li class="tab fancyTab">
-                    <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab5" href="#tabBody5" role="tab" aria-controls="tabBody5" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-question-circle"><!-- </span><span class="hidden-xs"> -->  Pending MRN</span></a>
-                        <div class="whiteBlock"></div>
-                    </li>
-        </ul>
-        <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
-                    <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
-                        <div>
+<div class="wrapper">
+ 
+  <nav class="tabs1">
+    <div class="selector1"></div>
+    <a href="#" class="active" onclick="enableDiv(1)" ><i class="glyphicon glyphicon-hand-up"></i>Indent Request</a>
+    <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending PO</a>
+    <a href="#" onclick="enableDiv(3)"><i class="fa fa-question-circle" ></i>Pending Mrn</a>
+  
+  </nav>
+</div>
+<br>    <div id="indentReq">
                         	<div class="row">
                             	
                                 <div class="col-md-12">
@@ -467,9 +274,8 @@ li.fancyTab.active a {
                                 
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
-                 <c:forEach items="${indentListRes}" var="indentList" varStatus="count">
+                   
+              <div id="pendingPo" style="display: none;">   <c:forEach items="${indentListRes}" var="indentList" varStatus="count">
                                           <div class="box-content">
  <div class="row">
 									<div class="col-md-2">Indent No: </div>
@@ -579,9 +385,7 @@ li.fancyTab.active a {
                             </c:forEach>
                     </div>
                  
-                   
-                    <div class="tab-pane  fade" id="tabBody5" role="tabpanel" aria-labelledby="tab5" aria-hidden="true" tabindex="0">
-      <div class="row">  	<div class="box-content">
+                   <div id="pendingMrn" style="display: none;"> <div class="row" >  	<div class="box-content">
 
 									<div class="col-md-2">PO Type*</div>
 									<div class="col-md-2">
@@ -671,34 +475,10 @@ li.fancyTab.active a {
 						</div>
                                 </div>
                             </div>
-                    </div>
-        </div>
-
-    </section>
+                    </div> 
 </div>
-<br>
-			<!-- BEGIN Tiles -->
-			<div class="row">
-
-
-
-					<div class="col-md-12">
-					<div class="box">
-					
-		 
-						<div class="box-content">
-							
-							</div><br>
-						 
-					</div>
-
-
-				</div>
-			</div>
-
-
 			<footer>
-			<p>2018 © AARYATECH SOLUTIONS</p>
+			<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -729,72 +509,6 @@ li.fancyTab.active a {
 	<!--flaty scripts-->
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-<script type="text/javascript">
-
-$(document).ready(function() {
-  
-
-	  
-    var numItems = $('li.fancyTab').length;
-		
-	
-			  if (numItems == 12){
-					$("li.fancyTab").width('8.3%');
-				}
-			  if (numItems == 11){
-					$("li.fancyTab").width('9%');
-				}
-			  if (numItems == 10){
-					$("li.fancyTab").width('10%');
-				}
-			  if (numItems == 9){
-					$("li.fancyTab").width('11.1%');
-				}
-			  if (numItems == 8){
-					$("li.fancyTab").width('12.5%');
-				}
-			  if (numItems == 7){
-					$("li.fancyTab").width('14.2%');
-				}
-			  if (numItems == 6){
-					$("li.fancyTab").width('16.666666666666667%');
-				}
-			  if (numItems == 5){
-					$("li.fancyTab").width('20%');
-				}
-			  if (numItems == 4){
-					$("li.fancyTab").width('25%');
-				}
-			  if (numItems == 3){
-					$("li.fancyTab").width('33.3%');
-				}
-			  if (numItems == 2){
-					$("li.fancyTab").width('50%');
-				}
-		  
-	 
-
-	
-		});
-
-$(window).load(function() {
-
-  $('.fancyTabs').each(function() {
-
-    var highestBox = 0;
-    $('.fancyTab a', this).each(function() {
-
-      if ($(this).height() > highestBox)
-        highestBox = $(this).height();
-    });
-
-    $('.fancyTab a', this).height(highestBox);
-
-  });
-});
-
-
-</script>
 <script type="text/javascript">
 
 function getPoList() {
@@ -864,5 +578,58 @@ function getPoList() {
 
 
 </script>
+<script type="text/javascript">
+var tabs = $('.tabs1');
+var items = $('.tabs1').find('a').length;
+var selector = $(".tabs1").find(".selector1");
+var activeItem = tabs.find('.active');
+var activeWidth = activeItem.innerWidth();
+$(".selector1").css({
+  "left": activeItem.position.left + "px", 
+  "width": activeWidth + "px"
+});
+
+$(".tabs1").on("click","a",function(){
+  $('.tabs1 a').removeClass("active");
+  $(this).addClass('active');
+  var activeWidth = $(this).innerWidth();
+  var itemPos = $(this).position();
+  $(".selector1").css({
+    "left":itemPos.left + "px", 
+    "width": activeWidth + "px"
+  });
+});
+</script>
+<script type="text/javascript">
+function enableDiv(status) {
+	if(status==1){
+    var x = document.getElementById("indentReq");
+    x.style.display = "block";
+    var y = document.getElementById("pendingPo");
+    y.style.display = "none";
+    var z = document.getElementById("pendingMrn");
+    z.style.display = "none";
+	}
+	else if(status==2)
+		{
+		 var x = document.getElementById("indentReq");
+		    x.style.display = "none";
+		    var y = document.getElementById("pendingPo");
+		    y.style.display = "block";
+		    var z = document.getElementById("pendingMrn");
+		    z.style.display = "none";
+		}
+	else if(status==3)
+	{
+		 var x = document.getElementById("indentReq");
+		    x.style.display = "none";
+		    var y = document.getElementById("pendingPo");
+		    y.style.display = "none";
+		    var z = document.getElementById("pendingMrn");
+		    z.style.display = "block";
+	}
+}
+</script>
+
 </body>
 </html>

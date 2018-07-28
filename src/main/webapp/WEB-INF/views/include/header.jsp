@@ -49,7 +49,7 @@
 			<!-- BEGIN Button User -->
 			<li class="user-profile"><a data-toggle="dropdown" href="#"
 				class="user-menu dropdown-toggle"> <!--<img class="nav-user-photo" src="resoucres/img/demo/avatar/avatar1.jpg" alt="Penny's Photo" />-->
-					<span class="hhh" id="user_info" style="color: blue;"> Admin  <i
+					<span class="hhh" id="user_info" style="color: #24242b;"> Admin  <i
 					class="fa fa-caret-down"></i></span>
 			</a> <!-- BEGIN User Dropdown -->
 				<ul class="dropdown-menu dropdown-navbar" id="user_menu">

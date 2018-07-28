@@ -71,70 +71,47 @@
 			<!-- BEGIN Navlist -->
 			<a class="navbar-brand" href="#"
 				style="width: 100%; text-align: center; padding: 15px 0px;"> <img
-				src="${pageContext.request.contextPath}/resources/img/atslogo1.png"
+				src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg"
 				style="position: relative;" alt="">
 			</a>
 			<div style="clear: both;"></div>
 			<ul class="nav nav-list">
 				<li class="active"><a
-					href="${pageContext.request.contextPath}/homePage"> <i
+					href="${pageContext.request.contextPath}/showStoreDashboard"> <i
 						class="fa fa-dashboard"></i> <span>Dashboard</span>
 				</a></li>
+                 <c:choose>
+					<c:when test="${Constants.mainAct==1}">
+						<li class="active">
+					</c:when>
 
-				<c:forEach items="${sessionScope.newModuleList}" var="allModuleList"
-					varStatus="count">
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Dashboards</span> <b class="arrow fa fa-angle-right"></b>
+
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
 
 					<c:choose>
-						<c:when test="${allModuleList.moduleId==Constants.mainAct}">
+						<c:when test="${Constants.subAct==111}">
 							<li class="active">
 						</c:when>
-
 						<c:otherwise>
 							<li>
 						</c:otherwise>
 					</c:choose>
 
-					<c:set var="orgId" value="${sessionScope.organiser.orgId}"></c:set>
+					<a href="${pageContext.request.contextPath}/showStoreDashboard">Store Dashboard</a>
+					<a href="${pageContext.request.contextPath}/showPurchaseDashboard">Purchase Dashboard</a>
 
-					<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-						<span><c:out value="${allModuleList.moduleName}" /></span> <b
-						class="arrow fa fa-angle-right"></b>
-					</a>
-					<!-- BEGIN Submenu -->
-					<ul class="submenu">
-
-						<c:forEach items="${allModuleList.subModuleJsonList}"
-							var="allSubModuleList">
-
-
-							<c:choose>
-								<c:when test="${allSubModuleList.subModuleId==Constants.subAct}">
-									<li class="active">
-								</c:when>
-								<c:otherwise>
-									<li>
-								</c:otherwise>
-							</c:choose>
-							<a
-								href="${pageContext.request.contextPath}/<c:out value="${allSubModuleList.subModuleMapping}" />"><c:out
-									value="${allSubModuleList.subModulName}" /></a>
-							</li>
-
-
-						</c:forEach>
-
-
-					</ul>
-					<!-- END Submenu -->
 					</li>
-				</c:forEach>
-
-
-
-
-
-
-
+                   </ul>
+					
+                 
 				<c:choose>
 					<c:when test="${Constants.mainAct==1}">
 						<li class="active">
@@ -556,9 +533,6 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/showMrnForInspection">Approve
 						MRN</a>
-						
-						<a href="${pageContext.request.contextPath}/showMrnReport">Mrn Report
-						</a>
 					</li>
 
 				</ul>
@@ -653,19 +627,6 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/poReportList">PO
 						Report</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==52}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a
-						href="${pageContext.request.contextPath}/rejectionReportVendorwise">Rejection
-						Vendorwise Report</a>
 					</li>
 
 				</ul>

@@ -59,7 +59,28 @@ public class HomeController {
 		
 		return "login";
 	}
-	
+	@RequestMapping(value = "/showStoreDashboard", method = RequestMethod.GET)
+	public ModelAndView showStoreDashboard(HttpServletRequest request, HttpServletResponse res) {
+		ModelAndView mav = new ModelAndView("home");
+
+		try {
+			
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+                map.add("status", "0,1");
+				GetIndents[] indentList = restTemp.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
+
+				List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
+				System.err.println(indentListRes.toString());
+				mav.addObject("indentListRes", indentListRes);
+				
+			
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+		
+		return mav;
+	}
 	@RequestMapping("/loginProcess")
 	public ModelAndView helloWorld(HttpServletRequest request, HttpServletResponse res) throws IOException {
 
