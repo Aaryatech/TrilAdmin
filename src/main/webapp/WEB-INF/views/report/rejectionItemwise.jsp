@@ -7,8 +7,8 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getRejectionVendorwise" value="/getRejectionVendorwise"></c:url>
-	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getRejectionItemwise" value="/getRejectionItemwise"></c:url>
+	<c:url var="getItemIdByCatId" value="/getItemIdByCatId"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Rejection Vendorwise Report
+						<i class="fa fa-file-o"></i>Rejection Itemwise Report
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Rejection Vendorwise Report
+								<i class="fa fa-table"></i>Rejection Itemwise Report
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/"> </a> <a
@@ -82,21 +82,37 @@
 
 							<div class="box-content">
 
-								<div class="col-md-2">Select Vendor</div>
+								<div class="col-md-2">Select Category*</div>
 								<div class="col-md-3">
+									<select class="form-control chosen"
+										onchange="getItemsByCatId()" name="catId" id="catId">
+										<option value="">Select Category</option>
+										<c:forEach items="${catList}" var="catList">
 
-									<select name="vendorIdList[]" id="vendorIdList"
-										class="form-control chosen" multiple="multiple"
-										placeholder="Select Vendor">
-										<option value="0">All Vendors</option>
-										<c:forEach items="${vendorList}" var="vendorList">
+											<option value="${catList.catId}">${catList.catDesc}</option>
 
-											<option value="${vendorList.vendorId}">${vendorList.vendorName}</option>
 										</c:forEach>
 									</select>
 
 								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2">Select Item</div>
+								<div class="col-md-3">
+									<select data-placeholder="Select Item "
+										class="form-control chosen" name="itemIdList[]" tabindex="-1"
+										id="itemIdList" multiple="multiple">
+										<option value="0">All Item</option>
 
+										<c:forEach items="${itemList}" var="itemList">
+
+											<option value="${itemList.itemId}"><c:out
+													value="${itemList.itemDesc}"></c:out>
+											</option>
+
+
+										</c:forEach>
+									</select>
+								</div>
 							</div>
 							<br> <br>
 							<div class="form-group">
@@ -128,36 +144,20 @@
 									<thead>
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr no.</th>
+											<th class="col-md-1">Item Code</th>
+											<th class="col-md-1">Item Name</th>
 											<th class="col-md-1">Vendor Code</th>
 											<th class="col-md-1">Vendor Name</th>
 											<th class="col-md-1">Rejection No</th>
 											<th class="col-md-1">Rejection Date</th>
-											<th class="col-md-1">Item Name</th>
+
 											<th class="col-md-1">Quantity</th>
 											<th class="col-md-1">Mrn No</th>
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${list}" var="list" varStatus="count">
-											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
-
-												<td class="col-md-1"><c:out value="${list.poDate}" /></td>
-
-												<td class="col-md-1"><c:out value="${list.vendorName}" /></td>
-
-												<td class="col-md-1"><c:out value="${list.poNo}" /></td>
-
-												<td class="col-md-1"><c:out value="${list.poStatus}" /></td>
-												<td class="col-md-1"><c:out value="${list.poType}" /></td>
-
-
-
-
-											</tr>
-										</c:forEach>
 
 									</tbody>
 
@@ -266,19 +266,19 @@
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-			var vendorIdList = $("#vendorIdList").val();
+			var itemIdList = $("#itemIdList").val();
 
 			alert("hii");
-			alert(vendorIdList);
+			alert(itemIdList);
 			$('#loader').show();
 
-			$.getJSON('${getRejectionVendorwise}',
+			$.getJSON('${getRejectionItemwise}',
 
 			{
 
 				fromDate : fromDate,
 				toDate : toDate,
-				vendorIdList : vendorIdList,
+				itemIdList : itemIdList,
 
 				ajax : 'true'
 
@@ -299,11 +299,13 @@
 
 					var tr = $('<tr></tr>');
 					tr.append($('<td></td>').html(key + 1));
+					tr.append($('<td></td>').html(itemList.itemCode));
+					tr.append($('<td></td>').html(itemList.itemDesc));
 					tr.append($('<td></td>').html(itemList.vendorCode));
 					tr.append($('<td></td>').html(itemList.vendorName));
 					tr.append($('<td></td>').html(itemList.rejectionNo));
 					tr.append($('<td></td>').html(itemList.rejectionDate));
-					tr.append($('<td></td>').html(itemList.itemDesc));
+
 					tr.append($('<td></td>').html(itemList.rejectionQty));
 					tr.append($('<td></td>').html(itemList.mrnNo));
 
@@ -319,6 +321,29 @@
 			window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled = true;
 		}
+
+		function getItemsByCatId() {
+
+			var catId = document.getElementById("catId").value;
+
+			$.getJSON('${getItemIdByCatId}', {
+
+				catId : catId,
+				ajax : 'true'
+			}, function(data) {
+
+				var html = '<option value="0">All Item</option>';
+
+				var len = data.length;
+				for (var i = 0; i < len; i++) {
+					html += '<option value="' + data[i].itemId + '">'
+							+ data[i].itemDesc + '</option>';
+				}
+				html += '</option>';
+				$('#itemIdList').html(html);
+				$("#itemIdList").trigger("chosen:updated");
+			});
+		}
 	</script>
 
 	<script type="text/javascript">
@@ -328,11 +353,10 @@
 			var toDate = document.getElementById("toDate").value;
 
 			window
-					.open('${pageContext.request.contextPath}/showRejectionVendorwisePdf/'
+					.open('${pageContext.request.contextPath}/showRejectionItemwisePdf/'
 							+ fromDate + '/' + toDate);
 
 		}
 	</script>
-
 </body>
 </html>
