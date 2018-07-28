@@ -1,11 +1,9 @@
 package com.ats.tril.model;
 
-import java.util.Date;
 import java.util.List;
 
-
 public class GetpassHeaderItemName {
-	
+
 	private int gpId;
 	private int gpNo;
 	private int gpVendor;
@@ -21,9 +19,8 @@ public class GetpassHeaderItemName {
 	private int forRepair;
 	private String gpDate;
 
-	
 	List<GetpassDetailItemName> getpassDetailItemNameList;
-	
+
 	List<GetpassDetailItemName> getpassDetail;
 
 	public int getGpId() {
@@ -56,14 +53,6 @@ public class GetpassHeaderItemName {
 
 	public void setGpType(int gpType) {
 		this.gpType = gpType;
-	}
-
-	public String getGpReturnDate() {
-		return gpReturnDate;
-	}
-
-	public void setGpReturnDate(String gpReturnDate) {
-		this.gpReturnDate = gpReturnDate;
 	}
 
 	public int getGpStatus() {
@@ -122,6 +111,14 @@ public class GetpassHeaderItemName {
 		this.forRepair = forRepair;
 	}
 
+	public String getGpReturnDate() {
+		return gpReturnDate;
+	}
+
+	public void setGpReturnDate(String gpReturnDate) {
+		this.gpReturnDate = gpReturnDate;
+	}
+
 	public String getGpDate() {
 		return gpDate;
 	}
@@ -154,6 +151,5 @@ public class GetpassHeaderItemName {
 				+ isStockable + ", forRepair=" + forRepair + ", gpDate=" + gpDate + ", getpassDetailItemNameList="
 				+ getpassDetailItemNameList + ", getpassDetail=" + getpassDetail + "]";
 	}
-	
 
 }

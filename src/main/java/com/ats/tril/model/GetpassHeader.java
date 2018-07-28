@@ -1,6 +1,5 @@
 package com.ats.tril.model;
 
-import java.util.Date;
 import java.util.List;
 
 public class GetpassHeader {
@@ -117,20 +116,20 @@ public class GetpassHeader {
 		this.forRepair = forRepair;
 	}
 
-	public List<GetpassDetail> getGetpassDetail() {
-		return getpassDetail;
-	}
-
-	public void setGetpassDetail(List<GetpassDetail> getpassDetail) {
-		this.getpassDetail = getpassDetail;
-	}
-
 	public String getGpDate() {
 		return gpDate;
 	}
 
 	public void setGpDate(String gpDate) {
 		this.gpDate = gpDate;
+	}
+
+	public List<GetpassDetail> getGetpassDetail() {
+		return getpassDetail;
+	}
+
+	public void setGetpassDetail(List<GetpassDetail> getpassDetail) {
+		this.getpassDetail = getpassDetail;
 	}
 
 	@Override
@@ -141,9 +140,5 @@ public class GetpassHeader {
 				+ ", forRepair=" + forRepair + ", gpDate=" + gpDate + ", getpassDetail=" + getpassDetail + "]";
 	}
 
-	public void add(GetpassHeader getpassHeader) {
-		// TODO Auto-generated method stub
-
-	}
-
+	 
 }

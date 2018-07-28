@@ -1,6 +1,5 @@
 package com.ats.tril.model;
 
-import java.util.Date;
 
 public class GetpassDetailItemName {
 	private int gpDetailId;

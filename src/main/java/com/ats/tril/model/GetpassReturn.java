@@ -1,6 +1,5 @@
 package com.ats.tril.model;
 
-import java.util.Date;
 import java.util.List;
 
 public class GetpassReturn {

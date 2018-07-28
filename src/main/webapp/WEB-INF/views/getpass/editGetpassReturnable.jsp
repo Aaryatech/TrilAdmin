@@ -11,8 +11,10 @@
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 
 	<c:url var="editItemInEditGetpass" value="/editItemInEditGetpass"></c:url>
-	<c:url var="addItemInEditGetpassReturnableList" value="/addItemInEditGetpassReturnableList"></c:url>
-	<c:url var="deleteItemFromEditGetpass" value="/deleteItemFromEditGetpass"></c:url>
+	<c:url var="addItemInEditGetpassReturnableList"
+		value="/addItemInEditGetpassReturnableList"></c:url>
+	<c:url var="deleteItemFromEditGetpass"
+		value="/deleteItemFromEditGetpass"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -264,7 +266,7 @@
 									<div class="col-md-2">No of Days</div>
 									<div class="col-md-3">
 										<input class="form-control" id="noOfDays"
-											placeholder="No of Days" type="text" name="noOfDays" />
+											placeholder="No of Days" type="text" name="noOfDays">
 									</div>
 									<div class="col-md-2">
 										<input type="button" class="btn btn-primary" value="Add Item"
@@ -302,22 +304,23 @@
 													</tr>
 												</thead>
 												<tbody>
-												
-												<c:forEach items="${editGetpassHeader.getpassDetailItemNameList}"
+
+													<c:forEach
+														items="${editGetpassHeader.getpassDetailItemNameList}"
 														var="getpassDetailItemNameList" varStatus="count">
 														<tr>
 															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 															<td class="col-md-1"><c:out
 																	value="${getpassDetailItemNameList.itemCode}" /></td>
-															
+
 															<td class="col-md-1"><c:out
 																	value="${getpassDetailItemNameList.gpQty}" /></td>
 
 															<td class="col-md-1"><c:out
 																	value="${getpassDetailItemNameList.gpNoDays}" /></td>
 
-															 
+
 															<td><a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>
