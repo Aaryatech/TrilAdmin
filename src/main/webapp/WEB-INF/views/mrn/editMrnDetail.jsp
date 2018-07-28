@@ -202,26 +202,7 @@
 								</div>
 
 
-								<!-- <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Select
-										from PO List </label>
-									<div class="col-sm-6 col-lg-4 controls">
-
-										<select name="po_list" id="po_list"
-											class="form-control chosen" placeholder="Group"
-											data-rule-required="true" multiple="multiple">
-										</select>
-									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">PO
-										Detail </label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<input class="btn btn-large" id="getPoButton"
-											onclick="getPoDetail()" size="16" type="button"
-											name="getPoButton" value="PO Detail" />
-									</div>
-								</div>
- -->
+							
 								<div id="myModal" class="modal">
 
 									<div class="modal-content" style="color: black;">
@@ -300,14 +281,14 @@
 																	value="${mrnDetail.itemName}" /></td>
 															<c:set var="status" value="o"></c:set>
 															<c:choose>
-																<c:when test="${mrnDetail.mrnDetailStatus==1}">
+																<c:when test="${mrnDetail.mrnDetailStatus==0}">
 																	<c:set var="status" value="Pending"></c:set>
 																</c:when>
-																<c:when test="${mrnDetail.mrnDetailStatus==2}">
+																<c:when test="${mrnDetail.mrnDetailStatus==1}">
 																	<c:set var="status" value="Partial"></c:set>
 																</c:when>
-																<c:when test="${mrnDetail.mrnDetailStatus==3}">
-																	<c:set var="status" value="Closed"></c:set>
+																<c:when test="${mrnDetail.mrnDetailStatus==2}">
+																	<c:set var="status" value="Completed"></c:set>
 																</c:when>
 																<c:otherwise>
 																	<c:set var="status" value="Other"></c:set>
@@ -606,6 +587,9 @@
 					//}
 					
 //tr.append($('<td></td>').html(itemList.itemQty));//textbox
+
+
+
 tr.append($('<td></td>').html(pendQty));
 					tr.append($('<td></td>').html(itemList.poNo));
 					tr.append($('<td></td>').html(itemList.status));
@@ -715,8 +699,20 @@ tr.append($('<td></td>').html(pendQty));
 										} */
 										
 					//tr.append($('<td></td>').html(itemList.itemQty));//textbox
+					var status;
+					if(itemList.status==0){
+						status="Pending";
+					}
+					if(itemList.status==1){
+						status="Partial";
+					}
+					
+					if(itemList.status==2){
+						status="Completed";
+					}
+					
 					tr.append($('<td></td>').html(itemList.poNo));
-					tr.append($('<td></td>').html(itemList.status));
+					tr.append($('<td></td>').html(status));
 					$('#table_grid2 tbody').append(tr);
 					//}//end of if received Qty >0
 				//	modal.style.display = "none";

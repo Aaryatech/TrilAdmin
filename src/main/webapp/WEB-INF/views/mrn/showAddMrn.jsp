@@ -625,8 +625,8 @@ body {
 										.each(
 												data,
 												function(key, itemList) {
-													alert("data received "
-															+ data[0]);
+													//alert("data received "
+															//+ data[0]);
 
 													var tr = $('<tr></tr>');
 
@@ -698,13 +698,13 @@ body {
 													//tr.append($('<td></td>').html(itemList.itemQty));//textbox
 
 													var status;
-													if (itemList.status == 1) {
+													if (itemList.status == 0) {
 														status = "Pending";
 													} else if (itemList.status == 1) {
 
 														status = "Partial";
 													} else {
-														status = "Closed";
+														status = "Completed";
 													}
 													tr
 															.append($(
@@ -858,13 +858,13 @@ body {
 														//tr.append($('<td></td>').html(itemList.itemQty));//textbox
 
 														var status;
-														if (itemList.status == 1) {
+														if (itemList.status == 0)
 															status = "Pending";
 														} else if (itemList.status == 1) {
 
 															status = "Partial";
 														} else {
-															status = "Closed";
+															status = "Completed";
 														}
 														tr
 																.append($(

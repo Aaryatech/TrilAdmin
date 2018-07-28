@@ -31,7 +31,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>MRN Report 
+						<i class="fa fa-file-o"></i>MRN Report
 					</h1>
 				</div>
 			</div>
@@ -97,8 +97,8 @@
 								<div class="col-md-2">Select Grn Type</div>
 								<div class="col-md-3">
 
-									<select name="grnType" id="grn_type" class="form-control chosen"
-										tabindex="6" multiple="multiple">
+									<select name="grnType" id="grn_type"
+										class="form-control chosen" tabindex="6" multiple="multiple">
 										<option value="-1">All</option>
 										<option value="1">Regular</option>
 										<option value="2">Job Work</option>
@@ -153,16 +153,20 @@
 									<thead>
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr no.</th>
+											<th class="col-md-1">MRN No</th>
+											<th class="col-md-2">Vendor</th>
 											<th class="col-md-1">Date</th>
-											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Gp No</th>
-											<th class="col-md-1">Return No</th>
-											<th class="col-md-1">Action</th>
+											<th class="col-md-1">Item Code</th>
+											<th class="col-md-2">Item Desc</th>
+											<th class="col-md-1">Chalan Qty</th><!--ie  po qty in mrn detail -->
+											<th class="col-md-1">Rec Qty</th>
+											<th class="col-md-1">Landing Rate</th>
+											<th class="col-md-1">Basic Rate</th>
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${list}" var="list" varStatus="count">
+										<%-- 	<c:forEach items="${list}" var="list" varStatus="count">
 											<tr>
 												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
@@ -187,7 +191,7 @@
 
 											</tr>
 										</c:forEach>
-
+ --%>
 									</tbody>
 
 								</table>
@@ -288,7 +292,6 @@
 			var vendorList = $("#vendId").val();
 			var statusList = $("#mrn_status").val();
 
-			
 			$('#loader').show();
 
 			$
@@ -318,40 +321,113 @@
 								$
 										.each(
 												data,
-												function(key, itemList) {
+												function(key, mrnList) {
 
 													var tr = $('<tr></tr>');
-													tr.append($('<td></td>')
-															.html(key + 1));
+													
+															tr
+															.append($(
+																	'<td></td>')
+																	.html(key + 1));
 													tr
 															.append($(
 																	'<td></td>')
 																	.html(
-																			itemList.gpReturnDate));
+																			mrnList.mrnNo));
 													tr
 															.append($(
 																	'<td></td>')
 																	.html(
-																			itemList.vendorName));
+																			mrnList.vendorName));
+													
+													
 													tr
 															.append($(
 																	'<td></td>')
 																	.html(
-																			itemList.gpNo));
+																			mrnList.mrnDate));
+													
+													/* 
+													var mrnType;
+													if(mrnList.mrnType==1){
+														mrnType="Regular";
+													}
+													
+													if(mrnList.mrnType==2){
+														mrnType="Job Work";
+													}
+													
+													if(mrnList.mrnType==3){
+														mrnType="General";
+													}
+													
+													if(mrnList.mrnType==4){
+														mrnType="Other";
+													}
+													 */
+													
+													/* var status;
+													if(mrnList.mrnStatus==0){
+														status="Pending";
+													}
+													
+													if(mrnList.mrnStatus==1){
+														status="Partial";
+													}
+													
+													if(mrnList.mrnStatus==2){
+														status="Completed";
+													}
+													 */
 													tr
 															.append($(
 																	'<td></td>')
 																	.html(
-																			itemList.returnNo));
+																			mrnList.itemCode));
+													
+													
 													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	mrnList.itemDesc));
+													
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	mrnList.poQty));
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	mrnList.mrnQty));
+													
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	mrnList.landingCost));
+													
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	mrnList.basicValue));
+													
+													/* tr
 															.append($(
 																	'<td></td>')
 																	.html(
-																			'<a href="${pageContext.request.contextPath}/editReturnList/'+itemList.returnId+'"><abbr'+
+																			'<a href="${pageContext.request.contextPath}/editReturnList/'+mrnList.mrnId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteGetpassHeaderReturn/'
-																					+ itemList.returnId
+																					+ mrnList.mrnId
 																					+ '"'
-																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>')); */
 													$('#table1 tbody').append(
 															tr);
 												})

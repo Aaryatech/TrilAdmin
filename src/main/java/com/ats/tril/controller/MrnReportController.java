@@ -21,6 +21,7 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.IndentReport;
 import com.ats.tril.model.mrn.GetMrnHeader;
+import com.ats.tril.model.mrn.MrnReport;
 @Controller
 public class MrnReportController {
 	
@@ -46,10 +47,10 @@ public class MrnReportController {
 	
 	
 	
-	 List<GetMrnHeader> mrnReportHeadList;
+	 List<MrnReport> mrnReportList;
 	@RequestMapping(value = "/getMrnReportList", method = RequestMethod.GET)
 	@ResponseBody
-	public List<GetMrnHeader> getMrnReportList(HttpServletRequest request, HttpServletResponse response) {
+	public List<MrnReport> getMrnReportList(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 
@@ -59,7 +60,7 @@ public class MrnReportController {
 			RestTemplate restTemplate = new RestTemplate();
 
 
-			mrnReportHeadList=new ArrayList<GetMrnHeader>();
+			mrnReportList=new ArrayList<MrnReport>();
 			
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
@@ -119,13 +120,12 @@ public class MrnReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			
-			GetMrnHeader[] mrnHead = restTemplate.postForObject(Constants.url + "/getMrnHeadReport", map,
-					GetMrnHeader[].class);
+			MrnReport[] mrnReport = restTemplate.postForObject(Constants.url + "/getMrnHeadReport", map,
+					MrnReport[].class);
 
+			mrnReportList = new ArrayList<MrnReport>(Arrays.asList(mrnReport));
 
-			mrnReportHeadList = new ArrayList<GetMrnHeader>(Arrays.asList(mrnHead));
-
-			System.err.println("Mrn Head Report  " +mrnReportHeadList.toString());
+			System.err.println("Mrn  Report  " +mrnReportList.toString());
 			
 		}
 		catch (Exception e) {
@@ -136,7 +136,7 @@ public class MrnReportController {
 	
 		}
 		
-		return mrnReportHeadList;
+		return mrnReportList;
 		
 	}
 	

@@ -328,6 +328,7 @@ public class IndentController {
 			indent.setSubDeptId(subDept);
 			
 			indent.setDelStatus(Constants.delStatus);
+			
 
 			List<IndentTrans> indTrasList = new ArrayList<IndentTrans>();
 			for (int i = 0; i < tempIndentList.size(); i++) {
@@ -347,6 +348,7 @@ public class IndentController {
 				transDetail.setIndQty(detail.getQty());
 				transDetail.setIndRemark(detail.getRemark());
 				transDetail.setItemId(detail.getItemId());
+				transDetail.setIndFyr(detail.getQty());
 
 				indTrasList.add(transDetail);
 
@@ -546,7 +548,7 @@ public class IndentController {
 			// editIndentHeader return type ErrorMessage;
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
+			
 			map.add("achdId", accHead);
 			map.add("deptId", dept);
 			map.add("subDeptId", subDept);
