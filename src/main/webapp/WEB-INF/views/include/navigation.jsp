@@ -556,6 +556,9 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/showMrnForInspection">Approve
 						MRN</a>
+						
+						<a href="${pageContext.request.contextPath}/showMrnReport">Mrn Report
+						</a>
 					</li>
 
 				</ul>

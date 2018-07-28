@@ -2,9 +2,8 @@ package com.ats.tril.model.mrn;
 
 public class MrnReport {
 
-	
-	//mrn_detail fields
-	
+	// mrn_detail fields
+
 	private int mrnDetailId;
 
 	private int mrnId;
@@ -39,13 +38,12 @@ public class MrnReport {
 
 	private int delStatus;
 
-	
-	//m_item fields
+	// m_item fields
 	private String itemCode;
 
 	private String itemDesc;
 
-	//mrn Header fields
+	// mrn Header fields
 	private String mrnNo;
 
 	private String mrnDate;
@@ -53,15 +51,15 @@ public class MrnReport {
 	private int mrnType;
 
 	private String vendorName;
-	
+
 	private int mrnStatus;
-	
+
 	private int userId;
-	
-	//po_detail fields
-	private float landingCost;
-	
-	private float basicValue;
+
+	// po_detail fields
+	private float landingRate;
+
+	private float itemRate;
 
 	public int getMrnDetailId() {
 		return mrnDetailId;
@@ -142,8 +140,6 @@ public class MrnReport {
 	public String getMrnNo() {
 		return mrnNo;
 	}
-	
-	
 
 	public int getMrnType() {
 		return mrnType;
@@ -161,14 +157,7 @@ public class MrnReport {
 		return userId;
 	}
 
-	public float getLandingCost() {
-		return landingCost;
-	}
-
-	public float getBasicValue() {
-		return basicValue;
-	}
-
+	
 	public void setMrnDetailId(int mrnDetailId) {
 		this.mrnDetailId = mrnDetailId;
 	}
@@ -249,7 +238,6 @@ public class MrnReport {
 		this.mrnNo = mrnNo;
 	}
 
-
 	public String getMrnDate() {
 		return mrnDate;
 	}
@@ -274,12 +262,20 @@ public class MrnReport {
 		this.userId = userId;
 	}
 
-	public void setLandingCost(float landingCost) {
-		this.landingCost = landingCost;
+	public float getLandingRate() {
+		return landingRate;
 	}
 
-	public void setBasicValue(float basicValue) {
-		this.basicValue = basicValue;
+	public float getItemRate() {
+		return itemRate;
+	}
+
+	public void setLandingRate(float landingRate) {
+		this.landingRate = landingRate;
+	}
+
+	public void setItemRate(float itemRate) {
+		this.itemRate = itemRate;
 	}
 
 	@Override
@@ -290,13 +286,8 @@ public class MrnReport {
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", poDetailId=" + poDetailId
 				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", itemCode=" + itemCode
 				+ ", itemDesc=" + itemDesc + ", mrnNo=" + mrnNo + ", mrnDate=" + mrnDate + ", mrnType=" + mrnType
-				+ ", vendorName=" + vendorName + ", mrnStatus=" + mrnStatus + ", userId=" + userId + ", landingCost="
-				+ landingCost + ", basicValue=" + basicValue + "]";
+				+ ", vendorName=" + vendorName + ", mrnStatus=" + mrnStatus + ", userId=" + userId + ", landingRate="
+				+ landingRate + ", itemRate=" + itemRate + "]";
 	}
-	
-	
-	
-	
-	
 
 }

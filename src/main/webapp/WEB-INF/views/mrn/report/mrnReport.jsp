@@ -131,6 +131,13 @@
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary" value="Search "
 										onclick="search()">
+										
+											<button class="btn btn-primary" value="PDF" id="PDFButton"
+									disabled="disabled" onclick="genPdf()">PDF</button>
+									
+									<input type="button" id="expExcel" class="btn btn-primary"
+											disabled="disabled" value="EXPORT TO Excel"
+											onclick="exportToExcel();">
 								</div>
 							</div>
 							<br>
@@ -160,8 +167,8 @@
 											<th class="col-md-2">Item Desc</th>
 											<th class="col-md-1">Chalan Qty</th><!--ie  po qty in mrn detail -->
 											<th class="col-md-1">Rec Qty</th>
-											<th class="col-md-1">Landing Rate</th>
-											<th class="col-md-1">Basic Rate</th>
+											<th class="col-md-1">Landing Value</th>
+											<th class="col-md-1">Basic Value</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -315,8 +322,12 @@
 
 								if (data == "") {
 									alert("No records found !!");
+									document.getElementById("PDFButton").disabled = true;
+									document.getElementById("expExcel").disabled = true;
 
 								}
+								document.getElementById("PDFButton").disabled = false;
+								document.getElementById("expExcel").disabled = false;
 
 								$
 										.each(
@@ -347,51 +358,18 @@
 																	.html(
 																			mrnList.mrnDate));
 													
-													/* 
-													var mrnType;
-													if(mrnList.mrnType==1){
-														mrnType="Regular";
-													}
-													
-													if(mrnList.mrnType==2){
-														mrnType="Job Work";
-													}
-													
-													if(mrnList.mrnType==3){
-														mrnType="General";
-													}
-													
-													if(mrnList.mrnType==4){
-														mrnType="Other";
-													}
-													 */
-													
-													/* var status;
-													if(mrnList.mrnStatus==0){
-														status="Pending";
-													}
-													
-													if(mrnList.mrnStatus==1){
-														status="Partial";
-													}
-													
-													if(mrnList.mrnStatus==2){
-														status="Completed";
-													}
-													 */
+												
 													tr
 															.append($(
 																	'<td></td>')
 																	.html(
 																			mrnList.itemCode));
 													
-													
 													tr
 													.append($(
 															'<td></td>')
 															.html(
 																	mrnList.itemDesc));
-													
 													
 													tr
 													.append($(
@@ -405,34 +383,42 @@
 															.html(
 																	mrnList.mrnQty));
 													
+													var landingValue=parseFloat(mrnList.landingRate)*parseFloat(mrnList.mrnQty);
 													
 													tr
 													.append($(
 															'<td></td>')
 															.html(
-																	mrnList.landingCost));
+																	landingValue.toFixed(2)));
 													
+												var 	basicValue=parseFloat(mrnList.itemRate)*parseFloat(mrnList.mrnQty);
 													
 													tr
 													.append($(
 															'<td></td>')
 															.html(
-																	mrnList.basicValue));
-													
-													/* tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			'<a href="${pageContext.request.contextPath}/editReturnList/'+mrnList.mrnId+'"><abbr'+
-													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteGetpassHeaderReturn/'
-																					+ mrnList.mrnId
-																					+ '"'
-																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>')); */
+																	basicValue.toFixed(2)));
+												
 													$('#table1 tbody').append(
 															tr);
+													
 												})
 
 							});
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function genPdf() {
+			window.open('${pageContext.request.contextPath}/getMrnReportPdf/');
+			document.getElementById("PDFButton").disabled = true;
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function exportToExcel() {
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
 
