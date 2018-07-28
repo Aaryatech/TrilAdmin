@@ -49,7 +49,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Indent Header
+								<i class="fa fa-bars"></i>Add Indent
 							</h3>
 							<div class="box-tool">
 								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
@@ -60,8 +60,7 @@
 
 
 						<div class="box-content">
-							<form method="post" class="form-horizontal"
-								id="validation-form">
+							<form method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
 
@@ -69,7 +68,7 @@
 										Category </label>
 									<div class="col-sm-6 col-lg-4 controls">
 
-										<select  id="ind_cat" name="ind_cat"
+										<select id="ind_cat" name="ind_cat"
 											class="form-control chosen" placeholder="Indent Category"
 											data-rule-required="true">
 											<c:forEach items="${categoryList}" var="cat"
@@ -78,13 +77,13 @@
 											</c:forEach>
 										</select>
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">Indent
-										No.</label>
+									<label class="col-sm-3 col-lg-2 control-label">Date</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="indent_no" id="indent_no"
-											class="form-control" placeholder="Indent No"
-											data-rule-required="true" />
+										<input class="form-control date-picker" id="indent_date"
+											size="16" type="text" name="indent_date" value="${date}"
+											required data-rule-required="true" />
 									</div>
+
 								</div>
 
 								<div class="form-group">
@@ -92,8 +91,8 @@
 										Type</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="indent_type" id="indent_type"
-											class="form-control chosen" placeholder="Type"
-											data-rule-required="true">
+											data-rule-required="true" class="form-control chosen"
+											placeholder="Type" data-rule-required="true">
 											<option value="1">Regular</option>
 											<option value="2">Job Work</option>
 											<option value="3">General</option>
@@ -101,11 +100,13 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Date</label>
+
+									<label class="col-sm-3 col-lg-2 control-label">Indent
+										No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input class="form-control date-picker" id="indent_date"
-											size="16" type="text" name="indent_date" value="${date}"
-											required />
+										<input type="text" name="indent_no" id="indent_no"
+											class="form-control" placeholder="Indent No"
+											data-rule-required="true" />
 									</div>
 								</div>
 
@@ -164,7 +165,8 @@
 
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Dev </label>
+									<label class="col-sm-3 col-lg-2 control-label">For
+										Development </label>
 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="is_dev" id="is_dev" class="form-control"
@@ -175,7 +177,7 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Is
+									<label class="col-sm-3 col-lg-2 control-label">For
 										Monthly </label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="is_monthly" id="is_monthly" class="form-control"
@@ -186,12 +188,10 @@
 									</div>
 								</div>
 								<hr />
-								<p>Add Item</p>
-
-
+								<p style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</p>
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Group </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-sm-6 col-lg-10 controls">
 
 										<select name="group" id="group" class="form-control chosen"
 											placeholder="Group" data-rule-required="true">
@@ -208,7 +208,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item
 										Name </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-sm-6 col-lg-10 controls">
 
 										<select id="item_name" name="item_name"
 											class="form-control chosen" placeholder="Item Name"
@@ -216,40 +216,45 @@
 
 										</select>
 									</div>
+								</div>
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-sm-6 col-lg-1 controls">
 										<input type="text" name="quantity" id="quantity"
 											class="form-control" placeholder="Quantity"
-											data-rule-required="true" />
+											data-rule-required="true" data-rule-number="true" />
 									</div>
-								</div>
+									<!-- </div>
 
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Remark </label>
-									<div class="col-sm-6 col-lg-4 controls">
+								<div class="form-group"> -->
+
+									<label class="col-sm-3 col-lg-2 control-label">Schedule
+										Days</label>
+									<div class="col-sm-3 col-lg-2 controls">
+										<input type="text" name="sch_days" id="sch_days"
+											class="form-control" placeholder="Schedule Days"
+											data-rule-required="true" data-rule-number="true" />
+									</div>
+									<label class="col-sm-3 col-lg-1 control-label">Remark</label>
+									<div class="col-sm-6 col-lg-2 controls">
 
 										<input type="text" name="remark" id="remark"
 											class="form-control" placeholder="Remark"
 											data-rule-required="true" />
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">Schedule
-										Days</label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="sch_days" id="sch_days"
-											class="form-control" placeholder="Schedule Days"
-											data-rule-required="true" />
-									</div>
+
 								</div>
 
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
 
-												<input type="button" onclick="insertIndentDetail()"
-													class="btn btn-info" value="Submit"> &nbsp;&nbsp;&nbsp;
-													
-												
+										<input type="button" onclick="insertIndentDetail()"
+											class="btn btn-info" value="Submit">
+										&nbsp;&nbsp;&nbsp;
 
-										
+
+
+
 										<!-- 										<input type="button" onclick="validateQty()" class="btn btn-info" value="Submit">
  -->
 									</div>
@@ -285,14 +290,20 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th width="140" style="width: 30px" align="left">Sr No</th>
-													<th width="138" align="left">Code</th>
-													<th width="120" align="left">Name</th>
-													<th width="100" align="left">Qty</th>
-													<th width="60" align="left">UOM</th>
-													<th width="100" align="left">Days</th>
-													<th width="120" align="left">Date</th>
-													<th width="80" align="left">Current Stock</th>
+													<th class="col-md-1" style="text-align: center;">Sr No</th>
+													<th class="col-md-1" style="text-align: center;">Item
+														Code</th>
+													<th class="col-md-3" style="text-align: center;">Item
+														Name</th>
+													<th class="col-md-1" style="text-align: center;">UOM</th>
+													<th class="col-md-2" style="text-align: center;">Current
+														Stock</th>
+
+													<th class="col-md-1" style="text-align: center;">Requested
+														Qty</th>
+													<th class="col-md-1" style="text-align: center;">ScheduleDays</th>
+													<th class="col-md-1" style="text-align: center;">Schedule
+														Date</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -300,8 +311,14 @@
 										</table>
 									</div>
 								</div>
-	<input type="button" style="text-align: center; align-content: center;" onclick="insertIndent()"
-													class="btn btn-info" value="AddIndent">
+								<div class="row">
+									<div class="col-md-12" style="text-align: center">
+
+								<input type="button"
+									
+									onclick="insertIndent()" class="btn btn-info" value="Submit">
+									</div>
+									</div>
 							</form>
 						</div>
 					</div>
@@ -310,7 +327,7 @@
 		</div>
 		<!-- END Main Content -->
 		<footer>
-			<p>2018© Trimbak Rubber </p>
+			<p>2018© Trimbak Rubber</p>
 		</footer>
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -393,10 +410,15 @@
 function insertIndent(){
 	//alert("inside Indent Insetr");
  var form = document.getElementById("validation-form");
- 
-    form.action ="${pageContext.request.contextPath}/saveIndent";
-    form.submit();
-    
+ var indentDate=$('#indent_date').val();
+ //alert(indentDate);
+ if(indentDate=="" || indentDate==null){
+	 	alert("Please Select Valid Indent Date");
+ }
+ else{
+	  	form.action ="${pageContext.request.contextPath}/saveIndent";
+	    form.submit();
+ }
 }
 </script>
 	<script type="text/javascript">
@@ -522,6 +544,8 @@ $(document).ready(function() {
 		 var itemName=$("#item_name option:selected").html();
 		 
 		 var indentDate=$('#indent_date').val();
+		 
+		
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
@@ -537,14 +561,15 @@ $(document).ready(function() {
 			$('#table1 td').remove();
 			$.each(data,function(key, trans) {
 			var tr = $('<tr></tr>');
-			tr.append($('<td></td>').html(key+1));
-		  	tr.append($('<td></td>').html(trans.itemCode));
-		  	tr.append($('<td></td>').html(trans.itemName));
-		  	tr.append($('<td></td>').html(trans.qty));
-		  	tr.append($('<td></td>').html(trans.uom));
-		  	tr.append($('<td></td>').html(trans.schDays));
-		  	tr.append($('<td></td>').html(trans.date));
-		  	tr.append($('<td></td>').html(trans.curStock));
+			tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key+1));
+		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));
+		  	tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(trans.itemName));
+		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.uom));
+		  	tr.append($('<td class="col-md-2" style="text-align: center;"></td>').html(trans.curStock));
+
+		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
+		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
+		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
 
 			$('#table1 tbody').append(tr);
 			})

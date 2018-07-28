@@ -189,15 +189,15 @@
 
 														<td align="left" style="text-align: center;"><c:out value="${indIsmonthly}" /></td>
 
-														<td align="left" style="text-align: center;"><a
+														<td align="left" style="text-align: center;"><%-- <a
 															href="${pageContext.request.contextPath}/showEditViewIndentDetail/${indent.indMId}"><span
-																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+																class="glyphicon glyphicon-info-sign"></span></a> --%>&nbsp;&nbsp;&nbsp;&nbsp;
 																<a
 															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}"><span
-																class="glyphicon glyphicon-info-sign"></span></a>
-																<a
-															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}"><span
-																class="glyphicon glyphicon-info-sign"></span></a>
+																class="glyphicon glyphicon-pencil"></span></a>
+															&nbsp;&nbsp;&nbsp;	<a
+															href="${pageContext.request.contextPath}/deleteIndentHeader/${indent.indMId}"><span
+																class="glyphicon glyphicon-remove"></span></a>
 														</td>
 													</tr>
 												</c:forEach>
@@ -216,7 +216,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2018 © Trumbak Rubber.</p>
+			<p>2018 © TRAMBAK RUBBER.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

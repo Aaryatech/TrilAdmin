@@ -357,11 +357,11 @@ public class IndentController {
 			System.err.println("Indent = " + indent.toString());
 
 			RestTemplate restTemp = new RestTemplate();
-
+if(indTrasList.size()>0) {
 			Indent indRes = restTemp.postForObject(Constants.url + "/saveIndentAndTrans", indent, Indent.class);
 
 			System.err.println("indRes " + indRes.toString());
-
+}
 		} catch (Exception e) {
 
 			System.err.println("Exception in @saveIndent  Indent" + e.getMessage());
@@ -603,7 +603,13 @@ public class IndentController {
 
 		return "redirect:/editIndent/" + indentId;
 
+		
 	}
+	
+	
+	
+	//deleteIndentHeader action of indent list action 1
+	
 
 	// showEditViewIndentDetail show indentdetail from indent header list action
 	// button Cancelled given with Indent Header Edit
@@ -647,3 +653,4 @@ public class IndentController {
 	 */
 
 }
+
