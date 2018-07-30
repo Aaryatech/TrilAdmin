@@ -48,8 +48,8 @@
 								<i class="fa fa-table"></i>Add Item Sub Group
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addItemSubGroup">
+									Add Item Sub Group</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -107,6 +107,12 @@
 								</div>
 								
 								<div class="box-content">
+								<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 
 					<br /> <br />
 					<div class="clearfix"></div>
@@ -261,6 +267,31 @@
 			}
 		}
 	</script>
+	
+	<script>
+function myFunction() {
+  var input, filter, table, tr,td1, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    td1 = tr[i].getElementsByTagName("td")[2];
+    if (td || td1) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }  else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }
+  }
+}
+</script>
 
 </body>
 </html>

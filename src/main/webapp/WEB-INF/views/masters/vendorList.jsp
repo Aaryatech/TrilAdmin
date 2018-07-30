@@ -5,7 +5,9 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
 <body>
+
 
 	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
@@ -72,13 +74,13 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
+											<th class="col-sm-1">Sr No.</th>
 											<th class="col-md-1">Code</th>
 											<th class="col-md-1">Name</th>
 											<th class="col-md-1">City</th>
 											<th class="col-md-1">State</th>
 											<th class="col-md-1">Email</th>
-											<th class="col-md-1">Gst No</th>
+											<th class="col-md-1">GST No</th>
 											<th class="col-md-1">Item</th>
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Mobile</th>

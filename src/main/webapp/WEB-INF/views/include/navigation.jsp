@@ -107,6 +107,14 @@
 
 					<a href="${pageContext.request.contextPath}/showStoreDashboard">Store
 						Dashboard</a>
+						<c:choose>
+						<c:when test="${Constants.subAct==111}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
 					<a href="${pageContext.request.contextPath}/showPurchaseDashboard">Purchase
 						Dashboard</a>
 
@@ -137,14 +145,7 @@
 						<c:otherwise>
 							<li>
 						</c:otherwise>
-					</c:choose>
-
-					<a href="${pageContext.request.contextPath}/showIndent">Add
-						Indent</a>
-					<a href="${pageContext.request.contextPath}/getIndents">Get
-						Indent</a>
-
-
+					</c:choose> 
 					<a href="${pageContext.request.contextPath}/addCategory">Add
 						Category</a>
 					</li>
@@ -159,10 +160,7 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/addDispachMode">Add
 						Dispach Mode</a>
-					<a href="${pageContext.request.contextPath}/showAddMrn">Add MRN</a>
-					<a href="${pageContext.request.contextPath}/getMrnHeaders">View
-						MRN</a>
-
+					 
 					</li>
 
 					<c:choose>
@@ -349,10 +347,26 @@
 
 					<a href="${pageContext.request.contextPath}/addGetpassReturnable">Add
 						Returnable Gatepass</a>
+						
+						<c:choose>
+						<c:when test="${Constants.subAct==111}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
 					<a href="${pageContext.request.contextPath}/addGetpassHeader">Add
 						Gatepass Nonreturnable</a>
 
-
+					<c:choose>
+						<c:when test="${Constants.subAct==111}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
 					<a href="${pageContext.request.contextPath}/addGetpassItem">Add
 						Gatepass Item</a>
 					</li>
