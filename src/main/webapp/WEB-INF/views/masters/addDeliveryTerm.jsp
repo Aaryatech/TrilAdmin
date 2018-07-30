@@ -48,8 +48,8 @@
 								<i class="fa fa-table"></i>Add Delivery Term
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addDeliveryTerm">
+									Add Delivery Term</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -61,10 +61,10 @@
 								method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Delivery Term Description*</div>
-									<div class="col-md-3">
+									<div class="col-md-2">Delivery Term  *</div>
+									<div class="col-md-10">
 										<input id="deliveryDesc" class="form-control"
-								placeholder="Delivery Term Description" value="${editDeliveryTerms.deliveryDesc}"  style="text-align: left;" name="deliveryDesc" type="text" required>
+								placeholder="Delivery Term  " value="${editDeliveryTerms.deliveryDesc}"  style="text-align: left;" name="deliveryDesc" type="text" required>
 								<input id="deliveryTermId" class="form-control"
 								  name="deliveryTermId" value="${editDeliveryTerms.deliveryTermId}" type="hidden" >
 								  
@@ -101,7 +101,7 @@
 									<thead>
 												<tr class="bgpink">
 													<th class="col-sm-1">Sr no.</th> 
-													<th class="col-md-1">Delivery Term Description</th> 
+													<th  >Delivery Term Description</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -113,7 +113,7 @@
 										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
 										  
 											 
-										 <td class="col-md-1"><c:out value="${deliveryTermsList.deliveryDesc}" /></td> 
+										 <td  ><c:out value="${deliveryTermsList.deliveryDesc}" /></td> 
 									 <td>
 									 <a href="${pageContext.request.contextPath}/editDeliveryTerms/${deliveryTermsList.deliveryTermId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a> 
 									  <a href="${pageContext.request.contextPath}/deleteDeliveryTerms/${deliveryTermsList.deliveryTermId}" onClick="return confirm('Are you sure want to delete this record');"><span

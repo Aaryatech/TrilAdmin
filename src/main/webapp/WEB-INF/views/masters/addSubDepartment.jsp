@@ -70,26 +70,14 @@
 								action="${pageContext.request.contextPath}/insertsubDept"
 								method="post">
 								<div class="box-content">
-
-									<div class="col-md-2">Sub Department Description*</div>
-									<div class="col-md-3">
-										<input id="subDeptDesc" class="form-control"
-											placeholder="Sub Department Description"
-											value="${editSubDept.subDeptDesc}" style="text-align: left;"
-											name="subDeptDesc"  type="text" required> <input
-											id="subDeptId" class="form-control" name="subDeptId"
-											value="${editSubDept.subDeptId}" type="hidden">
-
-									</div>
-									<div class="col-md-1"></div>
-
-									<div class="col-md-2">Sub Department Code*</div>
+								
+								<div class="col-md-2">Sub Department Code*</div>
 									<div class="col-md-3">
 									
 									<c:choose>
 										<c:when test="${isEdit==1}">
 										<input id="subGroupCode" class="form-control"
-											placeholder="Sub Group Description"
+											placeholder="Sub Group Code"
 											value="${editSubDept.subDeptCode}" style="text-align: left;"
 											name="subGroupCode" type="text" readonly>
 										</c:when>
@@ -99,22 +87,16 @@
 											value="${editSubDept.subDeptCode}" style="text-align: left;"
 											name="subGroupCode" maxlength="6" onchange="checkSubDeptCodeExist()" onkeydown="upperCaseF(this)" type="text" required>
 										</c:otherwise>
-									</c:choose> 
-										
-
-
+									</c:choose>  
 									</div>
-
-								</div>
-								<br>
-								<div class="box-content">
-
-									<div class="col-md-2">Select Department*</div>
+							<div class="col-md-1"></div>
+							
+							<div class="col-md-2">Select Department*</div>
 									<div class="col-md-3">
 
 										<select class="form-control chosen" name="deptId" id="deptId"
-											required>
-
+											required> 
+											<option value=""  >Select Department</option>
 											<c:forEach items="${deparmentList}" var="deparmentList">
 												<c:choose>
 													<c:when test="${deparmentList.deptId==editSubDept.deptId}">
@@ -129,19 +111,34 @@
 											</c:forEach>
 										</select>
 									</div>
+							 
+									 
+								</div>
+								<br>
+								<div class="box-content">
+								
+								<div class="col-md-2">Sub Department*</div>
+									<div class="col-md-10">
+										<input id="subDeptDesc" class="form-control"
+											placeholder="Sub Department"
+											value="${editSubDept.subDeptDesc}" style="text-align: left;"
+											name="subDeptDesc"  type="text" required> <input
+											id="subDeptId" class="form-control" name="subDeptId"
+											value="${editSubDept.subDeptId}" type="hidden">
 
-
+									</div>
+ 
 								</div>
 								<br> <br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 										<c:choose>
 										<c:when test="${isEdit==1}">
-										<input type="submit" class="btn btn-info" value="Submit"
+										<input type="submit" onclick="check()" class="btn btn-info" value="Submit"
 											id="submit">
 										</c:when>
 										<c:otherwise>
-										<input type="submit" class="btn btn-info" value="Submit"
+										<input type="submit" onclick="check()" class="btn btn-info" value="Submit"
 											id="submit" disabled>
 										</c:otherwise>
 									</c:choose> 
@@ -164,8 +161,8 @@
 										<table class="table table-advance" id="table1">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1">Sr no.</th>
-													<th class="col-md-1">Sub Department Discription</th>
+													<th style="width:3%;">Sr no.</th>
+													<th class="col-md-1">Sub Department </th>
 													<th class="col-md-1">Sub Department Code</th>
 													<th class="col-md-1">Department</th>
 													<th class="col-md-1">Action</th>
@@ -176,10 +173,10 @@
 												<c:forEach items="${subDeptList}" var="subDeptList"
 													varStatus="count">
 													<tr>
-														<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+														<td><c:out value="${count.index+1}" /></td>
 
 
-														<td class="col-md-1"><c:out
+														<td class="col-md-5"><c:out
 																value="${subDeptList.subDeptDesc}" /></td>
 														<td class="col-md-1"><c:out
 																value="${subDeptList.subDeptCode}" /></td>
@@ -370,6 +367,15 @@
 		    setTimeout(function(){
 		        a.value = a.value.toUpperCase();
 		    }, 1);
+		}
+		
+		function check() {
+
+			var deptId = document.getElementById("deptId").value;
+			 
+			if (deptId == "" || deptId == null) {
+				alert("Select Department");
+			} 
 		}
 	</script>
 	

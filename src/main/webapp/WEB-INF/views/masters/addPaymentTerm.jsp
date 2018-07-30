@@ -61,18 +61,22 @@
 								method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Payment Description*</div>
-									<div class="col-md-3">
+									<div class="col-md-2">Payment Term*</div>
+									<div class="col-md-10">
 										<input id="pymtDesc" class="form-control"
-									placeholder="Payment Term Description"
+									placeholder="Payment Term"
 									style="text-align: left;" name="pymtDesc" type="text"
 									value="${editPaymentTerms.pymtDesc}" required> <input
 									id="pymtTermId" class="form-control" name="pymtTermId"
 									value="${editPaymentTerms.pymtTermId}" type="hidden">
 									
 									</div>
-									<div class="col-md-1"></div>
-									
+									 
+								</div>
+								<br>  
+								<div class="box-content">
+
+									 
 									<div class="col-md-2">Payment Days*</div>
 									<div class="col-md-3">
 										<input id="days" class="form-control"
@@ -111,8 +115,8 @@
 						<table class="table table-advance" id="table1">  
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
-											<th class="col-md-1">Payment Description</th>
+											<th style="width:3%;">Sr no.</th>
+											<th class="col-md-1">Payment Term</th>
 											<th class="col-md-1">Payment Days</th>
 											<th class="col-md-1">Action</th>
 										</tr>
@@ -122,9 +126,9 @@
 										<c:forEach items="${paymentTermsList}" var="paymentTermsList"
 											varStatus="count">
 											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${count.index+1}" /></td>
 
-												<td class="col-md-1"><c:out
+												<td class="col-md-6"><c:out
 														value="${paymentTermsList.pymtDesc}" /></td>
 														
 												<td class="col-md-1"><c:out

@@ -76,7 +76,7 @@
 									<div class="col-md-3">
 										<input id="taxPer" class="form-control"
 									placeholder="Tax Percentage" style="text-align: left;"
-									name="taxPer" type="text" value="${editTaxForm.taxPer}"
+									name="taxPer" type="text" pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editTaxForm.taxPer}"
 									required>
 									</div>
 
@@ -89,7 +89,7 @@
 									<div class="col-md-3">
 										<input id="sgst" class="form-control"
 									placeholder="SGST" style="text-align: left;"
-									name="sgst" type="text" value="${editTaxForm.sgstPer }"
+									name="sgst" type="text" pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editTaxForm.sgstPer }"
 									required> 
 									
 									</div>
@@ -99,7 +99,7 @@
 									<div class="col-md-3">
 										<input id="cgst" class="form-control"
 									placeholder="CGST" style="text-align: left;"
-									name="cgst" type="text" value="${editTaxForm.cgstPer}"
+									name="cgst" type="text" pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editTaxForm.cgstPer}"
 									required>
 									</div>
 
@@ -112,7 +112,7 @@
 									<div class="col-md-3">
 										<input id="igst" class="form-control"
 									placeholder="IGST" style="text-align: left;"
-									name="igst" type="text" value="${editTaxForm.igstPer }"
+									name="igst" type="text" pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editTaxForm.igstPer }"
 									required> 
 									
 									</div>

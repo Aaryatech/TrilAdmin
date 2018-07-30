@@ -62,7 +62,7 @@
 								<div class="box-content">
 
 									<div class="col-md-2">Account Head*</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<input id="accHeadDesc" class="form-control"
 								placeholder="Account Head" value="${editAccountHead.accHeadDesc}"  style="text-align: left;" name="accHeadDesc" type="text" required>
 								<input id="accHeadId" class="form-control"
@@ -101,7 +101,7 @@
 									<thead>
 												<tr class="bgpink">
 													<th class="col-sm-1">Sr no.</th> 
-													<th class="col-md-1">Account Head</th> 
+													<th class="col-md-2">Account Head</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -113,8 +113,8 @@
 										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
 										  
 											 
-										 <td class="col-md-1"><c:out value="${accountHeadList.accHeadDesc}" /></td> 
-									 <td>
+										 <td class="col-md-5"><c:out value="${accountHeadList.accHeadDesc}" /></td> 
+									 <td class="col-md-1">
 									 <a href="${pageContext.request.contextPath}/editAccountHead/${accountHeadList.accHeadId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
 									 <a href="${pageContext.request.contextPath}/deleteAccountHead/${accountHeadList.accHeadId}" onClick="return confirm('Are you sure want to delete this record');"><span
 												class="glyphicon glyphicon-remove"></span></a>

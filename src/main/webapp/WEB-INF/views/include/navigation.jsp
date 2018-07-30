@@ -120,6 +120,85 @@
 
 					</li>
 				</ul>
+				
+				
+				<c:choose>
+					<c:when test="${Constants.mainAct==1}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Item Master</span> <b class="arrow fa fa-angle-right"></b>
+
+				</a>
+				
+				<ul class="submenu">
+				
+				<c:choose>
+						<c:when test="${Constants.subAct==11}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose> 
+					<a href="${pageContext.request.contextPath}/addCategory">Add
+						Category</a>
+					</li>
+					
+					<c:choose>
+						<c:when test="${Constants.subAct==16}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addItemGroup">Add
+						Item Group</a>
+					</li>
+					
+					<c:choose>
+						<c:when test="${Constants.subAct==60}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addItemSubGroup">Add
+						Item Sub Group</a>
+					</li>
+					
+					<c:choose>
+						<c:when test="${Constants.subAct==59}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addItem">Add Item</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==59}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/getItemList">Item
+						List</a>
+					</li>
+				
+				</ul>
+				</li>
 
 
 				<c:choose>
@@ -132,36 +211,24 @@
 					</c:otherwise>
 				</c:choose>
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
-					<span>Master</span> <b class="arrow fa fa-angle-right"></b>
+					<span>Store Master</span> <b class="arrow fa fa-angle-right"></b>
 
 				</a>
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
 
-					<c:choose>
-						<c:when test="${Constants.subAct==11}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose> 
-					<a href="${pageContext.request.contextPath}/addCategory">Add
-						Category</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==12}">
+					 <c:choose>
+						<c:when test="${Constants.subAct==59}">
 							<li class="active">
 						</c:when>
 						<c:otherwise>
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/addDispachMode">Add
-						Dispach Mode</a>
-					 
+					<a href="${pageContext.request.contextPath}/addAccountHead">Add
+						Account Head</a>
 					</li>
+					 
 
 					<c:choose>
 						<c:when test="${Constants.subAct==13}">
@@ -186,6 +253,42 @@
 					<a href="${pageContext.request.contextPath}/addSubDepartment">Add
 						Sub Department</a>
 					</li>
+					  
+					 
+				</ul>
+				</li>
+				
+				<c:choose>
+					<c:when test="${Constants.mainAct==1}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Purchase Master</span> <b class="arrow fa fa-angle-right"></b>
+
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+					 
+					<c:choose>
+						<c:when test="${Constants.subAct==12}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addDispachMode">Add
+						Dispach Mode</a>
+					 
+					</li>
+ 
+					 
 					<c:choose>
 						<c:when test="${Constants.subAct==15}">
 							<li class="active">
@@ -197,32 +300,7 @@
 					<a href="${pageContext.request.contextPath}/addDeliveryTerm">Add
 						Delivery Term</a>
 					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==16}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addItemGroup">Add
-						Item Group</a>
-					</li>
-
-
-					<c:choose>
-						<c:when test="${Constants.subAct==60}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addItemSubGroup">Add
-						Item Sub Group</a>
-					</li>
-
+ 
 					<c:choose>
 						<c:when test="${Constants.subAct==59}">
 							<li class="active">
@@ -247,17 +325,7 @@
 						Form</a>
 					</li>
 
-					<c:choose>
-						<c:when test="${Constants.subAct==59}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addAccountHead">Add
-						Account Head</a>
-					</li>
+					 
 
 					<c:choose>
 						<c:when test="${Constants.subAct==59}">
@@ -283,39 +351,7 @@
 						List</a>
 					</li>
 
-					<c:choose>
-						<c:when test="${Constants.subAct==59}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/addItem">Add Item</a>
-					</li>
-
-					<c:choose>
-						<c:when test="${Constants.subAct==59}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-					<a href="${pageContext.request.contextPath}/getItemList">Item
-						List</a>
-					</li>
-					<c:choose>
-						<c:when test="${Constants.subAct==11}">
-							<li class="active">
-						</c:when>
-						<c:otherwise>
-							<li>
-						</c:otherwise>
-					</c:choose>
-
-					</li>
-
+					 
 				</ul>
 				</li>
 

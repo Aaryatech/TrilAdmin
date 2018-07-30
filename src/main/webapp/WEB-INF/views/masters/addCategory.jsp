@@ -48,8 +48,8 @@
 								<i class="fa fa-table"></i>Add Category
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addCategory">
+									Add Category</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 

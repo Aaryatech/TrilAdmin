@@ -481,11 +481,11 @@
 
 								<c:choose>
 										<c:when test="${isEdit==1}">
-										<input type="submit" class="btn btn-info" value="Submit"
+										<input type="submit" class="btn btn-info" onclick="check()" value="Submit"
 											id="submit">
 										</c:when>
 										<c:otherwise>
-										<input type="submit" class="btn btn-info" value="Submit"
+										<input type="submit" class="btn btn-info" onclick="check()" value="Submit"
 											id="submit" disabled>
 										</c:otherwise>
 									</c:choose> 
@@ -624,16 +624,24 @@
 
 			}
 		}
-
+		    
 		function check() {
 
-			var companyTypeId = document.getElementById("companyTypeId").value;
-			var location = document.getElementById("location").value;
+			var uom = document.getElementById("uom").value;
+			var catId = document.getElementById("catId").value;
+			var grpId = document.getElementById("grpId").value;
+			var subGrpId = document.getElementById("subGrpId").value;
 
-			if (companyTypeId == "" || companyTypeId == null) {
-				alert("Select Company Type");
-			} else if (location == "" || location == null) {
-				alert("Select Location");
+			if (uom == "" || uom == null) {
+				alert("Select UOM");
+			} else if (catId == "" || catId == null) {
+				alert("Select Category");
+			}
+			else if (grpId == "" || grpId == null) {
+				alert("Select Group ");
+			}
+			else if (subGrpId == "" || subGrpId == null) {
+				alert("Select Sub Group");
 			}
 		}
 	</script>

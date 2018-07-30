@@ -92,20 +92,6 @@
 									</div>
 									<div class="col-md-1"></div>
 									
-									<div class="col-md-2">Group Description*</div>
-									<div class="col-md-3">
-										<input id="grpDesc" class="form-control"
-									placeholder="Delivery Term Description"
-									style="text-align: left;" name="grpDesc" type="text"
-									value="${editItemGroup.grpDesc}" required>
-									
-									</div>
-
-
-								</div>
-								<br> 
-								<div class="box-content">
-
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3"> 
 								<select class="form-control chosen"  name="catId" id="catId"   required>
@@ -124,8 +110,26 @@
 									</c:forEach>
 								</select>
 									</div>
-									<div class="col-md-1"></div>
+									 
+
+								</div>
+								<br> 
+								<div class="box-content">
+
+									<div class="col-md-2">Group Description*</div>
+									<div class="col-md-10">
+										<input id="grpDesc" class="form-control"
+									placeholder="Delivery Term Description"
+									style="text-align: left;" name="grpDesc" type="text"
+									value="${editItemGroup.grpDesc}" required>
 									
+									</div>
+									 
+								</div> <br>
+								
+								<div class="box-content">
+
+									 
 									<div class="col-md-2">Group Value*</div>
 									<div class="col-md-3">
 										<input id="grpValueyn" class="form-control"
@@ -134,12 +138,9 @@
 									value="${editItemGroup.grpValueyn}" required>
 									
 									</div>
-									
-
-
+									 
 								</div>
-								 
-					<br>
+								
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 										 

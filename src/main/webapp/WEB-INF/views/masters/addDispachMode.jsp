@@ -48,8 +48,8 @@
 								<i class="fa fa-table"></i>Add Dispach Mode
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
-									Company Type List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addDispachMode">
+									Add Dispach Mode</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -61,10 +61,10 @@
 								method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Dispach Mode*</div>
-									<div class="col-md-3">
+									<div class="col-md-2">Dispach Mode* :</div>
+									<div class="col-md-10">
 										<input id="dispModeDesc" class="form-control"
-								placeholder="Dispach Mode Description" value="${editDispatchMode.dispModeDesc}"  style="text-align: left;" name="dispModeDesc" type="text" required>
+								placeholder="Dispach Mode  " value="${editDispatchMode.dispModeDesc}"  style="text-align: left;" name="dispModeDesc" type="text" required>
 								<input id="dispModeId" class="form-control"
 								  name="dispModeId" value="${editDispatchMode.dispModeId}" type="hidden" >
 								  
@@ -79,13 +79,18 @@
 									<div class="col-md-12" style="text-align: center">
 										<input type="submit" class="btn btn-info" value="Submit"
 											id="submit">
-
-
-
+ 
 									</div>
 								</div>
 								
 								<div class="box-content">
+								
+								<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 
 					<br /> <br />
 					<div class="clearfix"></div>
@@ -93,8 +98,8 @@
 						<table class="table table-advance" id="table1">  
 									<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1">Sr no.</th> 
-													<th class="col-md-1">Dispach Mode</th> 
+													<th style="width:3%;">Sr no.</th> 
+													<th >Dispach Mode</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -103,10 +108,10 @@
 										 <c:forEach items="${dispatchModeList}" var="dispatchModeList"
 									varStatus="count">
 									<tr>
-										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
+										 <td ><c:out value="${count.index+1}" /></td>
 										  
 											 
-										 <td class="col-md-1"><c:out value="${dispatchModeList.dispModeDesc}" /></td>
+										 <td><c:out value="${dispatchModeList.dispModeDesc}" /></td>
 										 
 									 <td>
 									 <a href="${pageContext.request.contextPath}/editDispatchMode/${dispatchModeList.dispModeId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
@@ -236,6 +241,33 @@
 			}
 		}
 	</script>
+	
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    td1 = tr[i].getElementsByTagName("td")[2];
+    if (td || td1) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }  else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+</script>
 
 </body>
 </html>

@@ -87,10 +87,14 @@
 										 <input id="deptId" class="form-control"
 											name="deptId" value="${editDept.deptId}" type="hidden">
 									</div>
-									<div class="col-md-1"></div>
+									 
 
+								</div><br>
+								
+								<div class="box-content">
+ 
 									<div class="col-md-2">Department Description*</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<input id="deptDesc" class="form-control"
 											placeholder="Department Description"
 											value="${editDept.deptDesc}" style="text-align: left;"
@@ -131,9 +135,9 @@
 										<table class="table table-advance" id="table1">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1">Sr no.</th>
+													<th style="width:2%;">Sr no.</th>
 													<th class="col-md-1">Department Code</th>
-													<th class="col-md-1">Department Description</th>
+													<th class="col-md-5">Department Description</th>
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -142,7 +146,7 @@
 												<c:forEach items="${deparmentList}" var="deparmentList"
 													varStatus="count">
 													<tr>
-														<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+														<td><c:out value="${count.index+1}" /></td>
 
 
 														<td class="col-md-1"><c:out
