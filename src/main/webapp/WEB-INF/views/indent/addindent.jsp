@@ -62,7 +62,7 @@
 						<div class="box-content">
 							<form method="post" class="form-horizontal" id="validation-form">
 
-								<div class="form-group">
+								<div class="box-content">
 
 									<label class="col-sm-3 col-lg-2 control-label">Indent
 										Category </label>
@@ -85,8 +85,9 @@
 									</div>
 
 								</div>
+								<br/>
 
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Indent
 										Type</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -109,8 +110,8 @@
 											data-rule-required="true" />
 									</div>
 								</div>
-
-								<div class="form-group">
+<br/>
+								<div class="box-content">
 
 
 									<label class="col-sm-3 col-lg-2 control-label">Account
@@ -138,8 +139,34 @@
 										</select>
 									</div>
 								</div>
+								<br/>
+								
+								<div class="box-content">
+									<label class="col-sm-3 col-lg-2 control-label">For
+										Development </label>
 
-								<div class="form-group" style="display: none" id="deptDiv">
+									<div class="col-sm-6 col-lg-4 controls">
+										<select name="is_dev" id="is_dev" class="form-control"
+											placeholder="Is Dev" data-rule-required="true">
+											<option value="0">No</option>
+											<option value="1">Yes</option>
+
+										</select>
+									</div>
+
+									<label class="col-sm-3 col-lg-2 control-label">For
+										Monthly </label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<select name="is_monthly" id="is_monthly" class="form-control"
+											placeholder="Is Monthly" data-rule-required="true">
+											<option value="0">No</option>
+											<option value="1">Yes</option>
+										</select>
+									</div>
+								</div>
+								<br/>
+
+								<div class="box-content" style="display: none" id="deptDiv">
 									<label class="col-sm-3 col-lg-2 control-label">Department
 									</label>
 
@@ -164,32 +191,12 @@
 									</div>
 
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">For
-										Development </label>
-
-									<div class="col-sm-6 col-lg-4 controls">
-										<select name="is_dev" id="is_dev" class="form-control"
-											placeholder="Is Dev" data-rule-required="true">
-											<option value="0">No</option>
-											<option value="1">Yes</option>
-
-										</select>
-									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">For
-										Monthly </label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<select name="is_monthly" id="is_monthly" class="form-control"
-											placeholder="Is Monthly" data-rule-required="true">
-											<option value="0">No</option>
-											<option value="1">Yes</option>
-										</select>
-									</div>
-								</div>
+								<br/>
+								
 								<hr />
 								<p style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</p>
-								<div class="form-group">
+								
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Group </label>
 									<div class="col-sm-6 col-lg-10 controls">
 
@@ -205,7 +212,7 @@
 									</div> -->
 								</div>
 
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Item
 										Name </label>
 									<div class="col-sm-6 col-lg-10 controls">
@@ -217,7 +224,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-1 controls">
 										<input type="text" name="quantity" id="quantity"
@@ -245,7 +252,7 @@
 
 								</div>
 
-								<div class="row">
+								<div class="box-content">
 									<div class="col-md-12" style="text-align: center">
 
 										<input type="button" onclick="insertIndentDetail()"
