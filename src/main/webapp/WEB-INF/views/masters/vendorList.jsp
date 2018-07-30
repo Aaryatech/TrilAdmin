@@ -57,8 +57,15 @@
 
 						</div>
 
-						<div class="box-content">
-
+						<div class="box-content"> 
+						
+						<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
+								
 							<br /> <br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
@@ -130,35 +137,36 @@
 								</table>
 
 							</div>
+							
+							<div class=" box-content">
+									<div class="col-md-12" style="text-align: center">
+
+								<input type="button" id="expExcel" class="btn btn-primary"
+							value="EXPORT TO Excel" onclick="exportToExcel();">
+						<button class="btn btn-primary" value="PDF" id="PDFButton"
+					disabled="disabled" onclick="genPdf()">PDF</button>
+									</div>
+								</div>
+							
+							
 						</div>
 
 
 
 					</div>
 				</div>
-				<div class="form-group" id="range">
-
-
-
-					<div class="col-sm-3  controls">
-						<input type="button" id="expExcel" class="btn btn-primary"
-							value="EXPORT TO Excel" onclick="exportToExcel();">
-					</div>
-				</div>
-				<button class="btn btn-primary" value="PDF" id="PDFButton"
-					disabled="disabled" onclick="genPdf()">PDF</button>
-
-
+				 
 			</div>
+			<footer>
+			<p>2018 © TRAMBAK RUBBER</p>
+		</footer>
 		</div>
 
 
 		<div class=" box-content"></div>
 
 		<!-- END Main Content -->
-		<footer>
-			<p>2018 © TRAMBAK RUBBER</p>
-		</footer>
+		
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 			class="fa fa-chevron-up"></i></a>
@@ -268,6 +276,31 @@
 
 		}
 	</script>
+	
+	<script>
+function myFunction() {
+  var input, filter, table, tr,td1, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    td1 = tr[i].getElementsByTagName("td")[2];
+    if (td || td1) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }  else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }
+  }
+}
+</script>
 
 </body>
 </html>
