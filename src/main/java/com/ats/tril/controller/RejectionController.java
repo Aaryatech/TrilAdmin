@@ -172,7 +172,6 @@ public class RejectionController {
 							rejectionMemoDetail.setMrnNo(getMrnList.get(j).getMrnNo());
 							rejectionMemoDetail.setRejectionQty(getMrnDetail.getRejectQty());
 							rejectionMemoDetail.setStatus(1);
-							// rejectionMemoDetail.setRejectionId(rejectionId);
 							rejectionMemoDetailList.add(rejectionMemoDetail);
 						}
 
