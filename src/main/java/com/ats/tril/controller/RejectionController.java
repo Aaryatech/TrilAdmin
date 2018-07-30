@@ -28,6 +28,8 @@ import com.ats.tril.model.Category;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
+import com.ats.tril.model.GetMrnDetailRej;
+import com.ats.tril.model.GetMrnHeaderRej;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassReturnVendor;
@@ -48,7 +50,7 @@ public class RejectionController {
 
 	RestTemplate rest = new RestTemplate();
 	List<RejectionMemoDetail> rejectionMemoDetailList = new ArrayList<RejectionMemoDetail>();
-	List<GetMrnHeader> getMrnList = new ArrayList<GetMrnHeader>();
+	List<GetMrnHeaderRej> getMrnList = new ArrayList<GetMrnHeaderRej>();
 
 	@RequestMapping(value = "/showRejectionMemo", method = RequestMethod.GET)
 	public ModelAndView showRejectionMemo(HttpServletRequest request, HttpServletResponse response) {
@@ -74,7 +76,7 @@ public class RejectionController {
 
 	@RequestMapping(value = "/getMrnListByMrnId", method = RequestMethod.GET)
 	@ResponseBody
-	public List<GetMrnHeader> getMrnListByMrnId(HttpServletRequest request, HttpServletResponse response) {
+	public List<GetMrnHeaderRej> getMrnListByMrnId(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 
@@ -97,9 +99,9 @@ public class RejectionController {
 			// getMrnList = rest.postForObject(Constants.url + "getMrnHeaderDetail", map,
 			// List.class);
 
-			ParameterizedTypeReference<List<GetMrnHeader>> typeRef = new ParameterizedTypeReference<List<GetMrnHeader>>() {
+			ParameterizedTypeReference<List<GetMrnHeaderRej>> typeRef = new ParameterizedTypeReference<List<GetMrnHeaderRej>>() {
 			};
-			ResponseEntity<List<GetMrnHeader>> responseEntity = rest.exchange(Constants.url + "getMrnHeaderDetail",
+			ResponseEntity<List<GetMrnHeaderRej>> responseEntity = rest.exchange(Constants.url + "getMrnHeaderDetail",
 					HttpMethod.POST, new HttpEntity<>(map), typeRef);
 			getMrnList = responseEntity.getBody();
 			System.out.println("getMrnList" + getMrnList);
@@ -157,9 +159,9 @@ public class RejectionController {
 
 					if (Integer.parseInt(mrnIdList[i]) == getMrnList.get(j).getMrnId()) {
 
-						for (int k = 0; k < getMrnList.get(j).getGetMrnDetailList().size(); k++) {
+						for (int k = 0; k < getMrnList.get(j).getGetMrnDetailRejList().size(); k++) {
 							RejectionMemoDetail rejectionMemoDetail = new RejectionMemoDetail();
-							GetMrnDetail getMrnDetail = getMrnList.get(j).getGetMrnDetailList().get(k);
+							GetMrnDetailRej getMrnDetail = getMrnList.get(j).getGetMrnDetailRejList().get(k);
 							rejectionMemoDetail.setIsUsed(1);
 							rejectionMemo.setMrnNo(getMrnList.get(j).getMrnNo());
 
@@ -383,7 +385,7 @@ public class RejectionController {
 
 				rejectionMemoDetail.setIsUsed(detail.getIsUsed());
 				rejectionMemoDetail.setItemId(detail.getItemId());
-				rejectionMemoDetail.setMrnDate(detail.getMrnDate());
+				rejectionMemoDetail.setMrnDate(DateConvertor.convertToYMD(detail.getMrnDate()));
 				rejectionMemoDetail.setMrnNo(detail.getMrnNo());
 
 				rejectionMemoDetail.setRejectionId(detail.getRejectionId());

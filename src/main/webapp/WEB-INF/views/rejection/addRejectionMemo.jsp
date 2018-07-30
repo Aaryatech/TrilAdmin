@@ -110,7 +110,8 @@
 											placeholder="Mrn No" data-rule-required="true"
 											multiple="multiple">
 											<c:forEach items="${mrnList}" var="mrnList" varStatus="count">
-												<option value="${mrnList.mrnId}"><c:out value="${mrnList.mrnNo}"/></option>
+												<option value="${mrnList.mrnId}"><c:out
+														value="${mrnList.mrnNo}" /></option>
 											</c:forEach>
 										</select>
 									</div>
@@ -348,28 +349,26 @@
 								}
 
 								for (var i = 0; i < data.length; i++) {
-									for (var j = 0; j < data[i].getMrnDetailList.length; j++) {
+									for (var j = 0; j < data[i].getMrnDetailRejList.length; j++) {
 
 										var tr = $('<tr></tr>');
 										tr.append($('<td></td>').html(j + 1));
 
+										tr.append($('<td></td>').html(
+												data[i].mrnNo));
 										tr
 												.append($('<td></td>')
 														.html(
-																data[i].mrnNo));
-										tr
-												.append($('<td></td>')
-														.html(
-																data[i].getMrnDetailList[j].itemCode));
+																data[i].getMrnDetailRejList[j].itemCode));
 
 										tr
 												.append($('<td></td>')
 														.html(
-																data[i].getMrnDetailList[j].rejectQty));
+																data[i].getMrnDetailRejList[j].rejectQty));
 
 										tr
 												.append($('<td > <input type=number  id= memoQty'+
-												  data[i].getMrnDetailList[j].mrnId+ ' name=memoQty'+ data[i].getMrnDetailList[j].mrnId+ '></td>'));
+												  data[i].getMrnDetailRejList[j].mrnId+ ' name=memoQty'+ data[i].getMrnDetailRejList[j].mrnId+ '></td>'));
 
 										$('#table_grid tbody').append(tr);
 									}

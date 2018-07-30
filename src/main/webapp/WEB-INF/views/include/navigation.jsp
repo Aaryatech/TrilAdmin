@@ -80,7 +80,7 @@
 					href="${pageContext.request.contextPath}/showStoreDashboard"> <i
 						class="fa fa-dashboard"></i> <span>Dashboard</span>
 				</a></li>
-                 <c:choose>
+				<c:choose>
 					<c:when test="${Constants.mainAct==1}">
 						<li class="active">
 					</c:when>
@@ -105,13 +105,15 @@
 						</c:otherwise>
 					</c:choose>
 
-					<a href="${pageContext.request.contextPath}/showStoreDashboard">Store Dashboard</a>
-					<a href="${pageContext.request.contextPath}/showPurchaseDashboard">Purchase Dashboard</a>
+					<a href="${pageContext.request.contextPath}/showStoreDashboard">Store
+						Dashboard</a>
+					<a href="${pageContext.request.contextPath}/showPurchaseDashboard">Purchase
+						Dashboard</a>
 
 					</li>
-                   </ul>
-					
-                 
+				</ul>
+
+
 				<c:choose>
 					<c:when test="${Constants.mainAct==1}">
 						<li class="active">
@@ -627,6 +629,33 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/poReportList">PO
 						Report</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==51}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a
+						href="${pageContext.request.contextPath}/rejectionReportVendorwise">Rejection
+						Memo Vendorwise Report</a>
+					</li>
+
+
+					<c:choose>
+						<c:when test="${Constants.subAct==51}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a
+						href="${pageContext.request.contextPath}/rejectionReportItemwise">Rejection
+						Memo Itemwise Report</a>
 					</li>
 
 				</ul>
