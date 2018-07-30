@@ -15,6 +15,7 @@
 	<c:url var="getgroupListByCatId" value="/getgroupListByCatId" />
 
 	<c:url var="getIndentDetail" value="/getIndentDetail" />
+	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
 
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 	<div class="container" id="main-container">
@@ -69,8 +70,9 @@
 									<div class="col-sm-6 col-lg-4 controls">
 
 										<select id="ind_cat" name="ind_cat"
-											class="form-control chosen" placeholder="Indent Category"
+											class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
 											data-rule-required="true">
+											<option value="">Select Indent Category</option>
 											<c:forEach items="${categoryList}" var="cat"
 												varStatus="count">
 												<option value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
@@ -79,7 +81,7 @@
 									</div>
 									<label class="col-sm-3 col-lg-2 control-label">Date</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input class="form-control date-picker" id="indent_date"
+										<input class="form-control date-picker" id="indent_date" onchange="getInvoiceNo()"
 											size="16" type="text" name="indent_date" value="${date}"
 											required data-rule-required="true" />
 									</div>
@@ -94,6 +96,7 @@
 										<select name="indent_type" id="indent_type"
 											data-rule-required="true" class="form-control chosen"
 											placeholder="Type" data-rule-required="true">
+											<option value="">Select Indent Type</option>
 											<option value="1">Regular</option>
 											<option value="2">Job Work</option>
 											<option value="3">General</option>
@@ -120,6 +123,7 @@
 										<select name="acc_head" id="acc_head"
 											class="form-control chosen" placeholder="Account Head"
 											data-rule-required="true">
+											<option value="">Select Account Head</option>
 											<c:forEach items="${accountHeadList}" var="accHead"
 												varStatus="count">
 												<option value="${accHead.accHeadId}"><c:out value="${accHead.accHeadDesc}"/></option>
@@ -211,7 +215,6 @@
 											data-rule-required="true" />
 									</div> -->
 								</div>
-								<br/>
 
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Item
@@ -225,7 +228,6 @@
 										</select>
 									</div>
 								</div>
-								<br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-1 controls">
@@ -253,7 +255,6 @@
 									</div>
 
 								</div>
-								<br/>
 
 								<div class="box-content">
 									<div class="col-md-12" style="text-align: center">
@@ -311,7 +312,7 @@
 
 													<th class="col-md-1" style="text-align: center;">Requested
 														Qty</th>
-													<th class="col-md-1" style="text-align: center;">Schedule Days</th>
+													<th class="col-md-1" style="text-align: center;">ScheduleDays</th>
 													<th class="col-md-1" style="text-align: center;">Schedule
 														Date</th>
 														<th class="col-md-1" style="text-align: center;">Action
@@ -466,7 +467,7 @@ $(document).ready(function() {
 				    .find('option')
 				    .remove()
 				    .end()
-				 $("#sub_dept").append($("<option></option>").attr( "value",-1).text("SELECT Sub Dept"));
+				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
                     for ( var i = 0; i < len; i++) {
                             
                                 
@@ -499,7 +500,7 @@ $(document).ready(function() {
 				    .find('option')
 				    .remove()
 				    .end()
-				$("#item_name").append($("<option></option>").attr( "value",-1).text("SELECT Item"));
+				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
                     for ( var i = 0; i < len; i++) {
                             
                                 
@@ -534,7 +535,7 @@ $(document).ready(function() {
 				    .find('option')
 				    .remove()
 				    .end()
-				$("#group").append($("<option></option>").attr( "value",-1).text("SELECT Group"));
+				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
                     for ( var i = 0; i < len; i++) {
                             
                                 
@@ -688,6 +689,29 @@ function deleteIndentItem(itemId,key){
 	
 	
 }
+</script>
+<script type="text/javascript">
+
+function getInvoiceNo() {
+	
+	var date = $("#indent_date").val(); 
+	var catId = $("#ind_cat").val(); 
+
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:catId,
+		docId:1,
+		date : date,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+	document.getElementById("indent_no").value=data.code;  
+	
+	});
+
+}
+
 </script>
 </body>
 </html>

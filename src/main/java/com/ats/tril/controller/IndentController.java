@@ -32,6 +32,8 @@ import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentTrans;
@@ -68,7 +70,9 @@ public class IndentController {
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
 
 			model.addObject("deparmentList", deparmentList);
-
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			model.addObject("date", dateFormat.format(date));
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing add Indent" + e.getMessage());
@@ -286,7 +290,46 @@ public class IndentController {
 		}
 		return tempIndentList;
 	}
+	@RequestMapping(value = "/getInvoiceNo", method = RequestMethod.GET)
+	@ResponseBody
+	public DocumentBean getInvoiceNo(HttpServletRequest request, HttpServletResponse response) {
+            
+		String invNo="-";
+		DocumentBean docBean=null;
+		try {
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int docId = Integer.parseInt(request.getParameter("docId"));
+			String date = request.getParameter("date");
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("docId",docId);
+			map.add("catId", catId);
+			map.add("date", DateConvertor.convertToYMD(date));
+			RestTemplate restTemplate = new RestTemplate();
 
+			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+			System.err.println("Doc"+docBean.toString());
+			String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+			int counter=docBean.getSubDocument().getCounter();
+			int counterLenth = String.valueOf(counter).length();
+			counterLenth = 5 - counterLenth;
+			StringBuilder code = new StringBuilder(indMNo);
+
+			for (int i = 0; i < counterLenth; i++) {
+				String j = "0";
+				code.append(j);
+			}
+			code.append(String.valueOf(counter));
+			invNo=""+code;
+			docBean.setCode(invNo);
+			System.err.println("invNo"+invNo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return docBean;
+	}
 	@RequestMapping(value = "/saveIndent", method = RequestMethod.POST)
 	public String saveIndent(HttpServletRequest request, HttpServletResponse response) {
 
@@ -325,13 +368,40 @@ public class IndentController {
 			int isMonthly = Integer.parseInt(request.getParameter("is_monthly"));
 
 			Indent indent = new Indent();
+			DocumentBean docBean=null;
+			try {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 1);
+				map.add("catId", catId);
+				map.add("date", DateConvertor.convertToYMD(indDate));
+				RestTemplate restTemplate = new RestTemplate();
 
+				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+				int counter=docBean.getSubDocument().getCounter();
+				int counterLenth = String.valueOf(counter).length();
+				counterLenth = 5 - counterLenth;
+				StringBuilder code = new StringBuilder(indMNo+"-");
+
+				for (int i = 0; i < counterLenth; i++) {
+					String j = "0";
+					code.append(j);
+				}
+				code.append(String.valueOf(counter));
+				
+				indent.setIndMNo(""+code);
+				
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 			indent.setAchdId(accHead);
 			indent.setCatId(catId);
 			indent.setIndIsdev(isDev);
 			indent.setIndIsmonthly(isMonthly);
 			indent.setIndMDate(DateConvertor.convertToYMD(indDate));
-			indent.setIndMNo("INDmNo E0004");
+			
 			indent.setIndMStatus(0);
 			indent.setIndMType(indType);
 			indent.setIndRemark("default remark");
@@ -371,7 +441,17 @@ public class IndentController {
 			RestTemplate restTemp = new RestTemplate();
 if(indTrasList.size()>0) {
 			Indent indRes = restTemp.postForObject(Constants.url + "/saveIndentAndTrans", indent, Indent.class);
+			 if(indRes!=null)
+	          {
+	        		try {
+	        			
+	        			SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
 
+	        		
+	        		}catch (Exception e) {
+						e.printStackTrace();
+					}
+	          }
 			System.err.println("indRes " + indRes.toString());
 }
 		} catch (Exception e) {
