@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getNonreturnableGatepass" value="/getNonreturnableGatepass"></c:url>
+	<c:url var="getReturnableGatepass" value="/getReturnableGatepass"></c:url>
 	<c:url var="getNonreturnablevenwise" value="/getNonreturnablevenwise"></c:url>
 	<c:url var="getNonreturnableItemwise" value="/getNonreturnableItemwise"></c:url>
 	<c:url var="getItemIdByCatId" value="/getItemIdByCatId"></c:url>
@@ -415,6 +415,7 @@
 											<th class="col-md-1">Vendor Name</th>
 
 											<th class="col-md-1">GP Qty</th>
+											<th class="col-md-1">GP Status</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -534,7 +535,7 @@
 
 			$('#loader').show();
 
-			$.getJSON('${getNonreturnableGatepass}',
+			$.getJSON('${getReturnableGatepass}',
 
 			{
 
@@ -568,6 +569,7 @@
 					tr.append($('<td></td>').html(itemList.itemCode));
 
 					tr.append($('<td></td>').html(itemList.gpQty));
+					tr.append($('<td></td>').html(itemList.gpStatus));
 
 					$('#table1 tbody').append(tr);
 				})

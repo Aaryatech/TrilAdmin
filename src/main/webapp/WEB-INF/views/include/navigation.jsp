@@ -107,7 +107,7 @@
 
 					<a href="${pageContext.request.contextPath}/showStoreDashboard">Store
 						Dashboard</a>
-						<c:choose>
+					<c:choose>
 						<c:when test="${Constants.subAct==111}">
 							<li class="active">
 						</c:when>
@@ -120,8 +120,8 @@
 
 					</li>
 				</ul>
-				
-				
+
+
 				<c:choose>
 					<c:when test="${Constants.mainAct==1}">
 						<li class="active">
@@ -135,21 +135,21 @@
 					<span>Item Master</span> <b class="arrow fa fa-angle-right"></b>
 
 				</a>
-				
+
 				<ul class="submenu">
-				
-				<c:choose>
+
+					<c:choose>
 						<c:when test="${Constants.subAct==11}">
 							<li class="active">
 						</c:when>
 						<c:otherwise>
 							<li>
 						</c:otherwise>
-					</c:choose> 
+					</c:choose>
 					<a href="${pageContext.request.contextPath}/addCategory">Add
 						Category</a>
 					</li>
-					
+
 					<c:choose>
 						<c:when test="${Constants.subAct==16}">
 							<li class="active">
@@ -161,7 +161,7 @@
 					<a href="${pageContext.request.contextPath}/addItemGroup">Add
 						Item Group</a>
 					</li>
-					
+
 					<c:choose>
 						<c:when test="${Constants.subAct==60}">
 							<li class="active">
@@ -173,7 +173,7 @@
 					<a href="${pageContext.request.contextPath}/addItemSubGroup">Add
 						Item Sub Group</a>
 					</li>
-					
+
 					<c:choose>
 						<c:when test="${Constants.subAct==59}">
 							<li class="active">
@@ -196,7 +196,7 @@
 					<a href="${pageContext.request.contextPath}/getItemList">Item
 						List</a>
 					</li>
-				
+
 				</ul>
 				</li>
 
@@ -217,7 +217,7 @@
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
 
-					 <c:choose>
+					<c:choose>
 						<c:when test="${Constants.subAct==59}">
 							<li class="active">
 						</c:when>
@@ -228,7 +228,7 @@
 					<a href="${pageContext.request.contextPath}/addAccountHead">Add
 						Account Head</a>
 					</li>
-					 
+
 
 					<c:choose>
 						<c:when test="${Constants.subAct==13}">
@@ -253,11 +253,11 @@
 					<a href="${pageContext.request.contextPath}/addSubDepartment">Add
 						Sub Department</a>
 					</li>
-					  
-					 
+
+
 				</ul>
 				</li>
-				
+
 				<c:choose>
 					<c:when test="${Constants.mainAct==1}">
 						<li class="active">
@@ -274,7 +274,7 @@
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
 
-					 
+
 					<c:choose>
 						<c:when test="${Constants.subAct==12}">
 							<li class="active">
@@ -285,10 +285,10 @@
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/addDispachMode">Add
 						Dispach Mode</a>
-					 
+
 					</li>
- 
-					 
+
+
 					<c:choose>
 						<c:when test="${Constants.subAct==15}">
 							<li class="active">
@@ -300,7 +300,7 @@
 					<a href="${pageContext.request.contextPath}/addDeliveryTerm">Add
 						Delivery Term</a>
 					</li>
- 
+
 					<c:choose>
 						<c:when test="${Constants.subAct==59}">
 							<li class="active">
@@ -325,7 +325,7 @@
 						Form</a>
 					</li>
 
-					 
+
 
 					<c:choose>
 						<c:when test="${Constants.subAct==59}">
@@ -351,7 +351,7 @@
 						List</a>
 					</li>
 
-					 
+
 				</ul>
 				</li>
 
@@ -383,8 +383,8 @@
 
 					<a href="${pageContext.request.contextPath}/addGetpassReturnable">Add
 						Returnable Gatepass</a>
-						
-						<c:choose>
+
+					<c:choose>
 						<c:when test="${Constants.subAct==111}">
 							<li class="active">
 						</c:when>
@@ -706,6 +706,34 @@
 					<a
 						href="${pageContext.request.contextPath}/rejectionReportItemwise">Rejection
 						Memo Itemwise Report</a>
+					</li>
+
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/nonReturnableReport">Non
+						Returnable Report</a>
+					</li>
+
+
+
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/returnableReport">Returnable
+						Report</a>
 					</li>
 
 				</ul>

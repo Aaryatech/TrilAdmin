@@ -3157,4 +3157,72 @@ public class ReportController {
 		return model;
 	}
 
+	@RequestMapping(value = "/getReturnableGatepass", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GatepassReport> getReturnableGatepass(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			getnonList = new ArrayList<>();
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			GatepassReport[] getlist = rest.postForObject(Constants.url + "/getGatepassReturnableReport", map,
+					GatepassReport[].class);
+			System.out.println("getList" + getlist);
+			getnonList = new ArrayList<GatepassReport>(Arrays.asList(getlist));
+
+			// export to excel
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("GP No");
+			rowData.add("Vendor Name");
+			rowData.add("Vendor Code");
+			rowData.add("Item Name");
+			rowData.add("Item Code");
+			rowData.add("GP Qty");
+			rowData.add("GP Status");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < getnonList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+				rowData.add("" + (cnt));
+				rowData.add("" + getnonList.get(i).getGpNo());
+				rowData.add("" + getnonList.get(i).getVendorName());
+				rowData.add("" + getnonList.get(i).getVendorCode());
+				rowData.add("" + getnonList.get(i).getItemDesc());
+				rowData.add("" + getnonList.get(i).getItemCode());
+				rowData.add("" + getnonList.get(i).getGpQty());
+				rowData.add("" + getnonList.get(i).getGpStatus());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "GatepassReport");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getnonList;
+	}
+
 }
