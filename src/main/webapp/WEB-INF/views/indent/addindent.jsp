@@ -211,6 +211,7 @@
 											data-rule-required="true" />
 									</div> -->
 								</div>
+								<br/>
 
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Item
@@ -224,6 +225,7 @@
 										</select>
 									</div>
 								</div>
+								<br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-1 controls">
@@ -251,6 +253,7 @@
 									</div>
 
 								</div>
+								<br/>
 
 								<div class="box-content">
 									<div class="col-md-12" style="text-align: center">
@@ -308,7 +311,7 @@
 
 													<th class="col-md-1" style="text-align: center;">Requested
 														Qty</th>
-													<th class="col-md-1" style="text-align: center;">ScheduleDays</th>
+													<th class="col-md-1" style="text-align: center;">Schedule Days</th>
 													<th class="col-md-1" style="text-align: center;">Schedule
 														Date</th>
 														<th class="col-md-1" style="text-align: center;">Action
@@ -463,7 +466,7 @@ $(document).ready(function() {
 				    .find('option')
 				    .remove()
 				    .end()
-				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+				 $("#sub_dept").append($("<option></option>").attr( "value",-1).text("SELECT Sub Dept"));
                     for ( var i = 0; i < len; i++) {
                             
                                 
@@ -496,7 +499,7 @@ $(document).ready(function() {
 				    .find('option')
 				    .remove()
 				    .end()
-				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+				$("#item_name").append($("<option></option>").attr( "value",-1).text("SELECT Item"));
                     for ( var i = 0; i < len; i++) {
                             
                                 
@@ -531,7 +534,7 @@ $(document).ready(function() {
 				    .find('option')
 				    .remove()
 				    .end()
-				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+				$("#group").append($("<option></option>").attr( "value",-1).text("SELECT Group"));
                     for ( var i = 0; i < len; i++) {
                             
                                 

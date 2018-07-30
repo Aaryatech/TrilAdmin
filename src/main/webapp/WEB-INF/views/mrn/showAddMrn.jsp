@@ -191,7 +191,7 @@ body {
 									</div>
 
 								</div>
-
+<br/>
 								<div class="box-content">
 
 
@@ -211,6 +211,7 @@ body {
 											required />
 									</div>
 								</div>
+								<br/>
 
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Gate
@@ -230,6 +231,7 @@ body {
 											required />
 									</div>
 								</div>
+								<br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Chalan
 										No </label>
@@ -250,7 +252,7 @@ body {
 
 								</div>
 
-
+<br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Bill No
 									</label>
@@ -271,7 +273,7 @@ body {
 
 								</div>
 
-
+<br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Select
 										from PO List </label>
@@ -286,12 +288,12 @@ body {
 									<label class="col-sm-3 col-lg-2 control-label">PO
 										Detail </label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input class="btn btn-large" id="getPoButton"
+										<input class="btn btn-large"  id="getPoButton"
 											onclick="getPoDetail()" size="16" type="button"
-											name="getPoButton" value="PO Detail" />
+											name="getPoButton" value="Get PO Detail" style="background: red;" >
 									</div>
 								</div>
-
+<br>
 								<div id="myModal" class="modal">
 
 									<div class="modal-content" style="color: black;">
@@ -306,7 +308,7 @@ body {
 														style="width: 100%" id="table_grid1">
 														<thead>
 															<tr>
-																<th class="col-md-1" style="text-align: center;">Select</th>
+																<!-- <th class="col-md-1" style="text-align: center;">Select</th> -->
 																<th class="col-md-1" style="text-align: center;">Sr.No.</th>
 																<th class="col-md-2" style="text-align: center;">Item
 																	Code</th>
@@ -630,7 +632,7 @@ body {
 
 													var tr = $('<tr></tr>');
 
-													tr
+													/* tr
 															.append($(
 																	'<td class="col-md-1" style="text-align: center;"></td>')
 																	.html(
@@ -642,7 +644,7 @@ body {
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
-																					+ " oninput='checkMe(this.value)'  />"));
+																					+ " oninput='checkMe(this.value)'  />")); */
 
 													tr
 															.append($(
@@ -769,7 +771,7 @@ body {
 
 	<script type="text/javascript">
 		function tempSubmit() {
-			alert("inside Indent Insetr");
+			//alert("inside Indent Insetr");
 			$
 					.getJSON(
 							'${getTempPoDetail}',
@@ -895,8 +897,7 @@ body {
 	<script type="text/javascript">
 		function insertMrn() {
 			//alert("Hi ");
-			$('#loader').show();
-
+			
 			var grn_type = $("#grn_type").val();
 
 			var vendor_id = $("#vendor_id").val();
@@ -928,7 +929,77 @@ body {
 			var lorry_remark = $("#lorry_remark").val();
 
 			var transport = $("#transport").val();
+			
+var isValid=true;
+			if(grn_type==null || grn_type==""){
+				alert("Please Select Grn Type");
+				isValid=false;
+			}
+			if(vendor_id==null ||  vendor_id==""){
+				alert("Please Select Vendor Type");
+				isValid=false;
+			}
+			
+			if(grn_no==null || grn_no==""){
+				alert("Please Select Grn No");
+				isValid=false;
+			}
+			if(grn_date==null ||  grn_date==""){
+				alert("Please Select Grn Date");
+				isValid=false;
+			}
+			
+			if(gate_entry_no==null || gate_entry_no==""){
+				alert("Please Select Gate Entry No");
+				isValid=false;
+			}
+			if(gate_entry_date==null ||  gate_entry_date==""){
+				alert("Please Select Gate Entry Date");
+				isValid=false;
+			}
+			
+			if(chalan_no==null ||  chalan_no==""){
+				alert("Please Select Chalan No");
+				isValid=false;
+			}
+			
+			if(chalan_date==null || chalan_date==""){
+				alert("Please Select Chalan Date");
+				isValid=false;
+			}
+			if(bill_no==null ||  bill_no==""){
+				alert("Please Select Bill No");
+				isValid=false;
+			}
+			
+			if(bill_date==null ||  bill_date==""){
+				alert("Please Select Bill Date");
+				isValid=false;
+			}
+			
+			if(lorry_date==null || lorry_date==""){
+				alert("Please Select Lorry Date");
+				isValid=false;
+			}
+			if(lorry_no==null ||  lorry_no==""){
+				alert("Please Select Lorry No");
+				isValid=false;
+			}
+			//lorry_remark,transport
+			
+			if(lorry_remark==null || lorry_remark==""){
+				alert("Please Select Lorry Remark");
+				isValid=false;
+			}
+			if(transport==null ||  transport==""){
+				alert("Please Select Transport");
+				isValid=false;
+			}
+			
+			if(isValid==true){
+				$('#loader').show();
 
+			
 			$.getJSON('${insertMrnProcess}', {
 
 				grn_type : grn_type,
@@ -951,10 +1022,11 @@ body {
 				$('#loader').hide();
 
 				window.location.reload();
-				window.open("${pageContext.request.contextPath}/showAddMrn");
+				//window.open("${pageContext.request.contextPath}/showAddMrn");
 
 			});
 			//	alert("Hi End  ");
+		}
 		}
 	</script>
 
