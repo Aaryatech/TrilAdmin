@@ -233,14 +233,6 @@
 									</div>
 								</div>
 
-								<div class="row">
-									<div class="col-md-12" style="text-align: center">
-
-										<input type="submit" class="btn btn-info"
-											value="Edit Indent">
-
-									</div>
-								</div>
 
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
@@ -280,6 +272,16 @@
 										</table>
 									</div>
 								</div>
+								
+								<div class="row">
+									<div class="col-md-12" style="text-align: center">
+
+										<input type="submit" class="btn btn-info"
+											value="Edit Indent">
+											
+									</div>
+								</div>
+								
 							</form>
 
 						</div>

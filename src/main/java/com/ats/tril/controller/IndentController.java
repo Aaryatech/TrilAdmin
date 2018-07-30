@@ -214,7 +214,14 @@ public class IndentController {
 		System.err.println("In get group by cat Id ");
 
 		try {
-
+			
+			
+			int key = Integer.parseInt(request.getParameter("key"));
+			
+			
+			if(key==-1) {
+				
+				System.err.println("Add Call Indent");
 			String itemName = request.getParameter("itemName");
 			String remark = request.getParameter("remark");
 
@@ -265,7 +272,12 @@ public class IndentController {
 			detail.setItemCode(itemCode);
 			detail.setRemark(remark);
 			tempIndentList.add(detail);
-
+			}
+			
+			else {
+				System.err.println("remove call Indent");
+				tempIndentList.remove(key);
+			}
 		} catch (Exception e) {
 
 			System.err.println("Exce in getIndentDetail Cont @IndentController by Ajax call " + e.getMessage());

@@ -161,7 +161,7 @@ body {
 						<div class="box-content">
 							<form method="post" class="form-horizontal" id="validation-form">
 
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Grn Type
 									</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -192,7 +192,7 @@ body {
 
 								</div>
 
-								<div class="form-group">
+								<div class="box-content">
 
 
 									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
@@ -212,7 +212,7 @@ body {
 									</div>
 								</div>
 
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Gate
 										Entry No </label>
 
@@ -230,7 +230,7 @@ body {
 											required />
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Chalan
 										No </label>
 
@@ -251,7 +251,7 @@ body {
 								</div>
 
 
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Bill No
 									</label>
 
@@ -272,7 +272,7 @@ body {
 								</div>
 
 
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Select
 										from PO List </label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -332,9 +332,9 @@ body {
 
 										</div>
 										<br>
-										<div class="row">
+										<div class="box-content">
 											<div class="col-md-12" style="text-align: center">
-												<input type=button class="btn btn-info" value="Submit"
+												<input type=button class="btn btn-info" value="Submit Temp"
 													onclick="tempSubmit()">
 
 
@@ -601,7 +601,7 @@ body {
 			//alert("called Button")
 			var selectedPoIds = $("#po_list").val();
 
-			alert(" Selected PO Id  " + selectedPoIds);
+			//alert(" Selected PO Id  " + selectedPoIds);
 
 			$
 					.getJSON(
@@ -763,16 +763,13 @@ body {
 
 		}
 		function checkMe(checking) {
-			alert("check " + checking);
+			//alert("check " + checking);
 		}
 	</script>
 
-	<script>
+	<script type="text/javascript">
 		function tempSubmit() {
-			//alert("inside Indent Insetr");
-
-			//alert("called Button")
-
+			alert("inside Indent Insetr");
 			$
 					.getJSON(
 							'${getTempPoDetail}',
@@ -783,18 +780,14 @@ body {
 							function(data) {
 								$('#table_grid2 td').remove();
 								$('#loader').hide();
-
 								if (data == "") {
 									alert("No records found !!");
-
 								}
 								var cnt = 0;
 								$
 										.each(
 												data,
 												function(key, itemList) {
-													alert("data received "
-															+ data[0]);
 
 													if (itemList.receivedQty > 0) {
 														var tr = $('<tr></tr>');
@@ -858,7 +851,7 @@ body {
 														//tr.append($('<td></td>').html(itemList.itemQty));//textbox
 
 														var status;
-														if (itemList.status == 0)
+														if (itemList.status == 0){
 															status = "Pending";
 														} else if (itemList.status == 1) {
 
@@ -885,6 +878,7 @@ body {
 																.append(tr);
 													}//end of if received Qty >0
 													modal.style.display = "none";
+											
 
 												})
 							});
@@ -893,7 +887,7 @@ body {
 	<script type="text/javascript">
 		function insertMrn() {
 
-			alert("Insert Mrn ");
+			//alert("Insert Mrn ");
 		}
 	</script>
 

@@ -304,6 +304,8 @@
 													<th class="col-md-1" style="text-align: center;">ScheduleDays</th>
 													<th class="col-md-1" style="text-align: center;">Schedule
 														Date</th>
+														<th class="col-md-1" style="text-align: center;">Action
+														</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -411,9 +413,13 @@ function insertIndent(){
 	//alert("inside Indent Insetr");
  var form = document.getElementById("validation-form");
  var indentDate=$('#indent_date').val();
+ var indNo	=$('#indent_no').val();
+
  //alert(indentDate);
  if(indentDate=="" || indentDate==null){
 	 	alert("Please Select Valid Indent Date");
+ }else  if(indNo=="" || indNo==null){
+	 	alert("Please provide Indent No");
  }
  else{
 	  	form.action ="${pageContext.request.contextPath}/saveIndent";
@@ -536,7 +542,7 @@ $(document).ready(function() {
 
 	<script type="text/javascript">
 	function insertIndentDetail() {
-		alert
+		
 		 var itemId=$('#item_name').val();
 		 var qty=$('#quantity').val();
 		 var remark=$('#remark').val();
@@ -553,6 +559,7 @@ $(document).ready(function() {
 			itemName : itemName,
 			schDay : schDay,
 			indentDate : indentDate,
+			key : -1,
 			ajax : 'true',
 
 		}, function(data) {
@@ -570,7 +577,23 @@ $(document).ready(function() {
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
-
+		  	
+		  	/* tr
+			.append($(
+					'<td class="col-md-1" style="text-align: center;"></td>')
+					.html(
+							"<input type=button style='text-align:center; width:40px' class=form-control name=delete_indent_item"
+									+ trans.itemId+ "id=delete_indent_item"
+									+ trans.itemId
+									+ " onclick='deleteIndentItem("+trans.itemId+","+key+")'  />"));
+ */
+		  	
+		  	tr
+			.append($(
+					'<td class="col-md-1" style="text-align: center;"></td>')
+					.html(
+							"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
+		  	
 			$('#table1 tbody').append(tr);
 			})
 			});
@@ -593,6 +616,67 @@ function myFunction() {
       }
     }       
   }
+}
+</script>
+
+<script type="text/javascript">
+function deleteIndentItem(itemId,key){
+	
+	// var itemId=$('#item_name').val();
+	 var qty=$('#quantity').val();
+	 var remark=$('#remark').val();
+	 var schDay=$('#sch_days').val();
+	 var itemName=$("#item_name option:selected").html();
+	 
+	 var indentDate=$('#indent_date').val();
+	
+	$.getJSON('${getIndentDetail}', {
+		itemId : itemId,
+		qty : qty,
+		remark : remark,
+		itemName : itemName,
+		schDay : schDay,
+		indentDate : indentDate,
+		key : key,
+		ajax : 'true',
+
+	}, function(data) {
+		//alert(data);
+		var len = data.length;
+		$('#table1 td').remove();
+		$.each(data,function(key, trans) {
+		var tr = $('<tr></tr>');
+		tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key+1));
+	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));
+	  	tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(trans.itemName));
+	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.uom));
+	  	tr.append($('<td class="col-md-2" style="text-align: center;"></td>').html(trans.curStock));
+
+	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
+	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
+	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
+	  	
+	  /* 	tr
+		.append($(
+				'<td class="col-md-1" style="text-align: center;"></td>')
+				.html(
+						"<input type=button style='text-align:center;' class=form-control name=delete_indent_item"
+								+ trans.itemId+ "id=delete_indent_item"
+								+ trans.itemId
+								+ " onclick='deleteIndentItem("+trans.itemId+","+key+")'  />")); */
+								
+								tr
+								.append($(
+										'<td class="col-md-1" style="text-align: center;"></td>')
+										.html(
+												"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
+		$('#table1 tbody').append(tr);
+		})
+		});
+	
+	
+	
+	
 }
 </script>
 </body>
