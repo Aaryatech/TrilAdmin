@@ -8,17 +8,17 @@
 	<body>
 	
 	 
-	 <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
+	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 	  <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
-	  
-<c:url var="addItmeInIssueList" value="/addItmeInIssueList"></c:url>
-	<c:url var="editItemInIssueList" value="/editItemInIssueList"></c:url>
-	<c:url var="deleteItemFromIssueList" value="/deleteItemFromIssueList"></c:url>
+	  <c:url var="getInvoiceNo" value="/getInvoiceNo" />
+      <c:url var="addItmeInIssueList" value="/addItmeInIssueList"></c:url>
+	  <c:url var="editItemInIssueList" value="/editItemInIssueList"></c:url>
+	  <c:url var="deleteItemFromIssueList" value="/deleteItemFromIssueList"></c:url>
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+	  <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 
-	<div class="container" id="main-container">
+	  <div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
@@ -89,7 +89,7 @@
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control date-picker"
-								 placeholder="Issue Date"  name="issueDate" type="text" required>
+								 placeholder="Issue Date"  name="issueDate" type="text" value="" onblur="getInvoiceNo()"  required>
 
 
 									</div>
@@ -639,7 +639,28 @@ function check()
 	 
 }
 </script>
+	<script type="text/javascript">
+
+function getInvoiceNo() {
+
+	var date = $("#issueDate").val();
+
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:1,
+		docId:6,
+		date : date,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+	document.getElementById("issueNo").value=data.code;  
 	
+	});
+
+}
+
+</script>
 								
 							
 	

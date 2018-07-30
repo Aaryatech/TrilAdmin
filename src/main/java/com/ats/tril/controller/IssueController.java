@@ -32,6 +32,8 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList; 
 
@@ -193,13 +195,52 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 			 IssueHeader issueHeader = new IssueHeader();
 		 
 			 issueHeader.setIssueDate(DateConvertor.convertToYMD(issueDate));
-			 issueHeader.setIssueNo(issueNo);
+			 DocumentBean docBean=null;
+				try {
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docId",6);
+					map.add("catId", 1);
+					map.add("date", DateConvertor.convertToYMD(issueDate));
+					RestTemplate restTemplate = new RestTemplate();
+
+					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+					String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+					int counter=docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 5 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo+"-");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+					
+					 issueHeader.setIssueNo(""+code);
+					
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			 //issueHeader.setIssueNo(issueNo);
 			 issueHeader.setDeleteStatus(1);
 			 issueHeader.setIssueDetailList(issueDetailList);
   
 			System.out.println(issueHeader);
 			IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
 					IssueHeader.class);
+			 if(res!=null)
+	          {
+	        		try {
+	        			
+	        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+	        		
+	        		}catch (Exception e) {
+						e.printStackTrace();
+					}
+	          }
 			System.out.println(res);
 
 		} catch (Exception e) {

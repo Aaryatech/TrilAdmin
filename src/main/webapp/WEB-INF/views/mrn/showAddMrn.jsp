@@ -111,7 +111,7 @@ body {
 
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
 	<c:url var="getPODetailList" value="/getPODetailList" />
-
+    <c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<c:url var="getTempPoDetail" value="/getTempPoDetail" />
 
 	<c:url var="insertMrnProcess" value="/insertMrnProcess" />
@@ -166,8 +166,9 @@ body {
 									</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="grn_type" id="grn_type"
-											class="form-control chosen" placeholder="Grn Type"
+											class="form-control chosen" placeholder="Grn Type" onchange="getInvoiceNo()"
 											data-rule-required="true">
+												<option value="">Select Grn Type</option>
 											<option value="1">Regular</option>
 											<option value="2">Job Work</option>
 											<option value="3">General</option>
@@ -191,24 +192,22 @@ body {
 									</div>
 
 								</div>
-<br/>
+                                <br/>
 								<div class="box-content">
-
-
-									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="grn_no" id="grn_no"
-											class="form-control" placeholder="GRN No"
-											data-rule-required="true" />
-									</div>
 
 									<label class="col-sm-3 col-lg-2 control-label">Grn Date
 									</label>
 
 									<div class="col-sm-6 col-lg-4 controls">
 										<input class="form-control date-picker" id="grn_date"
-											size="16" type="text" name="grn_date" value="${date}"
+											size="16" type="text" name="grn_date" value="${date}" onblur="getInvoiceNo()"
 											required />
+									</div>
+									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="grn_no" id="grn_no"
+											class="form-control" placeholder="GRN No"
+											data-rule-required="true" />
 									</div>
 								</div>
 								<br/>
@@ -1029,7 +1028,29 @@ var isValid=true;
 		}
 		}
 	</script>
+<script type="text/javascript">
 
+function getInvoiceNo() {
+	
+	var date = $("#grn_date").val(); 
+	var catId = $("#grn_type").val(); 
+
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:catId,
+		docId:3,
+		date : date,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+	document.getElementById("grn_no").value=data.code;  
+	
+	});
+
+}
+
+</script>
 
 </body>
 </html>

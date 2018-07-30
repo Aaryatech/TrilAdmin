@@ -87,12 +87,12 @@ body {
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<body>
 	  
-
+    <c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<c:url var="geIntendDetailByIndId" value="/geIntendDetailByIndId"></c:url>
-		<c:url var="updateRmQty0" value="/updateRmQty0"></c:url>
-		<c:url var="getRmCategory" value="/getRmCategory" />
-			<c:url var="getRmListByCatId" value="/getRmListByCatId" />
-						<c:url var="getRmRateAndTax" value="/getRmRateAndTax" />
+	<c:url var="updateRmQty0" value="/updateRmQty0"></c:url>
+	<c:url var="getRmCategory" value="/getRmCategory" />
+	<c:url var="getRmListByCatId" value="/getRmListByCatId" />
+	<c:url var="getRmRateAndTax" value="/getRmRateAndTax" />
 
 	<c:url var="calculatePurchaseHeaderValues" value="/calculatePurchaseHeaderValues" />
 
@@ -152,11 +152,11 @@ body {
 				method="post">
 			<div class="box-content">
 				<div class="col-md-2">PO No.  </div>
-				<div class="col-md-3"><input type="text" id="poNo" name="poNo" value="1" class="form-control" readonly>
+				<div class="col-md-3"><input type="text" id="poNo" name="poNo" value="1" readonly class="form-control" >
 				</div>
 				<div class="col-md-2">PO Date</div> 
 				<div class="col-md-3">
-				<input type="text" id="poDate" name="poDate" value="${date}" class="form-control date-picker" required>
+				<input type="text" id="poDate" name="poDate" value="${date}" class="form-control date-picker" onblur="getInvoiceNo()" required>
 					
 				</div>
 				</div><br/>
@@ -190,7 +190,7 @@ body {
 			<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">
-										<select name="poType" id="poType"   class="form-control chosen" tabindex="6" required>
+										<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" required>
 										<c:choose>
 											<c:when test="${poTypeTemp==1}">
 												<option value="1" selected>Regular</option>
@@ -871,7 +871,29 @@ function itemByIntendId()
   	
   }
 </script>
+<script type="text/javascript">
+
+function getInvoiceNo() {
+	
+	var date = $("#poDate").val(); 
+	var catId = $("#poType").val(); 
+
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:catId,
+		docId:2,
+		date : date,
+		ajax : 'true',
+
+	}, function(data) { 
 		
+	document.getElementById("poNo").value=data.code;  
+	
+	});
+
+}
+
+</script>
 		
 </body>
 </html>

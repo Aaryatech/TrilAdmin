@@ -81,7 +81,7 @@
 									</div>
 									<label class="col-sm-3 col-lg-2 control-label">Date</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input class="form-control date-picker" id="indent_date" onchange="getInvoiceNo()"
+										<input class="form-control date-picker" id="indent_date" onblur="getInvoiceNo()"
 											size="16" type="text" name="indent_date" value="${date}"
 											required data-rule-required="true" />
 									</div>

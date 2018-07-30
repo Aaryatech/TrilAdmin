@@ -37,6 +37,8 @@ import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.GetIntendDetail;
 import com.ats.tril.model.indent.IndentTrans;
@@ -406,7 +408,36 @@ public class PurchaseOrderController {
 				String insuRemark=request.getParameter("insuRemark");
 				String freghtRemark=request.getParameter("freghtRemark");
 				String otherRemark=request.getParameter("otherRemark");
-				
+				//----------------------------Inv No---------------------------------
+				DocumentBean docBean=null;
+				try {
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docId", 2);
+					map.add("catId", poType);
+					map.add("date", DateConvertor.convertToYMD(poDate));
+					RestTemplate restTemplate = new RestTemplate();
+
+					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+					String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+					int counter=docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 5 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo+"-");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+					
+					PoHeader.setPoNo(""+code);
+					
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				//----------------------------Inv No---------------------------------
 				PoHeader.setVendId(vendId);
 				PoHeader.setVendQuation(quotation);
 				PoHeader.setPoType(poType);
@@ -415,7 +446,7 @@ public class PurchaseOrderController {
 				PoHeader.setDispatchId(dispatchMode);
 				PoHeader.setVendQuationDate(DateConvertor.convertToYMD(quotationDate));
 				PoHeader.setPoDate(DateConvertor.convertToYMD(poDate));
-				PoHeader.setPoNo(poNo);
+				
 				PoHeader.setOtherChargeAfterRemark(otherRemark);
 				PoHeader.setPoFrtRemark(freghtRemark);
 				PoHeader.setPoInsuRemark(insuRemark);
@@ -425,7 +456,17 @@ public class PurchaseOrderController {
 				System.out.println(PoHeader);
 				PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail",PoHeader, PoHeader.class); 
 				System.out.println(save);
-				
+				 if(save!=null)
+		          {
+		        		try {
+		        			
+		        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+		        		
+		        		}catch (Exception e) {
+							e.printStackTrace();
+						}
+		          }
 				if(save!=null)
 				{
 					for(int i=0 ; i<getIntendDetailforJsp.size();i++)

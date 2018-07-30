@@ -29,6 +29,8 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.mrn.GetMrnDetail;
@@ -59,7 +61,9 @@ public class MrnController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
-
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			model.addObject("date", dateFormat.format(date));
 			System.err.println("Inside show Add Mrn ");
 
 		} catch (Exception e) {
@@ -213,7 +217,36 @@ public class MrnController {
 			String lorryRemark = request.getParameter("lorry_remark");
 
 			MrnHeader mrnHeader = new MrnHeader();
+			//----------------------------Inv No---------------------------------
+			DocumentBean docBean=null;
+			try {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 3);
+				map.add("catId", grnType);
+				map.add("date", DateConvertor.convertToYMD(grnDate));
+				RestTemplate restTemplate = new RestTemplate();
 
+				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+				int counter=docBean.getSubDocument().getCounter();
+				int counterLenth = String.valueOf(counter).length();
+				counterLenth = 5 - counterLenth;
+				StringBuilder code = new StringBuilder(indMNo+"-");
+
+				for (int i = 0; i < counterLenth; i++) {
+					String j = "0";
+					code.append(j);
+				}
+				code.append(String.valueOf(counter));
+				
+				mrnHeader.setMrnNo(""+code);
+				
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			//----------------------------Inv No---------------------------------
 			List<MrnDetail> mrnDetailList = new ArrayList<MrnDetail>();
 
 			mrnHeader.setBillDate(DateConvertor.convertToYMD(billDate));
@@ -226,7 +259,7 @@ public class MrnController {
 			mrnHeader.setLrDate(DateConvertor.convertToYMD(lrDate));
 			mrnHeader.setLrNo(lrNo);
 			mrnHeader.setMrnDate(DateConvertor.convertToYMD(grnDate));
-			mrnHeader.setMrnNo("default MRN NO");
+		
 			mrnHeader.setMrnStatus(0);
 			mrnHeader.setMrnType(grnType);
 			mrnHeader.setRemark1(lorryRemark);
@@ -275,7 +308,17 @@ public class MrnController {
 
 			MrnHeader mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
 					MrnHeader.class);
+			 if(mrnHeaderRes!=null)
+	          {
+	        		try {
+	        			
+	        			SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
 
+	        		
+	        		}catch (Exception e) {
+						e.printStackTrace();
+					}
+	          }
 			System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
 
 		} catch (Exception e) {
