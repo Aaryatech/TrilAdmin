@@ -30,8 +30,10 @@ import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
@@ -73,6 +75,21 @@ public class IndentController {
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();
 			model.addObject("date", dateFormat.format(date));
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			
+			date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 
+			String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+			String toDate=sf.format(date);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map.add("fromDate", fromDate);
+			 map.add("toDate", toDate); 
+			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
+			
+			System.out.println("stockList " + stockList);
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing add Indent" + e.getMessage());

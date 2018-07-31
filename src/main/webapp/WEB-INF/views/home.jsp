@@ -299,7 +299,7 @@ h6{
 										<c:forEach items="${lowReorderItemList}" var="lowReorderItemList" varStatus="count">
 											<tr>
 												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${lowReorderItemList.itemCode}" /></td>
+												<td class="col-md-3"><c:out value="${lowReorderItemList.itemCode}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" /></td>
  												 
