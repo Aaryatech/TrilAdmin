@@ -47,7 +47,7 @@
 								<i class="fa fa-bars"></i> View Indent Header
 							</h3>
 							<div class="box-tool">
-								<a href=""></a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/showIndent">Add New Indent</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 							<!-- <div class="box-tool">

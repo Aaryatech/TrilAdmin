@@ -146,7 +146,7 @@ body {
 
 				<div class=" box-content">
 					 
-		<div class="box">
+		<div>
 			<form id="submitPurchaseOrder"
 				action="${pageContext.request.contextPath}/submitPurchaseOrder"
 				method="post">

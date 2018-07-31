@@ -422,8 +422,8 @@ public class PurchaseOrderController {
 					String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
 					int counter=docBean.getSubDocument().getCounter();
 					int counterLenth = String.valueOf(counter).length();
-					counterLenth = 5 - counterLenth;
-					StringBuilder code = new StringBuilder(indMNo+"-");
+					counterLenth = 4- counterLenth;
+					StringBuilder code = new StringBuilder(indMNo+"");
 
 					for (int i = 0; i < counterLenth; i++) {
 						String j = "0";

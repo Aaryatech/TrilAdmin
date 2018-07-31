@@ -53,8 +53,8 @@
 								<i class="fa fa-bars"></i>Add Indent
 							</h3>
 							<div class="box-tool">
-								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a> -->
+								<a href="${pageContext.request.contextPath}/getIndents">Back to List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a> 
 							</div>
 
 						</div>
