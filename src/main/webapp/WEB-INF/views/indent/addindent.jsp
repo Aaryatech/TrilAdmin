@@ -564,7 +564,7 @@ $(document).ready(function() {
 		 
 		 var indentDate=$('#indent_date').val();
 		 
-		
+		if(qty>0){
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
@@ -609,7 +609,17 @@ $(document).ready(function() {
 		  	
 			$('#table1 tbody').append(tr);
 			})
-			});
+		
+		
+		});
+		document.getElementById("quantity").value = "0"; 
+		 document.getElementById("remark").value="";
+		//document.getElementById("group").selectedIndex = "0";
+		 document.getElementById("sch_days").value = "0";  
+		 //document.getElementById("rm_cat").selectedIndex = "0";  
+		 }else{
+			 alert("Please Enter  valid quantity");
+		 }
 		}
 	</script>
 	<script>

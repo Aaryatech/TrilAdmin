@@ -580,6 +580,8 @@ if(indTrasList.size()>0) {
 
 			model.addObject("deparmentList", deparmentList);
 			model.addObject("indent", getIndent);
+			
+			model.addObject("isDept", getIndent.getDeptId());
 			map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("indMId", indMId);

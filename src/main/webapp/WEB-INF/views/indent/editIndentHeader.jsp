@@ -8,7 +8,7 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
-<body>
+<body onload="checkIndentDept()">
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
 	<c:url var="getSubDeptListByDeptId" value="/getSubDeptListByDeptId" />
@@ -17,6 +17,9 @@
 	<c:url var="getIndentDetail" value="/getIndentDetail" />
 
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
+
+	<c:url var="updateIndDetail" value="/updateIndDetail" />
+
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -49,7 +52,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Edit Indent 
+								<i class="fa fa-bars"></i>Edit Indent
 							</h3>
 							<div class="box-tool">
 								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
@@ -60,8 +63,9 @@
 
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/editIndentProcess" method="post"
-								class="form-horizontal" id="validation-form">
+							<form
+								action="${pageContext.request.contextPath}/editIndentProcess"
+								method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
 
@@ -93,7 +97,7 @@
 										<c:set var="indmtype" value="Other"></c:set>
 									</c:otherwise>
 								</c:choose>
-								<div class="form-group">
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Indent
 										Type</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -108,8 +112,8 @@
 											value="${indent.indMDate}" required />
 									</div>
 								</div>
-
-								<div class="form-group">
+								<br />
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Account
 										Head</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -153,8 +157,8 @@
 										</select>
 									</div>
 								</div>
-
-								<div class="form-group" style="display: none" id="deptDiv">
+								<br />
+								<div class="box-content" style="display: none" id="deptDiv">
 									<label class="col-sm-3 col-lg-2 control-label">Department
 									</label>
 
@@ -179,14 +183,14 @@
 										Department </label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="sub_dept" id="sub_dept"
-											class="form-control chosen" placeholder="Sub Department"
-											>
+											class="form-control chosen" placeholder="Sub Department">
 
 										</select>
 									</div>
 
 								</div>
-								<div class="form-group">
+								<br />
+								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Is Dev </label>
 
 									<div class="col-sm-6 col-lg-4 controls">
@@ -242,10 +246,16 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th width="140" style="width: 30px" align="left">Sr No</th>
-													<th width="138" align="left">Item</th>
-													<th width="120" align="left">Indent Quantity</th>
-													<th width="80" align="left">Action</th>
+													<th style="text-align: center;" class="col-md-1">Sr No</th>
+													<th style="text-align: center;" class="col-md-1">Item</th>
+													<th style="text-align: center;" class="col-md-2">Indent
+														Quantity</th>
+													<th style="text-align: center;" class="col-md-1">Schedule
+														Days</th>
+													<th style="text-align: center;" class="col-md-1">Schedule
+														Date</th>
+													<th style="text-align: center;" class="col-md-1">Remark</th>
+													<th style="text-align: center;" class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -253,18 +263,37 @@
 													varStatus="count">
 
 													<tr>
-														<td align="left" style="text-align: center;"><c:out
+														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${count.index+1}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+
+														<td style="text-align: center;" class="col-md-2"><c:out
 																value="${indDetail.indItemDesc}" /></td>
-														<td align="left" style="text-align: center;"><c:out
-																value="${indDetail.indQty}" /><input type="text" value="${indDetail.indQty}" id="indQty${indDetail.indDId}" name="indQty${indDetail.indDId}"></td>
-														<td align="left" style="text-align: center;">
-														<input type="button" value="update" onclick="updateCall(${indDetail.indDId},${indent.indMId})">
-														
-														<%-- <a
-															href="${pageContext.request.contextPath}/updateIndDetail/${indDetail.indDId}/${indent.indent}"><span
-																class="glyphicon glyphicon-pencil"></span></a> --%></td>
+
+														<td style="text-align: center;" class="col-md-1"><input
+															type="number" class="form-control"
+															value="${indDetail.indQty}" min="1" readonly
+															onchange="getValue(this.value,${indDetail.indDId},${indent.indMId})"
+															id="indQty${indDetail.indDId}"
+															name="indQty${indDetail.indDId}"></td>
+														<td style="text-align: center;" class="col-md-2"><c:out
+																value="${indDetail.indItemSchd}" /></td>
+
+														<td style="text-align: center;" class="col-md-2"><c:out
+																value="${indDetail.indItemSchddt}" /></td>
+
+														<td style="text-align: center;" class="col-md-2"><c:out
+																value="${indDetail.indRemark}" /></td>
+
+														<td style="text-align: center;" class="col-md-1">
+															<%-- <input
+															type="button" value="update"
+															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
+
+															<a href="#" class="action_btn" title="Update"
+															onclick="updateCall(${indDetail.indDId},${indent.indMId})"><i
+																class="fa fa-edit"></i></a>
+
+														</td>
 
 													</tr>
 												</c:forEach>
@@ -272,16 +301,15 @@
 										</table>
 									</div>
 								</div>
-								
+
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
 
-										<input type="submit" class="btn btn-info"
-											value="Edit Indent">
-											
+										<input type="submit" class="btn btn-info" value="Edit Indent">
+
 									</div>
 								</div>
-								
+
 							</form>
 
 						</div>
@@ -292,7 +320,7 @@
 	</div>
 	<!-- END Main Content -->
 	<footer>
-		<p>2018© Trimbak Rubber</p>	
+		<p>2018© Trimbak Rubber</p>
 	</footer>
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -375,7 +403,6 @@
 		function insertIndent() {
 			//alert("inside Indent Insetr");
 			var form = document.getElementById("validation-form");
-
 			form.action = "${pageContext.request.contextPath}/saveIndent";
 			form.submit();
 
@@ -433,7 +460,7 @@
 																										"value",
 																										data[i].subDeptId)
 																								.text(
-																										data[i].deptDesc));
+																										data[i].subDeptDesc));
 																	}
 
 																	$(
@@ -551,7 +578,7 @@
 
 	<script type="text/javascript">
 		function insertIndentDetail() {
-			alert
+			//alert
 			var itemId = $('#item_name').val();
 			var qty = $('#quantity').val();
 			var remark = $('#remark').val();
@@ -607,16 +634,113 @@
 			}
 		}
 	</script>
-		<script>
+	<script>
 	function updateCall(indDId,indMId) {
+		document.getElementById("indQty"+indDId).removeAttribute("readonly");
+		//var qty = $('#indQty'+indDId).val();
+		//alert(qty);
+		//window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty,"_self");
 		
-		var qty = $('#indQty'+indDId).val();
-		alert(qty);
-		window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty);
+	}
+	
+	
+	function getValue(qty,indDId,indMId)
+	{
+		//window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty,"_self");
+		
+		/* var itemId = $('#item_name').val();
+		var qty = $('#quantity').val();
+		var remark = $('#remark').val();
+		var schDay = $('#sch_days').val();
+		var itemName = $("#item_name option:selected").html();
+ */
+		//var indentDate = $('#indent_date').val();
+ //document.getElementById("indQty"+indDId).setAttribute("readonly");
+		$.getJSON('${updateIndDetail}', {
+	
+		qty : qty,
+		indDId : indDId,
+		indMId : indMId,
+			ajax : 'true',
+
+		}, function(data) {
+			//alert("dif " +indDId);
+			//document.getElementById("indQty"+indDId).setAttribute("readonly");
+			 //$('#indQty'+indDId).setAttribute("readonly");
+		//	alert(data);
+			//alert("In update call")
+			//var len = data.length;
+			//$('#table1 td').remove();
+			
+
+			//$.each(data, function(key, trans) {
+
+			//	var tr = $('<tr></tr>');
+				//tr.append($('<td></td>').html(key + 1));
+				/* tr.append($('<td></td>').html(trans.indItemDesc));
+				tr.append($('<td></td>').html(trans.indQty));
+				tr.append($('<td></td>').html(trans.indItemSchd));
+				tr.append($('<td></td>').html(trans.indItemSchddt));
+				tr.append($('<td></td>').html(trans.indRemark));
+				tr.append($('<td></td>').html(trans.indMDate));
+				 */
+				//$('#table1 tbody').append(tr);
+			//})
+		});
 	}
 	</script>
+	<script type="text/javascript">
+	function checkIndentDept(){
+	var dept=${isDept};
+	if(dept==0){
+		//alert("Dept is 0");
+	}else{
+		
+		document.getElementById('deptDiv').style.display = "block";
+		$
+		.getJSON(
+				'${getSubDeptListByDeptId}',
+				{
+					deptId : dept,
+					ajax : 'true'
+				},
+				function(data) {
+
+					var len = data.length;
+
+					$(
+							'#sub_dept')
+							.find(
+									'option')
+							.remove()
+							.end()
+					// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+					for (var i = 0; i < len; i++) {
+
+						$(
+								"#sub_dept")
+								.append(
+										$(
+												"<option></option>")
+												.attr(
+														"value",
+														data[i].subDeptId)
+												.text(
+														data[i].subDeptDesc));
+					}
+
+					$(
+							"#sub_dept")
+							.trigger(
+									"chosen:updated");
+				});
+		
+	}//end of else
+	}
 	
-	
+	</script>
+
+
 </body>
 </html>
 

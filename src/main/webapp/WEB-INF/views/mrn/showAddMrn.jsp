@@ -296,14 +296,14 @@ body {
 								<div id="myModal" class="modal">
 
 									<div class="modal-content" style="color: black;">
-										<span class="close" id="close" style="display: none">&times;</span>
+										<span class="close" id="close">&times;</span>
 										<h3 style="text-align: center;">Enter Received Quantity</h3>
 										<div class=" box-content">
 											<div class="row">
 												<div
 													style="overflow: scroll; height: 70%; width: 100%; overflow: auto">
-													<table width="100%" border="0"
-														class="table table-bordered table-striped fill-head "
+													<table width="100%" border="1"
+														
 														style="width: 100%" id="table_grid1">
 														<thead>
 															<tr>
@@ -630,7 +630,11 @@ body {
 															//+ data[0]);
 
 													var tr = $('<tr></tr>');
-
+													if(itemList.receivedQty>0){
+														tr = $('<tr bgcolor=red></tr>');
+														
+														
+													}
 													/* tr
 															.append($(
 																	'<td class="col-md-1" style="text-align: center;"></td>')
