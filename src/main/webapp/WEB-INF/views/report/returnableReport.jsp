@@ -8,8 +8,8 @@
 <body>
 
 	<c:url var="getReturnableGatepass" value="/getReturnableGatepass"></c:url>
-	<c:url var="getNonreturnablevenwise" value="/getNonreturnablevenwise"></c:url>
-	<c:url var="getNonreturnableItemwise" value="/getNonreturnableItemwise"></c:url>
+	<c:url var="getReturnableVenwise" value="/getReturnableVenwise"></c:url>
+	<c:url var="getReturnableItemwise" value="/getReturnableItemwise"></c:url>
 	<c:url var="getItemIdByCatId" value="/getItemIdByCatId"></c:url>
 
 
@@ -137,6 +137,8 @@
 											<th class="col-md-1">Item Code</th>
 											<th class="col-md-1">Item Name</th>
 											<th class="col-md-1">GP Qty</th>
+											<th class="col-md-1">Remaining Qty</th>
+											<th class="col-md-1">Return Qty</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -268,6 +270,8 @@
 											<th class="col-md-1">Item Code</th>
 											<th class="col-md-1">Item Name</th>
 											<th class="col-md-1">GP Qty</th>
+											<th class="col-md-1">Remaining Qty</th>
+											<th class="col-md-1">Return Qty</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -288,7 +292,7 @@
 									</div>
 								</div>
 								<button class="btn btn-primary" value="PDF" id="PDFButton1"
-									disabled="disabled" onclick="genPdf()">PDF</button>
+									disabled="disabled" onclick="genPdf1()">PDF</button>
 							</div>
 						</div>
 
@@ -415,7 +419,8 @@
 											<th class="col-md-1">Vendor Name</th>
 
 											<th class="col-md-1">GP Qty</th>
-											<th class="col-md-1">GP Status</th>
+											<th class="col-md-1">Remaining Qty</th>
+											<th class="col-md-1">Return Qty</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -569,7 +574,8 @@
 					tr.append($('<td></td>').html(itemList.itemCode));
 
 					tr.append($('<td></td>').html(itemList.gpQty));
-					tr.append($('<td></td>').html(itemList.gpStatus));
+					tr.append($('<td></td>').html(itemList.gpRemQty));
+					tr.append($('<td></td>').html(itemList.gpRetQty));
 
 					$('#table1 tbody').append(tr);
 				})
@@ -586,7 +592,7 @@
 
 			$('#loader').show();
 
-			$.getJSON('${getNonreturnablevenwise}',
+			$.getJSON('${getReturnableVenwise}',
 
 			{
 
@@ -622,6 +628,8 @@
 					tr.append($('<td></td>').html(itemList.itemDesc));
 
 					tr.append($('<td></td>').html(itemList.gpQty));
+					tr.append($('<td></td>').html(itemList.gpRemQty));
+					tr.append($('<td></td>').html(itemList.gpRetQty));
 
 					$('#table2 tbody').append(tr);
 				})
@@ -637,7 +645,7 @@
 			var itemIdList = $("#itemIdList").val();
 			$('#loader').show();
 
-			$.getJSON('${getNonreturnableItemwise}',
+			$.getJSON('${getReturnableItemwise}',
 
 			{
 
@@ -672,6 +680,8 @@
 					tr.append($('<td></td>').html(itemList.gpDate));
 
 					tr.append($('<td></td>').html(itemList.gpQty));
+					tr.append($('<td></td>').html(itemList.gpRemQty));
+					tr.append($('<td></td>').html(itemList.gpRetQty));
 
 					$('#table3 tbody').append(tr);
 				})
@@ -710,7 +720,7 @@
 			var toDate = document.getElementById("toDate").value;
 
 			window
-					.open('${pageContext.request.contextPath}/showNonGatepasswisePdf/'
+					.open('${pageContext.request.contextPath}/showRetGatepassPdf/'
 							+ fromDate + '/' + toDate);
 			document.getElementById("expExcel").disabled = true;
 
@@ -718,13 +728,13 @@
 	</script>
 
 	<script type="text/javascript">
-		function genPdf() {
+		function genPdf1() {
 			alert("Vendorwise Pdf");
 			var fromDate = document.getElementById("fromDate1").value;
 			var toDate = document.getElementById("toDate1").value;
 
 			window
-					.open('${pageContext.request.contextPath}/showNonVendorwisePdf/'
+					.open('${pageContext.request.contextPath}/showRetVendorwisePdf/'
 							+ fromDate + '/' + toDate);
 			document.getElementById("expExcel1").disabled = true;
 
@@ -732,13 +742,13 @@
 	</script>
 
 	<script type="text/javascript">
-		function genPdf() {
+		function genPdf2() {
 			alert("Itemwise Pdf");
 			var fromDate = document.getElementById("fromDate2").value;
 			var toDate = document.getElementById("toDate2").value;
 
 			window
-					.open('${pageContext.request.contextPath}/showNonItemwisePdf/'
+					.open('${pageContext.request.contextPath}/showRetItemwisePdf/'
 							+ fromDate + '/' + toDate);
 			document.getElementById("expExcel2").disabled = true;
 
