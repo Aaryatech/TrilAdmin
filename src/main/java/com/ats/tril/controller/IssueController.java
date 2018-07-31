@@ -187,7 +187,7 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 	public String submitIssueReciept(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-
+   
 			 
 			String issueNo = request.getParameter("issueNo"); 
 			String issueDate = request.getParameter("issueDate");
