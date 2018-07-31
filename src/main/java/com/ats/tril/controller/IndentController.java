@@ -313,7 +313,7 @@ public class IndentController {
 			String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
 			int counter=docBean.getSubDocument().getCounter();
 			int counterLenth = String.valueOf(counter).length();
-			counterLenth = 4 - counterLenth;
+			counterLenth = 3 - counterLenth;
 			StringBuilder code = new StringBuilder(indMNo);
 
 			for (int i = 0; i < counterLenth; i++) {
@@ -381,7 +381,7 @@ public class IndentController {
 				String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
 				int counter=docBean.getSubDocument().getCounter();
 				int counterLenth = String.valueOf(counter).length();
-				counterLenth = 5 - counterLenth;
+				counterLenth = 3 - counterLenth;
 				StringBuilder code = new StringBuilder(indMNo+"");
 
 				for (int i = 0; i < counterLenth; i++) {
@@ -665,7 +665,66 @@ if(indTrasList.size()>0) {
 
 	// updateIndDetail
 
-	@RequestMapping(value = "/updateIndDetail/{indDId}/{indMId}/{qty}", method = RequestMethod.GET)
+	
+
+
+
+
+@RequestMapping(value = "/updateIndDetail", method = RequestMethod.GET)
+	public List<IndentTrans> updateIndDetail(HttpServletRequest request, HttpServletResponse response
+			/*@PathVariable("indDId") int indDId, @PathVariable("indMId") int indentId, @PathVariable("qty") int qty*/) {
+
+		ModelAndView model = null;
+		List<IndentTrans> indDetailList =  new ArrayList<IndentTrans>();
+		try {
+
+			int indQty =Integer.parseInt(request.getParameter("qty"));
+			
+			int indDId =Integer.parseInt(request.getParameter("indDId"));
+
+			
+			int indentId =Integer.parseInt(request.getParameter("indMId"));
+
+
+			// build an update query to update indent
+			// editIndentHeader return type ErrorMessage;
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("indDId", indDId);
+			map.add("indQty", indQty);
+
+			ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentDetail", map,
+					ErrorMessage.class);
+			System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+
+		
+		//MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map = new LinkedMultiValueMap<String, Object>();
+
+		map.add("indMId", indentId);
+
+		map.add("delStatus", Constants.delStatus);
+
+		IndentTrans[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndMId", map,
+				IndentTrans[].class);
+
+		 indDetailList = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
+		 System.err.println("Ind detail after update call  "  +indDetailList.toString());
+
+		}
+
+		catch (Exception e) {
+			System.err.println("Exception in updateIndDetail Ajax Call  " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return indDetailList;
+		//return "redirect:/editIndent/" + indentId;
+
+	}
+	/*@RequestMapping(value = "/updateIndDetail/{indDId}/{indMId}/{qty}", method = RequestMethod.GET)
 	public String updateIndDetail(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("indDId") int indDId, @PathVariable("indMId") int indentId, @PathVariable("qty") int qty) {
 
@@ -696,7 +755,7 @@ if(indTrasList.size()>0) {
 		return "redirect:/editIndent/" + indentId;
 
 		
-	}
+	}*/
 	
 	
 	
