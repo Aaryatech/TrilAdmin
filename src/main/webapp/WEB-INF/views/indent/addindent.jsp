@@ -195,10 +195,10 @@
 									</div>
 
 								</div>
-								<br/>
+							
 								
 								<hr />
-								<p style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</p>
+								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 								
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Group </label>
@@ -215,6 +215,7 @@
 											data-rule-required="true" />
 									</div> -->
 								</div>
+								<br>
 
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Item
@@ -228,9 +229,10 @@
 										</select>
 									</div>
 								</div>
+								<br>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
-									<div class="col-sm-6 col-lg-1 controls">
+									<div class="col-sm-6 col-lg-2 controls">
 										<input type="text" name="quantity" id="quantity"
 											class="form-control" placeholder="Quantity"
 											data-rule-required="true" data-rule-number="true" />
@@ -254,21 +256,21 @@
 											data-rule-required="true" />
 									</div>
 
-								</div>
+								<!-- </div>
 
 								<div class="box-content">
-									<div class="col-md-12" style="text-align: center">
+									<div class="col-md-12" style="text-align: center"> -->
 
 										<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
-										&nbsp;&nbsp;&nbsp;
+										
 
 
 
 
 										<!-- 										<input type="button" onclick="validateQty()" class="btn btn-info" value="Submit">
  -->
-									</div>
+									<!-- </div> -->
 								</div>
 								<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
