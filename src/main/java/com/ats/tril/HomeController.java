@@ -28,7 +28,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.model.po.GetPoHeader;
 import com.ats.tril.model.po.PoHeader;
@@ -72,6 +74,23 @@ public class HomeController {
 				List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
 				System.err.println(indentListRes.toString());
 				mav.addObject("indentListRes", indentListRes);
+				
+				StockHeader stockHeader = restTemp.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+				
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				 
+				String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+				String toDate=sf.format(date);
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("fromDate", fromDate);
+	 			map.add("toDate", toDate);
+                GetCurrentStock[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemListLessThanROL", map, GetCurrentStock[].class);
+
+				List<GetCurrentStock> lowReorderItemList = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock));
+				System.err.println(lowReorderItemList.toString());
+				mav.addObject("lowReorderItemList", lowReorderItemList);
 				
 			
 				}

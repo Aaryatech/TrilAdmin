@@ -13,6 +13,8 @@ public class GetCurrentStock {
 	private int damageQty; 
 	private int gatepassQty; 
 	private int gatepassReturnQty;
+	private int rolLevel;
+	
 	public int getItemId() {
 		return itemId;
 	}
@@ -67,12 +69,19 @@ public class GetCurrentStock {
 	public void setGatepassReturnQty(int gatepassReturnQty) {
 		this.gatepassReturnQty = gatepassReturnQty;
 	}
+	
+	public int getRolLevel() {
+		return rolLevel;
+	}
+	public void setRolLevel(int rolLevel) {
+		this.rolLevel = rolLevel;
+	}
 	@Override
 	public String toString() {
 		return "GetCurrentStock [itemId=" + itemId + ", itemCode=" + itemCode + ", openingStock=" + openingStock
 				+ ", approveQty=" + approveQty + ", issueQty=" + issueQty + ", returnIssueQty=" + returnIssueQty
 				+ ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty + ", gatepassReturnQty="
-				+ gatepassReturnQty + "]";
+				+ gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
 	}
 	
 	

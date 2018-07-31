@@ -61,7 +61,7 @@
 							
 								<div class="col-md-3">Pending Month End Name</div>
 									<div class="col-md-3">
-										<input id="monthName" class="form-control date-picker"
+										<input id="monthName" class="form-control"
 								 placeholder="monthName" value="${monthName}" name="monthName" type="text" readonly>
 
 
@@ -73,7 +73,7 @@
 							
 								<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
-										<input id="fromDate" class="form-control date-picker"
+										<input id="fromDate" class="form-control"
 								 placeholder="From Date" value="${fromDate}" name="fromDate" type="text" readonly>
 
 
@@ -81,7 +81,7 @@
 									<div class="col-md-1"></div>
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-3">
-										<input id="toDate" class="form-control date-picker"
+										<input id="toDate" class="form-control"
 								 placeholder="To Date" value="${toDate}" name="toDate" type="text" readonly>
 
 

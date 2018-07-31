@@ -266,10 +266,56 @@ h6{
   
 					</div>
 				</div>
+							  
+						</div><br>
+						
+						<div class="box">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i> Low ROL level Item
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/addItem">
+									</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
+						</div>
+ 
+								<div class="box-content"> 
+					<div class="clearfix"></div>
+					<div class="table-responsive" style="border: 0">
+						<table class="table table-advance" id="itemTable">  
+									<thead>
+										<tr class="bgpink">
+											<th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">Item Code</th> 
+											<th class="col-md-1">ROL QTY</th> 
+											<th class="col-md-1">Closing QTY</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<c:forEach items="${lowReorderItemList}" var="lowReorderItemList" varStatus="count">
+											<tr>
+												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
+												<td class="col-md-2"><c:out value="${lowReorderItemList.itemCode}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" /></td>
+ 												 
+											</tr>
+										</c:forEach>
+										</tbody>
+
+								</table>
+  
+					</div>
+				</div>
 							 
 
 
 						</div>
+						
 						  </div>
                                 
                             </div>
