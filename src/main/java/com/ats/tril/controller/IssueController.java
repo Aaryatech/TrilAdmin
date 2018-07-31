@@ -209,7 +209,7 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 					int counter=docBean.getSubDocument().getCounter();
 					int counterLenth = String.valueOf(counter).length();
 					counterLenth =4 - counterLenth;
-					StringBuilder code = new StringBuilder(indMNo+"-");
+					StringBuilder code = new StringBuilder(indMNo+"");
 
 					for (int i = 0; i < counterLenth; i++) {
 						String j = "0";

@@ -598,7 +598,7 @@ public class GetpassController {
 			try {
 				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("docId", 1);
+				map.add("docId", 4);
 				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(gpDate));
 				RestTemplate restTemplate = new RestTemplate();
