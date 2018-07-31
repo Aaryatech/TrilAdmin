@@ -11,7 +11,7 @@
 	<c:url var="getQuantity" value="/getQuantity"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-
+<c:url var="getInvoiceNo" value="/getInvoiceNoGp" /> 
 
 	<div class="container" id="main-container">
 
@@ -33,7 +33,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Gatepass Return
+						<i class="fa fa-file-o"></i>Gate Pass Return
 					</h1>
 				</div>
 			</div>
@@ -45,12 +45,12 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>GeGatepasstpass Return
+								<i class="fa fa-table"></i>Gate Pass Return
 							</h3>
 
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/listOfGetpassReturn">Return
-									Gatepass List</a> <a data-action="collapse" href="#"><i
+									Gate Pass List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -66,7 +66,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Select Gatepass Vendor</div>
+									<div class="col-md-2">Select Gate Pass Vendor</div>
 									<div class="col-md-3">
 
 										 
@@ -82,7 +82,7 @@
 											</c:forEach>
 										 
 									</div>
-									<div class="col-md-2">Gatepass No</div>
+									<div class="col-md-2">Gate Pass No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="gpNo" placeholder="Getpass No"
 											type="text" name="gpNo" value="${getpassHeaderItemName.gpNo}" readonly/>
@@ -98,7 +98,7 @@
 									<div class="col-md-2">Return Date*</div>
 									<div class="col-md-3">
 										<input id="date" class="form-control date-picker"
-											placeholder="Return Date" name="date" type="text" required>
+											placeholder="Return Date" name="date"  onblur="getInvoiceNo()" type="text" required>
 
 
 									</div>
@@ -302,7 +302,29 @@
 				 
 		 }
 	</script>
+<script type="text/javascript">
 
+function getInvoiceNo() {
+
+	var date = $("#date").val();
+	
+
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:1,
+		docId:7,
+		date : date,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+	document.getElementById("returnNo").value=data.code;  
+	
+	});
+
+}
+
+</script>
 
 </body>
 </html>

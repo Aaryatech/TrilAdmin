@@ -43,6 +43,8 @@ import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.GetpassReturnVendor;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.item.ItemList;
 import com.fasterxml.jackson.databind.util.Converter;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
@@ -226,7 +228,26 @@ public class GetpassController {
 
 			GetpassHeader getpassHeader = new GetpassHeader();
 			getpassHeader.setGpVendor(vendId);
-			getpassHeader.setGpNo(gpNo);
+			DocumentBean docBean=null;
+			try {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 5);
+				map.add("catId", 1);
+				map.add("date", DateConvertor.convertToYMD(gpDate));
+				RestTemplate restTemplate = new RestTemplate();
+
+				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				int counter=docBean.getSubDocument().getCounter();
+				
+				getpassHeader.setGpNo(counter);
+				
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 			getpassHeader.setGpReturnDate(Date);
 			getpassHeader.setIsUsed(1);
 			getpassHeader.setForRepair(returnFor);
@@ -242,6 +263,17 @@ public class GetpassController {
 			System.out.println(getpassHeader);
 			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", getpassHeader,
 					GetpassHeader.class);
+			if(res!=null)
+	          {
+	        		try {
+	        			
+	        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+	        		
+	        		}catch (Exception e) {
+						e.printStackTrace();
+					}
+	          }
 			System.out.println(res);
 
 		} catch (Exception e) {
@@ -493,7 +525,36 @@ public class GetpassController {
 
 		return addItemInGetpassDetail;
 	}
+	@RequestMapping(value = "/getInvoiceNoGp", method = RequestMethod.GET)
+	@ResponseBody
+	public DocumentBean getInvoiceNoGp(HttpServletRequest request, HttpServletResponse response) {
+            
+		String invNo="-";
+		DocumentBean docBean=null;
+		try {
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int docId = Integer.parseInt(request.getParameter("docId"));
+			String date = request.getParameter("date");
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("docId",docId);
+			map.add("catId", catId);
+			map.add("date", DateConvertor.convertToYMD(date));
+			RestTemplate restTemplate = new RestTemplate();
 
+			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+			System.err.println("Doc"+docBean.toString());
+		
+			invNo=""+docBean.getSubDocument().getCounter();
+			docBean.setCode(invNo);
+			System.err.println("invNo"+invNo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return docBean;
+	}
 	@RequestMapping(value = "/insertGetpassReturnable", method = RequestMethod.POST)
 	public String insertGetpassReturnable(HttpServletRequest request, HttpServletResponse response) {
 
@@ -533,7 +594,25 @@ public class GetpassController {
 
 			GetpassHeader getpassHeader = new GetpassHeader();
 			getpassHeader.setGpVendor(vendId);
-			getpassHeader.setGpNo(gpNo);
+			DocumentBean docBean=null;
+			try {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 1);
+				map.add("catId", 1);
+				map.add("date", DateConvertor.convertToYMD(gpDate));
+				RestTemplate restTemplate = new RestTemplate();
+
+				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				int counter=docBean.getSubDocument().getCounter();
+				
+				getpassHeader.setGpNo(counter);
+				
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			getpassHeader.setGpReturnDate(newDate);
 			getpassHeader.setIsUsed(1);
 			getpassHeader.setForRepair(returnFor);
@@ -549,6 +628,17 @@ public class GetpassController {
 			System.out.println(getpassHeader);
 			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", getpassHeader,
 					GetpassHeader.class);
+			 if(res!=null)
+	          {
+	        		try {
+	        			
+	        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+	        		
+	        		}catch (Exception e) {
+						e.printStackTrace();
+					}
+	          }
 			System.out.println(res);
 
 		} catch (Exception e) {
@@ -944,7 +1034,25 @@ public class GetpassController {
 
 			GetpassReturn getpassReturn = new GetpassReturn();
 			getpassReturn.setVendorId(getpassHeaderItemName.getGpVendor());
-			getpassReturn.setGpNo(gpNo);
+			DocumentBean docBean=null;
+			try {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 7);
+				map.add("catId", 1);
+				map.add("date", DateConvertor.convertToYMD(date));
+				RestTemplate restTemplate = new RestTemplate();
+
+				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				int counter=docBean.getSubDocument().getCounter();
+				
+				getpassReturn.setGpNo(counter);
+				
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			getpassReturn.setGpReturnDate(DateConvertor.convertToYMD(date));
 			getpassReturn.setIsUsed(1);
 			getpassReturn.setGpRemark(remark);
@@ -1005,6 +1113,17 @@ public class GetpassController {
 				System.out.println("getpassHeaderItemName " + getpassHeaderItemName);
 				GetpassHeader result = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail",
 						getpassHeaderItemName, GetpassHeader.class);
+				 if(result!=null)
+		          {
+		        		try {
+		        			
+		        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+		        		
+		        		}catch (Exception e) {
+							e.printStackTrace();
+						}
+		          }
 				System.out.println(result);
 			}
 

@@ -9,7 +9,7 @@
 
 	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
-
+    <c:url var="getInvoiceNo" value="/getInvoiceNoGp" /> 
 	<c:url var="editItemInAddGetpass" value="/editItemInAddGetpass"></c:url>
 	<c:url var="addItemInGetpassList" value="/addItemInGetpassList"></c:url>
 	<c:url var="deleteItemFromGetpass" value="/deleteItemFromGetpass"></c:url>
@@ -84,9 +84,9 @@
 										</select>
 
 									</div>
-									<div class="col-md-2">Gatepass No</div>
+									<div class="col-md-2">Gate Pass No</div>
 									<div class="col-md-3">
-										<input class="form-control" id="gpNo" placeholder="Getpass No"
+										<input class="form-control" id="gpNo"   placeholder="Getpass No"
 											type="text" name="gpNo" />
 									</div>
 
@@ -96,10 +96,10 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Gatepass Date*</div>
+									 <div class="col-md-2">Gate Pass Date*</div>
 									<div class="col-md-3">
 										<input id="gpDate" class="form-control date-picker"
-											placeholder="Getpass Date" name="gpDate" type="text" required>
+											placeholder="Getpass Date" name="gpDate"  onblur="getInvoiceNo()" type="text" required>
 
 
 									</div>
@@ -692,7 +692,29 @@
 
 		}
 	</script>
+<script type="text/javascript">
 
+function getInvoiceNo() {
+
+	var date = $("#gpDate").val();
+	
+
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:1,
+		docId:5,
+		date : date,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+	document.getElementById("gpNo").value=data.code;  
+	
+	});
+
+}
+
+</script>
 
 
 

@@ -9,7 +9,7 @@
 
 	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
-    <c:url var="getInvoiceNo" value="/getInvoiceNo" /> 
+    <c:url var="getInvoiceNo" value="/getInvoiceNoGp" /> 
 	<c:url var="editItemInAddGetpass" value="/editItemInAddGetpass"></c:url>
 	<c:url var="addItemInGetpassReturnableList"
 		value="/addItemInGetpassReturnableList"></c:url>
@@ -101,7 +101,7 @@
 									<div class="col-md-2">Gatepass Date*</div>
 									<div class="col-md-3">
 										<input id="gpDate" class="form-control date-picker"
-											placeholder="Getpass Date" name="gpDate"  type="text" required>
+											placeholder="Getpass Date" name="gpDate"  type="text" onblur="getInvoiceNo()" required>
 
 
 									</div>
