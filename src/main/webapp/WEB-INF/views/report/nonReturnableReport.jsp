@@ -288,7 +288,7 @@
 									</div>
 								</div>
 								<button class="btn btn-primary" value="PDF" id="PDFButton1"
-									disabled="disabled" onclick="genPdf()">PDF</button>
+									disabled="disabled" onclick="genPdf1()">PDF</button>
 							</div>
 						</div>
 
@@ -716,7 +716,7 @@
 	</script>
 
 	<script type="text/javascript">
-		function genPdf() {
+		function genPdf1() {
 			alert("Vendorwise Pdf");
 			var fromDate = document.getElementById("fromDate1").value;
 			var toDate = document.getElementById("toDate1").value;
@@ -730,7 +730,7 @@
 	</script>
 
 	<script type="text/javascript">
-		function genPdf() {
+		function genPdf2() {
 			alert("Itemwise Pdf");
 			var fromDate = document.getElementById("fromDate2").value;
 			var toDate = document.getElementById("toDate2").value;
