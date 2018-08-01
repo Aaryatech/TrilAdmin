@@ -109,8 +109,8 @@
 										No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="indent_no" id="indent_no"
-											class="form-control" placeholder="Indent No"
-											data-rule-required="true" />
+											class="form-control" placeholder="Indent No" readonly="readonly"
+											 />
 									</div>
 								</div>
 <br/>

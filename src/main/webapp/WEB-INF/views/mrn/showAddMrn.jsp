@@ -137,7 +137,7 @@ body {
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Add Mrn
+						<i class="fa fa-file-o"></i>Add MRN
 					</h1>
 
 				</div>
@@ -149,7 +149,7 @@ body {
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Mrn Header
+								<i class="fa fa-bars"></i>MRN Header
 							</h3>
 							<div class="box-tool">
 								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
@@ -162,9 +162,9 @@ body {
 							<form method="post" class="form-horizontal" id="validation-form">
 
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Grn Type
-									</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Grn Type
+									</div>
+									<div class="col-md-3">
 										<select name="grn_type" id="grn_type"
 											class="form-control chosen" placeholder="Grn Type" onchange="getInvoiceNo()"
 											data-rule-required="true">
@@ -176,9 +176,9 @@ body {
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Select
-										Vendor </label>
-									<div class="col-sm-6 col-lg-4 controls">
+								<div class="col-md-2">
+										Vendor </div>
+									<div class="col-md-3">
 										<select name="vendor_id" id="vendor_id"
 											class="form-control chosen" placeholder="Vendor"
 											data-rule-required="true">
@@ -195,16 +195,16 @@ body {
                                 <br/>
 								<div class="box-content">
 
-									<label class="col-sm-3 col-lg-2 control-label">Grn Date
-									</label>
+									<div class="col-md-2 ">Grn Date
+									</div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="grn_date"
-											size="16" type="text" name="grn_date" value="${date}" onblur="getInvoiceNo()"
+											size="14" type="text" name="grn_date" value="${date}" onblur="getInvoiceNo()"
 											required />
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">GRN No </div>
+									<div class="col-md-3 controls">
 										<input type="text" name="grn_no" id="grn_no"
 											class="form-control" placeholder="GRN No"
 											data-rule-required="true" />
@@ -213,60 +213,61 @@ body {
 								<br/>
 
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Gate
-										Entry No </label>
+									<div class="col-md-2">Gate
+										Entry No </div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="gate_entry_no" id="gate_entry_no"
 											class="form-control" placeholder="Gate Entry No"
 											data-rule-required="true" />
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Gate
-										Entry Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Gate
+										Entry Date </div>
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="gate_entry_date"
-											size="16" type="text" name="gate_entry_date" value="${date}"
+											size="14" type="text" name="gate_entry_date" value="${date}"
 											required />
 									</div>
 								</div>
 								<br/>
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Chalan
-										No </label>
+									<div class="col-md-2">Chalan
+										No </div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="chalan_no" id="chalan_no"
 											class="form-control" placeholder="Chalan No"
 											data-rule-required="true" />
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Chalan
-										Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Chalan
+										Date </div>
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="chalan_date"
-											size="16" type="text" name="chalan_date" value="${date}"
+											size="14" type="text" name="chalan_date" value="${date}"
 											required />
 									</div>
 
 								</div>
+								</div>
 
 <br/>
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Bill No
-									</label>
+									<div class="col-md-2">Bill No
+									</div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="bill_no" id="bill_no"
 											class="form-control" placeholder="Bill No"
 											data-rule-required="true" />
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Bill
-										Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Bill
+										Date </div>
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="bill_date"
-											size="16" type="text" name="bill_date" value="${date}"
+											size="14" type="text" name="bill_date" value="${date}"
 											required />
 									</div>
 
@@ -274,9 +275,9 @@ body {
 
 <br/>
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Select
-										from PO List </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Select
+										from PO List </div>
+									<div class="col-md-3">
 
 										<select name="po_list" id="po_list"
 											class="form-control chosen" placeholder="Group"
@@ -284,9 +285,9 @@ body {
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">PO
-										Detail </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">PO
+										Detail </div>
+									<div class="col-md-3">
 										<input class="btn btn-large"  id="getPoButton"
 											onclick="getPoDetail()" size="16" type="button"
 											name="getPoButton" value="Get PO Detail" style="background: red;" >
@@ -418,12 +419,12 @@ body {
 											data-rule-required="true" />
 									</div>
 								</div>
-
-
 							</form>
-
 						</div>
 					</div>
+					<div class="form-group">
+					<div class="col-md-6"></div>
+					<div class="col-md-3">
 					<input type="button"
 						style="text-align: center; align-content: center;"
 						onclick="insertMrn()" class="btn btn-info" value="Add Mrn">
@@ -431,6 +432,8 @@ body {
 					<button class="buttonload" id="loader">
 						<i class="fa fa-spinner fa-spin"></i>Loading
 					</button>
+					</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1024,8 +1027,8 @@ var isValid=true;
 			}, function(data) {
 				$('#loader').hide();
 
-				window.location.reload();
-				//window.open("${pageContext.request.contextPath}/showAddMrn");
+				//window.location.reload();
+				window.open("${pageContext.request.contextPath}/showAddMrn");
 
 			});
 			//	alert("Hi End  ");

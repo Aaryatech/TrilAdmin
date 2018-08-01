@@ -43,7 +43,7 @@ tr:hover {
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>View/Edit Mrn
+						<i class="fa fa-file-o"></i>
 					</h1>
 
 				</div>
@@ -55,7 +55,7 @@ tr:hover {
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Mrn Header
+								<i class="fa fa-bars"></i> Edit MRN
 							</h3>
 							<div class="box-tool">
 								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
@@ -370,13 +370,18 @@ tr:hover {
 
 						</div>
 					</div>
+					<div class="form-group">
+					<div class="col-md-4"></div>
+					<div class="col-md-3" align= center>
 					<input type="button"
-						style="text-align: center; align-content: center;"
+						
 						onclick="editMrn()" class="btn btn-info" value="Edit Mrn">
 
 					<button class="buttonload" id="loader" style="display: none">
 						<i class="fa fa-spinner fa-spin"></i>Loading
 					</button>
+					</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -794,12 +799,12 @@ tr.append($('<td></td>').html(pendQty));
 							 function(data) {
 								 $('#loader').hide();
 
-								window.location.reload();
-									window.open("${pageContext.request.contextPath}/showAddMrn");
+								//window.location.reload();
+									window.open("${pageContext.request.contextPath}/showAddMrn","_self");
 								 
 			});
 		//	alert("Hi End  ");
-							 $('#loader').hide();
+							
 
 	}
 	

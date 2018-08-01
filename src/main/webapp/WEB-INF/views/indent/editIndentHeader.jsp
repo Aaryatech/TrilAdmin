@@ -247,8 +247,8 @@
 											<thead>
 												<tr class="bgpink">
 													<th style="text-align: center;" class="col-md-1">Sr No</th>
-													<th style="text-align: center;" class="col-md-1">Item</th>
-													<th style="text-align: center;" class="col-md-2">Indent
+													<th style="text-align: center;" class="col-md-2">Item</th>
+													<th style="text-align: center;" class="col-md-1">Indent
 														Quantity</th>
 													<th style="text-align: center;" class="col-md-1">Schedule
 														Days</th>
@@ -275,13 +275,13 @@
 															onchange="getValue(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
 															name="indQty${indDetail.indDId}"></td>
-														<td style="text-align: center;" class="col-md-2"><c:out
+														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchd}" /></td>
 
-														<td style="text-align: center;" class="col-md-2"><c:out
+														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchddt}" /></td>
 
-														<td style="text-align: center;" class="col-md-2"><c:out
+														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indRemark}" /></td>
 
 														<td style="text-align: center;" class="col-md-1">
@@ -675,23 +675,35 @@
 
 		}, function(data) {
 			//alert("dif " +indDId);
-			document.getElementById("indQty"+indDId).setAttribute("readonly");
+		//	document.getElementById("indQty"+indDId).setAttribute("readonly");
 			 //$('#indQty'+indDId).setAttribute("readonly");
 		//	alert(data);
 			//alert("In update call")
 			//var len = data.length;
 			$('#table1 td').remove();
-			
-
 			$.each(data, function(key, trans) {
 			var tr = $('<tr></tr>');
-				tr.append($('<td></td>').html(key + 1));
-				tr.append($('<td></td>').html(trans.indItemDesc));
-				tr.append($('<td></td>').html(trans.indQty));
-				tr.append($('<td></td>').html(trans.indItemSchd));
-				tr.append($('<td></td>').html(trans.indItemSchddt));
-				tr.append($('<td></td>').html(trans.indRemark));
-				tr.append($('<td></td>').html(trans.indMDate));
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(key + 1));
+				tr.append($('<td style="text-align: center;" class="col-md-2"></td>').html(trans.indItemDesc));
+				//tr.append($('<td></td>').html(trans.indQty));
+				
+				tr
+			.append($(
+					'<td class="col-md-1" style="text-align: center;"></td>')
+					.html(
+							"<input type='number' value="+trans.indQty+" class='form-control'onchange='getValue(this.value,"+trans.indDId+","+trans.indMId+")' />"));
+		  	
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchd));
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indRemark));
+				//tr.append($('<td></td>').html(trans.indMDate));
+				
+				tr
+			.append($(
+					'<td class="col-md-1" style="text-align: center;"></td>')
+					.html(
+							"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
+		  	
 				 
 				$('#table1 tbody').append(tr);
 			})
