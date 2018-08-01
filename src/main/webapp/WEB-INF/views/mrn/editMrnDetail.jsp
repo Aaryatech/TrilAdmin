@@ -698,7 +698,7 @@ tr.append($('<td></td>').html(pendQty));
 					tr
 					.append($(
 							'<td class="col-md-1" style="text-align: center;"></td>')
-					.html("<input type=text style='text-align:right; width:90px' class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
+					.html("<input type=text  style='text-align:right; width:90px'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
 										
 					var status;
 					if(itemList.mrnDetailStatus==0){
@@ -805,12 +805,7 @@ tr.append($('<td></td>').html(pendQty));
 	
 	
 	</script>
-<script type="text/javascript">
-$(function() {
-	  $( "#gate_entry_date" ).form-control date-picker({  maxDate: 0});
-	 });
-}
-</script>
+
 </body>
 </html>
 
