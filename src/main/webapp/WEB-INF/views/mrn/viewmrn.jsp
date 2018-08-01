@@ -174,7 +174,7 @@
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
 											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
 																<a
-															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}"><span
+															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="fa fa-edit"></span></a>
 														</td>
 													</tr>

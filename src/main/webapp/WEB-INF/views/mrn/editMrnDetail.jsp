@@ -2,12 +2,7 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<style>
-tr:hover {
- 
-}
 
-</style>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 <link rel="stylesheet"
@@ -810,7 +805,12 @@ tr.append($('<td></td>').html(pendQty));
 	
 	
 	</script>
-
+<script type="text/javascript">
+$(function() {
+	  $( "#gate_entry_date" ).form-control date-picker({  maxDate: 0});
+	 });
+}
+</script>
 </body>
 </html>
 

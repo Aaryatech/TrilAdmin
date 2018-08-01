@@ -25,8 +25,18 @@ public class GetIndent {
 	
 	private int achdId;
 	
+	private String accHeadDesc;
 	
 	
+	
+	public String getAccHeadDesc() {
+		return accHeadDesc;
+	}
+
+	public void setAccHeadDesc(String accHeadDesc) {
+		this.accHeadDesc = accHeadDesc;
+	}
+
 	public int getIndMId() {
 		return indMId;
 	}
@@ -126,8 +136,8 @@ public class GetIndent {
 	public String toString() {
 		return "GetIndent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
 				+ indMType + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly + ", catDesc=" + catDesc
-				+ ", indMStatus=" + indMStatus + ", achdId=" + achdId + ", deptId=" + deptId + ", subDeptId="
-				+ subDeptId + "]";
+				+ ", indMStatus=" + indMStatus + ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", deptId="
+				+ deptId + ", subDeptId=" + subDeptId + "]";
 	}
 	
 }

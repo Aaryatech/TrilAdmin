@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<style>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
+ <style>
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -69,39 +71,18 @@ body {
 	transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 }
-
 .bg-overlay {
-	background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)),
-		url("${pageContext.request.contextPath}/resources/images/smart.jpeg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
-	color: #fff;
-	height: auto;
-	width: auto;
-	padding-top: 10px;
-	padding-left: 20px;
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("${pageContext.request.contextPath}/resources/images/smart.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height:auto;
+    width:auto;
+    padding-top: 10px;
+    padding-left:20px;
 }
 </style>
-
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-.buttonload {
-	background-color: white; /* Green background */
-	border: none; /* Remove borders */
-	color: #ec268f; /* White text */
-	padding: 12px 20px; /* Some padding */
-	font-size: 15px; /* Set a font-size */
-	display: none;
-}
-
-/* Add a right margin to each icon */
-</style>
-
-
-
-
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 <link rel="stylesheet"
@@ -159,6 +140,7 @@ body {
 						</div>
 
 						<div class="box-content">
+						<div>
 							<form method="post" class="form-horizontal" id="validation-form">
 
 								<div class="box-content">
@@ -250,7 +232,7 @@ body {
 									</div>
 
 								</div>
-								</div>
+								
 
 <br/>
 								<div class="box-content">
@@ -285,12 +267,11 @@ body {
 										</select>
 									</div>
 
-									<div class="col-md-2">PO
-										Detail </div>
-									<div class="col-md-3">
-										<input class="btn btn-large"  id="getPoButton"
+									<div class="col-md-2">	<input class="btn btn-info"  id="getPoButton"
 											onclick="getPoDetail()" size="16" type="button"
-											name="getPoButton" value="Get PO Detail" style="background: red;" >
+											name="getPoButton" value="Get PO Detail"  > </div>
+									<div class="col-md-3">
+									
 									</div>
 								</div>
 <br>

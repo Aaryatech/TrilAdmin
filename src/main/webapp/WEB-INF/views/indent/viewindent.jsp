@@ -121,12 +121,14 @@
 
 													<th
 														style="text-align: center; padding: 0px; align-items: center;"
-														width="60"><input type="checkbox" name="name1" value="0"/>
-														&nbsp;&nbsp;&nbsp;Select All</th>
+														width="60"><input type="checkbox" name="name1"
+														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
 													<th width="180" style="text-align: center;"
 														style="width: 150px">Indent No</th>
 													<th width="100" style="text-align: center;" align="center">Date</th>
 													<th width="150" style="text-align: center;" align="center">Category</th>
+													<th width="150" style="text-align: center;" align="center">Account Head</th>
+
 													<th width="150" style="text-align: center;" align="center">Type</th>
 													<th width="150" style="text-align: center;" align="center">Development</th>
 													<th width="150" style="text-align: center;" align="center">Monthly</th>
@@ -151,13 +153,15 @@
 														<td
 															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
 															width="60">&nbsp;&nbsp;<input type="checkbox"
-															name="name1" value="${indent.indMId}"/></td>
+															name="name1" value="${indent.indMId}" /></td>
 														<td align="left" style="text-align: center;"><c:out
 																value="${indent.indMNo}" /></td>
 														<td align="left" style="text-align: center;"><c:out
 																value="${indent.indMDate}" /></td>
 														<td align="left" style="text-align: center;"><c:out
 																value="${indent.catDesc}" /></td>
+																<td align="left" style="text-align: center;"><c:out
+																value="${indent.accHeadDesc}" /></td>
 														<c:set var="indmtype" value="o"></c:set>
 														<c:choose>
 															<c:when test="${indent.indMType==1}">
@@ -203,7 +207,7 @@
 																value="${indIsDev}" /></td>
 
 														<td align="left" style="text-align: center;"><c:out
-								 								value="${indIsmonthly}" /></td>
+																value="${indIsmonthly}" /></td>
 
 														<td align="left" style="text-align: center;"><a
 															href="javascript:genPdf(${indent.indMId});"><span
@@ -211,7 +215,7 @@
 															<a
 															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}"><span
 																class="glyphicon glyphicon-info-sign"></span></a> <a
-															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}"><span
+															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="glyphicon glyphicon-info-sign"></span></a></td>
 													</tr>
 												</c:forEach>
@@ -222,8 +226,8 @@
 
 										<br> <br>
 										<button
-											style="background-color: #008CBA;  border: none; color: white; text-align: center; text-decoration: none; 
-											display: block; font-size: 12px;  cursor: pointer; width: 50px; height: 30px; margin: auto;"  onclick="commonPdf()">PDF</button>
+											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
+											onclick="commonPdf()">PDF</button>
 
 
 									</div>
