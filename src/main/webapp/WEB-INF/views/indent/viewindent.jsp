@@ -203,7 +203,7 @@
 																value="${indIsDev}" /></td>
 
 														<td align="left" style="text-align: center;"><c:out
-																value="${indIsmonthly}" /></td>
+								 								value="${indIsmonthly}" /></td>
 
 														<td align="left" style="text-align: center;"><a
 															href="javascript:genPdf(${indent.indMId});"><span

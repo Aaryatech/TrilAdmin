@@ -172,7 +172,7 @@
 																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<%-- 	<a
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
-																class="glyphicon glyphicon-info-sign"></span></a> --%>
+											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
 																<a
 															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}"><span
 																class="fa fa-edit"></span></a>
