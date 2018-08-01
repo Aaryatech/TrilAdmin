@@ -101,10 +101,11 @@
 									<thead>
 									<tr class="bgpink">
 										<th class="col-sm-1">Sr no.</th>
-										<th class="col-md-1">Date</th>
 										<th class="col-md-1">PO No</th>
-										<th class="col-md-1">Vendor Name</th> 
+										<th class="col-md-1">Date</th> 
+										<th class="col-md-1">PO Type</th> 
 										<th class="col-md-1">Indent No</th> 
+										<th class="col-md-2">Vendor Name</th> 
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -113,20 +114,40 @@
 									<c:forEach items="${poList}" var="poList"
 										varStatus="count">
 										<tr>
+										<c:choose>
+											<c:when test="${poList.poType==1}">
+											 <c:set var="poType" value="Regular"></c:set>
+											</c:when> 
+											<c:when test="${poList.poType==2}">
+											 <c:set var="poType" value="Job Work"></c:set>
+											</c:when> 
+											<c:when test="${poList.poType==3}">
+											 <c:set var="poType" value="General"></c:set>
+											</c:when> 
+											<c:otherwise>
+											<c:set var="poType" value="Other"></c:set>
+											</c:otherwise>
+											  
+										</c:choose>
+										
 											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
-
-											<td class="col-md-1"><c:out
-													value="${poList.poDate}" /></td>
-													
 											<td class="col-md-1"><c:out
 													value="${poList.poNo}" /></td> 
+											 
 											<td class="col-md-1"><c:out
-													value="${poList.vendorName}" /></td>
-
+													value="${poList.poDate}" /></td>
+											
+											<td class="col-md-1"><c:out
+													value="${poType}" /></td>
+												
 											<td class="col-md-1"><c:out
 													value="${poList.indNo}" /></td>
- 
+													
+											<td class="col-md-2"><c:out
+													value="${poList.vendorName}" /></td>
+											
+											 
 											<td><a
 												href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
 													title="Edit"><i class="fa fa-edit"></i></abbr></a>
@@ -268,13 +289,32 @@
 										data,
 										function(key, itemList) {
 										
-
+											var poType;
+											if(itemList.poType==1)
+											{
+												poType = "Regular";
+											}
+											else if(itemList.poType==2)
+											{
+												poType = "Job Work";
+											}
+											else if(itemList.poType==3)
+											{
+												poType = "General";
+											}
+											else
+											{
+												poType = "Other";
+											}
+											  
+											 
 											var tr = $('<tr></tr>'); 
 										  	tr.append($('<td></td>').html(key+1));
+										  	tr.append($('<td></td>').html(itemList.poNo));
 										  	tr.append($('<td></td>').html(itemList.poDate));
-										  	tr.append($('<td></td>').html(itemList.poNo));  
-										  	tr.append($('<td></td>').html(itemList.vendorName));
+										  	tr.append($('<td></td>').html(poType));
 										  	tr.append($('<td></td>').html(itemList.indNo));
+										  	tr.append($('<td></td>').html(itemList.vendorName)); 
 										  	tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'+itemList.poId+'"'+
 													'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));

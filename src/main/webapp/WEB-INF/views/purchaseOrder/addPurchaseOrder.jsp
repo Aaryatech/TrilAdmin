@@ -182,7 +182,7 @@ body {
 									</div>
 									<div class="col-md-2">Vendor Quotation</div>
 				<div class="col-md-3">
-					<input type="text" placeholder="Enter Quotation No"  value="${quotationTemp}" name="quotation" id="quotation" class="form-control" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" required>
+					<input type="text" placeholder="Enter Quotation No"  value="${quotationTemp}" name="quotation" id="quotation" class="form-control" required>
 				</div>
 				 
 			</div><br/>
@@ -193,13 +193,25 @@ body {
 										<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" required>
 										<c:choose>
 											<c:when test="${poTypeTemp==1}">
+												<option value="" >Select PO Type</option>
 												<option value="1" selected>Regular</option>
+												<option value="2">Job Work</option>
+												<option value="3">General</option>
+												<option value="4">Other</option>
 											</c:when>
 											<c:when test="${poTypeTemp==2}">
+												<option value="" >Select PO Type</option>
+												<option value="1" >Regular</option>
 												<option value="2" selected>Job Work</option>
+												<option value="3">General</option>
+												<option value="4">Other</option>
 											</c:when>
 											<c:when test="${poTypeTemp==3}">
+												<option value="" >Select PO Type</option>
+												<option value="1">Regular</option>
+												<option value="2">Job Work</option>
 												<option value="3" selected>General</option>
+												<option value="4">Other</option>
 											</c:when>
 											<c:when test="${poTypeTemp==4}">
 												<option value="4" selected>Other</option>
@@ -222,7 +234,7 @@ body {
 									</div>
 									</div><br/>
 									
-									
+								
 			<div class="box-content">
 				<div class="col-md-2" >Payment Terms</div>
 									<div class="col-md-3">
@@ -489,9 +501,16 @@ body {
 			
 			<div class="row">
 						<div class="col-md-12" style="text-align: center">
-							<input type="submit" class="btn btn-info" value="Submit" onclick="check()">
-
-
+						 
+						 <c:choose>
+							<c:when test="${poDetailList.size()>0}"> 
+								<input type="submit" class="btn btn-info" value="Submit" onclick="check()"  >
+							</c:when>
+							<c:otherwise>
+								<input type="submit" class="btn btn-info" value="Submit" onclick="check()" disabled>
+							</c:otherwise>
+						</c:choose>  
+							 
 						</div>
 					</div>
 				
@@ -522,7 +541,7 @@ body {
 										style="width: 100%" id="table_grid1">
 										<thead>
 											<tr>
-										<th align="left"><input type="checkbox" onClick="selectAll(this)" /> Select All</th>
+										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/> Select All</th>
 										<th>Sr.No.</th>
 										<th>Item Name </th>
 										<th>UOM</th>
@@ -662,27 +681,32 @@ function IsNumeric(e) {
 
 function check()
 {
+	 	   
+	var vendId = $("#vendId").val();
+	var poType = $("#poType").val(); 
+	var payId = $("#payId").val();
+	var deliveryId = $("#deliveryId").val();
+	var dispatchMode = $("#dispatchMode").val();
 	
-	var transportation = $("#transportation").val();
-	var pay_terms = $("#pay_terms").val();
-	// alert(transportation);
-	var freight = $("#freight").val();
-	var insurance = $("#insurance").val();
-	if(transportation==null)
+	if(vendId==null || vendId == "")
 	{
-	alert("Select Transporter ");
+	alert("Select Vendor");
 	}
-	else if(pay_terms==null)
+	else if(poType==null || poType == "")
 	{
-	alert("Select Payment ");
+	alert("Select PO Type ");
 	}
-	else if(freight==null)
-		{
-		alert("Enter Freight Amt");
-		}
-	else if(insurance==null)
+	else if(payId==null || payId == "")
 	{
-	alert("Enter Insurance Amt");
+		alert("Select Payment Term");
+	}
+	else if(deliveryId==null || deliveryId == "")
+	{
+	alert("Select Delivery");
+	}
+	else if(dispatchMode==null || dispatchMode == "")
+	{
+	alert("Select Dispatch Mode");
 	}
 }
 
@@ -751,16 +775,16 @@ function itemByIntendId()
 							 
 								var tr = $('<tr></tr>'); 
 								tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
-										'id="select_to_approve" value="'+itemList.indDId+'" >'));  
+										'id="select_to_approve'+itemList.indDId+'" onchange="requiredField('+itemList.indDId+')" value="'+itemList.indDId+'" >'));  
 							  	tr.append($('<td></td>').html(key+1)); 
 							  	tr.append($('<td></td>').html(itemList.itemCode)); 
 							  	tr.append($('<td></td>').html(itemList.indItemUom));
 							  	tr.append($('<td style="text-align:right;"></td>').html(itemList.indQty));
 							  	tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
-							  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
+							  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'"  onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
 							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control" required>'));
 							  	document.getElementById("indMId").value=itemList.indMId;
@@ -772,6 +796,74 @@ function itemByIntendId()
 	
 	
 }
+
+function checkQty(key)
+{
+	var poQty = parseInt($("#poQty"+key).val());  
+	 var rate = parseInt($("#rate"+key).val()); 
+	if(poQty==0)
+	{
+		document.getElementById("poQty"+key).value=""; 
+		alert("Enter Greater Than 0 ");
+	} 
+	else if(rate==0)
+	{
+		document.getElementById("rate"+key).value="";
+		alert("Enter Greater Than 0 ");
+	} 
+	
+	 
+} 
+
+function requiredAll()
+{
+	var checkboxes = document.getElementsByName('select_to_approve'); 
+	
+	
+	if(document.getElementById("allCheck").checked == true)
+	{
+		 for (var i=0; i<checkboxes.length; i++) {
+			 document.getElementById("select_to_approve"+checkboxes[i].value).checked == true;
+		       
+		    	  document.getElementById("poQty"+checkboxes[i].value).required=true; 
+		  		document.getElementById("rate"+checkboxes[i].value).required=true;
+		  		document.getElementById("disc"+checkboxes[i].value).required=true;
+		      
+		  }
+	}
+	else
+	{
+		for (var i=0; i<checkboxes.length; i++) {
+			 document.getElementById("select_to_approve"+checkboxes[i].value).checked == false;
+		       
+		    	  document.getElementById("poQty"+checkboxes[i].value).required=false; 
+		  		document.getElementById("rate"+checkboxes[i].value).required=false;
+		  		document.getElementById("disc"+checkboxes[i].value).required=false;
+		      
+		  }
+	}
+	   
+	 
+} 
+
+function requiredField(key)
+{
+	
+	if(document.getElementById("select_to_approve"+key).checked == true)
+	{
+		document.getElementById("poQty"+key).required=true; 
+		document.getElementById("rate"+key).required=true;
+		document.getElementById("disc"+key).required=true;
+	} 
+	else
+	{
+		document.getElementById("poQty"+key).required=false; 
+		document.getElementById("rate"+key).required=false;
+		document.getElementById("disc"+key).required=false;
+	}
+	
+	 
+} 
 
   function getValue()
 {
@@ -799,7 +891,7 @@ function itemByIntendId()
 		  {
 		 	 document.getElementById("poQty"+key).value = 0;
 		 	document.getElementById("balanceQty"+key).value = indQty;
-		 	alert("you dont have Qty");
+		 	alert("Your Enter PO QTY Greater Than Balance QTY");
 		  }
 	  else
 		  {  

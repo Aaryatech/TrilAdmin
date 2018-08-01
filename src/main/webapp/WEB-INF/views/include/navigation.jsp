@@ -635,12 +635,53 @@
 				<c:choose>
 					<c:when test="${Constants.mainAct==6}">
 						<li class="active">
-					</c:when>
-
+					</c:when> 
 					<c:otherwise>
 						<li>
 					</c:otherwise>
 				</c:choose>
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Stock</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+					<c:choose>
+						<c:when test="${Constants.subAct==51}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/getCurrentStock">Current Stock</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/monthEndStock">Month End</a>
+					</li>
+					
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/stockBetweenDate">Stock Between Date</a>
+					</li>
+
+				</ul>
+				</li>
+				
 
 				<c:choose>
 					<c:when test="${Constants.mainAct==5}">
@@ -805,31 +846,7 @@
 						<li>
 					</c:otherwise>
 				</c:choose>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
 					<span>Logout</span> <b class="arrow fa fa-angle-right"></b>
 				</a>

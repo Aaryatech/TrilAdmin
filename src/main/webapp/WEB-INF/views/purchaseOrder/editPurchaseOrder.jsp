@@ -164,7 +164,6 @@ body {
 				<div class="col-md-2" >Vendor Name</div>
 									<div class="col-md-3">
 										<select name="vendId" id="vendId"   class="form-control chosen" tabindex="6" required>
-										<option value=""  >Select Vendor</option>
 										 
 											 <c:forEach items="${vendorList}" var="vendorList" >
 											<c:choose>
@@ -239,7 +238,7 @@ body {
 				<div class="col-md-2" >Payment Terms</div>
 									<div class="col-md-3">
 										<select name="payId" id="payId"    class="form-control chosen" tabindex="6" required>
-										<option value="">Select Pay Terms</option>
+									 
 											 <c:forEach items="${paymentTermsList}" var="paymentTermsList" >
 											 <c:choose>
 											 	<c:when test="${paymentTermsList.pymtTermId==getPoHeader.paymentTermId}">
@@ -258,7 +257,7 @@ body {
 									 <div class="col-md-2" >Select Delivery</div>
 									<div class="col-md-3">
 										<select name="deliveryId" id="deliveryId"    class="form-control chosen" tabindex="6" required>
-										<option value="" >Select </option>
+										 
 											 <c:forEach items="${deliveryTermsList}" var="deliveryTermsList" >
 											 <c:choose>
 											 	<c:when test="${deliveryTermsList.deliveryTermId==getPoHeader.deliveryId}">
@@ -280,7 +279,7 @@ body {
 									<div class="col-md-3">
 									
 										<select name="dispatchMode"  id="dispatchMode"   class="form-control chosen" tabindex="6" required>
-										<option value="" >Select </option>
+										 
 									 <c:forEach items="${dispatchModeList}" var="dispatchModeList" >
 									 <c:choose>
 									 	<c:when test="${dispatchModeList.dispModeId==getPoHeader.dispatchId}">
@@ -674,26 +673,31 @@ function IsNumeric(e) {
 function check()
 {
 	
-	var transportation = $("#transportation").val();
-	var pay_terms = $("#pay_terms").val();
-	// alert(transportation);
-	var freight = $("#freight").val();
-	var insurance = $("#insurance").val();
-	if(transportation==null)
+	var vendId = $("#vendId").val();
+	var poType = $("#poType").val(); 
+	var payId = $("#payId").val();
+	var deliveryId = $("#deliveryId").val();
+	var dispatchMode = $("#dispatchMode").val();
+	
+	if(vendId==null || vendId == "")
 	{
-	alert("Select Transporter ");
+	alert("Select Vendor");
 	}
-	else if(pay_terms==null)
+	else if(poType==null || poType == "")
 	{
-	alert("Select Payment ");
+	alert("Select PO Type ");
 	}
-	else if(freight==null)
-		{
-		alert("Enter Freight Amt");
-		}
-	else if(insurance==null)
+	else if(payId==null || payId == "")
 	{
-	alert("Enter Insurance Amt");
+		alert("Select Payment Term");
+	}
+	else if(deliveryId==null || deliveryId == "")
+	{
+	alert("Select Delivery");
+	}
+	else if(dispatchMode==null || dispatchMode == "")
+	{
+	alert("Select Dispatch Mode");
 	}
 }
 

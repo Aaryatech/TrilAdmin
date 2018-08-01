@@ -314,6 +314,7 @@ public class PurchaseOrderController {
 			}
 			else 
 			{
+				PoHeader.setPoPackPer(0);
 				PoHeader.setPoPackVal(packValue);
 			}
 			 
@@ -325,6 +326,7 @@ public class PurchaseOrderController {
 			}
 			else  
 			{
+				PoHeader.setPoInsuPer(0);
 				PoHeader.setPoInsuVal(insuValue);
 			}
 			 
@@ -336,6 +338,7 @@ public class PurchaseOrderController {
 			}
 			else  
 			{
+				PoHeader.setPoFrtPer(0);
 				PoHeader.setPoFrtVal(freightValue);
 			}
 			 
@@ -771,6 +774,7 @@ public class PurchaseOrderController {
 			}
 			else 
 			{
+				getPoHeader.setPoPackPer(0);
 				getPoHeader.setPoPackVal(packValue);
 			}
 			 
@@ -782,6 +786,7 @@ public class PurchaseOrderController {
 			}
 			else  
 			{
+				getPoHeader.setPoInsuPer(0);
 				getPoHeader.setPoInsuVal(insuValue);
 			}
 			 
@@ -793,6 +798,7 @@ public class PurchaseOrderController {
 			}
 			else  
 			{
+				getPoHeader.setPoFrtPer(0);
 				getPoHeader.setPoFrtVal(freightValue);
 			}
 			 
