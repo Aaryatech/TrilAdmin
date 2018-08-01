@@ -54,7 +54,7 @@
 							</h3>
 							
 							<div class="box-tool">
-								  <a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry List</a> <a data-action="collapse" href="#"><i
+								  <a href="${pageContext.request.contextPath}/issueList">Issue List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>  
 							</div>
 							
@@ -108,7 +108,7 @@
 											<option   value="">Select Group</option>
 											
 											<c:forEach items="${itemGroupList}" var="itemGroupList"> 
-														<option value="${itemGroupList.grpId}"><c:out value="${itemGroupList.grpCode}"></c:out> </option>
+														<option value="${itemGroupList.grpId}"> ${itemGroupList.grpCode} &nbsp;&nbsp; ${itemGroupList.grpDesc} </option>
 											 </c:forEach>
 											</select>
 									</div>
@@ -132,7 +132,7 @@
 											<option   value="">Select Department</option>
 											
 											<c:forEach items="${deparmentList}" var="deparmentList"> 
-														<option value="${deparmentList.deptId}"><c:out value="${deparmentList.deptCode}"></c:out> </option>
+														<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc} </option>
 											 </c:forEach>
 											</select>
 									</div>
@@ -325,7 +325,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].itemId + '">'
-							+ data[i].itemCode + '</option>';
+							+ data[i].itemCode + '&nbsp;&nbsp;&nbsp;'+data[i].itemDesc+'</option>';
 				}
 				html += '</option>';
 				$('#itemId').html(html);
@@ -348,7 +348,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].subDeptId + '">'
-							+ data[i].subDeptCode + '</option>';
+							+ data[i].subDeptCode +'&nbsp;&nbsp;&nbsp;s'+data[i].subDeptDesc+'</option>';
 				}
 				html += '</option>';
 				$('#subDeptId').html(html);
@@ -358,7 +358,7 @@
 		
 		function addItem() {
 			  
-			alert("af");
+			 
 				var itemId = $("#itemId").val();
 				var itemName = $("#itemId option:selected").text();
 				var qty = $("#qty").val();
@@ -627,17 +627,7 @@ function validation()
 return isValid;
 	
 }
-function check()
-{
-	
-	var vendId = $("#vendId").val();
-	 
-	if(vendId=="" || vendId==null)
-		{
-		alert("Select Vendor");
-		}
-	 
-}
+ 
 </script>
 	<script type="text/javascript">
 
