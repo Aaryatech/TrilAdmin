@@ -54,134 +54,118 @@
 							</div>
 
 						</div>
-						 
-								<div class="box-content">
-								
-								<div class="box-content">
-							
+
+						<div class="box-content">
+
+							<div class="box-content">
+
 								<div class="col-md-2">From Date*</div>
-									<div class="col-md-3">
-										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date" value="${date}" name="fromDate" type="text" required>
+								<div class="col-md-3">
+									<input id="fromDate" class="form-control date-picker"
+										placeholder="From Date" value="${date}" name="fromDate"
+										type="text" required>
 
 
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">To Date*</div>
-									<div class="col-md-3">
-										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date" value="${date}" name="toDate" type="text" required>
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2">To Date*</div>
+								<div class="col-md-3">
+									<input id="toDate" class="form-control date-picker"
+										placeholder="To Date" value="${date}" name="toDate"
+										type="text" required>
 
 
-									</div>
-								
-				 
-							</div><br><br>
+								</div>
+
+
+							</div>
+							<br>
+							<br>
 							<div class="form-group">
-									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="button" class="btn btn-primary" value="Search Enquiry" onclick="search()">  
-									</div>
-								</div><br>
-								
-								<div align="center" id="loader" style="display: none">
+								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+									<input type="button" class="btn btn-primary"
+										value="Search Enquiry" onclick="search()">
+								</div>
+							</div>
+							<br>
 
-							<span>
-								<h4>
-									<font color="#343690">Loading</font>
-								</h4>
-							</span> <span class="l-1"></span> <span class="l-2"></span> <span
-						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-					<span class="l-6"></span>
-				</div>
+							<div align="center" id="loader" style="display: none">
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+
+							<br /> <br />
+							<div class="clearfix"></div>
+							<div class="table-responsive" style="border: 0">
+								<table class="table table-advance" id="table1">
 									<thead>
-									<tr class="bgpink">
-										<th class="col-sm-1">Sr no.</th>
-										<th class="col-md-1">PO No</th>
-										<th class="col-md-1">Date</th> 
-										<th class="col-md-1">PO Type</th> 
-										<th class="col-md-1">Indent No</th> 
-										<th class="col-md-2">Vendor Name</th> 
-										<th class="col-md-1">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-
-									<c:forEach items="${poList}" var="poList"
-										varStatus="count">
-										<tr>
-										<c:choose>
-											<c:when test="${poList.poType==1}">
-											 <c:set var="poType" value="Regular"></c:set>
-											</c:when> 
-											<c:when test="${poList.poType==2}">
-											 <c:set var="poType" value="Job Work"></c:set>
-											</c:when> 
-											<c:when test="${poList.poType==3}">
-											 <c:set var="poType" value="General"></c:set>
-											</c:when> 
-											<c:otherwise>
-											<c:set var="poType" value="Other"></c:set>
-											</c:otherwise>
-											  
-										</c:choose>
-										
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${poList.poNo}" /></td> 
-											 
-											<td class="col-md-1"><c:out
-													value="${poList.poDate}" /></td>
-											
-											<td class="col-md-1"><c:out
-													value="${poType}" /></td>
-												
-											<td class="col-md-1"><c:out
-													value="${poList.indNo}" /></td>
-													
-											<td class="col-md-2"><c:out
-													value="${poList.vendorName}" /></td>
-											
-											 
-											<td><a
-												href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
-													title="Edit"><i class="fa fa-edit"></i></abbr></a>
-													<a href="${pageContext.request.contextPath}/deletePurchaseOrder/${poList.poId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-												 </td>
-
+										<tr class="bgpink">
+											<th class="col-sm-1">Sr no.</th>
+											<th class="col-md-1">Date</th>
+											<th class="col-md-1">PO No</th>
+											<th class="col-md-1">Vendor Name</th>
+											<th class="col-md-1">Indent No</th>
+											<th class="col-md-1">Action</th>
 										</tr>
-									</c:forEach>
+									</thead>
+									<tbody>
 
-								</tbody>
+										<c:forEach items="${poList}" var="poList" varStatus="count">
+											<tr>
+												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+												<td class="col-md-1"><c:out value="${poList.poDate}" /></td>
+
+												<td class="col-md-1"><c:out value="${poList.poNo}" /></td>
+												<td class="col-md-1"><c:out
+														value="${poList.vendorName}" /></td>
+
+												<td class="col-md-1"><c:out value="${poList.indNo}" /></td>
+
+												<td><a href="javascript:genPdf(${ poList.poId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+															 
+													<a href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
+														title="Edit"><i class="fa fa-edit"></i></abbr></a>
+														 <a
+													href="${pageContext.request.contextPath}/deletePurchaseOrder/${poList.poId}"
+													onClick="return confirm('Are you sure want to delete this record');"><span
+														class="glyphicon glyphicon-remove"></span></a></td>
+
+											</tr>
+										</c:forEach>
+
+									</tbody>
 
 								</table>
-  
-					</div>
-				</div>
-							 
 
-
+							</div>
 						</div>
-						
+
+
+
 					</div>
-					 
+
 				</div>
-				<footer>
+
+			</div>
+			<footer>
 				<p>2018 © AARYATECH SOLUTIONS</p>
 			</footer>
-			</div>
- 
-		 
 		</div>
-		
-		<!-- END Content -->
- 
+
+
+	</div>
+
+	<!-- END Content -->
+
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -289,33 +273,15 @@
 										data,
 										function(key, itemList) {
 										
-											var poType;
-											if(itemList.poType==1)
-											{
-												poType = "Regular";
-											}
-											else if(itemList.poType==2)
-											{
-												poType = "Job Work";
-											}
-											else if(itemList.poType==3)
-											{
-												poType = "General";
-											}
-											else
-											{
-												poType = "Other";
-											}
-											  
-											 
+
 											var tr = $('<tr></tr>'); 
 										  	tr.append($('<td></td>').html(key+1));
-										  	tr.append($('<td></td>').html(itemList.poNo));
 										  	tr.append($('<td></td>').html(itemList.poDate));
-										  	tr.append($('<td></td>').html(poType));
+										  	tr.append($('<td></td>').html(itemList.poNo));  
+										  	tr.append($('<td></td>').html(itemList.vendorName));
 										  	tr.append($('<td></td>').html(itemList.indNo));
-										  	tr.append($('<td></td>').html(itemList.vendorName)); 
-										  	tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
+										  	tr.append($('<td></td>').html('<a href="javascript:genPdf('+itemList.poId+');"><abbr'+
+													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a> <a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'+itemList.poId+'"'+
 													'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
 										    $('#table1 tbody').append(tr); 
@@ -325,6 +291,20 @@
 						}); 
 }
 	</script>
+
+
+<script type="text/javascript">
+			function genPdf(id) {
+				alert(id);
+		
+				window.open('pdfForReport?url=poPdf/'
+						+ id );
+
+			}
+			
+		</script>
+
+
 
 </body>
 </html>

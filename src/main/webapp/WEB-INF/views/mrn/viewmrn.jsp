@@ -29,7 +29,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Mrn Header
+						<i class="fa fa-file-o"></i>
 					</h1>
 
 				</div>
@@ -44,7 +44,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> View MRN Header
+								<i class="fa fa-bars"></i>MRN List
 							</h3>
 							<div class="box-tool">
 								<a href=""></a> <a data-action="collapse" href="#"><i
@@ -118,11 +118,11 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-md-2" style="text-align: center;" style="width: 150px">Mrn No</th>
-													<th class="col-md-2" style="text-align: center;" align="center">Date</th>
-													<th class="col-md-2"  style="text-align: center;" align="center">Vendor</th>
-													<th class="col-md-2" style="text-align: center;" align="center">Type</th>
-													<th class="col-md-2" style="text-align: center;" align="center">Action</th>
+													<th width="180" style="text-align: center;" style="width: 150px">Mrn No</th>
+													<th width="150" style="text-align: center;" align="center">Date</th>
+													<th width="150"  style="text-align: center;" align="center">Vendor</th>
+													<th width="150" style="text-align: center;" align="center">Type</th>
+													<th width="150" style="text-align: center;" align="center">Action</th>
 												</tr>
 											</thead>
 											<!-- 	<div class="table-responsive" style="border: 0">
@@ -140,9 +140,9 @@
 											<tbody>
 												<c:forEach items="${mrnHeaderList}" var="mrn">
 													<tr>
-														<td class="col-md-2" style="text-align: center;"><c:out value="${mrn.mrnNo}" /></td>
-														<td class="col-md-2" style="text-align: center;"><c:out value="${mrn.mrnDate}" /></td>
-														<td class="col-md-2" style="text-align: center;"><c:out value="${mrn.vendorName}" /></td>
+														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnNo}" /></td>
+														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnDate}" /></td>
+														<td align="left" style="text-align: center;"><c:out value="${mrn.vendorName}" /></td>
 														<c:set var="mrnType" value="o"></c:set>
 														<c:choose>
 															<c:when test="${mrn.mrnType==1}">
@@ -159,17 +159,23 @@
 															</c:otherwise>
 														</c:choose>
 													
-														<td class="col-md-2" style="text-align: center;"><c:out value="${mrnType}" /></td>
+														<td align="left" style="text-align: center;"><c:out value="${mrnType}" /></td>
 
-														<td class="col-md-2" style="text-align: center;"><a
+														<td align="left" style="text-align: center;">
+														
+														<a href="javascript:genPdf(${ mrn.mrnId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+													
+														
+														<a
 															href="${pageContext.request.contextPath}/showEditViewMrnDetail/${mrn.mrnId}"><span
-																class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<%-- 	<a
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
 																class="glyphicon glyphicon-info-sign"></span></a> --%>
 																<a
-															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" onClick="return confirm('Are you sure want to delete this record');"><span
-																class="glyphicon glyphicon-trash"></span></a>
+															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}"><span
+																class="fa fa-edit"></span></a>
 														</td>
 													</tr>
 												</c:forEach>
@@ -188,7 +194,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2018 © Trumbak Rubber.</p>
+			<p>2018 © Trambak Rubber.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -199,6 +205,22 @@
 	<!-- END Container -->
 
 	<!--basic scripts-->
+	
+	
+<script type="text/javascript">
+			function genPdf(id) {
+			
+		
+				window.open('pdfForReport?url=grnPdf'
+						 );
+
+			}
+			
+		</script>
+	
+	
+	
+	
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script>
