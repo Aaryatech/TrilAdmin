@@ -689,9 +689,10 @@ if(indTrasList.size()>0) {
 
 
 
-@RequestMapping(value = "/updateIndDetail", method = RequestMethod.GET)
-	public List<IndentTrans> updateIndDetail(HttpServletRequest request, HttpServletResponse response
+	@RequestMapping(value = "/updateIndDetail", method = RequestMethod.GET)
+	public @ResponseBody List<IndentTrans> updateIndDetail(HttpServletRequest request, HttpServletResponse response
 			/*@PathVariable("indDId") int indDId, @PathVariable("indMId") int indentId, @PathVariable("qty") int qty*/) {
+	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		ModelAndView model = null;
 		List<IndentTrans> indDetailList =  new ArrayList<IndentTrans>();
@@ -703,12 +704,14 @@ if(indTrasList.size()>0) {
 
 			
 			int indentId =Integer.parseInt(request.getParameter("indMId"));
-
+			
+			
+if(indQty>0) {
+	System.err.println("It is Edit call indQty >0");
 
 			// build an update query to update indent
 			// editIndentHeader return type ErrorMessage;
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("indDId", indDId);
 			map.add("indQty", indQty);
@@ -717,8 +720,21 @@ if(indTrasList.size()>0) {
 					ErrorMessage.class);
 			System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
 
-		
-		//MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+}else {
+	
+	System.err.println("In Else indent qt It is Delete call");
+	map = new LinkedMultiValueMap<String, Object>();
+
+	map.add("indDId", indDId);
+	map.add("delStatus", 0);
+
+	ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/delteIndentDetailItem", map,
+			ErrorMessage.class);
+	System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+	
+	
+}
+		 map = new LinkedMultiValueMap<String, Object>();
 
 		map = new LinkedMultiValueMap<String, Object>();
 

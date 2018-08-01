@@ -290,8 +290,11 @@
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
 
 															<a href="#" class="action_btn" title="Update"
-															onclick="updateCall(${indDetail.indDId},${indent.indMId})"><i
-																class="fa fa-edit"></i></a>
+															onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i
+																class="fa fa-edit"></i></a> &nbsp;&nbsp;<a href="#" class="action_btn"
+															title="Delete"
+															onclick="updateCall(${indDetail.indDId},${indent.indMId},1)"><i
+																class="fa fa-trash-o"></i></a>
 
 														</td>
 
@@ -635,8 +638,15 @@
 		}
 	</script>
 	<script>
-	function updateCall(indDId,indMId) {
-		document.getElementById("indQty"+indDId).removeAttribute("readonly");
+	function updateCall(indDId,indMId,del) {
+		if(del==1){
+			getValue(0,indDId,indMId);
+			
+		}
+		else{
+			document.getElementById("indQty"+indDId).removeAttribute("readonly");
+
+		}
 		//var qty = $('#indQty'+indDId).val();
 		//alert(qty);
 		//window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty,"_self");
@@ -665,27 +675,26 @@
 
 		}, function(data) {
 			//alert("dif " +indDId);
-			//document.getElementById("indQty"+indDId).setAttribute("readonly");
+			document.getElementById("indQty"+indDId).setAttribute("readonly");
 			 //$('#indQty'+indDId).setAttribute("readonly");
 		//	alert(data);
 			//alert("In update call")
 			//var len = data.length;
-			//$('#table1 td').remove();
+			$('#table1 td').remove();
 			
 
-			//$.each(data, function(key, trans) {
-
-			//	var tr = $('<tr></tr>');
-				//tr.append($('<td></td>').html(key + 1));
-				/* tr.append($('<td></td>').html(trans.indItemDesc));
+			$.each(data, function(key, trans) {
+			var tr = $('<tr></tr>');
+				tr.append($('<td></td>').html(key + 1));
+				tr.append($('<td></td>').html(trans.indItemDesc));
 				tr.append($('<td></td>').html(trans.indQty));
 				tr.append($('<td></td>').html(trans.indItemSchd));
 				tr.append($('<td></td>').html(trans.indItemSchddt));
 				tr.append($('<td></td>').html(trans.indRemark));
 				tr.append($('<td></td>').html(trans.indMDate));
-				 */
-				//$('#table1 tbody').append(tr);
-			//})
+				 
+				$('#table1 tbody').append(tr);
+			})
 		});
 	}
 	</script>

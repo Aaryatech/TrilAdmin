@@ -30,6 +30,18 @@ public class IndentTrans {
 	private int indDStatus;
 	
 	private int	indFyr;
+	
+	private int delStatus;
+	
+	
+
+	public int getDelStatus() {
+		return delStatus;
+	}
+
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
 
 	public int getIndDId() {
 		return indDId;
@@ -151,7 +163,7 @@ public class IndentTrans {
 				+ ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom + ", indItemDesc="
 				+ indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd + ", indItemSchddt="
 				+ indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus + ", indFyr=" + indFyr
-				+ "]";
+				+ ", delStatus=" + delStatus + "]";
 	}
 
 }
