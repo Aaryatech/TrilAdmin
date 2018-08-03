@@ -118,6 +118,10 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
+												<th
+														style="text-align: center; padding: 0px; align-items: center;"
+														width="60"><input type="checkbox" name="name1"
+														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
 													<th width="180" style="text-align: center;" style="width: 150px">Mrn No</th>
 													<th width="150" style="text-align: center;" align="center">Date</th>
 													<th width="150"  style="text-align: center;" align="center">Vendor</th>
@@ -140,6 +144,10 @@
 											<tbody>
 												<c:forEach items="${mrnHeaderList}" var="mrn">
 													<tr>
+													<td
+															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+															width="60">&nbsp;&nbsp;<input type="checkbox"
+															name="name1" value="${mrn.mrnId}" /></td>
 														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnNo}" /></td>
 														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnDate}" /></td>
 														<td align="left" style="text-align: center;"><c:out value="${mrn.vendorName}" /></td>
@@ -182,6 +190,14 @@
 
 											</tbody>
 										</table>
+										
+										<br> <br>
+										<button
+											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
+											onclick="commonPdf()">PDF</button>
+
+										
+										
 									</div>
 
 								</div>
@@ -211,10 +227,23 @@
 			function genPdf(id) {
 			
 		
-				window.open('pdfForReport?url=grnPdf'
+				window.open('pdfForReport?url=grnPdf/'+id
 						 );
 
 			}
+			
+			function commonPdf() {
+
+				 
+				 var list = [];
+				 
+							$("input:checkbox[name=name1]:checked").each(function(){
+								list.push($(this).val());
+				});
+							
+							window.open('pdfForReport?url=grnPdf/' + list);
+
+						}
 			
 		</script>
 	

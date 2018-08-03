@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Gatepass Nonreturnable List
+						<i class="fa fa-file-o"></i>Gate Pass Non Returnable List
 
 					</h1>
 				</div>
@@ -45,11 +45,11 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Gatepass Nonreturnable List
+								<i class="fa fa-table"></i>Gate Pass Non Returnable List
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addGetpassHeader">
-									Add Gatepass Nonreturnable</a> <a data-action="collapse" href="#"><i
+									Add Gate Pass Non Returnable</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -58,7 +58,7 @@
 
 						<div class="box-content">
 
-							<div class="col-md-2">Select Gatepass Vendor</div>
+							<div class="col-md-2">Select Gate Pass Vendor</div>
 							<div class="col-md-3">
 
 								<select name="vendId" id="vendId" class="form-control chosen"
@@ -91,9 +91,14 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
+										
+										<th	style="text-align: left; padding: 0px; align-items: left;"
+														width="10%"  align="left"><input type="checkbox" name="name1"
+														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+														
 											<th class="col-sm-1">Sr no.</th>
 											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Gatepass No</th>
+											<th class="col-md-1">Gate Pass No</th>
 											<th class="col-md-1">Return Date</th>
 											<th class="col-md-1">Remark</th>
 											<th class="col-md-1">Action</th>
@@ -104,6 +109,11 @@
 										<c:forEach items="${passList}" var="passList"
 											varStatus="count">
 											<tr>
+											
+											<td	style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+															width="10%">&nbsp;&nbsp;<input type="checkbox"
+															name="name1" value="${passList.gpId}" /></td>
+															
 												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
@@ -119,7 +129,12 @@
 
 
 
-												<td><a
+												<td>
+												
+												<a href="javascript:genPdf(${ passList.gpId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+												
+												<a
 													href="${pageContext.request.contextPath}/editGetpassHeader/${passList.gpId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
 													href="${pageContext.request.contextPath}/deleteGetpassHeader/${passList.gpId}"
@@ -132,6 +147,12 @@
 									</tbody>
 
 								</table>
+
+	<br> <br>
+										<button
+											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
+											onclick="commonPdf()">PDF</button>
+
 
 							</div>
 						</div>
@@ -277,6 +298,12 @@
 												function(key, itemList) {
 
 													var tr = $('<tr></tr>');
+													
+													 tr.append($('<td width=10%></td>')
+															.html('<input type="checkbox"  name="name1" value="'+ itemList.gpId +'"/>'));
+													 
+													
+													
 													tr.append($('<td></td>')
 															.html(key + 1));
 													tr
@@ -302,8 +329,8 @@
 													tr
 															.append($(
 																	'<td></td>')
-																	.html(
-																			'<a href="${pageContext.request.contextPath}/editGetpassHeader/'+itemList.gpId+'"><abbr'+
+																	.html('<a href="javascript:genPdf('+itemList.gpId+');"><abbr'+
+																			'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a> <a href="${pageContext.request.contextPath}/editGetpassHeader/'+itemList.gpId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteGetpassHeader/'
 																					+ itemList.gpId
 																					+ '"'
@@ -315,6 +342,36 @@
 							});
 		}
 	</script>
+
+
+
+<script type="text/javascript">
+			function genPdf(id) {
+			
+				window.open('pdfForReport?url=nonReturnableGPDoc/'
+						+ id );
+
+			}
+			
+			
+			function commonPdf() {
+
+				var list = [];
+
+				$("input:checkbox[name=name1]:checked").each(function() {
+					list.push($(this).val());
+				});
+
+				window.open('pdfForReport?url=nonReturnableGPDoc/' + list);
+
+			}
+			
+			
+		</script>
+
+
+
+
 
 
 </body>

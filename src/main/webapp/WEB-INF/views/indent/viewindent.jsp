@@ -263,19 +263,18 @@
 		}
 		
 		
+		
 		function commonPdf() {
 
-			var items=document.getElementsByName('name1');
-			var selectedItems="";
-			for(var i=0; i<items.length; i++){
-				if(items[i].type=='checkbox' && items[i].checked==true)
-					selectedItems+=items[i].value+",";
-			}
-			alert(selectedItems);
-			window.open('pdfForReport?url=showEditViewIndentDetail/' + selectedItems);
+			var list = [];
+
+			$("input:checkbox[name=name1]:checked").each(function() {
+				list.push($(this).val());
+			});
+
+			window.open('pdfForReport?url=showEditViewIndentDetail/' + list);
 
 		}
-		
 	</script>
 
 

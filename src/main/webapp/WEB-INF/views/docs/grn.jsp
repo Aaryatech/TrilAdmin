@@ -52,7 +52,11 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 
 </head>
 <body>
-<div align="right"> <h5> COM-F-01 REV.00 DT.01-05-2018   &nbsp;&nbsp;&nbsp;&nbsp; ${indent.indMDate} </h5></div>
+
+	<c:forEach items="${list}" var="item" varStatus="count">
+
+
+<div align="right"> <h5> COM-F-01 REV.00 DT.01-05-2018   </h5></div>
 
 <h3 align="center">TRAMBAK  &nbsp;&nbsp;RUBBER  &nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
 <p align="center">GOODS RECEIPT NOTE</p>
@@ -66,13 +70,14 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 					<table>
 						<tr>
 							<td valign="top">
-								Party Code : M00075<br>
-								M.C.R. INDUSTRIES</td>
+								Party Code : ${item.vendorCode}<br>
+								${item.vendorName}
+								</td>
 
 
 
-							<td align="right">GRN NO : <br>
-							Date : 03/05/2018
+							<td align="right">GRN NO : ${item.mrnNo }<br>
+							Date : ${item.mrnDate }
 							</td>
 						</tr>
 					</table>
@@ -98,8 +103,8 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 					<table>
 						<tr>
 							<td valign="top" width="33%" align="left">
-								Gate Entry No : 05<br>
-								Gate Entry Dt. : 01/05/2018</td>
+								Gate Entry No : ${item.gateEntryNo }<br>
+								Gate Entry Dt. : ${item.gateEntryDate }</td>
 
 
 
@@ -108,8 +113,8 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 							</td>
 							
 							
-							<td align="left"  width="33%">D/C NO. - 266 <br>
-							D/C Dt. - 31/03/2018
+							<td align="left"  width="33%">D/C NO. - ${item.docNo } <br>
+							D/C Dt. - ${item.docDate }
 							</td>
 						</tr>
 					</table>
@@ -136,29 +141,20 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 		<tbody>
 			
 			
+			<c:forEach items="${item.mrnReportDetailList}" var="row"
+					varStatus="count">
+			
 			<tr>
-					<td width="0" align="center"><c:out value="1" /></td>
-					<td width="0" align="center"><c:out value="J00893" /></td>
-					<td width="40%" align="center"><c:out value="ENGINEERING SERVICES FOR T5 SPLICER M/C BREAKDOWN PLC PROGRAMMING FROM MONK AUTOMATION" /></td>
-					<td width="0" align="center"><c:out value="JOB" /></td>
-					<td width="0" align="right"><c:out value="1.00" /></td>
-					<td width="0" align="center"><c:out value="02/04/2018   
-					0.000 /  0.00
-					" /></td>
-
-				</tr>
-			<%-- <c:forEach items="${indDetailList}" var="item" varStatus="count">
-				<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
-					<td width="0" align="center"><c:out value="${item.itemId}" /></td>
-					<td width="0" align="center"><c:out value="${item.indItemDesc}" /></td>
-					<td width="0" align="center"><c:out value="${item.indItemUom}" /></td>
-					<td width="0" align="center"><c:out value="${item.indQty}" /></td>
-					<td width="0" align="center"><c:out value="${item.indItemSchddt}" /></td>
+					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
+					<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="center"><c:out value="0.00" /></td>
+					<td width="0" align="right"><c:out value="${row.mrnQty}" /></td>
+					<td width="0" align="center"><c:out value="${row.rejectQty }" /></td>
+					<td width="0" align="center"><c:out value="0.0" /></td>
 
 				</tr>
-
-			</c:forEach> --%>
+			</c:forEach>
 				
 		</tbody>
 	</table>
@@ -174,10 +170,10 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 					<table>
 						<tr>
 							<td valign="top" width="33%" align="left">
-								Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <br>
-								Vehicle No &nbsp;&nbsp;&nbsp;&nbsp; -  <br>
-								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  <br>
-								Remark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 
+								Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.transport } <br>
+								Vehicle No &nbsp;&nbsp;&nbsp;&nbsp; - <br>
+								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  ${item.lrNo } <br>
+								Remark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.remark1 }
 								
 								
 								
@@ -186,8 +182,7 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 
 
 							<td align="left" width="60%" >
-							Date -  
-							</td>
+							Date -   ${item.lrDate } &nbsp;</td>
 							
 							
 							
@@ -230,7 +225,7 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 			</tr>
 		</table>
 	</div>
-
+</c:forEach>
 
 	<!-- END Main Content -->
 

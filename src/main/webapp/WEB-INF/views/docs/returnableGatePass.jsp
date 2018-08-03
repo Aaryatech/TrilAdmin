@@ -122,7 +122,7 @@ hr {
 
 		<h3 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
 			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
-		<p align="center">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
+		<p align="center">OUTWARD MATERIAL GATE PASS -RETURNABLE</p>
 
 
 		<div class="invoice-box">
@@ -134,12 +134,9 @@ hr {
 							<tr>
 								<td valign="top">GP No. : ${item.vendorCode}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
-
 								</td>
 
-
-
-								<td align="right" valign="top"><br> Date : ${item.gpReturnDate }</td>
+								<td align="right"><br> Date : ${item.gpReturnDate }</td>
 							</tr>
 						</table>
 					</td>
@@ -147,7 +144,8 @@ hr {
 			</table>
 		</div>
 
-<br><br>
+<br>
+<br>
 
 		<p
 			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
@@ -159,7 +157,6 @@ hr {
 <br>
 
 
-
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
 			id="table_grid" class="table table-bordered">
 			<thead>
@@ -169,7 +166,7 @@ hr {
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
 					<th>QTY</th>
-					<th>REMARKS</th>
+					<th>DLV.SCH / REMARK</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -182,9 +179,9 @@ hr {
 						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 						<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
 						<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
-						<td width="0" align="center"><c:out value="NOS" /></td>
+						<td width="0" align="center"><c:out value="0.00" /></td>
 						<td width="0" align="right"><c:out value="${row.gpQty}" /></td>
-						<td width="0" align="center"><c:out value="."/></td>
+						<td width="0" align="center"><c:out value="${row.gpReturnDate}" /></td>
 
 					</tr>
 				</c:forEach>
@@ -193,9 +190,6 @@ hr {
 		</table>
 
 		<br>
-		
-		
-		
 		
 		
 			<p

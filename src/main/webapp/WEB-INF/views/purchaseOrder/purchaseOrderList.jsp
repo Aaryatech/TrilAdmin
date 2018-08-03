@@ -106,6 +106,10 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
+										<th	style="text-align: left; padding: 0px; align-items: left;"
+														width="10%"><input type="checkbox" name="name1"
+														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+										
 											<th class="col-sm-1">Sr no.</th>
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">PO No</th>
@@ -118,6 +122,11 @@
 
 										<c:forEach items="${poList}" var="poList" varStatus="count">
 											<tr>
+											
+												<td style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+															width="10%">&nbsp;&nbsp;<input type="checkbox"
+															name="name1" value="${poList.poId}" /></td>
+										
 												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
@@ -145,7 +154,12 @@
 									</tbody>
 
 								</table>
+<br> <br>
+										<button
+											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
+											onclick="commonPdf()">PDF</button>
 
+								
 							</div>
 						</div>
 
@@ -274,7 +288,11 @@
 										function(key, itemList) {
 										
 
-											var tr = $('<tr></tr>'); 
+											var tr = $('<tr></tr>');
+											
+											 tr.append($('<td width=10%></td>')
+														.html('<input type="checkbox"  name="name1" value="'+ itemList.issueId +'"/>'));
+											
 										  	tr.append($('<td></td>').html(key+1));
 										  	tr.append($('<td></td>').html(itemList.poDate));
 										  	tr.append($('<td></td>').html(itemList.poNo));  
@@ -297,8 +315,20 @@
 			function genPdf(id) {
 				alert(id);
 		
-				window.open('pdfForReport?url=poPdf/'
+				window.open('poPdf/'
 						+ id );
+
+			}
+			
+			function commonPdf() {
+
+				var list = [];
+
+				$("input:checkbox[name=name1]:checked").each(function() {
+					list.push($(this).val());
+				});
+
+				window.open('poPdf/' + list);
 
 			}
 			

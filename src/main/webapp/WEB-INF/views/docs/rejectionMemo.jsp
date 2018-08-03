@@ -11,7 +11,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Non Returnable Gate Pass</title>
+<title>GRN</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -20,12 +20,10 @@
 
 <style type="text/css">
 table {
-	border-collapse: separate;
-	border-color: black;
+	border-collapse: collapse;
 	font-size: 12;
 	width: 100%;
 	page-break-inside: auto !important;
-	display: block;
 }
 
 p {
@@ -37,39 +35,10 @@ p {
 	font-weight: bold;
 }
 
-.pn {
-	color: black;
-	font-family: arial;
-	font-size: 10%;
-	margin-top: 0;
-	padding: 0;
-	font-weight: normal;
-}
-
-h4 {
-	color: black;
-	font-family: sans-serif;
-	font-size: 80%;
-	font-weight: bold;
-	padding-bottom: 10px;
-	margin: 0;
-}
-
-h5 {
-	color: black;
-	font-family: sans-serif;
-	font-size: 70%;
-	font-weight: normal;
-	padding-bottom: 10px;
-	margin: 0;
-}
-
 h6 {
 	color: black;
 	font-family: arial;
-	font-size: 60%;
-	font-weight: normal;
-	margin: 10%;
+	font-size: 80%;
 }
 
 th {
@@ -78,40 +47,15 @@ th {
 }
 
 hr {
-	height: 1px;
+	height: 3px;
 	border: none;
 	color: rgb(60, 90, 180);
 	background-color: rgb(60, 90, 180);
-}
-
-.invoice-box table tr.information table td {
-	padding-bottom: 0px;
-	align-content: center;
-}
-
-.set-height td {
-	position: relative;
-	overflow: hidden;
-	height: 2em;
-}
-
-.set-height t {
-	position: relative;
-	overflow: hidden;
-	height: 2em;
-}
-
-.set-height p {
-	position: absolute;
-	margin: .1em;
-	left: 0;
-	top: 0;
 }
 </style>
 
 </head>
 <body>
-
 
 	<c:forEach items="${list}" var="item" varStatus="count">
 
@@ -122,7 +66,7 @@ hr {
 
 		<h3 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
 			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
-		<p align="center">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
+		<p align="center">REJECTION MEMO</p>
 
 
 		<div class="invoice-box">
@@ -132,14 +76,47 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top">GP No. : ${item.vendorCode}<br> To,<br>
-									${item.vendorName} ,<br> ${item.vendorAdd1}
-
+								<td valign="top" width="40%"
+									style="border-top: 1px solid #313131; border-bottom: 1px solid #313131;">To,
+									<br> ${item.vendorName}<br> ${item.vendorAdd1}
 								</td>
 
 
 
-								<td align="right" valign="top"><br> Date : ${item.gpReturnDate }</td>
+								<td align="left" width="60%"
+									style="border-top: 1px solid #313131; border-bottom: 1px solid #313131;">
+									<div class="invoice-box">
+										<table cellpadding="0" cellspacing="0">
+
+											<tr class="information">
+												<td colspan="2" valign="top">
+													<table>
+														<tr>
+															<td valign="top">Vendor Code - ${item.vendorCode}</td>
+
+
+
+															<td align="left"
+																style="border-left: 1px solid #313131; padding-left: 10px solid #313131">
+
+
+
+																Memo NO : ${item.rejectionNo }<br> Date :
+																${item.rejectionDate } <br> <br> DC.No :
+																${item.dcoId }<br> D.C. Date : ${item.dcoDate }
+
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</div>
+
+
+
+
+								</td>
 							</tr>
 						</table>
 					</td>
@@ -147,16 +124,6 @@ hr {
 			</table>
 		</div>
 
-<br><br>
-
-		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-			Sending with following materials personally / Vehicle No. - <br>
-			as per details given below. <br>
-
-		</p>
-
-<br>
 
 
 
@@ -169,22 +136,26 @@ hr {
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
 					<th>QTY</th>
-					<th>REMARKS</th>
+					<th>GRN NO./ Date</th>
+
 				</tr>
 			</thead>
 			<tbody>
 
 
-				<c:forEach items="${item.gatepassReportDetailList}" var="row"
+				<c:forEach items="${item.rejReportDetailList}" var="row"
 					varStatus="count">
 
 					<tr>
 						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 						<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
 						<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
-						<td width="0" align="center"><c:out value="NOS" /></td>
-						<td width="0" align="right"><c:out value="${row.gpQty}" /></td>
-						<td width="0" align="center"><c:out value="."/></td>
+						<td width="0" align="center"><c:out value="0.00" /></td>
+						<td width="0" align="center"><c:out
+								value="${row.rejectionQty}" /></td>
+
+						<td width="0" align="left">
+								GRN- ${row.mrnNo} <br> DT- ${row.mrnDate } </td>
 
 					</tr>
 				</c:forEach>
@@ -193,21 +164,25 @@ hr {
 		</table>
 
 		<br>
-		
-		
-		
-		
-		
-			<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-			Reason : ${item.remark1} <br>
-
-		</p>
-		
-		
 		<br>
 
 
+		<p
+			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+			Rejection Reason : ${row.rejectionRemark}<br> <br> <br>
+			<br>
+			<br>
+
+		</p>
+
+		<p
+			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+			Please arrange to collect the rejected material within eight days.
+			Otherwise we will not be responsible for any loss or damage. <br>
+
+
+		</p>
+		<br>
 		<br>
 
 
@@ -216,27 +191,23 @@ hr {
 			<table cellpadding="0" cellspacing="0">
 
 				<tr class="information">
-					<td colspan="4" valign="top">
+					<td colspan="3" valign="top">
 						<table>
 							<tr>
-								<td width="25" valign="top" align="center"
+								<td width="33%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Receiver Signature</td>
+									Stores</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="33%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Prepared By</td>
-									
-										<td width="25%" valign="top" align="center"
+									Rejected By</td>
+
+								<td width="33%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Approved By</td>
-										<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
-
-									Authorised By</td>
+									Authorised Sign</td>
 
 
 							</tr>

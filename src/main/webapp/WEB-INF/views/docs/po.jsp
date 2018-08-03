@@ -20,7 +20,8 @@
 
 <style type="text/css">
 table {
-	border-collapse: separate;
+
+
 	border-color: black;
 	font-size: 12;
 	width: 100%;
@@ -73,8 +74,7 @@ h6 {
 }
 
 th {
-	background-color: #6a9ef2;
-	color: white;
+	color: black;
 }
 
 hr {
@@ -90,24 +90,23 @@ hr {
 }
 
 .set-height td {
-    position: relative;
-    overflow: hidden;
-    height: 2em;
+	position: relative;
+	overflow: hidden;
+	height: 2em;
 }
-
 
 .set-height t {
-    position: relative;
-    overflow: hidden;
-    height: 2em;
-}
-.set-height p {
-    position: absolute;
-    margin: .1em;
-    left: 0;
-    top: 0;
+	position: relative;
+	overflow: hidden;
+	height: 2em;
 }
 
+.set-height p {
+	position: absolute;
+	margin: .1em;
+	left: 0;
+	top: 0;
+}
 </style>
 
 </head>
@@ -115,27 +114,13 @@ hr {
 
 
 
+	<!--  -->
 
-	<div class="invoice-box">
-		<table cellpadding="0" cellspacing="0">
-
-			<tr class="information">
-				<td colspan="2" valign="top">
-					<table>
-						<tr>
-							<td valign="top">
-								Original    /                Duplicate(Acnt)/Triplicate(Purch)/Stroes</td>
-
-
-
-							<td align="right">COM-F-01 REV.00 DT.01-05-2018<br>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</div>
+	<p style="text-align: left; font-weight: normal;">
+		Original / Duplicate(Acnt)/Triplicate(Purch)/Stroes <span
+			style="float: right;">COM-F-01 REV.00 DT.01-05-2018 </span>
+	</p>
+	<!-- p -->
 
 
 	<h4 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
@@ -149,45 +134,33 @@ hr {
 	<h6 style="font-weight: normal; margin: 0px;" align="center">CIN
 		NO : U99999MH1986PLC042032</h6>
 
+<br>
 
-
-
-	<div class="invoice-box">
-		<table cellpadding="0" cellspacing="0">
-			<tr class="information">
-				<td colspan="3" valign="top">
-					<table>
-						<tr>
-
-							<td width="33%"></td>
-
-
-							<td width="33%" valign="bottom" align="center"
-								style="font-weight: bold;">PURCHASE ORDER</td>
-
-
-							<td width="33%" align="right">Order No.&nbsp;&nbsp;:
+	<p style="text-align: center; font-weight: bold; font-size: 13px;">
+		PURCHASE ORDER <span
+			style="float: right;">Order No.&nbsp;&nbsp;:
 								NSK/1819/222<br> Date&nbsp;&nbsp;:
 								01/07/2018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ </span>
+	</p>
 
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-
+	<br>
+	
+	<!-- t -->
+	
+	
+	<!-- t -->
+	
 
 	<div class="invoice-box">
-		<table cellpadding="0" cellspacing="0">
+		<table cellpadding="0" cellspacing="0" width="1000px">
 
 			<tr class="information">
-				<td colspan="2" valign="top">
-					<table>
+				<td  valign="top">
+					<table width="1000px">
 						<tr>
-							<td width="50%" valign="top"
+							<td 
+							width="900px	" valign="top"
 								style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">To,<br>
 								VAIBHAV INDUSTRIES<br> SINNAR-422103
 							</td>
@@ -242,25 +215,25 @@ hr {
 		FOR UNDERMENTIONED GOODS.
 
 	</h5>
-	<%-- <table align="center" border="1" 
-		style="table-layout: fixed; display: block; height: 460px; width: 100%;"
+	 <table align="center" border="1" cellpadding="0" cellspacing="0"
+		style="table-layout: fixed; display: block; height: 400px; width: 100%;"
 		id="table_grid" >
 		<thead>
 			<tr >
-				<th height="10px" style="max-height: 10px; max-width: 10px;" width=1%>SR.</th>
-			<!-- 	<th width=5%>ITEM</th>
+				<th height="5px" style="max-height: 10px; max-width: 30px; " width="30px">SR.</th>
+				<th width=5%>ITEM</th>
 				<th width=30%>DESCRIPTION</th>
 				<th width=5%>UOM</th>
 				<th align="right" width=10%>QTY</th>
 				<th align="right" width=15%>RATE Rs.</th>
 				<th align="right" width=15%>VALUE Rs.</th>
-				<th align="left" width=25%>SCHEDULE</th> -->
+				<th align="left" width=25%>SCHEDULE</th> 
 			</tr>
 		</thead> 
 		<tbody>
 
 			<tr >
-				<td  height="5px" style="max-height: 5px" align="center"><c:out value="1" /></td>
+				<td  height="5px" style="max-height: 5px" align="center" width="30px"><c:out value="1" /></td>
 				<td align="center"><c:out value="HW0169" /></td>
 				<td align="center"><c:out
 						value="OIL LEVEL INDICATOR LENGTH:130 M,1/2 BOLT TIGHTEN" /></td>
@@ -272,48 +245,48 @@ hr {
 
 			</tr>
 
-			<tr class="set-height">
-				<td align="center"><c:out value="" /></td>
-				<td align="center"><c:out value="" /></td>
-				<td align="center"><c:out value="" /></td>
-				<td align="center"><c:out value="" /></td>
-				<td align="right"></td>
-				<td align="right" style="border-left: 0px; border-top: 0px"><c:out
-						value="Total-" /></td>
-				<td align="right" style="border-left: 0px; border-top: 0px"><c:out
-						value="2420.00" /></td>
-				<td align="center"><c:out value="" /></td>
-
-			</tr>
-
-
+		
 		</tbody>
-	</table> --%>
+	</table> 
+
+
+
+<p style="text-align: left; font-weight: normal;">
+		<span
+			style="float: right; margin-right:150px;  "  >TOTAL - 2420.00</span>
+	</p>
+
+
+
+
+
 
 	<br>
-
-<table style="border: 1px solid black">
-    <thead>
-        <tr>
-            <td>Header</td>
-        </tr>
-    </thead>
-    <tbody style="display: block; border: 1px solid black; height: 300px; "	>
-        <tr>
-            <td>cell 1/1</td>
-            <td>cell 1/2</td>
-        </tr>
-        <tr>
-            <td>cell 2/1</td>
-            <td>cell 2/2</td>
-        </tr>
-        <tr>
-            <td>cell 3/1</td>
-            <td>cell 3/2</td>
-        </tr>
-    </tbody>
-</table>
-
+<!-- 
+	<table style="border: 1px solid black">
+		<thead>
+			<tr>
+				<td>Header</td>
+				
+				
+			</tr>
+		</thead>
+		<tbody style="display: block; border: 1px solid black; height: 300px;">
+			<tr>
+				<td>cell 1/1</td>
+				<td>cell 1/2</td>
+			</tr>
+			<tr>
+				<td>cell 2/1</td>
+				<td>cell 2/2</td>
+			</tr>
+			<tr>
+				<td>cell 3/1</td>
+				<td>cell 3/2</td>
+			</tr>
+		</tbody>
+	</table>
+ -->
 
 
 
@@ -358,10 +331,9 @@ hr {
 	<br>
 	<p
 		style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-		REMARKS IF ANY : <br>
-		<br> <br>
-		<br><br>
-		
+		REMARKS IF ANY : <br> <br> <br> <br>
+		<br>
+
 	</p>
 
 
@@ -387,8 +359,8 @@ hr {
 					PROVIDE YOUR TEST & INSP.CERTIFICATE -YES/NO<br> 3) INSPECTION
 					SUBJECT TO OUR / YOUR END.<br> 4) EXPIRY DATE OF EACH ITEM.<br>
 					5) IF MTRL.REJECTED, PLS.ARRANGE TO COLLECT FROM OUR FACTORY SITE
-					&nbsp;&nbsp;&nbsp;&nbsp;WITHIN 8 DAYS OTHERWISE WE WILL NIT RESPONSIBLE FOR ANY LOSS OR
-					&nbsp;&nbsp;&nbsp;&nbsp;DAMAGE.
+					&nbsp;&nbsp;&nbsp;&nbsp;WITHIN 8 DAYS OTHERWISE WE WILL NIT
+					RESPONSIBLE FOR ANY LOSS OR &nbsp;&nbsp;&nbsp;&nbsp;DAMAGE.
 
 				</p>
 			</td>
@@ -396,10 +368,8 @@ hr {
 				style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
 				<p
 					style="color: #000; font-size: 10px; vertical-align: top; text-align: center; margin: 0px; font-weight: normal;">
-					For TRAMBAK RUBBER INDUSTRIES LTD. <br>
-					<br>
-					<br>
-					<br> ( Reviewed & Approved )
+					For TRAMBAK RUBBER INDUSTRIES LTD. <br> <br> <br> <br>
+					( Reviewed & Approved )
 			</td>
 		</tr>
 

@@ -59,7 +59,7 @@
 
 							<div class="box-content">
 
-								<div class="col-md-2">Select Gatepass Vendor</div>
+								<div class="col-md-2">Select Gate Pass Vendor</div>
 								<div class="col-md-3">
 
 									<select name="vendId" id="vendId" class="form-control chosen"
@@ -73,7 +73,7 @@
 									</select>
 
 								</div>
-								<div class="col-md-2">Select Gatepass Status</div>
+								<div class="col-md-2">Select Gate Pass Status</div>
 								<div class="col-md-3">
 
 									<select name="gpStatusList[]" id="gpStatusList"
@@ -108,6 +108,14 @@
 									<table class="table table-advance" id="table1">
 										<thead>
 											<tr class="bgpink">
+												<th	style="text-align: left; padding: 0px; align-items: left;"
+														width="10%"  align="left"><input type="checkbox" name="name1"
+														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+														
+											<td	style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+															width="10%">&nbsp;&nbsp;<input type="checkbox"
+															name="name1" value="${passList.gpId}" /></td>
+										
 												<th class="col-sm-1">Sr no.</th>
 												<th class="col-md-1">Vendor Name</th>
 												<th class="col-md-1">Gatepass No</th>
@@ -157,7 +165,11 @@
 
 
 
-													<td><a
+													<td>
+														
+												<a href="javascript:genPdf(${ passList.gpId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+													<a
 														href="${pageContext.request.contextPath}/editGetpassHeaderRet/${passList.gpId}"><abbr
 															title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
 														href="${pageContext.request.contextPath}/deleteGetpassHeaderReturnable/${passList.gpId}"
@@ -170,6 +182,10 @@
 										</tbody>
 
 									</table>
+<br> <br>
+										<button
+											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
+											onclick="commonPdf()">PDF</button>
 
 								</div>
 							</div>
@@ -317,6 +333,12 @@
 												function(key, itemList) {
 
 													var tr = $('<tr></tr>');
+													
+													 tr.append($('<td width=10%></td>')
+																.html('<input type="checkbox"  name="name1" value="'+ itemList.gpId +'"/>'));
+														 
+											
+													
 													tr.append($('<td></td>')
 															.html(key + 1));
 													tr
@@ -355,8 +377,8 @@
 													tr
 															.append($(
 																	'<td></td>')
-																	.html(
-																			'<a href="${pageContext.request.contextPath}/editGetpassHeaderRet/'+itemList.gpId+'"><abbr'+
+																	.html(' <a href="javascript:genPdf('+itemList.gpId+');"><abbr'+
+																			'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>   <a href="${pageContext.request.contextPath}/editGetpassHeaderRet/'+itemList.gpId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteGetpassHeaderReturnable/'
 																					+ itemList.gpId
 																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
@@ -384,6 +406,29 @@
 		}
 	</script>
 
+<script type="text/javascript">
+			function genPdf(id) {
+			
+				window.open('pdfForReport?url=returnableGPDoc/'
+						+ id );
+
+			}
+			
+			
+			function commonPdf() {
+
+				var list = [];
+
+				$("input:checkbox[name=name1]:checked").each(function() {
+					list.push($(this).val());
+				});
+
+				window.open('pdfForReport?url=returnableGPDoc/' + list);
+
+			}
+			
+				
+		</script>
 
 </body>
 </html>

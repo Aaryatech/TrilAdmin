@@ -147,16 +147,16 @@ hr {
 						<table>
 							<tr>
 
-								<td width="33%"></td>
+								<td width="33%">Issue No. : ${item.issueNo}</td>
 
 
 								<td width="33%" valign="bottom" align="center"
-									style="font-weight: bold;">PUR. REQUISITION / INDENT</td>
+									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="33%" align="right">Indent No.&nbsp;&nbsp;:
-									${item.indMNo}<br> Date&nbsp;&nbsp;:
-									${item.indMDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<td width="33%" align="right">Slip No.&nbsp;&nbsp;:
+									<br> Date&nbsp;&nbsp;:
+									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								</td>
 							</tr>
@@ -176,9 +176,9 @@ hr {
 						<table>
 							<tr>
 								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc}
+									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
+									Department. &nbsp;&nbsp;&nbsp;- <br>
+									Sub.Dept. : &nbsp;&nbsp;&nbsp;&nbsp;- 
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -201,12 +201,13 @@ hr {
 			id="table_grid" class="table table-bordered">
 			<thead>
 				<tr>
-					<th>Sr.</th>
-					<th>Item</th>
-					<th>Description</th>
+					<th>SR.</th>
+					<th>ITEM</th>
+					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>Qty. Req.</th>
-					<th>When Req. / Stock/ Avg.</th>
+					<th>ISSUED QTY.</th>
+					<th>WT/SIZE</th>
+					<th>RECEIVER</th>
 
 				</tr>
 			</thead>
@@ -215,22 +216,21 @@ hr {
 				<c:set var="totalRowCount" value="0" />
 				<c:set var="maxRowCount" value="5" />
 
-				<c:forEach items="${item.indentReportDetailList}" var="row"
+				<c:forEach items="${item.issueReportDetailList}" var="row"
 					varStatus="count">
 
 					<c:choose>
 
 						<c:when test="${totalRowCount eq maxRowCount}">
 
-					<c:set var="totalRowCount" value="${totalRowCount+1}" />
+							<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
 							<div style="page-break-after: always;"></div>
 
 
 
-<!-- new page -->
-
-</tbody>
+							<!-- new page -->
+			</tbody>
 		</table>
 
 
@@ -262,16 +262,16 @@ hr {
 						<table>
 							<tr>
 
-								<td width="33%"></td>
+								<td width="33%">Issue No. : ${item.issueNo}</td>
 
 
 								<td width="33%" valign="bottom" align="center"
-									style="font-weight: bold;">PUR. REQUISITION / INDENT</td>
+									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="33%" align="right">Indent No.&nbsp;&nbsp;:
-									${item.indMNo}<br> Date&nbsp;&nbsp;:
-									${item.indMDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<td width="33%" align="right">Slip No.&nbsp;&nbsp;:
+									<br> Date&nbsp;&nbsp;:
+									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								</td>
 							</tr>
@@ -291,9 +291,9 @@ hr {
 						<table>
 							<tr>
 								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc}
+									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
+									Department. &nbsp;&nbsp;&nbsp;- <br>
+									Sub.Dept. : &nbsp;&nbsp;&nbsp;&nbsp;- 
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -316,12 +316,13 @@ hr {
 			id="table_grid" class="table table-bordered">
 			<thead>
 				<tr>
-					<th>Sr. No.</th>
-					<th>Item</th>
-					<th>Description</th>
+					<th>SR.</th>
+					<th>ITEM</th>
+					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>Qty. Req.</th>
-					<th>When Req. / Stock/ Avg.</th>
+					<th>ISSUED QTY.</th>
+					<th>WT/SIZE</th>
+					<th>RECEIVER</th>
 
 				</tr>
 			</thead>
@@ -331,26 +332,25 @@ hr {
 				<c:set var="maxRowCount" value="5" />
 
 
+				<!-- end of new page -->
+
+				</c:when>
+
+				</c:choose>
 
 
-<!-- end of new page -->
+				<tr>
+					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
+					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
+					<td width="0" align="center"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="center"><c:out value="0" /></td>
+					<td width="0" align="center"><c:out value="${row.itemIssueQty}" /></td>
+					<td width="0" align="center"><c:out
+							value="0" /></td>
+					<td width="0" align="center"><c:out
+							value="0" /></td>
 
-						</c:when>
-
-					</c:choose>
-
-
-					<tr>
-						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
-						<td width="0" align="center"><c:out value="${row.itemId}" /></td>
-						<td width="0" align="center"><c:out
-								value="${row.indItemDesc}" /></td>
-						<td width="0" align="center"><c:out value="${row.indItemUom}" /></td>
-						<td width="0" align="center"><c:out value="${row.indQty}" /></td>
-						<td width="0" align="center"><c:out
-								value="${row.indItemSchddt}" /></td>
-
-					</tr>
+				</tr>
 
 
 
@@ -365,33 +365,36 @@ hr {
 
 
 
+		<p
+			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+			Remark - <br> <br> <br> <br>
+			<br>
+
+		</p>
 
 		<div class="invoice-box">
 			<table cellpadding="0" cellspacing="0">
 
 				<tr class="information">
-					<td colspan="4" valign="top">
+					<td colspan="3" valign="top">
 						<table>
 							<tr>
 								<td width="25%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Requisitioned By</td>
+									Authorised By</td>
 
 								<td width="25%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Stores</td>
+									Issued By</td>
 
 								<td width="25%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Dept.Head</td>
+									Received By</td>
 
-								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Approved By</td>
 
 							</tr>
 
