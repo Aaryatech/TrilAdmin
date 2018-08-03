@@ -436,6 +436,19 @@
 					<a href="${pageContext.request.contextPath}/addEnquiry">Add
 						Enquiry </a>
 					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==21}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/showAddEnq">Add
+						Enquiry From Indent </a>
+					</li>
+
 					<c:choose>
 						<c:when test="${Constants.subAct==22}">
 							<li class="active">
@@ -635,7 +648,7 @@
 				<c:choose>
 					<c:when test="${Constants.mainAct==6}">
 						<li class="active">
-					</c:when> 
+					</c:when>
 					<c:otherwise>
 						<li>
 					</c:otherwise>
@@ -654,7 +667,8 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/getCurrentStock">Current Stock</a>
+					<a href="${pageContext.request.contextPath}/getCurrentStock">Current
+						Stock</a>
 					</li>
 
 					<c:choose>
@@ -665,9 +679,10 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/monthEndStock">Month End</a>
+					<a href="${pageContext.request.contextPath}/monthEndStock">Month
+						End</a>
 					</li>
-					
+
 					<c:choose>
 						<c:when test="${Constants.subAct==52}">
 							<li class="active">
@@ -676,12 +691,13 @@
 							<li>
 						</c:otherwise>
 					</c:choose>
-					<a href="${pageContext.request.contextPath}/stockBetweenDate">Stock Between Date</a>
+					<a href="${pageContext.request.contextPath}/stockBetweenDate">Stock
+						Between Date</a>
 					</li>
 
 				</ul>
 				</li>
-				
+
 
 				<c:choose>
 					<c:when test="${Constants.mainAct==5}">
@@ -846,7 +862,7 @@
 						<li>
 					</c:otherwise>
 				</c:choose>
- 
+
 				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
 					<span>Logout</span> <b class="arrow fa fa-angle-right"></b>
 				</a>

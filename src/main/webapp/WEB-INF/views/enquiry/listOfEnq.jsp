@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getEnquiryListByDate" value="/getEnquiryListByDate"></c:url>
+	<c:url var="getEnqListByDate" value="/getEnqListByDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Enquiry List
+						<i class="fa fa-file-o"></i>Indent Enquiry List
 
 					</h1>
 				</div>
@@ -45,11 +45,11 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Enquiry List
+								<i class="fa fa-table"></i> Indent Enquiry List
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addEnquiry"> Add
-									Enquiry</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/showAddEnq"> Add
+									Enquiry From Indent</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -80,6 +80,17 @@
 
 							</div>
 							<br> <br>
+							<div class="col-md-2">Select Status.</div>
+							<div class="col-md-3">
+								<select name="status" id="status" class="form-control chosen"
+									tabindex="6">
+									<option value="2">All</option>
+									<option value="0">General</option>
+									<option value="1">Enquiry From Indent</option>
+
+								</select>
+							</div>
+							<br>
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary"
@@ -107,7 +118,7 @@
 										<tr class="bgpink">
 											<th class="col-sm-1">Sr no.</th>
 											<th class="col-md-1">Date</th>
-
+											<th class="col-md-1">Vendor Code</th>
 											<th class="col-md-1">Vendor Name</th>
 											<th class="col-md-1">Enquiry No</th>
 											<th class="col-md-1">Indent No</th>
@@ -126,6 +137,9 @@
 														value="${enquiryList.enqDate}" /></td>
 
 												<td class="col-md-1"><c:out
+														value="${enquiryList.vendorCode}" /></td>
+
+												<td class="col-md-1"><c:out
 														value="${enquiryList.vendorName}" /></td>
 
 												<td class="col-md-1"><c:out
@@ -137,9 +151,9 @@
 
 
 												<td><a
-													href="${pageContext.request.contextPath}/editEnquiry/${enquiryList.enqId}"><abbr
+													href="${pageContext.request.contextPath}/editEnq/${enquiryList.enqId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteEnquiry/${enquiryList.enqId}"
+													href="${pageContext.request.contextPath}/deleteEnq/${enquiryList.enqId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 
@@ -242,6 +256,7 @@
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
+			var status = $("#status").val();
 
 			if (fromDate == "" || fromDate == null)
 				alert("Select From Date");
@@ -252,12 +267,13 @@
 
 			$
 					.getJSON(
-							'${getEnquiryListByDate}',
+							'${getEnqListByDate}',
 
 							{
 
 								fromDate : fromDate,
 								toDate : toDate,
+								status : status,
 								ajax : 'true'
 
 							},
@@ -284,6 +300,12 @@
 																	'<td></td>')
 																	.html(
 																			itemList.enqDate));
+
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.vendorCode));
 													tr
 															.append($(
 																	'<td></td>')
@@ -306,7 +328,7 @@
 																			'  <a href="javascript:genPdf('
 																					+ itemList.enqId
 																					+ ');"><abbr'+
-													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnquiry/'+itemList.enqId+'"><abbr'+
+													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnq/'+itemList.enqId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnquiry/'
 																					+ itemList.enqId
 																					+ '"'
