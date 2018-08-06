@@ -1405,14 +1405,14 @@ public class ReportController {
 
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
+			// SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("date", sf.format(date));
 			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForPO", map, DocumentBean.class);
 			System.out.println("resList" + resList);
 
-			model.addObject("newDate", display.format(resList.getFromDate()));
+			model.addObject("newDate", DateConvertor.convertToDMY(resList.getFromDate()));
 
 		} catch (Exception e) {
 			e.printStackTrace();

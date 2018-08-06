@@ -36,6 +36,7 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.indent.IndentReport;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnReport;
@@ -67,6 +68,35 @@ public class MrnReportController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/showPendingMrnReport", method = RequestMethod.GET)
+	public ModelAndView showPendingMrnReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		try {
+			RestTemplate rest = new RestTemplate();
+			model = new ModelAndView("mrn/report/pendingMrn");
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			// SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("date", sf.format(date));
+			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForMrn", map, DocumentBean.class);
+			System.out.println("resList" + resList);
+
+			model.addObject("newDate", DateConvertor.convertToDMY(resList.getFromDate()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,8 +176,7 @@ public class MrnReportController {
 			mrnReportList = new ArrayList<MrnReport>(Arrays.asList(mrnReport));
 
 			System.err.println("Mrn  Report  " + mrnReportList.toString());
-			
-			
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -168,10 +197,10 @@ public class MrnReportController {
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
 			int cnt = 1;
-			
-			for(int i=0;i<mrnReportList.size();i++) {
-			//for (MrnReport report : mrnReportList) {
-				MrnReport report=mrnReportList.get(i);
+
+			for (int i = 0; i < mrnReportList.size(); i++) {
+				// for (MrnReport report : mrnReportList) {
+				MrnReport report = mrnReportList.get(i);
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 				cnt = cnt + i;
@@ -188,18 +217,17 @@ public class MrnReportController {
 
 				float landingValue = report.getLandingRate() * report.getMrnQty();
 
-				rowData.add(""+landingValue);
-				rowData.add(""+basicValue);
+				rowData.add("" + landingValue);
+				rowData.add("" + basicValue);
 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
-				
+
 			}
 
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "mrnReport");
-			
 
 		} catch (Exception e) {
 
@@ -464,19 +492,16 @@ public class MrnReportController {
 
 	}
 
-	
 	public void getIndentListReport(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 
 			// export to excel
 
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

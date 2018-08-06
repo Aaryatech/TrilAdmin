@@ -819,6 +819,19 @@
 						Report</a>
 					</li>
 
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/showPendingMrnReport">Pending
+						MRN Report</a>
+					</li>
+
 				</ul>
 				</li>
 
