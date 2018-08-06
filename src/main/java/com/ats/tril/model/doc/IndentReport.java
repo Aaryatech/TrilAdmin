@@ -5,8 +5,6 @@ import java.util.List;
 public class IndentReport {
 
 	
-
-
 private Integer indMId;
 private String indMNo;
 private String indMDate;
@@ -25,6 +23,7 @@ private String subDeptDesc;
 private String catDesc;
 private String accHeadDesc;
 private List<IndentReportDetail> indentReportDetailList ;
+
 public Integer getIndMId() {
 	return indMId;
 }

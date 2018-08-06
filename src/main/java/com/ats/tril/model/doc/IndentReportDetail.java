@@ -34,6 +34,7 @@ public class IndentReportDetail {
 	private int delStatus;
 
 	private int indFyr;
+	
 
 	public int getIndDId() {
 		return indDId;

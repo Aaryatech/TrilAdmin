@@ -19,6 +19,7 @@ public class GatepassReportDetail {
 	private String itemDesc;
 	private String itemUom;
 	
+	
 		
 	public int getGpDetailId() {
 		return gpDetailId;

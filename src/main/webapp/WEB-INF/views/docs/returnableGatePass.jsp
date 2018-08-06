@@ -147,8 +147,7 @@ hr {
 <br>
 <br>
 
-		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+		<p	style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
 			Sending with following materials personally / Vehicle No. - <br>
 			as per details given below. <br>
 

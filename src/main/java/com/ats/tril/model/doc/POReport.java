@@ -95,8 +95,28 @@ public class POReport {
 	private String dispModeDesc;
 	
 	private String pymtDesc;
+	
+	private String vendorGstNo;
+
+	
+	
+	
 
 	List<POReportDetail> pOReportDetailList;
+
+	
+	
+	
+	
+	
+	
+	public String getVendorGstNo() {
+		return vendorGstNo;
+	}
+
+	public void setVendorGstNo(String vendorGstNo) {
+		this.vendorGstNo = vendorGstNo;
+	}
 
 	public int getPoId() {
 		return poId;
@@ -482,9 +502,12 @@ public class POReport {
 				+ ", indId=" + indId + ", indNo=" + indNo + ", userId=" + userId + ", delStatus=" + delStatus
 				+ ", approvStatus=" + approvStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName
 				+ ", vendorAdd1=" + vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc
-				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", pOReportDetailList="
-				+ pOReportDetailList + "]";
+				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", vendorGstNo=" + vendorGstNo
+				+ ", pOReportDetailList=" + pOReportDetailList + "]";
 	}
+
+	
+	
 	
 	
 	

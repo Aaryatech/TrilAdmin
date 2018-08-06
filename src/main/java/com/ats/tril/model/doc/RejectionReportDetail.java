@@ -25,7 +25,7 @@ public class RejectionReportDetail {
 	private String itemDesc;
 	
 	private String itemUom;
-	
+	 
 	
 	
 	

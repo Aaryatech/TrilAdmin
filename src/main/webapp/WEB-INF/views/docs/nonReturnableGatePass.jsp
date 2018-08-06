@@ -130,7 +130,7 @@ hr {
 
 				<tr class="information">
 					<td colspan="2" valign="top">
-						<table>
+						<table> 
 							<tr>
 								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}

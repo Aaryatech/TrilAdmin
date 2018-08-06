@@ -44,7 +44,6 @@ public class MrnReportDetail {
 	
 	
 	
-	
 
 	public String getItemUom() {
 		return itemUom;

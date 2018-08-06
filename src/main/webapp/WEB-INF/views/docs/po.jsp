@@ -180,7 +180,7 @@ hr {
 
 															<td width="50%" valign="top" align="left"
 																style="font-size: 11px">GST&nbsp; NO&nbsp; -
-																${item.vendId} <br> PAN &nbsp;NO&nbsp; -
+																${item.vendorGstNo} <br> PAN &nbsp;NO&nbsp; -
 																${item.vendId}
 															</td>
 

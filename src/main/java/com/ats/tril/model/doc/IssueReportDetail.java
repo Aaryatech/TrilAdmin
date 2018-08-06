@@ -35,9 +35,7 @@ public class IssueReportDetail {
 	private String	itemUom;
 	
 	
-	
-	
-	
+		
 	
 	public String getItemUom() {
 		return itemUom;
