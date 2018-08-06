@@ -46,6 +46,7 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassReturnVendor;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.indent.IndentReport;
 import com.ats.tril.model.item.ItemList;
 import com.ats.tril.model.rejection.RejectionReport;
@@ -1040,11 +1041,11 @@ public class ReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(5);
+		PdfPTable table = new PdfPTable(8);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f });
+			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -1067,6 +1068,24 @@ public class ReportController {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Indent Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Category Indent", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Monthly Indent", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Indent Is Dev", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -1110,12 +1129,83 @@ public class ReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + bill.getIndMStatus(), headFont));
+				cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + bill.getCatDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				if (bill.getIndIsmonthly() == 0) {
+					cell = new PdfPCell(new Phrase("No", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				} else if (bill.getIndIsmonthly() == 1) {
+
+					cell = new PdfPCell(new Phrase("Yes", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				}
+
+				if (bill.getIndIsdev() == 0) {
+					cell = new PdfPCell(new Phrase("No", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				} else if (bill.getIndIsdev() == 1) {
+
+					cell = new PdfPCell(new Phrase("Yes", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				}
+
+				if (bill.getIndMStatus() == 0) {
+					cell = new PdfPCell(new Phrase("Pending", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				} else if (bill.getIndMStatus() == 1) {
+					cell = new PdfPCell(new Phrase("Partial Pending", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				} else if (bill.getIndMStatus() == 2) {
+					cell = new PdfPCell(new Phrase("Return", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				}
 
 				cell = new PdfPCell(new Phrase("" + bill.getNoOfDays(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1194,6 +1284,8 @@ public class ReportController {
 
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
+			int isDev = Integer.parseInt(request.getParameter("isDev"));
+			int isMonthly = Integer.parseInt(request.getParameter("isMonthly"));
 			String[] catIdList = request.getParameterValues("catIdList[]");
 
 			StringBuilder sb = new StringBuilder();
@@ -1209,6 +1301,8 @@ public class ReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("catIdList", items);
+			map.add("indIsmonthly", isMonthly);
+			map.add("indIsdev", isDev);
 
 			IndentReport[] getlist = rest.postForObject(Constants.url + "/getIndentListReport", map,
 					IndentReport[].class);
@@ -1225,6 +1319,9 @@ public class ReportController {
 			rowData.add("Sr. No");
 			rowData.add("Indent No");
 			rowData.add("Indent Date");
+			rowData.add("Indent Category");
+			rowData.add("Monthly Indent");
+			rowData.add("Indent IsDev");
 			rowData.add("Indent Status");
 			rowData.add("No Of Days");
 
@@ -1238,6 +1335,19 @@ public class ReportController {
 				rowData.add("" + (cnt));
 				rowData.add("" + getlist1.get(i).getIndMNo());
 				rowData.add("" + getlist1.get(i).getIndMDate());
+				rowData.add("" + getlist1.get(i).getCatDesc());
+
+				if (getlist1.get(i).getIndIsmonthly() == 0) {
+					rowData.add("No");
+				} else if (getlist1.get(i).getIndIsmonthly() == 1) {
+					rowData.add("Yes");
+				}
+
+				if (getlist1.get(i).getIndIsdev() == 0) {
+					rowData.add("No");
+				} else if (getlist1.get(i).getIndIsdev() == 1) {
+					rowData.add("Yes");
+				}
 
 				if (getlist1.get(i).getIndMStatus() == 0) {
 					rowData.add("Pending");
@@ -1276,6 +1386,34 @@ public class ReportController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/pendingPoReportList", method = RequestMethod.GET)
+	public ModelAndView pendingPoReportList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/pendingPo");
+		try {
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("date", sf.format(date));
+			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForPO", map, DocumentBean.class);
+			System.out.println("resList" + resList);
+
+			model.addObject("newDate", display.format(resList.getFromDate()));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1342,6 +1480,10 @@ public class ReportController {
 			rowData.add("PO Date");
 			rowData.add("Vendor Name");
 			rowData.add("Po No");
+			rowData.add("Po Basic Value");
+			rowData.add("Po Total Value");
+			rowData.add("Tax Appliacble");
+
 			rowData.add("Po Status");
 			rowData.add("Po Type");
 
@@ -1356,6 +1498,11 @@ public class ReportController {
 				rowData.add("" + getPoList.get(i).getPoDate());
 				rowData.add("" + getPoList.get(i).getVendorName());
 				rowData.add("" + getPoList.get(i).getPoNo());
+				rowData.add("" + getPoList.get(i).getPoBasicValue());
+
+				rowData.add("" + getPoList.get(i).getTotalValue());
+				rowData.add("" + getPoList.get(i).getPoTaxValue());
+
 				if (getPoList.get(i).getPoStatus() == 0) {
 					rowData.add("Pending");
 				} else if (getPoList.get(i).getPoStatus() == 1) {
@@ -1415,11 +1562,11 @@ public class ReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(6);
+		PdfPTable table = new PdfPTable(9);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f, 5.2f });
+			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f, 5.2f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -1448,6 +1595,24 @@ public class ReportController {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("PO No", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("PO Basic Value", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("PO Total Value", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Tax Appliacble", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -1492,6 +1657,27 @@ public class ReportController {
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + bill.getPoNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + bill.getPoBasicValue(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + bill.getTotalValue(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + bill.getPoTaxValue(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -2266,6 +2452,31 @@ public class ReportController {
 
 		}
 
+	}
+	// getDocumentDataForPO
+
+	@RequestMapping(value = "/getDocumentDataForPO", method = RequestMethod.GET)
+	@ResponseBody
+	public List<DocumentBean> getDocumentDataForPO(HttpServletRequest request, HttpServletResponse response) {
+
+		List<DocumentBean> docList = new ArrayList<DocumentBean>();
+		try {
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("date", sf.format(date));
+			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForPO", map, DocumentBean.class);
+			System.out.println("resList" + resList);
+
+			String dateNew = resList.getFromDate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return docList;
 	}
 
 }

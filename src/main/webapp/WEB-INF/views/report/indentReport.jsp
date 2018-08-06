@@ -95,6 +95,38 @@
 									</select>
 
 								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2">Indent Is Monthly</div>
+								<div class="col-md-3">
+
+									<select name="isMonthly" id="isMonthly"
+										class="form-control chosen" tabindex="6" required>
+										<option value="2">All</option>
+										<option value="0">No</option>
+										<option value="1">Yes</option>
+
+									</select>
+
+								</div>
+							</div>
+							<br> <br>
+							<div class="box-content">
+
+
+								<div class="col-md-2">Indent Is Development</div>
+								<div class="col-md-3">
+
+									<select name="isDev" id="isDev" class="form-control chosen"
+										tabindex="6" required>
+
+										<option value="2">All</option>
+										<option value="0">No</option>
+										<option value="1">Yes</option>
+
+									</select>
+
+								</div>
+
 							</div>
 							<br>
 							<div class="form-group">
@@ -130,6 +162,10 @@
 											<th class="col-sm-1">Sr no.</th>
 											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Indent Date</th>
+											<th class="col-md-1">Indent Category</th>
+											<th class="col-md-1">Monthly Indent</th>
+											<th class="col-md-1">Is Dev</th>
+
 											<th class="col-md-1">Indent Status</th>
 											<th class="col-md-1">No Of Days</th>
 
@@ -137,7 +173,7 @@
 									</thead>
 									<tbody>
 
-										<c:forEach items="${list}" var="list" varStatus="count">
+										<%-- <c:forEach items="${list}" var="list" varStatus="count">
 
 											<c:choose>
 												<c:when test="${list.indMStatus==0}">
@@ -181,7 +217,7 @@
 
 											</tr>
 										</c:forEach>
-
+ --%>
 									</tbody>
 
 								</table>
@@ -293,6 +329,8 @@
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
 			var catIdList = $("#catIdList").val();
+			var isMonthly = $("#isMonthly").val();
+			var isDev = $("#isDev").val();
 
 			$('#loader').show();
 
@@ -303,6 +341,9 @@
 				fromDate : fromDate,
 				toDate : toDate,
 				catIdList : catIdList,
+				isMonthly : isMonthly,
+				isDev : isDev,
+
 				ajax : 'true'
 
 			}, function(data) {
@@ -326,6 +367,23 @@
 					tr.append($('<td></td>').html(key + 1));
 					tr.append($('<td></td>').html(itemList.indMNo));
 					tr.append($('<td></td>').html(itemList.indMDate));
+					tr.append($('<td></td>').html(itemList.catDesc));
+					var modType2;
+					if (itemList.indIsmonthly == 0) {
+						modType2 = "No";
+					} else if (itemList.indIsmonthly == 1) {
+						modType2 = "Yes";
+					}
+
+					var modType3;
+					if (itemList.indIsdev == 0) {
+						modType3 = "No";
+					} else if (itemList.indIsdev == 1) {
+						modType3 = "Yes";
+					}
+
+					tr.append($('<td></td>').html(modType2));
+					tr.append($('<td></td>').html(modType3));
 					var modType;
 					if (itemList.indMStatus == 0) {
 						modType = "Pending";

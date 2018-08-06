@@ -738,6 +738,18 @@
 						Report</a>
 					</li>
 
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/pendingPoReportList">Pending
+						PO Report</a>
+					</li>
 					<c:choose>
 						<c:when test="${Constants.subAct==51}">
 							<li class="active">
@@ -790,6 +802,20 @@
 						</c:otherwise>
 					</c:choose>
 					<a href="${pageContext.request.contextPath}/returnableReport">Returnable
+						Report</a>
+					</li>
+
+
+
+					<c:choose>
+						<c:when test="${Constants.subAct==52}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/showMrnReport">MRN
 						Report</a>
 					</li>
 

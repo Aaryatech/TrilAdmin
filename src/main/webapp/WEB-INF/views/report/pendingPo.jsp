@@ -8,7 +8,7 @@
 <body>
 
 	<c:url var="getPoListReport" value="/getPoListReport"></c:url>
-	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getDocumentDataForPO" value="/getDocumentDataForPO"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>PO Report List
+						<i class="fa fa-file-o"></i>Pending PO Report List
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>PO Report List
+								<i class="fa fa-table"></i>Pending PO Report List
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/"> </a> <a
@@ -61,7 +61,7 @@
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${date}" name="fromDate"
+										placeholder="From Date" value="${newDate}" name="fromDate"
 										type="text" required>
 
 
@@ -120,10 +120,9 @@
 									<select name="poStatus[]" id="poStatus"
 										class="form-control chosen" multiple="multiple" tabindex="6"
 										required>
-										<option value="0">All</option>
+
 										<option value="1">Pending</option>
 										<option value="2">Partial Pending</option>
-										<option value="3">Return</option>
 
 									</select>
 
@@ -368,6 +367,44 @@
 						modType1 = "Other";
 					}
 					tr.append($('<td></td>').html(modType1));
+
+					$('#table1 tbody').append(tr);
+				})
+
+			});
+		}
+
+		function docByDate() {
+
+			var date = $("#date").val();
+
+			alert("hii");
+
+			$('#loader').show();
+
+			$.getJSON('${getDocumentDataForPO}',
+
+			{
+
+				date : date,
+
+				ajax : 'true'
+
+			}, function(data) {
+
+				$('#table1 td').remove();
+				$('#loader').hide();
+
+				if (data == "") {
+					alert("No records found !!");
+
+				}
+
+				$.each(data, function(key, itemList) {
+
+					var tr = $('<tr></tr>');
+					tr.append($('<td></td>').html(key + 1));
+					tr.append($('<td></td>').html(itemList.fromDate));
 
 					$('#table1 tbody').append(tr);
 				})

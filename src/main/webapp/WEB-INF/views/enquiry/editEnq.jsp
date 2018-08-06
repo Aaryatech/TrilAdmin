@@ -175,8 +175,7 @@ body {
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
 											placeholder="Enquiry Date" name="enqDate" type="text"
-											onblur="getInvoiceNo()" value="${editEnquiry.enqDate}"
-											required>
+											onblur="getInvoiceNo()" value="${enqDateTemp}" required>
 									</div>
 								</div>
 								<br>
@@ -186,7 +185,7 @@ body {
 									<div class="col-md-2">Enquiry Remark</div>
 									<div class="col-md-3">
 										<textarea rows="2" cols="95" id="enqRemark"
-											placeholder="Enquiry Remark" type="text" name="enqRemark">${editEnquiry.enqRemark}
+											placeholder="Enquiry Remark" type="text" name="enqRemark">${enqRemarkTemp}
 										</textarea>
 									</div>
 
@@ -306,15 +305,14 @@ body {
 							</form>
 							<!-- //------------------------------------------------------------------------------ -->
 							<form id="submitList"
-								action="${pageContext.request.contextPath}/submitEnqList"
+								action="${pageContext.request.contextPath}/submitEditEnqList"
 								method="post">
 								<div id="myModal" class="modal">
-									<input type="hidden" value="0" name="indMId" id="indMId">
-									<input type="hidden" value="0" name="vendIdTemp"
-										id="vendIdTemp"> <input type="hidden" value="0"
-										name="enqDateTemp" id="enqDateTemp"> <input
-										type="hidden" value="0" name="enqRemarkTemp"
-										id="enqRemarkTemp">
+									<input type="text" value="0" name="indMId" id="indMId">
+									<input type="text" value="0" name="vendIdTemp" id="vendIdTemp">
+									<input type="text" value="0" name="enqDateTemp"
+										id="enqDateTemp"> <input type="text" value="0"
+										name="enqRemarkTemp" id="enqRemarkTemp">
 
 
 									<div class="modal-content" style="color: black;">
@@ -583,6 +581,9 @@ body {
 
 			document.getElementById("enqRemarkTemp").value = document
 					.getElementById("enqRemark").value;
+
+			document.getElementById("indIdTemp").value = document
+					.getElementById("indId").value;
 
 		}
 	</script>

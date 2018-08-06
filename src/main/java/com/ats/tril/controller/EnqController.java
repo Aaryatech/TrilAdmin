@@ -1,6 +1,7 @@
 package com.ats.tril.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,7 +28,6 @@ import com.ats.tril.model.EnquiryHeader;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
-import com.ats.tril.model.GetItem;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
@@ -110,25 +110,23 @@ public class EnqController {
 			try {
 				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
 				model.addObject("vendIdTemp", vendIdTemp);
+				System.out.println(vendIdTemp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			try {
-				String enqDateTemp = request.getParameter("enqDate");
+				String enqDateTemp = request.getParameter("enqDateTemp");
 				model.addObject("enqDateTemp", enqDateTemp);
+				System.out.println(enqDateTemp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			/*
-			 * try { indId = Integer.parseInt(request.getParameter("indId"));
-			 * model.addObject("indIdTemp", indId); } catch (Exception e) {
-			 * e.printStackTrace(); }
-			 */
 
 			try {
-				String enqRemarkTemp = request.getParameter("enqRemark");
+				String enqRemarkTemp = request.getParameter("enqRemarkTemp");
 				model.addObject("enqRemarkTemp", enqRemarkTemp);
+				System.out.println(enqRemarkTemp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -396,6 +394,7 @@ public class EnqController {
 
 			String enqRemark = request.getParameter("enqRemark");
 			String enqDate = request.getParameter("enqDate");
+			// String enqDate = request.getParameter("enqDate");
 
 			String Date = DateConvertor.convertToYMD(enqDate);
 
@@ -415,6 +414,92 @@ public class EnqController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/listOfEnquiry";
+		return "redirect:/listOfEnq";
+	}
+
+	@RequestMapping(value = "/submitEditEnqList", method = RequestMethod.POST)
+	public ModelAndView submitEditEnqList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("enquiry/editEnq");
+
+		try {
+			enqDetailList = new ArrayList<>();
+			enquiryHeader = new EnquiryHeader();
+
+			getIntendDetailforJsp = new ArrayList<>();
+
+			int indId = Integer.parseInt(request.getParameter("indMId"));
+			String[] checkbox = request.getParameterValues("select_to_approve");
+
+			try {
+				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
+				model.addObject("vendIdTemp", vendIdTemp);
+				System.out.println(vendIdTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			try {
+				String enqDateTemp = request.getParameter("enqDateTemp");
+				model.addObject("enqDateTemp", enqDateTemp);
+				System.out.println(enqDateTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			try {
+				String enqRemarkTemp = request.getParameter("enqRemarkTemp");
+				model.addObject("enqRemarkTemp", enqRemarkTemp);
+				System.out.println(enqRemarkTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			model.addObject("vendorList", vendorList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1,2");
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
+					GetIndentByStatus[].class);
+			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			model.addObject("intedList", intedList);
+
+			for (int i = 0; i < intendDetailList.size(); i++) {
+				for (int j = 0; j < checkbox.length; j++) {
+					System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
+					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
+						EnquiryDetail enqDetail = new EnquiryDetail();
+						enqDetail.setIndId(intendDetailList.get(i).getIndMId());
+						enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
+						enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
+						enqDetail.setItemId(intendDetailList.get(i).getItemId());
+						enqDetail.setEnqUom(intendDetailList.get(i).getIndItemUom());
+						enqDetail.setEnqRemark(intendDetailList.get(i).getIndRemark());
+						enqDetail.setEnqDetailDate(intendDetailList.get(i).getIndMDate());
+						enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
+						enqDetail.setDelStatus(1);
+						enqDetail.setEnqQty(
+								Integer.parseInt(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
+
+						enqDetailList.add(enqDetail);
+
+						enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
+					}
+
+				}
+			}
+			System.out.println("enqDetailList" + enqDetailList);
+
+			model.addObject("enqDetailList", enqDetailList);
+			model.addObject("indId", indId);
+			model.addObject("enquiryHeader", enquiryHeader);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
 	}
 }
