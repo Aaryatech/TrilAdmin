@@ -558,23 +558,23 @@ public class PurchaseOrderController {
 				updateIntendQty.get(i).setIndMDate(DateConvertor.convertToYMD(updateIntendQty.get(i).getIndMDate()));
 				if (updateIntendQty.get(i).getIndFyr() == 0)
 					updateIntendQty.get(i).setIndDStatus(2);
-				else if (updateIntendQty.get(i).getIndFyr() > 0
-						&& updateIntendQty.get(i).getIndFyr() < updateIntendQty.get(i).getIndQty())
+				else if (updateIntendQty.get(i).getIndFyr() > 0 && updateIntendQty.get(i).getIndFyr() < updateIntendQty.get(i).getIndQty())
 					updateIntendQty.get(i).setIndDStatus(1);
 				else
 					updateIntendQty.get(i).setIndDStatus(0);
 
 			}
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty", updateIntendQty,
-					ErrorMessage.class);
+			map = new LinkedMultiValueMap<>();
+			map.add("poId", poId);
+			
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deletePo", map, ErrorMessage.class);
 			System.out.println(errorMessage);
 
 			if (errorMessage.isError() == false) {
-				map = new LinkedMultiValueMap<>();
-				map.add("poId", poId);
-
-				errorMessage = rest.postForObject(Constants.url + "/deletePo", map, ErrorMessage.class);
-				System.out.println(errorMessage);
+				 
+				 errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty", updateIntendQty,
+							ErrorMessage.class);
+					System.out.println(errorMessage);
 			}
 
 		} catch (Exception e) {
@@ -605,7 +605,7 @@ public class PurchaseOrderController {
 			GetIntendDetail[] GetIntendDetail = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
 					GetIntendDetail[].class);
 			getIntendDetailListforEdit = new ArrayList<>(Arrays.asList(GetIntendDetail));
-
+ 
 			for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
 				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
 					if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
@@ -613,11 +613,11 @@ public class PurchaseOrderController {
 						getPoHeader.getPoDetailList().get(j)
 								.setBalanceQty(getIntendDetailListforEdit.get(i).getIndFyr());
 						getPoHeader.getPoDetailList().get(j)
-								.setSchDate(getIntendDetailListforEdit.get(i).getIndItemSchddt());
+								.setSchDate(DateConvertor.convertToYMD(DateConvertor.convertToDMY(getIntendDetailListforEdit.get(i).getIndItemSchddt())));
 					}
 				}
 			}
-
+ 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			model.addObject("vendorList", vendorList);
@@ -653,6 +653,306 @@ public class PurchaseOrderController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/geIntendDetailByIndIdInEditPo", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetIntendDetail> geIntendDetailByIndIdInEditPo(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			int indIdForGetList = Integer.parseInt(request.getParameter("indId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("indId", indIdForGetList);
+			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
+					GetIntendDetail[].class);
+			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			
+			
+			for(int j = 0; j<getPoHeader.getPoDetailList().size() ; j++)
+			{
+				for(int i = 0; i<intendDetailList.size() ; i++)
+				{
+					if(getPoHeader.getPoDetailList().get(j).getItemId()==intendDetailList.get(i).getItemId())
+					{
+						intendDetailList.remove(i);
+						break;
+					}
+				}
+			}
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return intendDetailList;
+	}
+	
+	@RequestMapping(value = "/submitPoDetailListInPoEditList", method = RequestMethod.POST)
+	public String submitPoDetailListInPoEditList(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		try {
+			 
+			float total = 0;
+			float poBasicValue = 0;
+			float poDiscValue = 0;
+
+			getIntendDetailforJsp = new ArrayList<>();
+ 
+			String[] checkbox = request.getParameterValues("select_to_approve");
+ 
+			System.out.println("getPoHeader befor Calculation  "+getPoHeader.getPoDetailList()); 
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			for (int i = 0; i < intendDetailList.size(); i++) {
+				for (int j = 0; j < checkbox.length; j++) {
+					 
+					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
+						GetPoDetailList poDetail = new GetPoDetailList();
+						poDetail.setIndId(intendDetailList.get(i).getIndMId());
+						poDetail.setSchDays(intendDetailList.get(i).getIndItemSchd());
+						poDetail.setItemCode(intendDetailList.get(i).getItemCode());
+						poDetail.setItemId(intendDetailList.get(i).getItemId());
+						poDetail.setIndedQty(intendDetailList.get(i).getIndQty());
+						poDetail.setItemUom(intendDetailList.get(i).getIndItemUom());
+						poDetail.setItemQty(
+								Integer.parseInt(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
+						poDetail.setPendingQty(
+								Integer.parseInt(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
+						poDetail.setDiscPer(
+								Integer.parseInt(request.getParameter("discAdd" + intendDetailList.get(i).getIndDId())));
+						poDetail.setItemRate(
+								Float.parseFloat(request.getParameter("rateAdd" + intendDetailList.get(i).getIndDId())));
+						poDetail.setSchRemark(request.getParameter("indRemarkAdd" + intendDetailList.get(i).getIndDId()));
+						poDetail.setSchDays(Integer
+								.parseInt(request.getParameter("indItemSchdAdd" + intendDetailList.get(i).getIndDId())));
+						poDetail.setSchDate(intendDetailList.get(i).getIndItemSchddt());
+						poDetail.setBalanceQty(Integer
+								.parseInt(request.getParameter("balanceQtyAdd" + intendDetailList.get(i).getIndDId())));
+						c.setTime(sdf.parse(poDetail.getSchDate()));
+						c.add(Calendar.DAY_OF_MONTH, poDetail.getSchDays());
+						poDetail.setSchDate(sdf.format(c.getTime()));
+						poDetail.setIndId(intendDetailList.get(i).getIndMId());
+						//poDetail.setIndMNo(intendDetailList.get(i).getIndMNo());
+						poDetail.setBasicValue(poDetail.getItemQty() * poDetail.getItemRate());
+						poDetail.setDiscValue((poDetail.getDiscPer() / 100) * poDetail.getBasicValue());
+						poDetail.setLandingCost(
+								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue()); 
+						
+						getPoHeader.getPoDetailList().add(poDetail);
+
+						intendDetailList.get(i).setPoQty(
+								Integer.parseInt(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
+						intendDetailList.get(i).setIndFyr(Integer
+								.parseInt(request.getParameter("balanceQtyAdd" + intendDetailList.get(i).getIndDId())));
+						intendDetailList.get(i).setDisc(
+								Float.parseFloat(request.getParameter("discAdd" + intendDetailList.get(i).getIndDId())));
+						intendDetailList.get(i).setRate(
+								Float.parseFloat(request.getParameter("rateAdd" + intendDetailList.get(i).getIndDId())));
+						intendDetailList.get(i)
+								.setIndRemark(request.getParameter("indRemarkAdd" + intendDetailList.get(i).getIndDId()));
+						intendDetailList.get(i).setIndItemSchd(Integer
+								.parseInt(request.getParameter("indItemSchdAdd" + intendDetailList.get(i).getIndDId())));
+						getIntendDetailforJsp.add(intendDetailList.get(i));
+						 
+					}
+
+				}
+			}
+			
+			System.out.println("poDetailList befor Calculation  " +getPoHeader.getPoDetailList());
+			 
+			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
+				poBasicValue = poBasicValue + getPoHeader.getPoDetailList().get(i).getBasicValue();
+				poDiscValue = poDiscValue + getPoHeader.getPoDetailList().get(i).getDiscValue();
+			}
+
+			getPoHeader.setPoBasicValue(poBasicValue);
+			getPoHeader.setDiscValue(poDiscValue);
+			
+			if (getPoHeader.getPoPackPer() != 0) {
+				getPoHeader.setPoPackVal((getPoHeader.getPoPackPer() / 100) * getPoHeader.getPoBasicValue());
+			}
+
+			if (getPoHeader.getPoInsuPer() != 0) {
+				getPoHeader.setPoInsuVal((getPoHeader.getPoInsuPer() / 100) * getPoHeader.getPoBasicValue());
+			}
+
+			if (getPoHeader.getPoFrtPer() != 0) {
+				getPoHeader.setPoFrtVal((getPoHeader.getPoFrtPer() / 100) * getPoHeader.getPoBasicValue());
+			}
+
+			total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
+					+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue();
+			getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
+
+			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
+				float divFactor = getPoHeader.getPoDetailList().get(i).getBasicValue() / getPoHeader.getPoBasicValue()
+						* 100;
+				getPoHeader.getPoDetailList().get(i).setPackValue(divFactor * getPoHeader.getPoPackVal() / 100);
+				getPoHeader.getPoDetailList().get(i).setInsu(divFactor * getPoHeader.getPoInsuVal() / 100);
+				getPoHeader.getPoDetailList().get(i).setFreightValue(divFactor * getPoHeader.getPoFrtVal() / 100);
+				getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
+				getPoHeader.getPoDetailList().get(i)
+						.setOtherChargesAfter(divFactor * getPoHeader.getOtherChargeAfter() / 100);
+				getPoHeader.getPoDetailList().get(i)
+						.setLandingCost(getPoHeader.getPoDetailList().get(i).getBasicValue()
+								- getPoHeader.getPoDetailList().get(i).getDiscValue()
+								+ getPoHeader.getPoDetailList().get(i).getPackValue()
+								+ getPoHeader.getPoDetailList().get(i).getInsu()
+								+ getPoHeader.getPoDetailList().get(i).getFreightValue()
+								+ getPoHeader.getPoDetailList().get(i).getTaxValue()
+								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+			}
+			getPoHeader.setVendQuationDate(DateConvertor.convertToYMD(getPoHeader.getVendQuationDate()));
+			getPoHeader.setPoDate(DateConvertor.convertToYMD(getPoHeader.getPoDate()));
+			
+			 
+			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
+			System.out.println(save);
+			
+			
+			if(save!=null)
+			{
+				 
+				for (int i = 0; i < getIntendDetailforJsp.size(); i++) {
+					 
+					getIntendDetailforJsp.get(i)
+							.setIndMDate(DateConvertor.convertToYMD(getIntendDetailforJsp.get(i).getIndMDate()));
+					if (getIntendDetailforJsp.get(i).getIndFyr() == 0)
+						getIntendDetailforJsp.get(i).setIndDStatus(2);
+					else if (getIntendDetailforJsp.get(i).getIndFyr() > 0 && getIntendDetailforJsp.get(i)
+							.getIndFyr() < getIntendDetailforJsp.get(i).getIndQty())
+						getIntendDetailforJsp.get(i).setIndDStatus(1);
+					else
+						getIntendDetailforJsp.get(i).setIndDStatus(0);
+	
+				}
+				
+				System.out.println("getPoHeader after Calculation  "+getPoHeader); 
+				System.out.println("getIntendDetailforJsp after Calculation  " +getIntendDetailforJsp);
+				 ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
+						 getIntendDetailforJsp, ErrorMessage.class);
+				System.out.println(errorMessage); 
+				//getPoHeader.setPoDetailList(poDetailList);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/editPurchaseOrder/"+getPoHeader.getPoId();
+	}
+	
+	@RequestMapping(value = "/deletePoItemInEditPo/{poDetailId}", method = RequestMethod.GET)
+	public String deletePoItemInEditPo(@PathVariable int poDetailId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		//ModelAndView model = new ModelAndView("purchaseOrder/editPurchaseOrder");
+		try {
+
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("poDetailId", poDetailId);
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deletePoItem", map,
+					ErrorMessage.class);
+			System.out.println(errorMessage);
+			
+			if(errorMessage.isError()==false)
+			{ 
+				float total = 0;
+				float poBasicValue = 0;
+				float poDiscValue = 0;
+				
+				System.out.println(getPoHeader);
+				
+				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
+					for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
+						if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
+								.getItemId() && getPoHeader.getPoDetailList().get(j).getPoDetailId()==poDetailId) {
+							System.out.println("in if   "+getIntendDetailListforEdit.get(i));
+							getIntendDetailListforEdit.get(i)
+									.setIndFyr(getIntendDetailListforEdit.get(i).getIndFyr()+getPoHeader.getPoDetailList().get(j).getItemQty());
+							System.out.println("in if   "+getIntendDetailListforEdit.get(i));
+							getPoHeader.getPoDetailList().remove(j); 
+							break;
+						}
+
+					}
+					getIntendDetailListforEdit.get(i)
+							.setIndMDate(DateConvertor.convertToYMD(getIntendDetailListforEdit.get(i).getIndMDate()));
+					if (getIntendDetailListforEdit.get(i).getIndFyr() == 0)
+						getIntendDetailListforEdit.get(i).setIndDStatus(2);
+					else if (getIntendDetailListforEdit.get(i).getIndFyr() > 0 && getIntendDetailListforEdit.get(i)
+							.getIndFyr() < getIntendDetailListforEdit.get(i).getIndQty())
+						getIntendDetailListforEdit.get(i).setIndDStatus(1);
+					else
+						getIntendDetailListforEdit.get(i).setIndDStatus(0);
+
+				}
+				 
+				for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
+					poBasicValue = poBasicValue + getPoHeader.getPoDetailList().get(i).getBasicValue();
+					poDiscValue = poDiscValue + getPoHeader.getPoDetailList().get(i).getDiscValue();
+				}
+
+				getPoHeader.setPoBasicValue(poBasicValue);
+				getPoHeader.setDiscValue(poDiscValue);
+				
+				if (getPoHeader.getPoPackPer() != 0) {
+					getPoHeader.setPoPackVal((getPoHeader.getPoPackPer() / 100) * getPoHeader.getPoBasicValue());
+				}
+
+				if (getPoHeader.getPoInsuPer() != 0) {
+					getPoHeader.setPoInsuVal((getPoHeader.getPoInsuPer() / 100) * getPoHeader.getPoBasicValue());
+				}
+
+				if (getPoHeader.getPoFrtPer() != 0) {
+					getPoHeader.setPoFrtVal((getPoHeader.getPoFrtPer() / 100) * getPoHeader.getPoBasicValue());
+				}
+
+				total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
+						+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue();
+				getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
+
+				for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
+					float divFactor = getPoHeader.getPoDetailList().get(i).getBasicValue() / getPoHeader.getPoBasicValue()
+							* 100;
+					getPoHeader.getPoDetailList().get(i).setPackValue(divFactor * getPoHeader.getPoPackVal() / 100);
+					getPoHeader.getPoDetailList().get(i).setInsu(divFactor * getPoHeader.getPoInsuVal() / 100);
+					getPoHeader.getPoDetailList().get(i).setFreightValue(divFactor * getPoHeader.getPoFrtVal() / 100);
+					getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
+					getPoHeader.getPoDetailList().get(i)
+							.setOtherChargesAfter(divFactor * getPoHeader.getOtherChargeAfter() / 100);
+					getPoHeader.getPoDetailList().get(i)
+							.setLandingCost(getPoHeader.getPoDetailList().get(i).getBasicValue()
+									- getPoHeader.getPoDetailList().get(i).getDiscValue()
+									+ getPoHeader.getPoDetailList().get(i).getPackValue()
+									+ getPoHeader.getPoDetailList().get(i).getInsu()
+									+ getPoHeader.getPoDetailList().get(i).getFreightValue()
+									+ getPoHeader.getPoDetailList().get(i).getTaxValue()
+									+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+				}
+				getPoHeader.setVendQuationDate(DateConvertor.convertToYMD(getPoHeader.getVendQuationDate()));
+				getPoHeader.setPoDate(DateConvertor.convertToYMD(getPoHeader.getPoDate()));
+				System.out.println(getPoHeader);
+				
+				 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
+				System.out.println(save);
+				
+				errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
+						getIntendDetailListforEdit, ErrorMessage.class);
+				System.out.println(errorMessage);
+			} 
+			  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/editPurchaseOrder/"+getPoHeader.getPoId();
 	}
 
 	@RequestMapping(value = "/changeItemRate", method = RequestMethod.GET)
@@ -867,10 +1167,10 @@ public class PurchaseOrderController {
 				c.add(Calendar.DAY_OF_MONTH, getPoHeader.getPoDetailList().get(i).getSchDays());
 				getPoHeader.getPoDetailList().get(i).setSchDate(sdf.format(c.getTime()));
 			}
-			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
+			 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
 			System.out.println(save);
 
-			if (save != null) {
+			if (save != null) { 
 				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
 					for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
 						if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
@@ -892,10 +1192,11 @@ public class PurchaseOrderController {
 						getIntendDetailListforEdit.get(i).setIndDStatus(0);
 
 				}
-				ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
+				 
+				 ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
 						getIntendDetailListforEdit, ErrorMessage.class);
 				System.out.println(errorMessage);
-			}
+			} 
 
 		} catch (Exception e) {
 			e.printStackTrace();

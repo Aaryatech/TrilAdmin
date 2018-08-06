@@ -88,7 +88,7 @@ body {
 	<body>
 	  
 
-	<c:url var="geIntendDetailByIndId" value="/geIntendDetailByIndId"></c:url>
+	<c:url var="geIntendDetailByIndIdInEditPo" value="/geIntendDetailByIndIdInEditPo"></c:url>
 		<c:url var="changeItemRate" value="/changeItemRate"></c:url>
 		<c:url var="getRmCategory" value="/getRmCategory" />
 			<c:url var="getRmListByCatId" value="/getRmListByCatId" />
@@ -309,11 +309,12 @@ body {
 								<div class="col-md-2" >Intend No.</div>
 									<div class="col-md-3">
 									<input type="text"   placeholder="Intend No" value="${getPoHeader.indNo}" name="indNo" id="indNo" class="form-control"  readonly>
+									<input type="hidden"  value="${getPoHeader.indId}" name="indId" id="indId" class="form-control"   >
 									 	 
 									</div>	
 									<div class="col-md-1"></div>
-									<!-- <div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Intend "  id="myBtn"></div>
-									 -->
+									  <div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Intend "  id="myBtn"></div>
+									  
 									 
 					</div>
 			 		<br/>
@@ -340,7 +341,7 @@ body {
 										<th>Disc</th>
 										<th>Sch Days</th>
 										<th>Remark</th>
-
+										<th>Action</th>
 									</tr>
 										</thead>
 										<tbody>
@@ -366,6 +367,10 @@ body {
 													  			<td align="right"><input style="text-align:right; width:100px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
 													  			<td align="left"><input style="text-align:right; width:100px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></td> 
 													  			 
+													  			 <td> 
+														 <a href="${pageContext.request.contextPath}/deletePoItemInEditPo/${poDetailList.poDetailId}"
+													onClick="return confirm('Are you sure want to delete this record');"><span
+														class="glyphicon glyphicon-remove"></span></a></td>
 																</tr>
 												</c:forEach>
  
@@ -514,20 +519,10 @@ body {
 			</form>
 			
 			 <form id="submitList"
-				action="${pageContext.request.contextPath}/submitList"
+				action="${pageContext.request.contextPath}/submitPoDetailListInPoEditList"
 				method="post">
 			<div id="myModal" class="modal">
-					<input   type="hidden" value="0" name="indMId" id="indMId"    >
-					<input   type="hidden" value="0" name="vendIdTemp" id="vendIdTemp"    >
-					<input   type="hidden" value="0" name="quotationTemp" id="quotationTemp"    >
-					<input   type="hidden" value="0" name="poTypeTemp" id="poTypeTemp"    >
-					<input   type="hidden" value="0" name="quotationDateTemp" id="quotationDateTemp"    >
-					<input   type="hidden" value="0" name="payIdTemp" id="payIdTemp"    >
-					<input   type="hidden" value="0" name="deliveryIdTemp" id="deliveryIdTemp"    >
-					<input   type="hidden" value="0" name="dispatchModeTemp" id="dispatchModeTemp"    >
-					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
-					
-										      
+					      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
 						<h3 style="text-align: center;">Select Item From Intend</h3>
@@ -538,7 +533,7 @@ body {
 										style="width: 100%" id="table_grid1">
 										<thead>
 											<tr>
-										<th align="left"><input type="checkbox" onClick="selectAll(this)" /> Select All</th>
+										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/> Select All</th>
 										<th>Sr.No.</th>
 										<th>Item Name </th>
 										<th>UOM</th>
@@ -740,6 +735,155 @@ window.onclick = function(event) {
     }
 }
 
+function itemByIntendId()
+{
+	
+	var indId = $("#indId").val();
+	$('#loader').show();
+	$
+	.getJSON(
+			'${geIntendDetailByIndIdInEditPo}',
+
+			{
+				 
+				indId : indId,
+				ajax : 'true'
+
+			},
+			function(data) {
+				
+				$('#table_grid1 td').remove();
+				$('#loader').hide();
+
+				if (data == "") {
+					alert("No records found !!");
+
+				}
+				 
+
+			  $.each(
+							data,
+							function(key, itemList) {
+							 
+								var tr = $('<tr></tr>'); 
+								tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
+										'id="select_to_approve'+itemList.indDId+'" onchange="requiredField('+itemList.indDId+')" value="'+itemList.indDId+'" >'));  
+								 
+							  	tr.append($('<td></td>').html(key+1)); 
+							  	tr.append($('<td></td>').html(itemList.itemCode)); 
+							  	tr.append($('<td></td>').html(itemList.indItemUom));
+							  	tr.append($('<td style="text-align:right;"></td>').html(itemList.indQty));
+							   
+							  	tr.append($('<td ></td>').html('<input type="hidden"   id="indQtyAdd'+itemList.indDId+'" name="indQtyAdd'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
+							  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQtyAdd('+itemList.indDId+')" id="poQtyAdd'+itemList.indDId+'" name="poQtyAdd'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	 
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQtyAdd'+itemList.indDId+'" name="balanceQtyAdd'+itemList.indDId+'" value="'+itemList.indFyr+'" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+							  	 
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rateAdd'+itemList.indDId+'" name="rateAdd'+itemList.indDId+'"  onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							   
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="discAdd'+itemList.indDId+'" name="discAdd'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	 
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
+							  	 
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indRemarkAdd'+itemList.indDId+'" name="indRemarkAdd'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control" required>'));
+							  
+							  	 $('#table_grid1 tbody').append(tr);
+							  	
+							})
+				
+			});
+	
+	
+}
+
+function checkQty(key)
+{
+	var poQty = parseInt($("#poQtyAdd"+key).val());  
+	 var rate = parseInt($("#rateAdd"+key).val()); 
+	if(poQty==0)
+	{
+		document.getElementById("poQtyAdd"+key).value=""; 
+		alert("Enter Greater Than 0 ");
+	} 
+	else if(rate==0)
+	{
+		document.getElementById("rateAdd"+key).value="";
+		alert("Enter Greater Than 0 ");
+	} 
+	
+	 
+} 
+
+function requiredAll()
+{
+	var checkboxes = document.getElementsByName('select_to_approve'); 
+	
+	
+	if(document.getElementById("allCheck").checked == true)
+	{
+		 for (var i=0; i<checkboxes.length; i++) {
+			 document.getElementById("select_to_approve"+checkboxes[i].value).checked == true;
+		       
+		    	  document.getElementById("poQtyAdd"+checkboxes[i].value).required=true; 
+		  		document.getElementById("rateAdd"+checkboxes[i].value).required=true;
+		  		document.getElementById("discAdd"+checkboxes[i].value).required=true;
+		      
+		  }
+	}
+	else
+	{
+		for (var i=0; i<checkboxes.length; i++) {
+			 document.getElementById("select_to_approve"+checkboxes[i].value).checked == false;
+		       
+		    	  document.getElementById("poQtyAdd"+checkboxes[i].value).required=false; 
+		  		document.getElementById("rateAdd"+checkboxes[i].value).required=false;
+		  		document.getElementById("discAdd"+checkboxes[i].value).required=false;
+		      
+		  }
+	}
+	   
+	 
+} 
+
+function requiredField(key)
+{
+	 
+	if(document.getElementById("select_to_approve"+key).checked == true)
+	{
+		document.getElementById("poQtyAdd"+key).required=true; 
+		document.getElementById("rateAdd"+key).required=true;
+		document.getElementById("discAdd"+key).required=true;
+	} 
+	else
+	{
+		document.getElementById("poQtyAdd"+key).required=false; 
+		document.getElementById("rateAdd"+key).required=false;
+		document.getElementById("discAdd"+key).required=false;
+	}
+	
+	 
+} 
+
+function calculateBalaceQtyAdd(key)
+{
+	 
+	  var indQty = parseInt($("#indQtyAdd"+key).val());  
+		 var poQty = parseInt($("#poQtyAdd"+key).val());  
+		  
+		 
+		    if(poQty>indQty)
+			  {
+			 	 document.getElementById("poQtyAdd"+key).value = "";
+			 	document.getElementById("balanceQtyAdd"+key).value = indQty;
+			 	alert("Your Enter PO QTY Greater Than Balance QTY");
+			  }
+		  else
+			  {  
+			  document.getElementById("balanceQtyAdd"+key).value = indQty-poQty;
+			   }
+	   
+	 
+} 
 
 function changeItemRate(key)
 {
@@ -806,8 +950,6 @@ function changeItemRate(key)
 } 
   function calculateBalaceQty(key)
   {
-  	
-  	  
   	 
 	 var poQty = parseInt($("#poQty"+key).val());  
 	 var existingItemQty = parseInt($("#existingItemQty"+key).val()); 
@@ -816,8 +958,9 @@ function changeItemRate(key)
 	    if((existingItemQty+existingBalanceQty)<poQty)
 		  {
 		 	 document.getElementById("poQty"+key).value = existingItemQty;
-		 	document.getElementById("balanceQty"+key).value = existingBalanceQty;
+		 	document.getElementById("balanceQty"+key).value = existingBalanceQty; 
 		 	alert("You Dont Have Qty ");
+		 	changeItemRate(key);
 		  }
 	  else
 		  {  
@@ -827,6 +970,8 @@ function changeItemRate(key)
   	
   	 
   } 
+  
+  
   
   function calculation()
   {
