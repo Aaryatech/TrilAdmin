@@ -449,7 +449,7 @@ h6{
 									<select class="form-control chosen" name="status" id="status"
 										required>
 										<option value="">Select Status</option>
-										<option value="0">ALL</option>
+										<option value="0">Pending ALL</option>
 										<option value="1">Open</option>
 										<option value="2">Partially Closed</option>
 									</select>

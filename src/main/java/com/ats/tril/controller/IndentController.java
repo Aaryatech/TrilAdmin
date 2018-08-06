@@ -98,6 +98,24 @@ public class IndentController {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/deleteIndent/{indId}", method = RequestMethod.GET)
+	public String deleteIndent(@PathVariable int indId, HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("indId", indId);
+			
+			ErrorMessage ErrorMessage = rest.postForObject(Constants.url + "/deleteIndent",map,ErrorMessage.class); 
+			 
+	 
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+		 
+		return "redirect:/getIndents";
+	}
 
 	@RequestMapping(value = "/getSubDeptListByDeptId", method = RequestMethod.GET)
 	public @ResponseBody List<GetSubDept> getSubDeptListByDeptId(HttpServletRequest request,

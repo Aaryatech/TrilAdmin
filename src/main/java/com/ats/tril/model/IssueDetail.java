@@ -1,6 +1,5 @@
 package com.ats.tril.model;
- 
-
+  
 public class IssueDetail {
 	
 	 
@@ -16,6 +15,8 @@ public class IssueDetail {
 	private int itemPendingQty; 
 	private int delStatus; 
 	private int status;
+	private String batchNo; 
+	private int mrnDetailId;
 	
 	private String itemName;
 	private String groupName;
@@ -126,14 +127,28 @@ public class IssueDetail {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	public String getBatchNo() {
+		return batchNo;
+	}
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
+	}
+	
+	public int getMrnDetailId() {
+		return mrnDetailId;
+	}
+	public void setMrnDetailId(int mrnDetailId) {
+		this.mrnDetailId = mrnDetailId;
+	}
 	@Override
 	public String toString() {
 		return "IssueDetail [issueDetailId=" + issueDetailId + ", issueId=" + issueId + ", itemGroupId=" + itemGroupId
 				+ ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", accHead=" + accHead + ", itemId=" + itemId
 				+ ", itemIssueQty=" + itemIssueQty + ", itemRequestQty=" + itemRequestQty + ", itemPendingQty="
-				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", itemName=" + itemName
-				+ ", groupName=" + groupName + ", deptName=" + deptName + ", subDeptName=" + subDeptName + ", accName="
-				+ accName + "]";
+				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", batchNo=" + batchNo
+				+ ", mrnDetailId=" + mrnDetailId + ", itemName=" + itemName + ", groupName=" + groupName + ", deptName="
+				+ deptName + ", subDeptName=" + subDeptName + ", accName=" + accName + "]";
 	}
 	
 	

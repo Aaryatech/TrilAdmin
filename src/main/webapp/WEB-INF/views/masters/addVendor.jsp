@@ -7,7 +7,7 @@
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="FocusOnInput()">
 
 
 	<c:url var="checkVendCodeExist" value="/checkVendCodeExist"></c:url>
@@ -104,20 +104,24 @@
 								  
 									</div>
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Name*</div>
-									<div class="col-md-3">
+									 
+								</div>
+								<br> 
+								
+								<div class="box-content">
+
+									<div class="col-md-2">  Name*</div>
+									<div class="col-md-10">
 										<input id="vendorName" class="form-control"
 									placeholder="Vendor Name" style="text-align: left;"
 									name="vendorName" type="text" value="${editVendor.vendorName}"
 									required>
 									</div>
-
-
-								</div>
-								<br> 
+								</div><br>
+								
 								<div class="box-content">
 
-									<div class="col-md-2">Vendor Add 1*</div>
+									<div class="col-md-2">  Address 1*</div>
 									<div class="col-md-3">
 										<input id="vendorAdd1" class="form-control"
 									placeholder="Vendor Add 1" style="text-align: left;"
@@ -126,7 +130,7 @@
 
 									</div>
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Add 2*</div>
+									<div class="col-md-2">  Address 2*</div>
 									<div class="col-md-3">
 										<input id="vendorAdd2" class="form-control"
 									placeholder="Vendor Add 2" style="text-align: left;"
@@ -139,7 +143,7 @@
 								<br> 
 								<div class="box-content">
 
-									<div class="col-md-2">Vendor Add 3*</div>
+									<div class="col-md-2">  Address 3*</div>
 									<div class="col-md-3">
 										<input id="vendorAdd3" class="form-control"
 									placeholder="Vendor Add 3" style="text-align: left;"
@@ -149,7 +153,7 @@
 									</div>
 
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Add 4*</div>
+									<div class="col-md-2">  Address 4*</div>
 									<div class="col-md-3">
 										<input id="vendorAdd4" class="form-control"
 									placeholder="Vendor Add 4" style="text-align: left;"
@@ -163,8 +167,19 @@
 								</div>
 								<br> 
 								<div class="box-content">
+								
+								<div class="col-md-2">  City*</div>
+									<div class="col-md-3">
+										<input id="vendorCity" class="form-control"
+									placeholder="Vendor City" style="text-align: left;"
+									name="vendorCity" value="${editVendor.vendorCity}"  type="text"
+									required>
 
-									<div class="col-md-2">Select Vendor State*</div>
+
+									</div>
+									
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Select State*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" data-live-search="true"
 									title="Please Select" name="stateId" id="stateId"
@@ -187,35 +202,22 @@
 
 									</div>
 							<input id="stateName" name="stateName" type="hidden">
-							
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Contact Person*</div>
+							  
+								</div>
+								<br> 
+								<div class="box-content"> 
+								
+								<div class="col-md-2">  Contact Person*</div>
 									<div class="col-md-3">
 										<input id="vendorContactPerson" class="form-control"
 									placeholder="Vendor Contact Person" style="text-align: left;"
 									name="vendorContactPerson" type="text"
-									value="${editVendor.vendorContactPerson}"  required>
-
-
-									</div>
-
-
-								</div>
-								<br> 
-								<div class="box-content">
-
-									<div class="col-md-2">Vendor City*</div>
-									<div class="col-md-3">
-										<input id="vendorCity" class="form-control"
-									placeholder="Vendor City" style="text-align: left;"
-									name="vendorCity" value="${editVendor.vendorCity}"  type="text"
-									required>
-
+									value="${editVendor.vendorContactPerson}"  required> 
 
 									</div>
-
+									
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Mobile*</div>
+									<div class="col-md-2">  Mobile*</div>
 									<div class="col-md-3">
 										<input id="vendorMobile" class="form-control"
 									placeholder="Vendor Mobile" style="text-align: left;"
@@ -230,7 +232,7 @@
 								<br> 
 								<div class="box-content">
 
-									<div class="col-md-2">Vendor Email*</div>
+									<div class="col-md-2">  Email*</div>
 									<div class="col-md-3">
 										<input id="vendorEmail" class="form-control"
 									placeholder="Vendor Email" style="text-align: left;"
@@ -241,7 +243,7 @@
 									</div>
 
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Phone*</div>
+									<div class="col-md-2">  Phone*</div>
 									<div class="col-md-3">
 										<input id="vendorPhone" class="form-control"
 									placeholder="Vendor Phone" style="text-align: left;"
@@ -256,7 +258,7 @@
 								<br> 
 								<div class="box-content">
 
-									<div class="col-md-2">Vendor Item*</div>
+									<div class="col-md-2">  Item*</div>
 									<div class="col-md-3">
 										<input id="vendorItem" class="form-control"
 									placeholder="Vendor Item" style="text-align: left;"
@@ -267,7 +269,7 @@
 									</div>
 
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Vendor Date*</div>
+									<div class="col-md-2">  Date*</div>
 									<div class="col-md-3">
 										<input id="vendorDate" class="form-control date-picker"
 									placeholder="Vendor Date" style="text-align: left;"
@@ -281,7 +283,7 @@
 								<br> 
 								<div class="box-content">
 
-									<div class="col-md-2">Vendor Gst NO*</div>
+									<div class="col-md-2">  GST NO*</div>
 									<div class="col-md-3">
 									<input id="vendorGstNo" class="form-control"
 									placeholder="Vendor Gst No" style="text-align: left;"
@@ -290,7 +292,7 @@
 									</div>
 
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Select Vendor Type*</div>
+									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" data-live-search="true"
 									title="Please Select" name="vendorType" id="vendorType"
@@ -505,6 +507,10 @@
 		        a.value = a.value.toUpperCase();
 		    }, 1);
 		}
+		function FocusOnInput()
+		 {
+		 document.getElementById("vendorCode").focus();
+		 }
 	</script>
 
 

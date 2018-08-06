@@ -122,13 +122,14 @@
 				</div>
 			</div>
 		</div>
+		<footer>
+				<p>2018 © TRAMBAK RUBBER</p>
+			</footer>
 	</div>
 
 	</div>
 	<!-- END Main Content -->
-	<footer>
-		<p>2018© Trimbak Rubber</p>
-	</footer>
+	
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>

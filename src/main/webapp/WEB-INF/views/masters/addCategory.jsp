@@ -5,7 +5,7 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="FocusOnInput()">
 
 	<c:url var="getMixingListWithDate" value="/getMixingListWithDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
@@ -259,6 +259,10 @@
 
 			}
 		}
+		function FocusOnInput()
+		 {
+		 document.getElementById("catDesc").focus();
+		 }
 	</script>
 
 </body>

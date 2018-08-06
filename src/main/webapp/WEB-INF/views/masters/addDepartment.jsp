@@ -5,7 +5,7 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="FocusOnInput()">
 
 	<c:url var="checkDeptCodeExist" value="/checkDeptCodeExist"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
@@ -195,15 +195,16 @@
 
 
 			</div>
+			<footer>
+			<p>2018 © TRAMBAK RUBBER</p>
+		</footer>
 		</div>
 
 
 		<div class=" box-content"></div>
 
 		<!-- END Main Content -->
-		<footer>
-			<p>2018 © TRAMBAK RUBBER</p>
-		</footer>
+		
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 			class="fa fa-chevron-up"></i></a>
@@ -373,6 +374,10 @@ function myFunction() {
     
      
   }
+}
+function FocusOnInput()
+{
+document.getElementById("deptCode").focus();
 }
 </script>
 

@@ -70,11 +70,9 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr No</th>
+											<th style="width:2%;">Sr No</th>
 											<th class="col-md-1">Item Code</th>
-											<th class="col-md-1">Item Date</th>
-											<th class="col-md-1">Item Weight</th>
-
+											<th class="col-md-5">Item Description</th>  
 											<th class="col-md-1">Item UOM</th>
 											<th class="col-md-1">Action</th>
 										</tr>
@@ -84,12 +82,11 @@
 										<c:forEach items="${itemList}" var="itemList"
 											varStatus="count">
 											<tr>
-												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out
-														value="${itemList.itemCode}" /></td>
+												<td style="width:2%;"><c:out value="${count.index+1}" /></td>
 												<td class="col-md-1"><c:out
-														value="${itemList.itemDate}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemWt}" /></td>
+														value="${itemList.itemCode}" /></td>
+												 <td class="col-md-5"><c:out
+														value="${itemList.itemDesc}" /></td> 
 												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
 												<td><a
 													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"

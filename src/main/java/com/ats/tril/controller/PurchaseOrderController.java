@@ -608,11 +608,11 @@ public class PurchaseOrderController {
 
 			for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
 				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
-					if (getPoHeader.getPoDetailList().get(i).getItemId() == getIntendDetailListforEdit.get(i)
+					if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
 							.getItemId()) {
-						getPoHeader.getPoDetailList().get(i)
+						getPoHeader.getPoDetailList().get(j)
 								.setBalanceQty(getIntendDetailListforEdit.get(i).getIndFyr());
-						getPoHeader.getPoDetailList().get(i)
+						getPoHeader.getPoDetailList().get(j)
 								.setSchDate(getIntendDetailListforEdit.get(i).getIndItemSchddt());
 					}
 				}

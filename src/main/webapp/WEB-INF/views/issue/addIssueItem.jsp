@@ -7,7 +7,8 @@
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
 	<body>
 	
-	 
+	  <c:url var="qtyValidationFromBatch" value="/qtyValidationFromBatch"></c:url>
+	 <c:url var="getBatchByItemId" value="/getBatchByItemId"></c:url>
 	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 	  <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
 	  <c:url var="getInvoiceNo" value="/getInvoiceNo" />
@@ -75,12 +76,7 @@
 								 placeholder="Issue No" value="1" name="issueNo" type="text" readonly>
 									
 									</div>
-								<!-- <div class="col-md-2">Enquiry Remark</div>
-									<div class="col-md-3">
-									<input class="form-control" id="enqRemark" size="16"
-									 placeholder="Enquiry Remark"		type="text" name="enqRemark"    />
-									</div>
-								 -->
+								 
 				 
 							</div><br>
 							
@@ -93,9 +89,41 @@
 
 
 									</div>
+									
+									<div class="col-md-2" >Select Account Head</div>
+									<div class="col-md-3">
+										<select   class="form-control chosen" name="acc"  id="acc"  required>
+											<option   value="">Select Account Head</option>
+											
+											<c:forEach items="${accountHeadList}" var="accountHeadList"> 
+														<option value="${accountHeadList.accHeadId}"><c:out value="${accountHeadList.accHeadDesc}"></c:out> </option>
+											 </c:forEach>
+											</select>
+									</div>
 								
 				 
 							</div><br>
+							<div class="box-content">
+								 
+								 <div class="col-md-2" >Select Department</div>
+									<div class="col-md-3">
+										<select   class="form-control chosen" name="deptId" onchange="getSubDeptListByDeptId()"  id="deptId"  required>
+											<option   value="">Select Department</option>
+											
+											<c:forEach items="${deparmentList}" var="deparmentList"> 
+														<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc} </option>
+											 </c:forEach>
+											</select>
+									</div>
+									
+									<div class="col-md-2" >Select Sub Department</div>
+									<div class="col-md-3">
+										<select   class="form-control chosen" name="subDeptId"  id="subDeptId"  required>
+											 
+											</select>
+									</div>
+									 
+								</div><br> 
 							
 							  
 							<hr/>
@@ -104,7 +132,7 @@
 								
 									<div class="col-md-2" >Select Group</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()" tabindex="-1" id="groupId"  >
+										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId"  >
 											<option   value="">Select Group</option>
 											
 											<c:forEach items="${itemGroupList}" var="itemGroupList"> 
@@ -116,58 +144,40 @@
 									
 									<div class="col-md-2" >Select Item</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="itemId" tabindex="-1" id="itemId"  >
+										<select   class="form-control chosen" onchange="getBatchByItemId()" name="itemId"  id="itemId"  >
 										 
 											</select>
 									</div>
 									
 								  
 								</div><br> 
-							
-							<div class="box-content">
-								 
-								 <div class="col-md-2" >Select Department</div>
+								
+								<div class="box-content">
+								<input type="hidden" name="batchQty" id="batchQty" />
+									 
+									<div class="col-md-2" >Select Batch </div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="deptId" onchange="getSubDeptListByDeptId()" tabindex="-1" id="deptId"  >
-											<option   value="">Select Department</option>
-											
-											<c:forEach items="${deparmentList}" var="deparmentList"> 
-														<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc} </option>
-											 </c:forEach>
+										<select   class="form-control chosen" onchange="qtyValidation()" name="batchNo"  id="batchNo"  >
+										 
 											</select>
 									</div>
 									
-									<div class="col-md-2" >Select Sub Department</div>
-									<div class="col-md-3">
-										<select   class="form-control chosen" name="subDeptId" tabindex="-1" id="subDeptId"  >
-											 
-											</select>
-									</div>
-									 
-								</div><br> 
-								
-								<div class="box-content">
-								
-								<div class="col-md-2" >Select Account Head</div>
-									<div class="col-md-3">
-										<select   class="form-control chosen" name="acc" tabindex="-1" id="acc"  >
-											<option   value="">Select Account Head</option>
-											
-											<c:forEach items="${accountHeadList}" var="accountHeadList"> 
-														<option value="${accountHeadList.accHeadId}"><c:out value="${accountHeadList.accHeadDesc}"></c:out> </option>
-											 </c:forEach>
-											</select>
-									</div>
-							
-								<div class="col-md-2">Qty</div>
+									<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
 										<input type="text" name="qty" id="qty"
 											placeholder="Qty" class="form-control"
 											 pattern="\d+"  />
+										<input type="hidden" name="previousQty" id="previousQty"  />
 												 
 									</div>
-
-
+									
+								  
+								</div><br> 
+							
+							
+								
+								<div class="box-content">
+								 
 									</div>
 								 
 							 <br>
@@ -199,9 +209,7 @@
 									<tr>
 										<th>Sr.No.</th>
 										<th>Group Name</th>
-										<th>Item Name</th> 
-										<th>Department</th>
-										<th>Sub Department</th>
+										<th>Item Name</th>  
 										<th>Qty</th> 
 										<th>Action</th> 
 									</tr>
@@ -231,7 +239,7 @@
 				</div>
 				
 				<footer>
-			<p>2017 © MONGINIS.</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 			</div>
 			
@@ -309,6 +317,41 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 		<script type="text/javascript">
+		function qtyValidation() {
+
+			var batchNo = document.getElementById("batchNo").value;
+
+			$.getJSON('${qtyValidationFromBatch}', {
+
+				batchNo : batchNo,
+				ajax : 'true'
+			}, function(data) {
+
+				document.getElementById("batchQty").value = data.remainingQty;
+			});
+		}
+		function getBatchByItemId() {
+
+			var itemId = document.getElementById("itemId").value;
+
+			$.getJSON('${getBatchByItemId}', {
+
+				itemId : itemId,
+				ajax : 'true'
+			}, function(data) {
+
+				var html = '<option value="">Select Batch </option>';
+
+				var len = data.length;
+				for (var i = 0; i < len; i++) {
+					html += '<option value="' + data[i].mrnDetailId + '">'
+							+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+				}
+				html += '</option>';
+				$('#batchNo').html(html);
+				$("#batchNo").trigger("chosen:updated");
+			});
+		}
 		
 		function getItemIdByGroupId() {
 
@@ -358,10 +401,11 @@
 		
 		function addItem() {
 			  
-			 
+			
 				var itemId = $("#itemId").val();
 				var itemName = $("#itemId option:selected").text();
-				var qty = $("#qty").val();
+				var batchNo = $("#batchNo").val();
+				var qty = parseInt($("#qty").val());
 				var groupId = $("#groupId").val();
 				var groupName = $("#groupId option:selected").text();
 				var deptId = $("#deptId").val();
@@ -371,10 +415,31 @@
 				var acc = $("#acc").val();
 				var accName = $("#acc option:selected").text();
 				var editIndex = $("#editIndex").val();
+				var batchQty = parseInt($("#batchQty").val());
 				
-				if(validation()==true){	
+				if(validation()==true){
+					var valid = true;
+					 
+					if(editIndex=="" || editIndex ==null){ 
+						 
+						if(qty>batchQty){
+							 
+							valid = false;
+					}
+					}
+					else{
+						
+						var previousQty = parseInt($("#previousQty").val()); 
+						if(qty>(batchQty+previousQty)){
+							 
+							document.getElementById("qty").value=previousQty;
+							valid = false;
+						}
+						
+					}
 					
-				
+				if(valid == true)
+					{
 				$('#loader').show();
 
 				$
@@ -383,7 +448,8 @@
 
 								{
 									 
-									itemId : itemId, 
+									itemId : itemId,
+									batchNo : batchNo,
 									qty : qty,
 									groupId : groupId,
 									deptId : deptId,
@@ -417,9 +483,7 @@
 													var tr = $('<tr></tr>'); 
 												  	tr.append($('<td></td>').html(key+1)); 
 												  	tr.append($('<td></td>').html(itemList.groupName)); 
-												  	tr.append($('<td></td>').html(itemList.itemName));
-												  	tr.append($('<td></td>').html(itemList.deptName));
-												  	tr.append($('<td></td>').html(itemList.subDeptName));
+												  	tr.append($('<td></td>').html(itemList.itemName)); 
 												  	tr.append($('<td></td>').html(itemList.itemIssueQty));
 												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 												    $('#table_grid tbody').append(tr);
@@ -429,18 +493,24 @@
 									document.getElementById("qty").value= "";
 									document.getElementById("groupId").value= "";
 									$('#groupId').trigger("chosen:updated");
-									document.getElementById("deptId").value= ""; 
-									$('#deptId').trigger("chosen:updated");
+									/* document.getElementById("deptId").value= ""; 
+									$('#deptId').trigger("chosen:updated"); */
 									document.getElementById("itemId").value= "";
 									$('#itemId').trigger("chosen:updated");
-									document.getElementById("subDeptId").value= "";
+									/* document.getElementById("subDeptId").value= "";
 									$('#subDeptId').trigger("chosen:updated");
 									document.getElementById("acc").value= "";
-									$('#acc').trigger("chosen:updated");
+									$('#acc').trigger("chosen:updated");*/
+									document.getElementById("batchNo").value= ""; 
+									$('#batchNo').trigger("chosen:updated");
 									document.getElementById("editIndex").value="";
 								});
 
-			 
+					}
+				else{
+					alert("Enter Valid QTY"); 
+					document.getElementById("qty").focus();
+				}
 		}
 				
 				
@@ -468,12 +538,13 @@
 								$('#loader').hide();
 								document.getElementById("editIndex").value=key;
 								document.getElementById("qty").value=data.itemIssueQty;
+								document.getElementById("previousQty").value=data.itemIssueQty;
 								document.getElementById("groupId").value=data.itemGroupId;
 								$('#groupId').trigger("chosen:updated");
-								document.getElementById("deptId").value=data.deptId;
+								/* document.getElementById("deptId").value=data.deptId;
 								$('#deptId').trigger("chosen:updated");
 								document.getElementById("acc").value=data.accHead;
-								$('#acc').trigger("chosen:updated");
+								$('#acc').trigger("chosen:updated"); */
 								
 								$.getJSON('${getItemIdByGroupId}', {
 
@@ -488,12 +559,12 @@
 										if(data1[i].itemId==data.itemId)
 											{
 											html += '<option value="' + data1[i].itemId + '" selected>'
-											+ data1[i].itemCode + '</option>';
+											+ data1[i].itemCode + '&nbsp;&nbsp;&nbsp;'+data1[i].itemDesc+'</option>';
 											}
 										else
 											{
 											html += '<option value="' + data1[i].itemId + '">'
-											+ data1[i].itemCode + '</option>';
+											+ data1[i].itemCode + '&nbsp;&nbsp;&nbsp;'+data1[i].itemDesc+'</option>';
 											}
 										
 									}
@@ -502,7 +573,7 @@
 									$("#itemId").trigger("chosen:updated");
 								});
 								
-								$.getJSON('${getSubDeptList}', {
+								/* $.getJSON('${getSubDeptList}', {
 
 									deptId : data.deptId,
 									ajax : 'true'
@@ -528,6 +599,34 @@
 									html += '</option>';
 									$('#subDeptId').html(html);
 									$("#subDeptId").trigger("chosen:updated");
+								}); */
+								
+								$.getJSON('${getBatchByItemId}', {
+
+									itemId : data.itemId,
+									ajax : 'true'
+								}, function(data3) {
+
+									var html = '<option value="">Select Batch </option>';
+
+									var len = data3.length;
+									for (var i = 0; i < len; i++) {
+										if(data3[i].mrnDetailId==data.mrnDetailId)
+											{
+											html += '<option value="' + data3[i].mrnDetailId + '" selected>'
+											+ data3[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data3[i].remainingQty+'</option>';
+											}
+										else
+											{
+											html += '<option value="' + data3[i].mrnDetailId + '">'
+											+ data3[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data3[i].remainingQty+'</option>';
+											}
+										
+									}
+									html += '</option>';
+									$('#batchNo').html(html);
+									$("#batchNo").trigger("chosen:updated");
+									qtyValidation();
 								});
 								
 								
@@ -569,14 +668,27 @@
 										var tr = $('<tr></tr>'); 
 									  	tr.append($('<td></td>').html(key+1)); 
 									  	tr.append($('<td></td>').html(itemList.groupName)); 
-									  	tr.append($('<td></td>').html(itemList.itemName));
-									  	tr.append($('<td></td>').html(itemList.deptName));
-									  	tr.append($('<td></td>').html(itemList.subDeptName));
+									  	tr.append($('<td></td>').html(itemList.itemName)); 
 									  	tr.append($('<td></td>').html(itemList.itemIssueQty));
 									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 									    $('#table_grid tbody').append(tr);
 									  	
 									})
+									
+						document.getElementById("qty").value= "";
+						document.getElementById("groupId").value= "";
+						$('#groupId').trigger("chosen:updated");
+						/* document.getElementById("deptId").value= ""; 
+						$('#deptId').trigger("chosen:updated"); */
+						document.getElementById("itemId").value= "";
+						$('#itemId').trigger("chosen:updated");
+						/* document.getElementById("subDeptId").value= "";
+						$('#subDeptId').trigger("chosen:updated");
+						document.getElementById("acc").value= "";
+						$('#acc').trigger("chosen:updated"); */
+						document.getElementById("batchNo").value= "";
+						$('#batchNo').trigger("chosen:updated");
+						document.getElementById("editIndex").value="";
 						
 					});
 			
@@ -591,37 +703,53 @@ function validation()
 	var groupId = $("#groupId").val();
 	var deptId = $("#deptId").val();
 	var subDeptId = $("#subDeptId").val();
+	var acc = $("#acc").val();
+	var batchNo = $("#batchNo").val();
 	
 	var isValid = true;
-	if(itemId=="" || itemId==null)
-	{
-	isValid = false;
-	alert("Please Select Item ");
-	}
 	
-	if(groupId=="" || groupId==null)
+	
+	 if(groupId=="" || groupId==null)
 	{
 	isValid = false;
 	alert("Please Select Group ");
 	}
 	
-	if(deptId=="" || deptId==null)
+	 else if(itemId=="" || itemId==null)
+	{
+	isValid = false;
+	alert("Please Select Item ");
+	}
+	 
+	 else if(batchNo=="" || batchNo==null)
+		{
+		isValid = false;
+		alert("Please Select Batch ");
+		}
+	 else if(isNaN(qty) || qty < 0 || qty=="")
+		{
+		isValid = false;
+		alert("Please enter Quantity");
+		}
+	
+	else if(deptId=="" || deptId==null)
 	{
 	isValid = false;
 	alert("Please Select Department ");
 	}
 	
-	if(subDeptId=="" || subDeptId==null)
+	else if(subDeptId=="" || subDeptId==null)
 	{
 	isValid = false;
-	alert("Please Select SubGroup  ");
+	alert("Please Select Sub Department  ");
+	}
+	 
+	else if(acc=="" || acc==null)
+	{
+	isValid = false;
+	alert("Please Select Account Head  ");
 	}
 	
-	else if(isNaN(qty) || qty < 0 || qty=="")
-	{
-	isValid = false;
-	alert("Please enter Quantity");
-	}
 	
 	  
 return isValid;
@@ -648,6 +776,36 @@ function getInvoiceNo() {
 	
 	});
 
+}
+
+function check()
+{
+	 
+	var acc = $("#acc").val();
+	var deptId = $("#deptId").val();
+	var subDeptId = $("#subDeptId").val();
+	
+	 
+	if(acc=="" || acc==null)
+	{
+	 
+	alert("Please Select Account Head ");
+	}
+	 
+	else if(deptId=="" || deptId==null)
+	{
+	 
+	alert("Please Select Department ");
+	}
+	
+	else if(subDeptId=="" || subDeptId==null)
+	{
+	 
+	alert("Please Select Sub Department  ");
+	}
+	
+	  
+	
 }
 
 </script>

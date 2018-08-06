@@ -5,7 +5,7 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="FocusOnInput()">
 
 	<c:url var="checkSubDeptCodeExist" value="/checkSubDeptCodeExist"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
@@ -403,6 +403,10 @@ function myFunction() {
     
      
   }
+}
+function FocusOnInput()
+{
+document.getElementById("subGroupCode").focus();
 }
 </script>
 </body>

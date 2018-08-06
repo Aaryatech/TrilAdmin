@@ -63,8 +63,22 @@
 						<div class="box-content">
 							<form method="post" class="form-horizontal" id="validation-form">
 
-								<div class="box-content">
-
+								<div class="box-content"> 
+								
+								<label class="col-sm-3 col-lg-2 control-label">Indent
+										Type</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<select name="indent_type" id="indent_type"
+											data-rule-required="true" class="form-control chosen"
+											placeholder="Type" data-rule-required="true">
+											<option value="">Select Indent Type</option>
+											<option value="1">Regular</option>
+											<option value="2">Job Work</option>
+											<option value="3">General</option>
+											<option value="4">Other</option>
+										</select>
+									</div>
+									
 									<label class="col-sm-3 col-lg-2 control-label">Indent
 										Category </label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -79,32 +93,13 @@
 											</c:forEach>
 										</select>
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">Date</label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<input class="form-control date-picker" id="indent_date" onblur="getInvoiceNo()"
-											size="16" type="text" name="indent_date" value="${date}"
-											required data-rule-required="true" />
-									</div>
+									
 
 								</div>
 								<br/>
 
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Indent
-										Type</label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<select name="indent_type" id="indent_type"
-											data-rule-required="true" class="form-control chosen"
-											placeholder="Type" data-rule-required="true">
-											<option value="">Select Indent Type</option>
-											<option value="1">Regular</option>
-											<option value="2">Job Work</option>
-											<option value="3">General</option>
-											<option value="4">Other</option>
-										</select>
-									</div>
-
-
+									 
 									<label class="col-sm-3 col-lg-2 control-label">Indent
 										No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -112,6 +107,14 @@
 											class="form-control" placeholder="Indent No" readonly="readonly"
 											 />
 									</div>
+									
+									<label class="col-sm-3 col-lg-2 control-label">Date</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input class="form-control date-picker" id="indent_date" onblur="getInvoiceNo()"
+											size="16" type="text" name="indent_date" value="${date}"
+											required data-rule-required="true" />
+									</div>
+									
 								</div>
 <br/>
 								<div class="box-content">
@@ -177,6 +180,7 @@
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="dept" id="dept" class="form-control chosen"
 											placeholder="Department" data-rule-required="true">
+											<option value="0">Select Department</option>
 											<c:forEach items="${deparmentList}" var="dept"
 												varStatus="count">
 												<option value="${dept.deptId}"><c:out value="${dept.deptDesc}"/></option>
@@ -204,7 +208,7 @@
 									<label class="col-sm-3 col-lg-2 control-label">Group </label>
 									<div class="col-sm-6 col-lg-10 controls">
 
-										<select name="group" id="group" class="form-control chosen"
+										<select name="group" id="group" class="form-control"
 											placeholder="Group" data-rule-required="true">
 										</select>
 									</div>
@@ -339,11 +343,12 @@
 					</div>
 				</div>
 			</div>
+			<footer>
+				<p>2018 © TRAMBAK RUBBER</p>
+			</footer>
 		</div>
 		<!-- END Main Content -->
-		<footer>
-			<p>2018© Trimbak Rubber</p>
-		</footer>
+		
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 			class="fa fa-chevron-up"></i></a>
@@ -475,7 +480,7 @@ $(document).ready(function() {
                                 
                         $("#sub_dept").append(
                                 $("<option></option>").attr(
-                                    "value", data[i].subDeptId).text(data[i].deptDesc)
+                                    "value", data[i].subDeptId).text(data[i].subDeptDesc)
                             );
                     }
 
@@ -616,6 +621,8 @@ $(document).ready(function() {
 		 document.getElementById("remark").value="";
 		//document.getElementById("group").selectedIndex = "0";
 		 document.getElementById("sch_days").value = "0";  
+		 
+		   $("#group").focus();
 		 //document.getElementById("rm_cat").selectedIndex = "0";  
 		 }else{
 			 alert("Please Enter  valid quantity");

@@ -150,43 +150,7 @@ body {
 			<form id="submitPurchaseOrder"
 				action="${pageContext.request.contextPath}/submitEditPurchaseOrder"
 				method="post">
-			<div class="box-content">
-				<div class="col-md-2">PO No.  </div>
-				<div class="col-md-3"><input type="text" id="poNo" name="poNo" value="${getPoHeader.poNo}" class="form-control" readonly>
-				</div>
-				<div class="col-md-2">PO Date</div> 
-				<div class="col-md-3">
-				<input type="text" id="poDate" name="poDate" value="${getPoHeader.poDate}" class="form-control date-picker" required>
-					
-				</div>
-				</div><br/>
 				<div class="box-content">
-				<div class="col-md-2" >Vendor Name</div>
-									<div class="col-md-3">
-										<select name="vendId" id="vendId"   class="form-control chosen" tabindex="6" required>
-										 
-											 <c:forEach items="${vendorList}" var="vendorList" >
-											<c:choose>
-									 			<c:when test="${vendorList.vendorId==getPoHeader.vendId}">
-							  						<option value="${vendorList.vendorId}" selected><c:out value="${vendorList.vendorName}"/></option>
- 												</c:when>
- 												<c:otherwise>
- 													<option value="${vendorList.vendorId}"  ><c:out value="${vendorList.vendorName}"/></option>
- 												</c:otherwise>
- 												</c:choose>	 
-												</c:forEach>
-						
-
-										</select>
-									</div>
-									<div class="col-md-2">Vendor Quotation</div>
-				<div class="col-md-3">
-					<input type="text" placeholder="Enter Quotation No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" required>
-				</div>
-				 
-			</div><br/>
-			
-			<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">
 										<select name="poType" id="poType"   class="form-control chosen" tabindex="6" required>
@@ -227,13 +191,55 @@ body {
 										</select>
 									</div>
 									
-									<div class="col-md-2" >Quotation Ref. Date</div>
+									 
+									</div><br/>
+									
+			<div class="box-content">
+				<div class="col-md-2">PO No.  </div>
+				<div class="col-md-3"><input type="text" id="poNo" name="poNo" value="${getPoHeader.poNo}" class="form-control" readonly>
+				</div>
+				<div class="col-md-2">PO Date</div> 
+				<div class="col-md-3">
+				<input type="text" id="poDate" name="poDate" value="${getPoHeader.poDate}" class="form-control date-picker" required>
+					
+				</div>
+				</div><br/>
+				<div class="box-content">
+				<div class="col-md-2" >Vendor Name</div>
+									<div class="col-md-10">
+										<select name="vendId" id="vendId"   class="form-control chosen" tabindex="6" required>
+										 
+											 <c:forEach items="${vendorList}" var="vendorList" >
+											<c:choose>
+									 			<c:when test="${vendorList.vendorId==getPoHeader.vendId}">
+							  						<option value="${vendorList.vendorId}" selected><c:out value="${vendorList.vendorName}"/></option>
+ 												</c:when>
+ 												<c:otherwise>
+ 													<option value="${vendorList.vendorId}"  ><c:out value="${vendorList.vendorName}"/></option>
+ 												</c:otherwise>
+ 												</c:choose>	 
+												</c:forEach>
+						
+
+										</select>
+									</div>
+									 
+			</div><br/>
+			
+			<div class="box-content">
+				 
+									<div class="col-md-2">Vendor Quotation</div>
+				<div class="col-md-3">
+					<input type="text" placeholder="Enter Quotation No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" required>
+				</div>
+				
+				<div class="col-md-2" >Quotation Ref. Date</div>
 									<div class="col-md-3">
 										 <input type="text"   placeholder="Select Quotation Date" value="${getPoHeader.vendQuationDate}" name="quotationDate" id="quotationDate" class="form-control date-picker" required>
 									</div>
-									</div><br/>
-									
-									
+				 
+			</div><br/>
+			 			
 			<div class="box-content">
 				<div class="col-md-2" >Payment Terms</div>
 									<div class="col-md-3">
@@ -569,12 +575,13 @@ body {
 			</div>
 		</div>
 	</div>
+	<footer>
+				<p>2018 © TRAMBAK RUBBER</p>
+			</footer>
 	</div>
 	<!-- END Main Content -->
 
-	<footer>
-	<p>2017 © Monginis.</p>
-	</footer>
+	
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>

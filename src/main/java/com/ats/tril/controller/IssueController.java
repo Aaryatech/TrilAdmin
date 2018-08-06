@@ -34,8 +34,11 @@ import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
+import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.model.item.GetItem;
-import com.ats.tril.model.item.ItemList; 
+import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.mrn.MrnDetail;
+import com.sun.org.apache.bcel.internal.generic.NEWARRAY; 
 
 @Controller
 @Scope("session")
@@ -43,12 +46,15 @@ public class IssueController {
 	
 RestTemplate rest = new RestTemplate();
 List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
-	
+List<MrnDetail> batchList = new ArrayList<MrnDetail>();
+List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
+
 	@RequestMapping(value = "/addIssueItem", method = RequestMethod.GET)
 	public ModelAndView addIssueItem(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("issue/addIssueItem");
 		try {
+			 updateMrnDetail = new ArrayList<MrnDetail>();
 			 issueDetailList = new ArrayList<IssueDetail>();
 			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept)); 
@@ -90,6 +96,61 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 		return subDeptList;
 	}
 	
+	@RequestMapping(value = "/getBatchByItemId", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MrnDetail> getBatchByItemId(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		try {
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemId", itemId);
+			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "getBatchByItemId", map, MrnDetail[].class);
+
+			batchList = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
+			
+			for(int i = 0 ; i<issueDetailList.size() ; i++)
+			{
+				for(int j = 0 ; j<batchList.size() ; j++)
+				{
+					if(batchList.get(j).getMrnDetailId()==issueDetailList.get(i).getMrnDetailId())
+					{
+						batchList.get(j).setRemainingQty(batchList.get(j).getRemainingQty()-issueDetailList.get(i).getItemIssueQty());
+						batchList.get(j).setIssueQty(batchList.get(j).getIssueQty()+issueDetailList.get(i).getItemIssueQty());
+						break;
+					}
+				}
+			}
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return batchList;
+	}
+	
+	@RequestMapping(value = "/qtyValidationFromBatch", method = RequestMethod.GET)
+	@ResponseBody
+	public MrnDetail qtyValidationFromBatch(HttpServletRequest request, HttpServletResponse response) {
+
+		MrnDetail mrnDetail = new MrnDetail();
+		try {
+			int mrnDetailId = Integer.parseInt(request.getParameter("batchNo"));
+
+			 for(int i = 0 ;i< batchList.size() ; i++)
+			 {
+				 if(batchList.get(i).getMrnDetailId()==mrnDetailId)
+				 {
+					 mrnDetail = batchList.get(i);
+				 }
+			 }
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return mrnDetail;
+	}
+	
 	@RequestMapping(value = "/addItmeInIssueList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<IssueDetail> addItmeInIssueList(HttpServletRequest request, HttpServletResponse response) {
@@ -97,6 +158,7 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 		
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			int mrnDetailId = Integer.parseInt(request.getParameter("batchNo"));
 			int qty = Integer.parseInt(request.getParameter("qty"));
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
@@ -124,13 +186,20 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 				 issueDetail.setSubDeptName(subDeptName);
 				 issueDetail.setAccName(accName);
 				 issueDetail.setDelStatus(1);
+				 for(int i = 0 ;i< batchList.size() ; i++)
+				 {
+					 if(batchList.get(i).getMrnDetailId()==mrnDetailId)
+					 {
+						 issueDetail.setBatchNo(batchList.get(i).getBatchNo());
+						 issueDetail.setMrnDetailId(mrnDetailId); 
+					 }
+				 }
 				 issueDetailList.add(issueDetail);
 			 }
 			 else
 			 {
 				 int index = Integer.parseInt(editIndex);
-				 issueDetailList.get(index).setItemId(itemId);
-				 issueDetailList.get(index).setItemIssueQty(qty);
+				 issueDetailList.get(index).setItemId(itemId); 
 				 issueDetailList.get(index).setItemGroupId(groupId);
 				 issueDetailList.get(index).setDeptId(deptId);
 				 issueDetailList.get(index).setSubDeptId(subDeptId);
@@ -140,7 +209,20 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 				 issueDetailList.get(index).setDeptName(deptName);
 				 issueDetailList.get(index).setSubDeptName(subDeptName);
 				 issueDetailList.get(index).setAccName(accName);
+				  
+					 for(int i = 0 ;i< batchList.size() ; i++)
+					 {
+						 if(batchList.get(i).getMrnDetailId()==mrnDetailId)
+						 {
+							 issueDetailList.get(index).setBatchNo(batchList.get(i).getBatchNo());
+							 issueDetailList.get(index).setMrnDetailId(mrnDetailId); 
+						 }
+					 }
+			 
+				 issueDetailList.get(index).setItemIssueQty(qty);
+				  
 			 }
+			  
 			 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -172,10 +254,8 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
  
 		
 		try {
-			int index = Integer.parseInt(request.getParameter("index"));
-			 
-			issueDetailList.remove(index);
-			 
+			int index = Integer.parseInt(request.getParameter("index")); 
+			issueDetailList.remove(index); 
 			 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,7 +271,9 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 			 
 			String issueNo = request.getParameter("issueNo"); 
 			String issueDate = request.getParameter("issueDate");
-		  
+			int deptId = Integer.parseInt(request.getParameter("deptId"));
+			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
+			int acc = Integer.parseInt(request.getParameter("acc"));
 			 IssueHeader issueHeader = new IssueHeader();
 		 
 			 issueHeader.setIssueDate(DateConvertor.convertToYMD(issueDate));
@@ -226,9 +308,43 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 			 //issueHeader.setIssueNo(issueNo);
 			 issueHeader.setDeleteStatus(1);
 			 issueHeader.setIssueDetailList(issueDetailList);
+			 
+			 String mrnDetailList = new String();
+			 
+			 for(int i=0 ; i<issueDetailList.size() ; i++)
+			 {
+				 mrnDetailList = mrnDetailList+","+issueDetailList.get(i).getMrnDetailId(); 
+				 issueDetailList.get(i).setDeptId(deptId);
+				 issueDetailList.get(i).setSubDeptId(subDeptId);
+				 issueDetailList.get(i).setAccHead(acc);
+			 }
   
-			System.out.println(issueHeader);
-			IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
+			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map.add("mrnDetailList", mrnDetailList);
+			 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
+					 MrnDetail[].class);
+			 
+			 updateMrnDetail = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
+			 
+			 for(int j=0 ; j<issueDetailList.size() ; j++)
+			 {
+				 for(int i=0 ; i<updateMrnDetail.size() ; i++)
+				 { 
+					 if(updateMrnDetail.get(i).getMrnDetailId()==issueDetailList.get(j).getMrnDetailId())
+					 {
+						 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailList.get(j).getItemIssueQty());
+						 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailList.get(j).getItemIssueQty());
+					 }
+				 }
+			 }
+			 
+			 System.out.println("updateMrnDetail  " + updateMrnDetail);
+			 System.out.println("issueDetailList  " + issueDetailList);
+			 
+			 
+			 IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
 					IssueHeader.class);
 			 if(res!=null)
 	          {
@@ -240,8 +356,11 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 	        		}catch (Exception e) {
 						e.printStackTrace();
 					}
+	        		
+	        		 MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+	    					 MrnDetail[].class);
 	          }
-			System.out.println(res);
+			System.out.println(res); 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -312,8 +431,45 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("issueId",issueId); 
+			GetIssueHeader getIssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderAndDetailById",map, GetIssueHeader.class); 
+			 String mrnDetailList = new String();
+			 
+			for(int i=0 ; i<getIssueHeader.getIssueDetailList().size() ; i++)
+			 {
+				 mrnDetailList = mrnDetailList+","+getIssueHeader.getIssueDetailList().get(i).getMrnDetailId();
+			 }
+ 
+			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
+			 
+			 map = new LinkedMultiValueMap<>();
+			 map.add("mrnDetailList", mrnDetailList);
+			 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
+					 MrnDetail[].class);
+			 List<MrnDetail> updateMrnDetail = new ArrayList<>(Arrays.asList(MrnDetail));
+			 
+			 for(int i=0 ; i<getIssueHeader.getIssueDetailList().size() ; i++)
+			 {
+				 for(int j=0 ; j<updateMrnDetail.size() ; j++)
+				 {
+					 if(updateMrnDetail.get(j).getMrnDetailId()==getIssueHeader.getIssueDetailList().get(i).getMrnDetailId())
+					 {
+						 updateMrnDetail.get(j).setRemainingQty(updateMrnDetail.get(j).getRemainingQty()+getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
+						 updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()-getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
+					 }
+				 }
+			 }
+			 
+			 map = new LinkedMultiValueMap<String, Object>();
+			map.add("issueId",issueId); 
 			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteHeaderAndDetail",map, ErrorMessage.class); 
 			System.out.println(errorMessage);
+			
+			if(errorMessage.isError()==false)
+			{
+				MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+   					 MrnDetail[].class);
+				System.out.println(update);
+			}
 			 
 			 
 		} catch (Exception e) {
@@ -323,8 +479,9 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 	}
 	
 	List<GetIssueDetail> issueDetailEditList = new ArrayList<>();
+	List<GetIssueDetail> originalIssueDetail = new ArrayList<>();
 	GetIssueHeader getIssueHeader = new GetIssueHeader();
-	
+	List<MrnDetail> batchListInEditIssue = new ArrayList<MrnDetail>();
 	
 	@RequestMapping(value = "/editIssueHeader/{issueId}", method = RequestMethod.GET) 
 	public ModelAndView editIssueHeader(@PathVariable int issueId, HttpServletRequest request, HttpServletResponse response) {
@@ -332,13 +489,18 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 		ModelAndView model = new ModelAndView("issue/editIssueItem");
 		
 		try {
-			 
+			originalIssueDetail = new ArrayList<>();
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("issueId",issueId); 
 			 getIssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderAndDetailById",map, GetIssueHeader.class); 
 			model.addObject("getIssueHeader", getIssueHeader);
 			
 			 issueDetailEditList = getIssueHeader.getIssueDetailList();
+			 
+			 /*for(int i = 0 ; i< issueDetailEditList.size() ; i++)
+			 {
+				 originalIssueDetail.add(issueDetailEditList.get(i));
+			 }*/
 			
 			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept)); 
@@ -360,6 +522,75 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 		return model;
 	}
 	
+	@RequestMapping(value = "/qtyValidationFromBatchInEdit", method = RequestMethod.GET)
+	@ResponseBody
+	public MrnDetail qtyValidationFromBatchInEdit(HttpServletRequest request, HttpServletResponse response) {
+
+		MrnDetail mrnDetail = new MrnDetail();
+		try {
+			int mrnDetailId = Integer.parseInt(request.getParameter("batchNo"));
+
+			 for(int i = 0 ;i< batchListInEditIssue.size() ; i++)
+			 {
+				 if(batchListInEditIssue.get(i).getMrnDetailId()==mrnDetailId)
+				 {
+					 mrnDetail = batchListInEditIssue.get(i);
+				 }
+			 }
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return mrnDetail;
+	}
+	
+	@RequestMapping(value = "/getBatchByItemIdInIssueEdit", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MrnDetail> getBatchByItemIdInIssueEdit(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		try {
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemId", itemId);
+			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "getBatchByItemId", map, MrnDetail[].class);
+
+			batchListInEditIssue = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
+			
+			
+			
+			
+			for(int i = 0 ; i<issueDetailEditList.size() ; i++)
+			{
+				for(int j = 0 ; j<batchListInEditIssue.size() ; j++)
+				{	
+					
+					if(batchListInEditIssue.get(j).getMrnDetailId()==issueDetailEditList.get(i).getMrnDetailId() 
+							&& issueDetailEditList.get(i).getIssueDetailId()==0)
+					{
+						System.out.println("In if ");
+						batchListInEditIssue.get(j).setRemainingQty(batchListInEditIssue.get(j).getRemainingQty()-issueDetailEditList.get(i).getItemIssueQty());
+						batchListInEditIssue.get(j).setIssueQty(batchListInEditIssue.get(j).getIssueQty()+issueDetailEditList.get(i).getItemIssueQty());
+						break;
+					}
+					else if(batchListInEditIssue.get(j).getMrnDetailId()==issueDetailEditList.get(i).getMrnDetailId() 
+							&& issueDetailEditList.get(i).getDelStatus()==0)
+					{
+						System.out.println("In if else");
+						batchListInEditIssue.get(j).setRemainingQty(batchListInEditIssue.get(j).getRemainingQty()+issueDetailEditList.get(i).getItemIssueQty());
+						batchListInEditIssue.get(j).setIssueQty(batchListInEditIssue.get(j).getIssueQty()-issueDetailEditList.get(i).getItemIssueQty());
+						break;
+					}  
+				}
+			}
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return batchListInEditIssue;
+	}
+	
 	@RequestMapping(value = "/addItmeInEditIssueList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GetIssueDetail> addItmeInEditIssueList(HttpServletRequest request, HttpServletResponse response) {
@@ -367,6 +598,7 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 		
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			int mrnDetailId = Integer.parseInt(request.getParameter("batchNo"));
 			int qty = Integer.parseInt(request.getParameter("qty"));
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
@@ -394,6 +626,14 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 				 issueDetail.setSubDeptCode(subDeptName);
 				 issueDetail.setAccHeadDesc(accName);
 				 issueDetail.setDelStatus(1);
+				 for(int i = 0 ;i< batchListInEditIssue.size() ; i++)
+				 {
+					 if(batchListInEditIssue.get(i).getMrnDetailId()==mrnDetailId)
+					 {
+						 issueDetail.setBatchNo(batchListInEditIssue.get(i).getBatchNo());
+						 issueDetail.setMrnDetailId(mrnDetailId); 
+					 }
+				 }
 				 issueDetailEditList.add(issueDetail);
 			 }
 			 else
@@ -410,6 +650,14 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 				 issueDetailEditList.get(index).setDeptCode(deptName);
 				 issueDetailEditList.get(index).setSubDeptCode(subDeptName);
 				 issueDetailEditList.get(index).setAccHeadDesc(accName);
+				 for(int i = 0 ;i< batchListInEditIssue.size() ; i++)
+				 {
+					 if(batchListInEditIssue.get(i).getMrnDetailId()==mrnDetailId)
+					 {
+						 issueDetailEditList.get(index).setBatchNo(batchListInEditIssue.get(i).getBatchNo());
+						 issueDetailEditList.get(index).setMrnDetailId(mrnDetailId); 
+					 }
+				 }
 			 }
 			 
 		} catch (Exception e) {
@@ -469,16 +717,70 @@ List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 			 
 			String issueNo = request.getParameter("issueNo"); 
 			String issueDate = request.getParameter("issueDate");
-		  
+			
+			
+			int deptId = Integer.parseInt(request.getParameter("deptId"));
+			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
+			int acc = Integer.parseInt(request.getParameter("acc"));
 			 
 			getIssueHeader.setIssueDate(DateConvertor.convertToYMD(issueDate));
-			getIssueHeader.setIssueNo(issueNo);
+			//getIssueHeader.setIssueNo(issueNo);
 			getIssueHeader.setDeleteStatus(1);
 			getIssueHeader.setIssueDetailList(issueDetailEditList); 
-			System.out.println(getIssueHeader);
-			IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", getIssueHeader,
-					IssueHeader.class);
-			System.out.println(res);
+			
+			String mrnDetailList = new String();
+			 
+			 for(int i=0 ; i<issueDetailEditList.size() ; i++)
+			 {
+				 mrnDetailList = mrnDetailList+","+issueDetailEditList.get(i).getMrnDetailId();
+				 issueDetailEditList.get(i).setDeptId(deptId);
+				 issueDetailEditList.get(i).setSubDeptId(subDeptId);
+				 issueDetailEditList.get(i).setAccHead(acc);
+			 }
+ 
+			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
+			System.out.println("issueDetailEditList      " + issueDetailEditList);
+			 IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", getIssueHeader,
+					IssueHeader.class); 
+			 System.out.println(res);
+			
+			if(res!=null)
+			{ 
+				
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 map.add("mrnDetailList", mrnDetailList);
+				 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
+						 MrnDetail[].class);
+				 
+				  List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
+				 
+				 for(int j=0 ; j<issueDetailEditList.size() ; j++)
+				 {
+					 for(int i=0 ; i<updateMrnDetail.size() ; i++)
+					 { 
+						 if(updateMrnDetail.get(i).getMrnDetailId()==issueDetailEditList.get(j).getMrnDetailId() && issueDetailEditList.get(j).getDelStatus()==0)
+						 {
+							 System.out.println("in if ");
+							 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()+issueDetailEditList.get(j).getItemIssueQty());
+							 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()-issueDetailEditList.get(j).getItemIssueQty());
+							 break;
+						 }
+						 else if(updateMrnDetail.get(i).getMrnDetailId()==issueDetailEditList.get(j).getMrnDetailId()  && issueDetailEditList.get(j).getIssueDetailId()==0)
+						 {
+							 System.out.println("in else if ");
+							 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailEditList.get(j).getItemIssueQty());
+							 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailEditList.get(j).getItemIssueQty());
+							 break;
+						 }
+					 }
+				 }
+				 
+				 System.out.println("updateMrnDetail      " + updateMrnDetail);
+				 MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+	   					 MrnDetail[].class);
+					System.out.println(update);
+			 }
 
 		} catch (Exception e) {
 			e.printStackTrace();

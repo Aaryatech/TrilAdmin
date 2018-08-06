@@ -7,7 +7,7 @@
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="FocusOnInput()">
 
 
 	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
@@ -69,88 +69,12 @@
 							<form id="addSupplier"
 								action="${pageContext.request.contextPath}/insertItem"
 								method="post">
-
-								<div class="box-content">
-
-									<div class="col-md-2">Item Code*</div>
-									<div class="col-md-3">
-									<c:choose>
-										<c:when test="${isEdit==1}">
-										<input id="itemCode" class="form-control"
-											placeholder="Item Code" value="${editItem.itemCode}"
-											style="text-align: left;" name="itemCode" type="text"
-											readonly>
-										</c:when>
-										<c:otherwise>
-										<input id="itemCode" class="form-control"
-											placeholder="Item Code" value="${editItem.itemCode}"
-											style="text-align: left;" maxlength="6" onchange="checkItemCodeExist()" onkeydown="upperCaseF(this)" name="itemCode" type="text"
-											required>
-										</c:otherwise>
-									</c:choose>
-										 <input id="itemId" class="form-control"
-											name="itemId" value="${editItem.itemId}" type="hidden">
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Item Description*</div>
-									<div class="col-md-3">
-										<input id="itemDesc" class="form-control"
-											placeholder="Item Code" value="${editItem.itemDesc}"
-											style="text-align: left;" name="itemDesc" type="text"
-											required>
-									</div>
-
-
-								</div>
-								<br>
-
-								<div class="box-content">
-
-									<div class="col-md-2">UOM*</div>
-									<div class="col-md-3">
-									
-									<select class="form-control chosen" name="uom"
-											id="uom" required>
-											<option value="">Select UOM</option>
-											  <c:forEach items="${uomList}"
-												var="uomList">
-												<c:set var="uomString" value="${uomList.uomId}"></c:set>
-												<c:choose>
-													<c:when
-														test="${editItem.itemUom eq uomString}">
-														<option value="${uomList.uomId}" selected>${uomList.uom}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${uomList.uomId}">${uomList.uom}</option>
-													</c:otherwise>
-												</c:choose>
-
-
-											</c:forEach>  
-
-										</select>
-										 
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Item Date*</div>
-									<div class="col-md-3">
-										<input id="itemDate" class="form-control date-picker"
-											placeholder="Item Date" value="${date}"
-											name="itemDate" type="text" readonly>
-
-
-									</div>
-
-								</div>
-								<br>
-
+								
 								<div class="box-content">
 
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
-										<select class="form-control chosen"
+										<select class="form-control"
 											onchange="getgroupIdByCatId()" name="catId" id="catId"
 											required>
 											<option value="">select</option>
@@ -198,8 +122,93 @@
 
 								<div class="box-content">
 
+									<div class="col-md-2">Item Code*</div>
+									<div class="col-md-3">
+									<c:choose>
+										<c:when test="${isEdit==1}">
+										<input id="itemCode" class="form-control"
+											placeholder="Item Code" value="${editItem.itemCode}"
+											style="text-align: left;" name="itemCode" type="text"
+											readonly>
+										</c:when>
+										<c:otherwise>
+										<input id="itemCode" class="form-control"
+											placeholder="Item Code" value="${editItem.itemCode}"
+											style="text-align: left;" maxlength="6" onchange="checkItemCodeExist()" onkeydown="upperCaseF(this)" name="itemCode" type="text"
+											required>
+										</c:otherwise>
+									</c:choose>
+										 <input id="itemId" class="form-control"
+											name="itemId" value="${editItem.itemId}" type="hidden">
 
-									<div class="col-md-2">Select Sub-Group*</div>
+									</div>
+									 
+								</div>
+								<br>
+								
+								<div class="box-content">
+
+									  
+									<div class="col-md-2">Item Description*</div>
+									<div class="col-md-10">
+										<input id="itemDesc" class="form-control"
+											placeholder="Item Description" value="${editItem.itemDesc}"
+											style="text-align: left;" name="itemDesc" type="text"
+											required>
+									</div>
+
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">UOM*</div>
+									<div class="col-md-3">
+									
+									<select class="form-control chosen" name="uom"
+											id="uom" required>
+											<option value="">Select UOM</option>
+											  <c:forEach items="${uomList}"
+												var="uomList">
+												<c:set var="uomString" value="${uomList.uomId}"></c:set>
+												<c:choose>
+													<c:when
+														test="${editItem.itemUom eq uomString}">
+														<option value="${uomList.uomId}" selected>${uomList.uom}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${uomList.uomId}">${uomList.uom}</option>
+													</c:otherwise>
+												</c:choose>
+
+
+											</c:forEach>  
+
+										</select>
+										 
+
+									</div>
+									<div class="col-md-1"></div>
+									<!-- <div class="col-md-2">Item Date*</div> -->
+									<div class="col-md-3">
+										<input id="itemDate" class="form-control date-picker"
+											placeholder="Item Date" value="${date}"
+											name="itemDate" type="hidden" readonly>
+
+
+									</div>
+<input id="subGrpId" value="0" name="subGrpId" type="hidden" readonly>
+								</div>
+								<br>
+
+								
+
+								<%-- <div class="box-content">
+								
+								
+
+									 <div class="col-md-2">Select Sub-Group*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="subGrpId"
 											id="subGrpId" required>
@@ -222,13 +231,23 @@
 										</select>
 
 
-									</div>
+									</div>  
 
-								</div>
-								<br>
-
+								</div> --%>
+								 
 								<div class="box-content">
+ 
+									
+									<div class="col-md-2">Item OP Qty*</div>
+									<div class="col-md-3">
+										<input id="opQty" class="form-control"
+											placeholder="Item OP Qty" name="opQty"
+											value="${editItem.itemOpQty}" style="text-align: left;"
+											title="Enter in Number Formate" type="number" required>
 
+
+									</div>
+									<div class="col-md-1"></div>
 									<div class="col-md-2">Item OP Rate*</div>
 									<div class="col-md-3">
 										<input id="opRate" class="form-control"
@@ -239,23 +258,46 @@
 
 									</div>
 
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Item OP Qty*</div>
-									<div class="col-md-3">
-										<input id="opQty" class="form-control"
-											placeholder="Item OP Qty" name="opQty"
-											value="${editItem.itemOpQty}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
-
-
-									</div>
-
 
 								</div>
 								<br>
 
-								<div class="box-content">
+								<div class="box-content"> 
+								
+								<c:choose>
+										<c:when test="${isEdit==1}">
+										<div class="col-md-2">Item CL Qty*</div>
+									<div class="col-md-3">
+										<input id="clQty" class="form-control"
+											placeholder="Item OP Qty" name="clQty"
+											value="${editItem.itemClQty}" style="text-align: left;"
+											title="Enter in Number Formate" type="number" readonly>
 
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Item CL Rate*</div>
+									<div class="col-md-3">
+										<input id="clRate" class="form-control"
+											placeholder="Item CL Rate" name="clRate"
+											value="${editItem.itemClRate}"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" style="text-align: left;"
+											title="Enter in Number Formate" type="text" readonly>
+
+
+									</div>
+										</c:when>
+										<c:otherwise>
+										<div class="col-md-2">Item CL Qty*</div>
+									<div class="col-md-3">
+										<input id="clQty" class="form-control"
+											placeholder="Item OP Qty" name="clQty"
+											value="${editItem.itemClQty}" style="text-align: left;"
+											title="Enter in Number Formate" type="number" required>
+
+
+									</div>
+									<div class="col-md-1"></div>
 									<div class="col-md-2">Item CL Rate*</div>
 									<div class="col-md-3">
 										<input id="clRate" class="form-control"
@@ -266,17 +308,10 @@
 
 
 									</div>
-
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Item CL Qty*</div>
-									<div class="col-md-3">
-										<input id="clQty" class="form-control"
-											placeholder="Item OP Qty" name="clQty"
-											value="${editItem.itemClQty}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
-
-
-									</div>
+										</c:otherwise>
+									</c:choose>
+									
+									
 
 
 								</div>
@@ -662,7 +697,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].grpId + '">'
-							+ data[i].grpCode + '</option>';
+							+ data[i].grpCode + '&nbsp;&nbsp;&nbsp;'+data[i].grpDesc+'</option>';
 				}
 				html += '</option>';
 				$('#grpId').html(html);
@@ -680,7 +715,7 @@
 				ajax : 'true'
 			}, function(data) {
 
-				var html = '<option value="">Select Sub-Category</option>';
+				/* var html = '<option value="">Select Sub-Category</option>';
 
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
@@ -689,13 +724,17 @@
 				}
 				html += '</option>';
 				$('#subGrpId').html(html);
-				$("#subGrpId").trigger("chosen:updated");
+				$("#subGrpId").trigger("chosen:updated"); */
 			});
 		}
 		function upperCaseF(a){
 		    setTimeout(function(){
 		        a.value = a.value.toUpperCase();
 		    }, 1);
+		}
+		function FocusOnInput()
+		{
+		document.getElementById("catId").focus();
 		}
 	</script>
 
