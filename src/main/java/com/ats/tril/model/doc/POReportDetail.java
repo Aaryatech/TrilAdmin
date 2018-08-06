@@ -4,8 +4,7 @@ import java.util.Date;
 
 
 public class POReportDetail {
-	
-	
+		
 	
 	private int poDetailId;
 
@@ -17,6 +16,8 @@ public class POReportDetail {
 
 	private int itemId;
 
+	private String itemCode;
+	
 	private String itemDesc;
 
 	private String itemUom;
@@ -58,6 +59,20 @@ public class POReportDetail {
 	private float otherChargesAfter;
 
 	private float landingCost;
+
+	
+	
+	
+	
+	
+	
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
 
 	public int getPoDetailId() {
 		return poDetailId;
@@ -267,19 +282,18 @@ public class POReportDetail {
 		this.landingCost = landingCost;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "POReportDetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
-				+ ", itemId=" + itemId + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom + ", itemQty=" + itemQty
-				+ ", itemRate=" + itemRate + ", mrnQty=" + mrnQty + ", pendingQty=" + pendingQty + ", indedQty="
-				+ indedQty + ", discPer=" + discPer + ", discValue=" + discValue + ", schDays=" + schDays + ", schDate="
-				+ schDate + ", schRemark=" + schRemark + ", status=" + status + ", basicValue=" + basicValue
-				+ ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor
-				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
-				+ otherChargesAfter + ", landingCost=" + landingCost + "]";
+				+ ", itemId=" + itemId + ", itemCode=" + itemCode + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom
+				+ ", itemQty=" + itemQty + ", itemRate=" + itemRate + ", mrnQty=" + mrnQty + ", pendingQty="
+				+ pendingQty + ", indedQty=" + indedQty + ", discPer=" + discPer + ", discValue=" + discValue
+				+ ", schDays=" + schDays + ", schDate=" + schDate + ", schRemark=" + schRemark + ", status=" + status
+				+ ", basicValue=" + basicValue + ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor="
+				+ otherChargesBefor + ", taxValue=" + taxValue + ", freightValue=" + freightValue
+				+ ", otherChargesAfter=" + otherChargesAfter + ", landingCost=" + landingCost + "]";
 	}
-	
+
 	
 	
 	

@@ -399,6 +399,9 @@ hr {
 					</td>
 				</tr>
 			</table>
+			
+				<hr	style="height: 1px; border: none; color: black; background-color: black;">
+			
 		</div>
 	</c:forEach>
 

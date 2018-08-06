@@ -132,14 +132,13 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top">GP No. : ${item.vendorCode}<br> To,<br>
+								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 
 								</td>
 
-
-
-								<td align="right" valign="top"><br> Date : ${item.gpReturnDate }</td>
+								<td align="right" valign="top"><br> Date : ${item.gpReturnDate}</td>
+								
 							</tr>
 						</table>
 					</td>
@@ -182,7 +181,7 @@ hr {
 						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 						<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
 						<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
-						<td width="0" align="center"><c:out value="NOS" /></td>
+						<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
 						<td width="0" align="right"><c:out value="${row.gpQty}" /></td>
 						<td width="0" align="center"><c:out value="."/></td>
 
@@ -236,7 +235,10 @@ hr {
 										<td width="25%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Authorised By</td>
+									Authorised By
+									
+									
+									</td>
 
 
 							</tr>
@@ -245,8 +247,14 @@ hr {
 					</td>
 				</tr>
 			</table>
+												<hr	style="height: 1px; border: none; color: black; background-color: black;">
+		
 		</div>
+		
 	</c:forEach>
+	<br>
+	
+	
 
 	<!-- END Main Content -->
 

@@ -343,7 +343,7 @@ hr {
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemDesc}" /></td>
-					<td width="0" align="center"><c:out value="0" /></td>
+					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemIssueQty}" /></td>
 					<td width="0" align="center"><c:out
 							value="0" /></td>
@@ -402,6 +402,8 @@ hr {
 					</td>
 				</tr>
 			</table>
+															<hr	style="height: 1px; border: none; color: black; background-color: black;">
+			
 		</div>
 	</c:forEach>
 

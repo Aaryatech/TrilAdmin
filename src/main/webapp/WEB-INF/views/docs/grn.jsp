@@ -224,6 +224,8 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 				</td>
 			</tr>
 		</table>
+														<hr	style="height: 1px; border: none; color: black; background-color: black;">
+		
 	</div>
 </c:forEach>
 

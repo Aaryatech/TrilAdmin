@@ -258,7 +258,7 @@
 	<script type="text/javascript">
 		function genPdf(id) {
 
-			window.open('pdfForReport?url=showEditViewIndentDetail/' + id);
+			window.open('pdfForReport?url=indentPdfDoc/' + id);
 
 		}
 		
@@ -272,7 +272,7 @@
 				list.push($(this).val());
 			});
 
-			window.open('pdfForReport?url=showEditViewIndentDetail/' + list);
+			window.open('pdfForReport?url=indentPdfDoc/' + list);
 
 		}
 	</script>

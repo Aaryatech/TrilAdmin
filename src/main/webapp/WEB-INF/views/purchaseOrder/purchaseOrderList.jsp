@@ -297,7 +297,7 @@
 											var tr = $('<tr></tr>');
 											
 											 tr.append($('<td width=10%></td>')
-														.html('<input type="checkbox"  name="name1" value="'+ itemList.issueId +'"/>'));
+														.html('<input type="checkbox"  name="name1" value="'+itemList.poId +'"/>'));
 											
 										  	tr.append($('<td></td>').html(key+1));
 										  	tr.append($('<td></td>').html(itemList.poDate));
