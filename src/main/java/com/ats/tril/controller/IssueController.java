@@ -32,6 +32,7 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.IndentTrans;
@@ -68,7 +69,17 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
 
 			model.addObject("accountHeadList", accountHeadList);
-
+			
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			
+			String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+		     
+				 String monthName=monthNames[stockHeader.getMonth()-1];
+				 System.out.println("monthName:  " + monthName + ", stock Date: " + stockHeader.getDate());
+				 
+				 model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockHeader.getDate()));
+		  
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
