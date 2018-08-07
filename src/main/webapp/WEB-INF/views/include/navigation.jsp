@@ -462,6 +462,17 @@
 					</li>
 
 
+					<c:choose>
+						<c:when test="${Constants.subAct==22}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/listOfEnq">Indent
+						Enquiry List</a>
+					</li>
 				</ul>
 				</li>
 
