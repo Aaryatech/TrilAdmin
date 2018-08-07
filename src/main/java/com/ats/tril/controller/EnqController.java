@@ -112,7 +112,7 @@ public class EnqController {
 				model.addObject("vendIdTemp", vendIdTemp);
 				System.out.println(vendIdTemp);
 			} catch (Exception e) {
-				e.printStackTrace();
+				 
 			}
 
 			try {
@@ -120,7 +120,7 @@ public class EnqController {
 				model.addObject("enqDateTemp", enqDateTemp);
 				System.out.println(enqDateTemp);
 			} catch (Exception e) {
-				e.printStackTrace();
+				 
 			}
 
 			try {
@@ -128,7 +128,7 @@ public class EnqController {
 				model.addObject("enqRemarkTemp", enqRemarkTemp);
 				System.out.println(enqRemarkTemp);
 			} catch (Exception e) {
-				e.printStackTrace();
+				 
 			}
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
@@ -158,6 +158,7 @@ public class EnqController {
 						enqDetail.setDelStatus(1);
 						enqDetail.setEnqQty(
 								Integer.parseInt(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
+						enqDetail.setEnqRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));
 
 						enqDetailList.add(enqDetail);
 

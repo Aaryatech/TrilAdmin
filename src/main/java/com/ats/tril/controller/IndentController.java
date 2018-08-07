@@ -540,7 +540,7 @@ if(indTrasList.size()>0) {
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
 
 			}
-			map.add("status", 0);
+			map.add("status", "0,1,2");
 
 			model = new ModelAndView("indent/viewindent");
 			GetIndent[] indents = rest.postForObject(Constants.url + "/getIndents", map, GetIndent[].class);
@@ -580,7 +580,7 @@ if(indTrasList.size()>0) {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 
-			map.add("status", 0);
+			map.add("status", "0,1,2");
 
 			GetIndent[] indents = rest.postForObject(Constants.url + "/getIndents", map, GetIndent[].class);
 

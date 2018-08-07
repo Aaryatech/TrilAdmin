@@ -88,11 +88,13 @@ public class PurchaseOrderController {
 			model.addObject("taxFormList", taxFormList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("status", "0,1,2");
+			map.add("status", "0,1");
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);
+			
+			System.out.println(intedList.size() + "" + intedList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

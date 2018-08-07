@@ -123,24 +123,18 @@ body {
 			</div>
 		</div>
 		<!-- END Page Title -->
-
-		<!-- BEGIN Breadcrumb -->
-		<div id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li><i class="fa fa-home"></i> <a
-					href="${pageContext.request.contextPath}/home">Home</a> <span
-					class="divider"><i class="fa fa-angle-right"></i></span></li>
-				<li class="active">Purchase Order</li>
-			</ul>
-		</div>
-		<!-- END Breadcrumb -->
-		
+ 
 		<!-- BEGIN Main Content -->
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Direct Purchase Order
+					<i class="fa fa-bars"></i>Purchase Order
 				</h3>
+				<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/listOfPurachaseOrder">
+									PO List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
 
 			</div>
 

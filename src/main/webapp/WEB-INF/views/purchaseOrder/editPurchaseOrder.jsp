@@ -358,19 +358,50 @@ body {
 																<input type="hidden" id="existingItemQty${count.index}" name="existingItemQty${count.index}" value="${poDetailList.itemQty}" >
 																<input type="hidden" id="existingBalanceQty${count.index}" name="existingBalanceQty${count.index}" value="${poDetailList.balanceQty}" ></td>
 																<td align="right"><input type="hidden" id="indQty${count.index}" name="indQty${count.index}" value="${poDetailList.indedQty}" ><c:out value="${poDetailList.indedQty}" /></td>
-																<td align="right"><input style="text-align:right; width:100px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
+																
+													  			 <c:choose>
+													  			 	<c:when test="${poDetailList.status==0}">
+																			<td align="right"><input style="text-align:right; width:100px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
+													  				  			 	
+													  			 	</c:when>
+													  			 	<c:otherwise>
+													  			 			<td align="right"><input style="text-align:right; width:100px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
+													  			 
+													  			 	</c:otherwise>
+													  			 </c:choose>
 													  			<td align="right"><input style="text-align:right; width:100px" type="text" id="balanceQty${count.index}" 
 													  			name="balanceQty${count.index}" value="${poDetailList.balanceQty}" class="form-control" 
 													  			 pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
-													  			<td align="right"><input style="text-align:right; width:100px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
-													  			<td align="right"><input style="text-align:right; width:100px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
-													  			<td align="right"><input style="text-align:right; width:100px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
-													  			<td align="left"><input style="text-align:right; width:100px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></td> 
+													  			 
+													  			  <c:choose>
+													  			 	<c:when test="${poDetailList.status==0}">
+															  			 	<td align="right"><input style="text-align:right; width:100px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
+															  				<td align="right"><input style="text-align:right; width:100px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
+															  				<td align="right"><input style="text-align:right; width:100px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
+													  						<td align="left"><input style="text-align:right; width:100px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></td> 
+													  			
+															  		</c:when>
+															  		<c:otherwise>
+															  				<td align="right"><input style="text-align:right; width:100px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
+															  				<td align="right"><input style="text-align:right; width:100px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
+															  				<td align="right"><input style="text-align:right; width:100px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
+													  						<td align="left"><input style="text-align:right; width:100px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" readonly></td> 
+													  			 
+															  		</c:otherwise>
+													  			 </c:choose>
+													  			 
+													  			
+													  			
 													  			 
 													  			 <td> 
-														 <a href="${pageContext.request.contextPath}/deletePoItemInEditPo/${poDetailList.poDetailId}"
+													  			 <c:choose>
+													  			 	<c:when test="${poDetailList.status==0}">
+													  			 	<a href="${pageContext.request.contextPath}/deletePoItemInEditPo/${poDetailList.poDetailId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a></td>
+														class="glyphicon glyphicon-remove"></span></a> 
+													  			 	</c:when>
+													  			 </c:choose>
+														 </td>
 																</tr>
 												</c:forEach>
  
@@ -510,7 +541,17 @@ body {
 			
 			<div class="row">
 						<div class="col-md-12" style="text-align: center">
-							<input type="submit" class="btn btn-info" value="Submit" onclick="check()">
+						
+						<c:choose>
+							<c:when test="${getPoHeader.poStatus==2}">
+								<input type="submit" class="btn btn-info" value="Submit" onclick="check()" disabled>
+							
+							</c:when>
+							<c:otherwise>
+								<input type="submit" class="btn btn-info" value="Submit" onclick="check()" >
+							</c:otherwise>
+						</c:choose>
+							
 
 
 						</div>

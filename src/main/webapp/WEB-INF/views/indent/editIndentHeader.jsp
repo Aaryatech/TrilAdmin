@@ -288,13 +288,22 @@
 															<%-- <input
 															type="button" value="update"
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
-
-															<a href="#" class="action_btn" title="Update"
+															
+															<c:choose>
+																<c:when test="${indDetail.indDStatus==0}">
+																
+																<a href="#" class="action_btn" title="Update"
 															onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i
 																class="fa fa-edit"></i></a> &nbsp;&nbsp;<a href="#" class="action_btn"
 															title="Delete"
 															onclick="updateCall(${indDetail.indDId},${indent.indMId},1)"><i
 																class="fa fa-trash-o"></i></a>
+																
+																</c:when>
+															</c:choose>
+															
+
+															
 
 														</td>
 
@@ -307,8 +316,18 @@
 
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
-
+									 
+									<c:choose>
+										<c:when test="${indent.indMStatus==2}">
+										<input type="submit" class="btn btn-info" value="Edit Indent" disabled>
+										</c:when>
+										<c:otherwise>
+										
 										<input type="submit" class="btn btn-info" value="Edit Indent">
+										</c:otherwise>
+									</c:choose>
+
+										
 
 									</div>
 								</div>
@@ -692,19 +711,31 @@
 			.append($(
 					'<td class="col-md-1" style="text-align: center;"></td>')
 					.html(
-							"<input type='number' value="+trans.indQty+" class='form-control'onchange='getValue(this.value,"+trans.indDId+","+trans.indMId+")' />"));
+							"<input type='number' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='getValue(this.value,"+trans.indDId+","+trans.indMId+")' readonly />"));
 		  	
 				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchd));
 				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
 				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indRemark));
 				//tr.append($('<td></td>').html(trans.indMDate));
 				
-				tr
-			.append($(
-					'<td class="col-md-1" style="text-align: center;"></td>')
-					.html(
-							"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
-		  	
+				if(trans.indDStatus==0)
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(
+									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
+				  	
+					}
+				else
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(''));
+				  	
+					}
+				
 				 
 				$('#table1 tbody').append(tr);
 			})
