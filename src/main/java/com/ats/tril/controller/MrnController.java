@@ -43,7 +43,7 @@ import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 @Controller
 @Scope("session")
 public class MrnController {
-
+ 
 	RestTemplate rest = new RestTemplate();
 
 	@RequestMapping(value = "/showAddMrn", method = RequestMethod.GET)
