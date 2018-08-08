@@ -748,6 +748,14 @@ if(indTrasList.size()>0) {
 					IndentTrans[].class);
 			
 			indDetailListForEdit = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
+			
+			for(int i=0;i<indDetailListForEdit.size();i++) {
+				
+				
+			//	indDetailListForEdit.get(i).setIndItemSchddt(DateConvertor.convertToDMY(indDetailListForEdit.get(i).getIndItemSchddt()));
+				
+				
+			}
 
 			System.err.println("Indent Detail List  " + indDetailListForEdit.toString());
 			model.addObject("indDetailList", indDetailListForEdit);

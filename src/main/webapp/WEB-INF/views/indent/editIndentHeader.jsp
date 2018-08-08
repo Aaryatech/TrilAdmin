@@ -61,7 +61,6 @@
 
 						</div>
 
-
 						<div class="box-content">
 							<form
 								action="${pageContext.request.contextPath}/editIndentProcess"
@@ -236,8 +235,11 @@
 										</select>
 									</div>
 								</div>
-								
-								
+								<br/>
+								<br/>
+							
+								<div style="border: 2px solid orange; border-radius: 8px;">
+									<h4 align="center">Add Item</h4>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Group </label>
 									<div class="col-sm-6 col-lg-10 controls">
@@ -267,7 +269,7 @@
 										</select>
 									</div>
 								</div>
-								<br/>
+								<br/><br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-2 controls">
@@ -310,8 +312,9 @@
  -->
 									<!-- </div> -->
 								</div>
+								</div>
 
-
+<br/>
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
 
@@ -695,8 +698,8 @@
 				$('#table1 td').remove();
 				$.each(data, function(key, trans) {
 					var tr = $('<tr></tr>');
-					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(trans.indItemDesc));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(key + 1));
+					tr.append($('<td style="text-align: center;" class="col-md-2"></td>').html(trans.indItemDesc));
 					//tr.append($('<td></td>').html(trans.qty));
 				tr
 															.append($(
@@ -713,9 +716,9 @@
 																					+ ")' value="
 																					+ trans.indQty 
 																					+ " />"));
-					tr.append($('<td></td>').html(trans.indItemSchd));
-					tr.append($('<td></td>').html(trans.indItemSchddt));
-					tr.append($('<td></td>').html(trans.indRemark));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchd));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indRemark));
 					if(trans.indDStatus==0)
 					{
 					tr
