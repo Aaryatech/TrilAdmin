@@ -144,9 +144,9 @@ body {
 
 			</div>
 
-				<div class=" box-content">
+				<div class="box-content">
 					 
-		<div class="box">
+		<div class="col-md-12">
 			<form id="submitPurchaseOrder"
 				action="${pageContext.request.contextPath}/submitMrnInspection"
 				method="post">
@@ -238,7 +238,15 @@ body {
 		</div>
 			<div class="row">
 						<div class="col-md-12" style="text-align: center">
-							<input type="submit" class="btn btn-info" value="Submit">
+							<c:choose>
+						<c:when test="${getMrnHeader.mrnStatus==2}">
+						<input type="submit" class="btn btn-info" value="Already Inspection Done" disabled>
+						</c:when>
+						<c:otherwise>
+						<input type="submit" class="btn btn-info" value="Submit">
+						</c:otherwise>
+							</c:choose>
+							
 
 
 						</div>
@@ -256,7 +264,7 @@ body {
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
 						<h3 style="text-align: center;">Item From MRN</h3>
-							<div class=" box-content">
+							<div class="box-content">
 							<div class="row">
 								<div style="overflow:scroll;height:70%;width:100%;overflow:auto">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "

@@ -154,6 +154,35 @@ public class DashboardController {
 
 		return model;
 	}
+	@RequestMapping(value = "/getMrnInspForVendor", method = RequestMethod.POST)
+	public ModelAndView getMrnInspForVendor(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("mrn/mrnInspectionHeader");
+		try {
+			int vendorId=Integer.parseInt(request.getParameter("vendId"));
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			
+			for (int i = 0; i < vendorList.size(); i++) {
+				vendorList.get(i).setVendorDate(DateConvertor.convertToDMY(vendorList.get(i).getVendorDate()));
+			}
+			model.addObject("vendorList", vendorList);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("status","0,1");
+			 map.add("venId",vendorId);
+			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  List.class);
+            model.addObject("getMrnHeaderList", getMrnHeaderList);
+            model.addObject("vendorId", vendorId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
 	@RequestMapping(value = "/getMrnDetail/{mrnId}", method = RequestMethod.GET)
 	public ModelAndView getMrnDetail(@PathVariable("mrnId")int mrnId,HttpServletRequest request, HttpServletResponse response) {
 
@@ -162,17 +191,10 @@ public class DashboardController {
 		try {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			 map.add("status","0,1");
-			 map.add("venId","0");
-			GetMrnHeader[] getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  GetMrnHeader[].class);
-            List<GetMrnHeader> headerList=new ArrayList<>(Arrays.asList(getMrnHeaderList));
-			for(int i=0;i<headerList.size();i++)
-            {
-            	if(mrnId==headerList.get(i).getMrnId())
-            	{
-            		getMrnHeader=headerList.get(i);
-            	}
-            }
+			 map.add("mrnId",mrnId);
+		
+			 getMrnHeader=rest.postForObject(Constants.url+"getMrnHeader", map,  GetMrnHeader.class);
+			
             model.addObject("getMrnHeader", getMrnHeader);
             
 		} catch (Exception e) {

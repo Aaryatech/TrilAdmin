@@ -335,12 +335,15 @@ public class IndentController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
 			String date = request.getParameter("date");
-			
+			if(date=="") {
+			Date currDate = new Date();
+			date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
+			}
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("docId",docId);
 			map.add("catId", catId);
-			map.add("date", date);
+			map.add("date", DateConvertor.convertToYMD(date));
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

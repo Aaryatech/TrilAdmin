@@ -143,11 +143,12 @@ body {
 						</div>
 
 						<div class="box-content">
-						<div>
+						<div>	<div class="box-content">
+						<div>	
 							<form method="post" class="form-horizontal" id="validation-form">
 
-								<div class="box-content">
-									<div class="col-md-2">Grn Type
+							
+									<div class="form-group">	<div class="col-md-2">Grn Type
 									</div>
 									<div class="col-md-3">
 										<select name="grn_type" id="grn_type"
@@ -160,8 +161,7 @@ body {
 											<option value="4">Other</option>
 										</select>
 									</div>
-
-								<div class="col-md-2">
+	<div class="col-md-2">
 										Vendor </div>
 									<div class="col-md-3">
 										<select name="vendor_id" id="vendor_id"
@@ -177,8 +177,8 @@ body {
 									</div>
 
 								</div>
-                                <br/><br>
-								<div class="box-content">
+                               
+								<div class="form-group">
 
 									<div class="col-md-2 ">Grn Date
 									</div>
@@ -195,9 +195,7 @@ body {
 											data-rule-required="true" />
 									</div>
 								</div>
-								<br/><br>
-
-								<div class="box-content">
+								<div class="form-group">
 									<div class="col-md-2">Gate
 										Entry No </div>
 
@@ -214,9 +212,7 @@ body {
 											size="14" type="text" name="gate_entry_date" value="${date}"
 											required />
 									</div>
-								</div><br>
-								<br/>
-								<div class="box-content">
+								</div><div class="form-group">
 									<div class="col-md-2">Chalan
 										No </div>
 
@@ -235,10 +231,7 @@ body {
 									</div>
 
 								</div>
-								
-
-<br/><br>
-								<div class="box-content">
+					<div class="form-group">
 									<div class="col-md-2">Bill No
 									</div>
 
@@ -256,10 +249,7 @@ body {
 											required />
 									</div>
 
-								</div>
-
-<br/><br>
-								<div class="box-content">
+								</div><div class="form-group">
 									<div class="col-md-2">Select
 										from PO List </div>
 									<div class="col-md-3">
@@ -277,7 +267,7 @@ body {
 									
 									</div>
 								</div>
-<br><br>
+
 								<div id="myModal" class="modal">
 
 									<div class="modal-content" style="color: black;">
@@ -405,10 +395,7 @@ body {
 											data-rule-required="true" />
 									</div>
 								</div>
-							</form>
-						</div>
-					</div>
-					<div class="form-group">
+									<div class="form-group">
 					<div class="col-md-6"></div>
 					<div class="col-md-3">
 					<input type="button"
@@ -420,6 +407,10 @@ body {
 					</button>
 					</div>
 					</div>
+							</form>
+						</div>
+					</div>
+				
 				</div>
 			</div>
 		</div>

@@ -43,15 +43,15 @@
 								<i class="fa fa-list"></i>Mrn Inspection List
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/companyTypeList">
+								<a href="${pageContext.request.contextPath}/">
 									</a> <a data-action="collapse" href="#"></a>
 							</div>
 
 						</div>
  
 						<div class=" box-content">
-							<form id="addSupplier"
-								action="${pageContext.request.contextPath}/insertCategory"
+							<form id="addInspection"
+								action="${pageContext.request.contextPath}/getMrnInspForVendor"
 								method="post">
 								<div class="box-content">
 
@@ -62,7 +62,16 @@
 										<option value="0" selected>ALL</option>
 											 <c:forEach items="${vendorList}" var="vendorList"
 							varStatus="count">
-							  <option value="${vendorList.vendorId}"><c:out value="${vendorList.vendorName}"/></option>
+							<c:choose>
+							<c:when test="${vendorId==vendorList.vendorId}">
+							 <option value="${vendorList.vendorId}" selected><c:out value="${vendorList.vendorName}"/></option>
+							
+							</c:when>
+							<c:otherwise>
+							 <option value="${vendorList.vendorId}" ><c:out value="${vendorList.vendorName}"/></option>
+							
+							</c:otherwise>
+							</c:choose>
  													 
 												</c:forEach>
 						
