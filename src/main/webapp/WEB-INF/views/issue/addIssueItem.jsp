@@ -5,8 +5,41 @@
 	 
  <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-	<body>
-	
+	<body onload="disabledDate()">
+	<!-- <script>
+		 function disabledDate () {
+			var c = document.getElementById("stockDateDDMMYYYY").value; 
+			var toDateValue = c.split('-'); 
+			var tDate=new Date();
+			tDate.setFullYear(toDateValue[2],(toDateValue[1] - 1 ),toDateValue[0]); 
+			var min = new Date(tDate.setDate(tDate.getDate())); 
+			alert(min);
+			$("#issueDate").datepicker({
+				dateFormat : 'dd-mm-yy',
+					minDate : min
+			});
+		} 
+	</script> -->
+	<script type="text/javascript">
+	 function disabledDate () {
+	var c = document.getElementById("stockDateDDMMYYYY").value; 
+	alert(c);
+	var toDateValue = c.split('-'); 
+	  var month = (toDateValue[1] - 1 );     // getMonth() is zero-based
+	  var day = toDateValue[0];
+	  var year = toDateValue[2];
+	  alert(day + " " + month + " " + year);
+	  if(month < 10)
+	      month = '0' + month.toString();
+	  if(day < 10)
+	      day = '0' + day.toString();
+
+	  var maxDate = 2018 + '-' + 08 + '-' + 01;
+	  alert(maxDate);
+	  $('#issueDate').attr('min', maxDate);
+	 }
+ 
+ </script>
 	  <c:url var="qtyValidationFromBatch" value="/qtyValidationFromBatch"></c:url>
 	 <c:url var="getBatchByItemId" value="/getBatchByItemId"></c:url>
 	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
@@ -84,10 +117,11 @@
 							
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
-										<input id="issueDate" class="form-control date-picker"
-								 placeholder="Issue Date"  name="issueDate" type="text" value="" onblur="getInvoiceNo()"  required>
-
-
+										<input id="issueDate" class="form-control"
+								 placeholder="Issue Date"  name="issueDate" type="date" value="" onblur="getInvoiceNo()"  required> 
+								 
+								 
+						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
 									</div>
 									
 									<div class="col-md-2" >Select Account Head</div>

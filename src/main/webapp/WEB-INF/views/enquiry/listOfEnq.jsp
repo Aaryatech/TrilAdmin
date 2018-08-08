@@ -321,18 +321,34 @@
 																	'<td></td>')
 																	.html(
 																			itemList.indNo));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			'  <a href="javascript:genPdf('
-																					+ itemList.enqId
-																					+ ');"><abbr'+
+													if (itemList.enqStatus == 1) {
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				'  <a href="javascript:genPdf('
+																						+ itemList.enqId
+																						+ ');"><abbr'+
 													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnq/'+itemList.enqId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnquiry/'
-																					+ itemList.enqId
-																					+ '"'
-																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+																						+ itemList.enqId
+																						+ '"'
+																						+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													} else 	if(itemList.enqStatus == 0){
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				'  <a href="javascript:genPdf('
+																						+ itemList.enqId
+																						+ ');"><abbr'+
+												'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnquiry/'+itemList.enqId+'"><abbr'+
+												'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnquiry/'
+																						+ itemList.enqId
+																						+ '"'
+																						+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													}
 													$('#table1 tbody').append(
 															tr);
 												})

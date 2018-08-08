@@ -177,7 +177,7 @@ body {
 									</div>
 
 								</div>
-                                <br/>
+                                <br/><br>
 								<div class="box-content">
 
 									<div class="col-md-2 ">Grn Date
@@ -195,7 +195,7 @@ body {
 											data-rule-required="true" />
 									</div>
 								</div>
-								<br/>
+								<br/><br>
 
 								<div class="box-content">
 									<div class="col-md-2">Gate
@@ -214,7 +214,7 @@ body {
 											size="14" type="text" name="gate_entry_date" value="${date}"
 											required />
 									</div>
-								</div>
+								</div><br>
 								<br/>
 								<div class="box-content">
 									<div class="col-md-2">Chalan
@@ -237,7 +237,7 @@ body {
 								</div>
 								
 
-<br/>
+<br/><br>
 								<div class="box-content">
 									<div class="col-md-2">Bill No
 									</div>
@@ -258,7 +258,7 @@ body {
 
 								</div>
 
-<br/>
+<br/><br>
 								<div class="box-content">
 									<div class="col-md-2">Select
 										from PO List </div>
@@ -277,7 +277,7 @@ body {
 									
 									</div>
 								</div>
-<br>
+<br><br>
 								<div id="myModal" class="modal">
 
 									<div class="modal-content" style="color: black;">
