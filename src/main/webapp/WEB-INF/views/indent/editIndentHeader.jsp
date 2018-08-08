@@ -14,7 +14,7 @@
 	<c:url var="getSubDeptListByDeptId" value="/getSubDeptListByDeptId" />
 	<c:url var="getgroupListByCatId" value="/getgroupListByCatId" />
 
-	<c:url var="getIndentDetail" value="/getIndentDetail" />
+	<c:url var="getIndentDetailForEdit" value="/getIndentDetailForEdit" />
 
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 
@@ -191,7 +191,7 @@
 								</div>
 								<br />
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Is Dev </label>
+									<label class="col-sm-3 col-lg-2 control-label">For Development </label>
 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="is_dev" id="is_dev" class="form-control"
@@ -212,7 +212,7 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Is
+									<label class="col-sm-3 col-lg-2 control-label">
 										Monthly </label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="is_monthly" id="is_monthly" class="form-control"
@@ -235,6 +235,80 @@
 
 										</select>
 									</div>
+								</div>
+								
+								
+								<div class="box-content">
+									<label class="col-sm-3 col-lg-2 control-label">Group </label>
+									<div class="col-sm-6 col-lg-10 controls">
+
+										<select name="group" id="group" class="form-control"
+											placeholder="Group" data-rule-required="true">
+										</select>
+									</div>
+									<!-- <label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="quantity" id="quantity"
+											class="form-control" placeholder="Quantity"
+											data-rule-required="true" />
+									</div> -->
+								</div>
+								<br/>
+
+								<div class="box-content">
+									<label class="col-sm-3 col-lg-2 control-label">Item
+										Name </label>
+									<div class="col-sm-6 col-lg-10 controls">
+
+										<select id="item_name" name="item_name"
+											class="form-control chosen" placeholder="Item Name"
+											data-rule-required="true">
+
+										</select>
+									</div>
+								</div>
+								<br/>
+								<div class="box-content">
+									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+									<div class="col-sm-6 col-lg-2 controls">
+										<input type="text" name="quantity" id="quantity"
+											class="form-control" placeholder="Quantity"
+											data-rule-required="true" data-rule-number="true" />
+									</div>
+									<!-- </div>
+
+								<div class="form-group"> -->
+
+									<label class="col-sm-3 col-lg-2 control-label">Schedule
+										Days</label>
+									<div class="col-sm-3 col-lg-2 controls">
+										<input type="text" name="sch_days" id="sch_days"
+											class="form-control" placeholder="Schedule Days"
+											data-rule-required="true" data-rule-number="true" />
+									</div>
+									<label class="col-sm-3 col-lg-1 control-label">Remark</label>
+									<div class="col-sm-6 col-lg-2 controls">
+
+										<input type="text" name="remark" id="remark"
+											class="form-control" placeholder="Remark"
+											data-rule-required="true" />
+									</div>
+
+								<!-- </div>
+
+								<div class="box-content">
+									<div class="col-md-12" style="text-align: center"> -->
+
+										<input type="button" onclick="insertIndentDetail()"
+											class="btn btn-info" value="Submit">
+										
+
+
+
+
+										<!-- 										<input type="button" onclick="validateQty()" class="btn btn-info" value="Submit">
+ -->
+									<!-- </div> -->
 								</div>
 
 
@@ -301,10 +375,6 @@
 																
 																</c:when>
 															</c:choose>
-															
-
-															
-
 														</td>
 
 													</tr>
@@ -432,7 +502,8 @@
 		}
 	</script>
 	<script type="text/javascript">
-		function showDept() {
+		
+	function showDept() {
 			var mac_spec = document.getElementById("machine_specific").value;
 			//alert("Machine Specific "+mac_spec);
 			if (mac_spec == 1) {
@@ -442,6 +513,7 @@
 				document.getElementById('deptDiv').style.display = "none";
 			}
 		}
+	
 	</script>
 	<script type="text/javascript">
 		$(document)
@@ -554,18 +626,14 @@
 				.ready(
 						function() {
 
-							$('#ind_cat')
-									.change(
-											function() {
+							
 
 												$
 														.getJSON(
 																'${getgroupListByCatId}',
 																{
-																	catId : $(
-																			this)
-																			.val(),
-																	ajax : 'true'
+																	catId : ${indent.catId},
+																	ajax : 'true',
 																},
 																function(data) {
 
@@ -595,7 +663,7 @@
 																			.trigger(
 																					"chosen:updated");
 																});
-											});
+										
 						});
 	</script>
 
@@ -607,15 +675,18 @@
 			var remark = $('#remark').val();
 			var schDay = $('#sch_days').val();
 			var itemName = $("#item_name option:selected").html();
-
+			var indMId=${indent.indMId};
+			
 			var indentDate = $('#indent_date').val();
-			$.getJSON('${getIndentDetail}', {
+			$.getJSON('${getIndentDetailForEdit}', {
 				itemId : itemId,
 				qty : qty,
 				remark : remark,
 				itemName : itemName,
 				schDay : schDay,
 				indentDate : indentDate,
+				indMId : indMId,
+				key : -1,
 				ajax : 'true',
 
 			}, function(data) {
@@ -625,13 +696,44 @@
 				$.each(data, function(key, trans) {
 					var tr = $('<tr></tr>');
 					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(trans.itemCode));
-					tr.append($('<td></td>').html(trans.itemName));
-					tr.append($('<td></td>').html(trans.qty));
-					tr.append($('<td></td>').html(trans.uom));
-					tr.append($('<td></td>').html(trans.schDays));
-					tr.append($('<td></td>').html(trans.date));
-					tr.append($('<td></td>').html(trans.curStock));
+					tr.append($('<td></td>').html(trans.indItemDesc));
+					//tr.append($('<td></td>').html(trans.qty));
+				tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			"<input type=number style='text-align:center; width:90px' class=form-control readonly name=indQty"
+																					+ trans.indDId
+																					+ " id=indQty"
+																					+ trans.indDId
+																					+ " onchange='getValue(this.value,"
+																					+ trans.indDId
+																					+ ","
+																					+ trans.indMId
+																					+ ")' value="
+																					+ trans.indQty 
+																					+ " />"));
+					tr.append($('<td></td>').html(trans.indItemSchd));
+					tr.append($('<td></td>').html(trans.indItemSchddt));
+					tr.append($('<td></td>').html(trans.indRemark));
+					if(trans.indDStatus==0)
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(
+									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
+				  	
+					}
+				else
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(''));
+				  	
+					}
+				
 
 					$('#table1 tbody').append(tr);
 				})

@@ -27,8 +27,17 @@ public class GetIndent {
 	
 	private String accHeadDesc;
 	
+	private int catId;
 	
 	
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
 	public String getAccHeadDesc() {
 		return accHeadDesc;
 	}
@@ -136,8 +145,8 @@ public class GetIndent {
 	public String toString() {
 		return "GetIndent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
 				+ indMType + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly + ", catDesc=" + catDesc
-				+ ", indMStatus=" + indMStatus + ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", deptId="
-				+ deptId + ", subDeptId=" + subDeptId + "]";
+				+ ", indMStatus=" + indMStatus + ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", catId="
+				+ catId + ", deptId=" + deptId + ", subDeptId=" + subDeptId + "]";
 	}
 	
 }

@@ -325,6 +325,118 @@ public class IndentController {
 		}
 		return tempIndentList;
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/getIndentDetailForEdit", method = RequestMethod.GET)
+	public @ResponseBody List<IndentTrans> getIndentDetailForEdit(HttpServletRequest request,
+			HttpServletResponse response) {
+		System.err.println("In get getIndentDetailForEdit ");
+
+		try {
+			int indMId = Integer.parseInt(request.getParameter("indMId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("indMId", indMId);
+			RestTemplate restTemp=new RestTemplate();
+			Indent indent = restTemp.postForObject(Constants.url + "/getIndentByIndId", map, Indent.class);
+
+			
+			int key = Integer.parseInt(request.getParameter("key"));
+			
+			
+			if(key==-1) {
+				
+				System.err.println("Add Call Indent");
+			String itemName = request.getParameter("itemName");
+			String remark = request.getParameter("remark");
+
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+		
+			
+			System.err.println("Item Id " + itemId);
+
+			int qty = Integer.parseInt(request.getParameter("qty"));
+
+			int schDay = Integer.parseInt(request.getParameter("schDay"));
+			String indDate = request.getParameter("indentDate");
+			TempIndentDetail detail = new TempIndentDetail();
+
+			String uom = null;
+			String itemCode = null;
+			
+			//getIndentByIndId
+
+			
+			for (int i = 0; i < itemList.size(); i++) {
+
+				if (itemList.get(i).getItemId() == itemId) {
+
+					uom = itemList.get(i).getItemUom();
+					itemCode = itemList.get(i).getItemCode();
+
+					break;
+				}
+			}
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			Date tempDate = sdf.parse(indDate);
+			Calendar c = Calendar.getInstance();
+			c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
+			c.add(Calendar.DATE, schDay); // Adding days
+			String date = sdf.format(c.getTime());
+			detail.setCurStock(0);
+			detail.setItemId(itemId);
+			detail.setItemName(itemName);
+			detail.setQty(qty);
+			detail.setSchDays(schDay);
+			detail.setDate(date);
+			detail.setUom(uom);
+			detail.setItemCode(itemCode);
+			detail.setRemark(remark);
+			tempIndentList.add(detail);
+			}
+			
+			IndentTrans transDetail = new IndentTrans();
+			TempIndentDetail detail = tempIndentList.get(0);
+
+			transDetail.setIndDStatus(0);
+
+			transDetail.setIndItemCurstk(detail.getCurStock());
+			transDetail.setIndItemDesc(detail.getItemName());
+			transDetail.setIndItemSchd(detail.getSchDays());
+			transDetail.setIndItemSchddt(DateConvertor.convertToSqlDate(detail.getDate()));
+			transDetail.setIndItemUom(detail.getUom());
+			transDetail.setIndMDate(indent.getIndMDate());
+			transDetail.setIndMNo(indent.getIndMNo());
+			transDetail.setIndQty(detail.getQty());
+			transDetail.setIndRemark(detail.getRemark());
+			transDetail.setItemId(detail.getItemId());
+			transDetail.setIndFyr(detail.getQty());
+
+			transDetail.setIndMId(indent.getIndMId());
+			//indTrasList.add(transDetail);
+			
+			IndentTrans[] indDetail = rest.postForObject(Constants.url + "/saveIndentTras", transDetail,
+					IndentTrans[].class);
+			
+			indDetailListForEdit = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
+
+			
+		} catch (Exception e) {
+
+			System.err.println("Exce in getIndentDetail Cont @IndentController by Ajax call " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return indDetailListForEdit;
+	}
+	
+	
+	
 	@RequestMapping(value = "/getInvoiceNo", method = RequestMethod.GET)
 	@ResponseBody
 	public DocumentBean getInvoiceNo(HttpServletRequest request, HttpServletResponse response) {
@@ -335,15 +447,17 @@ public class IndentController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
 			String date = request.getParameter("date");
-			if(date=="") {
-			Date currDate = new Date();
-			date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
-			}
 			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("docId",docId);
-			map.add("catId", catId);
-			map.add("date", DateConvertor.convertToYMD(date));
+			if(date=="") {
+						Date currDate = new Date();
+						date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
+						}
+						
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+						map.add("docId",docId);
+						map.add("catId", catId);
+						map.add("date", DateConvertor.convertToYMD(date));
+
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -568,11 +682,15 @@ if(indTrasList.size()>0) {
 	}
 
 	// editIndent edit Indent Header
-
+	
+	List<IndentTrans> indDetailListForEdit=new ArrayList<IndentTrans>();
+	
 	@RequestMapping(value = "/editIndent/{indMId}", method = RequestMethod.GET)
 	public ModelAndView editIndent(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("indMId") int indMId) {
-
+	
+		indDetailListForEdit=new ArrayList<IndentTrans>();
+		
 		ModelAndView model = null;
 		try {
 
@@ -628,11 +746,11 @@ if(indTrasList.size()>0) {
 
 			IndentTrans[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndMId", map,
 					IndentTrans[].class);
+			
+			indDetailListForEdit = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
 
-			List<IndentTrans> indDetailList = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
-
-			System.err.println("Indent Detail List  " + indDetailList.toString());
-			model.addObject("indDetailList", indDetailList);
+			System.err.println("Indent Detail List  " + indDetailListForEdit.toString());
+			model.addObject("indDetailList", indDetailListForEdit);
 
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
