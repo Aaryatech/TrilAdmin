@@ -441,7 +441,7 @@ public class IndentController {
 	@ResponseBody
 	public DocumentBean getInvoiceNo(HttpServletRequest request, HttpServletResponse response) {
             
-		String invNo="-";
+		String invNo="";
 		DocumentBean docBean=null;
 		try {
 			int catId = Integer.parseInt(request.getParameter("catId"));
