@@ -535,7 +535,10 @@ public class GetpassController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
 			String date = request.getParameter("date");
-			
+			if(date=="") {
+				Date currDate = new Date();
+				date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
+				}
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("docId",docId);
