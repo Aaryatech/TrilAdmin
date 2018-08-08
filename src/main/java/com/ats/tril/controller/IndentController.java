@@ -340,7 +340,7 @@ public class IndentController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("docId",docId);
 			map.add("catId", catId);
-			map.add("date", DateConvertor.convertToYMD(date));
+			map.add("date", date);
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

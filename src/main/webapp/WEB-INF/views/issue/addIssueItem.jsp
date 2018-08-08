@@ -22,21 +22,20 @@
 	</script> -->
 	<script type="text/javascript">
 	 function disabledDate () {
-	var c = document.getElementById("stockDateDDMMYYYY").value; 
-	alert(c);
-	var toDateValue = c.split('-'); 
-	  var month = (toDateValue[1] - 1 );     // getMonth() is zero-based
-	  var day = toDateValue[0];
-	  var year = toDateValue[2];
-	  alert(day + " " + month + " " + year);
-	  if(month < 10)
-	      month = '0' + month.toString();
-	  if(day < 10)
-	      day = '0' + day.toString();
-
-	  var maxDate = 2018 + '-' + 08 + '-' + 01;
-	  alert(maxDate);
-	  $('#issueDate').attr('min', maxDate);
+		 var c = document.getElementById("stockDateDDMMYYYY").value; 
+			var toDateValue = c.split('-');
+			 var dtToday = new Date();
+			 dtToday.setFullYear(toDateValue[2],(toDateValue[1] - 1 ),toDateValue[0]); 
+			  var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
+			  var day = dtToday.getDate();
+			  var year = dtToday.getFullYear();
+			  if(month < 10)
+			      month = '0' + month.toString();
+			  if(day < 10)
+			      day = '0' + day.toString(); 
+			  var maxDate = year + '-' + month + '-' + day;  
+	  		$('#issueDate').attr('min', maxDate);
+	  
 	 }
  
  </script>
@@ -118,7 +117,7 @@
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control"
-								 placeholder="Issue Date"  name="issueDate" type="date" value="" onblur="getInvoiceNo()"  required> 
+								 placeholder="Issue Date"  name="issueDate" type="date"  onchange="getInvoiceNo()"  required> 
 								 
 								 
 						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
@@ -796,7 +795,7 @@ return isValid;
 function getInvoiceNo() {
 
 	var date = $("#issueDate").val();
-
+	 
 	$.getJSON('${getInvoiceNo}', {
 
 		catId:1,

@@ -72,14 +72,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			
 			
 			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
-			
-			String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-		     
-				 String monthName=monthNames[stockHeader.getMonth()-1];
-				 System.out.println("monthName:  " + monthName + ", stock Date: " + stockHeader.getDate());
+			 
+				 System.out.println( " stock Date: " + stockHeader.getDate());
 				 
 				 model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockHeader.getDate()));
-		  
+				 
+				  
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -285,16 +283,18 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
 			int acc = Integer.parseInt(request.getParameter("acc"));
+			
+			System.out.println("issueDate " + issueDate);
 			 IssueHeader issueHeader = new IssueHeader();
 		 
-			 issueHeader.setIssueDate(DateConvertor.convertToYMD(issueDate));
+			 issueHeader.setIssueDate(issueDate);
 			 DocumentBean docBean=null;
 				try {
 					
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 					map.add("docId",6);
 					map.add("catId", 1);
-					map.add("date", DateConvertor.convertToYMD(issueDate));
+					map.add("date", issueDate);
 					RestTemplate restTemplate = new RestTemplate();
 
 					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -315,6 +315,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
 				}catch (Exception e) {
 					e.printStackTrace();
+					 issueHeader.setIssueNo("1");
 				}
 			 //issueHeader.setIssueNo(issueNo);
 			 issueHeader.setDeleteStatus(1);
@@ -351,11 +352,9 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 }
 			 }
 			 
-			 System.out.println("updateMrnDetail  " + updateMrnDetail);
-			 System.out.println("issueDetailList  " + issueDetailList);
+			 System.out.println("issueHeader  " + issueHeader); 
 			 
-			 
-			 IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
+			  IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
 					IssueHeader.class);
 			 if(res!=null)
 	          {
@@ -525,6 +524,13 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
 
 			model.addObject("accountHeadList", accountHeadList);
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			 
+			 System.out.println( " stock Date: " + stockHeader.getDate());
+			 
+			 model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockHeader.getDate()));
+			 model.addObject("date",DateConvertor.convertToYMD(getIssueHeader.getIssueDate()));
 			 
 			 
 		} catch (Exception e) {
@@ -734,7 +740,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
 			int acc = Integer.parseInt(request.getParameter("acc"));
 			 
-			getIssueHeader.setIssueDate(DateConvertor.convertToYMD(issueDate));
+			getIssueHeader.setIssueDate(issueDate);
 			//getIssueHeader.setIssueNo(issueNo);
 			getIssueHeader.setDeleteStatus(1);
 			getIssueHeader.setIssueDetailList(issueDetailEditList); 
@@ -750,8 +756,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 }
  
 			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
-			System.out.println("issueDetailEditList      " + issueDetailEditList);
-			 IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", getIssueHeader,
+			System.out.println("getIssueHeader      " + getIssueHeader);
+			IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", getIssueHeader,
 					IssueHeader.class); 
 			 System.out.println(res);
 			
@@ -791,7 +797,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
 	   					 MrnDetail[].class);
 					System.out.println(update);
-			 }
+			 } 
 
 		} catch (Exception e) {
 			e.printStackTrace();

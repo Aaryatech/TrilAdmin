@@ -5,8 +5,26 @@
 	 
  <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-	<body onload="onloadSubDeptListByDeptId()">
-	
+	<body onload="disabledDate()">
+	<script type="text/javascript">
+	 function disabledDate () {
+		 var c = document.getElementById("stockDateDDMMYYYY").value; 
+			var toDateValue = c.split('-');
+			 var dtToday = new Date();
+			 dtToday.setFullYear(toDateValue[2],(toDateValue[1] - 1 ),toDateValue[0]); 
+			  var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
+			  var day = dtToday.getDate();
+			  var year = dtToday.getFullYear();
+			  if(month < 10)
+			      month = '0' + month.toString();
+			  if(day < 10)
+			      day = '0' + day.toString(); 
+			  var maxDate = year + '-' + month + '-' + day;  
+	  		$('#issueDate').attr('min', maxDate);
+	  		onloadSubDeptListByDeptId();
+	 }
+ 
+ </script>
 	<c:url var="qtyValidationFromBatchInEdit" value="/qtyValidationFromBatchInEdit"></c:url>
 	  <c:url var="getBatchByItemIdInIssueEdit" value="/getBatchByItemIdInIssueEdit"></c:url>
 	 <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
@@ -83,9 +101,10 @@
 							
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
-										<input id="issueDate" class="form-control date-picker"
-								 placeholder="Issue Date" value="${getIssueHeader.issueDate}"  name="issueDate" type="text" required>
-
+										<input id="issueDate" class="form-control"
+								 placeholder="Issue Date" value="${date}"  name="issueDate" type="date" required>
+								 
+						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
 
 									</div>
 								<div class="col-md-2" >Select Account Head</div>
@@ -183,7 +202,7 @@
 												 
 									</div>
 									 
-								</div><br> 
+								</div><br>
 							 
 								 
 							<div class="form-group">
