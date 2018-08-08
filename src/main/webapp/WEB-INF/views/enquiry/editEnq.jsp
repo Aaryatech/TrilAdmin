@@ -175,7 +175,8 @@ body {
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
 											placeholder="Enquiry Date" name="enqDate" type="text"
-											onblur="getInvoiceNo()" value="${enqDateTemp}" required>
+											onblur="getInvoiceNo()" value="${editEnquiry.enqDate}"
+											required>
 									</div>
 								</div>
 								<br>
@@ -185,7 +186,7 @@ body {
 									<div class="col-md-2">Enquiry Remark</div>
 									<div class="col-md-3">
 										<textarea rows="2" cols="95" id="enqRemark"
-											placeholder="Enquiry Remark" type="text" name="enqRemark">${enqRemarkTemp}
+											placeholder="Enquiry Remark" type="text" name="enqRemark">${editEnquiry.enqRemark}
 										</textarea>
 									</div>
 
@@ -203,27 +204,17 @@ body {
 								</div>
 								<br>
 								<div class="box-content">
-									<div class="col-md-2">Select Intend No.</div>
+									<div class="col-md-2">Intend No.</div>
+
 									<div class="col-md-3">
-										<select name="indId" id="indId" class="form-control chosen"
-											tabindex="6">
-											<option value="">Select</option>
-											<c:forEach items="${intedList}" var="intedList">
-												<c:choose>
-													<c:when test="${intedList.indMId==editEnquiry.indId}">
-														<option value="${intedList.indMId}" selected>
-															${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${intedList.indMId}">
-															${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-													</c:otherwise>
-												</c:choose>
-
-
-											</c:forEach>
-										</select>
+										<input class="form-control" id="indNo" placeholder="Intend No"
+											type="text" name="indNo" value="${editEnquiry.indNo}"
+											Readonly /> <input type="hidden"
+											value="${editEnquiry.indId}" name="indId" id="indId"
+											class="form-control">
 									</div>
+
+
 									<div class="col-md-1"></div>
 									<div class="col-md-2">
 										<input type="button" class="btn btn-info"

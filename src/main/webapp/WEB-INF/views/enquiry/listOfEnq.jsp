@@ -334,7 +334,7 @@
 																						+ itemList.enqId
 																						+ '"'
 																						+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
-													} else if (itemList.enqStatus == 0) {
+													} else 	if(itemList.enqStatus == 0){
 
 														tr
 																.append($(
