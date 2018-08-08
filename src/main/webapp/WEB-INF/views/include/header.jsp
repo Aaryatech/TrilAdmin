@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Exhibition - Admin</title>
+<title>TRAMBAK RUBBER</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaty.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flaty-responsive.css">
 
-<link rel="icon" href="${pageContext.request.contextPath}/resources/img/atslogo.png" type="image/x-icon" >
+<link rel="icon" href="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" type="image/x-icon" >
 </head>
 <body>
 
