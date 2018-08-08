@@ -418,6 +418,7 @@ public class IndentController {
 			transDetail.setIndFyr(detail.getQty());
 
 			transDetail.setIndMId(indent.getIndMId());
+			transDetail.setDelStatus(Constants.delStatus);
 			//indTrasList.add(transDetail);
 			
 			IndentTrans[] indDetail = rest.postForObject(Constants.url + "/saveIndentTras", transDetail,
