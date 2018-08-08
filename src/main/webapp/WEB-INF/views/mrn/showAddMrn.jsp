@@ -98,6 +98,9 @@ body {
 	<c:url var="insertMrnProcess" value="/insertMrnProcess" />
 
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
+	<c:url var="addMrnQty" value="/addMrnQty" />
+	
+	
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -290,16 +293,16 @@ body {
 														<thead>
 															<tr>
 																<!-- <th class="col-md-1" style="text-align: center;">Select</th> -->
-																<th class="col-md-1" style="text-align: center;">Sr.No.</th>
-																<th class="col-md-2" style="text-align: center;">Item
+																<th class="col-sm-1" style="text-align: center;">Sr.No.</th>
+																<th class="col-md-1" style="text-align: center;">Item
 																	Code</th>
-																<th class="col-md-3" style="text-align: center;">Item
+																<th class="col-md-3" style="text-align: left;">Item
 																	Name</th>
 																<th class="col-md-1" style="text-align: center;">PO
 																	QTY</th>
 																<th class="col-md-1" style="text-align: center;">Rec
 																	QTY</th>
-																<th class="col-md-2" style="text-align: center;">Pending
+																<th class="col-md-1" style="text-align: center;">Pend
 																	QTY</th>
 																<th class="col-md-1" style="text-align: center;">PO
 																	No</th>
@@ -328,7 +331,9 @@ body {
 
 								</div>
 
-
+<button class="buttonload" id="loader" style="display: none; color: red;">
+						<i class="fa fa-spinner fa-spin"></i>Loading
+					</button>
 
 								<div class=" box-content">
 									<div class="row">
@@ -339,16 +344,16 @@ body {
 												style="width: 100%" id="table_grid2">
 												<thead>
 													<tr>
-														<th class="col-md-1" style="text-align: center;">Sr.No.</th>
-														<th class="col-md-2" style="text-align: center;">Item
+														<th class="col-sm-1" style="text-align: center;">Sr.No.</th>
+														<th class="col-md-1" style="text-align: center;">Item
 															Code</th>
-														<th class="col-md-3" style="text-align: center;">Item
+														<th class="col-md-3" style="text-align: left;">Item
 															Name</th>
 														<th class="col-md-1" style="text-align: center;">PO
 															QTY</th>
 														<th class="col-md-1" style="text-align: center;">Rec
 															QTY</th>
-														<th class="col-md-2" style="text-align: center;">Pending
+														<th class="col-md-1" style="text-align: center;">Pend
 															QTY</th>
 														<th class="col-md-1" style="text-align: center;">PO
 															No</th>
@@ -410,7 +415,7 @@ body {
 						style="text-align: center; align-content: center;"
 						onclick="insertMrn()" class="btn btn-info" value="Add Mrn">
 
-					<button class="buttonload" id="loader">
+					<button class="buttonload" id="loader" style="display: none; color: red;">
 						<i class="fa fa-spinner fa-spin"></i>Loading
 					</button>
 					</div>
@@ -636,17 +641,17 @@ body {
 
 													tr
 															.append($(
-																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	'<td class="col-sm-1" style="text-align: center;"></td>')
 																	.html(
 																			key + 1));
 													tr
 															.append($(
-																	'<td class="col-md-2" style="text-align: center;"></td>')
+																	'<td class="col-md-1" style="text-align: center;"></td>')
 																	.html(
 																			itemList.itemCode));
 													tr
 															.append($(
-																	'<td class="col-md-3" style="text-align: center;"></td>')
+																	'<td class="col-md-3" style="text-align: left;"></td>')
 																	.html(
 																			itemList.itemName));
 													tr
@@ -698,7 +703,7 @@ body {
 													}
 													tr
 															.append($(
-																	'<td class="col-md-2" style="text-align: center;"></td>')
+																	'<td class="col-md-1" style="text-align: center;"></td>')
 																	.html(
 																			pendQty));
 													tr
@@ -747,7 +752,8 @@ body {
 
 			} else {
 
-				getPoDetail(qty, poDId);
+				//getPoDetail(qty, poDId);
+				addMrnQty(qty, poDId);
 
 			}
 
@@ -789,17 +795,17 @@ body {
 																cnt=			 */
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-sm-1" style="text-align: center;"></td>')
 																		.html(
 																				cnt));
 														tr
 																.append($(
-																		'<td class="col-md-2" style="text-align: center;"></td>')
+																		'<td class="col-md-1" style="text-align: center;"></td>')
 																		.html(
 																				itemList.itemCode));
 														tr
 																.append($(
-																		'<td class="col-md-3" style="text-align: center;"></td>')
+																		'<td class="col-md-3" style="text-align: left;"></td>')
 																		.html(
 																				itemList.itemName));
 														tr
@@ -851,7 +857,7 @@ body {
 														}
 														tr
 																.append($(
-																		'<td class="col-md-2" style="text-align: center;"></td>')
+																		'<td class="col-md-1" style="text-align: center;"></td>')
 																		.html(
 																				pendQty));
 														tr
@@ -874,18 +880,13 @@ body {
 							});
 		}
 	</script>
-	<script type="text/javascript">
-		function insertMrn() {
-
-			//alert("Insert Mrn ");
-		}
-	</script>
+	
 
 
 	<script type="text/javascript">
 		function insertMrn() {
 			//alert("Hi ");
-			
+			//$('#loader').show();
 			var grn_type = $("#grn_type").val();
 
 			var vendor_id = $("#vendor_id").val();
@@ -908,7 +909,6 @@ body {
 
 			var po_list = $("#po_list").val();
 
-			//
 
 			var lorry_date = $("#lorry_date").val();
 
@@ -986,8 +986,6 @@ var isValid=true;
 			
 			if(isValid==true){
 				$('#loader').show();
-
-			
 			$.getJSON('${insertMrnProcess}', {
 
 				grn_type : grn_type,
@@ -1007,14 +1005,17 @@ var isValid=true;
 
 				ajax : 'true',
 			}, function(data) {
-				$('#loader').hide();
+				//$('#loader').hide();
+				document.getElementById('loader').style = "display:none";
 
 				//window.location.reload();
-				window.open("${pageContext.request.contextPath}/showAddMrn");
+				window.open("${pageContext.request.contextPath}/showAddMrn","_self");
 
 			});
 			//	alert("Hi End  ");
+			
 		}
+			//$('#loader').hide();
 		}
 	</script>
 <script type="text/javascript">
@@ -1039,6 +1040,141 @@ function getInvoiceNo() {
 
 }
 
+</script>
+
+<script type="text/javascript">
+
+function addMrnQty(qty, poDId) {
+	
+	var selectedPoIds = $("#po_list").val();
+
+	$
+			.getJSON(
+					'${addMrnQty}',
+					{
+						poIds : JSON.stringify(selectedPoIds),
+						qty : qty,
+						poDId : poDId,
+						ajax : 'true',
+					},
+					function(data) {
+						$('#table_grid1 td').remove();
+						$('#loader').hide();
+
+						if (data == "") {
+							alert("No records found !!");
+
+						}
+
+						$
+								.each(
+										data,
+										function(key, itemList) {
+											//alert("data received "
+													//+ data[0]);
+
+											var tr = $('<tr></tr>');
+											if(itemList.receivedQty>0){
+												tr = $('<tr bgcolor=#ec9da5></tr>');
+												
+												
+											}
+											/* tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	"<input type=checkbox style='text-align:center; width:40px' class=form-control name=checkBox"
+																			+ itemList.poDetailId
+																			+ ""
+																			+ itemList.itemId
+																			+ " id=checkBox"
+																			+ itemList.poDetailId
+																			+ ""
+																			+ itemList.itemId
+																			+ " oninput='checkMe(this.value)'  />")); */
+
+											tr
+													.append($(
+															'<td class="col-sm-1" style="text-align: center;"></td>')
+															.html(
+																	key + 1));
+											tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	itemList.itemCode));
+											tr
+													.append($(
+															'<td class="col-md-3" style="text-align: center;"></td>')
+															.html(
+																	itemList.itemName));
+											tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	itemList.itemQty));
+
+											tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	"<input type=text style='text-align:center; width:90px' class=form-control name=recQty"
+																			+ itemList.poDetailId
+																			+ ""
+																			+ itemList.itemId
+																			+ " id=recQty"
+																			+ itemList.poDetailId
+																			+ ""
+																			+ itemList.itemId
+																			+ " onchange='callMe(this.value,"
+																			+ itemList.poDetailId
+																			+ ","
+																			+ itemList.pendingQty
+																			+ ","
+																			+ itemList.itemId
+																			+ ")' value="
+																			+ itemList.receivedQty
+																			+ " />"));
+											/* 		var pendQty=0;
+													if(itemList.receivedQty==0){
+														
+														pendQty=itemList.pendingQty;
+													}else{ */
+											var pendQty = itemList.pendingQty
+													- itemList.receivedQty;
+											//}
+
+											//tr.append($('<td></td>').html(itemList.itemQty));//textbox
+
+											var status;
+											if (itemList.status == 0) {
+												status = "Pending";
+											} else if (itemList.status == 1) {
+
+												status = "Partial";
+											} else {
+												status = "Completed";
+											}
+											tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	pendQty));
+											tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	itemList.poNo));
+											tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	status));
+											$('#table_grid1 tbody')
+													.append(tr);
+										})
+					});
+}
 </script>
 
 </body>

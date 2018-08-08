@@ -114,8 +114,9 @@ public class MrnController {
 
 		GetPODetail[] poDetailRes;
 		try {
+			poIdList = new String();
 
-			if (poIdList.isEmpty()) {
+			//if (poIdList.isEmpty()) {
 
 				poIdList = request.getParameter("poIds");
 				System.err.println("Po  Id List  " + poIdList);
@@ -130,9 +131,9 @@ public class MrnController {
 				poDetailRes = rest.postForObject(Constants.url + "/getPODetailList", map, GetPODetail[].class);
 				poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
 
-			} // end of if poIdList is Empty
+			//} // end of if poIdList is Empty
 
-			else {
+			/*else {
 				int qty = Integer.parseInt(request.getParameter("qty"));
 
 				int poDId = Integer.parseInt(request.getParameter("poDId"));
@@ -159,7 +160,7 @@ public class MrnController {
 				}
 
 			} // end of else
-			System.err.println("PO Details List Using Ajax Call  " + poDetailList.toString());
+*/			System.err.println("PO Details List Using Ajax Call  " + poDetailList.toString());
 
 		} catch (Exception e) {
 
@@ -171,6 +172,47 @@ public class MrnController {
 
 	}
 
+	
+	@RequestMapping(value = { "/addMrnQty" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPODetail> addMrnQty(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			System.err.println("inside /addMrnQty");
+			
+			int qty = Integer.parseInt(request.getParameter("qty"));
+
+			int poDId = Integer.parseInt(request.getParameter("poDId"));
+
+			if (poDetailList.size() > 0) {
+
+				// if(qty>0) {
+
+				System.err.println("Inside poDlist.size >0 ");
+
+				for (int i = 0; i < poDetailList.size(); i++) {
+
+					if (poDetailList.get(i).getPoDetailId() == poDId) {
+						System.err.println("Inside poDId matched  ");
+
+						poDetailList.get(i).setReceivedQty(qty);
+
+					} else {
+
+						System.err.println("Po Detaol ID Not matched ");
+					}
+				}
+				// }
+			}
+		} catch (Exception e) {
+
+			System.err.println("Exception in getTempPoDetail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return poDetailList;
+
+	}
+	
 	// getTempPoDetail
 
 	@RequestMapping(value = { "/getTempPoDetail" }, method = RequestMethod.GET)
@@ -191,8 +233,8 @@ public class MrnController {
 	// insertMrnProcess final Mrn Insert Call Ajax;
 
 	@RequestMapping(value = { "/insertMrnProcess" }, method = RequestMethod.GET)
-	public @ResponseBody int insertMrnProcess(HttpServletRequest request, HttpServletResponse response) {
-
+	public @ResponseBody MrnHeader insertMrnProcess(HttpServletRequest request, HttpServletResponse response) {
+		MrnHeader mrnHeaderRes = null;
 		try {
 			System.err.println("inside /insertMrnProcess");
 
@@ -219,6 +261,8 @@ public class MrnController {
 			MrnHeader mrnHeader = new MrnHeader();
 			//----------------------------Inv No---------------------------------
 			DocumentBean docBean=null;
+			
+			
 			try {
 				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -306,7 +350,7 @@ public class MrnController {
 
 			RestTemplate restTemp = new RestTemplate();
 
-			MrnHeader mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
+			 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
 					MrnHeader.class);
 			 if(mrnHeaderRes!=null)
 	          {
@@ -328,8 +372,7 @@ public class MrnController {
 
 		}
 
-		return 1;
-
+		return mrnHeaderRes;
 	}
 
 	String fromDate, toDate;
