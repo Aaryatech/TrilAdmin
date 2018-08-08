@@ -495,7 +495,7 @@ h6{
 												<td class="col-md-1"><c:out value="${indent.poDate}" /></td>
 												<td class="col-md-1"><c:choose><c:when test="${indent.poType==1}">Regular</c:when><c:when test="${indent.poType==2}">Job Work</c:when><c:when test="${indent.poType==3}">General</c:when></c:choose></td>
 												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==1}">Pending Mrn</c:when></c:choose></td>
-												<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+												<td><a>MRN </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
