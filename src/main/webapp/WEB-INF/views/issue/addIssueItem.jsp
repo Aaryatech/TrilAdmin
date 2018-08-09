@@ -174,15 +174,17 @@
 											</select>
 									</div>
 									<input type="hidden" name=editIndex id="editIndex"   />
-									
+									  
+								</div><br> 
+								
+								<div class="box-content"> 
+								
 									<div class="col-md-2" >Select Item</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select   class="form-control chosen" onchange="getBatchByItemId()" name="itemId"  id="itemId"  >
 										 
 											</select>
-									</div>
-									
-								  
+									</div> 
 								</div><br> 
 								
 								<div class="box-content">
@@ -257,7 +259,7 @@
 								
 							<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
+										<input type="submit" class="btn btn-primary" value="Submit" id="submit" onclick="check();" disabled>
 <!-- 										<button type="button" class="btn">Cancel</button>
  -->									</div>
 								</div><br><br>
@@ -360,7 +362,7 @@
 				ajax : 'true'
 			}, function(data) {
 
-				document.getElementById("batchQty").value = data.remainingQty;
+				document.getElementById("batchQty").value = data.remainingQty; 
 			});
 		}
 		function getBatchByItemId() {
@@ -377,8 +379,14 @@
 
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
-					html += '<option value="' + data[i].mrnDetailId + '">'
-							+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+					
+					if(data[i].remainingQty>0){
+						
+						html += '<option value="' + data[i].mrnDetailId + '">'
+						+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+					}
+					
+					
 				}
 				html += '</option>';
 				$('#batchNo').html(html);
@@ -504,7 +512,7 @@
 
 									if (data == "") {
 										alert("No records found !!");
-
+										document.getElementById("submit").disabled=true;
 									}
 								 
   
@@ -518,9 +526,10 @@
 												  	tr.append($('<td></td>').html(itemList.groupName)); 
 												  	tr.append($('<td></td>').html(itemList.itemName)); 
 												  	tr.append($('<td></td>').html(itemList.itemIssueQty));
-												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
-												    $('#table_grid tbody').append(tr);
- 
+												  	/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+												    */tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+												     $('#table_grid tbody').append(tr);
+												     document.getElementById("submit").disabled=false;
 												})  
 												
 									document.getElementById("qty").value= "";
@@ -690,7 +699,7 @@
 
 						if (data == "") {
 							alert("No records found !!");
-
+							document.getElementById("submit").disabled=true;
 						}
 					 
 
@@ -703,9 +712,10 @@
 									  	tr.append($('<td></td>').html(itemList.groupName)); 
 									  	tr.append($('<td></td>').html(itemList.itemName)); 
 									  	tr.append($('<td></td>').html(itemList.itemIssueQty));
-									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+									  	/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+									  	 */tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 									    $('#table_grid tbody').append(tr);
-									  	
+									    document.getElementById("submit").disabled=false;
 									})
 									
 						document.getElementById("qty").value= "";
