@@ -87,6 +87,7 @@ body {
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<body>
 	  
+	  <c:url var="getIntendListByPoType" value="/getIntendListByPoType" />
     <c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<c:url var="geIntendDetailByIndId" value="/geIntendDetailByIndId"></c:url>
 	<c:url var="updateRmQty0" value="/updateRmQty0"></c:url>
@@ -149,26 +150,14 @@ body {
 									<div class="col-md-3">
 										<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" required>
 										<c:choose>
-											<c:when test="${poTypeTemp==1}">
-												<option value="" >Select PO Type</option>
-												<option value="1" selected>Regular</option>
-												<option value="2">Job Work</option>
-												<option value="3">General</option>
-												<option value="4">Other</option>
+											<c:when test="${poTypeTemp==1}"> 
+												<option value="1" selected>Regular</option> 
 											</c:when>
-											<c:when test="${poTypeTemp==2}">
-												<option value="" >Select PO Type</option>
-												<option value="1" >Regular</option>
-												<option value="2" selected>Job Work</option>
-												<option value="3">General</option>
-												<option value="4">Other</option>
+											<c:when test="${poTypeTemp==2}"> 
+												<option value="2" selected>Job Work</option> 
 											</c:when>
-											<c:when test="${poTypeTemp==3}">
-												<option value="" >Select PO Type</option>
-												<option value="1">Regular</option>
-												<option value="2">Job Work</option>
-												<option value="3" selected>General</option>
-												<option value="4">Other</option>
+											<c:when test="${poTypeTemp==3}"> 
+												<option value="3" selected>General</option> 
 											</c:when>
 											<c:when test="${poTypeTemp==4}">
 												<option value="4" selected>Other</option>
@@ -307,7 +296,7 @@ body {
 								<div class="col-md-2" >Select Intend No.</div>
 									<div class="col-md-3">
 										<select name="indId" id="indId" class="form-control chosen" tabindex="6" required>
-										<option value="" >Select  </option>
+									 
 									 <c:forEach items="${intedList}" var="intedList" >
 									 <c:choose>
 									 	<c:when test="${intedList.indMId==indId}">
@@ -440,7 +429,7 @@ body {
 									<div class="col-md-2">Select Tax Percentage</div>
 										<div class="col-md-2">
 										<select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen" tabindex="6" required>
-										<option value="0" selected >0</option>
+										 
 											 <c:forEach items="${taxFormList}" var="taxFormList" >
 											 
 											 	 <option value="${taxFormList.taxId}"><c:out value="${taxFormList.taxPer}"/></option>
@@ -454,9 +443,9 @@ body {
 											<input style="text-align:right; width:150px" type="text" onchange="calculation()" name="taxValue" id="taxValue" class="form-control"
 										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
 										</div>
-									<div class="col-md-2">Remark</div>
+									<div class="col-md-2"> </div>
 										<div class="col-md-2">
-											<input   type="text" name="taxRemark" id="taxRemark" class="form-control" value="NA"  >
+											<input   type="hidden" name="taxRemark" id="taxRemark" class="form-control" value="NA"  >
 										</div>
 							
 							</div><br>
@@ -751,6 +740,20 @@ function itemByIntendId()
 {
 	
 	var indId = $("#indId").val();
+	var poType = $("#poType").val();
+	var flag = 1;
+	
+	if(poType=="" || poType==null) {
+	 alert("select Po Type ");
+	 flag=0;
+	}
+	else if(indId=="" || indId==null) {
+		 alert("select Intend ");
+		 flag=0;
+		}
+	
+	if(flag==1){
+	
 	$('#loader').show();
 	$
 	.getJSON(
@@ -798,7 +801,7 @@ function itemByIntendId()
 				
 			});
 	
-	
+	}
 }
 
 function checkQty(key)
@@ -984,6 +987,33 @@ function getInvoiceNo() {
 	}, function(data) { 
 		
 	document.getElementById("poNo").value=data.code;  
+	getIntendListByPoType();
+	
+	});
+
+}
+
+function getIntendListByPoType() {
+	 
+	var poType = $("#poType").val(); 
+
+	$.getJSON('${getIntendListByPoType}', {
+ 
+		poType : poType,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+		var html = '<option value="">Select Intend</option>';
+
+		var len = data.length;
+		for (var i = 0; i < len; i++) {
+			html += '<option value="' + data[i].indMId + '">'
+					+ data[i].indMNo +'&nbsp;&nbsp;&nbsp;s'+data[i].indMDate+'</option>';
+		}
+		html += '</option>';
+		$('#indId').html(html);
+		$("#indId").trigger("chosen:updated");
 	
 	});
 

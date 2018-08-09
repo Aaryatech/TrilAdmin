@@ -117,30 +117,24 @@ body {
 		<div class="page-title">
 			<div>
 				<h1>
-					<i class="fa fa-file-o"></i>Purchase Order
+					<i class="fa fa-file-o"></i> Edit Purchase Order
 				</h1>
 				<!-- <h4>Bill for franchises</h4> -->
 			</div>
 		</div>
-		<!-- END Page Title -->
-
-		<!-- BEGIN Breadcrumb -->
-		<div id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li><i class="fa fa-home"></i> <a
-					href="${pageContext.request.contextPath}/home">Home</a> <span
-					class="divider"><i class="fa fa-angle-right"></i></span></li>
-				<li class="active">Purchase Order</li>
-			</ul>
-		</div>
-		<!-- END Breadcrumb -->
-		
+		 
 		<!-- BEGIN Main Content -->
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Direct Purchase Order
+					<i class="fa fa-bars"></i> Edit Purchase Order
 				</h3>
+				
+				<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/listOfPurachaseOrder">
+									PO List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
 
 			</div>
 
@@ -153,7 +147,8 @@ body {
 				<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">
-										<select name="poType" id="poType"   class="form-control chosen" tabindex="6" required>
+									<input type="hidden" id="poType" name="poType" value="${getPoHeader.poType}">
+										<select name="poTypes" id="poTypes"   class="form-control chosen" tabindex="6" disabled>
 										<c:choose>
 											<c:when test="${getPoHeader.poType==1}">
 												<option value="1" selected>Regular</option>
@@ -470,7 +465,7 @@ body {
 									<div class="col-md-2">Select Tax Percentage</div>
 										<div class="col-md-2">
 										<select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen" tabindex="6" required>
-										<option value="0" selected >0</option>
+										 
 											 <c:forEach items="${taxFormList}" var="taxFormList" >
 											  <c:choose>
 									 	<c:when test="${taxFormList.taxId==getPoHeader.poTaxId}">
@@ -490,9 +485,9 @@ body {
 											<input style="text-align:right; width:150px" type="text" onchange="calculation()" name="taxValue" id="taxValue" class="form-control"
 										value="${getPoHeader.poTaxValue}" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
 										</div>
-									<div class="col-md-2">Remark</div>
+									<div class="col-md-2"> </div>
 										<div class="col-md-2">
-											<input   type="text" name="taxRemark" id="taxRemark" class="form-control" value="NA"  >
+											<input   type="hidden" name="taxRemark" id="taxRemark" class="form-control" value="NA"  >
 										</div>
 							
 							</div><br>

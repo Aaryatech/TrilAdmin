@@ -86,21 +86,40 @@ public class PurchaseOrderController {
 
 			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
 			model.addObject("taxFormList", taxFormList);
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("status", "0,1");
-			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
-					GetIndentByStatus[].class);
-			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
-			model.addObject("intedList", intedList);
-			
-			System.out.println(intedList.size() + "" + intedList);
+ 
+			model.addObject("quotationTemp", "-");
+			model.addObject("quotationDateTemp", sf.format(date));
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/getIntendListByPoType", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetIndentByStatus> getIntendListByPoType(HttpServletRequest request, HttpServletResponse response) {
+
+		List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>();
+		
+		try {
+
+			int poType = Integer.parseInt(request.getParameter("poType"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1");
+			map.add("poType", poType);
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
+					GetIndentByStatus[].class);
+			 intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return intedList;
 	}
 
 	@RequestMapping(value = "/geIntendDetailByIndId", method = RequestMethod.GET)
@@ -149,13 +168,7 @@ public class PurchaseOrderController {
 				model.addObject("quotationTemp", quotationTemp);
 			} catch (Exception e) {
 				// TODO: handle exception
-			}
-			try {
-				int poTypeTemp = Integer.parseInt(request.getParameter("poTypeTemp"));
-				model.addObject("poTypeTemp", poTypeTemp);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+			} 
 			try {
 				int payIdTemp = Integer.parseInt(request.getParameter("payIdTemp"));
 				model.addObject("payIdTemp", payIdTemp);
@@ -186,6 +199,8 @@ public class PurchaseOrderController {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+			int poTypeTemp = Integer.parseInt(request.getParameter("poTypeTemp"));
+			model.addObject("poTypeTemp", poTypeTemp);
 
 			float poBasicValue = 0;
 			float discValue = 0;
@@ -211,7 +226,8 @@ public class PurchaseOrderController {
 			model.addObject("deliveryTermsList", deliveryTermsList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("status", "0,1,2");
+			map.add("status", "0,1");
+			map.add("poType", poTypeTemp);
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
@@ -643,12 +659,13 @@ public class PurchaseOrderController {
 			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
 			model.addObject("taxFormList", taxFormList);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("status", "0,1,2");
+			/*map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1");
+			map.add("poType", getPoHeader.getPoType());
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
-			model.addObject("intedList", intedList);
+			model.addObject("intedList", intedList);*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
