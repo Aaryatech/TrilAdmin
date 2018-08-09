@@ -177,28 +177,30 @@ h6{
 											<th class="col-sm-1">Sr No</th>
 											<th class="col-md-1">Item Code</th>
 											<th class="col-md-1">Name</th>
-											<th class="col-md-1">Item Weight</th>
 											<th class="col-md-1">Item UOM</th>
-											<th class="col-md-1">Current Stock</th>
-											<th class="col-md-1">ROL</th>
-											<th class="col-md-1">Max</th>
+											<th class="col-md-1">Current  Stock</th>
+											<th class="col-md-1">ROL QTY</th>
+											<th class="col-md-1">Max Level</th>
+											<th class="col-md-1">Closing QTY</th>
+											
 											 <th class="col-md-1">Action</th> 
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${itemList}" var="itemList" varStatus="count">
+								<c:forEach items="${lowReorderItemList}" var="lowReorderItemList" varStatus="count">
+
 											<tr>
-												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${itemList.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemDate}" /></td>
-												<td class="col-md-1"><c:out value="${itemList.itemWt}" /></td>
- 												<td class="col-md-1"><c:out value="${itemList.itemUom}" /></td>
- 												<td><a href="${pageContext.request.contextPath}/editItem/${itemList.itemId}" data-toggle="tooltip" title="Edit"><span
-												class="glyphicon glyphicon-edit"></span></a> 
-											<a href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
-											onClick="return confirm('Are you sure want to delete this record');" data-toggle="tooltip" title="Delete"><span
-												class="glyphicon glyphicon-remove"></span></a></td>  
+											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
+												
+												<td class="col-md-1"><c:out value="${lowReorderItemList.itemCode}" /></td>
+												<td class="col-md-2"><c:out value="${lowReorderItemList.itemName}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.itemUom}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.itemMaxLevel}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" /></td>
+ 												<td><a href="${pageContext.request.contextPath}/editItem/${lowReorderItemList.itemId}" data-toggle="tooltip" title="Edit">Request Indent</a></td>  
 											</tr>
 										</c:forEach>
 										</tbody>
@@ -212,7 +214,7 @@ h6{
 
 						</div>
 						<br>
-							<div class="box" id="todayslist">
+							<%-- <div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
 								<i class="fa fa-table"></i>Electrical
@@ -267,9 +269,9 @@ h6{
 					</div>
 				</div>
 							  
-						</div><br>
+						</div><br> --%>
 						
-						<div class="box">
+						<%-- <div class="box">
 						<div class="box-title">
 							<h3>
 								<i class="fa fa-table"></i> Low ROL level Item
@@ -314,7 +316,7 @@ h6{
 							 
 
 
-						</div>
+						</div> --%>
 						
 						  </div>
                                 
@@ -322,18 +324,18 @@ h6{
                         </div>
                    
               <div id="pendingPo" style="display: none;">   <c:forEach items="${indentListRes}" var="indentList" varStatus="count">
-                                          <div class="box-content">
+                                    <div class="box">      <div class="box-content">
  <div class="row">
-									<div class="col-md-2">Indent No: </div>
+									<div class="col-md-2"><b>Indent No:</b> </div>
 									<div class="col-md-2">
 								${indentList.indMNo}
 									</div>
 									
-									<div class="col-md-1">Date:</div>
+									<div class="col-md-1"><b>Date:</b></div>
 									<div class="col-md-2">
 										${indentList.indMDate} 
 									</div>
-									 <div class="col-md-2">Account Head:</div>
+									 <div class="col-md-2"><b>Account Head:</b></div>
 									<div class="col-md-2">
 										${indentList.accountHead}  
 									</div>
@@ -341,7 +343,7 @@ h6{
 								</div>
 							<br>
 							<div class="row">
-							<div class="col-md-2">Status:</div>
+							<div class="col-md-2"><b>Status:</b></div>
 									<div class="col-md-2">
 										<c:choose>
 										<c:when test="${indentList.indMStatus==0}">
@@ -352,14 +354,35 @@ h6{
 										</c:when>
 										</c:choose>
 									</div>
-							</div></div><br>
+										<div class="col-md-2"><b>Indent Type:</b></div>
+									<div class="col-md-1">
+										<c:choose>
+										<c:when test="${indentList.indMType==1}">
+										Regular
+										</c:when>
+										<c:when test="${indentList.indMType==2}">
+										General
+										</c:when>
+											<c:when test="${indentList.indMType==3}">
+										JobWork
+										</c:when>
+										<c:when test="${indentList.indMType==4}">
+										Other
+										</c:when>
+										</c:choose>
+									</div>
+										<div class="col-md-2"><b>Category:</b></div>
+									<div class="col-md-2">
+										${indentList.catDesc}
+									</div>
+							</div></div>
                               <div class="row" >
                         <div class="col-md-12">
                         
-                        			<div class="box" id="todayslist">
-						<div class="box-title">
+                        			<div class="" id="todayslist">
+						<div class="box-title" style="background-color: #ec9da5;">
 							<h3>
-								<i class="fa fa-table"></i>Pending PO Details
+								<i class="fa fa-table"></i>Indent Details
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -427,7 +450,7 @@ h6{
 
 						</div>
                                 </div>
-                            </div><br><br>
+                            </div></div><br><br>
                             </c:forEach>
                     </div>
                  
@@ -450,8 +473,8 @@ h6{
 										required>
 										<option value="">Select Status</option>
 										<option value="0">Pending ALL</option>
-										<option value="1">Open</option>
-										<option value="2">Partially Closed</option>
+										<option value="1">Partially Pending</option>
+										<option value="2">Closed</option>
 									</select>
 								</div>
 <div class="col-md-1"><input type="button" class="btn btn-info" value="Search"
@@ -604,20 +627,27 @@ function getPoList() {
 										 	var poStatus;
 										 	if(poList.poStatus==0)
 										 		{
-										 		poStatus="All";
+										 		poStatus="Pending";
 										 		}
 										 	else if(poList.poStatus==1)
 										 		{
-										 		poStatus="Open";
+										 		poStatus="Partial Pending";
 										 		}
 										 	else if(poList.poStatus==2)
 									 		{
-										 		poStatus="Partial Pending";
+										 		poStatus="Closed";
 									 		}
 										 	tr.append($('<td></td>').html(poType));
 										 	tr.append($('<td></td>').html(poStatus));
-										  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
-										    $('#mrnTable tbody').append(tr);
+										 	if(poList.poStatus==2)
+									 		{
+										  	tr.append($('<td></td>').html('CLOSED'));
+									 		} else
+									 			{
+									 			tr.append($('<td></td>').html('MRN'));
+									 			}
+										 	
+										 	$('#mrnTable tbody').append(tr);
 										})  
 						});
 }

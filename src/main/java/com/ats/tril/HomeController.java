@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.model.GetCurrStockRol;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.StockHeader;
@@ -86,9 +87,9 @@ public class HomeController {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", fromDate);
 	 			map.add("toDate", toDate);
-                GetCurrentStock[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemListLessThanROL", map, GetCurrentStock[].class);
+	 			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
 
-				List<GetCurrentStock> lowReorderItemList = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock));
+				List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
 				System.err.println(lowReorderItemList.toString());
 				mav.addObject("lowReorderItemList", lowReorderItemList);
 				
@@ -145,7 +146,23 @@ public class HomeController {
 					System.err.println(indentListRes.toString());
 					mav.addObject("indentListRes", indentListRes);
 					
-				
+					StockHeader stockHeader = restTemp.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+					
+					Date date = new Date();
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					 
+					String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+					String toDate=sf.format(date);
+					
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("fromDate", fromDate);
+		 			map.add("toDate", toDate);
+		 			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
+
+					List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
+					System.err.println(lowReorderItemList.toString());
+					mav.addObject("lowReorderItemList", lowReorderItemList);
+					
 					}
 					catch (Exception e) {
 						e.printStackTrace();

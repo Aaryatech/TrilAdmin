@@ -2,7 +2,85 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<style>
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
 
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	height: 80%;
+}
+
+/* The Close Button */
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#overlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(101, 113, 119, 0.5);
+	z-index: 2;
+	cursor: pointer;
+}
+
+#text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 25px;
+	color: white;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+}
+.bg-overlay {
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("${pageContext.request.contextPath}/resources/images/smart.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height:auto;
+    width:auto;
+    padding-top: 10px;
+    padding-left:20px;
+}
+</style>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 <link rel="stylesheet"
@@ -11,13 +89,15 @@
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
-	<c:url var="getPODetailList" value="/getPODetailList" />
+	<c:url var="getPODetailList" value="/getpoDetailForEditMrn" />
 
 	<c:url var="getTempPoDetail" value="/getTempPoDetail" />
 
 	<c:url var="editMrnProcess" value="/editMrnProcess" />
 
 	<c:url var="getMrnDetail" value="/getMrnDetail" /> <!--  used here -->
+	<c:url var="submitNewMrnItemOnEdit" value="/submitNewMrnItemOnEdit" /> <!--  used here -->
+	
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -200,29 +280,35 @@
 									</div>
 
 								</div>
+	<div class="col-md-2"></div>
+	
+	<div class="col-md-3">	<input class="btn btn-info"  id="getPoButton" style="text-align: center;"
+											onclick="getPoDetail(0,0)" size="16" type="button"
+											name="getPoButton" value="Get PO Detail to Add New Item"  > </div>
 
-
-							
-								<!-- <div id="myModal" class="modal">
+							<br/><br/>
+								<div id="myModal" class="modal">
 
 									<div class="modal-content" style="color: black;">
 										<span class="close" id="close" style="display: none">&times;</span>
-										<h3 style="text-align: center;">Edit Received Quantity</h3>
+										<h3 style="text-align: center;">Add New Item</h3>
 										<div class=" box-content">
 											<div class="row">
 												<div
 													style="overflow: scroll; height: 70%; width: 100%; overflow: auto">
 													<table width="100%" border="0"
 														class="table table-bordered table-striped fill-head "
-														style="width: 100%" id="table_grid1">
+														style="width: 100%" id="table_grid2">
 														<thead>
 															<tr>
-																<th  class="col-md-1" style="text-align: center;">Select</th>
 																<th  class="col-md-1" style="text-align: center;">Sr.No.</th>
 																<th  class="col-md-2" style="text-align: center;">Item Code</th>
 																<th  class="col-md-3" style="text-align: center;">Item Name</th>
 																<th  class="col-md-1" style="text-align: center;">PO QTY</th>
-																<th  class="col-md-1" style="text-align: center;">Mrn QTY</th>
+																<th  class="col-md-1" style="text-align: center;">Rec QTY</th>
+																<th  class="col-md-1" style="text-align: center;">Pend QTY</th>
+																<th  class="col-md-1" style="text-align: center;">Po No</th>
+																
 																<th  class="col-md-1" style="text-align: center;">Status</th>
 															</tr>
 														</thead>
@@ -237,16 +323,13 @@
 										<br>
 										<div class="row">
 											<div class="col-md-12" style="text-align: center">
-												<input type=button class="btn btn-info" value="Submit"
-													onclick="tempSubmit()">
-
+												<input type=button class="btn btn-info" value="Temp Submit"
+													onclick="tempSubmit(${mrnHeader.mrnId})">
 
 											</div>
 										</div>
-
 									</div>
-
-								</div> -->
+								</div>
 
 								<div class=" box-content">
 									<div class="row">
@@ -463,56 +546,84 @@
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
-	<!-- <script type="text/javascript">
-		function getPoDetail() {
-			//alert("inside Indent Insetr");
+	<script type="text/javascript">
+			function getPoDetail() {
+				alert("Hiii out");
+				//alert("inside Indent Insetr");
 
-			//alert("called Button")
-			var selectedPoIds = $("#po_list").val();
-			alert(" Selected PO Id  " + selectedPoIds);
+				//alert("called Button")
+				//var selectedPoIds = $("#po_list").val();
+				//alert(" Selected PO Id  " + selectedPoIds);
 
-			$.getJSON('${getPODetailList}', {
-				poIds : JSON.stringify(selectedPoIds),
-				ajax : 'true',
-			}, function(data) {
-				alert(data);
-				window.location.reload();
+				$.getJSON('${getPODetailList}', {
+				/* 	poIds : JSON.stringify(selectedPoIds),
+					qty	: qty,
+					poDId : poDId, */
+					ajax : 'true',
+				}, function(data) {
+					$('#table_grid2 td').remove();
+					$('#loader').hide();
 
-			});
-			//	alert("Hi End  ");
-		}
-	</script> -->
+					if (data == "") {
+						alert("No records found !!");
 
-	<!-- <script type="text/javascript">
-		$(document).ready(
-				function() {
+					}
 
-					$('#vendor_id').change(
-							function() {
+					$.each(data, function(key, itemList) {
+						alert("data received "+data[0]);
+						
+						var tr = $('<tr></tr>');
+						
+						
+						tr.append($('<td></td>').html(key + 1));
+						tr.append($('<td></td>').html(itemList.itemCode));
+						tr.append($('<td></td>').html(itemList.itemName));
+						tr.append($('<td></td>').html(itemList.itemQty));
+						
+						tr
+						.append($(
+								'<td></td>')
+						.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
+				/* 		var pendQty=0;
+						if(itemList.receivedQty==0){
+							
+							pendQty=itemList.pendingQty;
+						}else{ */
+						var	pendQty=itemList.pendingQty-itemList.receivedQty;
+						//}
+						
+	//tr.append($('<td></td>').html(itemList.itemQty));//textbox
 
-								$.getJSON('${getPOHeaderList}', {
-									vendorId : $(this).val(),
-									ajax : 'true'
-								}, function(data) {
 
-									var len = data.length;
 
-									$('#po_list').find('option').remove().end()
-									// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
-									for (var i = 0; i < len; i++) {
-
-										$("#po_list").append(
-												$("<option></option>").attr(
-														"value", data[i].poId)
-														.text(data[i].poNo));
-									}
-
-									$("#po_list").trigger("chosen:updated");
-								});
-							});
+	tr.append($('<td></td>').html(pendQty));
+						tr.append($('<td></td>').html(itemList.poNo));
+						var status;
+						if(itemList.status==0){
+							status="Pending";
+						}
+						if(itemList.status==1){
+							status="Partial";
+						}
+						if(itemList.status==3){
+							status="Completed";
+						}
+						
+					 	tr
+						.append($(
+								'<td class="col-md-1" style="text-align: center;"></td>')
+								.html(status));
+					 	
+					 	
+					 	//tr.append($('<td></td>').html(itemList.status));
+						$('#table_grid2 tbody').append(tr);
+					})
 				});
+			}
+		
 	</script>
 
+		
 	<script>
 		// Get the modal
 		var modal = document.getElementById('myModal');
@@ -543,20 +654,20 @@
 		}
 
 		function getPoDetail(qty,poDId) {
+			//alert("Hiii in modal");
 			//alert("inside Indent Insetr");
 
 			//alert("called Button")
-			var selectedPoIds = $("#po_list").val();
-			
-			alert(" Selected PO Id  " + selectedPoIds);
+			//var selectedPoIds = $("#po_list").val();
+			//alert(" Selected PO Id  " + selectedPoIds);
 
 			$.getJSON('${getPODetailList}', {
-				poIds : JSON.stringify(selectedPoIds),
+			/* 	poIds : JSON.stringify(selectedPoIds),*/
 				qty	: qty,
-				poDId : poDId,
+				poDId : poDId, 
 				ajax : 'true',
 			}, function(data) {
-				$('#table_grid1 td').remove();
+				$('#table_grid2 td').remove();
 				$('#loader').hide();
 
 				if (data == "") {
@@ -565,15 +676,13 @@
 				}
 
 				$.each(data, function(key, itemList) {
-					alert("data received "+data[0]);
+					
+					//alert("data received "+data[0].poDetailId);
+					
 					
 					var tr = $('<tr></tr>');
 					
-					tr
-					.append($(
-							'<td></td>')
-					.html("<input type=checkbox style='text-align:right; width:40px' class=form-control name=checkBox"+itemList.poDetailId+""+itemList.itemId+" id=checkBox"+itemList.poDetailId+""+itemList.itemId+" oninput='checkMe(this.value)'  />"));
-										
+					
 					tr.append($('<td></td>').html(key + 1));
 					tr.append($('<td></td>').html(itemList.itemCode));
 					tr.append($('<td></td>').html(itemList.itemName));
@@ -613,18 +722,14 @@ tr.append($('<td></td>').html(pendQty));
 							'<td class="col-md-1" style="text-align: center;"></td>')
 							.html(status));
 				 	
-				
-				  	
-				 	
-				 	
-				 	tr.append($('<td></td>').html(itemList.status));
-					$('#table_grid1 tbody').append(tr);
+				 	//tr.append($('<td></td>').html(itemList.status));
+					$('#table_grid2 tbody').append(tr);
 				})
 			});
 		}
 	</script>
-	 akshay call
- -->
+
+
 <!-- 	<script>
 		function myFunction() {
 			var input, filter, table, tr, td, i;
@@ -643,34 +748,39 @@ tr.append($('<td></td>').html(pendQty));
 				}
 			}
 		}
-		function callMe(qty,poDId,pendingQty){
-			//alert("pending qty " +pendingQty);
-			//alert("Qty  " +qty);
-			
-			if(parseInt(qty)>parseInt(pendingQty)){
-
-				alert("Received Qty can not be greater than Pending Qty");
-				
-
-			}else{
-				
-				getPoDetail(qty,poDId);
-
-
-			}
-			
-		}
+		
 		function checkMe(checking){
 			alert("check " +checking);
 		}
 	</script> -->
+	<script type="text/javascript">
+	function callMe(qty,poDId,pendingQty){
+		//alert("pending qty " +pendingQty);
+		//alert("Qty  " +qty);
+		
+		if(parseInt(qty)>parseInt(pendingQty)){
+
+			alert("Received Qty can not be greater than Pending Qty");
+			
+
+		}else{
+			
+			getPoDetail(qty,poDId);
+
+
+		}
+		
+	}
+	
+	
+	</script>
 
 	<script type="text/javascript">
 
 		function updateMrnQty(qty,detailId,itemId,oldMrnQty,poPendingQty) {
 			
-			alert("po pend " +poPendingQty);
-			alert("oldMrnQty " +oldMrnQty);
+			//alert("po pend " +poPendingQty);
+			//alert("oldMrnQty " +oldMrnQty);
 			
 			var newQty=parseInt(oldMrnQty)+parseInt(poPendingQty);
 			if(qty<=newQty){
@@ -740,6 +850,76 @@ tr.append($('<td></td>').html(pendQty));
 	</script>
  -->
 
+<!-- temp Submit from modal submit -->
+
+<!-- temp Submit from modal submit -->
+
+	<script type="text/javascript">
+
+		function tempSubmit(mrnId) {
+			//alert(mrnId);
+			
+			
+				$.getJSON('${submitNewMrnItemOnEdit}', {
+				mrnId : mrnId,
+				ajax : 'true',
+			}, function(data) {
+				$('#table_grid1 td').remove();
+				$('#loader').hide();
+				var modal = document.getElementById('myModal');
+				modal.style.display = "none";
+
+				if (data == "") {
+					alert("No records found !!");
+				}
+				var cnt=0;
+				$.each(data, function(key, itemList) {
+					//alert(itemList.itemCode)
+					var tr = $('<tr></tr>');
+
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key+1));
+					tr.append($('<td class="col-md-2" style="text-align: center;" ></td>').html(itemList.itemCode));
+					tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poQty));
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+					.html("<input type=text  style='text-align:right; width:90px'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
+										
+					var status;
+					if(itemList.mrnDetailStatus==0){
+						status="Pending";
+					}
+					if(itemList.mrnDetailStatus==1){
+						status="Partial";
+					}
+					
+					if(itemList.mrnDetailStatus==2){
+						status="Completed";
+					}
+					
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(status));
+					
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html("<a href='${pageContext.request.contextPath}/deleteMrnDetail/"+itemList.mrnDetailId+"' title='Delete' class='action_btn'><i class='fa fa-trash-o'></i></a>"));
+				  	
+					$('#table_grid1 tbody').append(tr);
+					//}//end of if received Qty >0
+				//	modal.style.display = "none";
+
+				})
+			});
+			
+		}
+	</script>
+
+
+
+<!-- temp Submit from modal submit end -->
+
+
+
+
 	<script type="text/javascript">
 	function editMrn(){
 			//alert("Hi ");
@@ -792,10 +972,10 @@ tr.append($('<td></td>').html(pendQty));
 								ajax : 'true',
 							 },
 							 function(data) {
-								 $('#loader').hide();
-
+								// $('#loader').hide();
+document.getElementById('loader').style = "display:none";
 								//window.location.reload();
-									window.open("${pageContext.request.contextPath}/showAddMrn","_self");
+									window.open("${pageContext.request.contextPath}/getMrnHeaders","_self");
 								 
 			});
 		//	alert("Hi End  ");

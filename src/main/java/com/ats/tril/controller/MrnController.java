@@ -37,7 +37,9 @@ import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
+import com.ats.tril.model.mrn.PoItemForMrnEdit;
 import com.ats.tril.model.po.PoHeader;
+import com.itextpdf.text.pdf.PdfMediaClipData;
 import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @Controller
@@ -177,6 +179,7 @@ public class MrnController {
 	public @ResponseBody List<GetPODetail> addMrnQty(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
+			
 			System.err.println("inside /addMrnQty");
 			
 			int qty = Integer.parseInt(request.getParameter("qty"));
@@ -198,14 +201,14 @@ public class MrnController {
 
 					} else {
 
-						System.err.println("Po Detaol ID Not matched ");
+						System.err.println("Po Detail ID Not matched ");
 					}
 				}
 				// }
 			}
 		} catch (Exception e) {
 
-			System.err.println("Exception in getTempPoDetail " + e.getMessage());
+			System.err.println("Exception in addMrnQty " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -441,11 +444,18 @@ public class MrnController {
 	// showEditViewMrnDetail/
 
 	List<GetMrnDetail> mrnDetailList = new ArrayList<GetMrnDetail>();
+	
+	List<PoItemForMrnEdit> poItemListForMrnEdit = new ArrayList<PoItemForMrnEdit>();
+List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
+	
 	@RequestMapping(value = "/showEditViewMrnDetail/{mrnId}", method = RequestMethod.GET)
 	public ModelAndView editIndent(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("mrnId") int mrnId) {
-
+		
+		poItemListForMrnEdit=new ArrayList<PoItemForMrnEdit>();
+		poDetailForEditMrn=new ArrayList<GetPODetail>();
+		GetPODetail[] poDetailRes;
 		ModelAndView model = null;
 		try {
 			model = new ModelAndView("mrn/editMrnDetail");
@@ -470,8 +480,46 @@ public class MrnController {
 				}
 
 			}
+			map = new LinkedMultiValueMap<String, Object>();
+			
+			String s=new String();
+			
+			for(int i=0;i<mrnDetailList.size();i++) {
+				
+				s=s+mrnDetailList.get(i).getPoId();
+			}
 
+			map.add("poIdList", s);
+
+			poDetailRes = rest.postForObject(Constants.url + "/getPODetailList", map, GetPODetail[].class);
+			poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
+			
+			System.err.println("POd res in edit show " +poDetailList.toString());
+			
+			for(int i=0;i<poDetailList.size();i++) {
+				int flag=0;
+				
+				for(int j=0;j<mrnDetailList.size();j++) {
+					
+					if(mrnDetailList.get(j).getPoDetailId()==poDetailList.get(i).getPoDetailId()) {
+						
+						flag=1;
+						
+					}
+					
+				}
+				if(flag==0) {
+					
+					poDetailForEditMrn.add(poDetailList.get(i));
+					
+				}
+				
+			}
+			
+			System.err.println("POd poDetailForEditMrn edit show " +poDetailForEditMrn.toString());
 			model.addObject("mrnDetailList", mrnDetailList);
+			
+			model.addObject("poItemList", poDetailForEditMrn);
 
 			model.addObject("mrnHeader", getMrnHeader);
 
@@ -484,7 +532,98 @@ public class MrnController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = { "/getpoDetailForEditMrn" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPODetail> getpoDetailForEditMrn(HttpServletRequest request, HttpServletResponse response) {
 
+		System.err.println("poDetailForEditMrn  Ajx " +poDetailForEditMrn.toString());
+		
+		int qty=Integer.parseInt(request.getParameter("qty"));
+		int poDId=Integer.parseInt(request.getParameter("poDId"));
+		
+		if(qty==0 && poDId==0) {
+			System.err.println("qty and podid are zero ");
+			
+		}else {
+			System.err.println("In else ");
+		for(int i=0;i<poDetailForEditMrn.size();i++) {
+			
+			if(poDetailForEditMrn.get(i).getPoDetailId()==poDId) {
+				System.err.println("Podid matched "+poDId +"quantity seted" +qty);
+				poDetailForEditMrn.get(i).setReceivedQty(qty);
+			}
+		}
+		}
+		
+		return poDetailForEditMrn;
+			
+		
+	}
+	
+	//temp Submit on edit mrn: add new item
+	@RequestMapping(value = { "/submitNewMrnItemOnEdit" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetMrnDetail> submitNewMrnItemOnEdit(HttpServletRequest request, HttpServletResponse response) {
+		
+	//	uuu;
+		//getMrnHeader
+		
+		int mrnId=Integer.parseInt(request.getParameter("mrnId"));
+		
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("mrnId", mrnId);
+				MrnHeader mrnHead = rest.postForObject(Constants.url + "/getOneMrnHeader", map,
+						MrnHeader.class);
+		List<MrnDetail> editMrnDetailList = new ArrayList<MrnDetail>();
+
+		for (GetPODetail detail : poDetailForEditMrn) {
+
+			if (detail.getReceivedQty() > 0) {
+
+				MrnDetail mrnDetail = new MrnDetail();
+
+				mrnDetail.setIndentQty(detail.getIndedQty());
+
+				mrnDetail.setPoQty(detail.getItemQty());
+
+				mrnDetail.setMrnQty(detail.getReceivedQty());
+
+				mrnDetail.setItemId(detail.getItemId());
+
+				mrnDetail.setPoId(detail.getPoId());
+
+				mrnDetail.setPoNo(detail.getPoNo());
+
+				mrnDetail.setMrnDetailStatus(0);
+
+				mrnDetail.setBatchNo("Default Batch KKKK-00456");
+				mrnDetail.setDelStatus(Constants.delStatus);
+
+				mrnDetail.setPoDetailId(detail.getPoDetailId());
+
+				mrnDetail.setMrnQtyBeforeEdit(-1);
+
+				editMrnDetailList.add(mrnDetail);
+
+			}
+			mrnHead.setMrnDetailList(editMrnDetailList);
+		}
+
+		RestTemplate restTemp = new RestTemplate();
+
+		MrnHeader	 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHead,
+				MrnHeader.class);
+		
+		GetMrnDetail[] mrnDetail = rest.postForObject(Constants.url + "/getMrnDetailByMrnId", map,
+				GetMrnDetail[].class);
+
+		mrnDetailList = new ArrayList<GetMrnDetail>(Arrays.asList(mrnDetail));
+		poDetailForEditMrn.clear();
+
+		return mrnDetailList;
+
+	}
+	
 	// ajax call to change the mrn Qty
 	// getMrnDetail
 
@@ -533,8 +672,9 @@ public class MrnController {
 	}
 
 	@RequestMapping(value = { "/editMrnProcess" }, method = RequestMethod.GET)
-	public @ResponseBody int editMrnProcess(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody MrnHeader editMrnProcess(HttpServletRequest request, HttpServletResponse response) {
 
+		MrnHeader mrnHeaderRes = null; 
 		try {
 			System.err.println("inside /editMrnProcess");
 
@@ -630,7 +770,7 @@ public class MrnController {
 
 			RestTemplate restTemp = new RestTemplate();
 
-			MrnHeader mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
+			 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
 					MrnHeader.class);
 
 			System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
@@ -642,7 +782,7 @@ public class MrnController {
 
 		}
 
-		return 1;
+		return mrnHeaderRes;
 
 	}
 
@@ -667,7 +807,7 @@ public class MrnController {
 			e.printStackTrace();
 
 		}
-		return "redirect:/getMrnHeaders";
+		return "redirect:/showEditViewMrnDetail"+mrnId;
 	}
 	
 	@RequestMapping(value = "/deleteMrnDetail/{mrnDetailId}", method = RequestMethod.GET)

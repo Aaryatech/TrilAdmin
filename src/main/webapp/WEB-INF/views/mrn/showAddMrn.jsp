@@ -402,9 +402,7 @@ body {
 						style="text-align: center; align-content: center;"
 						onclick="insertMrn()" class="btn btn-info" value="Add Mrn">
 
-					<button class="buttonload" id="loader" style="display: none; color: red;">
-						<i class="fa fa-spinner fa-spin"></i>Loading
-					</button>
+				
 					</div>
 					</div>
 							</form>
@@ -996,11 +994,19 @@ var isValid=true;
 
 				ajax : 'true',
 			}, function(data) {
-				//$('#loader').hide();
-				document.getElementById('loader').style = "display:none";
+				if(data!=null){
+					document.getElementById('loader').style = "display:none";
+
+					//alert("not null");
+	
+				}
+				//document.getElementById('loader').style = "display:none";
+//alert("Res " +data);
 
 				//window.location.reload();
-				window.open("${pageContext.request.contextPath}/showAddMrn","_self");
+													window.open("${pageContext.request.contextPath}/getMrnHeaders","_self");
+
+				//window.open("${pageContext.request.contextPath}/showAddMrn","_self");
 
 			});
 			//	alert("Hi End  ");
@@ -1036,9 +1042,7 @@ function getInvoiceNo() {
 <script type="text/javascript">
 
 function addMrnQty(qty, poDId) {
-	
 	var selectedPoIds = $("#po_list").val();
-
 	$
 			.getJSON(
 					'${addMrnQty}',

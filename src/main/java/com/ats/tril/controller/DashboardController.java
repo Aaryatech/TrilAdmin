@@ -62,7 +62,7 @@ public class DashboardController {
 				model.addObject("indentListRes1", indentListRes1);
 				map = new LinkedMultiValueMap<String, Object>();
 			
-				map.add("status", "2");
+				map.add("status", "1");
 				GetIndents[] indentList2 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
 				List<GetIndents> indentListRes2 = new ArrayList<GetIndents>(Arrays.asList(indentList2));
@@ -70,7 +70,7 @@ public class DashboardController {
 				model.addObject("indentListRes2", indentListRes2);
 				map = new LinkedMultiValueMap<String, Object>();
 			
-				map.add("status", "1");
+				map.add("status", "1");//enquiry table
 				GetIndents[] indentList3 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
 				List<GetIndents> indentListRes3 = new ArrayList<GetIndents>(Arrays.asList(indentList3));
