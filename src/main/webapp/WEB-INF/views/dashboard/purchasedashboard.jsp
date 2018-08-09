@@ -284,7 +284,7 @@ h6{
 										       </c:otherwise>
 										        </c:choose>
 										      </td> --%>
-											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
@@ -362,7 +362,7 @@ h6{
 										       </c:otherwise>
 										        </c:choose>
 										      </td> --%>
-											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
@@ -436,7 +436,7 @@ h6{
 										       </c:otherwise>
 										        </c:choose>
 										      </td> --%>
-												<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+												<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
@@ -494,8 +494,8 @@ h6{
 												<td class="col-md-1"><c:out value="${indent.poNo}" /></td>
 												<td class="col-md-1"><c:out value="${indent.poDate}" /></td>
 												<td class="col-md-1"><c:choose><c:when test="${indent.poType==1}">Regular</c:when><c:when test="${indent.poType==2}">Job Work</c:when><c:when test="${indent.poType==3}">General</c:when></c:choose></td>
-												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==1}">Pending Mrn</c:when></c:choose></td>
-												<td><a>MRN </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-question-sign"  onclick="del('+key+')" id="del'+key+'"></span></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==1}">Pending For MRN</c:when></c:choose></td>
+												<td><a>PO Done List  </a><span style="visibility: hidden;" class="glyphicon glyphicon-list" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
@@ -542,8 +542,8 @@ h6{
 											<th class="col-md-1">PO Type.</th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
 											
-											<th class="col-md-1">Target</th>
-											<th class="col-md-1">Value</th>
+											<th class="col-md-1">Limit</th>
+											<th class="col-md-1">Basic Value</th>
 											</c:forEach>
 										</tr>
 									</thead>
@@ -554,7 +554,7 @@ h6{
 										<c:forEach items="${regularList}" var="regular" varStatus="count">
 											
 											<td class="col-md-2"><c:out value="${regular.target}" /></td>
-												<td class="col-md-1"><c:out value="${regular.totalValue}" /></td>
+												<td class="col-md-1"><c:out value="${regular.basicValue}" /></td>
 												
 											
 										</c:forEach>
