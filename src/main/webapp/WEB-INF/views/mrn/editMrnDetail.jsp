@@ -975,7 +975,7 @@ tr.append($('<td></td>').html(pendQty));
 								// $('#loader').hide();
 document.getElementById('loader').style = "display:none";
 								//window.location.reload();
-									//window.open("${pageContext.request.contextPath}/getMrnHeaders","_self");
+									window.open("${pageContext.request.contextPath}/getMrnHeaders","_self");
 								 
 			});
 		//	alert("Hi End  ");
