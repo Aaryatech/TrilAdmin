@@ -125,16 +125,16 @@
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
-										<th class="col-sm-1">Sr no.</th>
-										<th class="col-md-1">Item Name</th>
-										<th class="col-md-1">Opening QTY</th>
-										<th class="col-md-1">Approved QTY</th>
-										<th class="col-md-1">Issue QTY</th>
-										<th class="col-md-1">Return Issue QTY</th>
-										<th class="col-md-1">Damage QTY</th>
-										<th class="col-md-1">Gatepass QTY</th>
-										<th class="col-md-1">Gatepass Return QTY</th>
-										<th class="col-md-1">Closing QTY</th>
+										<th style="width:1%;">Sr no.</th>
+										<th class="col-md-3">Item Name</th>
+										<th class="col-md-1">OP QTY</th>
+										<th class="col-md-1">APPV QTY</th>
+										<th class="col-md-1">ISSUE QTY</th>
+										<th class="col-md-1">ISSUE RE QTY</th>
+										<th class="col-md-1">DAMAGE QTY</th>
+										<th class="col-md-1">GP QTY</th>
+										<th class="col-md-1">GP Return QTY</th>
+										<th class="col-md-1">C/L QTY</th>
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
