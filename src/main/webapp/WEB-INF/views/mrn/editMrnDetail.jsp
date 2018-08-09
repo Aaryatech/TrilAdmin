@@ -973,7 +973,7 @@ tr.append($('<td></td>').html(pendQty));
 							 },
 							 function(data) {
 								// $('#loader').hide();
-document.getElementById('loader').style = "display:none";
+								document.getElementById('loader').style = "display:none";
 								//window.location.reload();
 									window.open("${pageContext.request.contextPath}/getMrnHeaders","_self");
 								 
