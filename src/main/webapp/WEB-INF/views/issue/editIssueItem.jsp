@@ -175,9 +175,13 @@
 											</select>
 									</div>
 									<input type="hidden" name=editIndex id="editIndex"   />
-									
+									 
+								</div><br> 
+								
+								<div class="box-content">
+								 
 									<div class="col-md-2" >Select Item</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select   class="form-control chosen" onchange="getBatchByItemId()" name="itemId"  id="itemId"  >
 										 
 											</select>
@@ -395,8 +399,12 @@
 
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
-					html += '<option value="' + data[i].mrnDetailId + '">'
-							+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+					 
+						if(data[i].remainingQty>0){
+						
+						html += '<option value="' + data[i].mrnDetailId + '">'
+						+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+					}
 				}
 				html += '</option>';
 				$('#batchNo').html(html);

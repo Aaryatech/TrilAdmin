@@ -59,7 +59,7 @@
 								
 								<div class="box-content">
 							
-								<div class="col-md-3">Pending Month End Name</div>
+								<div class="col-md-2">Pending Month End Name</div>
 									<div class="col-md-3">
 										<input id="monthName" class="form-control"
 								 placeholder="monthName" value="${monthName}" name="monthName" type="text" readonly>
@@ -91,23 +91,28 @@
 							</div><br><br>
 							 
 								
-								 
+							<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>	 
 					<br /> <br />
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
-										<th class="col-sm-1">Sr no.</th>
-										<th class="col-md-1">Item Name</th>
-										<th class="col-md-1">Opening QTY</th>
-										<th class="col-md-1">Approved QTY</th>
-										<th class="col-md-1">Issue QTY</th>
-										<th class="col-md-1">Return Issue QTY</th>
-										<th class="col-md-1">Damage QTY</th>
-										<th class="col-md-1">Gatepass QTY</th>
-										<th class="col-md-1">Gatepass Return QTY</th>
-										<th class="col-md-1">Closing QTY</th>
+										<th style="width:1%;">Sr no.</th>
+										<th class="col-md-3">Item Name</th>
+										<th class="col-md-1">OP QTY</th>
+										<th class="col-md-1">APPV QTY</th>
+										<th class="col-md-1">ISSUE QTY</th>
+										<th class="col-md-1">ISSUE RE QTY</th>
+										<th class="col-md-1">DAMAGE QTY</th>
+										<th class="col-md-1">GP QTY</th>
+										<th class="col-md-1">GP Return QTY</th>
+										<th class="col-md-1">C/L QTY</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -115,10 +120,10 @@
 									<c:forEach items="${stockList}" var="stockList"
 										varStatus="count">
 										<tr>
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+											<td style="width:1%;"><c:out value="${count.index+1}" /></td>
 
 
-											<td class="col-md-1"><c:out
+											<td class="col-md-3"><c:out
 													value="${stockList.itemCode}" /></td>
 													
 											<td class="col-md-1"><c:out
@@ -296,6 +301,30 @@
 						}); 
 }
 	</script>
-
+<script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1,td2, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1]; 
+    if (td) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      } 
+    	      else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+ 
+</script>
 </body>
 </html>

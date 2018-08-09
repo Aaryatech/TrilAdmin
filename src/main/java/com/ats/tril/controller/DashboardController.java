@@ -26,6 +26,7 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.EnquiryDetail;
+import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.Vendor;
@@ -70,13 +71,23 @@ public class DashboardController {
 				model.addObject("indentListRes2", indentListRes2);
 				map = new LinkedMultiValueMap<String, Object>();
 			
-				map.add("status", "1");//enquiry table
+				/*map.add("status", "1");//get from enquiry table
 				GetIndents[] indentList3 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
 				List<GetIndents> indentListRes3 = new ArrayList<GetIndents>(Arrays.asList(indentList3));
-				System.err.println(indentListRes3.toString());
-				model.addObject("indentListRes3", indentListRes3);
-				
+				System.err.println(indentListRes3.toString());*/
+				 map = new LinkedMultiValueMap<>();
+				map.add("fromDate", "1");
+				map.add("toDate","1");
+				map.add("status", 0);
+
+				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate", map,
+						GetEnquiryHeader[].class);
+			   List<GetEnquiryHeader>	enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+
+				model.addObject("indentListRes3", enquiryList);
+				System.err.println(enquiryList.toString());
+
 				List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
 				try {
 					map = new LinkedMultiValueMap<String, Object>();

@@ -84,7 +84,7 @@
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary"
-										value="Search Enquiry" onclick="search()">
+										value="Search" onclick="search()">
 								</div>
 							</div>
 							<br>
@@ -112,15 +112,16 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-										<th	style="text-align: left; padding: 0px; align-items: left;"
+										<th style="width:2%;"	style="text-align: left; padding: 0px; align-items: left;"
 														width="10%"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+														value="0" />Select All</th>
 										
-											<th class="col-sm-1">Sr no.</th>
+											<th style="width:2%;">Sr no.</th>
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">PO No</th>
-											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Indent No</th>
+											<th class="col-md-1">PO TYPE</th>
+											<th class="col-md-4">Vendor Name</th>
+											<th class="col-md-2">Indent No</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -129,20 +130,37 @@
 										<c:forEach items="${poList}" var="poList" varStatus="count">
 											<tr>
 											
-												<td style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+												<td style="width:2%;" style="text-align: left; padding: 0px; align-items: center; align-content: center;"
 															width="10%">&nbsp;&nbsp;<input type="checkbox"
 															name="name1" value="${poList.poId}" /></td>
 										
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<td style="width:2%;"><c:out value="${count.index+1}" /></td>
 
 
 												<td class="col-md-1"><c:out value="${poList.poDate}" /></td>
-
+												 
 												<td class="col-md-1"><c:out value="${poList.poNo}" /></td>
-												<td class="col-md-1"><c:out
+												<c:set var="type"></c:set>
+												<c:choose>
+													<c:when test="${poList.poType==1}">
+														<c:set var="type" value="Regular"></c:set>
+													</c:when>
+													<c:when test="${poList.poType==2}">
+														<c:set var="type" value="Job Work"></c:set>
+													</c:when>
+													<c:when test="${poList.poType==3}">
+														<c:set var="type" value="General"></c:set>
+													</c:when>
+													 <c:otherwise>
+													 	<c:set var="type" value="Other"></c:set>
+													 </c:otherwise>
+												</c:choose>
+												
+												<td class="col-md-1"><c:out value="${type}" /></td>
+												<td class="col-md-4"><c:out
 														value="${poList.vendorName}" /></td>
 
-												<td class="col-md-1"><c:out value="${poList.indNo}" /></td>
+												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
 
 												<td><a href="javascript:genPdf(${ poList.poId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
@@ -296,7 +314,7 @@
 
 											var tr = $('<tr></tr>');
 											
-											 tr.append($('<td width=10%></td>')
+											 tr.append($('<td style="width:2%;"></td>')
 														.html('<input type="checkbox"  name="name1" value="'+itemList.poId +'"/>'));
 											
 										  	tr.append($('<td></td>').html(key+1));
@@ -342,21 +360,25 @@
 
 <script>
 function myFunction() {
-  var input, filter, table, tr, td ,td1, i;
+  var input, filter, table, tr, td ,td1,td2, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("table1");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[2];
+    td = tr[i].getElementsByTagName("td")[5];
     td1 = tr[i].getElementsByTagName("td")[3];
-    if (td || td1) {
+    td2 = tr[i].getElementsByTagName("td")[4];
+    if (td || td1 || td2) {
     	
     	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
     	        tr[i].style.display = "";
     	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
     	        tr[i].style.display = "";
-    	      }  else {
+    	      }else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }
+    	      else {
     	        tr[i].style.display = "none";
     	      }
        

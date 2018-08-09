@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getStockBetweenDate" value="/getStockBetweenDate"></c:url>
+	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -77,7 +77,24 @@
 									</div>
 								
 				 
-							</div><br><br>
+							</div><br>
+							
+							<div class="box-content">
+
+									<div class="col-md-2">Select Category*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="catId" id="catId"
+											required>
+											<option value="">select</option>
+											<c:forEach items="${categoryList}" var="categoryList"> 
+														<option value="${categoryList.catId}">${categoryList.catDesc}</option> 
+											</c:forEach>
+										</select>
+
+									</div>
+									<div class="col-md-1"></div>
+									  <div class="col-md-3"></div>
+								</div><br><br>
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
@@ -86,12 +103,22 @@
 						</div> <br>
 							 
 								
-								 <div class="col-md-9"></div>
+								<div align="center" id="loader" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
-								</label>	
+								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
@@ -108,46 +135,11 @@
 										<th class="col-md-1">GP QTY</th>
 										<th class="col-md-1">GP Return QTY</th>
 										<th class="col-md-1">C/L QTY</th>
+										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-
-									<c:forEach items="${stockList}" var="stockList"
-										varStatus="count">
-										<tr>
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-
-
-											<td class="col-md-1"><c:out
-													value="${stockList.itemCode}" /></td>
-													
-											<td class="col-md-1"><c:out
-													value="${stockList.openingStock}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${stockList.approveQty}" /></td>
-
-											<td class="col-md-1"><c:out
-													value="${stockList.issueQty}" /></td>
-											
-											<td class="col-md-1"><c:out
-													value="${stockList.returnIssueQty}" /></td>
-													
-											<td class="col-md-1"><c:out
-													value="${stockList.damageQty}" /></td>
-													
-											<td class="col-md-1"><c:out
-													value="${stockList.gatepassQty}" /></td>
-													
-											<td class="col-md-1"><c:out
-													value="${stockList.gatepassReturnQty}" /></td>
-											
-											<td class="col-md-1"><c:out
-													value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
-													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" /></td>
-											  
-										</tr>
-									</c:forEach>
-
+  
 								</tbody>
 
 								</table>
@@ -247,6 +239,7 @@
 		
 		var fromDate = $("#fromDate").val();
 		var toDate = $("#toDate").val();
+		var catId = $("#catId").val();
 		
 		if(fromDate=="" || fromDate == null)
 			alert("Select From Date");
@@ -257,12 +250,13 @@
 
 		$
 				.getJSON(
-						'${getStockBetweenDate}',
+						'${getStockBetweenDateWithCatId}',
 
 						{
 							 
 							fromDate : fromDate,
 							toDate : toDate, 
+							catId : catId,
 							ajax : 'true'
 
 						},
@@ -291,7 +285,8 @@
 										  	tr.append($('<td></td>').html(itemList.gatepassQty));
 										  	tr.append($('<td></td>').html(itemList.gatepassReturnQty));
 										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
-										  	 
+										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
+										  	
 										    $('#table1 tbody').append(tr); 
 										})  
 										
@@ -299,9 +294,10 @@
 						}); 
 }
 	</script>
+	
 	<script>
 function myFunction() {
-  var input, filter, table, tr, td ,td1,td2, i;
+  var input, filter, table, tr, td ,td1, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("table1");
@@ -312,8 +308,7 @@ function myFunction() {
     	
     	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
     	        tr[i].style.display = "";
-    	      } 
-    	      else {
+    	      } else {
     	        tr[i].style.display = "none";
     	      }
        
