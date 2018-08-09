@@ -153,10 +153,15 @@ h6{
                         	<div class="row">
                             	
                                 <div class="col-md-12">
-                        		<div class="box" id="todayslist">
+                        	  <c:forEach items="${categoryList}" var="categoryList"
+									varStatus="cnt">	
+					 <form id="submitList"
+				action="${pageContext.request.contextPath}/showPo"
+				method="post">
+						<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Mechanical
+								<i class="fa fa-table"></i>${categoryList.catDesc}
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -174,6 +179,8 @@ h6{
 						<table class="table table-advance" id="table1">  
 									<thead>
 										<tr class="bgpink">
+										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/> Select All</th>
+										
 											<th class="col-sm-1">Sr No</th>
 											<th class="col-md-1">Item Code</th>
 											<th class="col-md-1">Name</th>
@@ -182,17 +189,18 @@ h6{
 											<th class="col-md-1">ROL QTY</th>
 											<th class="col-md-1">Max Level</th>
 											<th class="col-md-1">Closing QTY</th>
-											
-											 <th class="col-md-1">Action</th> 
 										</tr>
 									</thead>
 									<tbody>
-
+	                   <c:set var="flag" value="0"/>
+	                  
 								<c:forEach items="${lowReorderItemList}" var="lowReorderItemList" varStatus="count">
-
+                            <c:choose>
+                                  <c:when test="${categoryList.catId==lowReorderItemList.catId}"><c:set var="flag" value="1"/>
 											<tr>
+											<td class="col-sm-1"><input type="checkbox" name="select_to_approve"	id="select_to_approve" value="${lowReorderItemList.itemId}" />	
+											</td>
 											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												
 												<td class="col-md-1"><c:out value="${lowReorderItemList.itemCode}" /></td>
 												<td class="col-md-2"><c:out value="${lowReorderItemList.itemName}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.itemUom}" /></td>
@@ -200,9 +208,13 @@ h6{
 												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.itemMaxLevel}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" /></td>
- 												<td><a href="${pageContext.request.contextPath}/editItem/${lowReorderItemList.itemId}" data-toggle="tooltip" title="Edit">Request Indent</a></td>  
+											
 											</tr>
+										</c:when>
+									</c:choose>
 										</c:forEach>
+									
+									
 										</tbody>
 
 								</table>
@@ -210,8 +222,23 @@ h6{
 					</div>
 				</div>
 							 
+	<div class="row">
+						<div class="col-md-12" style="text-align: center">
+							<c:choose>
+							<c:when test="${flag==0}">
+							<input type="submit" class="btn btn-info" value="Submit" disabled>
+							
+							</c:when>
+							<c:when test="${flag==1}">
+							<input type="submit" class="btn btn-info" value="Submit" >
+							</c:when>
+							</c:choose>
 
 
+						</div></div>
+					</div>
+					</form>
+</c:forEach>
 						</div>
 						<br>
 							<%-- <div class="box" id="todayslist">

@@ -208,7 +208,7 @@ h6{
  
   <nav class="tabs1">
     <div class="selector1"></div>
-    <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart "></i>Purchase Order</a>
+    <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart "></i>Pending Purchase Order</a>
     <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending MRN</a>
     <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Consumption Report</a>
     <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
@@ -404,28 +404,28 @@ h6{
 									<thead>
 										<tr class="bgpink">
 										  <th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">Indent No.</th>
+											<th class="col-md-1">Enquiry No.</th>
+												<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Date</th>
-											<th class="col-md-1">Category</th>
-											<th class="col-md-1">Indent Type</th>
-											<th class="col-md-1">Account Head</th>
-											<th class="col-md-1">Is Monthly</th>
+											<th class="col-md-1">Vendor Name</th>
+											<th class="col-md-1">Vendor Code</th>
+										<!-- 	<th class="col-md-1">Account Head</th>
+											<th class="col-md-1">Is Monthly</th> -->
 											<th class="col-md-1">Status</th>
 											 <th class="col-md-1">Action</th> 
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${indentListRes3}" var="indent" varStatus="count">
+										<c:forEach items="${indentListRes3}" var="enq" varStatus="count">
 											<tr>
 											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${indent.indMNo}" /></td>
-												<td class="col-md-2"><c:out value="${indent.indMDate}" /></td>
-												<td class="col-md-1"><c:out value="${indent.catDesc}" /></td>
-												<td class="col-md-1"><c:choose><c:when test="${indent.indMType==1}">Regular</c:when><c:when test="${indent.indMType==2}">Job Work</c:when><c:when test="${indent.indMType==3}">General</c:when></c:choose></td>
- 												<td class="col-md-1"><c:out value="${indent.accountHead}" /></td>
- 												<td class="col-md-1">
- 												<c:choose><c:when test="${indent.indIsmonthly==0}">No</c:when><c:when test="${indent.indIsmonthly==1}">Yes</c:when></c:choose></td>
+												<td class="col-md-2"><c:out value="${enq.enqNo}" /></td>
+												<td class="col-md-2"><c:out value="${enq.indNo}" /></td>
+												<td class="col-md-2"><c:out value="${enq.enqDate}" /></td>
+												<td class="col-md-1"><c:out value="${enq.vendorName}" /></td>
+												<td class="col-md-1"><c:out value="${enq.vendorCode}" /></td>
+ 											
  												<td class="col-md-1"><c:out value="Pending" /></td>       <%--  <td class="col-md-1">
 										        <c:choose>
 										        <c:when test="${indent.indDStatus==0}">
