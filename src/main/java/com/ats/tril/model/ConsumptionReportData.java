@@ -11,6 +11,18 @@ public class ConsumptionReportData implements Serializable{
 	private float target;
 	
 	private float totalValue;
+	
+	private float basicValue;
+	
+	
+
+	public float getBasicValue() {
+		return basicValue;
+	}
+
+	public void setBasicValue(float basicValue) {
+		this.basicValue = basicValue;
+	}
 
 	public int getCatId() {
 		return catId;
