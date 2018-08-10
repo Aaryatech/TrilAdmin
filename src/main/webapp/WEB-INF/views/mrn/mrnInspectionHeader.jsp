@@ -59,7 +59,7 @@
 										<div class="col-md-3">
 										<select name="vendId" id="vendId" class="form-control chosen" tabindex="6" required>
 										<option value="">Select Vendor</option>
-										<option value="0" selected>ALL</option>
+										<option value="-1" selected>ALL</option>
 											 <c:forEach items="${vendorList}" var="vendorList"
 							varStatus="count">
 							<c:choose>
@@ -78,6 +78,21 @@
 
 										</select>
 									</div>
+									
+									<div class="col-md-2">Select Mrn Status</div>
+								<div class="col-md-3">
+
+									<select  id="mrn_status"
+										class="form-control chosen" tabindex="6" name="mrn_status"
+										required>
+										<option value="-1">All</option>
+										<option value="0">Pending</option>
+										<option value="1">Partial Pending</option>
+										<option value="2">Completed</option>
+
+									</select>
+
+								</div>
 									<div class="col-md-1"></div>
 									<div class="col-md-2"><input type="submit" class="btn btn-info" value="Submit"
 											id="submit">
@@ -87,9 +102,23 @@
 								</div>
 								<br>
 								
+								
 								<div class="box-content">
 
 					<br /> <br />
+					
+					<div class="col-md-8" ></div> 
+		<!-- 			<label for="search" class="col-md-2" id="search">
+    <i class="fa fa-search" style="font-size:15px"></i>
+									<input type="text" value="" id="myInput" style="text-align: left; width: 240px;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor" title="Type in a name">
+										</label>  -->
+										<div class="input-group">
+    <input type="text"  id="myInput"  style="text-align: left; color: green;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor"/>
+    <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+    </span>
+</div>
+<br/>
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
 						<table class="table table-advance" id="table1">  
@@ -237,6 +266,31 @@
 			}
 		}
 	</script>
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td,td1, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[4];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    if (td || td1) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }  else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }//end of for
+  
+ 
+  
+}
+</script>
 
 </body>
 </html>

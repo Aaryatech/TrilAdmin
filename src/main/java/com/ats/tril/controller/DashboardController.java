@@ -171,6 +171,7 @@ public class DashboardController {
 		ModelAndView model = new ModelAndView("mrn/mrnInspectionHeader");
 		try {
 			int vendorId=Integer.parseInt(request.getParameter("vendId"));
+			int status=Integer.parseInt(request.getParameter("mrn_status"));
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
@@ -182,9 +183,17 @@ public class DashboardController {
 			model.addObject("vendorList", vendorList);
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			 map.add("status","0,1");
+			
+			if(status==-1) {
+				map.add("status","1,"+"2,"+"0");
+			}else {
+				
+				map.add("status",status);
+
+			}
 			 map.add("venId",vendorId);
 			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  List.class);
+			System.err.println("Mrn Header List  " +getMrnHeaderList);
             model.addObject("getMrnHeaderList", getMrnHeaderList);
             model.addObject("vendorId", vendorId);
 		} catch (Exception e) {

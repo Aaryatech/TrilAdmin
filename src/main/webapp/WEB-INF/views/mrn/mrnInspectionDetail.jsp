@@ -141,6 +141,11 @@ body {
 				<h3>
 					<i class="fa fa-bars"></i>MRN Inspection Detail
 				</h3>
+				<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/showMrnForInspection">Back to List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+				
 
 			</div>
 
@@ -296,8 +301,8 @@ body {
 																<td align="left"><c:out value="${getMrnDetail.itemName}" /></td>
 																<td align="right"><c:out value="${getMrnDetail.poQty}" /></td>
 																<td align="right"><c:out value="${getMrnDetail.mrnQty}" /></td>
-													  			<td align="right"><input style="text-align:right; width:100px" type="number" id="approveQty${getMrnDetail.mrnDetailId}" name="approveQty${getMrnDetail.mrnDetailId}" value="${getMrnDetail.approveQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" onchange="changeApproveQty(this.value,${getMrnDetail.mrnDetailId},${getMrnDetail.mrnQty})" max="${getMrnDetail.mrnQty}"></td>
-													  			<td align="right"><input style="text-align:right; width:100px" type="number" id="rejectQty${getMrnDetail.mrnDetailId}" name="rejectQty${getMrnDetail.mrnDetailId}" value="${getMrnDetail.rejectQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" max="${getMrnDetail.mrnQty}"></td>
+													  			<td align="right"><input style="text-align:right; width:100px" type="number" id="approveQty${getMrnDetail.mrnDetailId}" name="approveQty${getMrnDetail.mrnDetailId}" value="${getMrnDetail.approveQty}" min="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" onchange="changeApproveQty(this.value,${getMrnDetail.mrnDetailId},${getMrnDetail.mrnQty})" max="${getMrnDetail.mrnQty}"></td>
+													  			<td align="right"><input style="text-align:right; width:100px" type="number" id="rejectQty${getMrnDetail.mrnDetailId}" name="rejectQty${getMrnDetail.mrnDetailId}" value="${getMrnDetail.rejectQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" max="${getMrnDetail.mrnQty}" readonly></td>
 													  			</tr>
 												</c:forEach>
 										</tbody>
