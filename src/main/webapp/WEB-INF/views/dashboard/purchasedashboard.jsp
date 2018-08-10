@@ -284,7 +284,7 @@ h6{
 										       </c:otherwise>
 										        </c:choose>
 										      </td> --%>
-											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span></td>
+											<td><a href="${pageContext.request.contextPath}/addPurchaseOrderFromDashboard/${indent.indMId}/${indent.indMType}">PO </a> </td>
 										
 											</tr>
 										</c:forEach>
@@ -362,8 +362,7 @@ h6{
 										       </c:otherwise>
 										        </c:choose>
 										      </td> --%>
-											<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span></td>
-										
+											<td><a href="${pageContext.request.contextPath}/addPurchaseOrderFromDashboard/${indent.indMId}/${indent.indMType}">PO </a> </td>
 											</tr>
 										</c:forEach>
 										</tbody>
