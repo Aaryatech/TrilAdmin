@@ -136,8 +136,8 @@ body {
 								<i class="fa fa-bars"></i>MRN Header
 							</h3>
 							<div class="box-tool">
-								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a> -->
+								<a href="${pageContext.request.contextPath}/getMrnHeaders">Back to List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
@@ -370,7 +370,7 @@ body {
 											data-rule-required="true" />
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Lorry No
+									<label class="col-sm-3 col-lg-2 control-label">LR No
 									</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="lorry_no" id="lorry_no"
@@ -380,7 +380,7 @@ body {
 								</div>
 
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Lorry
+									<label class="col-sm-3 col-lg-2 control-label">LR
 										Date </label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input class="form-control date-picker" id="lorry_date"
@@ -391,7 +391,7 @@ body {
 
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="lorry_remark" id="lorry_remark"
-											class="form-control" placeholder="Lorry Remark"
+											class="form-control" placeholder="Lorry Remark"  value="NA"
 											data-rule-required="true" />
 									</div>
 								</div>
@@ -522,9 +522,44 @@ body {
 
 					$('#vendor_id').change(
 							function() {
-
+								var grn_type = $("#grn_type").val();
+								//alert("Grn Type " +grn_type);
 								$.getJSON('${getPOHeaderList}', {
 									vendorId : $(this).val(),
+									grn_type : grn_type,
+									ajax : 'true'
+								}, function(data) {
+
+									var len = data.length;
+
+									$('#po_list').find('option').remove().end()
+									// $("#po_list").append($("<option></option>").attr( "value",-1).text("SELECT PO"));
+									for (var i = 0; i < len; i++) {
+
+										$("#po_list").append(
+												$("<option></option>").attr(
+														"value", data[i].poId)
+														.text(data[i].poNo));
+									}
+
+									$("#po_list").trigger("chosen:updated");
+								});
+							});
+				});
+	</script>
+	
+	
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+
+					$('#grn_type').change(
+							function() {
+								var vendorId = $("#vendor_id").val();
+								//alert("vendorId : " +vendorId);
+								$.getJSON('${getPOHeaderList}', {
+									grn_type : $(this).val(),
+									vendorId : vendorId,
 									ajax : 'true'
 								}, function(data) {
 

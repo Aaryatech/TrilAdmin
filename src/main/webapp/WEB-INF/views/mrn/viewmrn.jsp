@@ -67,10 +67,10 @@
 								<input type="hidden" name="mode_add" id="mode_add"
 									value="add_att">
 
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">From
-										Date</label>
-									<div class="col-sm-5 col-lg-3 controls">
+								<div class="box content">
+									<div class="col-md-1">From
+										Date</div>&nbsp;&nbsp;
+									<div class="col-md-2 ">
 										<input class="form-control date-picker" id="from_date"
 											size="16" type="text" name="from_date" value="${fromDate}"
 											required />
@@ -79,19 +79,45 @@
 
 
 								<div class="form-group"> -->
-									<label class="col-sm-3 col-lg-2 control-label">To Date</label>
-									<div class="col-sm-5 col-lg-3 controls">
+									<div class="col-md-1">To
+										Date</div>
+									<div class="col-md-2 ">
 										<input class="form-control date-picker" id="to_date" size="16"
 											type="text" name="to_date" required value="${toDate}" />
 									</div>
 
+<div class="col-md-1">Grn
+										Type</div>
+									<div class="col-md-2 ">
+										<select name="grn_type" id="grn_type"
+											class="form-control chosen" placeholder="Grn Type" onchange="getInvoiceNo()"
+											data-rule-required="true">
+												<option value="-1">Select Grn Type</option>
+											<option value="1">Regular</option>
+											<option value="2">Job Work</option>
+											<option value="3">General</option>
+											<option value="4">Other</option>
+										</select>
+									</div>
+<div class="col-md-1"></div>
 									<div
 										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
-										<input type="submit" value="Submit" class="btn btn-primary">
+										<input type="submit" width="20px;" value="Submit" class="btn btn-primary">
 									</div>
 
 								</div>
-
+<div class="col-md-8" ></div> 
+		<!-- 			<label for="search" class="col-md-2" id="search">
+    <i class="fa fa-search" style="font-size:15px"></i>
+									<input type="text" value="" id="myInput" style="text-align: left; width: 240px;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor" title="Type in a name">
+										</label>  -->
+										<div class="input-group">
+    <input type="text"  id="myInput"  style="text-align: left; color: green;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor"/>
+    <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+    </span>
+</div>
+<br/>
 
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
@@ -248,7 +274,31 @@
 		</script>
 	
 	
-	
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td,td1, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    if (td || td1) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }  else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }//end of for
+  
+ 
+  
+}
+</script>
 	
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>

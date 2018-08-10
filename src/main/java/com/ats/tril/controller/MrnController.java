@@ -87,13 +87,17 @@ public class MrnController {
 			int vendorId = 0;
 
 			vendorId = Integer.parseInt(request.getParameter("vendorId"));
+			
+			int	poType = Integer.parseInt(request.getParameter("grn_type"));
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
+			map.add("poType", poType);
 			map.add("vendId", vendorId);
 			map.add("delStatus", Constants.delStatus);
 			map.add("statusList", "0,1");
-
+			
+			// Written Inside Purchase Order Rest controller in web api
+			
 			PoHeader[] poHeadRes = rest.postForObject(Constants.url + "/getPOHeaderList", map, PoHeader[].class);
 			poHeadList = new ArrayList<PoHeader>(Arrays.asList(poHeadRes));
 
@@ -102,6 +106,7 @@ public class MrnController {
 		} catch (Exception e) {
 
 			System.err.println("Exception in getting PO Header List By Ajax Call " + e.getMessage());
+			
 			e.printStackTrace();
 		}
 
@@ -386,6 +391,8 @@ public class MrnController {
 
 		ModelAndView model = null;
 		try {
+			
+			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -400,12 +407,13 @@ public class MrnController {
 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				map.add("grnType", -1);
 
 				System.out.println("inside if ");
 			} else {
 				fromDate = request.getParameter("from_date");
 				toDate = request.getParameter("to_date");
-
+				int grnType=Integer.parseInt(request.getParameter("grn_type"));
 				System.out.println("inside Else ");
 
 				System.out.println("fromDate " + fromDate);
@@ -414,7 +422,7 @@ public class MrnController {
 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
-
+				map.add("grnType", grnType);
 			}
 			// map.add("status", 0);
 
