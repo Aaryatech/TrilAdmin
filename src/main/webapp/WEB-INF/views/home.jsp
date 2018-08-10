@@ -387,10 +387,10 @@ h6{
 										<c:when test="${indentList.indMType==1}">
 										Regular
 										</c:when>
-										<c:when test="${indentList.indMType==2}">
+										<c:when test="${indentList.indMType==3}">
 										General
 										</c:when>
-											<c:when test="${indentList.indMType==3}">
+											<c:when test="${indentList.indMType==2}">
 										JobWork
 										</c:when>
 										<c:when test="${indentList.indMType==4}">

@@ -132,6 +132,8 @@ body {
 					<i class="fa fa-bars"></i>Purchase Order
 				</h3>
 				<div class="box-tool">
+				<a href="${pageContext.request.contextPath}/addPurchaseOrder">
+									ADD PO  </a>
 								<a href="${pageContext.request.contextPath}/listOfPurachaseOrder">
 									PO List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
@@ -148,30 +150,63 @@ body {
 			<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">
-										<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" required>
-										<c:choose>
-											<c:when test="${poTypeTemp==1}"> 
-												<option value="1" selected>Regular</option> 
-											</c:when>
-											<c:when test="${poTypeTemp==2}"> 
-												<option value="2" selected>Job Work</option> 
-											</c:when>
-											<c:when test="${poTypeTemp==3}"> 
-												<option value="3" selected>General</option> 
-											</c:when>
-											<c:when test="${poTypeTemp==4}">
-												<option value="4" selected>Other</option>
-											</c:when>
-											<c:otherwise>
-											<option value="" >Select PO Type</option>
-											<option value="1">Regular</option>
-											<option value="2">Job Work</option>
-											<option value="3">General</option>
-											<option value="4">Other</option> 
-											</c:otherwise>
-										</c:choose>
+									<c:choose>
+										<c:when test="${isFromDashBoard==1}">
+										<input type="hidden" id="poType" name="poType" value="${poTypeTemp}">
+											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" disabled>
+												<c:choose>
+													<c:when test="${poTypeTemp==1}"> 
+														<option value="1" selected>Regular</option> 
+													</c:when>
+													<c:when test="${poTypeTemp==2}"> 
+														<option value="2" selected>Job Work</option> 
+													</c:when>
+													<c:when test="${poTypeTemp==3}"> 
+														<option value="3" selected>General</option> 
+													</c:when>
+													<c:when test="${poTypeTemp==4}">
+														<option value="4" selected>Other</option>
+													</c:when>
+													<c:otherwise>
+													<option value="" >Select PO Type</option>
+													<option value="1">Regular</option>
+													<option value="2">Job Work</option>
+													<option value="3">General</option>
+													<option value="4">Other</option> 
+													</c:otherwise>
+												</c:choose>
 										
-										</select>
+											</select>
+										</c:when>
+										<c:otherwise>
+											<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" required>
+												<c:choose>
+													<c:when test="${poTypeTemp==1}"> 
+														<option value="1" selected>Regular</option> 
+													</c:when>
+													<c:when test="${poTypeTemp==2}"> 
+														<option value="2" selected>Job Work</option> 
+													</c:when>
+													<c:when test="${poTypeTemp==3}"> 
+														<option value="3" selected>General</option> 
+													</c:when>
+													<c:when test="${poTypeTemp==4}">
+														<option value="4" selected>Other</option>
+													</c:when>
+													<c:otherwise>
+													<option value="" >Select PO Type</option>
+													<option value="1">Regular</option>
+													<option value="2">Job Work</option>
+													<option value="3">General</option>
+													<option value="4">Other</option> 
+													</c:otherwise>
+												</c:choose>
+										
+											</select>
+										
+										</c:otherwise>
+									</c:choose>
+										
 									</div>
 				
 				 
@@ -180,7 +215,7 @@ body {
 				<div class="box-content">
 				
 				<div class="col-md-2">PO No.  </div>
-				<div class="col-md-3"><input type="text" id="poNo" name="poNo" value="1" readonly class="form-control" >
+				<div class="col-md-3"><input type="text" id="poNo" name="poNo" value="${code}" readonly class="form-control" >
 				</div>
 						<div class="col-md-2">PO Date</div> 
 						<div class="col-md-3">
@@ -193,7 +228,7 @@ body {
 				<div class="box-content">
 				<div class="col-md-2" >Vendor Name</div>
 									<div class="col-md-10">
-										<select name="vendId" id="vendId"   class="form-control chosen" tabindex="6" required>
+										<select name="vendId" id="vendId"   class="form-control chosen"   required>
 										<option value=""  >Select Vendor</option>
 										 
 											 <c:forEach items="${vendorList}" var="vendorList" >
@@ -230,7 +265,7 @@ body {
 			<div class="box-content">
 				<div class="col-md-2" >Payment Terms</div>
 									<div class="col-md-3">
-										<select name="payId" id="payId"    class="form-control chosen" tabindex="6" required>
+										<select name="payId" id="payId"    class="form-control chosen"   required>
 										<option value="">Select Pay Terms</option>
 											 <c:forEach items="${paymentTermsList}" var="paymentTermsList" >
 											 <c:choose>
@@ -249,7 +284,7 @@ body {
 									
 									 <div class="col-md-2" >Select Delivery</div>
 									<div class="col-md-3">
-										<select name="deliveryId" id="deliveryId"    class="form-control chosen" tabindex="6" required>
+										<select name="deliveryId" id="deliveryId"    class="form-control chosen"   required>
 										<option value="" >Select </option>
 											 <c:forEach items="${deliveryTermsList}" var="deliveryTermsList" >
 											 <c:choose>
@@ -271,7 +306,7 @@ body {
 									<div class="col-md-2" >Select Dispatch Mode</div>
 									<div class="col-md-3">
 									
-										<select name="dispatchMode"  id="dispatchMode"   class="form-control chosen" tabindex="6" required>
+										<select name="dispatchMode"  id="dispatchMode"   class="form-control chosen"   required>
 										<option value="" >Select </option>
 									 <c:forEach items="${dispatchModeList}" var="dispatchModeList" >
 									 <c:choose>
@@ -295,21 +330,42 @@ body {
 					<div class="box-content">
 								<div class="col-md-2" >Select Intend No.</div>
 									<div class="col-md-3">
-										<select name="indId" id="indId" class="form-control chosen" tabindex="6" required>
+									<c:choose>
+										<c:when test="${isFromDashBoard==1}">
+										<input type="hidden" id="indId" name="indId" value="${indId}">
+											<select name="indIdd" id="indIdd" class="form-control chosen"   disabled>
 									 
-									 <c:forEach items="${intedList}" var="intedList" >
-									 <c:choose>
-									 	<c:when test="${intedList.indMId==indId}">
-									 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-									 	</c:when>
-									 	<c:otherwise>
-									 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-									 	</c:otherwise>
-									 </c:choose>
-							   
- 													 
-												</c:forEach>
+											 <c:forEach items="${intedList}" var="intedList" >
+												 <c:choose>
+												 	<c:when test="${intedList.indMId==indId}">
+												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:when>
+												 	<c:otherwise>
+												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:otherwise>
+												 </c:choose>  
+											</c:forEach>
 										</select>
+										
+										</c:when>
+										<c:otherwise>
+											<select name="indId" id="indId" class="form-control chosen"   required>
+									 
+											 <c:forEach items="${intedList}" var="intedList" >
+												 <c:choose>
+												 	<c:when test="${intedList.indMId==indId}">
+												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:when>
+												 	<c:otherwise>
+												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:otherwise>
+												 </c:choose>  
+											</c:forEach>
+										</select>
+										
+										</c:otherwise>
+									</c:choose>
+										
 									</div>	
 									<div class="col-md-1"></div>
 									<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Intend "  id="myBtn"></div>
@@ -521,7 +577,7 @@ body {
 					<input   type="hidden" value="0" name="deliveryIdTemp" id="deliveryIdTemp"    >
 					<input   type="hidden" value="0" name="dispatchModeTemp" id="dispatchModeTemp"    >
 					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
-					
+					<input   type="hidden" value="${code}" name="poNoTemp" id="poDateTemp"    >
 										      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
@@ -986,7 +1042,8 @@ function getInvoiceNo() {
 
 	}, function(data) { 
 		
-	document.getElementById("poNo").value=data.code;  
+	document.getElementById("poNo").value=data.code;
+	document.getElementById("poNoTemp").value=data.code;
 	getIntendListByPoType();
 	
 	});

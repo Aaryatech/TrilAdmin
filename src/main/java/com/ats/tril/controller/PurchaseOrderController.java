@@ -98,6 +98,106 @@ public class PurchaseOrderController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/addPurchaseOrderFromDashboard/{indMId}/{poType}", method = RequestMethod.GET)
+	public ModelAndView addPurchaseOrderFromDashboard(@PathVariable int indMId, @PathVariable int poType, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/addPurchaseOrder");
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+
+			model.addObject("date", sf.format(date));
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			model.addObject("vendorList", vendorList);
+
+			DispatchMode[] dispatchMode = rest.getForObject(Constants.url + "/getAllDispatchModesByIsUsed",
+					DispatchMode[].class);
+			List<DispatchMode> dispatchModeList = new ArrayList<DispatchMode>(Arrays.asList(dispatchMode));
+
+			model.addObject("dispatchModeList", dispatchModeList);
+
+			PaymentTerms[] paymentTermsLists = rest.getForObject(Constants.url + "/getAllPaymentTermsByIsUsed",
+					PaymentTerms[].class);
+			model.addObject("paymentTermsList", paymentTermsLists);
+
+			DeliveryTerms[] deliveryTerms = rest.getForObject(Constants.url + "/getAllDeliveryTermsByIsUsed",
+					DeliveryTerms[].class);
+			List<DeliveryTerms> deliveryTermsList = new ArrayList<DeliveryTerms>(Arrays.asList(deliveryTerms));
+
+			model.addObject("deliveryTermsList", deliveryTermsList);
+
+			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
+			model.addObject("taxFormList", taxFormList);
+ 
+			model.addObject("quotationTemp", "-");
+			model.addObject("quotationDateTemp", sf.format(date)); 
+			model.addObject("poTypeTemp", poType);
+			model.addObject("indId", indMId);
+			model.addObject("isFromDashBoard", 1);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1");
+			map.add("poType", poType);
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
+					GetIndentByStatus[].class);
+			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			 
+			model.addObject("intedList", intedList);
+			
+			String code = getInvoiceNo(poType,2,sf.format(date));
+			model.addObject("code", code);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	public String getInvoiceNo(int catId,int docId,String date) {
+        
+		String invNo="";
+		DocumentBean docBean=null;
+		try {
+			 
+			if(date=="") {
+						Date currDate = new Date();
+						date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
+						}
+						
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+						map.add("docId",docId);
+						map.add("catId", catId);
+						map.add("date", DateConvertor.convertToYMD(date));
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+			System.err.println("Doc"+docBean.toString());
+			String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+			int counter=docBean.getSubDocument().getCounter();
+			int counterLenth = String.valueOf(counter).length();
+			counterLenth = 4 - counterLenth;
+			StringBuilder code = new StringBuilder(indMNo);
+
+			for (int i = 0; i < counterLenth; i++) {
+				String j = "0";
+				code.append(j);
+			}
+			code.append(String.valueOf(counter));
+			invNo=""+code;
+			docBean.setCode(invNo);
+			System.err.println("invNo"+invNo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return docBean.getCode();
+	}
+	
 	@RequestMapping(value = "/getIntendListByPoType", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GetIndentByStatus> getIntendListByPoType(HttpServletRequest request, HttpServletResponse response) {
@@ -199,6 +299,13 @@ public class PurchaseOrderController {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+			try {
+				String poNoTemp = request.getParameter("poNoTemp");
+				model.addObject("code", poNoTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
 			int poTypeTemp = Integer.parseInt(request.getParameter("poTypeTemp"));
 			model.addObject("poTypeTemp", poTypeTemp);
 
