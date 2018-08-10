@@ -477,7 +477,6 @@ h6{
 											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">PO No.</th>
-
 											<th class="col-md-1">PO Date</th>
 											 <th class="col-md-1">PO Type</th> 
 											 <th class="col-md-1">PO Status</th> 
