@@ -416,7 +416,7 @@
 		
 		var vendorCode = $("#vendorCode").val(); 
 		
-		if(vendorCode!="")
+		if(vendorCode.length==1 && /^[a-zA-Z]/.test(vendorCode))
 		{
 			//alert(vendorCode);
 			$.getJSON('${checkVendCodeExist}', {
@@ -433,6 +433,7 @@
 		}
 		else{
 			document.getElementById("submit").disabled = true; 
+			alert("Enter Only One Alphabatical Character ");
 		}
 
 	}
