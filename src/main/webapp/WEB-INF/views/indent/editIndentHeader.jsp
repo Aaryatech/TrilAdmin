@@ -120,7 +120,7 @@
 										Head</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="acc_head" id="acc_head"
-											class="form-control chosen" placeholder="Account Head"
+		 									class="form-control chosen" placeholder="Account Head"
 											data-rule-required="true">
 											<c:forEach items="${accountHeadList}" var="accHead"
 												varStatus="count">
