@@ -572,6 +572,28 @@ public class MastersController {
 	
 	@RequestMapping(value = "/checkVendCodeExist", method = RequestMethod.GET)
 	@ResponseBody
+	public ErrorMessage checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		  
+		 ErrorMessage errorMessage = new ErrorMessage();
+		try {
+
+			String vendorCode = request.getParameter("vendorCode");
+			 
+			 
+			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+			map.add("str", vendorCode);
+			errorMessage = rest.postForObject(Constants.url + "/getNextVendorNo",map,
+					ErrorMessage.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return errorMessage;
+	}
+	
+	/*@RequestMapping(value = "/checkVendCodeExist", method = RequestMethod.GET)
+	@ResponseBody
 	public int checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
  
 		 int exist = 0 ;
@@ -593,7 +615,7 @@ public class MastersController {
 		}
 
 		return exist;
-	}
+	}*/
 
 	@RequestMapping(value = "/insertVendor", method = RequestMethod.POST)
 	public String insertVendor(HttpServletRequest request, HttpServletResponse response) {
