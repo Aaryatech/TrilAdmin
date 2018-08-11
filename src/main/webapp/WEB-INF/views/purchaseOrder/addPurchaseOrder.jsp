@@ -577,7 +577,7 @@ body {
 					<input   type="hidden" value="0" name="deliveryIdTemp" id="deliveryIdTemp"    >
 					<input   type="hidden" value="0" name="dispatchModeTemp" id="dispatchModeTemp"    >
 					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
-					<input   type="hidden" value="${code}" name="poNoTemp" id="poDateTemp"    >
+					<input   type="hidden" value="${code}" name="poNoTemp" id="poNoTemp"    >
 										      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
@@ -1041,10 +1041,10 @@ function getInvoiceNo() {
 		ajax : 'true',
 
 	}, function(data) { 
-		
+		getIntendListByPoType();
 	document.getElementById("poNo").value=data.code;
 	document.getElementById("poNoTemp").value=data.code;
-	getIntendListByPoType();
+	
 	
 	});
 
