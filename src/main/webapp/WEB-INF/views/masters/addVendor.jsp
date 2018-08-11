@@ -415,29 +415,26 @@
 	function checkVendCodeExist() {
 		
 		var vendorCode = $("#vendorCode").val(); 
-
-		$.getJSON('${checkVendCodeExist}', {
-
-			vendorCode : vendorCode,
-			ajax : 'true',
-
-		}, function(data) {
-			
-			if(data==0) 
-			{
-				document.getElementById("submit").disabled = false;  
-			}
-			else if(vendorCode=="" || vendorCode==null)
-			{
-				document.getElementById("submit").disabled = true; 
-			}
-			else
-			{
-				alert("Code Is Available ");
-				document.getElementById("submit").disabled = true;
-			}
-	 
-		});
+		
+		if(vendorCode.length==1 && /^[a-zA-Z]/.test(vendorCode))
+		{
+			//alert(vendorCode);
+			$.getJSON('${checkVendCodeExist}', {
+	
+				vendorCode : vendorCode,
+				ajax : 'true',
+	
+			}, function(data) {
+				
+				 
+					document.getElementById("submit").disabled = false;
+					document.getElementById("vendorCode").value = data.message; 
+			});
+		}
+		else{
+			document.getElementById("submit").disabled = true; 
+			alert("Enter Only One Alphabatical Character ");
+		}
 
 	}
 	function getStateName() {

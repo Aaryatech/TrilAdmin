@@ -720,7 +720,7 @@ public class MasterController {
 	
 	@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
 	@ResponseBody
-	public int checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
+	public int checkItemCodeExist(HttpServletRequest request, HttpServletResponse response) {
  
 		 int exist = 0 ;
 		 
@@ -946,5 +946,35 @@ public class MasterController {
 		return "redirect:/getItemList";
 	}
 	
+	
+	/*@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
+	@ResponseBody
+	public ErrorMessage checkItemCodeExist(HttpServletRequest request, HttpServletResponse response) {
+ 
+		 //int exist = 0 ;
+		 ErrorMessage errorMessage = new ErrorMessage();
+		try {
+
+			String itemCode = request.getParameter("itemCode");
+			 
+			for(int i = 0 ; i < itemList.size() ; i++)
+			 {
+				 if(itemList.get(i).getItemCode().equals(itemCode.trim()))
+				 {
+					 exist = 1;
+					 break;
+				 }
+			 }
+			
+			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+			map.add("str", itemCode);
+			errorMessage = rest.postForObject(Constants.url + "/getNextVendorNo",map,
+					ErrorMessage.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return errorMessage;
+	}*/
 
 }
