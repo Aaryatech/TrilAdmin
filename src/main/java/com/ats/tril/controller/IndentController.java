@@ -363,6 +363,7 @@ public class IndentController {
 
 			int schDay = Integer.parseInt(request.getParameter("schDay"));
 			String indDate = request.getParameter("indentDate");
+			
 			TempIndentDetail detail = new TempIndentDetail();
 
 			String uom = null;
@@ -381,7 +382,7 @@ public class IndentController {
 					break;
 				}
 			}
-
+			tempIndentList=new ArrayList<TempIndentDetail>();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			Date tempDate = sdf.parse(indDate);
 			Calendar c = Calendar.getInstance();
@@ -584,6 +585,7 @@ public class IndentController {
 				transDetail.setIndRemark(detail.getRemark());
 				transDetail.setItemId(detail.getItemId());
 				transDetail.setIndFyr(detail.getQty());
+				transDetail.setDelStatus(Constants.delStatus);
 
 				indTrasList.add(transDetail);
 

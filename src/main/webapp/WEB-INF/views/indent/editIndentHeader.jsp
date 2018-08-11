@@ -55,8 +55,8 @@
 								<i class="fa fa-bars"></i>Edit Indent
 							</h3>
 							<div class="box-tool">
-								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a> -->
+								<a href="${pageContext.request.contextPath}/getIndents">Back to List</a> <a data-action="collapse" href="${pageContext.request.contextPath}/getIndents"><i
+									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
@@ -68,14 +68,7 @@
 
 								<div class="form-group">
 
-									<label class="col-sm-3 col-lg-2 control-label">Indent
-										Category </label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<c:out value="${indent.catDesc}"></c:out>
-										<input type="hidden" value="${indent.indMId}" name="indentId">
-									</div>
-									
-									<c:set var="indmtype" value="o"></c:set>
+										<c:set var="indmtype" value="o"></c:set>
 									<c:choose>
 										<c:when test="${indent.indMType==1}">
 											<c:set var="indmtype" value="Regular"></c:set>
@@ -90,25 +83,33 @@
 											<c:set var="indmtype" value="Other"></c:set>
 										</c:otherwise>
 									</c:choose>
-
-									<label class="col-sm-3 col-lg-2 control-label">Indent
-										Type</label>
-									<div class="col-sm-6 col-lg-4 controls">
+<div class="col-md-1"></div>
+									<div class="col-md-2">Indent
+										Type</div>
+									<div class="col-md-3">
 										<c:out value="${indmtype}"></c:out>
 
 									</div>
+									<div class="col-md-2">Indent
+										Category </div>
+									<div class="col-md-3">
+										<c:out value="${indent.catDesc}"></c:out>
+										<input type="hidden" value="${indent.indMId}" name="indentId">
+									</div>
+									
+								
 								</div>
 								<div class="form-group">
 								
-								
-								<label class="col-sm-3 col-lg-2 control-label">Indent
-										No.</label>
-									<div class="col-sm-6 col-lg-4 controls">
+								<div class="col-md-1"></div>
+									<div class="col-md-2">Indent
+										No.</div>
+									<div class="col-md-3">
 										<c:out value="${indent.indMNo}"></c:out>
 									</div>
 								
-									<label class="col-sm-3 col-lg-2 control-label">Date</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Date</div>
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="indent_date"
 											size="16" type="text" disabled="disabled" name="indent_date"
 											value="${indent.indMDate}" required />
@@ -116,9 +117,10 @@
 								</div>
 								
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Account
-										Head</label>
-									<div class="col-sm-6 col-lg-4 controls">
+								<div class="col-md-1"></div>
+									<div class="col-md-2">Account
+										Head</div>
+									<div class="col-md-3">
 										<select name="acc_head" id="acc_head"
 		 									class="form-control chosen" placeholder="Account Head"
 											data-rule-required="true">
@@ -136,10 +138,10 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Machine
-										Specific</label>
+									<div class="col-md-2">Machine
+										Specific</div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="machine_specific" id="machine_specific"
 											onchange="showDept()" class="form-control chosen"
 											placeholder="Is Machine Specific" data-rule-required="true">
@@ -158,11 +160,11 @@
 									</div>
 								</div>
 								
-								<div class="box-content" style="display: none" id="deptDiv">
-									<label class="col-sm-3 col-lg-2 control-label">Department
-									</label>
+								<div class="form-group" style="display: none" id="deptDiv">
+									<div class="col-md-1"></div>	<div class="col-md-2">Department
+									</div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="dept" id="dept" class="form-control chosen"
 											placeholder="Department">
 											<c:forEach items="${deparmentList}" var="dept"
@@ -179,9 +181,9 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Sub
-										Department </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2">Sub
+										Department </div>
+									<div class="col-md-3">
 										<select name="sub_dept" id="sub_dept"
 											class="form-control chosen" placeholder="Sub Department">
 
@@ -190,11 +192,11 @@
 
 								</div>
 								
-								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">For
-										Development </label>
+								<div class="form-group"><div class="col-md-1"></div>
+								<div class="col-md-2">For
+										Development </div>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="is_dev" id="is_dev" class="form-control"
 											placeholder="Is Dev" data-rule-required="true">
 
@@ -213,9 +215,9 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label"> Monthly
-									</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-2"> Monthly
+									</div>
+									<div class="col-md-3">
 										<select name="is_monthly" id="is_monthly" class="form-control"
 											placeholder="Is Monthly" data-rule-required="true">
 
@@ -400,7 +402,7 @@
 											<c:otherwise>
 
 												<input type="submit" class="btn btn-info"
-													value="Edit Indent">
+													value="Submit">
 											</c:otherwise>
 										</c:choose>
 
@@ -683,7 +685,7 @@
 			var schDay = $('#sch_days').val();
 			var itemName = $("#item_name option:selected").html();
 			var indMId=${indent.indMId};
-			
+			//alert("item Name " +itemName);
 			var indentDate = $('#indent_date').val();
 			$.getJSON('${getIndentDetailForEdit}', {
 				itemId : itemId,
@@ -769,8 +771,14 @@
 	<script>
 	function updateCall(indDId,indMId,del) {
 		if(del==1){
-			getValue(0,indDId,indMId);
 			
+	var x=confirm("Are you Sure to Delete  " );
+		
+		if(x==true)
+			getValue(0,indDId,indMId);
+		else{
+			
+		}
 		}
 		else{
 			document.getElementById("indQty"+indDId).removeAttribute("readonly");
@@ -851,6 +859,8 @@
 		});
 	}
 	</script>
+	
+	
 	<script type="text/javascript">
 	function checkIndentDept(){
 	var dept=${isDept};
