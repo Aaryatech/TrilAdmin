@@ -185,7 +185,7 @@ public class DashboardController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			
 			if(status==-1) {
-				map.add("status","1,"+"2,"+"0");
+				map.add("status","1,2,0");
 			}else {
 				
 				map.add("status",status);
@@ -196,6 +196,7 @@ public class DashboardController {
 			System.err.println("Mrn Header List  " +getMrnHeaderList);
             model.addObject("getMrnHeaderList", getMrnHeaderList);
             model.addObject("vendorId", vendorId);
+            model.addObject("status", status);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

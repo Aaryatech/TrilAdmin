@@ -59,7 +59,7 @@
 										<div class="col-md-3">
 										<select name="vendId" id="vendId" class="form-control chosen" tabindex="6" required>
 										<option value="">Select Vendor</option>
-										<option value="-1" selected>ALL</option>
+										<option value="0" selected>ALL</option>
 											 <c:forEach items="${vendorList}" var="vendorList"
 							varStatus="count">
 							<c:choose>
@@ -85,10 +85,39 @@
 									<select  id="mrn_status"
 										class="form-control chosen" tabindex="6" name="mrn_status"
 										required>
-										<option value="-1">All</option>
+										<c:choose>
+							<c:when test="${status==-1}">
+										<option value="-1" selected>All</option>
 										<option value="0">Pending</option>
 										<option value="1">Partial Pending</option>
 										<option value="2">Completed</option>
+							</c:when>
+								<c:when test="${status==0}">
+										<option value="-1" >All</option>
+										<option value="0"selected>Pending</option>
+										<option value="1">Partial Pending</option>
+										<option value="2">Completed</option>
+							</c:when>
+								<c:when test="${status==1}">
+										<option value="-1" >All</option>
+										<option value="0">Pending</option>
+										<option value="1"selected>Partial Pending</option>
+										<option value="2">Completed</option>
+							</c:when>
+							
+								<c:when test="${status==2}">
+										<option value="-1" >All</option>
+										<option value="0">Pending</option>
+										<option value="1">Partial Pending</option>
+										<option value="2"selected>Completed</option>
+							</c:when>
+							<c:otherwise>
+							            <option value="-1" >All</option>
+										<option value="0">Pending</option>
+										<option value="1">Partial Pending</option>
+										<option value="2">Completed</option>
+							</c:otherwise>
+							</c:choose>
 
 									</select>
 
