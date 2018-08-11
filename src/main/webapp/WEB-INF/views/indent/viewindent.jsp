@@ -112,7 +112,18 @@
 											</thead>
 										</table>
 
-									</div>
+									</div><div class="col-md-8" ></div> 
+		<!-- 			<label for="search" class="col-md-2" id="search">
+    <i class="fa fa-search" style="font-size:15px"></i>
+									<input type="text" value="" id="myInput" style="text-align: left; width: 240px;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor" title="Type in a name">
+										</label>  -->
+										<div class="input-group">
+    <input type="text"  id="myInput"  style="text-align: left; color: green;" class="form-control" onkeyup="myFunction()" placeholder="Search Indent By No Or Type"/>
+    <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+    </span>
+</div>
+<br/>
 									<div class="table-wrap">
 
 										<table id="table1" class="table table-advance">
@@ -276,6 +287,33 @@
 
 		}
 	</script>
+	
+	
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td,td1, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[5];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    if (td || td1) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }  else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }//end of for
+  
+ 
+  
+}
+</script>
 
 
 	<script
