@@ -35,14 +35,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
-				<div>
-					<h1>
-						<i class="fa fa-file-o"></i>Add Indent
-					</h1>
-
-				</div>
-			</div>
+			
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -219,7 +212,7 @@
 											data-rule-required="true" />
 									</div> -->
 								</div>
-								<br>
+								<br/><br/>
 
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Item
@@ -233,7 +226,7 @@
 										</select>
 									</div>
 								</div>
-								<br>
+								<br/><br/>
 								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-2 controls">
@@ -307,20 +300,21 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-md-1" style="text-align: center;">Sr No</th>
+													<th class="col-sm-1" style="text-align: center;">Sr</th>
 													<th class="col-md-1" style="text-align: center;">Item
 														Code</th>
 													<th class="col-md-3" style="text-align: center;">Item
 														Name</th>
 													<th class="col-md-1" style="text-align: center;">UOM</th>
-													<th class="col-md-2" style="text-align: center;">Current
-														Stock</th>
+													<th class="col-md-1" style="text-align: center;">Cur
+														Stk</th>
 
-													<th class="col-md-1" style="text-align: center;">Requested
+													<th class="col-md-1" style="text-align: center;">Req
 														Qty</th>
-													<th class="col-md-1" style="text-align: center;">ScheduleDays</th>
-													<th class="col-md-1" style="text-align: center;">Schedule
+													<th class="col-md-1" style="text-align: center;">Sch Day</th>
+													<th class="col-md-1" style="text-align: center;">Sch
 														Date</th>
+														<th class="col-md-1" style="text-align: center;">Remark</th>
 														<th class="col-md-1" style="text-align: center;">Action
 														</th>
 												</tr>
@@ -586,15 +580,18 @@ $(document).ready(function() {
 			$('#table1 td').remove();
 			$.each(data,function(key, trans) {
 			var tr = $('<tr></tr>');
-			tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key+1));
+			tr.append($('<td class="col-sm-1" style="text-align: center;"></td>').html(key+1));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));
-		  	tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(trans.itemName));
+		  	tr.append($('<td class="col-md-4" style="text-align: left;"></td>').html(trans.itemName));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.uom));
-		  	tr.append($('<td class="col-md-2" style="text-align: center;"></td>').html(trans.curStock));
+		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.curStock));
 
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
+		  	
+		  	tr.append($('<td class="col-md-1" style="text-align: left;"></td>').html(trans.remark));
+
 		  	
 		  	/* tr
 			.append($(
@@ -619,7 +616,7 @@ $(document).ready(function() {
 		});
 		document.getElementById("quantity").value = "0"; 
 		 document.getElementById("remark").value="";
-		//document.getElementById("group").selectedIndex = "0";
+		//document.getElementById("item_name").selectedIndex = "0";
 		 document.getElementById("sch_days").value = "0";  
 		 
 		   $("#group").focus();
@@ -676,15 +673,16 @@ function deleteIndentItem(itemId,key){
 		$('#table1 td').remove();
 		$.each(data,function(key, trans) {
 		var tr = $('<tr></tr>');
-		tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key+1));
+		tr.append($('<td class="col-sm-1" style="text-align: center;"></td>').html(key+1));
 	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));
-	  	tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(trans.itemName));
+	  	tr.append($('<td class="col-md-4" style="text-align: left;"></td>').html(trans.itemName));
 	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.uom));
-	  	tr.append($('<td class="col-md-2" style="text-align: center;"></td>').html(trans.curStock));
+	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.curStock));
 
 	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
 	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
 	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
+		tr.append($('<td class="col-md-1" style="text-align: left;"></td>').html(trans.remark));
 	  	
 	  /* 	tr
 		.append($(

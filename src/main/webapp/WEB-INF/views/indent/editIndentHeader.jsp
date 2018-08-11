@@ -37,14 +37,14 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Edit Indent
 					</h1>
 
 				</div>
-			</div>
+			</div> -->
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -327,7 +327,7 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th style="text-align: center;" class="col-md-1">Sr No</th>
+													<th style="text-align: center;" class="col-sm-1">Sr No</th>
 													<th style="text-align: center;" class="col-md-2">Item</th>
 													<th style="text-align: center;" class="col-md-1">Indent
 														Quantity</th>
@@ -344,10 +344,10 @@
 													varStatus="count">
 
 													<tr>
-														<td style="text-align: center;" class="col-md-1"><c:out
+														<td style="text-align: center;" class="col-sm-1"><c:out
 																value="${count.index+1}" /></td>
 
-														<td style="text-align: center;" class="col-md-2"><c:out
+														<td style="text-align: left;" class="col-md-2"><c:out
 																value="${indDetail.indItemDesc}" /></td>
 
 														<td style="text-align: center;" class="col-md-1"><input
@@ -704,8 +704,8 @@
 				$('#table1 td').remove();
 				$.each(data, function(key, trans) {
 					var tr = $('<tr></tr>');
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(key + 1));
-					tr.append($('<td style="text-align: center;" class="col-md-2"></td>').html(trans.indItemDesc));
+					tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
+					tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.indItemDesc));
 					//tr.append($('<td></td>').html(trans.qty));
 				tr
 															.append($(
@@ -820,8 +820,8 @@
 			$('#table1 td').remove();
 			$.each(data, function(key, trans) {
 			var tr = $('<tr></tr>');
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(key + 1));
-				tr.append($('<td style="text-align: center;" class="col-md-2"></td>').html(trans.indItemDesc));
+				tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
+				tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.indItemDesc));
 				//tr.append($('<td></td>').html(trans.indQty));
 				
 				tr
@@ -911,7 +911,6 @@
 	}
 	
 	</script>
-
 
 </body>
 </html>
