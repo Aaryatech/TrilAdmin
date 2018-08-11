@@ -74,36 +74,39 @@
 										<c:out value="${indent.catDesc}"></c:out>
 										<input type="hidden" value="${indent.indMId}" name="indentId">
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">Indent
-										No.</label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<c:out value="${indent.indMNo}"></c:out>
+									
+									<c:set var="indmtype" value="o"></c:set>
+									<c:choose>
+										<c:when test="${indent.indMType==1}">
+											<c:set var="indmtype" value="Regular"></c:set>
+										</c:when>
+										<c:when test="${indent.indMType==2}">
+											<c:set var="indmtype" value="Job Work"></c:set>
+										</c:when>
+										<c:when test="${indent.indMType==3}">
+											<c:set var="indmtype" value="General"></c:set>
+										</c:when>
+										<c:otherwise>
+											<c:set var="indmtype" value="Other"></c:set>
+										</c:otherwise>
+									</c:choose>
 
-									</div>
-								</div>
-								<c:set var="indmtype" value="o"></c:set>
-								<c:choose>
-									<c:when test="${indent.indMType==1}">
-										<c:set var="indmtype" value="Regular"></c:set>
-									</c:when>
-									<c:when test="${indent.indMType==2}">
-										<c:set var="indmtype" value="Job Work"></c:set>
-									</c:when>
-									<c:when test="${indent.indMType==3}">
-										<c:set var="indmtype" value="General"></c:set>
-									</c:when>
-									<c:otherwise>
-										<c:set var="indmtype" value="Other"></c:set>
-									</c:otherwise>
-								</c:choose>
-								<div class="box-content">
 									<label class="col-sm-3 col-lg-2 control-label">Indent
 										Type</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<c:out value="${indmtype}"></c:out>
 
 									</div>
-
+								</div>
+								<div class="form-group">
+								
+								
+								<label class="col-sm-3 col-lg-2 control-label">Indent
+										No.</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<c:out value="${indent.indMNo}"></c:out>
+									</div>
+								
 									<label class="col-sm-3 col-lg-2 control-label">Date</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input class="form-control date-picker" id="indent_date"
@@ -111,8 +114,8 @@
 											value="${indent.indMDate}" required />
 									</div>
 								</div>
-								<br />
-								<div class="box-content">
+								
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Account
 										Head</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -151,12 +154,10 @@
 													<option selected value="1">Yes</option>
 												</c:otherwise>
 											</c:choose>
-
-
 										</select>
 									</div>
 								</div>
-								<br />
+								
 								<div class="box-content" style="display: none" id="deptDiv">
 									<label class="col-sm-3 col-lg-2 control-label">Department
 									</label>
@@ -188,9 +189,10 @@
 									</div>
 
 								</div>
-								<br />
+								
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">For Development </label>
+									<label class="col-sm-3 col-lg-2 control-label">For
+										Development </label>
 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="is_dev" id="is_dev" class="form-control"
@@ -211,8 +213,8 @@
 										</select>
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">
-										Monthly </label>
+									<label class="col-sm-3 col-lg-2 control-label"> Monthly
+									</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="is_monthly" id="is_monthly" class="form-control"
 											placeholder="Is Monthly" data-rule-required="true">
@@ -235,86 +237,86 @@
 										</select>
 									</div>
 								</div>
-								<br/>
-								<br/>
-							
+								<br /> <br />
+
 								<div style="border: 2px solid orange; border-radius: 8px;">
 									<h4 align="center">Add Item</h4>
-								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Group </label>
-									<div class="col-sm-6 col-lg-10 controls">
+									<div class="box-content">
+										<label class="col-sm-3 col-lg-2 control-label">Group </label>
+										<div class="col-sm-6 col-lg-10 controls">
 
-										<select name="group" id="group" class="form-control"
-											placeholder="Group" data-rule-required="true">
-										</select>
-									</div>
-									<!-- <label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+											<select name="group" id="group" class="form-control"
+												placeholder="Group" data-rule-required="true">
+											</select>
+										</div>
+										<!-- <label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="quantity" id="quantity"
 											class="form-control" placeholder="Quantity"
 											data-rule-required="true" />
 									</div> -->
-								</div>
-								<br/>
-
-								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Item
-										Name </label>
-									<div class="col-sm-6 col-lg-10 controls">
-
-										<select id="item_name" name="item_name"
-											class="form-control chosen" placeholder="Item Name"
-											data-rule-required="true">
-
-										</select>
 									</div>
-								</div>
-								<br/><br/>
-								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
-									<div class="col-sm-6 col-lg-2 controls">
-										<input type="text" name="quantity" id="quantity"
-											class="form-control" placeholder="Quantity"
-											data-rule-required="true" data-rule-number="true" />
+									<br />
+
+									<div class="box-content">
+										<label class="col-sm-3 col-lg-2 control-label">Item
+											Name </label>
+										<div class="col-sm-6 col-lg-10 controls">
+
+											<select id="item_name" name="item_name"
+												class="form-control chosen" placeholder="Item Name"
+												data-rule-required="true">
+
+											</select>
+										</div>
 									</div>
-									<!-- </div>
+									<br />
+									<br />
+									<div class="box-content">
+										<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+										<div class="col-sm-6 col-lg-2 controls">
+											<input type="text" name="quantity" id="quantity"
+												class="form-control" placeholder="Quantity"
+												data-rule-required="true" data-rule-number="true" />
+										</div>
+										<!-- </div>
 
 								<div class="form-group"> -->
 
-									<label class="col-sm-3 col-lg-2 control-label">Schedule
-										Days</label>
-									<div class="col-sm-3 col-lg-2 controls">
-										<input type="text" name="sch_days" id="sch_days"
-											class="form-control" placeholder="Schedule Days"
-											data-rule-required="true" data-rule-number="true" />
-									</div>
-									<label class="col-sm-3 col-lg-1 control-label">Remark</label>
-									<div class="col-sm-6 col-lg-2 controls">
+										<label class="col-sm-3 col-lg-2 control-label">Schedule
+											Days</label>
+										<div class="col-sm-3 col-lg-2 controls">
+											<input type="text" name="sch_days" id="sch_days"
+												class="form-control" placeholder="Schedule Days"
+												data-rule-required="true" data-rule-number="true" />
+										</div>
+										<label class="col-sm-3 col-lg-1 control-label">Remark</label>
+										<div class="col-sm-6 col-lg-2 controls">
 
-										<input type="text" name="remark" id="remark"
-											class="form-control" placeholder="Remark"
-											data-rule-required="true" />
-									</div>
+											<input type="text" name="remark" id="remark"
+												class="form-control" placeholder="Remark"
+												data-rule-required="true" />
+										</div>
 
-								<!-- </div>
+										<!-- </div>
 
 								<div class="box-content">
 									<div class="col-md-12" style="text-align: center"> -->
 
 										<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
-										
+
 
 
 
 
 										<!-- 										<input type="button" onclick="validateQty()" class="btn btn-info" value="Submit">
  -->
-									<!-- </div> -->
-								</div>
+										<!-- </div> -->
+									</div>
 								</div>
 
-<br/>
+								<br />
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
 
@@ -365,17 +367,17 @@
 															<%-- <input
 															type="button" value="update"
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
-															
+
 															<c:choose>
 																<c:when test="${indDetail.indDStatus==0}">
-																
-																<a href="#" class="action_btn" title="Update"
-															onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i
-																class="fa fa-edit"></i></a> &nbsp;&nbsp;<a href="#" class="action_btn"
-															title="Delete"
-															onclick="updateCall(${indDetail.indDId},${indent.indMId},1)"><i
-																class="fa fa-trash-o"></i></a>
-																
+
+																	<a href="#" class="action_btn" title="Update"
+																		onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i
+																		class="fa fa-edit"></i></a> &nbsp;&nbsp;<a href="#"
+																		class="action_btn" title="Delete"
+																		onclick="updateCall(${indDetail.indDId},${indent.indMId},1)"><i
+																		class="fa fa-trash-o"></i></a>
+
 																</c:when>
 															</c:choose>
 														</td>
@@ -389,18 +391,20 @@
 
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
-									 
-									<c:choose>
-										<c:when test="${indent.indMStatus==2}">
-										<input type="submit" class="btn btn-info" value="Edit Indent" disabled>
-										</c:when>
-										<c:otherwise>
-										
-										<input type="submit" class="btn btn-info" value="Edit Indent">
-										</c:otherwise>
-									</c:choose>
 
-										
+										<c:choose>
+											<c:when test="${indent.indMStatus==2}">
+												<input type="submit" class="btn btn-info"
+													value="Edit Indent" disabled>
+											</c:when>
+											<c:otherwise>
+
+												<input type="submit" class="btn btn-info"
+													value="Edit Indent">
+											</c:otherwise>
+										</c:choose>
+
+
 
 									</div>
 								</div>
@@ -413,11 +417,11 @@
 			</div>
 		</div>
 		<footer>
-				<p>2018 © TRAMBAK RUBBER</p>
-			</footer>
+			<p>2018 © TRAMBAK RUBBER</p>
+		</footer>
 	</div>
 	<!-- END Main Content -->
-	
+
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>
