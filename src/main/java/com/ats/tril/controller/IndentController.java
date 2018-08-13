@@ -37,6 +37,7 @@ import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
+import com.ats.tril.model.indent.GetIndentDetail;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.model.indent.TempIndentDetail;
@@ -254,9 +255,7 @@ public class IndentController {
 
 		try {
 			
-			
 			int key = Integer.parseInt(request.getParameter("key"));
-			
 			
 			if(key==-1) {
 				
@@ -331,7 +330,7 @@ public class IndentController {
 	
 	
 	@RequestMapping(value = "/getIndentDetailForEdit", method = RequestMethod.GET)
-	public @ResponseBody List<IndentTrans> getIndentDetailForEdit(HttpServletRequest request,
+	public @ResponseBody List<GetIndentDetail> getIndentDetailForEdit(HttpServletRequest request,
 			HttpServletResponse response) {
 		System.err.println("In get getIndentDetailForEdit ");
 
@@ -370,7 +369,6 @@ public class IndentController {
 			String itemCode = null;
 			
 			//getIndentByIndId
-
 			
 			for (int i = 0; i < itemList.size(); i++) {
 
@@ -422,10 +420,10 @@ public class IndentController {
 			transDetail.setDelStatus(Constants.delStatus);
 			//indTrasList.add(transDetail);
 			
-			IndentTrans[] indDetail = rest.postForObject(Constants.url + "/saveIndentTras", transDetail,
-					IndentTrans[].class);
+			GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/saveIndentTras", transDetail,
+					GetIndentDetail[].class);
 			
-			indDetailListForEdit = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
+			indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
 
 			
 		} catch (Exception e) {
@@ -686,13 +684,13 @@ if(indTrasList.size()>0) {
 
 	// editIndent edit Indent Header
 	
-	List<IndentTrans> indDetailListForEdit=new ArrayList<IndentTrans>();
+	List<GetIndentDetail> indDetailListForEdit=new ArrayList<GetIndentDetail>();
 	
 	@RequestMapping(value = "/editIndent/{indMId}", method = RequestMethod.GET)
 	public ModelAndView editIndent(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("indMId") int indMId) {
 	
-		indDetailListForEdit=new ArrayList<IndentTrans>();
+		indDetailListForEdit=new ArrayList<GetIndentDetail>();
 		
 		ModelAndView model = null;
 		try {
@@ -747,10 +745,10 @@ if(indTrasList.size()>0) {
 
 			map.add("delStatus", Constants.delStatus);
 
-			IndentTrans[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndMId", map,
-					IndentTrans[].class);
+			GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndentId", map,
+					GetIndentDetail[].class);
 			
-			indDetailListForEdit = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
+			indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
 			
 			for(int i=0;i<indDetailListForEdit.size();i++) {
 				
@@ -834,18 +832,13 @@ if(indTrasList.size()>0) {
 
 	// updateIndDetail
 
-	
-
-
-
-
 	@RequestMapping(value = "/updateIndDetail", method = RequestMethod.GET)
-	public @ResponseBody List<IndentTrans> updateIndDetail(HttpServletRequest request, HttpServletResponse response
+	public @ResponseBody List<GetIndentDetail> updateIndDetail(HttpServletRequest request, HttpServletResponse response
 			/*@PathVariable("indDId") int indDId, @PathVariable("indMId") int indentId, @PathVariable("qty") int qty*/) {
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		ModelAndView model = null;
-		List<IndentTrans> indDetailList =  new ArrayList<IndentTrans>();
+		List<GetIndentDetail> indDetailList =  new ArrayList<GetIndentDetail>();
 		try {
 
 			int indQty =Integer.parseInt(request.getParameter("qty"));
@@ -856,15 +849,22 @@ if(indTrasList.size()>0) {
 			int indentId =Integer.parseInt(request.getParameter("indMId"));
 			
 			
-if(indQty>0) {
-	System.err.println("It is Edit call indQty >0");
-
+			if(indQty>0) {
+				System.err.println("It is Edit call indQty >0");
+				int schDays =Integer.parseInt(request.getParameter("schDays"));
+				
+				String remark=request.getParameter("remark");
+				System.err.println("New Param sch Days and remark  " +schDays +"remark " +remark);
+				
 			// build an update query to update indent
 			// editIndentHeader return type ErrorMessage;
 			map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("indDId", indDId);
 			map.add("indQty", indQty);
+			map.add("schDay", schDays);
+			map.add("remark", remark);
+			map.add("indentId", indentId);
 
 			ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentDetail", map,
 					ErrorMessage.class);
@@ -892,10 +892,10 @@ if(indQty>0) {
 
 		map.add("delStatus", Constants.delStatus);
 
-		IndentTrans[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndMId", map,
-				IndentTrans[].class);
+		GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndentId", map,
+				GetIndentDetail[].class);
 
-		 indDetailList = new ArrayList<IndentTrans>(Arrays.asList(indDetail));
+		 indDetailList = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
 		 System.err.println("Ind detail after update call  "  +indDetailList.toString());
 
 		}

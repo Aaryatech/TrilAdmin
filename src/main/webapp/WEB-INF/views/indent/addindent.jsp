@@ -304,12 +304,12 @@
 													<th class="col-md-1" style="text-align: center;">Item
 														Code</th>
 													<th class="col-md-3" style="text-align: center;">Item
-														Name</th>
+														Desc</th>
 													<th class="col-md-1" style="text-align: center;">UOM</th>
 													<th class="col-md-1" style="text-align: center;">Cur
 														Stk</th>
 
-													<th class="col-md-1" style="text-align: center;">Req
+													<th class="col-md-1" style="text-align: center;">Indent
 														Qty</th>
 													<th class="col-md-1" style="text-align: center;">Sch Day</th>
 													<th class="col-md-1" style="text-align: center;">Sch

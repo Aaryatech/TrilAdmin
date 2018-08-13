@@ -215,7 +215,7 @@
 										</select>
 									</div>
 
-									<div class="col-md-2"> Monthly
+									<div class="col-md-2"> For Monthly
 									</div>
 									<div class="col-md-3">
 										<select name="is_monthly" id="is_monthly" class="form-control"
@@ -239,10 +239,10 @@
 										</select>
 									</div>
 								</div>
-								<br /> <br />
-
-								<div style="border: 2px solid orange; border-radius: 8px;">
-									<h4 align="center">Add Item</h4>
+								<br /> 
+<hr/>
+								<div>
+								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 									<div class="box-content">
 										<label class="col-sm-3 col-lg-2 control-label">Group </label>
 										<div class="col-sm-6 col-lg-10 controls">
@@ -267,7 +267,7 @@
 
 											<select id="item_name" name="item_name"
 												class="form-control chosen" placeholder="Item Name"
-												data-rule-required="true">
+												>
 
 											</select>
 										</div>
@@ -277,7 +277,7 @@
 									<div class="box-content">
 										<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 										<div class="col-sm-6 col-lg-2 controls">
-											<input type="text" name="quantity" id="quantity"
+											<input type="text" name="quantity" id="quantity" min="1"
 												class="form-control" placeholder="Quantity"
 												data-rule-required="true" data-rule-number="true" />
 										</div>
@@ -295,7 +295,7 @@
 										<label class="col-sm-3 col-lg-1 control-label">Remark</label>
 										<div class="col-sm-6 col-lg-2 controls">
 
-											<input type="text" name="remark" id="remark"
+											<input type="text" name="remark" id="remark" maxlength="20" 
 												class="form-control" placeholder="Remark"
 												data-rule-required="true" />
 										</div>
@@ -327,16 +327,21 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th style="text-align: center;" class="col-sm-1">Sr No</th>
-													<th style="text-align: center;" class="col-md-2">Item</th>
-													<th style="text-align: center;" class="col-md-1">Indent
-														Quantity</th>
-													<th style="text-align: center;" class="col-md-1">Schedule
-														Days</th>
-													<th style="text-align: center;" class="col-md-1">Schedule
+													<th class="col-sm-1" style="text-align: center;">Sr</th>
+													<th class="col-md-1" style="text-align: center;">Item
+														Code</th>
+													<th class="col-md-3" style="text-align: center;">Item
+														Desc</th>
+													<th class="col-md-1" style="text-align: center;">UOM</th>
+												
+													<th class="col-md-1" style="text-align: center;">Indent
+														Qty</th>
+													<th class="col-md-1" style="text-align: center;">Sch Day</th>
+													<th class="col-md-1" style="text-align: center;">Sch
 														Date</th>
-													<th style="text-align: center;" class="col-md-1">Remark</th>
-													<th style="text-align: center;" class="col-md-1">Action</th>
+														<th class="col-md-1" style="text-align: center;">Remark</th>
+														<th class="col-md-1" style="text-align: center;">Action
+														</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -346,24 +351,30 @@
 													<tr>
 														<td style="text-align: center;" class="col-sm-1"><c:out
 																value="${count.index+1}" /></td>
+																
+																<td style="text-align: center;" class="col-md-1"><c:out
+																value="${indDetail.itemCode}" /></td>
 
-														<td style="text-align: left;" class="col-md-2"><c:out
-																value="${indDetail.indItemDesc}" /></td>
+														<td style="text-align: left;" class="col-md-3"><c:out
+																value="${indDetail.itemDesc}" /></td>
+																
+																	
+																<td style="text-align: center;" class="col-md-1"><c:out
+																value="${indDetail.itemUom}" /></td>
+																
 
 														<td style="text-align: center;" class="col-md-1"><input
 															type="number" class="form-control"
-															value="${indDetail.indQty}" min="1" readonly
-															onchange="getValue(this.value,${indDetail.indDId},${indent.indMId})"
+															value="${indDetail.indQty}" min="1"  
+															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
 															name="indQty${indDetail.indDId}"></td>
-														<td style="text-align: center;" class="col-md-1"><c:out
-																value="${indDetail.indItemSchd}" /></td>
+														<td style="text-align: center;" class="col-md-1"><input type="number" class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /></td>
 
 														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchddt}" /></td>
 
-														<td style="text-align: center;" class="col-md-1"><c:out
-																value="${indDetail.indRemark}" /></td>
+														<td style="text-align: left;" class="col-md-1"><input type="text" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
 
 														<td style="text-align: center;" class="col-md-1">
 															<%-- <input
@@ -373,17 +384,15 @@
 															<c:choose>
 																<c:when test="${indDetail.indDStatus==0}">
 
-																	<a href="#" class="action_btn" title="Update"
-																		onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i
+																	<a href="#" class="action_btn" title="Update" 
+																		onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i id="updateButton${indDetail.indDId}"
 																		class="fa fa-edit"></i></a> &nbsp;&nbsp;<a href="#"
 																		class="action_btn" title="Delete"
 																		onclick="updateCall(${indDetail.indDId},${indent.indMId},1)"><i
 																		class="fa fa-trash-o"></i></a>
-
 																</c:when>
 															</c:choose>
 														</td>
-
 													</tr>
 												</c:forEach>
 											</tbody>
@@ -397,7 +406,7 @@
 										<c:choose>
 											<c:when test="${indent.indMStatus==2}">
 												<input type="submit" class="btn btn-info"
-													value="Edit Indent" disabled>
+													value="Submit" disabled>
 											</c:when>
 											<c:otherwise>
 
@@ -510,6 +519,213 @@
 
 		}
 	</script>
+	
+	<!-- 1 -->
+	
+	<script type="text/javascript">
+		function insertIndentDetail() {
+			//alert
+			var itemId = $('#item_name').val();
+			var qty = $('#quantity').val();
+			var remark = $('#remark').val();
+			var schDay = $('#sch_days').val();
+			var itemName = $("#item_name option:selected").html();
+			var indMId=${indent.indMId};
+			//alert("item Name " +itemName);
+			var indentDate = $('#indent_date').val();
+			$.getJSON('${getIndentDetailForEdit}', {
+				itemId : itemId,
+				qty : qty,
+				remark : remark,
+				itemName : itemName,
+				schDay : schDay,
+				indentDate : indentDate,
+				indMId : indMId,
+				key : -1,
+				ajax : 'true',
+
+			}, function(data) {
+				//alert(data);
+				var len = data.length;
+				$('#table1 td').remove();
+				$.each(data, function(key, trans) {
+					
+					alert(trans.indRemark );
+					
+					var tr = $('<tr></tr>');
+					tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemCode));
+
+					tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.itemDesc));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemUom));
+
+					//tr.append($('<td></td>').html(trans.qty));
+				tr
+															.append($(
+																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	.html(
+																			"<input type=number style='text-align:center; width:90px' class=form-control  name=indQty"
+																					+ trans.indDId
+																					+ " id=indQty"
+																					+ trans.indDId
+																					+ " onchange='(this.value,"
+																					+ trans.indDId
+																					+ ","
+																					+ trans.indMId
+																					+ ")' value="
+																					+ trans.indQty 
+																					+ " />"));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html("<input type=number style='text-align:center; ' class=form-control  name=indSchDays"
+							+ trans.indDId
+							+ " id=indSchDays"
+							+ trans.indDId
+							+ " value="
+							+ trans.indItemSchd 
+							+ " />"));
+					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
+					tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left; ' size=20 maxlength=20  name=indRemark"
+							+ trans.indDId
+							+ " id=indRemark"
+							+ trans.indDId
+							+ " value="
+							+ trans.indRemark
+							+ " >"));					
+					if(trans.indDStatus==0)
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(
+									"<a href='#'  class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)  title='Update'><i id='updateButton+"+trans.indMId+"' class='fa fa-edit'></i></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1) title='Delete'><i class='fa fa-trash-o'></i></a>"));
+				  	
+					}
+					
+					
+				else
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(''));
+				  	
+					}
+				
+
+					$('#table1 tbody').append(tr);
+				})
+			});
+		}
+	</script>
+	<!--/1  -->
+	
+	<script>
+	function updateCall(indDId,indMId,del) {
+		if(del==1){
+			
+	var x=confirm("Are you Sure to Delete  " );
+		
+		if(x==true)
+			getValue(0,indDId,indMId,0,0);
+		else{
+			
+		}
+		}
+		else{
+			//document.getElementById("indQty"+indDId).removeAttribute("readonly");
+			//document.getElementById("sch_days"+indDId).removeAttribute("readonly");
+			//document.getElementById("ind_remark"+indDId).removeAttribute("readonly");
+			//$("#updateButton" + indDId).removeClass("fa fa-edit");
+			//$("#updateButton" + indDId).addClass("fa fa-save");
+			//document.getElementById("billQty1" + token + "" + key).disabled = false;
+			var qty = $('#indQty'+indDId).val();
+			var remark = $('#indRemark'+indDId).val();
+			var schDays = $('#indSchDays'+indDId).val();
+		//	alert("qty " +qty +"remark  " +remark + "schDays  " +schDays);
+			getValue(qty,indDId,indMId,remark,schDays);
+		}
+		//var qty = $('#indQty'+indDId).val();
+		//alert(qty);
+		//window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty,"_self");
+		
+	}
+	
+	function getValue(qty,indDId,indMId,remark,schDays)
+	{
+		
+		$.getJSON('${updateIndDetail}', {
+	
+		qty : qty,
+		indDId : indDId,
+		indMId : indMId,
+		remark : remark,
+		schDays : schDays,
+			ajax : 'true',
+
+		}, function(data) {
+			//alert("dif " +indDId);
+		//	document.getElementById("indQty"+indDId).setAttribute("readonly");
+			 //$('#indQty'+indDId).setAttribute("readonly");
+		//	alert(data);
+			//alert("In update call")
+			//var len = data.length;
+			$('#table1 td').remove();
+			$.each(data, function(key, trans) {
+			var tr = $('<tr></tr>');
+				tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemCode));
+
+				tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.itemDesc));
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemUom));
+
+				//tr.append($('<td></td>').html(trans.indQty));
+				
+				tr
+			.append($(
+					'<td class="col-md-1" style="text-align: center;"></td>')
+					.html(
+							"<input type='number' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
+		  	
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html("<input type=number style='text-align:center; ' class=form-control  name=indSchDays"
+						+ trans.indDId
+						+ " id=indSchDays"
+						+ trans.indDId
+						+ " value="
+						+ trans.indItemSchd 
+						+ " />"));
+				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
+				tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left;' size=20 maxlength=20  name=indRemark"
+						+ trans.indDId
+						+ " id=indRemark"
+						+ trans.indDId
+						+ " value="+trans.indRemark+">"));					
+				//tr.append($('<td></td>').html(trans.indMDate));
+				
+				if(trans.indDStatus==0)
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(
+									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i  id='updateButton+"+trans.indMId+"' class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
+				  	
+					}
+				else
+					{
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html(''));
+				  	
+					}
+				
+				 
+				$('#table1 tbody').append(tr);
+			})
+		});
+	}
+	</script>
+	
+	
 	<script type="text/javascript">
 		
 	function showDept() {
@@ -676,79 +892,7 @@
 						});
 	</script>
 
-	<script type="text/javascript">
-		function insertIndentDetail() {
-			//alert
-			var itemId = $('#item_name').val();
-			var qty = $('#quantity').val();
-			var remark = $('#remark').val();
-			var schDay = $('#sch_days').val();
-			var itemName = $("#item_name option:selected").html();
-			var indMId=${indent.indMId};
-			//alert("item Name " +itemName);
-			var indentDate = $('#indent_date').val();
-			$.getJSON('${getIndentDetailForEdit}', {
-				itemId : itemId,
-				qty : qty,
-				remark : remark,
-				itemName : itemName,
-				schDay : schDay,
-				indentDate : indentDate,
-				indMId : indMId,
-				key : -1,
-				ajax : 'true',
-
-			}, function(data) {
-				//alert(data);
-				var len = data.length;
-				$('#table1 td').remove();
-				$.each(data, function(key, trans) {
-					var tr = $('<tr></tr>');
-					tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
-					tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.indItemDesc));
-					//tr.append($('<td></td>').html(trans.qty));
-				tr
-															.append($(
-																	'<td class="col-md-1" style="text-align: center;"></td>')
-																	.html(
-																			"<input type=number style='text-align:center; width:90px' class=form-control readonly name=indQty"
-																					+ trans.indDId
-																					+ " id=indQty"
-																					+ trans.indDId
-																					+ " onchange='getValue(this.value,"
-																					+ trans.indDId
-																					+ ","
-																					+ trans.indMId
-																					+ ")' value="
-																					+ trans.indQty 
-																					+ " />"));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchd));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indRemark));
-					if(trans.indDStatus==0)
-					{
-					tr
-					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-							.html(
-									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
-				  	
-					}
-				else
-					{
-					tr
-					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-							.html(''));
-				  	
-					}
-				
-
-					$('#table1 tbody').append(tr);
-				})
-			});
-		}
-	</script>
+	
 	<script>
 		function myFunction() {
 			var input, filter, table, tr, td, i;
@@ -767,97 +911,6 @@
 				}
 			}
 		}
-	</script>
-	<script>
-	function updateCall(indDId,indMId,del) {
-		if(del==1){
-			
-	var x=confirm("Are you Sure to Delete  " );
-		
-		if(x==true)
-			getValue(0,indDId,indMId);
-		else{
-			
-		}
-		}
-		else{
-			document.getElementById("indQty"+indDId).removeAttribute("readonly");
-
-		}
-		//var qty = $('#indQty'+indDId).val();
-		//alert(qty);
-		//window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty,"_self");
-		
-	}
-	
-	
-	function getValue(qty,indDId,indMId)
-	{
-		//window.open('${pageContext.request.contextPath}/updateIndDetail/'+indDId+'/'+indMId+'/'+qty,"_self");
-		
-		/* var itemId = $('#item_name').val();
-		var qty = $('#quantity').val();
-		var remark = $('#remark').val();
-		var schDay = $('#sch_days').val();
-		var itemName = $("#item_name option:selected").html();
- */
-		//var indentDate = $('#indent_date').val();
- //document.getElementById("indQty"+indDId).setAttribute("readonly");
-		$.getJSON('${updateIndDetail}', {
-	
-		qty : qty,
-		indDId : indDId,
-		indMId : indMId,
-			ajax : 'true',
-
-		}, function(data) {
-			//alert("dif " +indDId);
-		//	document.getElementById("indQty"+indDId).setAttribute("readonly");
-			 //$('#indQty'+indDId).setAttribute("readonly");
-		//	alert(data);
-			//alert("In update call")
-			//var len = data.length;
-			$('#table1 td').remove();
-			$.each(data, function(key, trans) {
-			var tr = $('<tr></tr>');
-				tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
-				tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.indItemDesc));
-				//tr.append($('<td></td>').html(trans.indQty));
-				
-				tr
-			.append($(
-					'<td class="col-md-1" style="text-align: center;"></td>')
-					.html(
-							"<input type='number' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='getValue(this.value,"+trans.indDId+","+trans.indMId+")' readonly />"));
-		  	
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchd));
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indRemark));
-				//tr.append($('<td></td>').html(trans.indMDate));
-				
-				if(trans.indDStatus==0)
-					{
-					tr
-					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-							.html(
-									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
-				  	
-					}
-				else
-					{
-					tr
-					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-							.html(''));
-				  	
-					}
-				
-				 
-				$('#table1 tbody').append(tr);
-			})
-		});
-	}
 	</script>
 	
 	
