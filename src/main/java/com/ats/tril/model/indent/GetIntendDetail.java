@@ -16,6 +16,7 @@ public class GetIntendDetail {
 	private int indItemSchd; 
 	private String indItemSchddt; 
 	private String indRemark; 
+	private int delStatus;
 	private int indDStatus; 
 	private int	indFyr;
 	private int	poQty;
@@ -139,14 +140,21 @@ public class GetIntendDetail {
 	public void setRate(float rate) {
 		this.rate = rate;
 	}
+	
+	public int getDelStatus() {
+		return delStatus;
+	}
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
 	@Override
 	public String toString() {
 		return "GetIntendDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
 				+ indMDate + ", itemId=" + itemId + ", itemCode=" + itemCode + ", indQty=" + indQty + ", indItemUom="
 				+ indItemUom + ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd="
-				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus="
-				+ indDStatus + ", indFyr=" + indFyr + ", poQty=" + poQty + ", pendingQty=" + pendingQty + ", disc="
-				+ disc + ", rate=" + rate + "]";
+				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", delStatus="
+				+ delStatus + ", indDStatus=" + indDStatus + ", indFyr=" + indFyr + ", poQty=" + poQty + ", pendingQty="
+				+ pendingQty + ", disc=" + disc + ", rate=" + rate + "]";
 	}
 	
 	

@@ -58,7 +58,7 @@ public class PurchaseOrderController {
 
 		ModelAndView model = new ModelAndView("purchaseOrder/addPurchaseOrder");
 		try {
-
+			PoHeader = new PoHeader();
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -89,6 +89,7 @@ public class PurchaseOrderController {
  
 			model.addObject("quotationTemp", "-");
 			model.addObject("quotationDateTemp", sf.format(date));
+			model.addObject("isFromDashBoard", 0);
 			 
 
 		} catch (Exception e) {
@@ -103,7 +104,7 @@ public class PurchaseOrderController {
 
 		ModelAndView model = new ModelAndView("purchaseOrder/addPurchaseOrder");
 		try {
-
+			PoHeader = new PoHeader();
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -235,6 +236,24 @@ public class PurchaseOrderController {
 			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
 					GetIntendDetail[].class);
 			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			
+			if(indIdForGetList==PoHeader.getIndId())
+			{
+				for(int i = 0 ;i<PoHeader.getPoDetailList().size() ; i++)
+				{
+					for(int j = 0 ;j<intendDetailList.size() ; j++)
+					{
+						if(intendDetailList.get(j).getItemId()==PoHeader.getPoDetailList().get(i).getItemId())
+						{
+							intendDetailList.get(j).setPoQty(PoHeader.getPoDetailList().get(i).getItemQty());
+							intendDetailList.get(j).setRate(PoHeader.getPoDetailList().get(i).getItemRate());
+							intendDetailList.get(j).setDisc(PoHeader.getPoDetailList().get(i).getDiscPer());
+							break;
+						}
+					}
+				}
+				
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,7 +283,7 @@ public class PurchaseOrderController {
 				// TODO: handle exception
 			}
 			try {
-				int quotationTemp = Integer.parseInt(request.getParameter("quotationTemp"));
+				String quotationTemp = request.getParameter("quotationTemp");
 				model.addObject("quotationTemp", quotationTemp);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -302,6 +321,12 @@ public class PurchaseOrderController {
 			try {
 				String poNoTemp = request.getParameter("poNoTemp");
 				model.addObject("code", poNoTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+				String isFromDashBoard = request.getParameter("isFromDashBoard");
+				model.addObject("isFromDashBoard", isFromDashBoard);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -402,7 +427,8 @@ public class PurchaseOrderController {
 				}
 			}
 			System.out.println(poDetailList);
-
+			
+			PoHeader.setIndId(indId);
 			PoHeader.setDiscValue(discValue);
 			PoHeader.setPoBasicValue(poBasicValue);
 			PoHeader.setPoDetailList(poDetailList);

@@ -114,9 +114,9 @@
 										<tr class="bgpink">
 										<th style="width:2%;"	style="text-align: left; padding: 0px; align-items: left;"
 														width="10%"><input type="checkbox" name="name1"
-														value="0" />Select All</th>
+														value="0" />All</th>
 										
-											<th style="width:2%;">Sr no.</th>
+											<th style="width:2%;">SR</th>
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">PO No</th>
 											<th class="col-md-1">PO TYPE</th>
@@ -319,7 +319,25 @@
 											
 										  	tr.append($('<td></td>').html(key+1));
 										  	tr.append($('<td></td>').html(itemList.poDate));
-										  	tr.append($('<td></td>').html(itemList.poNo));  
+										  	tr.append($('<td></td>').html(itemList.poNo));
+										  	
+										  	var type;
+										  	
+										  	if(itemList.poType==1){
+										  		
+										  		type="Regular";
+										  		
+										  	}
+										  	else if(itemList.poType==2){
+										  		type="Job Work";
+										  	}
+											else if(itemList.poType==3){
+												type="General";
+										  	}
+											else{
+												type="Other";
+										  	}
+										  	tr.append($('<td></td>').html(type));
 										  	tr.append($('<td></td>').html(itemList.vendorName));
 										  	tr.append($('<td></td>').html(itemList.indNo));
 										  	tr.append($('<td></td>').html('<a href="javascript:genPdf('+itemList.poId+');"><abbr'+

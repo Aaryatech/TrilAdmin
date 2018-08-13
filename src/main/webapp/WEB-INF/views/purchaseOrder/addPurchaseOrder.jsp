@@ -234,10 +234,10 @@ body {
 											 <c:forEach items="${vendorList}" var="vendorList" >
 											<c:choose>
 									 			<c:when test="${vendorList.vendorId==vendIdTemp}">
-							  						<option value="${vendorList.vendorId}" selected><c:out value="${vendorList.vendorName}"/></option>
+							  						<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
  												</c:when>
  												<c:otherwise>
- 													<option value="${vendorList.vendorId}"  ><c:out value="${vendorList.vendorName}"/></option>
+ 													<option value="${vendorList.vendorId}"  >${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
  												</c:otherwise>
  												</c:choose>	 
 												</c:forEach>
@@ -386,14 +386,14 @@ body {
 										style="width: 100%" id="table_grid2">
 										<thead>
 											<tr>
-										<th>Sr.No.</th>
+										<th>SR</th>
 										<th>Item Name </th>
-										<th>UOM</th>
-										<th>Intend QTY</th> 
-										<th>PO QTY</th>
-										<th>Balance QTY</th>
+										<th>Uom</th>
+										<th>Ind Qty</th> 
+										<th>PO Qty</th>
+										<th>Bal QTY</th>
 										<th>Rate</th>
-										<th>Disc</th>
+										<th>Disc%</th>
 										<th>Sch Days</th>
 										<th>Remark</th>
 
@@ -570,7 +570,7 @@ body {
 			<div id="myModal" class="modal">
 					<input   type="hidden" value="0" name="indMId" id="indMId"    >
 					<input   type="hidden" value="0" name="vendIdTemp" id="vendIdTemp"    >
-					<input   type="hidden" value="0" name="quotationTemp" id="quotationTemp"    >
+					<input   type="hidden" value="-" name="quotationTemp" id="quotationTemp"    >
 					<input   type="hidden" value="0" name="poTypeTemp" id="poTypeTemp"    >
 					<input   type="hidden" value="0" name="quotationDateTemp" id="quotationDateTemp"    >
 					<input   type="hidden" value="0" name="payIdTemp" id="payIdTemp"    >
@@ -578,6 +578,7 @@ body {
 					<input   type="hidden" value="0" name="dispatchModeTemp" id="dispatchModeTemp"    >
 					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
 					<input   type="hidden" value="${code}" name="poNoTemp" id="poNoTemp"    >
+					<input   type="hidden" value="${isFromDashBoard}" name="isFromDashBoard" id="isFromDashBoard"    >
 										      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
@@ -589,15 +590,15 @@ body {
 										style="width: 100%" id="table_grid1">
 										<thead>
 											<tr>
-										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/> Select All</th>
-										<th>Sr.No.</th>
+										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
+										<th>SR</th>
 										<th>Item Name </th>
-										<th>UOM</th>
-										<th>Intend QTY</th> 
-										<th>PO QTY</th>
-										<th>Balance QTY</th>
+										<th>Uom</th>
+										<th>Ind Qty</th> 
+										<th>PO Qty</th>
+										<th>Bal Qty</th>
 										<th>Rate</th>
-										<th>Disc</th>
+										<th>Disc%</th>
 										<th>Sch Days</th>
 										<th>Remark</th>
 
@@ -835,21 +836,45 @@ function itemByIntendId()
 			  $.each(
 							data,
 							function(key, itemList) {
-							 
+							
 								var tr = $('<tr></tr>'); 
-								tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
-										'id="select_to_approve'+itemList.indDId+'" onchange="requiredField('+itemList.indDId+')" value="'+itemList.indDId+'" >'));  
+								if(itemList.poQty>0)
+						  		{
+									tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
+											'id="select_to_approve'+itemList.indDId+'" onchange="requiredField('+itemList.indDId+')" value="'+itemList.indDId+'" checked>'));
+						  		}
+								else
+									{
+									tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
+											'id="select_to_approve'+itemList.indDId+'" onchange="requiredField('+itemList.indDId+')" value="'+itemList.indDId+'" >'));
+									}
+								 
 							  	tr.append($('<td></td>').html(key+1)); 
-							  	tr.append($('<td></td>').html(itemList.itemCode)); 
+							  	var res = itemList.itemCode.split("-");
+							  	tr.append($('<td></td>').html(res[0]));  
 							  	tr.append($('<td></td>').html(itemList.indItemUom));
 							  	tr.append($('<td style="text-align:right;"></td>').html(itemList.indQty));
-							  	tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
-							  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'"  onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	 
+							  	if(itemList.poQty>0)
+							  		{
+							  		tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
+								  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" value="'+itemList.poQty+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="'+itemList.disc+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
+							  		}
+							  	else
+							  		{
+							  	 
+							  		tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
+								  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'"  onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
+							  		}
+							  	
 							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control" required>'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:left; width:100px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
 							  	document.getElementById("indMId").value=itemList.indMId;
 							  	 $('#table_grid1 tbody').append(tr);
 							  	
@@ -891,7 +916,7 @@ function requiredAll()
 		    	  document.getElementById("poQty"+checkboxes[i].value).required=true; 
 		  		document.getElementById("rate"+checkboxes[i].value).required=true;
 		  		document.getElementById("disc"+checkboxes[i].value).required=true;
-		      
+		  		document.getElementById("indRemark"+checkboxes[i].value).required=true;
 		  }
 	}
 	else
@@ -902,6 +927,7 @@ function requiredAll()
 		    	  document.getElementById("poQty"+checkboxes[i].value).required=false; 
 		  		document.getElementById("rate"+checkboxes[i].value).required=false;
 		  		document.getElementById("disc"+checkboxes[i].value).required=false;
+		  		document.getElementById("indRemark"+checkboxes[i].value).required=false;
 		      
 		  }
 	}
@@ -917,12 +943,14 @@ function requiredField(key)
 		document.getElementById("poQty"+key).required=true; 
 		document.getElementById("rate"+key).required=true;
 		document.getElementById("disc"+key).required=true;
+		document.getElementById("indRemark"+key).required=true;
 	} 
 	else
 	{
 		document.getElementById("poQty"+key).required=false; 
 		document.getElementById("rate"+key).required=false;
 		document.getElementById("disc"+key).required=false;
+		document.getElementById("indRemark"+key).required=false;
 	}
 	
 	 
@@ -1066,7 +1094,7 @@ function getIntendListByPoType() {
 		var len = data.length;
 		for (var i = 0; i < len; i++) {
 			html += '<option value="' + data[i].indMId + '">'
-					+ data[i].indMNo +'&nbsp;&nbsp;&nbsp;s'+data[i].indMDate+'</option>';
+					+ data[i].indMNo +'&nbsp;&nbsp;&nbsp;'+data[i].indMDate+'</option>';
 		}
 		html += '</option>';
 		$('#indId').html(html);
