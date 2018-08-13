@@ -40,6 +40,17 @@ public class MrnDetail {
 	
 private int mrnQtyBeforeEdit;
 	
+private int chalanQty;//added on 13 aug
+
+
+	public int getChalanQty() {
+	return chalanQty;
+}
+
+public void setChalanQty(int chalanQty) {
+	this.chalanQty = chalanQty;
+}
+
 	public int getMrnQtyBeforeEdit() {
 	return mrnQtyBeforeEdit;
 }
@@ -194,7 +205,7 @@ public void setMrnQtyBeforeEdit(int mrnQtyBeforeEdit) {
 				+ rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poDetailId=" + poDetailId + ", poNo=" + poNo
 				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", mrnQtyBeforeEdit="
-				+ mrnQtyBeforeEdit + "]";
+				+ mrnQtyBeforeEdit + ", chalanQty=" + chalanQty + "]";
 	}
 
 

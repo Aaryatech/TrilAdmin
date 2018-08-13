@@ -3,9 +3,7 @@ package com.ats.tril.model;
 
 public class GetPODetail {
 	
-	
 	private int poDetailId;
-	
 
 	private int poId;
 	
@@ -64,7 +62,17 @@ public class GetPODetail {
 	
 	private int receivedQty;
 	
+	private int chalanQty;
 	
+	
+	
+	
+	public int getChalanQty() {
+		return chalanQty;
+	}
+	public void setChalanQty(int chalanQty) {
+		this.chalanQty = chalanQty;
+	}
 	public int getReceivedQty() {
 		return receivedQty;
 	}
@@ -251,7 +259,7 @@ public class GetPODetail {
 	public void setPoNo(String poNo) {
 		this.poNo = poNo;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "GetPODetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
@@ -262,7 +270,9 @@ public class GetPODetail {
 				+ ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor
 				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
 				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + ", itemName="
-				+ itemName + ", uom=" + uom + ", poNo=" + poNo + ", receivedQty=" + receivedQty + "]";
+				+ itemName + ", uom=" + uom + ", poNo=" + poNo + ", receivedQty=" + receivedQty + ", chalanQty="
+				+ chalanQty + "]";
 	}
+	
 	
 }

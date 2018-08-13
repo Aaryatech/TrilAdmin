@@ -190,7 +190,7 @@ body {
 									</div>
 									<div class="col-md-2">GRN No </div>
 									<div class="col-md-3 controls">
-										<input type="text" name="grn_no" id="grn_no"
+										<input type="text"  readonly name="grn_no" id="grn_no"
 											class="form-control" placeholder="GRN No"
 											data-rule-required="true" />
 									</div>
@@ -290,6 +290,8 @@ body {
 																	Name</th>
 																<th class="col-md-1" style="text-align: center;">PO
 																	QTY</th>
+																	<th class="col-md-1" style="text-align: center;">Chalan
+																	QTY</th>
 																<th class="col-md-1" style="text-align: center;">Rec
 																	QTY</th>
 																<th class="col-md-1" style="text-align: center;">Pend
@@ -367,7 +369,7 @@ body {
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="transport" id="transport"
 											class="form-control" placeholder="Transport"
-											data-rule-required="true" />
+											data-rule-required="true" value="-" />
 									</div>
 
 									<label class="col-sm-3 col-lg-2 control-label">LR No
@@ -375,7 +377,7 @@ body {
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="lorry_no" id="lorry_no"
 											class="form-control" placeholder="Lorry No"
-											data-rule-required="true" />
+											data-rule-required="true" value="-" />
 									</div>
 								</div>
 
@@ -684,6 +686,31 @@ body {
 																	.html(
 																			itemList.itemQty));
 
+													
+													
+													tr
+													.append($(
+															'<td class="col-md-1" style="text-align: center;"></td>')
+															.html(
+																	"<input type=text style='text-align:center; width:90px' class=form-control name=chalanQty"
+																			+ itemList.poDetailId
+																			+ ""
+																			+ itemList.itemId
+																			+ " id=chalanQty"
+																			+ itemList.poDetailId
+																			+ ""
+																			+ itemList.itemId
+																			+ " onchange='(this.value,"
+																			+ itemList.poDetailId
+																			+ ","
+																			+ itemList.pendingQty
+																			+ ","
+																			+ itemList.itemId
+																			+ ")' value="
+																			+ itemList.chalanQty
+																			+ " />"));
+													
+													
 													tr
 															.append($(
 																	'<td class="col-md-1" style="text-align: center;"></td>')
@@ -767,17 +794,24 @@ body {
 			}
 		}
 		function callMe(qty, poDId, pendingQty, itemId) {
-			//alert("pending qty " +pendingQty);
-			//alert("Qty  " +qty);
+			var qty=document.getElementById("recQty" + poDId + itemId).value;
+			var chalanQty=document.getElementById("chalanQty" + poDId + itemId).value;
 
+			//alert("Qty  " +qty  +"chalan Qty  " +chalanQty);
 			if (parseInt(qty) > parseInt(pendingQty)) {
 				document.getElementById("recQty" + poDId + itemId).value = 0;
 				alert("Received Qty can not be greater than Pending Qty");
 
 			} else {
 
+				if(chalanQty>0){
+								addMrnQty(qty, poDId,chalanQty);
+	
+				}
+				else{
+					alert("Please Enter Valid Chalan Quantity");
+				}
 				//getPoDetail(qty, poDId);
-				addMrnQty(qty, poDId);
 
 			}
 
@@ -1076,7 +1110,7 @@ function getInvoiceNo() {
 
 <script type="text/javascript">
 
-function addMrnQty(qty, poDId) {
+function addMrnQty(qty, poDId,chalanQty) {
 	var selectedPoIds = $("#po_list").val();
 	$
 			.getJSON(
@@ -1085,6 +1119,7 @@ function addMrnQty(qty, poDId) {
 						poIds : JSON.stringify(selectedPoIds),
 						qty : qty,
 						poDId : poDId,
+						chalanQty : chalanQty,
 						ajax : 'true',
 					},
 					function(data) {
@@ -1144,6 +1179,29 @@ function addMrnQty(qty, poDId) {
 															.html(
 																	itemList.itemQty));
 
+											
+											tr
+											.append($(
+													'<td class="col-md-1" style="text-align: center;"></td>')
+													.html(
+															"<input type=text style='text-align:center; width:90px' class=form-control name=chalanQty"
+																	+ itemList.poDetailId
+																	+ ""
+																	+ itemList.itemId
+																	+ " id=chalanQty"
+																	+ itemList.poDetailId
+																	+ ""
+																	+ itemList.itemId
+																	+ " onchange='(this.value,"
+																	+ itemList.poDetailId
+																	+ ","
+																	+ itemList.pendingQty
+																	+ ","
+																	+ itemList.itemId
+																	+ ")' value="
+																	+ itemList.chalanQty
+																	+ " />"));
+											
 											tr
 													.append($(
 															'<td class="col-md-1" style="text-align: center;"></td>')

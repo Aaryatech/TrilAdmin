@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.xml.DocumentDefaultsDefinition;
 import org.springframework.context.annotation.Scope;
@@ -33,6 +34,7 @@ import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.Indent;
+import com.ats.tril.model.login.UserResponse;
 import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
@@ -53,6 +55,13 @@ public class MrnController {
 
 		ModelAndView model = null;
 		try {
+			HttpSession session= request.getSession();
+			
+			UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
+			
+			System.out.println("new Field Dept Id = "+userResponse.getUser().getDeptId());
+			System.out.println("User Name = "+userResponse.getUser().getUsername());
+
 			poIdList = new String();
 			poDetailList = new ArrayList<GetPODetail>();
 
@@ -190,7 +199,10 @@ public class MrnController {
 			int qty = Integer.parseInt(request.getParameter("qty"));
 
 			int poDId = Integer.parseInt(request.getParameter("poDId"));
-
+			
+			int chalanQty = Integer.parseInt(request.getParameter("chalanQty"));
+			
+			
 			if (poDetailList.size() > 0) {
 
 				// if(qty>0) {
@@ -203,6 +215,7 @@ public class MrnController {
 						System.err.println("Inside poDId matched  ");
 
 						poDetailList.get(i).setReceivedQty(qty);
+						poDetailList.get(i).setChalanQty(chalanQty);
 
 					} else {
 
@@ -344,6 +357,8 @@ public class MrnController {
 					mrnDetail.setDelStatus(Constants.delStatus);
 
 					mrnDetail.setPoDetailId(detail.getPoDetailId());
+					
+					mrnDetail.setChalanQty(detail.getChalanQty());
 
 					mrnDetail.setMrnQtyBeforeEdit(-1);
 
@@ -493,10 +508,14 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			String s=new String();
 			
 			for(int i=0;i<mrnDetailList.size();i++) {
-				
-				s=s+mrnDetailList.get(i).getPoId();
+				if(i==0) {
+					
+					s=""+mrnDetailList.get(i).getPoId()+",";
+				}else {
+				s=s+mrnDetailList.get(i).getPoId()+",";
+				}
 			}
-
+			System.err.println("to get po detail from mrn poid " +s);
 			map.add("poIdList", s);
 
 			poDetailRes = rest.postForObject(Constants.url + "/getPODetailList", map, GetPODetail[].class);
@@ -506,11 +525,12 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			
 			for(int i=0;i<poDetailList.size();i++) {
 				int flag=0;
-				
+				System.err.println("poDetailList poid  " +poDetailList.get(i).getPoDetailId());
 				for(int j=0;j<mrnDetailList.size();j++) {
-					
+					System.err.println("mrnDetailList poid  " +mrnDetailList.get(j).getPoDetailId());
+
 					if(mrnDetailList.get(j).getPoDetailId()==poDetailList.get(i).getPoDetailId()) {
-						
+						System.err.println("Match found ");
 						flag=1;
 						
 					}
@@ -608,7 +628,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 				mrnDetail.setDelStatus(Constants.delStatus);
 
 				mrnDetail.setPoDetailId(detail.getPoDetailId());
-
+				mrnDetail.setChalanQty(detail.getChalanQty());
 				mrnDetail.setMrnQtyBeforeEdit(-1);
 
 				editMrnDetailList.add(mrnDetail);
