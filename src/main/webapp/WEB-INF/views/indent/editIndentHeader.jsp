@@ -550,7 +550,7 @@
 				$('#table1 td').remove();
 				$.each(data, function(key, trans) {
 					
-					alert(trans.indRemark );
+				//	alert(trans.indRemark );
 					
 					var tr = $('<tr></tr>');
 					tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
