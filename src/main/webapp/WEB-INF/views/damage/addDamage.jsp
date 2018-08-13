@@ -70,7 +70,7 @@
 							</h3>
 							
 							<div class="box-tool">
-								  <a href="${pageContext.request.contextPath}/issueList">Issue List</a> <a data-action="collapse" href="#"><i
+								  <a href="${pageContext.request.contextPath}/getDamageList">Damage List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>  
 							</div>
 							

@@ -708,6 +708,50 @@
 
 				</ul>
 				</li>
+				
+				<c:choose>
+					<c:when test="${Constants.mainAct==3}">
+						<li class="active">
+					</c:when>
+
+					<c:otherwise>
+						<li>
+					</c:otherwise>
+				</c:choose>
+
+				<a href="#" class="dropdown-toggle"> <i class="fa fa-list"></i>
+					<span>Damage</span> <b class="arrow fa fa-angle-right"></b>
+				</a>
+				<!-- BEGIN Submenu -->
+				<ul class="submenu">
+
+					<c:choose>
+						<c:when test="${Constants.subAct==33}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/addDamage">Add
+						 Damage Item</a>
+					</li>
+
+					<c:choose>
+						<c:when test="${Constants.subAct==33}">
+							<li class="active">
+						</c:when>
+						<c:otherwise>
+							<li>
+						</c:otherwise>
+					</c:choose>
+					<a href="${pageContext.request.contextPath}/getDamageList"> Damage Item List</a>
+					</li>
+					
+					
+
+				</ul>
+				</li>
 
 
 				<c:choose>
