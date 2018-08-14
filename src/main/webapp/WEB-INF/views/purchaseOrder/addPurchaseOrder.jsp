@@ -4,6 +4,31 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
  <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
+	<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
 	 <style>
 body {
 	font-family: Arial, Helvetica, sans-serif;
@@ -153,7 +178,7 @@ body {
 									<c:choose>
 										<c:when test="${isFromDashBoard==1}">
 										<input type="hidden" id="poType" name="poType" value="${poTypeTemp}">
-											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" disabled>
+											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"   disabled>
 												<c:choose>
 													<c:when test="${poTypeTemp==1}"> 
 														<option value="1" selected>Regular</option> 
@@ -179,7 +204,7 @@ body {
 											</select>
 										</c:when>
 										<c:otherwise>
-											<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"  tabindex="6" required>
+											<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"   required>
 												<c:choose>
 													<c:when test="${poTypeTemp==1}"> 
 														<option value="1" selected>Regular</option> 
@@ -428,6 +453,21 @@ body {
 		</div>
 		 			 <br/>
 		 			 <hr/>
+		 			 <div class="box-content">
+								 
+									<div class="col-md-2">Basic value</div>
+										<div class="col-md-2">
+											<input style="text-align:right; width:150px"  type="text" value="${poHeader.poBasicValue}" pattern="[+-]?([0-9]*[.])?[0-9]+" 
+											name="poBasicValue" id="poBasicValue" class="form-control" readonly>
+										</div>
+									<div class="col-md-2">Disc Value</div>
+										<div class="col-md-2">
+											<input style="text-align:right; width:150px" type="text" value="${poHeader.discValue}"   name="discValue" id="discValue" class="form-control"
+										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
+										</div>
+									  
+							
+							</div><br>
 		 			 <div class="box-content"> 
 		 			 
 									<div class="col-md-2">Packing Charges %</div>
@@ -484,7 +524,7 @@ body {
 								 
 									<div class="col-md-2">Select Tax Percentage</div>
 										<div class="col-md-2">
-										<select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen" tabindex="6" required>
+										<select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen"  required>
 										 
 											 <c:forEach items="${taxFormList}" var="taxFormList" >
 											 
@@ -526,16 +566,9 @@ body {
 							    
 							 <div class="box-content">
 								 
-									<div class="col-md-2">Basic value</div>
+									<div class="col-md-2"></div>
 										<div class="col-md-2">
-											<input style="text-align:right; width:150px"  type="text" value="${poHeader.poBasicValue}" pattern="[+-]?([0-9]*[.])?[0-9]+" 
-											name="poBasicValue" id="poBasicValue" class="form-control" readonly>
-										</div>
-									<div class="col-md-2">Disc Value</div>
-										<div class="col-md-2">
-											<input style="text-align:right; width:150px" type="text" value="${poHeader.discValue}"   name="discValue" id="discValue" class="form-control"
-										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
-										</div>
+											 </div>
 									 
 									 <div class="col-md-2">Final Value</div>
 										<div class="col-md-2">
@@ -582,7 +615,7 @@ body {
 										      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
-						<h3 style="text-align: center;">Select Item From Intend</h3>
+						<h3 style="text-align: center;">Select Item From Indend</h3>
 							<div class=" box-content">
 							<div class="row">
 								<div style="overflow:scroll;height:70%;width:100%;overflow:auto">
@@ -774,9 +807,23 @@ var btn = document.getElementById("myBtn");
 
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
-    modal.style.display = "block";
-    itemByIntendId(); 
-    getValue();
+	 
+	var indId = $("#indId").val();
+	var poType = $("#poType").val();
+	if(poType=="" || poType==null) {
+	 alert("select Po Type ");
+	 
+	}
+	else if(indId=="" || indId==null) {
+		 alert("select Intend ");
+		 
+		}
+	else{
+		modal.style.display = "block";
+	    itemByIntendId(); 
+	    getValue();
+	}
+    
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -849,9 +896,14 @@ function itemByIntendId()
 											'id="select_to_approve'+itemList.indDId+'" onchange="requiredField('+itemList.indDId+')" value="'+itemList.indDId+'" >'));
 									}
 								 
-							  	tr.append($('<td></td>').html(key+1)); 
+							  	  tr.append($('<td></td>').html(key+1)); 
 							  	var res = itemList.itemCode.split("-");
-							  	tr.append($('<td></td>').html(res[0]));  
+							  	//tr.append($('<td></td>').html(res[0]));  
+							  	
+							  	
+							  	tr.append($('<td></td>').html('<div title="'+itemList.itemCode+'">'+res[0]+'</div>'));
+							  	
+							  	
 							  	tr.append($('<td></td>').html(itemList.indItemUom));
 							  	tr.append($('<td style="text-align:right;"></td>').html(itemList.indQty));
 							  	 
@@ -1005,6 +1057,39 @@ function requiredField(key)
   	var otherValue = $("#otherValue").val();
   	var taxPer = $("#taxPer option:selected").text();
   	var taxId = $("#taxPer").val();
+  	
+  	if(packPer=="" || packPer==null) {
+  		document.getElementById("packPer").value =0;
+  		packPer=0;
+  		}
+	if(packValue=="" || packValue==null) {
+  		document.getElementById("packValue").value =0;
+  		packValue=0;
+  		}
+	if(insuPer=="" || insuPer==null) {
+  		document.getElementById("insuPer").value =0;
+  		insuPer=0;
+  		}
+	if(insuValue=="" || insuValue==null) {
+  		document.getElementById("packPer").value =0;
+  		insuValue=0;
+  		}
+	if(freightPer=="" || freightPer==null) {
+  		document.getElementById("freightPer").value =0;
+  		freightPer=0;
+  		}
+	if(freightValue=="" || freightValue==null) {
+  		document.getElementById("freightValue").value =0;
+  		freightValue=0;
+  		}
+	if(otherPer=="" || otherPer==null) {
+  		document.getElementById("otherPer").value =0;
+  		otherPer=0;
+  		}
+	if(otherValue=="" || otherValue==null) {
+  		document.getElementById("otherValue").value =0;
+  		otherValue=0;
+  		}
   	 
   	
   	$('#loader').show();
