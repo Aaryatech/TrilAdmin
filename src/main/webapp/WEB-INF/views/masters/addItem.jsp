@@ -102,10 +102,10 @@
 											<c:forEach items="${getItemGroupList}" var="getItemGroupList">
 												<c:choose>
 													<c:when test="${getItemGroupList.grpId==editItem.grpId}">
-														<option value="${getItemGroupList.grpId}" selected>${getItemGroupList.grpCode}</option>
+														<option value="${getItemGroupList.grpId}" selected>${getItemGroupList.grpCode}&nbsp;&nbsp;${getItemGroupList.grpDesc}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${getItemGroupList.grpId}">${getItemGroupList.grpCode}</option>
+														<option value="${getItemGroupList.grpId}">${getItemGroupList.grpCode}&nbsp;&nbsp;${getItemGroupList.grpDesc}</option>
 													</c:otherwise>
 												</c:choose>
 
@@ -143,6 +143,33 @@
 
 									</div>
 									 
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Select Sub-Group*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="subGrpId"
+											id="subGrpId" required>
+
+											<c:forEach items="${getItemSubGrpList}"
+												var="getItemSubGrpList">
+												<c:choose>
+													<c:when
+														test="${getItemSubGrpList.subgrpId==editItem.subGrpId}">
+														<option value="${getItemSubGrpList.subgrpId}" selected>${getItemSubGrpList.subgrpDesc}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${getItemSubGrpList.subgrpId}">${getItemSubGrpList.subgrpDesc}</option>
+													</c:otherwise>
+												</c:choose>
+
+
+											</c:forEach>
+
+										</select>
+
+
+									</div>  
+									
+									 
 								</div>
 								<br>
 								
@@ -171,16 +198,16 @@
 											<option value="">Select UOM</option>
 											  <c:forEach items="${uomList}"
 												var="uomList">
-												<c:set var="uomString" value="${uomList.uomId}"></c:set>
-												<c:choose>
+												  <c:set var="uomString" value="${uomList.uomId}"></c:set>  
+												  <c:choose>
 													<c:when
-														test="${editItem.itemUom eq uomString}">
+														test="${editItem.itemUom2 eq uomString}">
 														<option value="${uomList.uomId}" selected>${uomList.uom}</option>
 													</c:when>
-													<c:otherwise>
+													<c:otherwise>  
 														<option value="${uomList.uomId}">${uomList.uom}</option>
-													</c:otherwise>
-												</c:choose>
+													  </c:otherwise>
+												</c:choose>  
 
 
 											</c:forEach>  
@@ -198,7 +225,7 @@
 
 
 									</div>
-<input id="subGrpId" value="0" name="subGrpId" type="hidden" readonly>
+
 								</div>
 								<br>
 
@@ -715,7 +742,7 @@
 				ajax : 'true'
 			}, function(data) {
 
-				/* var html = '<option value="">Select Sub-Category</option>';
+				  var html = '<option value="">Select Sub-Category</option>';
 
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
@@ -724,7 +751,7 @@
 				}
 				html += '</option>';
 				$('#subGrpId').html(html);
-				$("#subGrpId").trigger("chosen:updated"); */
+				$("#subGrpId").trigger("chosen:updated"); 
 			});
 		}
 		function upperCaseF(a){

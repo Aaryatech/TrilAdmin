@@ -638,6 +638,7 @@ public class MastersController {
 			String vendorMobile = request.getParameter("vendorMobile");
 			String vendorType = request.getParameter("vendorType");
 			String vendorPhone = request.getParameter("vendorPhone");
+			String approvedBy = request.getParameter("approvedBy");
 
 			String vendorEmail = request.getParameter("vendorEmail");
 
@@ -678,6 +679,7 @@ public class MastersController {
 			vendor.setIsUsed(1);
 			vendor.setCreatedIn(1);
 			vendor.setDeletedIn(0);
+			vendor.setVendorApprvBy(approvedBy);
 
 			Vendor res = rest.postForObject(Constants.url + "/saveVendor", vendor, Vendor.class);
 

@@ -225,7 +225,7 @@ body {
 				 
 									<div class="col-md-2">Vendor Quotation</div>
 				<div class="col-md-3">
-					<input type="text" placeholder="Enter Quotation No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" required>
+					<input type="text" placeholder="Enter Quotation No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control"  required>
 				</div>
 				
 				<div class="col-md-2" >Quotation Ref. Date</div>
@@ -301,14 +301,14 @@ body {
 			
 				
 					<div class="box-content">
-								<div class="col-md-2" >Intend No.</div>
+								<div class="col-md-2" >Indend No.</div>
 									<div class="col-md-3">
-									<input type="text"   placeholder="Intend No" value="${getPoHeader.indNo}" name="indNo" id="indNo" class="form-control"  readonly>
+									<input type="text"   placeholder="Indend No" value="${getPoHeader.indNo}" name="indNo" id="indNo" class="form-control"  readonly>
 									<input type="hidden"  value="${getPoHeader.indId}" name="indId" id="indId" class="form-control"   >
 									 	 
 									</div>	
 									<div class="col-md-1"></div>
-									  <div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Intend "  id="myBtn"></div>
+									  <div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Indend "  id="myBtn"></div>
 									  
 									 
 					</div>

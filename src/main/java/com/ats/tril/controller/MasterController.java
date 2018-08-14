@@ -42,7 +42,8 @@ public class MasterController {
 	List<Dept> deparmentList = new ArrayList<>();
 	List<GetSubDept> getSubDeptList = new ArrayList<>();
 	List<GetItem> itemList = new ArrayList<>();
-
+	List<Uom> uomList = new ArrayList<Uom>();
+	
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
 
@@ -705,7 +706,7 @@ public class MasterController {
 			model.addObject("categoryList", categoryList);
 			
 			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
-			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			uomList = new ArrayList<Uom>(Arrays.asList(uom));
 			model.addObject("uomList", uomList);
 			
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
@@ -827,7 +828,17 @@ public class MasterController {
 			insert.setItemCode(itemCode);
 			insert.setItemDesc(itemDesc);
 			insert.setItemDate(DateConvertor.convertToYMD(itemDate));
-			insert.setItemUom(uom);
+			 
+			for(int i = 0 ; i<uomList.size() ; i++)
+			{
+				if(Integer.parseInt(uom)==uomList.get(i).getUomId())
+				{
+					insert.setItemUom(uomList.get(i).getUom());
+					break;
+				}
+			}
+			 
+			insert.setItemUom2(uom);
 			insert.setItemOpQty(opQty);
 			insert.setItemOpRate(opRate);
 			insert.setItemClQty(clQty);
@@ -912,7 +923,7 @@ public class MasterController {
 				model.addObject("getItemSubGrpList", getItemSubGrpList);
 				
 				Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
-				List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+				uomList = new ArrayList<Uom>(Arrays.asList(uom));
 				model.addObject("uomList", uomList);
 				
 				model.addObject("isEdit", 1);

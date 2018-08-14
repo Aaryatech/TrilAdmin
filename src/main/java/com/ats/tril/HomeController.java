@@ -33,6 +33,7 @@ import com.ats.tril.model.GetCurrStockRol;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.StockHeader;
+import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.model.po.GetPoHeader;
 import com.ats.tril.model.po.PoHeader;
@@ -192,12 +193,12 @@ public class HomeController {
 		return mav;
 
 	}
-	
+	List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
 	@RequestMapping(value = "/getPoListRes", method = RequestMethod.GET)
 	public @ResponseBody List<GetPoHeader> getPoList(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
+		headerList = new ArrayList<GetPoHeader>();
 		try {
 			int poType=Integer.parseInt(request.getParameter("poType"));
 			int status=Integer.parseInt(request.getParameter("status"));
@@ -215,4 +216,44 @@ public class HomeController {
 		}
 		return headerList;
 	}
+	
+	@RequestMapping(value = "/showAddMrn/{poType}/{vendorId}/{poId}/{poNo}", method = RequestMethod.GET)
+    public ModelAndView showAddMrn(HttpServletRequest request, HttpServletResponse response,@PathVariable int poType,
+            @PathVariable int vendorId,@PathVariable int poId,@PathVariable String poNo) {
+
+        ModelAndView model = null;
+        try {
+            
+            //poIdList = new String();
+            //poDetailList = new ArrayList<GetPODetail>();
+
+        //    poDetailList = null;
+            model = new ModelAndView("mrn/showAddMrn");
+            RestTemplate rest = new RestTemplate();
+
+            Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+            List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+            model.addObject("vendorList", vendorList);
+            
+            model.addObject("poType",poType);
+            
+            model.addObject("vendorId",vendorId);
+            
+            model.addObject("poId",poId);
+            model.addObject("poNo",poNo);
+            
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = new Date();
+            model.addObject("date", dateFormat.format(date));
+            System.err.println("Inside show Add Mrn /showAddMrn/{poType}/{vendorId}/{poId} in HomeController");
+
+        } catch (Exception e) {
+
+            System.err.println("Exception in showing  showAddMrn/{poType}/{vendorId}/{poId}" + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return model;
+    }
 }

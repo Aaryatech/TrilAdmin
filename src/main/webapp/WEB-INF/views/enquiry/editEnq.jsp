@@ -299,10 +299,10 @@ body {
 								action="${pageContext.request.contextPath}/submitEditEnqList"
 								method="post">
 								<div id="myModal" class="modal">
-									<input type="text" value="0" name="indMId" id="indMId">
-									<input type="text" value="0" name="vendIdTemp" id="vendIdTemp">
-									<input type="text" value="0" name="enqDateTemp"
-										id="enqDateTemp"> <input type="text" value="0"
+									<input type="hidden" value="0" name="indMId" id="indMId">
+									<input type="hidden" value="0" name="vendIdTemp" id="vendIdTemp">
+									<input type="hidden" value="0" name="enqDateTemp"
+										id="enqDateTemp"> <input type="hidden" value="0"
 										name="enqRemarkTemp" id="enqRemarkTemp">
 
 

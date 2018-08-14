@@ -353,7 +353,7 @@ body {
 			
 				
 					<div class="box-content">
-								<div class="col-md-2" >Select Intend No.</div>
+								<div class="col-md-2" >Select Indend No.</div>
 									<div class="col-md-3">
 									<c:choose>
 										<c:when test="${isFromDashBoard==1}">
@@ -393,7 +393,7 @@ body {
 										
 									</div>	
 									<div class="col-md-1"></div>
-									<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Intend "  id="myBtn"></div>
+									<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Indend "  id="myBtn"></div>
 									
 									 
 					</div>
@@ -1174,7 +1174,7 @@ function getIntendListByPoType() {
 
 	}, function(data) { 
 		
-		var html = '<option value="">Select Intend</option>';
+		var html = '<option value="">Select Indend</option>';
 
 		var len = data.length;
 		for (var i = 0; i < len; i++) {

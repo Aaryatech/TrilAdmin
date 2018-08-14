@@ -74,17 +74,15 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr No.</th>
+											<th >Sr No.</th>
 											<th class="col-md-1">Code</th>
-											<th class="col-md-1">Name</th>
+											<th class="col-md-2">Name</th>
 											<th class="col-md-1">City</th>
 											<th class="col-md-1">State</th>
-											<th class="col-md-1">Email</th>
-											<th class="col-md-1">GST No</th>
-											<th class="col-md-1">Item</th>
-											<th class="col-md-1">Date</th>
+											<th >Email</th>
+											<th class="col-md-1">GST No</th> 
 											<th class="col-md-1">Mobile</th>
-											<th class="col-md-1">Action</th>
+											<th >Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -92,7 +90,7 @@
 										<c:forEach items="${vendorList}" var="vendorList"
 											varStatus="count">
 											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<td ><c:out value="${count.index+1}" /></td>
 
 
 												<td class="col-md-1"><c:out
@@ -107,19 +105,13 @@
 												<td class="col-md-1"><c:out
 														value="${vendorList.vendorState}" /></td>
 
-												<td class="col-md-1"><c:out
+												<td><c:out
 														value="${vendorList.vendorEmail}" /></td>
 
 
 												<td class="col-md-1"><c:out
 														value="${vendorList.vendorGstNo}" /></td>
-
-												<td class="col-md-1"><c:out
-														value="${vendorList.vendorItem}" /></td>
-
-												<td class="col-md-2"><c:out
-														value="${vendorList.vendorDate}" /></td>
-
+ 
 												<td class="col-md-1"><c:out
 														value="${vendorList.vendorMobile}" /></td>
 

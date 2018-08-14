@@ -167,10 +167,14 @@
 															 
 													<a href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a>
-														 <a
-													href="${pageContext.request.contextPath}/deletePurchaseOrder/${poList.poId}"
+														<c:choose>
+															<c:when test="${poList.poStatus==0}">
+															<a href="${pageContext.request.contextPath}/deletePurchaseOrder/${poList.poId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a></td>
+														class="glyphicon glyphicon-remove"></span></a>
+															</c:when>
+														</c:choose>
+														 </td>
 
 											</tr>
 										</c:forEach>
@@ -340,10 +344,19 @@
 										  	tr.append($('<td></td>').html(type));
 										  	tr.append($('<td></td>').html(itemList.vendorName));
 										  	tr.append($('<td></td>').html(itemList.indNo));
-										  	tr.append($('<td></td>').html('<a href="javascript:genPdf('+itemList.poId+');"><abbr'+
-													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a> <a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
-													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'+itemList.poId+'"'+
-													'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+										  	if(itemList.poStatus==0) {
+										  		tr.append($('<td></td>').html('<a href="javascript:genPdf('+itemList.poId+');"><abbr'+
+														'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a> <a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
+														'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'+itemList.poId+'"'+
+														'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+										  		}
+										  	else
+										  		{
+										  		tr.append($('<td></td>').html('<a href="javascript:genPdf('+itemList.poId+');"><abbr'+
+														'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a> <a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
+														'title="Edit"><i class="fa fa-edit"></i></abbr></a> '));
+										  		}
+										  	
 										    $('#table1 tbody').append(tr); 
 										})  
 										

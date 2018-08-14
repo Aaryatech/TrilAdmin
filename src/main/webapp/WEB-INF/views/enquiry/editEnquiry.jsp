@@ -76,19 +76,7 @@
 											value="${editEnquiry.vendorName}" type="text" readonly>
 
 									</div>
-									<div class="col-md-2">Enquiry Remark</div>
-									<div class="col-md-3">
-										<input class="form-control" id="enqRemark" size="16"
-											placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}"
-											type="text" name="enqRemark" />
-									</div>
-
-
-								</div>
-								<br>
-
-								<div class="box-content">
-
+									
 									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
@@ -96,6 +84,17 @@
 											name="enqDate" type="text" required>
 
 
+									</div> 
+								</div>
+								<br>
+
+								<div class="box-content">
+ 
+									<div class="col-md-2">Enquiry Remark</div>
+									<div class="col-md-10">
+										<input class="form-control" id="enqRemark" size="16"
+											placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}"
+											type="text" name="enqRemark" />
 									</div>
 
 
@@ -108,7 +107,7 @@
 								<div class="box-content">
 
 									<div class="col-md-2">Select Item</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select data-placeholder="Select RM Name"
 											class="form-control chosen" name="itemId" tabindex="-1"
 											id="itemId">
@@ -116,8 +115,7 @@
 
 											<c:forEach items="${itemList}" var="itemList">
 
-												<option value="${itemList.itemId}"><c:out
-														value="${itemList.itemCode}"></c:out>
+												<option value="${itemList.itemId}">${itemList.itemCode} &nbsp;&nbsp;${itemList.itemDesc}
 												</option>
 
 
@@ -126,18 +124,31 @@
 									</div>
 
 									<input type="hidden" name=editIndex id="editIndex" />
+ 
+								</div>
+								<br>
+								
+								<div class="box-content">
+								
+								<div class="col-md-2">Enquiry Remark</div>
+									<div class="col-md-10">
+										<input class="form-control" id="itemRemark" size="16"
+											placeholder="Enquiry Remark" type="text" name="itemRemark" />
+									</div>
+  
 
-									<div class="col-md-2">Qty</div>
+								</div>
+								<br>
+								
+								<div class="box-content"> 
+								
+								<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
 										<input type="text" name="qty" id="qty" placeholder="Qty"
 											class="form-control" pattern="\d+" />
 
 									</div>
-
-								</div>
-								<br>
-								<div class="box-content">
-
+									
 									<div class="col-md-2">Enquiry Item Date*</div>
 									<div class="col-md-3">
 										<input id="enqItemDate" class="form-control date-picker"
@@ -145,11 +156,9 @@
 
 
 									</div>
-									<div class="col-md-2">Enquiry Remark</div>
-									<div class="col-md-3">
-										<input class="form-control" id="itemRemark" size="16"
-											placeholder="Enquiry Remark" type="text" name="itemRemark" />
-									</div>
+									
+									
+									
 
 								</div>
 								<br>
@@ -182,11 +191,11 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th class="col-sm-1">Sr.No.</th>
-														<th class="col-sm-1">Name</th>
-														<th class="col-sm-1">Qty</th>
-														<th class="col-sm-1">Item Date</th>
-														<th class="col-sm-1">Action</th>
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-5">Name</th>
+														<th class="col-md-1">Qty</th>
+														<th class="col-md-1">Item Date</th>
+														<th class="col-md-1">Action</th>
 
 													</tr>
 												</thead>
@@ -194,15 +203,15 @@
 													<c:forEach items="${editEnquiry.enquiryDetailList}"
 														var="enquiryDetailList" varStatus="count">
 														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+															<td><c:out value="${count.index+1}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${enquiryDetailList.itemCode}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${enquiryDetailList.enqQty}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${enquiryDetailList.enqDetailDate}" /></td>
 
 															<td><a href="#"><span
@@ -487,7 +496,7 @@ function validation()
 	alert("Please Select Item ");
 	}
 	
-	else if(isNaN(qty) || qty < 0 || qty=="")
+	else if(isNaN(qty) || qty < 1 || qty=="")
 	{
 	isValid = false;
 	alert("Please enter Quantity");

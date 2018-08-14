@@ -98,17 +98,24 @@
 									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 								<span class="l-6"></span>
 							</div>
-
+							
+							<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
+ 
 							<br /> <br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
+											<th style="width:2%;">Sr no.</th>
 											<th class="col-md-1">Date</th>
 
-											<th class="col-md-1">Vendor Name</th>
+											<th class="col-md-5">Vendor Name</th>
 											<th class="col-md-1">Enquiry No</th>
 											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Action</th>
@@ -119,13 +126,13 @@
 										<c:forEach items="${enquiryList}" var="enquiryList"
 											varStatus="count">
 											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<td style="width:2%;"><c:out value="${count.index+1}" /></td>
 
 
 												<td class="col-md-1"><c:out
 														value="${enquiryList.enqDate}" /></td>
 
-												<td class="col-md-1"><c:out
+												<td class="col-md-5"><c:out
 														value="${enquiryList.vendorName}" /></td>
 
 												<td class="col-md-1"><c:out
@@ -318,15 +325,31 @@
 							});
 		}
 	</script>
-
-
-
-
-
-
-
-
-
+ <script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1,td2, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2]; 
+    if (td) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      } 
+    	      else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+ 
+</script>
 	<script type="text/javascript">
 		function genPdf(id) {
 

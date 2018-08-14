@@ -121,51 +121,33 @@
 								
 								<div class="box-content">
 
-									<div class="col-md-2">  Address 1*</div>
-									<div class="col-md-3">
-										<input id="vendorAdd1" class="form-control"
+									<div class="col-md-2">  Address*</div>
+									<div class="col-md-10">
+									<textarea class="form-control" name="vendorAdd1" placeholder="Vendor Add 1" style="text-align: left;" required>${editVendor.vendorAdd1}</textarea>
+										<%-- <input id="vendorAdd1" class="form-control"
 									placeholder="Vendor Add 1" style="text-align: left;"
 									name="vendorAdd1" value="${editVendor.vendorAdd1}" type="text"
-									required>
+									required> --%>
 
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">  Address 2*</div>
-									<div class="col-md-3">
+									</div><br><br>
+									 
+									 
 										<input id="vendorAdd2" class="form-control"
 									placeholder="Vendor Add 2" style="text-align: left;"
-									name="vendorAdd2" type="text" value="${editVendor.vendorAdd2}"
+									name="vendorAdd2" type="hidden" value="NA"
 									required>
-
-
-									</div> 
+ 
 								</div>
 								<br> 
-								<div class="box-content">
-
-									<div class="col-md-2">  Address 3*</div>
-									<div class="col-md-3">
+								 
 										<input id="vendorAdd3" class="form-control"
 									placeholder="Vendor Add 3" style="text-align: left;"
-									name="vendorAdd3" value="${editVendor.vendorAdd3}" type="text"
+									name="vendorAdd3" value="NA" type="hidden"
 									required>
-
-									</div>
-
-									<div class="col-md-1"></div>
-									<div class="col-md-2">  Address 4*</div>
-									<div class="col-md-3">
-										<input id="vendorAdd4" class="form-control"
-									placeholder="Vendor Add 4" style="text-align: left;"
-									name="vendorAdd4" type="text" value="${editVendor.vendorAdd4}"
-									required>
-
-
-									</div>
-
-
-								</div>
-								<br> 
+ 
+									 
+										
+   
 								<div class="box-content">
 								
 								<div class="col-md-2">  City*</div>
@@ -256,34 +238,9 @@
 
 								</div>
 								<br> 
-								<div class="box-content">
-
-									<div class="col-md-2">  Item*</div>
-									<div class="col-md-3">
-										<input id="vendorItem" class="form-control"
-									placeholder="Vendor Item" style="text-align: left;"
-									name="vendorItem" value="${editVendor.vendorItem}" type="text"
-									required>
-
-
-									</div>
-
-									<div class="col-md-1"></div>
-									<div class="col-md-2">  Date*</div>
-									<div class="col-md-3">
-										<input id="vendorDate" class="form-control date-picker"
-									placeholder="Vendor Date" style="text-align: left;"
-									name="vendorDate" type="text" value="${editVendor.vendorDate}"
-									required>
-
-									</div>
-
-
-								</div>
-								<br> 
-								<div class="box-content">
-
-									<div class="col-md-2">  GST NO*</div>
+								<div class="box-content"> 
+								
+								<div class="col-md-2">  GST NO*</div>
 									<div class="col-md-3">
 									<input id="vendorGstNo" class="form-control"
 									placeholder="Vendor Gst No" style="text-align: left;"
@@ -292,22 +249,134 @@
 									</div>
 
 									<div class="col-md-1"></div>
+									<div class="col-md-2">PAN No.*</div>
+									<div class="col-md-3">
+										<input id="vendorAdd4" class="form-control"
+									placeholder="PAN No" style="text-align: left;"
+									name="vendorAdd4" type="text" value="${editVendor.vendorAdd4}"
+									required>
+
+
+									</div>
+
+									 
+										<input id="vendorDate" class="form-control date-picker"
+									placeholder="Vendor Date" style="text-align: left;"
+									name="vendorDate" type="hidden" value="${editVendor.vendorDate}"
+									required>
+ 
+
+
+								</div>
+								<br> 
+								<div class="box-content"> 
+								
+								<div class="col-md-2">  Item*</div>
+									<div class="col-md-3">
+										<input id="vendorItem" class="form-control"
+									placeholder="Vendor Item" style="text-align: left;"
+									name="vendorItem" value="${editVendor.vendorItem}" type="text"
+									required>
+
+
+									</div>
+									<div class="col-md-1"></div>
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" data-live-search="true"
 									title="Please Select" name="vendorType" id="vendorType"
 									required>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-
+									<c:choose>
+									 <c:when test="${editVendor.vendorType==1}">
+									 	<option value="1" selected>Authorized Dealer</option>
+										<option value="2">Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4">Manufacturer</option>
+										<option value="5">Importer</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorType==2}">
+									 	<option value="1" >Authorized Dealer</option>
+										<option value="2" selected>Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4">Manufacturer</option>
+										<option value="5">Importer</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorType==3}">
+									 	<option value="1" >Authorized Dealer</option>
+										<option value="2" >Authorized Distributors</option>
+										<option value="3" selected>Traders</option>
+										<option value="4">Manufacturer</option>
+										<option value="5">Importer</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorType==4}">
+									 	<option value="1" >Authorized Dealer</option>
+										<option value="2" >Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4" selected>Manufacturer</option>
+										<option value="5">Importer</option> 
+									 </c:when>
+									  <c:when test="${editVendor.vendorType==5}">
+									 	<option value="1" >Authorized Dealer</option>
+										<option value="2" >Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4" >Manufacturer</option>
+										<option value="5" selected>Importer</option> 
+									 </c:when>
+									 <c:otherwise>
+									 <option value="1" selected>Authorized Dealer</option>
+										<option value="2">Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4">Manufacturer</option>
+										<option value="5">Importer</option> 
+									 </c:otherwise>
+									
+									</c:choose>
+									
 								</select>
 									</div>
 
 
 								</div>
-								<br> 
+								<br>
+								
+								<div class="box-content"> 
+								 
+									<div class="col-md-2">Approved BY*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" data-live-search="true"
+									title="Please Select" name="approvedBy" id="approvedBy"
+									required>
+									<c:choose>
+									 <c:when test="${editVendor.vendorApprvBy==1}">
+									 	<option value="1" selected>TRIL</option>
+										<option value="2">CEAT</option>
+										<option value="3">OTHER</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorApprvBy==2}">
+									 	<option value="1" >TRIL</option>
+										<option value="2" selected>CEAT</option>
+										<option value="3">OTHER</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorApprvBy==3}">
+									 	<option value="1" >TRIL</option>
+										<option value="2" >CEAT</option>
+										<option value="3" selected>OTHER</option> 
+									 </c:when> 
+									 <c:otherwise>
+									 
+										<option value="1" selected>TRIL</option>
+										<option value="2" >CEAT</option>
+										<option value="3" >OTHER</option> 
+									 </c:otherwise>
+									
+									</c:choose>
+									
+								</select>
+									</div>
+
+
+								</div>
+								<br>  
 								<br>  
 
 								<div class=" box-content">

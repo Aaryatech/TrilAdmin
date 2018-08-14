@@ -66,36 +66,35 @@
 							<div class="box-content">
 							
 								<div class="col-md-2">Select Vendor</div>
-									<div class="col-md-3">
+									<div class="col-md-4">
 									
 									<select name="vendId" id="vendId" class="form-control chosen" multiple="multiple" tabindex="6" required>
 											<option value="">Select Vendor</option>
 											<c:forEach items="${vendorList}" var="vendorList"> 
-												<option value="${vendorList.vendorId}"><c:out value="${vendorList.vendorName}"></c:out> </option>
+												<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp;${vendorList.vendorCode} </option>
 											 </c:forEach>
 										</select>
 									
 									</div>
-								<div class="col-md-2">Enquiry Remark</div>
+									
+									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
-									<input class="form-control" id="enqRemark" size="16"
-									 placeholder="Enquiry Remark"		type="text" name="enqRemark"    />
-									</div>
+										<input id="enqDate" class="form-control date-picker"
+								 placeholder="Enquiry Date"  name="enqDate" type="text" required>
 								
+								</div>
 				 
 							</div><br>
 							
 							<div class="box-content">
-							
-								<div class="col-md-2">Enquiry Date*</div>
-									<div class="col-md-3">
-										<input id="enqDate" class="form-control date-picker"
-								 placeholder="Enquiry Date"  name="enqDate" type="text" required>
-
-
+							 
+								 <div class="col-md-2">Enquiry Remark</div>
+									<div class="col-md-10">
+									<input class="form-control" id="enqRemark" size="16"
+									 placeholder="Enquiry Remark"		type="text" name="enqRemark"    />
 									</div>
-								
-				 
+
+ 
 							</div><br>
 							
 							  
@@ -104,14 +103,14 @@
 							<div class="box-content">
 								
 									<div class="col-md-2" >Select Item</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select data-placeholder="Select RM Name" class="form-control chosen" name="itemId" tabindex="-1"
 											id="itemId"  >
 											<option   value="">Select Item</option>
 											
 											<c:forEach items="${itemList}" var="itemList">
                                                
-														<option value="${itemList.itemId}"><c:out value="${itemList.itemCode}"></c:out> </option>
+														<option value="${itemList.itemId}">${itemList.itemCode} &nbsp;&nbsp;${itemList.itemDesc} </option>
 													
 
 											</c:forEach>
@@ -119,30 +118,37 @@
 									</div>
 									
 									<input type="hidden" name=editIndex id="editIndex"   />
-											 
-									<div class="col-md-2">Qty</div>
+									 
+									 
+								</div><br> 
+								
+								<div class="box-content">
+								 	 
+									<div class="col-md-2">Item Remark</div>
+									<div class="col-md-10">
+									<input class="form-control" id="itemRemark" size="16"
+									 placeholder="Item Remark"		type="text" name="itemRemark"    />
+									</div>
+									 
+								</div><br> 
+								<div class="box-content">
+								
+								<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
 										<input type="text" name="qty" id="qty"
 											placeholder="Qty" class="form-control"
 											 pattern="\d+"  />
 												 
 									</div>
-									 
-								</div><br> 
-								<div class="box-content">
 							
 								<div class="col-md-2">Enquiry Item Date*</div>
 									<div class="col-md-3">
 										<input id="enqItemDate" class="form-control date-picker"
-								 placeholder="Enquiry Date"  name="enqItemDate" type="text"  >
+								 placeholder="Enquiry Item Date"  name="enqItemDate" type="text"  >
 
 
 									</div>
-								<div class="col-md-2">Enquiry Remark</div>
-									<div class="col-md-3">
-									<input class="form-control" id="itemRemark" size="16"
-									 placeholder="Enquiry Remark"		type="text" name="itemRemark"    />
-									</div>
+								
 				 
 							</div><br><br>
 							<div class="form-group">
@@ -171,11 +177,11 @@
 								style="width: 100%" id="table_grid">
 								<thead>
 									<tr>
-										<th>Sr.No.</th>
-										<th>Name</th> 
-										<th>Qty</th>
-										<th>Item Date</th>
-										<th>Action</th>
+										<th style="width:2%;">Sr.No.</th>
+										<th class="col-md-5">Name</th> 
+										<th class="col-md-1">Qty</th>
+										<th class="col-md-1">Item Date</th>
+										<th class="col-md-1">Action</th>
 
 									</tr>
 								</thead>
@@ -333,8 +339,8 @@
 												  	tr.append($('<td></td>').html(itemList.itemCode)); 
 												  	tr.append($('<td></td>').html(itemList.enqQty));
 												  	tr.append($('<td></td>').html(itemList.enqDetailDate));
-												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
-												    $('#table_grid tbody').append(tr);
+												  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+												     $('#table_grid tbody').append(tr);
 
 													 
  
@@ -421,7 +427,7 @@
 									  	tr.append($('<td></td>').html(itemList.itemCode)); 
 									  	tr.append($('<td></td>').html(itemList.enqQty));
 									  	tr.append($('<td></td>').html(itemList.enqDetailDate));
-									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+									  	tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 									    $('#table_grid tbody').append(tr);
 									  	
 									})
@@ -445,7 +451,7 @@ function validation()
 	alert("Please Select Item ");
 	}
 	
-	else if(isNaN(qty) || qty < 0 || qty=="")
+	else if(isNaN(qty) || qty < 1 || qty=="")
 	{
 	isValid = false;
 	alert("Please enter Quantity");
@@ -464,7 +470,7 @@ function check()
 {
 	
 	var vendId = $("#vendId").val();
-	 
+	 //alert(vendId);
 	if(vendId=="" || vendId==null)
 		{
 		alert("Select Vendor");

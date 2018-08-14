@@ -187,8 +187,8 @@ body {
 
 									<div class="col-md-2">Enquiry Remark</div>
 									<div class="col-md-3">
-										<textarea rows="2" cols="95" id="enqRemark"
-											placeholder="Enquiry Remark" type="text" name="enqRemark"
+										<textarea rows="2"  cols="95" id="enqRemark"
+											placeholder="Enquiry Remark"   name="enqRemark"
 											>${enqRemarkTemp}
 										</textarea>
 									</div>
@@ -314,11 +314,11 @@ body {
 								action="${pageContext.request.contextPath}/submitEnqList"
 								method="post">
 								<div id="myModal" class="modal">
-									<input type="text" value="0" name="indMId" id="indMId">
-									<input type="text" value="0" name="vendIdTemp"
-										id="vendIdTemp"> <input type="text" value="0"
+									<input type="hidden" value="0" name="indMId" id="indMId">
+									<input type="hidden" value="0" name="vendIdTemp"
+										id="vendIdTemp"> <input type="hidden" value="0"
 										name="enqDateTemp" id="enqDateTemp"> <input
-										type="text" value="0" name="enqRemarkTemp"
+										type="hidden" value="0" name="enqRemarkTemp"
 										id="enqRemarkTemp">
 
 

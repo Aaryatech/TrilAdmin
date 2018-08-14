@@ -88,7 +88,7 @@ public class EnquiryController {
 					enquiryDetail.setEnqQty(qty);
 					enquiryDetail.setEnqRemark(itemRemark);
 					enquiryDetail.setEnqDetailDate(enqItemDate);
-					enquiryDetail.setItemCode(item.getItemCode());
+					enquiryDetail.setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 					enquiryDetail.setDelStatus(1);
 					addItemInEnquiryDetail.add(enquiryDetail);
 			  }
@@ -99,7 +99,7 @@ public class EnquiryController {
 				 	addItemInEnquiryDetail.get(index).setEnqQty(qty);
 				 	addItemInEnquiryDetail.get(index).setEnqRemark(itemRemark);
 				 	addItemInEnquiryDetail.get(index).setEnqDetailDate(enqItemDate);
-				 	addItemInEnquiryDetail.get(index).setItemCode(item.getItemCode()); 
+				 	addItemInEnquiryDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc()); 
 			  }
 			
 			
@@ -336,7 +336,7 @@ public class EnquiryController {
 					enquiryDetail.setEnqQty(qty);
 					enquiryDetail.setEnqRemark(itemRemark);
 					enquiryDetail.setEnqDetailDate(enqItemDate);
-					enquiryDetail.setItemCode(item.getItemCode());
+					enquiryDetail.setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 					enquiryDetail.setDelStatus(1);
 					addItemInEditEnquiryDetail.add(enquiryDetail);
 			  }
@@ -347,7 +347,7 @@ public class EnquiryController {
 				 	addItemInEditEnquiryDetail.get(index).setEnqQty(qty);
 				 	addItemInEditEnquiryDetail.get(index).setEnqRemark(itemRemark);
 				 	addItemInEditEnquiryDetail.get(index).setEnqDetailDate(enqItemDate);
-				 	addItemInEditEnquiryDetail.get(index).setItemCode(item.getItemCode()); 
+				 	addItemInEditEnquiryDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc()); 
 			  }
 			
 			
