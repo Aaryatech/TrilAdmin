@@ -40,6 +40,20 @@ public class GetIndentDetail {
 	private String itemDesc;
 	private String itemCode;
 	private String itemUom;
+	
+	
+	//transient/temp field
+	
+	int isDuplicate;
+	
+	
+	
+	public int getIsDuplicate() {
+		return isDuplicate;
+	}
+	public void setIsDuplicate(int isDuplicate) {
+		this.isDuplicate = isDuplicate;
+	}
 	public int getIndDId() {
 		return indDId;
 	}

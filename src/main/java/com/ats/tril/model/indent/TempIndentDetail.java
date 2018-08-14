@@ -16,9 +16,17 @@ public class TempIndentDetail {
 	
 	String remark;
 	
+	int isDuplicate; //1 for yes 0 for no
 	
 	
-	
+	public int getIsDuplicate() {
+		return isDuplicate;
+	}
+
+	public void setIsDuplicate(int isDuplicate) {
+		this.isDuplicate = isDuplicate;
+	}
+
 	public String getRemark() {
 		return remark;
 	}
@@ -89,8 +97,9 @@ public class TempIndentDetail {
 	public String toString() {
 		return "TempIndentDetail [itemId=" + itemId + ", itemName=" + itemName + ", qty=" + qty + ", uom=" + uom
 				+ ", curStock=" + curStock + ", schDays=" + schDays + ", date=" + date + ", itemCode=" + itemCode
-				+ ", remark=" + remark + "]";
+				+ ", remark=" + remark + ", isDuplicate=" + isDuplicate + "]";
 	}
 
+	
 	
 }

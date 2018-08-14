@@ -67,7 +67,7 @@
 								<input type="hidden" name="mode_add" id="mode_add"
 									value="add_att">
 
-								<div class="box content">
+								<div class="form-group">
 									<div class="col-md-1">From
 										Date</div>&nbsp;&nbsp;
 									<div class="col-md-2 ">
@@ -99,9 +99,7 @@
 											<option value="4">Other</option>
 										</select>
 									</div>
-<div class="col-md-1"></div>
-									<div
-										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
+<div class="col-md-1">
 										<input type="submit" width="20px;" value="Submit" class="btn btn-primary">
 									</div>
 

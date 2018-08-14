@@ -165,8 +165,8 @@
 									</div>
 								</div>
 								<br/>
-
-								<div class="box-content" style="display: none" id="deptDiv">
+<br/>
+								<div class="form-group" style="display: none" id="deptDiv">
 									<label class="col-sm-3 col-lg-2 control-label">Department
 									</label>
 
@@ -576,9 +576,13 @@ $(document).ready(function() {
 
 		}, function(data) {
 			//alert(data);
+		
 			var len = data.length;
 			$('#table1 td').remove();
 			$.each(data,function(key, trans) {
+				if(trans.isDuplicate==1){
+					alert("Item Already Added in Indent");
+				}
 			var tr = $('<tr></tr>');
 			tr.append($('<td class="col-sm-1" style="text-align: center;"></td>').html(key+1));
 		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));

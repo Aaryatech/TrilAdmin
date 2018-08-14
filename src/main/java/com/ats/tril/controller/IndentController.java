@@ -46,7 +46,7 @@ import com.ats.tril.model.item.ItemList;
 
 @Controller
 @Scope("session")
-  
+
 public class IndentController {
 
 	RestTemplate rest = new RestTemplate();
@@ -76,20 +76,22 @@ public class IndentController {
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();
 			model.addObject("date", dateFormat.format(date));
-			
-			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
-			
+
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+					StockHeader.class);
+
 			date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-			 
-			String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
-			String toDate=sf.format(date);
+
+			String fromDate = stockHeader.getYear() + "-" + stockHeader.getMonth() + "-" + "01";
+			String toDate = sf.format(date);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			 map.add("fromDate", fromDate);
-			 map.add("toDate", toDate); 
-			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock", map,
+					GetCurrentStock[].class);
 			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
-			
+
 			System.out.println("stockList " + stockList);
 		} catch (Exception e) {
 
@@ -99,22 +101,21 @@ public class IndentController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/deleteIndent/{indId}", method = RequestMethod.GET)
 	public String deleteIndent(@PathVariable int indId, HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("indId", indId);
-			
-			ErrorMessage ErrorMessage = rest.postForObject(Constants.url + "/deleteIndent",map,ErrorMessage.class); 
-			 
-	 
+
+			ErrorMessage ErrorMessage = rest.postForObject(Constants.url + "/deleteIndent", map, ErrorMessage.class);
+
 		} catch (Exception e) {
- 
+
 			e.printStackTrace();
 		}
-		 
+
 		return "redirect:/getIndents";
 	}
 
@@ -247,71 +248,123 @@ public class IndentController {
 
 	List<TempIndentDetail> tempIndentList = new ArrayList<TempIndentDetail>();
 
-	// getIndentDetail
+	// getIndentDetail to add a new Item in add Indent jsp
 	@RequestMapping(value = "/getIndentDetail", method = RequestMethod.GET)
 	public @ResponseBody List<TempIndentDetail> getIndentDetail(HttpServletRequest request,
 			HttpServletResponse response) {
-		System.err.println("In get group by cat Id ");
+		System.err.println("In getIndentDetail ");
 
 		try {
-			
+
 			int key = Integer.parseInt(request.getParameter("key"));
-			
-			if(key==-1) {
-				
+
+			if (key == -1) {
+
 				System.err.println("Add Call Indent");
-			String itemName = request.getParameter("itemName");
-			String remark = request.getParameter("remark");
+				String itemName = request.getParameter("itemName");
+				String remark = request.getParameter("remark");
 
-			int itemId = Integer.parseInt(request.getParameter("itemId"));
+				int itemId = Integer.parseInt(request.getParameter("itemId"));
+				
+				if(tempIndentList.size()>0) {
+					int flag=0;
+					for(int i=0;i<tempIndentList.size();i++) {
+						tempIndentList.get(i).setIsDuplicate(0);
+						if(tempIndentList.get(i).getItemId()==itemId) {
+							tempIndentList.get(i).setIsDuplicate(1);
+							flag=1;
+							
+						}//end of if  item exist
+					
+					}//end of for tempIndeList
+					if(flag==0) {
+						System.err.println("New Item added to existing list");
+						
+						int qty = Integer.parseInt(request.getParameter("qty"));
+						int schDay = Integer.parseInt(request.getParameter("schDay"));
+						String indDate = request.getParameter("indentDate");
+						TempIndentDetail detail = new TempIndentDetail();
+						String uom = null;
+						String itemCode = null;
+						for (int j = 0; j < itemList.size(); j++) {
+							if (itemList.get(j).getItemId() == itemId) {
+								uom = itemList.get(j).getItemUom();
+								itemCode = itemList.get(j).getItemCode();
+								break;
+							}
+						}
+						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+						Date tempDate = sdf.parse(indDate);
+						System.err.println("Temp Date " + tempDate);
+						Calendar c = Calendar.getInstance();
+						c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
+						c.add(Calendar.DATE, schDay); // Adding days
+						String date = sdf.format(c.getTime());
+						System.out.println(date);
 
-			System.err.println("Item Id " + itemId);
+						// Date d=LocalDate.now().plusDays(schDay);
+						detail.setCurStock(0);
+						detail.setItemId(itemId);
+						detail.setItemName(itemName);
+						detail.setQty(qty);
+						detail.setSchDays(schDay);
+						detail.setDate(date);
+						detail.setUom(uom);
+						detail.setItemCode(itemCode);
+						detail.setRemark(remark);
+						tempIndentList.add(detail);
+					}
+				}//end of if tempIndentList.size>0
+				
+				else {
+					
+					System.err.println("New Item added first time : list is empty");
 
-			int qty = Integer.parseInt(request.getParameter("qty"));
+				int qty = Integer.parseInt(request.getParameter("qty"));
+				int schDay = Integer.parseInt(request.getParameter("schDay"));
+				String indDate = request.getParameter("indentDate");
+				TempIndentDetail detail = new TempIndentDetail();
 
-			int schDay = Integer.parseInt(request.getParameter("schDay"));
-			String indDate = request.getParameter("indentDate");
-			TempIndentDetail detail = new TempIndentDetail();
+				String uom = null;
+				String itemCode = null;
 
-			String uom = null;
-			String itemCode = null;
+				for (int j = 0; j < itemList.size(); j++) {
 
-			for (int i = 0; i < itemList.size(); i++) {
+					if (itemList.get(j).getItemId() == itemId) {
 
-				if (itemList.get(i).getItemId() == itemId) {
+						uom = itemList.get(j).getItemUom();
+						itemCode = itemList.get(j).getItemCode();
 
-					uom = itemList.get(i).getItemUom();
-					itemCode = itemList.get(i).getItemCode();
-
-					break;
+						break;
+					}
 				}
-			}
 
-			// String calculatedDate = incrementDate(deliveryDate, itemShelfLife);
+				// String calculatedDate = incrementDate(deliveryDate, itemShelfLife);
 
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-			Date tempDate = sdf.parse(indDate);
-			System.err.println("Temp Date " + tempDate);
-			Calendar c = Calendar.getInstance();
-			c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
-			c.add(Calendar.DATE, schDay); // Adding days
-			String date = sdf.format(c.getTime());
-			System.out.println(date);
+				Date tempDate = sdf.parse(indDate);
+				System.err.println("Temp Date " + tempDate);
+				Calendar c = Calendar.getInstance();
+				c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
+				c.add(Calendar.DATE, schDay); // Adding days
+				String date = sdf.format(c.getTime());
+				System.out.println(date);
 
-			// Date d=LocalDate.now().plusDays(schDay);
-			detail.setCurStock(0);
-			detail.setItemId(itemId);
-			detail.setItemName(itemName);
-			detail.setQty(qty);
-			detail.setSchDays(schDay);
-			detail.setDate(date);
-			detail.setUom(uom);
-			detail.setItemCode(itemCode);
-			detail.setRemark(remark);
-			tempIndentList.add(detail);
-			}
-			
+				// Date d=LocalDate.now().plusDays(schDay);
+				detail.setCurStock(0);
+				detail.setItemId(itemId);
+				detail.setItemName(itemName);
+				detail.setQty(qty);
+				detail.setSchDays(schDay);
+				detail.setDate(date);
+				detail.setUom(uom);
+				detail.setItemCode(itemCode);
+				detail.setRemark(remark);
+				tempIndentList.add(detail);
+				}//else it is first item
+			}//end of if key==-1
+
 			else {
 				System.err.println("remove call Indent");
 				tempIndentList.remove(key);
@@ -325,9 +378,7 @@ public class IndentController {
 		return tempIndentList;
 	}
 	
-	
-	
-	
+	//used on editIndent Header add new item for edit Indent
 	
 	@RequestMapping(value = "/getIndentDetailForEdit", method = RequestMethod.GET)
 	public @ResponseBody List<GetIndentDetail> getIndentDetailForEdit(HttpServletRequest request,
@@ -335,70 +386,64 @@ public class IndentController {
 		System.err.println("In get getIndentDetailForEdit ");
 
 		try {
+			tempIndentList = new ArrayList<TempIndentDetail>();
 			int indMId = Integer.parseInt(request.getParameter("indMId"));
-
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
 			map.add("indMId", indMId);
-			RestTemplate restTemp=new RestTemplate();
+			RestTemplate restTemp = new RestTemplate();
 			Indent indent = restTemp.postForObject(Constants.url + "/getIndentByIndId", map, Indent.class);
 
-			
 			int key = Integer.parseInt(request.getParameter("key"));
-			
-			
-			if(key==-1) {
-				
+			if (key == -1) {
 				System.err.println("Add Call Indent");
-			String itemName = request.getParameter("itemName");
-			String remark = request.getParameter("remark");
-
-			int itemId = Integer.parseInt(request.getParameter("itemId"));
-		
-			
-			System.err.println("Item Id " + itemId);
-
-			int qty = Integer.parseInt(request.getParameter("qty"));
-
-			int schDay = Integer.parseInt(request.getParameter("schDay"));
-			String indDate = request.getParameter("indentDate");
-			
-			TempIndentDetail detail = new TempIndentDetail();
-
-			String uom = null;
-			String itemCode = null;
-			
-			//getIndentByIndId
-			
-			for (int i = 0; i < itemList.size(); i++) {
-
-				if (itemList.get(i).getItemId() == itemId) {
-
-					uom = itemList.get(i).getItemUom();
-					itemCode = itemList.get(i).getItemCode();
-
-					break;
+				String itemName = request.getParameter("itemName");
+				String remark = request.getParameter("remark");
+				int itemId = Integer.parseInt(request.getParameter("itemId"));
+				System.err.println("Item Id " + itemId);
+				int qty = Integer.parseInt(request.getParameter("qty"));
+				int schDay = Integer.parseInt(request.getParameter("schDay"));
+				String indDate = request.getParameter("indentDate");
+				
+				int flag=0;
+				for(int i=0;i<indDetailListForEdit.size();i++) {
+					indDetailListForEdit.get(i).setIsDuplicate(0);
+					if(indDetailListForEdit.get(i).getItemId()==itemId) {
+						flag=1;
+						indDetailListForEdit.get(i).setIsDuplicate(1);
+						
+					}
 				}
-			}
-			tempIndentList=new ArrayList<TempIndentDetail>();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			Date tempDate = sdf.parse(indDate);
-			Calendar c = Calendar.getInstance();
-			c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
-			c.add(Calendar.DATE, schDay); // Adding days
-			String date = sdf.format(c.getTime());
-			detail.setCurStock(0);
-			detail.setItemId(itemId);
-			detail.setItemName(itemName);
-			detail.setQty(qty);
-			detail.setSchDays(schDay);
-			detail.setDate(date);
-			detail.setUom(uom);
-			detail.setItemCode(itemCode);
-			detail.setRemark(remark);
-			tempIndentList.add(detail);
-			}
+				if(flag==0) {
+				TempIndentDetail tempDetail = new TempIndentDetail();
+				String uom = null;
+				String itemCode = null;
+				for (int i = 0; i < itemList.size(); i++) {
+
+					if (itemList.get(i).getItemId() == itemId) {
+						uom = itemList.get(i).getItemUom();
+						itemCode = itemList.get(i).getItemCode();
+						break;
+					}
+				}
+				tempIndentList = new ArrayList<TempIndentDetail>();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+				Date tempDate = sdf.parse(indDate);
+				Calendar c = Calendar.getInstance();
+				c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
+				c.add(Calendar.DATE, schDay); // Adding days
+				String date = sdf.format(c.getTime());
+				tempDetail.setCurStock(0);
+				tempDetail.setItemId(itemId);
+				tempDetail.setItemName(itemName);
+				tempDetail.setQty(qty);
+				tempDetail.setSchDays(schDay);
+				tempDetail.setDate(date);
+				tempDetail.setUom(uom);
+				tempDetail.setItemCode(itemCode);
+				tempDetail.setRemark(remark);
+				tempIndentList.add(tempDetail);
 			
+
 			IndentTrans transDetail = new IndentTrans();
 			TempIndentDetail detail = tempIndentList.get(0);
 
@@ -418,14 +463,14 @@ public class IndentController {
 
 			transDetail.setIndMId(indent.getIndMId());
 			transDetail.setDelStatus(Constants.delStatus);
-			//indTrasList.add(transDetail);
-			
+			// indTrasList.add(transDetail);
+
 			GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/saveIndentTras", transDetail,
 					GetIndentDetail[].class);
-			
-			indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
 
-			
+			indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
+			}//end of if flag==0
+			}//end of if key==-1;
 		} catch (Exception e) {
 
 			System.err.println("Exce in getIndentDetail Cont @IndentController by Ajax call " + e.getMessage());
@@ -434,36 +479,34 @@ public class IndentController {
 		}
 		return indDetailListForEdit;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/getInvoiceNo", method = RequestMethod.GET)
 	@ResponseBody
 	public DocumentBean getInvoiceNo(HttpServletRequest request, HttpServletResponse response) {
-            
-		String invNo="";
-		DocumentBean docBean=null;
+
+		String invNo = "";
+		DocumentBean docBean = null;
 		try {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
 			String date = request.getParameter("date");
-			
-			if(date=="") {
-						Date currDate = new Date();
-						date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
-						}
-						
-						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-						map.add("docId",docId);
-						map.add("catId", catId);
-						map.add("date", DateConvertor.convertToYMD(date));
+
+			if (date == "") {
+				Date currDate = new Date();
+				date = new SimpleDateFormat("yyyy-MM-dd").format(currDate);
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("docId", docId);
+			map.add("catId", catId);
+			map.add("date", DateConvertor.convertToYMD(date));
 
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
-			System.err.println("Doc"+docBean.toString());
-			String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
-			int counter=docBean.getSubDocument().getCounter();
+			System.err.println("Doc" + docBean.toString());
+			String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+			int counter = docBean.getSubDocument().getCounter();
 			int counterLenth = String.valueOf(counter).length();
 			counterLenth = 4 - counterLenth;
 			StringBuilder code = new StringBuilder(indMNo);
@@ -473,15 +516,16 @@ public class IndentController {
 				code.append(j);
 			}
 			code.append(String.valueOf(counter));
-			invNo=""+code;
+			invNo = "" + code;
 			docBean.setCode(invNo);
-			System.err.println("invNo"+invNo);
-		}catch (Exception e) {
+			System.err.println("invNo" + invNo);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return docBean;
 	}
+
 	@RequestMapping(value = "/saveIndent", method = RequestMethod.POST)
 	public String saveIndent(HttpServletRequest request, HttpServletResponse response) {
 
@@ -520,32 +564,32 @@ public class IndentController {
 			int isMonthly = Integer.parseInt(request.getParameter("is_monthly"));
 
 			Indent indent = new Indent();
-			DocumentBean docBean=null;
+			DocumentBean docBean = null;
 			try {
-				
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("docId", 1);
 				map.add("catId", catId);
 				map.add("date", DateConvertor.convertToYMD(indDate));
 				RestTemplate restTemplate = new RestTemplate();
 
-				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
-				String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
-				int counter=docBean.getSubDocument().getCounter();
+				docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+				int counter = docBean.getSubDocument().getCounter();
 				int counterLenth = String.valueOf(counter).length();
 				counterLenth = 4 - counterLenth;
-				StringBuilder code = new StringBuilder(indMNo+"");
+				StringBuilder code = new StringBuilder(indMNo + "");
 
 				for (int i = 0; i < counterLenth; i++) {
 					String j = "0";
 					code.append(j);
 				}
 				code.append(String.valueOf(counter));
-				
-				indent.setIndMNo(""+code);
-				
-				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
-			}catch (Exception e) {
+
+				indent.setIndMNo("" + code);
+
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			indent.setAchdId(accHead);
@@ -553,16 +597,15 @@ public class IndentController {
 			indent.setIndIsdev(isDev);
 			indent.setIndIsmonthly(isMonthly);
 			indent.setIndMDate(DateConvertor.convertToYMD(indDate));
-			
+
 			indent.setIndMStatus(0);
 			indent.setIndMType(indType);
 			indent.setIndRemark("default remark");
 
 			indent.setDeptId(dept);
 			indent.setSubDeptId(subDept);
-			
+
 			indent.setDelStatus(Constants.delStatus);
-			
 
 			List<IndentTrans> indTrasList = new ArrayList<IndentTrans>();
 			for (int i = 0; i < tempIndentList.size(); i++) {
@@ -592,21 +635,20 @@ public class IndentController {
 			System.err.println("Indent = " + indent.toString());
 
 			RestTemplate restTemp = new RestTemplate();
-if(indTrasList.size()>0) {
-			Indent indRes = restTemp.postForObject(Constants.url + "/saveIndentAndTrans", indent, Indent.class);
-			 if(indRes!=null)
-	          {
-	        		try {
-	        			
-	        			SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+			if (indTrasList.size() > 0) {
+				Indent indRes = restTemp.postForObject(Constants.url + "/saveIndentAndTrans", indent, Indent.class);
+				if (indRes != null) {
+					try {
 
-	        		
-	        		}catch (Exception e) {
+						SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc",
+								docBean.getSubDocument(), SubDocument.class);
+
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
-	          }
-			System.err.println("indRes " + indRes.toString());
-}
+				}
+				System.err.println("indRes " + indRes.toString());
+			}
 		} catch (Exception e) {
 
 			System.err.println("Exception in @saveIndent  Indent" + e.getMessage());
@@ -618,7 +660,7 @@ if(indTrasList.size()>0) {
 		return "redirect:/showIndent";
 	}
 
-	 // getIndents //show fromDate toDate and status
+	// getIndents //show fromDate toDate and status
 
 	List<GetIndent> indentList = new ArrayList<GetIndent>();
 	String fromDate, toDate;
@@ -683,15 +725,15 @@ if(indTrasList.size()>0) {
 	}
 
 	// editIndent edit Indent Header
-	
-	List<GetIndentDetail> indDetailListForEdit=new ArrayList<GetIndentDetail>();
-	
+
+	List<GetIndentDetail> indDetailListForEdit = new ArrayList<GetIndentDetail>();
+
 	@RequestMapping(value = "/editIndent/{indMId}", method = RequestMethod.GET)
 	public ModelAndView editIndent(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("indMId") int indMId) {
-	
-		indDetailListForEdit=new ArrayList<GetIndentDetail>();
-		
+
+		indDetailListForEdit = new ArrayList<GetIndentDetail>();
+
 		ModelAndView model = null;
 		try {
 
@@ -737,7 +779,7 @@ if(indTrasList.size()>0) {
 
 			model.addObject("deparmentList", deparmentList);
 			model.addObject("indent", getIndent);
-			
+
 			model.addObject("isDept", getIndent.getDeptId());
 			map = new LinkedMultiValueMap<String, Object>();
 
@@ -747,15 +789,13 @@ if(indTrasList.size()>0) {
 
 			GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndentId", map,
 					GetIndentDetail[].class);
-			
+
 			indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
-			
-			for(int i=0;i<indDetailListForEdit.size();i++) {
-				
-				
-			//	indDetailListForEdit.get(i).setIndItemSchddt(DateConvertor.convertToDMY(indDetailListForEdit.get(i).getIndItemSchddt()));
-				
-				
+
+			for (int i = 0; i < indDetailListForEdit.size(); i++) {
+
+				// indDetailListForEdit.get(i).setIndItemSchddt(DateConvertor.convertToDMY(indDetailListForEdit.get(i).getIndItemSchddt()));
+
 			}
 
 			System.err.println("Indent Detail List  " + indDetailListForEdit.toString());
@@ -807,7 +847,7 @@ if(indTrasList.size()>0) {
 			// editIndentHeader return type ErrorMessage;
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			
+
 			map.add("achdId", accHead);
 			map.add("deptId", dept);
 			map.add("subDeptId", subDept);
@@ -834,69 +874,69 @@ if(indTrasList.size()>0) {
 
 	@RequestMapping(value = "/updateIndDetail", method = RequestMethod.GET)
 	public @ResponseBody List<GetIndentDetail> updateIndDetail(HttpServletRequest request, HttpServletResponse response
-			/*@PathVariable("indDId") int indDId, @PathVariable("indMId") int indentId, @PathVariable("qty") int qty*/) {
-	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+	/*
+	 * @PathVariable("indDId") int indDId, @PathVariable("indMId") int
+	 * indentId, @PathVariable("qty") int qty
+	 */) {
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		ModelAndView model = null;
-		List<GetIndentDetail> indDetailList =  new ArrayList<GetIndentDetail>();
+		List<GetIndentDetail> indDetailList = new ArrayList<GetIndentDetail>();
 		try {
 
-			int indQty =Integer.parseInt(request.getParameter("qty"));
-			
-			int indDId =Integer.parseInt(request.getParameter("indDId"));
+			int indQty = Integer.parseInt(request.getParameter("qty"));
 
-			
-			int indentId =Integer.parseInt(request.getParameter("indMId"));
-			
-			
-			if(indQty>0) {
+			int indDId = Integer.parseInt(request.getParameter("indDId"));
+
+			int indentId = Integer.parseInt(request.getParameter("indMId"));
+
+			if (indQty > 0) {
 				System.err.println("It is Edit call indQty >0");
-				int schDays =Integer.parseInt(request.getParameter("schDays"));
-				
-				String remark=request.getParameter("remark");
-				System.err.println("New Param sch Days and remark  " +schDays +"remark " +remark);
-				
-			// build an update query to update indent
-			// editIndentHeader return type ErrorMessage;
+				int schDays = Integer.parseInt(request.getParameter("schDays"));
+
+				String remark = request.getParameter("remark");
+				System.err.println("New Param sch Days and remark  " + schDays + "remark " + remark);
+
+				// build an update query to update indent
+				// editIndentHeader return type ErrorMessage;
+				map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("indDId", indDId);
+				map.add("indQty", indQty);
+				map.add("schDay", schDays);
+				map.add("remark", remark);
+				map.add("indentId", indentId);
+
+				ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentDetail", map,
+						ErrorMessage.class);
+				System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+
+			} else {
+
+				System.err.println("In Else indent qt It is Delete call");
+				map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("indDId", indDId);
+				map.add("delStatus", 0);
+
+				ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/delteIndentDetailItem",
+						map, ErrorMessage.class);
+				System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+
+			}
 			map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("indDId", indDId);
-			map.add("indQty", indQty);
-			map.add("schDay", schDays);
-			map.add("remark", remark);
-			map.add("indentId", indentId);
+			map = new LinkedMultiValueMap<String, Object>();
 
-			ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentDetail", map,
-					ErrorMessage.class);
-			System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+			map.add("indMId", indentId);
 
-}else {
-	
-	System.err.println("In Else indent qt It is Delete call");
-	map = new LinkedMultiValueMap<String, Object>();
+			map.add("delStatus", Constants.delStatus);
 
-	map.add("indDId", indDId);
-	map.add("delStatus", 0);
+			GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndentId", map,
+					GetIndentDetail[].class);
 
-	ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/delteIndentDetailItem", map,
-			ErrorMessage.class);
-	System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
-	
-	
-}
-		 map = new LinkedMultiValueMap<String, Object>();
-
-		map = new LinkedMultiValueMap<String, Object>();
-
-		map.add("indMId", indentId);
-
-		map.add("delStatus", Constants.delStatus);
-
-		GetIndentDetail[] indDetail = rest.postForObject(Constants.url + "/getIndentDetailByIndentId", map,
-				GetIndentDetail[].class);
-
-		 indDetailList = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
-		 System.err.println("Ind detail after update call  "  +indDetailList.toString());
+			indDetailList = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
+			System.err.println("Ind detail after update call  " + indDetailList.toString());
 
 		}
 
@@ -904,48 +944,48 @@ if(indTrasList.size()>0) {
 			System.err.println("Exception in updateIndDetail Ajax Call  " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return indDetailList;
-		//return "redirect:/editIndent/" + indentId;
+		// return "redirect:/editIndent/" + indentId;
 
 	}
-	/*@RequestMapping(value = "/updateIndDetail/{indDId}/{indMId}/{qty}", method = RequestMethod.GET)
-	public String updateIndDetail(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("indDId") int indDId, @PathVariable("indMId") int indentId, @PathVariable("qty") int qty) {
+	/*
+	 * @RequestMapping(value = "/updateIndDetail/{indDId}/{indMId}/{qty}", method =
+	 * RequestMethod.GET) public String updateIndDetail(HttpServletRequest request,
+	 * HttpServletResponse response,
+	 * 
+	 * @PathVariable("indDId") int indDId, @PathVariable("indMId") int
+	 * indentId, @PathVariable("qty") int qty) {
+	 * 
+	 * ModelAndView model = null; try {
+	 * 
+	 * // int indQty =Integer.parseInt(request.getParameter("indQty"+indDId));
+	 * 
+	 * // build an update query to update indent // editIndentHeader return type
+	 * ErrorMessage;
+	 * 
+	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
+	 * Object>();
+	 * 
+	 * map.add("indDId", indDId); map.add("indQty", qty);
+	 * 
+	 * ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url +
+	 * "/editIndentDetail", map, ErrorMessage.class);
+	 * System.err.println("editIndentDetailResponse " +
+	 * editIndentDetailResponse.toString());
+	 * 
+	 * }
+	 * 
+	 * catch (Exception e) { System.err.println("Exception in updateIndDetail " +
+	 * e.getMessage()); e.printStackTrace(); }
+	 * 
+	 * return "redirect:/editIndent/" + indentId;
+	 * 
+	 * 
+	 * }
+	 */
 
-		ModelAndView model = null;
-		try {
-
-			// int indQty =Integer.parseInt(request.getParameter("indQty"+indDId));
-
-			// build an update query to update indent
-			// editIndentHeader return type ErrorMessage;
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			map.add("indDId", indDId);
-			map.add("indQty", qty);
-
-			ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentDetail", map,
-					ErrorMessage.class);
-			System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
-
-		}
-
-		catch (Exception e) {
-			System.err.println("Exception in updateIndDetail " + e.getMessage());
-			e.printStackTrace();
-		}
-
-		return "redirect:/editIndent/" + indentId;
-
-		
-	}*/
-	
-	
-	
-	//deleteIndentHeader action of indent list action 1
-	
+	// deleteIndentHeader action of indent list action 1
 
 	// showEditViewIndentDetail show indentdetail from indent header list action
 	// button Cancelled given with Indent Header Edit
@@ -989,4 +1029,3 @@ if(indTrasList.size()>0) {
 	 */
 
 }
-

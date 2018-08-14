@@ -551,7 +551,9 @@
 				$.each(data, function(key, trans) {
 					
 				//	alert(trans.indRemark );
-					
+					if(trans.isDuplicate==1){
+						alert("Item Already Added in Indent");
+					}
 					var tr = $('<tr></tr>');
 					tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
 					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemCode));

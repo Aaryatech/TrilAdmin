@@ -835,7 +835,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			e.printStackTrace();
 
 		}
-		return "redirect:/showEditViewMrnDetail"+mrnId;
+		return "redirect:/getMrnHeaders";
 	}
 	
 	@RequestMapping(value = "/deleteMrnDetail/{mrnDetailId}", method = RequestMethod.GET)
