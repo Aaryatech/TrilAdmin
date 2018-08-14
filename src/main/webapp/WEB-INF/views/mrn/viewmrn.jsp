@@ -27,12 +27,12 @@
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
 			<div class="page-title">
-				<div>
+				<!-- <div>
 					<h1>
 						<i class="fa fa-file-o"></i>
 					</h1>
 
-				</div>
+				</div> -->
 			</div>
 			<!-- END Page Title -->
 
@@ -145,7 +145,7 @@
 												<th
 														style="text-align: center; padding: 0px; align-items: center;"
 														width="60"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+														value="0" /> &nbsp;&nbsp;&nbsp;All</th>
 													<th width="180" style="text-align: center;" style="width: 150px">Mrn No</th>
 													<th width="150" style="text-align: center;" align="center">Date</th>
 													<th width="150"  style="text-align: center;" align="center">Vendor</th>
@@ -195,19 +195,19 @@
 
 														<td align="left" style="text-align: center;">
 														
-														<a href="javascript:genPdf(${ mrn.mrnId});"><abbr title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+														<a href="javascript:genPdf(${ mrn.mrnId});" title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></a>
 													
-														
+														&nbsp;&nbsp;&nbsp;
 														<a
-															href="${pageContext.request.contextPath}/showEditViewMrnDetail/${mrn.mrnId}"><span
+															href="${pageContext.request.contextPath}/showEditViewMrnDetail/${mrn.mrnId}" title="View/Edit"><span
 																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<%-- 	<a
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
 											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
 																<a
-															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" onClick="return confirm('Are you sure want to delete this record');"><span
-																class="fa fa-edit"></span></a>
+															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
+																class="fa fa-trash-o"></span></a>
 														</td>
 													</tr>
 												</c:forEach>

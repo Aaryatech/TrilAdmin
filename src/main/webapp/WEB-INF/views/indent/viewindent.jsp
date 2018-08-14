@@ -27,12 +27,12 @@
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
 			<div class="page-title">
-				<div>
+				<!-- <div>
 					<h1>
 						<i class="fa fa-file-o"></i>Indent Header
 					</h1>
 
-				</div>
+				</div> -->
 			</div>
 			<!-- END Page Title -->
 
@@ -133,7 +133,7 @@
 													<th
 														style="text-align: center; padding: 0px; align-items: center;"
 														width="60"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+														value="0" /> &nbsp;&nbsp;&nbsp;All</th>
 													<th width="180" style="text-align: center;"
 														style="width: 150px">Indent No</th>
 													<th width="100" style="text-align: center;" align="center">Date</th>
@@ -221,13 +221,13 @@
 																value="${indIsmonthly}" /></td>
 
 														<td align="left" style="text-align: center;"><a
-															href="javascript:genPdf(${indent.indMId});"><span
+															href="javascript:genPdf(${indent.indMId});" title="PDF"><span
 																class="glyphicon glyphicon glyphicon-file"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<a
-															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}"><span
-																class="glyphicon glyphicon-info-sign"></span></a> <a
-															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}" onClick="return confirm('Are you sure want to delete this record');"><span
-																class="glyphicon glyphicon-info-sign"></span></a></td>
+															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}" title="View/Edit"><span
+																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp; <a
+															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
+																class="glyphicon glyphicon-trash"></span></a></td>
 													</tr>
 												</c:forEach>
 
