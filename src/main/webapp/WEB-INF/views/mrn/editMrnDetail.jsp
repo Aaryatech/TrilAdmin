@@ -116,12 +116,12 @@ body {
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
 			<div class="page-title">
-				<div>
+				<!-- <div>
 					<h1>
 						<i class="fa fa-file-o"></i>
 					</h1>
 
-				</div>
+				</div> -->
 			</div>
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
@@ -133,8 +133,9 @@ body {
 								<i class="fa fa-bars"></i> Edit MRN
 							</h3>
 							<div class="box-tool">
-								<!-- <a href="">Back to List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a> -->
+							<a href="${pageContext.request.contextPath}/getMrnHeaders">Back
+									to List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
@@ -183,10 +184,33 @@ body {
 											</c:choose>
 										</select>
 									</div>
+									</div><!--End of form-group div  -->
 
+
+								<div class="form-group">
+
+
+									
+
+									<label class="col-sm-3 col-lg-2 control-label">Grn Date
+									</label>
+
+									<div class="col-sm-6 col-lg-4 controls">
+										<input class="form-control date-picker" id="grn_date" disabled
+											size="16" type="text" name="grn_date"
+											value="${mrnHeader.mrnDate}" required />
+									</div>
+									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="grn_no" id="grn_no"
+											value="${mrnHeader.mrnNo}" class="form-control"
+											placeholder="GRN No" data-rule-required="true" readonly="readonly" />
+									</div>
+								</div>
+<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">
 										Vendor </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-10">
 										<select name="vendor_id" id="vendor_id"
 											class="form-control chosen" placeholder="Vendor"  disabled="disabled"
 											data-rule-required="true">
@@ -200,28 +224,7 @@ body {
 										</select>
 									</div>
 
-								</div>
-
-								<div class="form-group">
-
-
-									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="grn_no" id="grn_no"
-											value="${mrnHeader.mrnNo}" class="form-control"
-											placeholder="GRN No" data-rule-required="true" readonly="readonly" />
-									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Grn Date
-									</label>
-
-									<div class="col-sm-6 col-lg-4 controls">
-										<input class="form-control date-picker" id="grn_date" disabled
-											size="16" type="text" name="grn_date"
-											value="${mrnHeader.mrnDate}" required />
-									</div>
-								</div>
-
+								</div><!--/form-grp  -->
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Gate
 										Entry No </label>
@@ -241,7 +244,7 @@ body {
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Chalan
+									<label class="col-sm-3 col-lg-2 control-label">Challan
 										No </label>
 
 									<div class="col-sm-6 col-lg-4 controls">
@@ -250,7 +253,7 @@ body {
 											data-rule-required="true" value="${mrnHeader.docNo}" />
 									</div>
 
-									<label class="col-sm-3 col-lg-2 control-label">Chalan
+									<label class="col-sm-3 col-lg-2 control-label">Challan
 										Date </label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input class="form-control date-picker" id="chalan_date"

@@ -55,13 +55,7 @@ public class MrnController {
 
 		ModelAndView model = null;
 		try {
-			HttpSession session= request.getSession();
 			
-			UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
-			
-			System.out.println("new Field Dept Id = "+userResponse.getUser().getDeptId());
-			System.out.println("User Name = "+userResponse.getUser().getUsername());
-
 			poIdList = new String();
 			poDetailList = new ArrayList<GetPODetail>();
 
@@ -75,6 +69,9 @@ public class MrnController {
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();
 			model.addObject("date", dateFormat.format(date));
+			model.addObject("poType", 0);
+			model.addObject("vendorId", 0);
+			model.addObject("poId", 0);
 			System.err.println("Inside show Add Mrn ");
 
 		} catch (Exception e) {

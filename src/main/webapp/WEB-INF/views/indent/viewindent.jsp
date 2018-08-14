@@ -7,7 +7,6 @@
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
-
 <body>
 	<div class="container" id="main-container">
 
@@ -225,9 +224,13 @@
 																class="glyphicon glyphicon glyphicon-file"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<a
 															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}" title="View/Edit"><span
-																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp; <a
+																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;
+																<c:if test="${indent.indMStatus==0}">
+																	 <a
 															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
-																class="glyphicon glyphicon-trash"></span></a></td>
+																class="glyphicon glyphicon-trash"></span></a>
+																</c:if>
+															</td>
 													</tr>
 												</c:forEach>
 
