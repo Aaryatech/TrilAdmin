@@ -488,7 +488,7 @@ public class GetpassController {
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
 				GetpassDetail getpassDetail = new GetpassDetail();
 				getpassDetail.setGpItemId(itemId);
-				getpassDetail.setItemCode(item.getItemCode());
+				getpassDetail.setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 				getpassDetail.setGpQty(qty);
 				getpassDetail.setIsUsed(1);
 				getpassDetail.setGpDetailId(0);
@@ -505,10 +505,9 @@ public class GetpassController {
 				int index = Integer.parseInt(editIndex);
 				addItemInGetpassDetail.get(index).setGpItemId(itemId);
 				addItemInGetpassDetail.get(index).setGpQty(qty);
-				addItemInGetpassDetail.get(index).setGpDetailId(0);
-
+				addItemInGetpassDetail.get(index).setGpDetailId(0); 
 				addItemInGetpassDetail.get(index).setGpReturnDate(newDate);
-				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode());
+				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 				addItemInGetpassDetail.get(index).setGpStatus(0);
 				addItemInGetpassDetail.get(index).setCatId(catId);
 				addItemInGetpassDetail.get(index).setGroupId(grpId);
@@ -748,9 +747,9 @@ public class GetpassController {
 			editGatepassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map,
 					GetpassHeaderItemName.class);
 
-			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
+			/*GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
-			model.addObject("itemList", itemList);
+			model.addObject("itemList", itemList);*/
 
 			System.out.println(editGatepassHeader);
 
@@ -845,7 +844,7 @@ public class GetpassController {
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
 				GetpassDetailItemName getpassDetail = new GetpassDetailItemName();
 				getpassDetail.setGpItemId(itemId);
-				getpassDetail.setItemCode(item.getItemCode());
+				getpassDetail.setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 				getpassDetail.setGpQty(qty);
 				getpassDetail.setIsUsed(1);
 				getpassDetail.setGpDetailId(0);
@@ -863,7 +862,7 @@ public class GetpassController {
 				editGatepassHeaderList.get(index).setGpItemId(itemId);
 				editGatepassHeaderList.get(index).setGpQty(qty);
 				editGatepassHeaderList.get(index).setGpReturnDate(newDate);
-				editGatepassHeaderList.get(index).setItemCode(item.getItemCode());
+				editGatepassHeaderList.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 				editGatepassHeaderList.get(index).setGpStatus(0);
 				editGatepassHeaderList.get(index).setCatId(catId);
 				editGatepassHeaderList.get(index).setGrpId(grpId);

@@ -101,6 +101,13 @@
 
 
 							<div class="box-content">
+							
+							<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 
 								<br /> <br />
 								<div class="clearfix"></div>
@@ -108,16 +115,15 @@
 									<table class="table table-advance" id="table1">
 										<thead>
 											<tr class="bgpink">
-												<th	style="text-align: left; padding: 0px; align-items: left;"
-														width="10%"  align="left"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+												<th	style="width:2%;"><input type="checkbox" name="name1"
+														value="0" /> All</th>
 														
-											<td	style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+											<%-- <td	style="text-align: left; padding: 0px; align-items: center; align-content: center;"
 															width="10%">&nbsp;&nbsp;<input type="checkbox"
-															name="name1" value="${passList.gpId}" /></td>
+															name="name1" value="${passList.gpId}" /></td> --%>
 										
-												<th class="col-sm-1">Sr no.</th>
-												<th class="col-md-1">Vendor Name</th>
+												<th style="width:2%;">Sr no.</th>
+												<th class="col-md-4">Vendor Name</th>
 												<th class="col-md-1">Gatepass No</th>
 												<th class="col-md-1">Return Date</th>
 												<th class="col-md-1">Remark</th>
@@ -334,7 +340,7 @@
 
 													var tr = $('<tr></tr>');
 													
-													 tr.append($('<td width=10%></td>')
+													 tr.append($('<td width=2%></td>')
 																.html('<input type="checkbox"  name="name1" value="'+ itemList.gpId +'"/>'));
 														 
 											
@@ -429,6 +435,31 @@
 			
 				
 		</script>
+		
+		<script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1,td2, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2]; 
+    if (td) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      } else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+ 
+</script>
 
 </body>
 </html>
