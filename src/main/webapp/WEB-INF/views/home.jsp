@@ -143,9 +143,9 @@ h6{
  
   <nav class="tabs1">
     <div class="selector1"></div>
-    <a href="#" class="active" onclick="enableDiv(1)" ><i class="glyphicon glyphicon-hand-up"></i>Indent Request</a>
-    <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending PO</a>
-    <a href="#" onclick="enableDiv(3)"><i class="fa fa-question-circle" ></i>Pending Mrn</a>
+    <a href="#" class="active" onclick="enableDiv(1)" ><i class="glyphicon glyphicon-hand-up"></i>Items Below ROL</a>
+    <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Indent Pending For PO</a>
+    <a href="#" onclick="enableDiv(3)"><i class="fa fa-question-circle" ></i>PO Raised Pending For Mrn</a>
   
   </nav>
 </div>
@@ -173,22 +173,27 @@ h6{
  
 								<div class="box-content">
 
-					
+					<!-- <div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label> 
+							<br /> <br /> -->
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
+						<table class="table table-advance" id="table">  
 									<thead>
 										<tr class="bgpink">
-										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/> Select All</th>
+										<th style="width:2%;"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
 										
-											<th class="col-sm-1">Sr No</th>
+											<th style="width:2%;">SR</th>
 											<th class="col-md-1">Item Code</th>
-											<th class="col-md-1">Name</th>
-											<th class="col-md-1">Item UOM</th>
-											<th class="col-md-1">Current  Stock</th>
-											<th class="col-md-1">ROL QTY</th>
-											<th class="col-md-1">Max Level</th>
-											<th class="col-md-1">Closing QTY</th>
+											<th class="col-md-5">Name</th>
+											<th class="col-md-1">UOM</th>
+											<th class="col-md-1">Current Stk </th>
+											<th class="col-md-1">ROL Qty</th>
+											<th class="col-md-1">Max Lvl</th> 
 										</tr>
 									</thead>
 									<tbody>
@@ -198,17 +203,17 @@ h6{
                             <c:choose>
                                   <c:when test="${categoryList.catId==lowReorderItemList.catId}"><c:set var="flag" value="1"/>
 											<tr>
-											<td class="col-sm-1"><input type="checkbox" name="select_to_approve"	id="select_to_approve" value="${lowReorderItemList.itemId}" />	
+											<td style="width:2%;"><input type="checkbox" name="select_to_approve"	id="select_to_approve" value="${lowReorderItemList.itemId}" />	
 											</td>
-											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
+											<td style="width:2%;"><c:out value="${count.index+1}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.itemCode}" /></td>
-												<td class="col-md-2"><c:out value="${lowReorderItemList.itemName}" /></td>
+												<td class="col-md-5"><c:out value="${lowReorderItemList.itemName}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.itemUom}" /></td>
-												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock}" /></td>
-												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
-												<td class="col-md-1"><c:out value="${lowReorderItemList.itemMaxLevel}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" /></td>
 											
+												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.itemMaxLevel}" /></td>
+												
 											</tr>
 										</c:when>
 									</c:choose>
@@ -426,13 +431,13 @@ h6{
 						<table class="table table-advance" id="table1">  
 									<thead>
 										<tr class="bgpink">
-										<th class="col-sm-1">Sr No</th>
+										<th style="width:2%;">Sr No</th>
 											<th class="col-md-1">Item Code</th>
-											<th class="col-md-1">Name</th>
-											<th class="col-md-1">Item UOM</th>
-											<th class="col-md-1">Qty</th>
-											<th class="col-md-1">Current Stock</th>
-											<th class="col-md-1">Date</th>
+											<th class="col-md-5">Name</th>
+											<th class="col-md-1">UOM</th>
+											<th class="col-md-1">Ind Qty</th>
+											<th class="col-md-1">Current Stk</th>
+											<th class="col-md-1">Sch Date</th>
 											<th class="col-md-1">Status</th>
 										</tr>
 									</thead>
@@ -440,14 +445,14 @@ h6{
 
 										<c:forEach items="${indentList.dashIndentDetailList}" var="indent" varStatus="count">
 											<tr>
-												<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${indent.itemCode}" /></td>
-												<td class="col-md-1"><c:out value="${indent.indItemDesc}" /></td>
-												<td class="col-md-1"><c:out value="${indent.indItemUom}" /></td>
- 												<td class="col-md-1"><c:out value="${indent.indQty}" /></td>
- 												<td class="col-md-1"><c:out value="${indent.indItemCurstk}" /></td>
- 												<td class="col-md-1"><c:out value="${indent.indItemSchddt}" /></td>
-										        <td class="col-md-1">
+												<td ><c:out value="${count.index+1}" /></td>
+												<td ><c:out value="${indent.itemCode}" /></td>
+												<td ><c:out value="${indent.indItemDesc}" /></td>
+												<td ><c:out value="${indent.indItemUom}" /></td>
+ 												<td ><c:out value="${indent.indQty}" /></td>
+ 												<td ><c:out value="${indent.indItemCurstk}" /></td>
+ 												<td ><c:out value="${indent.indItemSchddt}" /></td>
+										        <td >
 										        <c:choose>
 										        <c:when test="${indent.indDStatus==0}">
 										          <c:out value="Pending"/>
@@ -733,6 +738,33 @@ function enableDiv(status) {
 	}
 }
 </script>
-
+<script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1,td2, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    td1 = tr[i].getElementsByTagName("td")[3]; 
+    if (td || td1 ) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      } 
+    	      else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+ 
+</script>
 </body>
 </html>

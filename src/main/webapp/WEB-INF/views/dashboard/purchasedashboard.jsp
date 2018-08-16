@@ -208,7 +208,7 @@ h6{
  
   <nav class="tabs1">
     <div class="selector1"></div>
-    <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart "></i>Pending Purchase Order</a>
+    <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart "></i>Indent Pending</a>
     <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending MRN</a>
     <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Consumption Report</a>
     <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
@@ -220,7 +220,7 @@ h6{
  
   <nav class="tabs2">
     <div class="selector2"></div>
-    <a href="#" class="active" onclick="enableDiv1(1)" ><i class="fa fa-question-circle"></i>Pending PO</a>
+    <a href="#" class="active" onclick="enableDiv1(1)" ><i class="fa fa-question-circle"></i>For PO</a>
     <a href="#"  onclick="enableDiv1(2)" ><i class="fa fa-question-circle"></i>Partial PO </a>
     <a href="#" onclick="enableDiv1(3)"><i class="fa fa-question-circle" ></i>Enquiry</a>
     <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
@@ -493,7 +493,7 @@ h6{
 												<td class="col-md-1"><c:out value="${indent.poDate}" /></td>
 												<td class="col-md-1"><c:choose><c:when test="${indent.poType==1}">Regular</c:when><c:when test="${indent.poType==2}">Job Work</c:when><c:when test="${indent.poType==3}">General</c:when></c:choose></td>
 												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==1}">Pending For MRN</c:when></c:choose></td>
-												<td><a>PO Done List  </a><span style="visibility: hidden;" class="glyphicon glyphicon-list" onclick="submit('+key+');" id="ok'+key+'"></span></td>
+												<td><a>Detail </a><span style="visibility: hidden;" class="glyphicon glyphicon-list" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
 										</c:forEach>
