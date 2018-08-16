@@ -1,6 +1,10 @@
 package com.ats.tril.model;
 
 
+/**
+ * @author ats-11
+ *
+ */
 public class GetPODetail {
 	
 	private int poDetailId;
@@ -64,9 +68,18 @@ public class GetPODetail {
 	
 	private int chalanQty;
 	
+	private int tempIsDelete;
 	
 	
 	
+	
+	
+	public int getTempIsDelete() {
+		return tempIsDelete;
+	}
+	public void setTempIsDelete(int tempIsDelete) {
+		this.tempIsDelete = tempIsDelete;
+	}
 	public int getChalanQty() {
 		return chalanQty;
 	}
@@ -271,7 +284,7 @@ public class GetPODetail {
 				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
 				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + ", itemName="
 				+ itemName + ", uom=" + uom + ", poNo=" + poNo + ", receivedQty=" + receivedQty + ", chalanQty="
-				+ chalanQty + "]";
+				+ chalanQty + ", tempIsDelete=" + tempIsDelete + "]";
 	}
 	
 	

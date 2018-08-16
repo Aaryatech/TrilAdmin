@@ -42,6 +42,7 @@ import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.mrn.PoItemForMrnEdit;
 import com.ats.tril.model.po.PoHeader;
 import com.itextpdf.text.pdf.PdfMediaClipData;
+import com.steadystate.css.parser.selectors.PseudoElementSelectorImpl;
 import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @Controller
@@ -49,6 +50,11 @@ import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 public class MrnController {
  
 	RestTemplate rest = new RestTemplate();
+	
+	
+	String poIdList = new String();
+	List<GetPODetail> poDetailList = new ArrayList<GetPODetail>();
+
 
 	@RequestMapping(value = "/showAddMrn", method = RequestMethod.GET)
 	public ModelAndView showAddMrn(HttpServletRequest request, HttpServletResponse response) {
@@ -64,7 +70,10 @@ public class MrnController {
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
-
+			for(int i=0;i<vendorList.size();i++) {
+				vendorList.get(i).setVendorName(vendorList.get(i).getVendorCode()+"-"+vendorList.get(i).getVendorName());
+			}
+			
 			model.addObject("vendorList", vendorList);
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();
@@ -119,12 +128,10 @@ public class MrnController {
 		return poHeadList;
 	}
 
-	String poIdList = new String();
-	List<GetPODetail> poDetailList = new ArrayList<GetPODetail>();
-
+	
 	@RequestMapping(value = { "/getPODetailList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetPODetail> getPODetails(HttpServletRequest request, HttpServletResponse response) {
-
+System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 		GetPODetail[] poDetailRes;
 		try {
 			poIdList = new String();
@@ -142,7 +149,93 @@ public class MrnController {
 				map.add("poIdList", poIdList);
 
 				poDetailRes = rest.postForObject(Constants.url + "/getPODetailList", map, GetPODetail[].class);
-				poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
+				System.err.println("poDetail response  " +poDetailRes.toString());
+				
+				List<GetPODetail> tempPoDList=null;
+				
+				
+				tempPoDList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
+				
+					System.err.println("tempPoDList  " +tempPoDList.toString());
+						
+				if(poDetailList!=null) {
+					System.err.println("poDId list not empty ");
+					
+					for(int i=0;i<tempPoDList.size();i++) {
+						int flag=0;
+						for(int j=0;j<poDetailList.size();j++) {
+							
+							if(tempPoDList.get(i).getPoDetailId()==poDetailList.get(j).getPoDetailId()) {
+							flag=1;
+								
+							}//end of poId Match
+							
+						}
+						if(flag==0) {
+						poDetailList.add(tempPoDList.get(i));
+						System.err.println("Record Added ");
+						}
+					}
+					
+					//code  here
+					List<GetPODetail> poDetList1=new ArrayList<GetPODetail>();
+					//poDetList1=poDetailList;
+					
+					for(int k=0;k<poDetailList.size();k++) {
+						
+						poDetList1.add(poDetailList.get(k));
+					}
+					System.err.println("poDetList1 before =" +poDetList1.toString());
+					System.err.println("tempPoDList111111  =" +tempPoDList.toString());
+
+
+					for(int a=0;a<poDetList1.size();a++) {
+						System.err.println("Inside poDetList1  index a = "+a);
+						int flag1=0;
+						System.err.println("tempPoDList === size" +tempPoDList.size());
+						System.err.println("tempPoDList111111  =" +tempPoDList.toString());
+						for(int p=0;p<tempPoDList.size();p++) {
+							System.err.println("Inside tempPoDList  index p = "+p);
+
+							if(poDetList1.get(a).getPoDetailId()==tempPoDList.get(p).getPoDetailId()) {
+								
+								System.err.println("Item code "+poDetList1.get(a).getItemCode());
+								flag1=1;
+								
+							}//end of match
+						}//end of b for
+						
+						if(flag1==0) {
+							poDetList1.get(a).setTempIsDelete(1);
+						}
+						
+					}//end of a for
+					
+					System.err.println("poDetList1 =" +poDetList1.toString());
+
+					
+					poDetailList=new ArrayList<>();
+					
+					for(int a=0;a<poDetList1.size();a++) {
+						
+						if(poDetList1.get(a).getTempIsDelete()==0) {
+							
+							poDetailList.add(poDetList1.get(a));
+							
+						}
+						
+					}
+					
+					
+				}//end of if poDetailList.size>0
+				
+				else {
+					System.err.println("Else new List : First call");
+					poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));	
+					
+				}
+				
+				//poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
 
 			//} // end of if poIdList is Empty
 

@@ -2,6 +2,29 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 <style>
 body {
 	font-family: Arial, Helvetica, sans-serif;
@@ -89,7 +112,7 @@ body {
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
-	<c:url var="getPODetailList" value="/getpoDetailForEditMrn" />
+	<c:url var="getpoDetailForEditMrn" value="/getpoDetailForEditMrn" />
 
 	<c:url var="getTempPoDetail" value="/getTempPoDetail" />
 
@@ -304,14 +327,12 @@ body {
 														style="width: 100%" id="table_grid2">
 														<thead>
 															<tr>
-																<th  class="col-md-1" style="text-align: center;">Sr.No.</th>
-																<th  class="col-md-2" style="text-align: center;">Item Code</th>
-																<th  class="col-md-3" style="text-align: center;">Item Name</th>
+																<th   style="text-align: center; width: 2%">Sr</th>
+																<th  class="col-md-1" style="text-align: center;">Item</th>
 																<th  class="col-md-1" style="text-align: center;">PO QTY</th>
 																<th  class="col-md-1" style="text-align: center;">Rec QTY</th>
 																<th  class="col-md-1" style="text-align: center;">Pend QTY</th>
 																<th  class="col-md-1" style="text-align: center;">Po No</th>
-																
 																<th  class="col-md-1" style="text-align: center;">Status</th>
 															</tr>
 														</thead>
@@ -343,9 +364,8 @@ body {
 												style="width: 100%" id="table_grid1">
 												<thead>
 													<tr>
-														<th  class="col-md-1" style="text-align: center;">Sr.No.</th>
-														<th  class="col-md-2" style="text-align: center;" >Item Code</th>
-														<th  class="col-md-3" style="text-align: center;">Item Name</th>
+														<th   style="text-align: center; width: 2%;">Sr</th>
+														<th  class="col-md-1" style="text-align: center;">Item </th>
 														<th  class="col-md-1" style="text-align: center;">PO QTY</th>
 														<th  class="col-md-1" style="text-align: center;">Mrn QTY</th>
 														<th  class="col-md-1" style="text-align: center;">PO No</th>
@@ -360,12 +380,12 @@ body {
 
 														<tr>
 
-															<td class="col-md-1" style="text-align: center;"><c:out
+															<td style="text-align: center; width: 2%;"><c:out
 																	value="${count.index+1}" /></td>
-															<td class="col-md-2" style="text-align: center;"><c:out
-																	value="${mrnDetail.itemCode}" /></td>
-															<td class="col-md-3" style="text-align: center;"><c:out
-																	value="${mrnDetail.itemName}" /></td>
+														
+															<td class="col-md-1" style="text-align: center;">
+															<div title="${mrnDetail.itemName}">${mrnDetail.itemCode}</div>
+															</td>
 															<c:set var="status" value="o"></c:set>
 															<c:choose>
 																<c:when test="${mrnDetail.mrnDetailStatus==0}">
@@ -386,10 +406,10 @@ body {
 																	value="${mrnDetail.poQty}" /></td>
 
 															<td class="col-md-1" style="text-align: center;">
-															<input type="text" style="text-align: center;" class="form-control" id="mrnRecQty${mrnDetail.mrnDetailId}" onchange="updateMrnQty(this.value,${mrnDetail.mrnDetailId},${mrnDetail.itemId},${mrnDetail.mrnQty},${mrnDetail.poPendingQty})" name="mrnRecQty${mrnDetail.mrnDetailId}" value="${mrnDetail.mrnQty}">
+															<input type="text" style="text-align: center;"  class="form-control" id="mrnRecQty${mrnDetail.mrnDetailId}" onchange="updateMrnQty(this.value,${mrnDetail.mrnDetailId},${mrnDetail.itemId},${mrnDetail.mrnQty},${mrnDetail.poPendingQty})" name="mrnRecQty${mrnDetail.mrnDetailId}" value="${mrnDetail.mrnQty}">
 															</td>
 
-															<td class="col-md-1" style="tsext-align: center;"><c:out
+															<td class="col-md-1" style="text-align: center;"><c:out
 																	value="${mrnDetail.poNo}" /></td>
 
 															<td class="col-md-1" style="text-align: center;"><c:out
@@ -408,7 +428,10 @@ body {
 										</div>
 									</div>
 								</div>
-
+<div class="col-md-5"></div>
+					<button class="buttonload" id="loader" style="display: none">
+						<i class="fa fa-spinner fa-spin" style="color: red;"></i>Loading
+					</button>
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Transport
 									</label>
@@ -458,9 +481,6 @@ body {
 						
 						onclick="editMrn()" class="btn btn-info" value="Edit Mrn">
 
-					<button class="buttonload" id="loader" style="display: none">
-						<i class="fa fa-spinner fa-spin"></i>Loading
-					</button>
 					</div>
 					</div>
 				</div>
@@ -551,14 +571,14 @@ body {
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 	<script type="text/javascript">
 			function getPoDetail() {
-				alert("Hiii out");
+				//alert("Hiii out");
 				//alert("inside Indent Insetr");
 
 				//alert("called Button")
 				//var selectedPoIds = $("#po_list").val();
 				//alert(" Selected PO Id  " + selectedPoIds);
 
-				$.getJSON('${getPODetailList}', {
+				$.getJSON('${getpoDetailForEditMrn}', {
 				/* 	poIds : JSON.stringify(selectedPoIds),
 					qty	: qty,
 					poDId : poDId, */
@@ -573,20 +593,26 @@ body {
 					}
 
 					$.each(data, function(key, itemList) {
-						alert("data received "+data[0]);
+						//alert("data received "+data[0]);
 						
 						var tr = $('<tr></tr>');
+						if (itemList.receivedQty > 0) {
+							tr = $('<tr bgcolor=#ec9da5></tr>');
+
+						}//16 aug-2018 If
+
 						
-						
-						tr.append($('<td></td>').html(key + 1));
-						tr.append($('<td></td>').html(itemList.itemCode));
-						tr.append($('<td></td>').html(itemList.itemName));
-						tr.append($('<td></td>').html(itemList.itemQty));
+						tr.append($('<td style="width:2%;text-align: center;"></td>').html(key + 1));
+						tr
+						.append($(
+								'<td class="col-md-1" style="text-align: center;"></td>')
+								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+						tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.itemQty));
 						
 						tr
 						.append($(
-								'<td></td>')
-						.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
+								'<td class="col-md-1" style="text-align: center;"></td>')
+						.html("<input type=text style='text-align:center;' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
 				/* 		var pendQty=0;
 						if(itemList.receivedQty==0){
 							
@@ -599,8 +625,8 @@ body {
 
 
 
-	tr.append($('<td></td>').html(pendQty));
-						tr.append($('<td></td>').html(itemList.poNo));
+	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQty));
+						tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
 						var status;
 						if(itemList.status==0){
 							status="Pending";
@@ -664,7 +690,7 @@ body {
 			//var selectedPoIds = $("#po_list").val();
 			//alert(" Selected PO Id  " + selectedPoIds);
 
-			$.getJSON('${getPODetailList}', {
+			$.getJSON('${getpoDetailForEditMrn}', {
 			/* 	poIds : JSON.stringify(selectedPoIds),*/
 				qty	: qty,
 				poDId : poDId, 
@@ -685,16 +711,22 @@ body {
 					
 					var tr = $('<tr></tr>');
 					
-					
-					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(itemList.itemCode));
-					tr.append($('<td></td>').html(itemList.itemName));
-					tr.append($('<td></td>').html(itemList.itemQty));
+					if (itemList.receivedQty > 0) {
+						tr = $('<tr bgcolor=#ec9da5></tr>');
+
+					}//16 aug-2018 If
+
+					tr.append($('<td style="width:2%; text-align: center;"></td>').html(key + 1));
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.itemQty));
 					
 					tr
 					.append($(
-							'<td></td>')
-					.html("<input type=text style='text-align:right; width:90px' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
+							'<td class="col-md-1" style="text-align: center;"></td>')
+					.html("<input type=text style='text-align:center;' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
 			/* 		var pendQty=0;
 					if(itemList.receivedQty==0){
 						
@@ -707,8 +739,8 @@ body {
 
 
 
-tr.append($('<td></td>').html(pendQty));
-					tr.append($('<td></td>').html(itemList.poNo));
+tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQty));
+					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
 					var status;
 					if(itemList.status==0){
 						status="Pending";
@@ -784,7 +816,7 @@ tr.append($('<td></td>').html(pendQty));
 			
 			//alert("po pend " +poPendingQty);
 			//alert("oldMrnQty " +oldMrnQty);
-			
+			$('#loader').show();
 			var newQty=parseInt(oldMrnQty)+parseInt(poPendingQty);
 			if(qty<=newQty){
 			$.getJSON('${getMrnDetail}', {
@@ -804,14 +836,17 @@ tr.append($('<td></td>').html(pendQty));
 					//alert(itemList.itemCode)
 					var tr = $('<tr></tr>');
 
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key));
-					tr.append($('<td class="col-md-2" style="text-align: center;" ></td>').html(itemList.itemCode));
-					tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
+					tr.append($('<td  style="text-align: center; width:2%;"></td>').html(key+1));
+					tr
+					.append($(
+							'<td class="col-md-1" style="text-align: center;"></td>')
+							.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+					//tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
 					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poQty));
 					tr
 					.append($(
 							'<td class="col-md-1" style="text-align: center;"></td>')
-					.html("<input type=text  style='text-align:right; width:90px'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
+					.html("<input type=text  style='text-align:center;'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
 										
 					var status;
 					if(itemList.mrnDetailStatus==0){
@@ -838,9 +873,12 @@ tr.append($('<td></td>').html(pendQty));
 			});
 			}//end of if
 			else{
+				
 				alert("Edited Qty Limit Exceeds");
 				//$('#mrnRecQty'+detailId).value=oldMrnQty;
+				
 				document.getElementById("mrnRecQty"+detailId).value=oldMrnQty;
+				$('#loader').hide();
 			}
 		}
 	</script>
@@ -861,7 +899,7 @@ tr.append($('<td></td>').html(pendQty));
 
 		function tempSubmit(mrnId) {
 			//alert(mrnId);
-			
+				$('#loader').show();
 			
 				$.getJSON('${submitNewMrnItemOnEdit}', {
 				mrnId : mrnId,
@@ -880,14 +918,19 @@ tr.append($('<td></td>').html(pendQty));
 					//alert(itemList.itemCode)
 					var tr = $('<tr></tr>');
 
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(key+1));
-					tr.append($('<td class="col-md-2" style="text-align: center;" ></td>').html(itemList.itemCode));
-					tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
+					tr.append($('<td  style="text-align: center; width:2%;"></td>').html(key+1));
+					//tr.append($('<td class="col-md-2" style="text-align: center;" ></td>').html(itemList.itemCode));
+					//tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
+					tr
+																				.append($(
+																						'<td class="col-md-1" style="text-align: center;"></td>')
+																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+				
 					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poQty));
 					tr
 					.append($(
 							'<td class="col-md-1" style="text-align: center;"></td>')
-					.html("<input type=text  style='text-align:right; width:90px'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
+					.html("<input type=text  style='text-align:center;'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
 										
 					var status;
 					if(itemList.mrnDetailStatus==0){

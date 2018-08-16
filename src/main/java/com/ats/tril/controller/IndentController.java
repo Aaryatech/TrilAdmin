@@ -217,6 +217,12 @@ public class IndentController {
 			ItemList resList = restTemplate.postForObject(Constants.url + "itemListByGroupId", map, ItemList.class);
 
 			itemList = resList.getItems();
+			
+			for(int i=0;i<itemList.size();i++) {
+				
+				itemList.get(i).setItemDesc(itemList.get(i).getItemCode()+"-"+itemList.get(i).getItemDesc());
+				
+			}
 
 		} catch (Exception e) {
 
@@ -397,6 +403,7 @@ public class IndentController {
 			if (key == -1) {
 				System.err.println("Add Call Indent");
 				String itemName = request.getParameter("itemName");
+				
 				String remark = request.getParameter("remark");
 				int itemId = Integer.parseInt(request.getParameter("itemId"));
 				System.err.println("Item Id " + itemId);

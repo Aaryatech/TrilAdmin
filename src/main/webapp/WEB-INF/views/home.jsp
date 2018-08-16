@@ -676,7 +676,9 @@ function getPoList() {
 										  	tr.append($('<td></td>').html('CLOSED'));
 									 		} else
 									 			{
-									 			tr.append($('<td></td>').html('MRN'));
+									 			//tr.append($('<td></td>').html('MRN'));
+									 			
+												tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html("<a href='${pageContext.request.contextPath}/showAddMrn/"+poList.poType+"/"+poList.vendId+"/"+poList.poId+"/"+poList.poNo+"' title='Add MRN' class='action_btn'><i class='fa fa-plus'></i></a>"));
 									 			}
 										 	
 										 	$('#mrnTable tbody').append(tr);
