@@ -267,12 +267,28 @@
 										<input class="form-control" id="noOfDays"
 											placeholder="No of Days" type="text" name="noOfDays">
 									</div>
-									<div class="col-md-2">
+									 
+							 
+								</div><br>
+								
+								<div class="box-content">
+								
+								<div class="col-md-2">Remark</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Remark"
+											class="form-control" />
+
+									</div>
+									  
+								</div><br><br>
+								
+								<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="button" class="btn btn-primary" value="Add Item"
 											onclick="addItem()">
 									</div>
-									<br> <br>
-								</div>
+								</div><br>
+								
 								<div align="center" id="loader" style="display: none">
 
 									<span>
@@ -297,7 +313,7 @@
 														<th class="col-md-5">Name</th>
 														<th class="col-md-1">Qty</th>
 														<th class="col-md-1">No Of Days</th>
-
+														<th class="col-md-1">Remark</th>
 														<th class="col-md-1">Action</th>
 
 													</tr>
@@ -308,16 +324,19 @@
 														items="${editGetpassHeader.getpassDetailItemNameList}"
 														var="getpassDetailItemNameList" varStatus="count">
 														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+															<td><c:out value="${count.index+1}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${getpassDetailItemNameList.itemCode}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${getpassDetailItemNameList.gpQty}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${getpassDetailItemNameList.gpNoDays}" /></td>
+																	
+															<td><c:out
+																	value="${getpassDetailItemNameList.remark}" /></td>
 
 
 															<td><a href="#"><span
@@ -500,6 +519,7 @@
 								document.getElementById("catId").value = data.catId;
 								document.getElementById("noOfDays").value = data.gpNoDays;
 								$('#catId').trigger("chosen:updated");
+								document.getElementById("remark").value = data.remark;
 
 								$
 										.getJSON(
@@ -574,7 +594,7 @@
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
 			var noOfDays = $("#noOfDays").val();
-
+			var remark = $("#remark").val();
 			var editIndex = $("#editIndex").val();
 
 			$('#loader').show();
@@ -591,6 +611,7 @@
 								grpId : grpId,
 								noOfDays : noOfDays,
 								editIndex : editIndex,
+								remark : remark,
 								ajax : 'true'
 
 							},
@@ -631,6 +652,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpNoDays));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(
@@ -659,6 +685,9 @@
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
+								document.getElementById("remark").value = "";
+								document.getElementById("noOfDays").value = "";
+								
 							});
 
 		}
@@ -750,6 +779,11 @@
 															'<td></td>')
 															.html(
 																	itemList.gpNoDays));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(

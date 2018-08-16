@@ -242,14 +242,29 @@
 									<div class="col-md-2">No of Days</div>
 									<div class="col-md-3">
 										<input class="form-control" id="noOfDays"
-											placeholder="No of Days" type="text" name="noOfDays" />
+											placeholder="No of Days" type="text" name="noOfDays" required/>
 									</div>
-									<div class="col-md-2">
+									 
+									
+								</div><br> 
+								
+								<div class="box-content">
+								<div class="col-md-2">Remark</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Remark"
+											class="form-control"/>
+
+									</div>
+									 
+								</div><br> <br> 
+								
+								<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="button" class="btn btn-primary" value="Add Item"
 											onclick="addItem()">
 									</div>
-									<br> <br>
-								</div>
+								</div><br> 
+								
 								<div align="center" id="loader" style="display: none">
 
 									<span>
@@ -270,12 +285,12 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Name</th>
-														<th>Qty</th>
-														<th>No Of Days</th>
-
-														<th>Action</th>
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-5">Name</th>
+														<th class="col-md-1">Qty</th>
+														<th class="col-md-1">No Of Days</th>
+														<th class="col-md-1">Remark</th>
+														<th class="col-md-1">Action</th>
 
 													</tr>
 												</thead>
@@ -448,6 +463,7 @@
 								$('#loader').hide();
 								document.getElementById("editIndex").value = key;
 								document.getElementById("qty").value = data.gpQty;
+								document.getElementById("remark").value = data.remark;
 								document.getElementById("catId").value = data.catId;
 								document.getElementById("noOfDays").value = data.gpNoDays;
 								$('#catId').trigger("chosen:updated");
@@ -526,7 +542,7 @@
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
 			var noOfDays = $("#noOfDays").val();
-
+			var remark = $("#remark").val();
 			var editIndex = $("#editIndex").val();
 
 			$('#loader').show();
@@ -542,6 +558,7 @@
 								catId : catId,
 								grpId : grpId,
 								noOfDays : noOfDays,
+								remark : remark,
 								editIndex : editIndex,
 								ajax : 'true'
 
@@ -579,6 +596,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpNoDays));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(
@@ -606,6 +628,8 @@
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
+								document.getElementById("remark").value = "";
+								document.getElementById("noOfDays").value = "";
 							});
 
 		}
@@ -689,6 +713,16 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpQty));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.gpNoDays));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(
