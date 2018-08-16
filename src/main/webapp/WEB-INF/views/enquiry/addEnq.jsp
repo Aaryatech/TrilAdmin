@@ -186,11 +186,10 @@ body {
 								<div class="box-content">
 
 									<div class="col-md-2">Enquiry Remark</div>
-									<div class="col-md-3">
-										<textarea rows="2"  cols="95" id="enqRemark"
-											placeholder="Enquiry Remark"   name="enqRemark"
-											>${enqRemarkTemp}
-										</textarea>
+									<div class="col-md-10">
+									<input class="form-control" id="enqRemark" size="16"
+									 placeholder="Enquiry Remark" value="${enqRemarkTemp}" type="text" name="enqRemark"    />
+										 
 									</div>
 
 								</div>
@@ -257,12 +256,12 @@ body {
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Item Name</th>
-														<th>UOM</th>
-														<th>Enq QTY</th>
-														<th>Remark</th>
-
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-5">Item Name</th> 
+														<th class="col-md-1">Enq QTY</th>
+														<th class="col-md-1">Date</th>
+														<th class="col-md-1">Remark</th>
+														 
 													</tr>
 												</thead>
 												<tbody>
@@ -276,11 +275,12 @@ body {
 
 															<td align="left"><c:out
 																	value="${enqDetailList.itemCode}" /></td>
-															<td align="left"><c:out
-																	value="${enqDetailList.enqUom}" /></td>
-
+															 
 															<td align="right"><c:out
 																	value="${enqDetailList.enqQty}" /></td>
+																	
+															<td align="right"><c:out
+																	value="${enqDetailList.enqDetailDate}" /></td>
 
 															<td align="right"><c:out
 																	value="${enqDetailList.enqRemark}" /></td>

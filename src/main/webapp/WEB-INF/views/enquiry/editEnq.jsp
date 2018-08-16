@@ -91,9 +91,8 @@ body {
 
 	<c:url var="addItmeInEnquiryList" value="/addItmeInEnquiryList"></c:url>
 	<c:url var="editItemInAddEnquiry" value="/editItemInAddEnquiry"></c:url>
-	<c:url var="deleteItemFromEnquiry" value="/deleteItemFromEnquiry"></c:url>
-	<c:url var="geIntendDetailByIndIdForEnquiry"
-		value="/geIntendDetailByIndIdForEnquiry"></c:url>
+	<c:url var="deleteItemFromEditEnquiryFromIndend" value="/deleteItemFromEditEnquiryFromIndend"></c:url>
+	<c:url var="geIntendDetailByIndIdForEditEnquiry" value="/geIntendDetailByIndIdForEditEnquiry"></c:url>
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -155,7 +154,7 @@ body {
 									<div class="col-md-3">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
-											tabindex="6">
+											>
 											<c:forEach items="${vendorList}" var="vendorList">
 												<c:choose>
 													<c:when test="${vendorList.vendorId==editEnquiry.vendId}">
@@ -175,7 +174,7 @@ body {
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
 											placeholder="Enquiry Date" name="enqDate" type="text"
-											onblur="getInvoiceNo()" value="${editEnquiry.enqDate}"
+											  value="${editEnquiry.enqDate}"
 											required>
 									</div>
 								</div>
@@ -184,10 +183,13 @@ body {
 								<div class="box-content">
 
 									<div class="col-md-2">Enquiry Remark</div>
-									<div class="col-md-3">
-										<textarea rows="2" cols="95" id="enqRemark"
+									<div class="col-md-10">
+									<input class="form-control" id="enqRemark" size="16"
+											placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}"
+											type="text" name="enqRemark" />
+										<%-- <textarea rows="2" cols="95" id="enqRemark"
 											placeholder="Enquiry Remark" type="text" name="enqRemark">${editEnquiry.enqRemark}
-										</textarea>
+										</textarea> --%>
 									</div>
 
 								</div>
@@ -244,33 +246,40 @@ body {
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-
-														<th>UOM</th>
-														<th>Enq QTY</th>
-														<th>Remark</th>
-
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-5">Item Name</th> 
+														<th class="col-md-1">Enq QTY</th>
+														<th class="col-md-1">Date</th>
+														<th class="col-md-1">Action</th>
 													</tr>
 												</thead>
 												<tbody>
 
 													<c:forEach items="${detailList}" var="detailList"
 														varStatus="count">
+														
+														<c:choose>
+															<c:when test="${detailList.delStatus==1}">
+															<tr>
 
-														<tr>
+															<td  ><c:out value="${count.index+1}" /></td>
 
-															<td><c:out value="${count.index+1}" /></td>
-
-
-															<td align="left"><c:out value="${detailList.enqUom}" /></td>
-
-															<td align="right"><c:out
+															<td ><c:out value="${detailList.itemCode}" /></td> 
+															<td ><c:out
 																	value="${detailList.enqQty}" /></td>
 
-															<td align="right"><c:out
-																	value="${detailList.enqRemark}" /></td>
+															<td ><c:out
+																	value="${detailList.enqDetailDate}" /></td>
+															<td> 
+																<a href="#"><span class="glyphicon glyphicon-remove"
+																	onclick="del(${count.index})" id="del${count.index}"></span></a>
+															</td>
 
 														</tr>
+															</c:when>
+														</c:choose>
+
+														
 													</c:forEach>
 
 												</tbody>
@@ -479,7 +488,7 @@ body {
 			$('#loader').show();
 			$
 					.getJSON(
-							'${geIntendDetailByIndIdForEnquiry}',
+							'${geIntendDetailByIndIdForEditEnquiry}',
 
 							{
 
@@ -561,7 +570,51 @@ body {
 							});
 
 		}
+		function del(key)
+		{
+			
+			var key=key;
+			$('#loader').show();
+			$
+			.getJSON(
+					'${deleteItemFromEditEnquiryFromIndend}',
 
+					{
+						 
+						index : key,
+						ajax : 'true'
+
+					},
+					function(data) {
+						
+						$('#table_grid td').remove();
+						$('#loader').hide();
+
+						if (data == "") {
+							alert("No records found !!");
+
+						}
+					 
+
+					  $.each( data,
+									function(key, itemList) {
+									 if(itemList.delStatus==1)
+										 {
+										var tr = $('<tr></tr>'); 
+									  	tr.append($('<td></td>').html(key+1)); 
+									  	tr.append($('<td></td>').html(itemList.itemCode)); 
+									  	tr.append($('<td></td>').html(itemList.enqQty));
+									  	tr.append($('<td></td>').html(itemList.enqDetailDate));
+									  	tr.append($('<td></td>').html(' <a href="#"><span class="glyphicon glyphicon-remove" onclick="del('+key+')" id="del'+key+'"></span></a>'));
+									    $('#table_grid tbody').append(tr);
+										 }
+									  	
+									})
+						
+					});
+			
+			
+		}
 		function getValue() {
 
 			document.getElementById("vendIdTemp").value = document

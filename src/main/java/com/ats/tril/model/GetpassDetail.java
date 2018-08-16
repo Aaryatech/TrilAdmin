@@ -15,7 +15,7 @@ public class GetpassDetail {
 	private String itemCode;
 	private int catId;
 	private int groupId;
-
+	private String remark;
 	private float gpRemQty;
 	private float gpRetQty;
 
@@ -124,12 +124,20 @@ public class GetpassDetail {
 		this.gpRetQty = gpRetQty;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetail [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId + ", gpQty="
 				+ gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus
 				+ ", isUsed=" + isUsed + ", itemCode=" + itemCode + ", catId=" + catId + ", groupId=" + groupId
-				+ ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + "]";
+				+ ", remark=" + remark + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + "]";
 	}
 
 }

@@ -67,35 +67,8 @@
 
 							<form id="submitMaterialStore"
 								action="${pageContext.request.contextPath}/insertGetpassReturnable"
-								method="post">
-
-
-								<div class="box-content">
-
-									<div class="col-md-2">Select Gatepass Vendor</div>
-									<div class="col-md-3">
-
-										<select name="vendId" id="vendId" class="form-control chosen"
-											tabindex="6" required>
-											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList">
-												<option value="${vendorList.vendorId}"><c:out
-														value="${vendorList.vendorName}"></c:out>
-												</option>
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-2">Gate Pass No</div>
-									<div class="col-md-3">
-										<input class="form-control" id="gpNo"  placeholder="Getpass No"
-											type="text" name="gpNo" />
-									</div>
-
-
-								</div>
-								<br>
-
+								method="post"> 
+								
 								<div class="box-content">
 
 									<div class="col-md-2">Gatepass Date*</div>
@@ -105,7 +78,47 @@
 
 
 									</div>
+									
+									<div class="col-md-2">Gate Pass No</div>
+									<div class="col-md-3">
+										<input class="form-control" id="gpNo"  placeholder="Getpass No"
+											type="text" name="gpNo" readonly/>
+									</div>
+ 
+								</div>
+								<br>
+								
+								<div class="box-content">
 
+									<div class="col-md-2">Select Gatepass Vendor</div>
+									<div class="col-md-10">
+
+										<select name="vendId" id="vendId" class="form-control chosen"
+											tabindex="6" required>
+											<option value="">Select Vendor</option>
+											<c:forEach items="${vendorList}" var="vendorList">
+												<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}
+												</option>
+											</c:forEach>
+										</select>
+
+									</div>
+									 
+
+								</div>
+								<br>
+								
+								<div class="box-content">
+
+									<div class="col-md-2">Return For*</div>
+									<div class="col-md-3">
+										<select name="returnFor" id="returnFor"
+											class="form-control chosen" tabindex="6" required>
+											<option value="0">Repair</option>
+											<option value="1">Replace</option>
+										</select>
+									</div>
+									
 									<div class="col-md-2">Stockable</div>
 									<div class="col-md-3">
 										<select name="stock" id="stock" class="form-control chosen"
@@ -114,8 +127,12 @@
 											<option value="1">No</option>
 										</select>
 									</div>
+
+
 								</div>
 								<br>
+
+								
 								<div class="box-content">
 									<div class="col-md-2">Sending With</div>
 									<div class="col-md-3">
@@ -136,14 +153,7 @@
 								<br>
 
 								<div class="box-content">
-									<div class="col-md-2">Return For*</div>
-									<div class="col-md-3">
-										<select name="returnFor" id="returnFor"
-											class="form-control chosen" tabindex="6" required>
-											<option value="0">Repair</option>
-											<option value="1">Replace</option>
-										</select>
-									</div>
+									
 
 								</div>
 								<br />
@@ -171,7 +181,7 @@
 										</select>
 
 									</div>
-									<div class="box-content">
+									 
 										<div class="col-md-2">Select Group*</div>
 										<div class="col-md-3">
 											<select class="form-control chosen"
@@ -192,17 +202,16 @@
 
 											</select>
 										</div>
-
-									</div>
+ 
 
 								</div>
 								<br>
 								<div class="box-content">
 
 									<div class="col-md-2">Select Item</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select data-placeholder="Select Item Name"
-											class="form-control chosen" name="itemId" tabindex="-1"
+											class="form-control chosen" name="itemId"  
 											id="itemId">
 											<option value="">Select Item</option>
 
@@ -218,28 +227,44 @@
 									</div>
 
 									<input type="hidden" name=editIndex id="editIndex" />
+ 
 
-									<div class="col-md-2">Qty</div>
+								</div>
+								<br> 
+								<div class="box-content">
+								<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
 										<input type="text" name="qty" id="qty" placeholder="Qty"
 											class="form-control" pattern="\d+" />
 
 									</div>
-
-								</div>
-								<br> <br>
-								<div class="box-content">
+									
 									<div class="col-md-2">No of Days</div>
 									<div class="col-md-3">
 										<input class="form-control" id="noOfDays"
-											placeholder="No of Days" type="text" name="noOfDays" />
+											placeholder="No of Days" type="text" name="noOfDays" required/>
 									</div>
-									<div class="col-md-2">
+									 
+									
+								</div><br> 
+								
+								<div class="box-content">
+								<div class="col-md-2">Remark</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Remark"
+											class="form-control"/>
+
+									</div>
+									 
+								</div><br> <br> 
+								
+								<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="button" class="btn btn-primary" value="Add Item"
 											onclick="addItem()">
 									</div>
-									<br> <br>
-								</div>
+								</div><br> 
+								
 								<div align="center" id="loader" style="display: none">
 
 									<span>
@@ -260,12 +285,12 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Name</th>
-														<th>Qty</th>
-														<th>No Of Days</th>
-
-														<th>Action</th>
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-5">Name</th>
+														<th class="col-md-1">Qty</th>
+														<th class="col-md-1">No Of Days</th>
+														<th class="col-md-1">Remark</th>
+														<th class="col-md-1">Action</th>
 
 													</tr>
 												</thead>
@@ -389,7 +414,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].grpId + '">'
-							+ data[i].grpCode + '</option>';
+							+ data[i].grpCode + '&nbsp;&nbsp;'+ data[i].grpDesc +'</option>';
 				}
 				html += '</option>';
 				$('#grpId').html(html);
@@ -412,7 +437,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].itemId + '">'
-							+ data[i].itemCode + '</option>';
+							+ data[i].itemCode + '&nbsp;&nbsp;'+ data[i].itemDesc +'</option>';
 				}
 				html += '</option>';
 				$('#itemId').html(html);
@@ -438,6 +463,7 @@
 								$('#loader').hide();
 								document.getElementById("editIndex").value = key;
 								document.getElementById("qty").value = data.gpQty;
+								document.getElementById("remark").value = data.remark;
 								document.getElementById("catId").value = data.catId;
 								document.getElementById("noOfDays").value = data.gpNoDays;
 								$('#catId').trigger("chosen:updated");
@@ -459,11 +485,11 @@
 														if (data1[i].grpId == data.groupId) {
 															html += '<option value="' + data1[i].grpId + '" selected>'
 																	+ data1[i].grpCode
-																	+ '</option>';
+																	+ '&nbsp;&nbsp;'+ data1[i].grpDesc +'</option>';
 														} else {
 															html += '<option value="' + data1[i].grpId + '">'
 																	+ data1[i].grpCode
-																	+ '</option>';
+																	+ '&nbsp;&nbsp;'+ data1[i].grpDesc +'</option>';
 														}
 
 													}
@@ -492,11 +518,11 @@
 														if (data2[i].itemId == data.gpItemId) {
 															html += '<option value="' + data2[i].itemId + '" selected>'
 																	+ data2[i].itemCode
-																	+ '</option>';
+																	+ '&nbsp;&nbsp;'+ data2[i].itemDesc +'</option>';
 														} else {
 															html += '<option value="' + data2[i].itemId + '">'
 																	+ data2[i].itemCode
-																	+ '</option>';
+																	+ '&nbsp;&nbsp;'+ data2[i].itemDesc +'</option>';
 														}
 													}
 													html += '</option>';
@@ -516,7 +542,7 @@
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
 			var noOfDays = $("#noOfDays").val();
-
+			var remark = $("#remark").val();
 			var editIndex = $("#editIndex").val();
 
 			$('#loader').show();
@@ -532,6 +558,7 @@
 								catId : catId,
 								grpId : grpId,
 								noOfDays : noOfDays,
+								remark : remark,
 								editIndex : editIndex,
 								ajax : 'true'
 
@@ -569,6 +596,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpNoDays));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(
@@ -578,11 +610,7 @@
 																					+ key
 																					+ '" onclick="edit('
 																					+ key
-																					+ ');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('
-																					+ key
-																					+ ');" id="ok'
-																					+ key
-																					+ '"></span><span class="glyphicon glyphicon-remove"  onclick="del('
+																					+ ');"> </span> <span class="glyphicon glyphicon-remove"  onclick="del('
 																					+ key
 																					+ ')" id="del'
 																					+ key
@@ -594,10 +622,14 @@
 
 								document.getElementById("qty").value = "";
 								document.getElementById("catId").value = "";
+								$('#catId').trigger("chosen:updated");
 								document.getElementById("grpId").value = "";
+								$('#grpId').trigger("chosen:updated");
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
+								document.getElementById("remark").value = "";
+								document.getElementById("noOfDays").value = "";
 							});
 
 		}
@@ -681,6 +713,16 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpQty));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.gpNoDays));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(
@@ -690,11 +732,7 @@
 																					+ key
 																					+ '" onclick="edit('
 																					+ key
-																					+ ');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('
-																					+ key
-																					+ ');" id="ok'
-																					+ key
-																					+ '"></span><span class="glyphicon glyphicon-remove"  onclick="del('
+																					+ ');"> </span> <span class="glyphicon glyphicon-remove"  onclick="del('
 																					+ key
 																					+ ')" id="del'
 																					+ key

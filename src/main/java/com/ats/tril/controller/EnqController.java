@@ -49,6 +49,7 @@ public class EnqController {
 	@RequestMapping(value = "/showAddEnq", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
 		enqDetailList = new ArrayList<>();
+		intendDetailList = new ArrayList<>();
 		ModelAndView model = new ModelAndView("enquiry/addEnq");
 		try {
 
@@ -348,8 +349,8 @@ public class EnqController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("enqId", enqId);
-
-			GetEnquiryHeader editEnquiry = rest.postForObject(Constants.url + "/getEnquiryHeaderAndDetail", map,
+			intendDetailList = new ArrayList<>();
+			editEnquiry = rest.postForObject(Constants.url + "/getEnquiryHeaderAndDetail", map,
 					GetEnquiryHeader.class);
 			detailList = editEnquiry.getEnquiryDetailList();
 
@@ -385,6 +386,61 @@ public class EnqController {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/deleteItemFromEditEnquiryFromIndend", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetEnquiryDetail> deleteItemFromEditEnquiry(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		try {
+			
+			int index = Integer.parseInt(request.getParameter("index"));  
+			 
+			if(detailList.get(index).getEnqDetailId()!=0)
+				detailList.get(index).setDelStatus(0);
+			else
+				detailList.remove(index);
+			
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return detailList;
+	}
+	
+	@RequestMapping(value = "/geIntendDetailByIndIdForEditEnquiry", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetIntendDetail> geIntendDetailByIndIdForEditEnquiry(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			int indIdForGetList = Integer.parseInt(request.getParameter("indId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("indId", indIdForGetList);
+			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
+					GetIntendDetail[].class);
+			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			 
+			for(int j = 0 ; j<detailList.size() ; j++) {
+			 		
+				for(int i = 0 ; i<intendDetailList.size() ; i++) {
+					if(intendDetailList.get(i).getItemId()==detailList.get(j).getItemId() && detailList.get(j).getDelStatus()==1)
+					{
+						intendDetailList.remove(i);
+					}
+				}
+				
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return intendDetailList;
+	}
 
 	@RequestMapping(value = "/submitEditEnq", method = RequestMethod.POST)
 	public String submitEditEnq(HttpServletRequest request, HttpServletResponse response) {
@@ -395,6 +451,7 @@ public class EnqController {
 
 			String enqRemark = request.getParameter("enqRemark");
 			String enqDate = request.getParameter("enqDate");
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
 			// String enqDate = request.getParameter("enqDate");
 
 			String Date = DateConvertor.convertToYMD(enqDate);
@@ -403,6 +460,7 @@ public class EnqController {
 			editEnquiry.setEnqDate(Date);
 			editEnquiry.setDelStatus(1);
 			editEnquiry.setEnquiryDetailList(detailList);
+			editEnquiry.setVendId(vendId);
 			enquiryHeaderList.add(editEnquiry);
 
 			System.out.println(enquiryHeaderList);
@@ -435,6 +493,7 @@ public class EnqController {
 			try {
 				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
 				model.addObject("vendIdTemp", vendIdTemp);
+				editEnquiry.setVendId(vendIdTemp);
 				System.out.println(vendIdTemp);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -444,6 +503,7 @@ public class EnqController {
 				String enqDateTemp = request.getParameter("enqDateTemp");
 				model.addObject("enqDateTemp", enqDateTemp);
 				System.out.println(enqDateTemp);
+				editEnquiry.setEnqDate(enqDateTemp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -452,6 +512,7 @@ public class EnqController {
 				String enqRemarkTemp = request.getParameter("enqRemarkTemp");
 				model.addObject("enqRemarkTemp", enqRemarkTemp);
 				System.out.println(enqRemarkTemp);
+				editEnquiry.setEnqRemark(enqRemarkTemp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -471,7 +532,7 @@ public class EnqController {
 				for (int j = 0; j < checkbox.length; j++) {
 					System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
 					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
-						EnquiryDetail enqDetail = new EnquiryDetail();
+						GetEnquiryDetail enqDetail = new GetEnquiryDetail();
 						enqDetail.setIndId(intendDetailList.get(i).getIndMId());
 						enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
 						enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
@@ -484,18 +545,15 @@ public class EnqController {
 						enqDetail.setEnqQty(
 								Integer.parseInt(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
 
-						enqDetailList.add(enqDetail);
-
-						enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
+						detailList.add(enqDetail); 
 					}
 
 				}
 			}
 			System.out.println("enqDetailList" + enqDetailList);
 
-			model.addObject("enqDetailList", enqDetailList);
-			model.addObject("indId", indId);
-			model.addObject("enquiryHeader", enquiryHeader);
+			model.addObject("editEnquiry", editEnquiry);
+			model.addObject("detailList", detailList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

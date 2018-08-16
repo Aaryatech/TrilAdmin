@@ -12,6 +12,7 @@ public class GetpassDetailItemName {
 	private int isUsed;
 	private float gpRemQty;
 	private float gpRetQty;
+	private String remark;
 	private String itemCode;
 	private int catId;
 	private int grpId;
@@ -118,6 +119,14 @@ public class GetpassDetailItemName {
 
 	public void setGrpId(int grpId) {
 		this.grpId = grpId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	@Override
