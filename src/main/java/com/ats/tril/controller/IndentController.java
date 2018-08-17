@@ -286,7 +286,7 @@ public class IndentController {
 					if(flag==0) {
 						System.err.println("New Item added to existing list");
 						
-						int qty = Integer.parseInt(request.getParameter("qty"));
+						float qty = Float.parseFloat(request.getParameter("qty"));
 						int schDay = Integer.parseInt(request.getParameter("schDay"));
 						String indDate = request.getParameter("indentDate");
 						TempIndentDetail detail = new TempIndentDetail();
@@ -326,7 +326,7 @@ public class IndentController {
 					
 					System.err.println("New Item added first time : list is empty");
 
-				int qty = Integer.parseInt(request.getParameter("qty"));
+				float qty = Float.parseFloat(request.getParameter("qty"));
 				int schDay = Integer.parseInt(request.getParameter("schDay"));
 				String indDate = request.getParameter("indentDate");
 				TempIndentDetail detail = new TempIndentDetail();
@@ -407,7 +407,7 @@ public class IndentController {
 				String remark = request.getParameter("remark");
 				int itemId = Integer.parseInt(request.getParameter("itemId"));
 				System.err.println("Item Id " + itemId);
-				int qty = Integer.parseInt(request.getParameter("qty"));
+				float qty = Float.parseFloat(request.getParameter("qty"));
 				int schDay = Integer.parseInt(request.getParameter("schDay"));
 				String indDate = request.getParameter("indentDate");
 				
@@ -891,7 +891,7 @@ public class IndentController {
 		List<GetIndentDetail> indDetailList = new ArrayList<GetIndentDetail>();
 		try {
 
-			int indQty = Integer.parseInt(request.getParameter("qty"));
+			float indQty = Float.parseFloat(request.getParameter("qty"));
 
 			int indDId = Integer.parseInt(request.getParameter("indDId"));
 

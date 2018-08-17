@@ -10,7 +10,7 @@ public class GetEnquiryDetail {
 	private String vendorName;
 	private int itemId;
 	private String itemCode;
-	private int enqQty;
+	private float enqQty;
 	private String enqUom;
 	private String enqItemDesc;
 	private String enqRemark;
@@ -81,11 +81,11 @@ public class GetEnquiryDetail {
 		this.itemCode = itemCode;
 	}
 
-	public int getEnqQty() {
+	public float getEnqQty() {
 		return enqQty;
 	}
 
-	public void setEnqQty(int enqQty) {
+	public void setEnqQty(float enqQty) {
 		this.enqQty = enqQty;
 	}
 

@@ -10,11 +10,11 @@ public class GetPoDetailList {
 	private int itemId; 
 	private String itemDesc;  
 	private String itemUom; 
-	private int itemQty; 
+	private float itemQty; 
 	private float itemRate; 
-	private int mrnQty; 
-	private int pendingQty; 
-	private int indedQty; 
+	private float mrnQty; 
+	private float pendingQty; 
+	private float indedQty; 
 	private float discPer; 
 	private float discValue; 
 	private int schDays; 
@@ -30,7 +30,7 @@ public class GetPoDetailList {
 	private float otherChargesAfter; 
 	private float landingCost; 
 	private String itemCode;
-	private int balanceQty;
+	private float balanceQty;
 	public int getPoDetailId() {
 		return poDetailId;
 	}
@@ -73,10 +73,10 @@ public class GetPoDetailList {
 	public void setItemUom(String itemUom) {
 		this.itemUom = itemUom;
 	}
-	public int getItemQty() {
+	public float getItemQty() {
 		return itemQty;
 	}
-	public void setItemQty(int itemQty) {
+	public void setItemQty(float itemQty) {
 		this.itemQty = itemQty;
 	}
 	public float getItemRate() {
@@ -85,22 +85,22 @@ public class GetPoDetailList {
 	public void setItemRate(float itemRate) {
 		this.itemRate = itemRate;
 	}
-	public int getMrnQty() {
+	public float getMrnQty() {
 		return mrnQty;
 	}
-	public void setMrnQty(int mrnQty) {
+	public void setMrnQty(float mrnQty) {
 		this.mrnQty = mrnQty;
 	}
-	public int getPendingQty() {
+	public float getPendingQty() {
 		return pendingQty;
 	}
-	public void setPendingQty(int pendingQty) {
+	public void setPendingQty(float pendingQty) {
 		this.pendingQty = pendingQty;
 	}
-	public int getIndedQty() {
+	public float getIndedQty() {
 		return indedQty;
 	}
-	public void setIndedQty(int indedQty) {
+	public void setIndedQty(float indedQty) {
 		this.indedQty = indedQty;
 	}
 	public float getDiscPer() {
@@ -194,10 +194,10 @@ public class GetPoDetailList {
 		this.itemCode = itemCode;
 	}
 	
-	public int getBalanceQty() {
+	public float getBalanceQty() {
 		return balanceQty;
 	}
-	public void setBalanceQty(int balanceQty) {
+	public void setBalanceQty(float balanceQty) {
 		this.balanceQty = balanceQty;
 	}
 	@Override

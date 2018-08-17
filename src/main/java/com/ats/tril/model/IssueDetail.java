@@ -10,9 +10,9 @@ public class IssueDetail {
 	private int subDeptId; 
 	private int accHead; 
 	private int itemId; 
-	private int itemIssueQty; 
-	private int itemRequestQty; 
-	private int itemPendingQty; 
+	private float itemIssueQty; 
+	private float itemRequestQty; 
+	private float itemPendingQty; 
 	private int delStatus; 
 	private int status;
 	private String batchNo; 
@@ -97,22 +97,22 @@ public class IssueDetail {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public int getItemIssueQty() {
+	public float getItemIssueQty() {
 		return itemIssueQty;
 	}
-	public void setItemIssueQty(int itemIssueQty) {
+	public void setItemIssueQty(float itemIssueQty) {
 		this.itemIssueQty = itemIssueQty;
 	}
-	public int getItemRequestQty() {
+	public float getItemRequestQty() {
 		return itemRequestQty;
 	}
-	public void setItemRequestQty(int itemRequestQty) {
+	public void setItemRequestQty(float itemRequestQty) {
 		this.itemRequestQty = itemRequestQty;
 	}
-	public int getItemPendingQty() {
+	public float getItemPendingQty() {
 		return itemPendingQty;
 	}
-	public void setItemPendingQty(int itemPendingQty) {
+	public void setItemPendingQty(float itemPendingQty) {
 		this.itemPendingQty = itemPendingQty;
 	}
 	public int getDelStatus() {

@@ -382,9 +382,9 @@ public class PurchaseOrderController {
 						poDetail.setIndedQty(intendDetailList.get(i).getIndQty());
 						poDetail.setItemUom(intendDetailList.get(i).getIndItemUom());
 						poDetail.setItemQty(
-								Integer.parseInt(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
 						poDetail.setPendingQty(
-								Integer.parseInt(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
 						poDetail.setDiscPer(
 								Integer.parseInt(request.getParameter("disc" + intendDetailList.get(i).getIndDId())));
 						poDetail.setItemRate(
@@ -393,8 +393,8 @@ public class PurchaseOrderController {
 						poDetail.setSchDays(Integer
 								.parseInt(request.getParameter("indItemSchd" + intendDetailList.get(i).getIndDId())));
 						poDetail.setSchDate(intendDetailList.get(i).getIndItemSchddt());
-						poDetail.setBalanceQty(Integer
-								.parseInt(request.getParameter("balanceQty" + intendDetailList.get(i).getIndDId())));
+						poDetail.setBalanceQty(Float
+								.parseFloat(request.getParameter("balanceQty" + intendDetailList.get(i).getIndDId())));
 						c.setTime(sdf.parse(poDetail.getSchDate()));
 						c.add(Calendar.DAY_OF_MONTH, poDetail.getSchDays());
 						poDetail.setSchDate(sdf.format(c.getTime()));
@@ -409,9 +409,9 @@ public class PurchaseOrderController {
 						poDetailList.add(poDetail);
 
 						intendDetailList.get(i).setPoQty(
-								Integer.parseInt(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
-						intendDetailList.get(i).setIndFyr(Integer
-								.parseInt(request.getParameter("balanceQty" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
+						intendDetailList.get(i).setIndFyr(Float
+								.parseFloat(request.getParameter("balanceQty" + intendDetailList.get(i).getIndDId())));
 						intendDetailList.get(i).setDisc(
 								Float.parseFloat(request.getParameter("disc" + intendDetailList.get(i).getIndDId())));
 						intendDetailList.get(i).setRate(
@@ -871,9 +871,9 @@ public class PurchaseOrderController {
 						poDetail.setIndedQty(intendDetailList.get(i).getIndQty());
 						poDetail.setItemUom(intendDetailList.get(i).getIndItemUom());
 						poDetail.setItemQty(
-								Integer.parseInt(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
 						poDetail.setPendingQty(
-								Integer.parseInt(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
 						poDetail.setDiscPer(
 								Integer.parseInt(request.getParameter("discAdd" + intendDetailList.get(i).getIndDId())));
 						poDetail.setItemRate(
@@ -882,8 +882,8 @@ public class PurchaseOrderController {
 						poDetail.setSchDays(Integer
 								.parseInt(request.getParameter("indItemSchdAdd" + intendDetailList.get(i).getIndDId())));
 						poDetail.setSchDate(intendDetailList.get(i).getIndItemSchddt());
-						poDetail.setBalanceQty(Integer
-								.parseInt(request.getParameter("balanceQtyAdd" + intendDetailList.get(i).getIndDId())));
+						poDetail.setBalanceQty(Float
+								.parseFloat(request.getParameter("balanceQtyAdd" + intendDetailList.get(i).getIndDId())));
 						c.setTime(sdf.parse(poDetail.getSchDate()));
 						c.add(Calendar.DAY_OF_MONTH, poDetail.getSchDays());
 						poDetail.setSchDate(sdf.format(c.getTime()));
@@ -897,9 +897,9 @@ public class PurchaseOrderController {
 						getPoHeader.getPoDetailList().add(poDetail);
 
 						intendDetailList.get(i).setPoQty(
-								Integer.parseInt(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
-						intendDetailList.get(i).setIndFyr(Integer
-								.parseInt(request.getParameter("balanceQtyAdd" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("poQtyAdd" + intendDetailList.get(i).getIndDId())));
+						intendDetailList.get(i).setIndFyr(Float
+								.parseFloat(request.getParameter("balanceQtyAdd" + intendDetailList.get(i).getIndDId())));
 						intendDetailList.get(i).setDisc(
 								Float.parseFloat(request.getParameter("discAdd" + intendDetailList.get(i).getIndDId())));
 						intendDetailList.get(i).setRate(
@@ -1118,8 +1118,8 @@ public class PurchaseOrderController {
 			float rate = Float.parseFloat(request.getParameter("rate"));
 			float disc = Float.parseFloat(request.getParameter("disc"));
 			int key = Integer.parseInt(request.getParameter("key"));
-			int poQty = Integer.parseInt(request.getParameter("poQty"));
-			int balanceQty = Integer.parseInt(request.getParameter("balanceQty"));
+			float poQty = Float.parseFloat(request.getParameter("poQty"));
+			float balanceQty = Float.parseFloat(request.getParameter("balanceQty"));
 
 			getPoHeader.getPoDetailList().get(key).setItemRate(rate);
 			getPoHeader.getPoDetailList().get(key).setDiscPer(disc);

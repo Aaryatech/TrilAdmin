@@ -286,11 +286,11 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			
 			System.err.println("inside /addMrnQty");
 			
-			int qty = Integer.parseInt(request.getParameter("qty"));
+			float qty = Float.parseFloat(request.getParameter("qty"));
 
 			int poDId = Integer.parseInt(request.getParameter("poDId"));
 			
-			int chalanQty = Integer.parseInt(request.getParameter("chalanQty"));
+			float chalanQty = Float.parseFloat(request.getParameter("chalanQty"));
 			
 			
 			if (poDetailList.size() > 0) {
@@ -656,7 +656,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 		System.err.println("poDetailForEditMrn  Ajx " +poDetailForEditMrn.toString());
 		
-		int qty=Integer.parseInt(request.getParameter("qty"));
+		float qty=Float.parseFloat(request.getParameter("qty"));
 		int poDId=Integer.parseInt(request.getParameter("poDId"));
 		
 		if(qty==0 && poDId==0) {
@@ -752,7 +752,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 		try {
 
-			int mrnQty = Integer.parseInt(request.getParameter("qty"));
+			float mrnQty = Float.parseFloat(request.getParameter("qty"));
 
 			int mrnDetailId = Integer.parseInt(request.getParameter("detailId"));
 

@@ -17,7 +17,7 @@ public class GetIndentDetail {
 	
 	private int itemId;
 	
-	private int indQty;
+	private float indQty;
 	
 	private String indItemUom;
 	
@@ -35,7 +35,7 @@ public class GetIndentDetail {
 	
 	private int delStatus;
 	
-	private int	indFyr;
+	private float	indFyr;
 	
 	private String itemDesc;
 	private String itemCode;
@@ -69,7 +69,7 @@ public class GetIndentDetail {
 	public int getItemId() {
 		return itemId;
 	}
-	public int getIndQty() {
+	public float getIndQty() {
 		return indQty;
 	}
 	public String getIndItemUom() {
@@ -94,7 +94,7 @@ public class GetIndentDetail {
 	public int getDelStatus() {
 		return delStatus;
 	}
-	public int getIndFyr() {
+	public float getIndFyr() {
 		return indFyr;
 	}
 	public String getItemDesc() {
@@ -121,7 +121,7 @@ public class GetIndentDetail {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public void setIndQty(int indQty) {
+	public void setIndQty(float indQty) {
 		this.indQty = indQty;
 	}
 	public void setIndItemUom(String indItemUom) {
@@ -146,7 +146,7 @@ public class GetIndentDetail {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
-	public void setIndFyr(int indFyr) {
+	public void setIndFyr(float indFyr) {
 		this.indFyr = indFyr;
 	}
 	public void setItemDesc(String itemDesc) {

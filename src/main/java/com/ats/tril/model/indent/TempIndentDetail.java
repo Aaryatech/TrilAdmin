@@ -6,7 +6,7 @@ public class TempIndentDetail {
 	
 	int itemId;
 	String itemName;
-	int qty;
+	float qty;
 	String uom;
 	int curStock;
 	int schDays;
@@ -39,7 +39,7 @@ public class TempIndentDetail {
 		return itemId;
 	}
 	
-	public int getQty() {
+	public float getQty() {
 		return qty;
 	}
 	public String getUom() {
@@ -56,7 +56,7 @@ public class TempIndentDetail {
 		this.itemId = itemId;
 	}
 
-	public void setQty(int qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	public void setUom(String uom) {

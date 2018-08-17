@@ -939,8 +939,8 @@ function itemByIntendId()
 
 function checkQty(key)
 {
-	var poQty = parseInt($("#poQty"+key).val());  
-	 var rate = parseInt($("#rate"+key).val()); 
+	var poQty = parseFloat($("#poQty"+key).val());  
+	 var rate = parseFloat($("#rate"+key).val()); 
 	if(poQty==0)
 	{
 		document.getElementById("poQty"+key).value=""; 
@@ -1027,8 +1027,8 @@ function requiredField(key)
   {
   	
   	  
-  	var indQty = parseInt($("#indQty"+key).val());  
-	 var poQty = parseInt($("#poQty"+key).val());  
+  	var indQty = parseFloat($("#indQty"+key).val());  
+	 var poQty = parseFloat($("#poQty"+key).val());  
 	  
 	    if(poQty>indQty)
 		  {

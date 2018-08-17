@@ -849,8 +849,8 @@ function itemByIntendId()
 
 function checkQty(key)
 {
-	var poQty = parseInt($("#poQtyAdd"+key).val());  
-	 var rate = parseInt($("#rateAdd"+key).val()); 
+	var poQty = parseFloat($("#poQtyAdd"+key).val());  
+	 var rate = parseFloat($("#rateAdd"+key).val()); 
 	if(poQty==0)
 	{
 		document.getElementById("poQtyAdd"+key).value=""; 
@@ -922,8 +922,8 @@ function requiredField(key)
 function calculateBalaceQtyAdd(key)
 {
 	 
-	  var indQty = parseInt($("#indQtyAdd"+key).val());  
-		 var poQty = parseInt($("#poQtyAdd"+key).val());  
+	  var indQty = parseFloat($("#indQtyAdd"+key).val());  
+		 var poQty = parseFloat($("#poQtyAdd"+key).val());  
 		  
 		 
 		    if(poQty>indQty)
@@ -1006,9 +1006,9 @@ function changeItemRate(key)
   function calculateBalaceQty(key)
   {
   	 
-	 var poQty = parseInt($("#poQty"+key).val());  
-	 var existingItemQty = parseInt($("#existingItemQty"+key).val()); 
-	 var existingBalanceQty = parseInt($("#existingBalanceQty"+key).val()); 
+	 var poQty = parseFloat($("#poQty"+key).val());  
+	 var existingItemQty = parseFloat($("#existingItemQty"+key).val()); 
+	 var existingBalanceQty = parseFloat($("#existingBalanceQty"+key).val()); 
 	  
 	    if((existingItemQty+existingBalanceQty)<poQty)
 		  {

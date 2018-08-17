@@ -9,7 +9,7 @@ public class GetIntendDetail {
 	private String indMDate; 
 	private int itemId; 
 	private String itemCode; 
-	private int indQty; 
+	private float indQty; 
 	private String indItemUom; 
 	private String indItemDesc; 
 	private int indItemCurstk; 
@@ -18,22 +18,22 @@ public class GetIntendDetail {
 	private String indRemark; 
 	private int delStatus;
 	private int indDStatus; 
-	private int	indFyr;
-	private int	poQty;
-	private int	pendingQty;
+	private float	indFyr;
+	private float	poQty;
+	private float	pendingQty;
 	private float disc;
 	private float rate;
 	
-	public int getPendingQty() {
+	public float getPendingQty() {
 		return pendingQty;
 	}
-	public void setPendingQty(int pendingQty) {
+	public void setPendingQty(float pendingQty) {
 		this.pendingQty = pendingQty;
 	}
-	public int getPoQty() {
+	public float getPoQty() {
 		return poQty;
 	}
-	public void setPoQty(int poQty) {
+	public void setPoQty(float poQty) {
 		this.poQty = poQty;
 	}
 	public int getIndDId() {
@@ -72,10 +72,10 @@ public class GetIntendDetail {
 	public void setItemCode(String itemCode) {
 		this.itemCode = itemCode;
 	}
-	public int getIndQty() {
+	public float getIndQty() {
 		return indQty;
 	}
-	public void setIndQty(int indQty) {
+	public void setIndQty(float indQty) {
 		this.indQty = indQty;
 	}
 	public String getIndItemUom() {
@@ -120,10 +120,10 @@ public class GetIntendDetail {
 	public void setIndDStatus(int indDStatus) {
 		this.indDStatus = indDStatus;
 	}
-	public int getIndFyr() {
+	public float getIndFyr() {
 		return indFyr;
 	}
-	public void setIndFyr(int indFyr) {
+	public void setIndFyr(float indFyr) {
 		this.indFyr = indFyr;
 	}
 	

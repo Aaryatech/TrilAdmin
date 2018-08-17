@@ -21,15 +21,15 @@ public class GetPODetail {
 	
 	private String itemUom;
 	
-	private int itemQty;
+	private float itemQty;
 	
 	private float itemRate;
 	
-	private int mrnQty;
+	private float mrnQty;
 	
-	private int pendingQty;
+	private float pendingQty;
 	
-	private int indedQty;
+	private float indedQty;
 	
 	private float discPer;
 	
@@ -64,9 +64,9 @@ public class GetPODetail {
 	private String uom;
 	private String poNo;
 	
-	private int receivedQty;
+	private float receivedQty;
 	
-	private int chalanQty;
+	private float chalanQty;
 	
 	private int tempIsDelete;
 	
@@ -80,16 +80,16 @@ public class GetPODetail {
 	public void setTempIsDelete(int tempIsDelete) {
 		this.tempIsDelete = tempIsDelete;
 	}
-	public int getChalanQty() {
+	public float getChalanQty() {
 		return chalanQty;
 	}
-	public void setChalanQty(int chalanQty) {
+	public void setChalanQty(float chalanQty) {
 		this.chalanQty = chalanQty;
 	}
-	public int getReceivedQty() {
+	public float getReceivedQty() {
 		return receivedQty;
 	}
-	public void setReceivedQty(int receivedQty) {
+	public void setReceivedQty(float receivedQty) {
 		this.receivedQty = receivedQty;
 	}
 	public int getPoDetailId() {
@@ -113,19 +113,19 @@ public class GetPODetail {
 	public String getItemUom() {
 		return itemUom;
 	}
-	public int getItemQty() {
+	public float getItemQty() {
 		return itemQty;
 	}
 	public float getItemRate() {
 		return itemRate;
 	}
-	public int getMrnQty() {
+	public float getMrnQty() {
 		return mrnQty;
 	}
-	public int getPendingQty() {
+	public float getPendingQty() {
 		return pendingQty;
 	}
-	public int getIndedQty() {
+	public float getIndedQty() {
 		return indedQty;
 	}
 	public float getDiscPer() {
@@ -203,19 +203,19 @@ public class GetPODetail {
 	public void setItemUom(String itemUom) {
 		this.itemUom = itemUom;
 	}
-	public void setItemQty(int itemQty) {
+	public void setItemQty(float itemQty) {
 		this.itemQty = itemQty;
 	}
 	public void setItemRate(float itemRate) {
 		this.itemRate = itemRate;
 	}
-	public void setMrnQty(int mrnQty) {
+	public void setMrnQty(float mrnQty) {
 		this.mrnQty = mrnQty;
 	}
-	public void setPendingQty(int pendingQty) {
+	public void setPendingQty(float pendingQty) {
 		this.pendingQty = pendingQty;
 	}
-	public void setIndedQty(int indedQty) {
+	public void setIndedQty(float indedQty) {
 		this.indedQty = indedQty;
 	}
 	public void setDiscPer(float discPer) {

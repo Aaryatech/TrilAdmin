@@ -168,7 +168,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
 			int mrnDetailId = Integer.parseInt(request.getParameter("batchNo"));
-			int qty = Integer.parseInt(request.getParameter("qty"));
+			float qty = Float.parseFloat(request.getParameter("qty"));
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
@@ -616,7 +616,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
 			int mrnDetailId = Integer.parseInt(request.getParameter("batchNo"));
-			int qty = Integer.parseInt(request.getParameter("qty"));
+			float qty = Float.parseFloat(request.getParameter("qty"));
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));

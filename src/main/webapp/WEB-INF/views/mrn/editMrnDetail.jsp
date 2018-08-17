@@ -814,10 +814,11 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 
 		function updateMrnQty(qty,detailId,itemId,oldMrnQty,poPendingQty) {
 			
-			//alert("po pend " +poPendingQty);
-			//alert("oldMrnQty " +oldMrnQty);
+			
 			$('#loader').show();
-			var newQty=parseInt(oldMrnQty)+parseInt(poPendingQty);
+			var newQty=parseFloat(oldMrnQty)+parseInt(poPendingQty);
+			/* alert("po pend " +qty);
+			alert("oldMrnQty " +newQty); */
 			if(qty<=newQty){
 			$.getJSON('${getMrnDetail}', {
 				qty : qty,

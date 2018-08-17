@@ -158,7 +158,7 @@ public class EnqController {
 						enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
 						enqDetail.setDelStatus(1);
 						enqDetail.setEnqQty(
-								Integer.parseInt(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
 						enqDetail.setEnqRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));
 
 						enqDetailList.add(enqDetail);
@@ -543,7 +543,7 @@ public class EnqController {
 						enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
 						enqDetail.setDelStatus(1);
 						enqDetail.setEnqQty(
-								Integer.parseInt(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
 
 						detailList.add(enqDetail); 
 					}

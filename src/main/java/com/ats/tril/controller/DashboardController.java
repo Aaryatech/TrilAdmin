@@ -245,9 +245,9 @@ public class DashboardController {
 				{
 					if(Integer.parseInt(checkbox[j])==getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId()) 
 					{
-						 getMrnHeader.getGetMrnDetailList().get(i).setApproveQty(Integer.parseInt(request.getParameter("approveQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
-						 getMrnHeader.getGetMrnDetailList().get(i).setRejectQty(Integer.parseInt(request.getParameter("rejectQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
-						 getMrnHeader.getGetMrnDetailList().get(i).setRemainingQty(Integer.parseInt(request.getParameter("approveQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
+						 getMrnHeader.getGetMrnDetailList().get(i).setApproveQty(Float.parseFloat(request.getParameter("approveQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
+						 getMrnHeader.getGetMrnDetailList().get(i).setRejectQty(Float.parseFloat(request.getParameter("rejectQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
+						 getMrnHeader.getGetMrnDetailList().get(i).setRemainingQty(Float.parseFloat(request.getParameter("approveQty"+getMrnHeader.getGetMrnDetailList().get(i).getMrnDetailId())));
 						 getMrnDetailList.add(getMrnHeader.getGetMrnDetailList().get(i));
 					}
 						 

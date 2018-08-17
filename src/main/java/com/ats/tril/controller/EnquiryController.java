@@ -72,7 +72,7 @@ public class EnquiryController {
 		try {
 			
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
-			int qty = Integer.parseInt(request.getParameter("qty"));
+			float qty = Float.parseFloat(request.getParameter("qty"));
 			String enqItemDate =  request.getParameter("enqItemDate"); 
 			String itemRemark = request.getParameter("itemRemark");
 			String editIndex = request.getParameter("editIndex");
@@ -320,7 +320,7 @@ public class EnquiryController {
 		try {
 			
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
-			int qty = Integer.parseInt(request.getParameter("qty"));
+			float qty = Float.parseFloat(request.getParameter("qty")); 
 			String enqItemDate =  request.getParameter("enqItemDate"); 
 			String itemRemark = request.getParameter("itemRemark");
 			String editIndex = request.getParameter("editIndex");

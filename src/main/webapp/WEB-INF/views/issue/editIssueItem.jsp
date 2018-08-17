@@ -235,12 +235,12 @@
 								style="width: 100%" id="table_grid">
 								<thead>
 									<tr>
-										<th class="col-md-1">Sr.No.</th>
-										<th class="col-md-1">Group Name</th>
-										<th class="col-md-1">Item Name</th> 
+										<th>Sr.No.</th>
+										<th>Group Name</th>
+										<th>Item Name</th> 
 										 
-										<th class="col-md-1">QTY</th> 
-										<th class="col-md-1">Action</th> 
+										<th>QTY</th> 
+										<th>Action</th> 
 									</tr>
 								</thead>
 								<tbody>
@@ -248,17 +248,17 @@
 								<c:forEach items="${getIssueHeader.issueDetailList}"
 														var="getIssueDetailList" varStatus="count">
 														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+															<td><c:out value="${count.index+1}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${getIssueDetailList.grpCode}" /></td>
 
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${getIssueDetailList.itemCode}" /></td>
 
 															 
 																	
-															<td class="col-md-1"><c:out
+															<td><c:out
 																	value="${getIssueDetailList.itemIssueQty}" /></td>
 
 															<td><%-- <a href="#"><span
@@ -499,7 +499,7 @@
 				var itemId = $("#itemId").val();
 				var batchNo = $("#batchNo").val();
 				var itemName = $("#itemId option:selected").text();
-				var qty = parseInt($("#qty").val());
+				var qty = parseFloat($("#qty").val());
 				var groupId = $("#groupId").val();
 				var groupName = $("#groupId option:selected").text();
 				var deptId = $("#deptId").val();
@@ -509,7 +509,7 @@
 				var acc = $("#acc").val();
 				var accName = $("#acc option:selected").text();
 				var editIndex = $("#editIndex").val();
-				var batchQty = parseInt($("#batchQty").val());
+				var batchQty = parseFloat($("#batchQty").val());
 				
 				if(validation()==true){	
 					
@@ -524,7 +524,7 @@
 					}
 					else{
 						
-						var previousQty = parseInt($("#previousQty").val()); 
+						var previousQty = parseFloat($("#previousQty").val()); 
 						if(qty>(batchQty+previousQty)){
 							 
 							document.getElementById("qty").value=previousQty;

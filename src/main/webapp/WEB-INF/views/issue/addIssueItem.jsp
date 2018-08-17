@@ -446,7 +446,7 @@
 				var itemId = $("#itemId").val();
 				var itemName = $("#itemId option:selected").text();
 				var batchNo = $("#batchNo").val();
-				var qty = parseInt($("#qty").val());
+				var qty = parseFloat($("#qty").val());
 				var groupId = $("#groupId").val();
 				var groupName = $("#groupId option:selected").text();
 				var deptId = $("#deptId").val();
@@ -456,7 +456,7 @@
 				var acc = $("#acc").val();
 				var accName = $("#acc option:selected").text();
 				var editIndex = $("#editIndex").val();
-				var batchQty = parseInt($("#batchQty").val());
+				var batchQty = parseFloat($("#batchQty").val());
 				
 				if(validation()==true){
 					var valid = true;
@@ -470,7 +470,7 @@
 					}
 					else{
 						
-						var previousQty = parseInt($("#previousQty").val()); 
+						var previousQty = parseFloat($("#previousQty").val()); 
 						if(qty>(batchQty+previousQty)){
 							 
 							document.getElementById("qty").value=previousQty;
@@ -805,12 +805,15 @@ return isValid;
 function getInvoiceNo() {
 
 	var date = $("#issueDate").val();
+	var toDateValue = date.split('-'); 
+	 
+	var min = toDateValue[2]+"-"+(toDateValue[1] - 1 )+"-"+toDateValue[0];
 	 
 	$.getJSON('${getInvoiceNo}', {
 
 		catId:1,
 		docId:6,
-		date : date,
+		date : min,
 		ajax : 'true',
 
 	}, function(data) { 
