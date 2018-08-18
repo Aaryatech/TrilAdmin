@@ -48,9 +48,9 @@
 
 			<!-- BEGIN Button User -->
 			<li class="user-profile"><a data-toggle="dropdown" href="#"
-				class="user-menu dropdown-toggle"> <!--<img class="nav-user-photo" src="resoucres/img/demo/avatar/avatar1.jpg" alt="Penny's Photo" />-->
+				class="user-menu dropdown-toggle" title="Logout"> <!--<img class="nav-user-photo" src="resoucres/img/demo/avatar/avatar1.jpg" alt="Penny's Photo" />-->
 					<span class="hhh" id="user_info" style="color: #24242b;"> Admin  <i
-					class="fa fa-caret-down"></i></span>
+					class="fa fa-user"></i></span>
 			</a> <!-- BEGIN User Dropdown -->
 				<ul class="dropdown-menu dropdown-navbar" id="user_menu">
 					<!--<li class="nav-header">
@@ -65,8 +65,8 @@
 					
 					<a href=""> <i
 							class="fa fa-off"></i> Logout
-					</a> --%> <a href="${pageContext.request.contextPath}/logout">Logout <c:out
-								value="${sessionScope.organiser.orgName}" />
+					</a> --%> <a href="${pageContext.request.contextPath}/logout" title="Logout"> <i style="color: orange;" class="fa fa-power-off">&nbsp;<c:out
+								value="${sessionScope.userName}" /></i>
 					</a>
 
 					</li>

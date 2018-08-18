@@ -374,7 +374,7 @@
 														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchddt}" /></td>
 
-														<td style="text-align: left;" class="col-md-1"><input type="text" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
+														<td style="text-align: left;" class="col-md-1"><input type="text" class="form-control" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
 
 														<td style="text-align: center;" class="col-md-1">
 															<%-- <input
@@ -550,7 +550,7 @@
 				$('#table1 td').remove();
 				$.each(data, function(key, trans) {
 					
-				//	alert(trans.indRemark );
+				//alert(trans.indRemark );
 					if(trans.isDuplicate==1){
 						alert("Item Already Added in Indent");
 					}
@@ -585,13 +585,13 @@
 							+ trans.indItemSchd 
 							+ " />"));
 					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
-					tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left; ' size=20 maxlength=20  name=indRemark"
+					tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left; ' class=form-control size=20 maxlength=20  name=indRemark"
 							+ trans.indDId
 							+ " id=indRemark"
 							+ trans.indDId
-							+ " value="
+							+ " value='"
 							+ trans.indRemark
-							+ " >"));					
+							+ "' >"));					
 					if(trans.indDStatus==0)
 					{
 					tr
@@ -695,11 +695,11 @@
 						+ trans.indItemSchd 
 						+ " />"));
 				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
-				tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left;' size=20 maxlength=20  name=indRemark"
+				tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left;' class=form-control size=20 maxlength=20  name=indRemark"
 						+ trans.indDId
 						+ " id=indRemark"
 						+ trans.indDId
-						+ " value="+trans.indRemark+">"));					
+						+ " value='"+trans.indRemark+"'>"));					
 				//tr.append($('<td></td>').html(trans.indMDate));
 				
 				if(trans.indDStatus==0)

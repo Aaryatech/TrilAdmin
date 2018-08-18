@@ -1,6 +1,7 @@
 package com.ats.tril;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,10 +17,15 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,10 +37,13 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.GetCurrStockRol;
 import com.ats.tril.model.GetCurrentStock;
+import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.accessright.ModuleJson;
 import com.ats.tril.model.indent.GetIndents;
+import com.ats.tril.model.login.UserResponse;
 import com.ats.tril.model.po.GetPoHeader;
 import com.ats.tril.model.po.PoHeader;
  
@@ -91,7 +100,7 @@ public class HomeController {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", fromDate);
 	 			map.add("toDate", toDate);
-	 			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
+	 			GetCurrStockRol[] getCurrentStock =null;// restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
 
 				List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
 				System.err.println(lowReorderItemList.toString());
@@ -114,29 +123,58 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("login");
 
 		res.setContentType("text/html");
+		PrintWriter pw = res.getWriter();
+		HttpSession session = request.getSession();
+
 		try {
 			System.out.println("Login Process " + name);
-			System.out.println("password " + password);
 
 			if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
 
 				mav = new ModelAndView("login");
 			} else {
 
-				/*RestTemplate rest = new RestTemplate();
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("userMob", name);
-				map.add("password", password);
-				LoginResponseExh loginResponse = rest.postForObject(Constants.url + "/loginExhibitor", map,
-						LoginResponseExh.class);
-				System.out.println("loginResponse" + loginResponse);*/
+				RestTemplate restTemplate = new RestTemplate();
 
-				if (name.equals("Tester") && password.equals("1234")) {
+				UserResponse userObj = restTemplate.getForObject(
+						Constants.url+"/login?username=" + name + "&password=" + password,
+						UserResponse.class);
+				
+				session.setAttribute("UserDetail", userObj);
+				UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
+				
+
+				String loginResponseMessage="";
+
+				
+				if (userObj.getErrorMessage().isError()==false) {
 					mav = new ModelAndView("home");
-					HttpSession session = request.getSession();
+					session.setAttribute("userName", name);
+					
+					loginResponseMessage="Login Successful";
+					mav.addObject("loginResponseMessage",loginResponseMessage);
+					
+					
+					MultiValueMap<String, Object> map =new LinkedMultiValueMap<String, Object>();
+					int userId=userObj.getUser().getId();
+					map.add("usrId", userId);
+					System.out.println("Before web service");
 					try {
+					 ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+					};
+					ResponseEntity<List<ModuleJson>> responseEntity = restTemplate.exchange(Constants.url + "getRoleJson",
+							HttpMethod.POST, new HttpEntity<>(map), typeRef);
+					
+					 List<ModuleJson> newModuleList = responseEntity.getBody();
+					
+					 //System.err.println("new Module List " +newModuleList.toString());
+					 
+						session.setAttribute("newModuleList", newModuleList);
+						session.setAttribute("sessionModuleId", 0);
+						session.setAttribute("sessionSubModuleId", 0);
+
 				/*	Date date = new Date();*/
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					 map = new LinkedMultiValueMap<String, Object>();
 /*					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 */					/*String fromDate = df.format(date);
 					String toDate = df.format(date);
@@ -164,7 +202,7 @@ public class HomeController {
 					map = new LinkedMultiValueMap<String, Object>();
 					map.add("fromDate", fromDate);
 		 			map.add("toDate", toDate);
-		 			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
+		 			GetCurrStockRol[] getCurrentStock =restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
 
 					List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
 					System.err.println(lowReorderItemList.toString());
@@ -193,12 +231,12 @@ public class HomeController {
 		return mav;
 
 	}
-	List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
+	List<GetPoHeader> headerList;
 	@RequestMapping(value = "/getPoListRes", method = RequestMethod.GET)
 	public @ResponseBody List<GetPoHeader> getPoList(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		headerList = new ArrayList<GetPoHeader>();
+		 headerList = new ArrayList<GetPoHeader>();
 		try {
 			int poType=Integer.parseInt(request.getParameter("poType"));
 			int status=Integer.parseInt(request.getParameter("status"));
@@ -217,43 +255,67 @@ public class HomeController {
 		return headerList;
 	}
 	
+	
 	@RequestMapping(value = "/showAddMrn/{poType}/{vendorId}/{poId}/{poNo}", method = RequestMethod.GET)
-    public ModelAndView showAddMrn(HttpServletRequest request, HttpServletResponse response,@PathVariable int poType,
-            @PathVariable int vendorId,@PathVariable int poId,@PathVariable String poNo) {
+	public ModelAndView showAddMrn(HttpServletRequest request, HttpServletResponse response,@PathVariable int poType,
+			@PathVariable int vendorId,@PathVariable int poId,@PathVariable String poNo) {
 
-        ModelAndView model = null;
-        try {
-            
-            //poIdList = new String();
-            //poDetailList = new ArrayList<GetPODetail>();
+		ModelAndView model = null;
+		try {
+			
+			//poIdList = new String();
+			//poDetailList = new ArrayList<GetPODetail>();
 
-        //    poDetailList = null;
-            model = new ModelAndView("mrn/showAddMrn");
-            RestTemplate rest = new RestTemplate();
+		//	poDetailList = null;
+			model = new ModelAndView("mrn/showAddMrn");
+			RestTemplate rest = new RestTemplate();
 
-            Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
-            List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
-            model.addObject("vendorList", vendorList);
-            
-            model.addObject("poType",poType);
-            
-            model.addObject("vendorId",vendorId);
-            
-            model.addObject("poId",poId);
-            model.addObject("poNo",poNo);
-            
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = new Date();
-            model.addObject("date", dateFormat.format(date));
-            System.err.println("Inside show Add Mrn /showAddMrn/{poType}/{vendorId}/{poId} in HomeController");
+			model.addObject("vendorList", vendorList);
+			
+			model.addObject("poType",poType);
+			
+			model.addObject("vendorId",vendorId);
+			
+			model.addObject("poId",poId);
+			model.addObject("poNo",poNo);
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			model.addObject("date", dateFormat.format(date));
+			System.err.println("Inside show Add Mrn /showAddMrn/{poType}/{vendorId}/{poId} in HomeController");
 
-        } catch (Exception e) {
+		} catch (Exception e) {
 
-            System.err.println("Exception in showing  showAddMrn/{poType}/{vendorId}/{poId}" + e.getMessage());
-            e.printStackTrace();
-        }
+			System.err.println("Exception in showing  showAddMrn/{poType}/{vendorId}/{poId}" + e.getMessage());
+			e.printStackTrace();
+		}
 
-        return model;
-    }
+		return model;
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		System.out.println("User Logout");
+
+		session.invalidate();
+		return "redirect:/";
+	}
+	@ExceptionHandler(LoginFailException.class)
+	public String redirectToLogin() {
+		System.out.println("HomeController Login Fail Excep:");
+
+		return "login";
+	}
+	
+	@RequestMapping(value = "/sessionTimeOut", method = RequestMethod.GET)
+	public String sessionTimeOut(HttpSession session) {
+		System.out.println("User Logout");
+
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 }

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%-- <%@ page import="com.ats.exhibition.common.*"%> --%>
-
+<%@ page import="com.ats.tril.common.Constants"%>
+<%@ page import="com.ats.tril.common.Commons"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,7 +33,8 @@
 	href="${pageContext.request.contextPath}/resources/img/favicon.png">
 </head>
 <body>
-
+ 
+<c:url var="setSubModId" value="/setSubModId" />
 
 	<!-- BEGIN Navbar -->
 
@@ -45,14 +46,15 @@
 		</button>
 
 		<!-- BEGIN Navbar Buttons -->
+		<ul class="nav flaty-nav pull-right">
 
-		<!-- BEGIN Button User -->
-		<li class="user-profile"><a data-toggle="dropdown" href="#"
-			class="user-menu dropdown-toggle"> <i class="fa fa-caret-down"></i>
-		</a> <!-- BEGIN User Dropdown -->
-			<ul class="dropdown-menu dropdown-navbar" id="user_menu">
+			<!-- BEGIN Button User -->
+			<li class="user-profile"><a data-toggle="dropdown" href="#"
+				class="user-menu dropdown-toggle"> <i class="fa fa-caret-down"></i>
+			</a> <!-- BEGIN User Dropdown -->
+				<ul class="dropdown-menu dropdown-navbar" id="user_menu">
 
-				</a></li>
+					</a></li>
 
 		</ul>
 		<!-- BEGIN User Dropdown -->
@@ -65,6 +67,11 @@
 
 	<!-- BEGIN Container -->
 	<div class="container" id="main-container">
+		<!-- BEGIN Sidebar -->
+		<div id="sidebar" class="navbar-collapse collapse">
+
+			<!-- BEGIN Navlist -->
+				<div class="container" id="main-container">
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
 
@@ -152,7 +159,7 @@
 					</c:choose>
 				<a href="${pageContext.request.contextPath}/logout">Logout</a>
 					</li>
-				<%-- 		
+						
 					<c:choose>
 						<c:when test="${Constants.subAct==112}">
 							<li class="active">
@@ -166,7 +173,7 @@
 												<a href="${pageContext.request.contextPath}/showPasswordChange">Change Password</a>
 							</li>
 					</ul>
- --%>
+
 
 
 
@@ -214,5 +221,22 @@
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
  --%>
+ 
+ <script>
+ 
+ 
+  
+
+  
+ function selectSubMod(subModId, modId){
+	 
+	 $.getJSON('${setSubModId}', {
+		 subModId : subModId,
+		 modId : modId,
+						ajax : 'true'
+					});
+ }
+ 
+ </script>
 </body>
 </html>
