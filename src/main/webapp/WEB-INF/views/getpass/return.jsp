@@ -130,12 +130,12 @@
 										style="width: 100%" id="table_grid">
 										<thead>
 											<tr>
-												<th>Sr.No.</th>
-												<th>Name</th>
-												<th>Qty</th>
-												<th>Remaining Qty</th>
-												<th>Return Qty</th>
-												<th>Remark</th>
+												<th style="width:2%;">Sr.No.</th>
+												<th class="col-md-5" >Name</th>
+												<th class="col-md-1">Qty</th>
+												<th class="col-md-1">Remaining Qty</th>
+												<th class="col-md-1">Return Qty</th>
+												<th class="col-md-1">Remark</th>
  
 											</tr>
 										</thead>
@@ -145,18 +145,18 @@
 											<c:forEach items="${getpassDetailItemName}"
 												var="getpassDetailItemName" varStatus="count">
 												<tr>
-													<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+													<td><c:out value="${count.index+1}" /></td>
 
 
-													<td class="col-md-3"><c:out
+													<td><c:out
 															value="${getpassDetailItemName.itemCode}" /></td>
 
-													<td class="col-md-2"><input class="form-control"
+													<td><input class="form-control"
 														id="gpQty${count.index}" placeholder="Qty" type="text"
 														name="gpQty${count.index}"
 														value="${getpassDetailItemName.gpQty}" Readonly /></td>
 
-													<td class="col-md-2">
+													<td>
 													<input id="existingRemQty${count.index}" type="hidden" name="existingRemQty${count.index}"
 														value="${getpassDetailItemName.gpRemQty}"   />
 														<input class="form-control"
@@ -165,14 +165,14 @@
 														value="${getpassDetailItemName.gpRemQty}" Readonly /></td>
 
 
-													<td class="col-md-2"><input class="form-control"
+													<td><input class="form-control"
 														id="retQty${count.index}" placeholder="Return Qty"
 														type="text" name="retQty${count.index}" value="0"
-														onchange="check(${count.index})"></td>
+														onchange="check(${count.index})" required></td>
 
-													<td class="col-md-2"><input class="form-control"
-														id="remarkDetail" placeholder="Remark" type="text"
-														name="remarkDetail"></td>
+													<td><input class="form-control"
+														id="remarkDetail${count.index}" placeholder="Remark" type="text"
+														name="remarkDetail${count.index}"></td>
 												</tr>
 											</c:forEach>
 
@@ -286,9 +286,9 @@
 	<script>
 		function check(key) {
 			 
-			var existingRemQty = parseInt($('#existingRemQty'+key).val());
-			var retQty = parseInt($('#retQty'+key).val());
-			var remQty = parseInt($('#remQty'+key).val());
+			var existingRemQty = parseFloat($('#existingRemQty'+key).val());
+			var retQty = parseFloat($('#retQty'+key).val());
+			var remQty = parseFloat($('#remQty'+key).val());
 			 
 			 
 			if(retQty > existingRemQty ){

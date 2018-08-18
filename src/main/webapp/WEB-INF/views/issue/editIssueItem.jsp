@@ -57,7 +57,7 @@
 			<div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Add Issue Receipt
+						<i class="fa fa-file-o"></i>Add Issue  
 					</h1>
 				</div>
 			</div>
@@ -69,7 +69,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Issue Receipt
+								<i class="fa fa-table"></i>Add Issue  
 							</h3>
 							
 							<div class="box-tool">

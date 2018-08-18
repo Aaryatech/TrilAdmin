@@ -100,7 +100,7 @@ public class HomeController {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", fromDate);
 	 			map.add("toDate", toDate);
-	 			GetCurrStockRol[] getCurrentStock =null;// restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
+	 			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
 
 				List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
 				System.err.println(lowReorderItemList.toString());

@@ -242,7 +242,7 @@
 									<div class="col-md-2">No of Days</div>
 									<div class="col-md-3">
 										<input class="form-control" id="noOfDays"
-											placeholder="No of Days" type="text" name="noOfDays" required/>
+											placeholder="No of Days" type="text" name="noOfDays"  />
 									</div>
 									 
 									
@@ -304,7 +304,7 @@
 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit">
+										<input type="submit" class="btn btn-primary" value="Submit"  id="submit" onclick="check()" disabled> 
 
 									</div>
 								</div>
@@ -544,7 +544,7 @@
 			var noOfDays = $("#noOfDays").val();
 			var remark = $("#remark").val();
 			var editIndex = $("#editIndex").val();
-
+			if(validation()==true){
 			$('#loader').show();
 
 			$
@@ -570,14 +570,14 @@
 
 								if (data == "") {
 									alert("No records found !!");
-
+									document.getElementById("submit").disabled=true;
 								}
 
 								$
 										.each(
 												data,
 												function(key, itemList) {
-
+													document.getElementById("submit").disabled=false;
 													var tr = $('<tr></tr>');
 													tr.append($('<td></td>')
 															.html(key + 1));
@@ -631,29 +631,41 @@
 								document.getElementById("remark").value = "";
 								document.getElementById("noOfDays").value = "";
 							});
+			}
 
 		}
 	</script>
 	<script type="text/javascript">
 		function validation() {
 			var itemId = $("#itemId").val();
+			var catId = $("#catId").val();
+			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
-			var enqItemDate = $("#enqItemDate").val();
+			var noOfDays = $("#noOfDays").val();
 
 			var isValid = true;
-			if (itemId == "" || itemId == null) {
+			if (catId == "" || catId == null) {
+				isValid = false;
+				alert("Please Select Category ");
+			}
+			
+			else if (grpId == "" || grpId == null) {
+				isValid = false;
+				alert("Please Select Group ");
+			}
+			
+			else if (itemId == "" || itemId == null) {
 				isValid = false;
 				alert("Please Select Item ");
-			}
-
-			else if (isNaN(qty) || qty < 0 || qty == "") {
+			} 
+			else if (isNaN(qty) || qty < 1 || qty == "") {
 				isValid = false;
 				alert("Please enter Quantity");
 			}
 
-			else if (enqItemDate == "" || enqItemDate == null) {
+			else if (isNaN(noOfDays) || noOfDays < 0 || noOfDays == "") {
 				isValid = false;
-				alert("Please enter Item Date");
+				alert("Please enter No. Of Days");
 			}
 
 			return isValid;
@@ -691,14 +703,14 @@
 
 								if (data == "") {
 									alert("No records found !!");
-
+									document.getElementById("submit").disabled=true;
 								}
 
 								$
 										.each(
 												data,
 												function(key, itemList) {
-
+													document.getElementById("submit").disabled=false;
 													var tr = $('<tr></tr>');
 													tr.append($('<td></td>')
 															.html(key + 1));

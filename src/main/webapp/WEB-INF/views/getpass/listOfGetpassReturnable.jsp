@@ -59,7 +59,7 @@
 
 							<div class="box-content">
 
-								<div class="col-md-2">Select Gate Pass Vendor</div>
+								<%-- <div class="col-md-2">Select Gate Pass Vendor</div>
 								<div class="col-md-3">
 
 									<select name="vendId" id="vendId" class="form-control chosen"
@@ -72,8 +72,8 @@
 										</c:forEach>
 									</select>
 
-								</div>
-								<div class="col-md-2">Select Gate Pass Status</div>
+								</div> --%>
+								<div class="col-md-2">Gate Pass Status:</div>
 								<div class="col-md-3">
 
 									<select name="gpStatusList[]" id="gpStatusList"
@@ -308,7 +308,7 @@
 	<script type="text/javascript">
 		function search() {
 
-			var vendId = $("#vendId").val();
+			//var vendId = $("#vendId").val();
 			var gpStatusList = $("#gpStatusList").val();
 			$('#loader').show();
 
@@ -317,7 +317,7 @@
 							'${getGetpassRetByVendId}',
 
 							{
-								vendId : vendId,
+								vendId : 0,
 								gpStatusList : gpStatusList,
 
 								ajax : 'true'

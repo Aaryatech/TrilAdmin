@@ -147,12 +147,12 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th> 
-														<th>Item Name</th>
-														<th>Qty</th>
-														<th>Remaining Qty</th>
-														<th>Return Qty</th>
-														<th>Remark</th>
+														<th style="width:2%;">Sr.No.</th> 
+														<th class="col-md-5">Item Name</th>
+														<th class="col-md-1">Qty</th>
+														<th class="col-md-1">Remaining Qty</th>
+														<th class="col-md-1">Return Qty</th>
+														<th class="col-md-1">Remark</th>
 
 
 													</tr>
@@ -162,18 +162,18 @@
 
 													<c:forEach items="${list}" var="list" varStatus="count">
 														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td> 
+															<td><c:out value="${count.index+1}" /></td> 
 															
-															<td class="col-md-1"><c:out value="${list.itemCode}" /></td>
+															<td><c:out value="${list.itemCode}" /></td>
 															
-															<td class="col-md-2">
+															<td>
 															
 															<input class="form-control"
 																id="gpQty${count.index}" placeholder="Qty" type="text"
 																name="gpQty${count.index}" value="${list.gpQty}"
 																Readonly /></td>
 
-															<td class="col-md-2">
+															<td>
 															<input id="existingRemQty${count.index}" type="hidden" name="existingRemQty${count.index}"
 														value="${list.balanceQty}"   />
 															<input class="form-control"
@@ -181,7 +181,7 @@
 																type="text" name="remQty${count.index}"
 																value="${list.balanceQty}" Readonly /></td>
  
-															<td class="col-md-2">
+															<td>
 															<input id="existingReturnQty${count.index}" type="hidden" name="existingReturnQty${count.index}"
 														value="${list.returnQty}"   />
 															<input class="form-control"
@@ -190,9 +190,9 @@
 																onchange="check(${count.index})"
 																value="${list.returnQty}"></td>
 
-															<td class="col-md-2"><input class="form-control"
-																id="remarkDetail" placeholder="Remark" type="text"
-																name="remarkDetail" value="${list.remark}"></td>
+															<td><input class="form-control"
+																id="remarkDetail${count.index}" placeholder="Remark" type="text"
+																name="remarkDetail${count.index}" value="${list.remark}"></td>
 														</tr>
 													</c:forEach>
 
@@ -305,11 +305,11 @@
 	<script>
 		function check(key) {
 
-			var existingRemQty = parseInt($('#existingRemQty'+key).val());
-			var existingReturnQty = parseInt($('#existingReturnQty'+key).val());
+			var existingRemQty = parseFloat($('#existingRemQty'+key).val());
+			var existingReturnQty = parseFloat($('#existingReturnQty'+key).val());
 			
-			var retQty = parseInt($('#retQty'+key).val());
-			var remQty = parseInt($('#remQty'+key).val());
+			var retQty = parseFloat($('#retQty'+key).val());
+			var remQty = parseFloat($('#remQty'+key).val());
 
 			if((existingRemQty+existingReturnQty) >= retQty){
 				 

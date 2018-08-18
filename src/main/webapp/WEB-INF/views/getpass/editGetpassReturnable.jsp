@@ -96,7 +96,7 @@
 
 										<select name="vendId" id="vendId" class="form-control chosen"
 											  required>
-											<option value="">Select Vendor</option>
+											 
 											<c:forEach items="${vendorList}" var="vendorList">
 												<c:choose>
 													<c:when
@@ -596,7 +596,7 @@
 			var noOfDays = $("#noOfDays").val();
 			var remark = $("#remark").val();
 			var editIndex = $("#editIndex").val();
-
+			if(validation()==true){
 			$('#loader').show();
 
 			$
@@ -689,44 +689,11 @@
 								document.getElementById("noOfDays").value = "";
 								
 							});
-
-		}
-	</script>
-	<script type="text/javascript">
-		function validation() {
-			var itemId = $("#itemId").val();
-			var qty = $("#qty").val();
-			var enqItemDate = $("#enqItemDate").val();
-
-			var isValid = true;
-			if (itemId == "" || itemId == null) {
-				isValid = false;
-				alert("Please Select Item ");
-			}
-
-			else if (isNaN(qty) || qty < 0 || qty == "") {
-				isValid = false;
-				alert("Please enter Quantity");
-			}
-
-			else if (enqItemDate == "" || enqItemDate == null) {
-				isValid = false;
-				alert("Please enter Item Date");
-			}
-
-			return isValid;
-
-		}
-		function check() {
-
-			var vendId = $("#vendId").val();
-
-			if (vendId == "" || vendId == null) {
-				alert("Select Vendor");
 			}
 
 		}
 	</script>
+	 
 	<script type="text/javascript">
 		function del(key) {
 
@@ -808,7 +775,52 @@
 
 		}
 	</script>
+<script type="text/javascript">
+		function validation() {
+			var itemId = $("#itemId").val();
+			var catId = $("#catId").val();
+			var grpId = $("#grpId").val();
+			var qty = $("#qty").val();
+			var noOfDays = $("#noOfDays").val();
 
+			var isValid = true;
+			if (catId == "" || catId == null) {
+				isValid = false;
+				alert("Please Select Category ");
+			}
+			
+			else if (grpId == "" || grpId == null) {
+				isValid = false;
+				alert("Please Select Group ");
+			}
+			
+			else if (itemId == "" || itemId == null) {
+				isValid = false;
+				alert("Please Select Item ");
+			} 
+			else if (isNaN(qty) || qty < 1 || qty == "") {
+				isValid = false;
+				alert("Please enter Quantity");
+			}
+
+			else if (isNaN(noOfDays) || noOfDays < 0 || noOfDays == "") {
+				isValid = false;
+				alert("Please enter No. Of Days");
+			}
+
+			return isValid;
+
+		}
+		function check() {
+
+			var vendId = $("#vendId").val();
+
+			if (vendId == "" || vendId == null) {
+				alert("Select Vendor");
+			}
+
+		}
+	</script>
 
 
 
