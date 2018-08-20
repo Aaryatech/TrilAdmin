@@ -388,10 +388,8 @@
 					if (itemList.indMStatus == 0) {
 						modType = "Pending";
 					} else if (itemList.indMStatus == 1) {
-						modType = "Enquiry";
-					} else if (itemList.indMStatus == 2) {
 						modType = "Partial Pending";
-					} else if (itemList.indMStatus == 3) {
+					} else if (itemList.indMStatus == 2) {
 						modType = "Closed";
 					}
 					tr.append($('<td></td>').html(modType));
