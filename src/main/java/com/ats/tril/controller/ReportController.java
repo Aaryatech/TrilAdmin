@@ -1288,6 +1288,9 @@ public class ReportController {
 			int isMonthly = Integer.parseInt(request.getParameter("isMonthly"));
 			String[] catIdList = request.getParameterValues("catIdList[]");
 
+			System.out.println("fromDate" + fromDate);
+			System.out.println("toDate" + toDate);
+
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < catIdList.length; i++) {
@@ -1300,6 +1303,9 @@ public class ReportController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			System.out.println("fromDate" + DateConvertor.convertToYMD(fromDate));
+			System.out.println("toDate" + DateConvertor.convertToYMD(toDate));
 			map.add("catIdList", items);
 			map.add("indIsmonthly", isMonthly);
 			map.add("indIsdev", isDev);
