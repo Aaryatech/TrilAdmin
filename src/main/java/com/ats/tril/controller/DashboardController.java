@@ -217,6 +217,7 @@ public class DashboardController {
 			 getMrnHeader=rest.postForObject(Constants.url+"getMrnHeader", map,  GetMrnHeader.class);
 			
             model.addObject("getMrnHeader", getMrnHeader);
+            System.out.println("getMrnHeader -------- " + getMrnHeader);
             
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -253,6 +254,8 @@ public class DashboardController {
 						 
 				}
 			}
+			
+			System.out.println("getMrnDetailList -------- " + getMrnDetailList);
 			model.addObject("getMrnDetailList", getMrnDetailList);
 			model.addObject("mrnId", mrnId);
 			model.addObject("getMrnHeader", getMrnHeader);
@@ -279,9 +282,10 @@ public class DashboardController {
             	 }
 			getMrnHeader.setGetMrnDetailList(getMrnDetailList);
              }
-			List<MrnDetail> mrnDetailList = restTemp.postForObject(Constants.url + "/saveMrnData", getMrnDetailList, List.class);
+             System.out.println(" final getMrnHeader -------- " + getMrnHeader);
+			 List<MrnDetail> mrnDetailList = restTemp.postForObject(Constants.url + "/saveMrnData", getMrnDetailList, List.class);
 
-			System.err.println("mrnDetailList " + mrnDetailList.toString());
+			System.err.println("mrnDetailList " + mrnDetailList.toString()); 
 			
 
 		} catch (Exception e) {

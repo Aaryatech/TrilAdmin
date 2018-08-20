@@ -35,6 +35,7 @@
 			      day = '0' + day.toString(); 
 			  var maxDate = year + '-' + month + '-' + day;  
 	  		$('#issueDate').attr('min', maxDate);
+	  		getInvoiceNo();
 	  
 	 }
  
@@ -51,7 +52,7 @@
 	  <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 
-	  <div class="container" id="main-container">
+	 <!--  <div class="container" id="main-container"> -->
 
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
@@ -68,13 +69,13 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			  <!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Add Issue  
 					</h1>
 				</div>
-			</div>
+			</div>  --> <br> 
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -117,7 +118,7 @@
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control"
-								 placeholder="Issue Date"  name="issueDate" type="date"  onchange="getInvoiceNo()"  required> 
+								 placeholder="Issue Date"  name="issueDate" type="date" value="${date}" onchange="getInvoiceNo()"  required> 
 								 
 								 
 						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
@@ -242,8 +243,7 @@
 								style="width: 100%" id="table_grid">
 								<thead>
 									<tr>
-										<th>Sr.No.</th>
-										<th>Group Name</th>
+										<th>Sr.No.</th> 
 										<th>Item Name</th>  
 										<th>Qty</th> 
 										<th>Action</th> 
@@ -285,7 +285,7 @@
 				class="fa fa-chevron-up"></i></a>
 		
 		<!-- END Content -->
-	</div>
+	<!-- </div> -->
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -368,10 +368,12 @@
 		function getBatchByItemId() {
 
 			var itemId = document.getElementById("itemId").value;
-
+			var date = $("#issueDate").val();
+			
 			$.getJSON('${getBatchByItemId}', {
 
 				itemId : itemId,
+				date : date,
 				ajax : 'true'
 			}, function(data) {
 
@@ -523,7 +525,7 @@
 
 													var tr = $('<tr></tr>'); 
 												  	tr.append($('<td></td>').html(key+1)); 
-												  	tr.append($('<td></td>').html(itemList.groupName)); 
+												  	 
 												  	tr.append($('<td></td>').html(itemList.itemName)); 
 												  	tr.append($('<td></td>').html(itemList.itemIssueQty));
 												  	/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
@@ -709,7 +711,7 @@
 									 
 										var tr = $('<tr></tr>'); 
 									  	tr.append($('<td></td>').html(key+1)); 
-									  	tr.append($('<td></td>').html(itemList.groupName)); 
+									   
 									  	tr.append($('<td></td>').html(itemList.itemName)); 
 									  	tr.append($('<td></td>').html(itemList.itemIssueQty));
 									  	/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
@@ -806,7 +808,7 @@ function getInvoiceNo() {
 
 	var date = $("#issueDate").val();
 	var toDateValue = date.split('-'); 
-	 
+	  
 	var min = toDateValue[2]+"-"+(toDateValue[1] - 1 )+"-"+toDateValue[0];
 	 
 	$.getJSON('${getInvoiceNo}', {

@@ -77,6 +77,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 
 				 model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockHeader.getDate()));
 				 
+				 Date date = new Date();
+				 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				 
+				 model.addObject("date", sf.format(date));
 				  
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,9 +116,11 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			String date = request.getParameter("date");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemId", itemId);
+			map.add("date", date);
 			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "getBatchByItemId", map, MrnDetail[].class);
 
 			batchList = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
@@ -569,8 +575,11 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
 
+			String date = request.getParameter("date") ;
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemId", itemId);
+			map.add("date", date);
 			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "getBatchByItemId", map, MrnDetail[].class);
 
 			batchListInEditIssue = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));

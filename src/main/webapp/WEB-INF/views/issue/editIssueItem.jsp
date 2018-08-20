@@ -54,13 +54,13 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Add Issue  
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -69,7 +69,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Issue  
+								<i class="fa fa-table"></i>Edit Issue  
 							</h3>
 							
 							<div class="box-tool">
@@ -102,7 +102,7 @@
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control"
-								 placeholder="Issue Date" value="${date}"  name="issueDate" type="date" required>
+								 placeholder="Issue Date" value="${date}"  name="issueDate" type="date" readonly>
 								 
 						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
 
@@ -236,7 +236,7 @@
 								<thead>
 									<tr>
 										<th>Sr.No.</th>
-										<th>Group Name</th>
+										<!-- <th>Group Name</th> -->
 										<th>Item Name</th> 
 										 
 										<th>QTY</th> 
@@ -249,10 +249,10 @@
 														var="getIssueDetailList" varStatus="count">
 														<tr>
 															<td><c:out value="${count.index+1}" /></td>
-
+<%-- 
 															<td><c:out
 																	value="${getIssueDetailList.grpCode}" /></td>
-
+ --%>
 															<td><c:out
 																	value="${getIssueDetailList.itemCode}" /></td>
 
@@ -388,10 +388,12 @@
 		function getBatchByItemId() {
 
 			var itemId = document.getElementById("itemId").value;
-
+			var date = $("#issueDate").val();
+			
 			$.getJSON('${getBatchByItemIdInIssueEdit}', {
 
 				itemId : itemId,
+				date : date,
 				ajax : 'true'
 			}, function(data) {
 
@@ -579,7 +581,7 @@
 													 {
 													var tr = $('<tr></tr>'); 
 												  	tr.append($('<td></td>').html(key+1)); 
-												  	tr.append($('<td></td>').html(itemList.grpCode)); 
+												  	/* tr.append($('<td></td>').html(itemList.grpCode));  */
 												  	tr.append($('<td></td>').html(itemList.itemCode)); 
 												  	tr.append($('<td></td>').html(itemList.itemIssueQty));
 												  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
@@ -766,7 +768,7 @@
 										 {
 										var tr = $('<tr></tr>'); 
 									  	tr.append($('<td></td>').html(key+1)); 
-									  	tr.append($('<td></td>').html(itemList.grpCode)); 
+									  	/* tr.append($('<td></td>').html(itemList.grpCode)); */ 
 									  	tr.append($('<td></td>').html(itemList.itemCode)); 
 									  	tr.append($('<td></td>').html(itemList.itemIssueQty));
 									  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));

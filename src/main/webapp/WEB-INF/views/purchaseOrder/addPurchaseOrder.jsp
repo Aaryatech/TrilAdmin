@@ -140,14 +140,14 @@ body {
 	<!-- BEGIN Content -->
 	<div id="main-content">
 		<!-- BEGIN Page Title -->
-		<div class="page-title">
+		<!-- <div class="page-title">
 			<div>
 				<h1>
 					<i class="fa fa-file-o"></i>Purchase Order
 				</h1>
-				<!-- <h4>Bill for franchises</h4> -->
+				<h4>Bill for franchises</h4>
 			</div>
-		</div>
+		</div> --> 
 		<!-- END Page Title -->
  
 		<!-- BEGIN Main Content -->

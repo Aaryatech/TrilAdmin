@@ -51,13 +51,13 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Add Damage Material
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
