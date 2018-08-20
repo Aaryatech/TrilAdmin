@@ -120,10 +120,10 @@
 									<select name="poStatus[]" id="poStatus"
 										class="form-control chosen" multiple="multiple" tabindex="6"
 										required>
-										<option value="0">All</option>
-										<option value="1">Pending</option>
-										<option value="2">Partial Pending</option>
-										<option value="3">Return</option>
+										<option value="-1">All</option>
+										<option value="0">Pending</option>
+										<option value="1">Partial Pending</option>
+										<option value="2">Return</option>
 
 									</select>
 
@@ -352,8 +352,6 @@
 						modType = "Partial Pending";
 					} else if (itemList.poStatus == 2) {
 						modType = "Return";
-					} else {
-						modType = "Closed";
 					}
 					tr.append($('<td></td>').html(modType));
 

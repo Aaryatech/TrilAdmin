@@ -1357,11 +1357,10 @@ public class ReportController {
 
 				if (getlist1.get(i).getIndMStatus() == 0) {
 					rowData.add("Pending");
+
 				} else if (getlist1.get(i).getIndMStatus() == 1) {
-					rowData.add("Enquiry");
-				} else if (getlist1.get(i).getIndMStatus() == 2) {
 					rowData.add("Partial Pending");
-				} else if (getlist1.get(i).getIndMStatus() == 3) {
+				} else if (getlist1.get(i).getIndMStatus() == 2) {
 					rowData.add("Closed");
 				}
 
