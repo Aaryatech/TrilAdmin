@@ -48,7 +48,9 @@ public class EnqController {
 
 	@RequestMapping(value = "/showAddEnq", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
-		enqDetailList = new ArrayList<>();
+		
+		enqDetailList = new ArrayList<>(); 
+		enquiryHeader = new EnquiryHeader();
 		intendDetailList = new ArrayList<>();
 		ModelAndView model = new ModelAndView("enquiry/addEnq");
 		try {
@@ -64,6 +66,11 @@ public class EnqController {
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			model.addObject("enqDateTemp", sf.format(date));
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,6 +93,21 @@ public class EnqController {
 			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
 					GetIntendDetail[].class);
 			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			
+			if(indIdForGetList==enquiryHeader.getIndId())
+			{
+				for(int i = 0 ; i < intendDetailList.size() ; i++)
+				{
+					for(int j = 0 ; j < enqDetailList.size() ; j++)
+					{
+						if(intendDetailList.get(i).getItemId()==enqDetailList.get(j).getItemId()) {
+							intendDetailList.get(i).setPoQty(enqDetailList.get(j).getEnqQty());
+							break;
+						}
+					}
+					
+				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,32 +164,40 @@ public class EnqController {
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);
+			
+			try {
+				for (int i = 0; i < intendDetailList.size(); i++) {
+					for (int j = 0; j < checkbox.length; j++) {
+						System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
+						if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
+							EnquiryDetail enqDetail = new EnquiryDetail();
+							enqDetail.setIndId(intendDetailList.get(i).getIndMId());
+							enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
+							enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
+							enqDetail.setItemId(intendDetailList.get(i).getItemId());
+							enqDetail.setEnqUom(intendDetailList.get(i).getIndItemUom());
+							enqDetail.setEnqRemark(intendDetailList.get(i).getIndRemark());
+							enqDetail.setEnqDetailDate(intendDetailList.get(i).getIndMDate());
+							enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
+							enqDetail.setDelStatus(1);
+							enqDetail.setEnqQty(
+									Float.parseFloat(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
+							enqDetail.setEnqRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));
 
-			for (int i = 0; i < intendDetailList.size(); i++) {
-				for (int j = 0; j < checkbox.length; j++) {
-					System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
-					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
-						EnquiryDetail enqDetail = new EnquiryDetail();
-						enqDetail.setIndId(intendDetailList.get(i).getIndMId());
-						enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
-						enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
-						enqDetail.setItemId(intendDetailList.get(i).getItemId());
-						enqDetail.setEnqUom(intendDetailList.get(i).getIndItemUom());
-						enqDetail.setEnqRemark(intendDetailList.get(i).getIndRemark());
-						enqDetail.setEnqDetailDate(intendDetailList.get(i).getIndMDate());
-						enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
-						enqDetail.setDelStatus(1);
-						enqDetail.setEnqQty(
-								Float.parseFloat(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
-						enqDetail.setEnqRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));
+							enqDetailList.add(enqDetail);
 
-						enqDetailList.add(enqDetail);
+							enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
+							enquiryHeader.setIndId(indId);
+						}
 
-						enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
 					}
-
 				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
 			}
+			
+			
 			System.out.println("enqDetailList" + enqDetailList);
 
 			model.addObject("enqDetailList", enqDetailList);
@@ -528,29 +558,35 @@ public class EnqController {
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);
 
-			for (int i = 0; i < intendDetailList.size(); i++) {
-				for (int j = 0; j < checkbox.length; j++) {
-					System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
-					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
-						GetEnquiryDetail enqDetail = new GetEnquiryDetail();
-						enqDetail.setIndId(intendDetailList.get(i).getIndMId());
-						enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
-						enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
-						enqDetail.setItemId(intendDetailList.get(i).getItemId());
-						enqDetail.setEnqUom(intendDetailList.get(i).getIndItemUom());
-						enqDetail.setEnqRemark(intendDetailList.get(i).getIndRemark());
-						enqDetail.setEnqDetailDate(intendDetailList.get(i).getIndMDate());
-						enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
-						enqDetail.setDelStatus(1);
-						enqDetail.setEnqQty(
-								Float.parseFloat(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
+			try {
+				for (int i = 0; i < intendDetailList.size(); i++) {
+					for (int j = 0; j < checkbox.length; j++) {
+						System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
+						if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
+							GetEnquiryDetail enqDetail = new GetEnquiryDetail();
+							enqDetail.setIndId(intendDetailList.get(i).getIndMId());
+							enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
+							enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
+							enqDetail.setItemId(intendDetailList.get(i).getItemId());
+							enqDetail.setEnqUom(intendDetailList.get(i).getIndItemUom());
+							enqDetail.setEnqRemark(intendDetailList.get(i).getIndRemark());
+							enqDetail.setEnqDetailDate(intendDetailList.get(i).getIndMDate());
+							enqDetail.setEnqItemDesc(intendDetailList.get(i).getIndItemDesc());
+							enqDetail.setDelStatus(1);
+							enqDetail.setEnqQty(
+									Float.parseFloat(request.getParameter("enqQty" + intendDetailList.get(i).getIndDId())));
 
-						detailList.add(enqDetail); 
+							detailList.add(enqDetail); 
+						}
+
 					}
-
 				}
+			}catch(Exception e)
+			{
+				
 			}
-			System.out.println("enqDetailList" + enqDetailList);
+			
+			System.out.println("detailList" + detailList);
 
 			model.addObject("editEnquiry", editEnquiry);
 			model.addObject("detailList", detailList);

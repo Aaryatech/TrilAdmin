@@ -945,6 +945,8 @@ function checkQty(key)
 	{
 		document.getElementById("poQty"+key).value=""; 
 		alert("Enter Greater Than 0 ");
+		document.getElementById("select_to_approve"+key).checked=false; 
+		  requiredField(key);
 	} 
 	else if(rate==0)
 	{
@@ -1035,10 +1037,14 @@ function requiredField(key)
 		 	 document.getElementById("poQty"+key).value = 0;
 		 	document.getElementById("balanceQty"+key).value = indQty;
 		 	alert("Your Enter PO QTY Greater Than Balance QTY");
+		 	document.getElementById("select_to_approve"+key).checked=false; 
+			  requiredField(key);
 		  }
 	  else
 		  {  
 		  document.getElementById("balanceQty"+key).value = indQty-poQty;
+		  document.getElementById("select_to_approve"+key).checked=true; 
+		  requiredField(key);
 		   }  
   	
   	 

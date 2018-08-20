@@ -672,7 +672,9 @@ public class MastersController {
 
 			vendor.setVendorItem(vendorItem);
 			vendor.setVendorGstNo(vendorGstNo);
-			vendor.setVendorDate(DateConvertor.convertToYMD(vendorDate));
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			vendor.setVendorDate(sf.format(date));
 
 			vendor.setVendorApprvBy("113");
 			vendor.setVendorType(Integer.parseInt(vendorType));

@@ -13,23 +13,23 @@ public class GetCurrStockRol {
 		
 	private int catId;
 	
-	private int itemMaxLevel;
+	private float itemMaxLevel;
 	
-	private int openingStock;
+	private float openingStock;
 
-	private int approveQty;
+	private float approveQty;
 
-	private int issueQty;
+	private float issueQty;
 	
-	private int returnIssueQty;
+	private float returnIssueQty;
 	
-	private int damageQty;
+	private float damageQty;
 	
-	private int gatepassQty;
+	private float gatepassQty;
 	
-	private int gatepassReturnQty;
+	private float gatepassReturnQty;
 	
-	private int rolLevel;
+	private float rolLevel;
 
 	public int getItemId() {
 		return itemId;
@@ -71,75 +71,75 @@ public class GetCurrStockRol {
 		this.catId = catId;
 	}
 
-	public int getItemMaxLevel() {
+	public float getItemMaxLevel() {
 		return itemMaxLevel;
 	}
 
-	public void setItemMaxLevel(int itemMaxLevel) {
+	public void setItemMaxLevel(float itemMaxLevel) {
 		this.itemMaxLevel = itemMaxLevel;
 	}
 
-	public int getOpeningStock() {
+	public float getOpeningStock() {
 		return openingStock;
 	}
 
-	public void setOpeningStock(int openingStock) {
+	public void setOpeningStock(float openingStock) {
 		this.openingStock = openingStock;
 	}
 
-	public int getApproveQty() {
+	public float getApproveQty() {
 		return approveQty;
 	}
 
-	public void setApproveQty(int approveQty) {
+	public void setApproveQty(float approveQty) {
 		this.approveQty = approveQty;
 	}
 
-	public int getIssueQty() {
+	public float getIssueQty() {
 		return issueQty;
 	}
 
-	public void setIssueQty(int issueQty) {
+	public void setIssueQty(float issueQty) {
 		this.issueQty = issueQty;
 	}
 
-	public int getReturnIssueQty() {
+	public float getReturnIssueQty() {
 		return returnIssueQty;
 	}
 
-	public void setReturnIssueQty(int returnIssueQty) {
+	public void setReturnIssueQty(float returnIssueQty) {
 		this.returnIssueQty = returnIssueQty;
 	}
 
-	public int getDamageQty() {
+	public float getDamageQty() {
 		return damageQty;
 	}
 
-	public void setDamageQty(int damageQty) {
+	public void setDamageQty(float damageQty) {
 		this.damageQty = damageQty;
 	}
 
-	public int getGatepassQty() {
+	public float getGatepassQty() {
 		return gatepassQty;
 	}
 
-	public void setGatepassQty(int gatepassQty) {
+	public void setGatepassQty(float gatepassQty) {
 		this.gatepassQty = gatepassQty;
 	}
 
-	public int getGatepassReturnQty() {
+	public float getGatepassReturnQty() {
 		return gatepassReturnQty;
 	}
 
-	public void setGatepassReturnQty(int gatepassReturnQty) {
+	public void setGatepassReturnQty(float gatepassReturnQty) {
 		this.gatepassReturnQty = gatepassReturnQty;
 	}
 
-	public int getRolLevel() {
+	public float getRolLevel() {
 		return rolLevel;
 	}
 
-	public void setRolLevel(int rolLevel) {
+	public void setRolLevel(float rolLevel) {
 		this.rolLevel = rolLevel;
 	}
 

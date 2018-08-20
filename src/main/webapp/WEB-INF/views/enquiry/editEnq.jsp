@@ -484,7 +484,7 @@ body {
 		function itemByIntendId() {
 
 			var indId = $("#indId").val();
-			alert(indId);
+			//alert(indId);
 			$('#loader').show();
 			$
 					.getJSON(
@@ -546,7 +546,7 @@ body {
 																	'<td ></td>')
 																	.html(
 																			'<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'
-																					+ '<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('
+																					+ '<input style="text-align:right; width:100px" type="text" onkeyup="autoChecked('
 																					+ itemList.indDId
 																					+ ')" id="enqQty'
 																					+ itemList.indDId
@@ -615,6 +615,74 @@ body {
 			
 			
 		}
+		
+		function requiredAll()
+		{
+			var checkboxes = document.getElementsByName('select_to_approve'); 
+			
+			
+			if(document.getElementById("allCheck").checked == true)
+			{
+				 for (var i=0; i<checkboxes.length; i++) {
+					 document.getElementById("select_to_approve"+checkboxes[i].value).checked == true;
+				       
+				    	  document.getElementById("enqQty"+checkboxes[i].value).required=true;  
+				    	  document.getElementById("indRemark"+checkboxes[i].value).required=true; 
+				  }
+			}
+			else
+			{
+				for (var i=0; i<checkboxes.length; i++) {
+					 document.getElementById("select_to_approve"+checkboxes[i].value).checked == false;
+				       
+				    	  document.getElementById("enqQty"+checkboxes[i].value).required=false; 
+				    	  document.getElementById("indRemark"+checkboxes[i].value).required=true; 
+				      
+				  }
+			}
+			   
+			 
+		} 
+
+		function requiredField(key)
+		{
+			
+			if(document.getElementById("select_to_approve"+key).checked == true)
+			{
+				document.getElementById("enqQty"+key).required=true;  
+				document.getElementById("indRemark"+key).required=true;  
+			} 
+			else
+			{
+				document.getElementById("enqQty"+key).required=false;  
+				document.getElementById("indRemark"+key).required=false;  
+			}
+			
+			 
+		} 
+		
+		function autoChecked(key)
+		  {
+		  	
+		  	  
+		  	var enqQty = parseFloat($("#enqQty"+key).val());   
+		  	
+			    if(enqQty<=0 || enqQty==null || enqQty=="")
+				  {
+				 	 document.getElementById("enqQty"+key).value = ""; 
+				 	alert("Enter Enquiry Qty Greater than 0 ");
+				 	document.getElementById("select_to_approve"+key).checked=false; 
+					  requiredField(key);
+				  }
+			  else
+				  {   
+				  document.getElementById("select_to_approve"+key).checked=true; 
+				  requiredField(key);
+				   }  
+		  	
+		  	 
+		  } 
+		
 		function getValue() {
 
 			document.getElementById("vendIdTemp").value = document

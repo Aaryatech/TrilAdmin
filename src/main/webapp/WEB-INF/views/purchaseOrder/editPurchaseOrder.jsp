@@ -114,14 +114,14 @@ body {
 	<!-- BEGIN Content -->
 	<div id="main-content">
 		<!-- BEGIN Page Title -->
-		<div class="page-title">
+		<!-- <div class="page-title">
 			<div>
 				<h1>
 					<i class="fa fa-file-o"></i> Edit Purchase Order
 				</h1>
-				<!-- <h4>Bill for franchises</h4> -->
+				<h4>Bill for franchises</h4>
 			</div>
-		</div>
+		</div> -->
 		 
 		<!-- BEGIN Main Content -->
 		<div class="box">
@@ -348,7 +348,7 @@ body {
 													  
 																<td><c:out value="${count.index+1}" /></td>
   
-																<td class="col-md-4"><c:out value="${poDetailList.itemCode}" /></td>
+																<td class="col-md-4"><font size="2"><c:out value="${poDetailList.itemCode}" /></font></td>
 																<td align="left"><c:out value="${poDetailList.itemUom}" />
 																<input type="hidden" id="existingItemQty${count.index}" name="existingItemQty${count.index}" value="${poDetailList.itemQty}" >
 																<input type="hidden" id="existingBalanceQty${count.index}" name="existingBalanceQty${count.index}" value="${poDetailList.balanceQty}" ></td>
@@ -356,29 +356,29 @@ body {
 																
 													  			 <c:choose>
 													  			 	<c:when test="${poDetailList.status==0}">
-																			<td align="right"><input style="text-align:right; width:50px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
+																			<td align="right"><input style="text-align:right; width:70px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
 													  				  			 	
 													  			 	</c:when>
 													  			 	<c:otherwise>
-													  			 			<td align="right"><input style="text-align:right; width:50px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
+													  			 			<td align="right"><input style="text-align:right; width:70px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
 													  			 
 													  			 	</c:otherwise>
 													  			 </c:choose>
-													  			<td align="right"><input style="text-align:right; width:50px" type="text" id="balanceQty${count.index}" 
+													  			<td align="right"><input style="text-align:right; width:70px" type="text" id="balanceQty${count.index}" 
 													  			name="balanceQty${count.index}" value="${poDetailList.balanceQty}" class="form-control" 
 													  			 pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
 													  			 
 													  			  <c:choose>
 													  			 	<c:when test="${poDetailList.status==0}">
-															  			 	<td align="right"><input style="text-align:right; width:50px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
-															  				<td align="right"><input style="text-align:right; width:50px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
+															  			 	<td align="right"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> </td>
+															  				<td align="right"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
 															  				<td align="right"><input style="text-align:right; width:50px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
 													  						<td align="left"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></td> 
 													  			
 															  		</c:when>
 															  		<c:otherwise>
-															  				<td align="right"><input style="text-align:right; width:50px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
-															  				<td align="right"><input style="text-align:right; width:50px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
+															  				<td align="right"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> </td>
+															  				<td align="right"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
 															  				<td align="right"><input style="text-align:right; width:50px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
 													  						<td align="left"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" readonly></td> 
 													  			 

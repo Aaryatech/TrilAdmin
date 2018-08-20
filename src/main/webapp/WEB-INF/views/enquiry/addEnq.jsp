@@ -86,7 +86,7 @@ body {
 	padding-left: 20px;
 }
 </style>
-<body>
+<body onload="getInvoiceNo()">
 
 
 	<c:url var="addItmeInEnquiryList" value="/addItmeInEnquiryList"></c:url>
@@ -155,17 +155,15 @@ body {
 									<div class="col-md-3">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
-											multiple="multiple" tabindex="6" required>
+											multiple="multiple"  required>
 											<option value="">Select Vendor</option>
 											<c:forEach items="${vendorList}" var="vendorList">
 												<c:choose>
 													<c:when test="${vendorList.vendorId==vendIdTemp}">
-														<option value="${vendorList.vendorId}" selected><c:out
-																value="${vendorList.vendorName}" /></option>
+														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${vendorList.vendorId}"><c:out
-																value="${vendorList.vendorName}" /></option>
+														<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
@@ -206,10 +204,10 @@ body {
 								</div>
 								<br>
 								<div class="box-content">
-									<div class="col-md-2">Select Intend No.</div>
+									<div class="col-md-2">Select Indent No.</div>
 									<div class="col-md-3">
 										<select name="indId" id="indId" class="form-control chosen"
-											tabindex="6">
+											 >
 											<option value="">Select</option>
 											<c:forEach items="${intedList}" var="intedList">
 												<c:choose>
@@ -230,7 +228,7 @@ body {
 									<div class="col-md-1"></div>
 									<div class="col-md-2">
 										<input type="button" class="btn btn-info"
-											value="Get Item From Intend " id="myBtn">
+											value="Get Item From Indent " id="myBtn">
 									</div>
 								</div>
 
@@ -336,11 +334,11 @@ body {
 															<tr>
 																<th align="left"><input type="checkbox"
 																	id="allCheck" onClick="selectAll(this)"
-																	onchange="requiredAll()" /> Select All</th>
+																	onchange="requiredAll()" />All</th>
 																<th>Sr.No.</th>
 																<th>Item Name</th>
 																<th>UOM</th>
-																<th>Intend QTY</th>
+																<th>Indent QTY</th>
 																<th>Enq QTY</th>
 																<th>Remark</th>
 
@@ -491,7 +489,7 @@ body {
 		function itemByIntendId() {
 
 			var indId = $("#indId").val();
-			alert(indId);
+			//alert(indId);
 			$('#loader').show();
 			$
 					.getJSON(
@@ -519,18 +517,38 @@ body {
 												function(key, itemList) {
 
 													var tr = $('<tr></tr>');
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			'<input type="checkbox" name="select_to_approve"'
-																					+ 'id="select_to_approve'
-																					+ itemList.indDId
-																					+ '" onchange="requiredField('
-																					+ itemList.indDId
-																					+ ')" value="'
-																					+ itemList.indDId
-																					+ '" >'));
+													
+													if(itemList.poQty>0){
+														
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		'<input type="checkbox" name="select_to_approve"'
+																				+ 'id="select_to_approve'
+																				+ itemList.indDId
+																				+ '" onchange="requiredField('
+																				+ itemList.indDId
+																				+ ')" value="'
+																				+ itemList.indDId
+																				+ '" checked>'));
+														
+													}
+													else{
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		'<input type="checkbox" name="select_to_approve"'
+																				+ 'id="select_to_approve'
+																				+ itemList.indDId
+																				+ '" onchange="requiredField('
+																				+ itemList.indDId
+																				+ ')" value="'
+																				+ itemList.indDId
+																				+ '" >'));
+													}
+													
 													tr.append($('<td></td>')
 															.html(key + 1));
 													tr
@@ -548,26 +566,26 @@ body {
 																	'<td style="text-align:right;"></td>')
 																	.html(
 																			itemList.indQty));
-													tr
-															.append($(
-																	'<td ></td>')
-																	.html(
-																			'<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'
-																					+ '<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('
-																					+ itemList.indDId
-																					+ ')" id="enqQty'
-																					+ itemList.indDId
-																					+ '" name="enqQty'
-																					+ itemList.indDId
-																					+ '" onchange="checkQty('
-																					+ itemList.indDId
-																					+ ')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+													
+													if(itemList.poQty>0){
+														tr
+														.append($(
+																'<td ></td>')
+																.html( '<input style="text-align:right; width:100px" type="text"   value="'+itemList.poQty+'" id="enqQty' + itemList.indDId + '" name="enqQty' + itemList.indDId
+																				+ '" onchange="checkQty(' + itemList.indDId + ')" onchange="autoChecked('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
 
-													tr
-															.append($(
-																	'<td ></td>')
-																	.html(
-																			'<input style="text-align:right; width:200px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control" required>'));
+														tr .append($( '<td ></td>') .html( '<input style="text-align:right; width:200px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  required>'));
+													}
+													else{
+														tr
+														.append($(
+																'<td ></td>')
+																.html( '<input style="text-align:right; width:100px" type="text"  onchange="autoChecked('+itemList.indDId+')"  id="enqQty' + itemList.indDId + '" name="enqQty' + itemList.indDId
+																				+ '" onchange="checkQty(' + itemList.indDId + ')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+
+														tr .append($( '<td ></td>') .html( '<input style="text-align:right; width:200px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
+													}
+													
 														document.getElementById("indMId").value=itemList.indMId; 
 													$('#table_grid1 tbody')
 															.append(tr);
@@ -592,12 +610,80 @@ body {
 					.getElementById("indId").value;
 
 		}
+		
+		function requiredAll()
+		{
+			var checkboxes = document.getElementsByName('select_to_approve'); 
+			
+			
+			if(document.getElementById("allCheck").checked == true)
+			{
+				 for (var i=0; i<checkboxes.length; i++) {
+					 document.getElementById("select_to_approve"+checkboxes[i].value).checked == true;
+				       
+				    	  document.getElementById("enqQty"+checkboxes[i].value).required=true;  
+				    	  document.getElementById("indRemark"+checkboxes[i].value).required=true; 
+				  }
+			}
+			else
+			{
+				for (var i=0; i<checkboxes.length; i++) {
+					 document.getElementById("select_to_approve"+checkboxes[i].value).checked == false;
+				       
+				    	  document.getElementById("enqQty"+checkboxes[i].value).required=false; 
+				    	  document.getElementById("indRemark"+checkboxes[i].value).required=true; 
+				      
+				  }
+			}
+			   
+			 
+		} 
+
+		function requiredField(key)
+		{
+			
+			if(document.getElementById("select_to_approve"+key).checked == true)
+			{
+				document.getElementById("enqQty"+key).required=true;  
+				document.getElementById("indRemark"+key).required=true;  
+			} 
+			else
+			{
+				document.getElementById("enqQty"+key).required=false;  
+				document.getElementById("indRemark"+key).required=false;  
+			}
+			
+			 
+		} 
+		
+		function autoChecked(key)
+		  {
+		  	
+		  	  
+		  	var enqQty = parseFloat($("#enqQty"+key).val());   
+		  	
+			    if(enqQty<=0 || enqQty==null || enqQty=="")
+				  {
+				 	 document.getElementById("enqQty"+key).value = ""; 
+				 	alert("Enter Enquiry Qty Greater than 0 ");
+				 	document.getElementById("select_to_approve"+key).checked=false; 
+					  requiredField(key);
+				  }
+			  else
+				  {   
+				  document.getElementById("select_to_approve"+key).checked=true; 
+				  requiredField(key);
+				   }  
+		  	
+		  	 
+		  } 
 	</script>
 
 	<script type="text/javascript">
 		function getInvoiceNo() {
 
 			var date = $("#enqDate").val();
+			//alert(date);
 
 			$.getJSON('${getInvoiceNo}', {
 

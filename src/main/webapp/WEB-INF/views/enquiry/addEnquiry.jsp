@@ -68,10 +68,10 @@
 								<div class="col-md-2">Select Vendor</div>
 									<div class="col-md-4">
 									
-									<select name="vendId" id="vendId" class="form-control chosen" multiple="multiple" tabindex="6" required>
+									<select name="vendId" id="vendId" class="form-control chosen" multiple="multiple"   required>
 											<option value="">Select Vendor</option>
 											<c:forEach items="${vendorList}" var="vendorList"> 
-												<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp;${vendorList.vendorCode} </option>
+												<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode} </option>
 											 </c:forEach>
 										</select>
 									
@@ -104,7 +104,7 @@
 								
 									<div class="col-md-2" >Select Item</div>
 									<div class="col-md-10">
-										<select data-placeholder="Select RM Name" class="form-control chosen" name="itemId" tabindex="-1"
+										<select data-placeholder="Select RM Name" class="form-control chosen" name="itemId"  
 											id="itemId"  >
 											<option   value="">Select Item</option>
 											
