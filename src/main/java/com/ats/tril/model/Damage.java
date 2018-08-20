@@ -7,7 +7,7 @@ public class Damage {
 	private String date; 
 	private int itemId; 
 	private String itemName;
-	private int qty; 
+	private float qty; 
 	private float value; 
 	private String reason; 
 	private int delStatus;
@@ -30,10 +30,10 @@ public class Damage {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public int getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(int qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	public float getValue() {

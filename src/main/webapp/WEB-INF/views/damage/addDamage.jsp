@@ -340,7 +340,7 @@
 			
 				var itemId = $("#itemId").val();
 				var itemName = $("#itemId option:selected").text(); 
-				var qty = parseInt($("#qty").val());
+				var qty = parseFloat($("#qty").val());
 				var reason = $("#reason").val(); 
 				var value = $("#value").val(); 
 				var editIndex = $("#editIndex").val(); 

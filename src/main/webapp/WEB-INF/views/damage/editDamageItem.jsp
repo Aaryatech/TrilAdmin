@@ -158,7 +158,7 @@ body {
 			<div class="box-content">
 			<div class="col-md-2">QTY</div>
 				<div class="col-md-3">
-					<input type="number" placeholder="QTY"  value="${editDamage.qty}" name="qty" id="qty" class="form-control" required>
+					<input type="text" placeholder="QTY" pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editDamage.qty}" name="qty" id="qty" class="form-control" required>
 				</div>
 									
 									<div class="col-md-2" >Value</div>

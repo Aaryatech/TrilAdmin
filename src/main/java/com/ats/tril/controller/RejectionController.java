@@ -294,7 +294,7 @@ public class RejectionController {
 
 		try {
 
-			int memoQty = Integer.parseInt(request.getParameter("memoQty"));
+			float memoQty = Float.parseFloat(request.getParameter("memoQty"));
 
 			int rejDetailId = Integer.parseInt(request.getParameter("rejDetailId"));
 

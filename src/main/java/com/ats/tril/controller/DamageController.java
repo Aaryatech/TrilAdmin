@@ -62,7 +62,7 @@ public class DamageController {
 			String itemName = request.getParameter("itemName");
 			int itemId = Integer.parseInt(request.getParameter("itemId")); 
 			String reason = request.getParameter("reason"); 
-			int qty = Integer.parseInt(request.getParameter("qty"));  
+			float qty = Float.parseFloat(request.getParameter("qty"));  
 			float value = Float.parseFloat(request.getParameter("value"));
 			
 			Damage damage = new Damage();
@@ -206,7 +206,7 @@ public class DamageController {
 			 
 			String date = request.getParameter("date"); 
 			String reason = request.getParameter("reason"); 
-			int qty = Integer.parseInt(request.getParameter("qty"));  
+			float qty = Float.parseFloat(request.getParameter("qty"));  
 			float value = Float.parseFloat(request.getParameter("value"));
 			 
 			editDamage.setDate(date);

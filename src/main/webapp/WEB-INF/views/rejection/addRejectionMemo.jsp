@@ -367,7 +367,7 @@
 																data[i].getMrnDetailRejList[j].rejectQty));
 
 										tr
-												.append($('<td > <input type=number  id= memoQty'+
+												.append($('<td > <input type="text"  id= memoQty'+
 												  data[i].getMrnDetailRejList[j].mrnId+ ' name=memoQty'+ data[i].getMrnDetailRejList[j].mrnId+ '></td>'));
 
 										$('#table_grid tbody').append(tr);
