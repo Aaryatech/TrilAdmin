@@ -247,7 +247,7 @@ public class PurchaseOrderController {
 						{
 							intendDetailList.get(j).setPoQty(PoHeader.getPoDetailList().get(i).getItemQty());
 							intendDetailList.get(j).setRate(PoHeader.getPoDetailList().get(i).getItemRate());
-							intendDetailList.get(j).setDisc(PoHeader.getPoDetailList().get(i).getDiscPer());
+							intendDetailList.get(j).setDisc(PoHeader.getPoDetailList().get(i).getDiscPer()); 
 							break;
 						}
 					}

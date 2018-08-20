@@ -57,22 +57,21 @@
 
 
 						<div class="box-content">
-
+							 
 							<div class="col-md-2">Select Gate Pass Vendor</div>
-							<div class="col-md-3">
+							<div class="col-md-10">
 
 								<select name="vendId" id="vendId" class="form-control chosen"
-									tabindex="6" required>
+									  required>
 									<option value="0">All Vendors</option>
 									<c:forEach items="${vendorList}" var="vendorList">
-										<option value="${vendorList.vendorId}"><c:out
-												value="${vendorList.vendorName}"></c:out>
+										<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}
 										</option>
 									</c:forEach>
 								</select>
 
-							</div>
-
+							</div> 
+ 
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary" value="Search"
@@ -84,6 +83,13 @@
 						</div>
 
 						<div class="box-content">
+						
+						<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 
 							<br /> <br />
 							<div class="clearfix"></div>
@@ -92,12 +98,11 @@
 									<thead>
 										<tr class="bgpink">
 										
-										<th	style="text-align: left; padding: 0px; align-items: left;"
-														width="10%"  align="left"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+										<th	style="width:2%;"><input type="checkbox" name="name1"
+														value="0" />All</th>
 														
-											<th class="col-sm-1">Sr no.</th>
-											<th class="col-md-1">Vendor Name</th>
+											<th style="width:2%;">SR</th>
+											<th class="col-md-4">Vendor Name</th>
 											<th class="col-md-1">Gate Pass No</th>
 											<th class="col-md-1">Return Date</th>
 											<th class="col-md-1">Remark</th>
@@ -110,22 +115,21 @@
 											varStatus="count">
 											<tr>
 											
-											<td	style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="10%">&nbsp;&nbsp;<input type="checkbox"
+											<td >&nbsp;&nbsp;<input type="checkbox"
 															name="name1" value="${passList.gpId}" /></td>
 															
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<td  ><c:out value="${count.index+1}" /></td>
 
 
-												<td class="col-md-1"><c:out
+												<td  ><c:out
 														value="${passList.vendorName}" /></td>
 
-												<td class="col-md-1"><c:out value="${passList.gpNo}" /></td>
+												<td  ><c:out value="${passList.gpNo}" /></td>
 
-												<td class="col-md-1"><c:out
+												<td  ><c:out
 														value="${passList.gpReturnDate}" /></td>
 
-												<td class="col-md-1"><c:out value="${passList.remark1}" /></td>
+												<td  ><c:out value="${passList.remark1}" /></td>
 
 
 
@@ -299,7 +303,7 @@
 
 													var tr = $('<tr></tr>');
 													
-													 tr.append($('<td width=10%></td>')
+													 tr.append($('<td></td>')
 															.html('<input type="checkbox"  name="name1" value="'+ itemList.gpId +'"/>'));
 													 
 													
@@ -368,11 +372,29 @@
 			
 			
 		</script>
-
-
-
-
-
-
+ <script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1,td2, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2]; 
+    if (td) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      } else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+ 
+</script>
 </body>
 </html>

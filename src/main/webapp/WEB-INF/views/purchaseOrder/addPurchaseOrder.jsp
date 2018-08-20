@@ -911,7 +911,7 @@ function itemByIntendId()
 							  		{
 							  		tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
 								  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" value="'+itemList.poQty+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
-							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+(itemList.indFyr-itemList.poQty)+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
 								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
 								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="'+itemList.disc+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
 							  		}

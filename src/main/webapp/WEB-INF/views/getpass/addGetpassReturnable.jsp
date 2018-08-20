@@ -485,11 +485,11 @@
 														if (data1[i].grpId == data.groupId) {
 															html += '<option value="' + data1[i].grpId + '" selected>'
 																	+ data1[i].grpCode
-																	+ '&nbsp;&nbsp;'+ data1[i].grpDesc +'</option>';
+																	+ ' &nbsp;&nbsp; '+ data1[i].grpDesc +'</option>';
 														} else {
 															html += '<option value="' + data1[i].grpId + '">'
 																	+ data1[i].grpCode
-																	+ '&nbsp;&nbsp;'+ data1[i].grpDesc +'</option>';
+																	+ ' &nbsp;&nbsp; '+ data1[i].grpDesc +'</option>';
 														}
 
 													}
@@ -518,7 +518,7 @@
 														if (data2[i].itemId == data.gpItemId) {
 															html += '<option value="' + data2[i].itemId + '" selected>'
 																	+ data2[i].itemCode
-																	+ '&nbsp;&nbsp;'+ data2[i].itemDesc +'</option>';
+																	+ ' &nbsp;&nbsp; '+ data2[i].itemDesc +'</option>';
 														} else {
 															html += '<option value="' + data2[i].itemId + '">'
 																	+ data2[i].itemCode

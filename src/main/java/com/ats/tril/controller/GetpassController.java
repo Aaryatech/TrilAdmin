@@ -136,7 +136,7 @@ public class GetpassController {
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
 				GetpassDetail getpassDetail = new GetpassDetail();
 				getpassDetail.setGpItemId(itemId);
-				getpassDetail.setItemCode(item.getItemCode());
+				getpassDetail.setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 				getpassDetail.setGpQty(qty);
 				getpassDetail.setIsUsed(1);
 				getpassDetail.setGpDetailId(0);
@@ -156,7 +156,7 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setGpDetailId(0);
 
 				addItemInGetpassDetail.get(index).setGpReturnDate(Date);
-				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode());
+				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc());
 				addItemInGetpassDetail.get(index).setGpStatus(0);
 				addItemInGetpassDetail.get(index).setCatId(catId);
 				addItemInGetpassDetail.get(index).setGroupId(grpId);
@@ -342,15 +342,15 @@ public class GetpassController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("gpId", gpId);
 
-			editGetpassHeaderNon = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map,
+			editGetpassHeaderNon = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemNameForNonReturnable", map,
 					GetpassHeaderItemName.class);
 			editGatepassHeaderList = editGetpassHeaderNon.getGetpassDetailItemNameList();
 
 			System.out.println(editGetpassHeaderNon);
 			System.out.println(editGatepassHeaderList);
-			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
+			/*GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
-			model.addObject("itemList", itemList);
+			model.addObject("itemList", itemList);*/
 
 			model.addObject("editGetpassHeaderNon", editGetpassHeaderNon);
 
@@ -758,7 +758,7 @@ public class GetpassController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("gpId", gpId);
 
-			editGatepassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemName", map,
+			editGatepassHeader = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemNameForNonReturnable", map,
 					GetpassHeaderItemName.class);
 
 			/*GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
@@ -1012,7 +1012,7 @@ public class GetpassController {
 			}
 			editGetpassHeaderNon.setGetpassDetail(editGatepassHeaderList);
 
-			System.out.println(editGetpassHeaderNon);
+			System.out.println("editGetpassHeaderNon " + editGetpassHeaderNon);
 			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", editGetpassHeaderNon,
 					GetpassHeader.class);
 			System.out.println(res);

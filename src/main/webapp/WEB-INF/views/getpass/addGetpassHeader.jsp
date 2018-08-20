@@ -66,34 +66,7 @@
 							<form id="submitMaterialStore"
 								action="${pageContext.request.contextPath}/insertGetpassNonreturnable"
 								method="post">
-
-
-								<div class="box-content">
-
-									<div class="col-md-2">Select Gatepass Vendor</div>
-									<div class="col-md-3">
-
-										<select name="vendId" id="vendId" class="form-control chosen"
-											tabindex="6" required>
-											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList">
-												<option value="${vendorList.vendorId}"><c:out
-														value="${vendorList.vendorName}"></c:out>
-												</option>
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-2">Gate Pass No</div>
-									<div class="col-md-3">
-										<input class="form-control" id="gpNo"   placeholder="Getpass No"
-											type="text" name="gpNo" />
-									</div>
-
-
-								</div>
-								<br>
-
+								
 								<div class="box-content">
 
 									 <div class="col-md-2">Gate Pass Date*</div>
@@ -104,10 +77,48 @@
 
 									</div>
 
+									<div class="col-md-2">Gate Pass No</div>
+									<div class="col-md-3">
+										<input class="form-control" id="gpNo"   placeholder="Getpass No"
+											type="text" name="gpNo" readonly/>
+									</div>
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Select Gatepass Vendor</div>
+									<div class="col-md-10">
+
+										<select name="vendId" id="vendId" class="form-control chosen"
+											  required>
+											<option value="">Select Vendor</option>
+											<c:forEach items="${vendorList}" var="vendorList">
+												<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}
+												</option>
+											</c:forEach>
+										</select>
+
+									</div>
+									 
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									 <div class="col-md-2">Return For*</div>
+									<div class="col-md-3">
+										<select name="returnFor" id="returnFor"
+											class="form-control chosen"   required>
+											<option value="0">Repair</option>
+											<option value="1">Replace</option>
+										</select>
+									</div>
+
 									<div class="col-md-2">Stockable</div>
 									<div class="col-md-3">
 										<select name="stock" id="stock" class="form-control chosen"
-											tabindex="6" required>
+											  required>
 											<option value="0">Yes</option>
 											<option value="1">No</option>
 										</select>
@@ -132,19 +143,7 @@
 								</div>
 
 								<br>
-
-								<div class="box-content">
-									<div class="col-md-2">Return For*</div>
-									<div class="col-md-3">
-										<select name="returnFor" id="returnFor"
-											class="form-control chosen" tabindex="6" required>
-											<option value="0">Repair</option>
-											<option value="1">Replace</option>
-										</select>
-									</div>
-								</div>
-								<br />
-
+ 
 								<hr />
 								<div class="box-content">
 
@@ -154,26 +153,19 @@
 											onchange="getgroupIdByCatId()" name="catId" id="catId">
 											<option value="">Select Category</option>
 											<c:forEach items="${catList}" var="catList">
-												<c:choose>
-													<c:when test="${catList.catId==editItem.catId}">
-														<option value="${catList.catId}" selected>${catList.catDesc}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${catList.catId}">${catList.catDesc}</option>
-													</c:otherwise>
-												</c:choose>
-
-
+												 
+														<option value="${catList.catId}"  >${catList.catDesc}</option>
+													 
 											</c:forEach>
 										</select>
 
 									</div>
-									<div class="box-content">
+									 
 										<div class="col-md-2">Select Group*</div>
 										<div class="col-md-3">
 											<select class="form-control chosen"
 												onchange="getItemIdByGroupId()" name="grpId" id="grpId">
-												<c:forEach items="${getItemGroupList}"
+												<%-- <c:forEach items="${getItemGroupList}"
 													var="getItemGroupList">
 													<c:choose>
 														<c:when test="${getItemGroupList.grpId==editItem.grpId}">
@@ -185,19 +177,17 @@
 													</c:choose>
 
 
-												</c:forEach>
+												</c:forEach> --%>
 
 											</select>
 										</div>
-
-									</div>
-
+ 
 								</div>
 								<br>
 								<div class="box-content">
 
 									<div class="col-md-2">Select Item</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select data-placeholder="Select Item Name"
 											class="form-control chosen" name="itemId" tabindex="-1"
 											id="itemId">
@@ -215,7 +205,12 @@
 									</div>
 
 									<input type="hidden" name=editIndex id="editIndex" />
+ 
+								</div><br>
+								
+								<div class="box-content">
 
+									 
 									<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
 										<input type="text" name="qty" id="qty" placeholder="Qty"
@@ -223,14 +218,16 @@
 
 									</div>
 
-								</div>
-
-
-								<div class="col-md-2">
-									<input type="button" class="btn btn-primary" value="Add Item"
+								</div> 
+								<br> 
+								
+									<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+										<input type="button" class="btn btn-primary" value="Add Item"
 										onclick="addItem()">
-								</div>
-								<br> <br>
+
+									</div>
+								</div><br>
 
 								<div align="center" id="loader" style="display: none">
 
@@ -252,11 +249,11 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Name</th>
-														<th>Qty</th>
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-6">Name</th>
+														<th class="col-md-1">Qty</th>
 
-														<th>Action</th>
+														<th class="col-md-1">Action</th>
 
 													</tr>
 												</thead>
@@ -270,7 +267,7 @@
 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit">
+										<input type="submit" id="submit" class="btn btn-primary" value="Submit" onclick="check()" disabled>
 
 									</div>
 								</div>
@@ -380,7 +377,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].grpId + '">'
-							+ data[i].grpCode + '</option>';
+					+ data[i].grpCode + ' &nbsp;&nbsp; '+ data[i].grpDesc +'</option>';
 				}
 				html += '</option>';
 				$('#grpId').html(html);
@@ -403,7 +400,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].itemId + '">'
-							+ data[i].itemCode + '</option>';
+					+ data[i].itemCode + ' &nbsp;&nbsp; '+ data[i].itemDesc +'</option>';
 				}
 				html += '</option>';
 				$('#itemId').html(html);
@@ -449,11 +446,11 @@
 														if (data1[i].grpId == data.groupId) {
 															html += '<option value="' + data1[i].grpId + '" selected>'
 																	+ data1[i].grpCode
-																	+ '</option>';
+																	+ ' &nbsp;&nbsp; '+ data1[i].grpDesc +'</option>';
 														} else {
 															html += '<option value="' + data1[i].grpId + '">'
 																	+ data1[i].grpCode
-																	+ '</option>';
+																	+ ' &nbsp;&nbsp; '+ data1[i].grpDesc +'</option>';
 														}
 
 													}
@@ -482,11 +479,11 @@
 														if (data2[i].itemId == data.gpItemId) {
 															html += '<option value="' + data2[i].itemId + '" selected>'
 																	+ data2[i].itemCode
-																	+ '</option>';
+																	+ ' &nbsp;&nbsp; '+ data2[i].itemDesc +'</option>';
 														} else {
 															html += '<option value="' + data2[i].itemId + '">'
 																	+ data2[i].itemCode
-																	+ '</option>';
+																	+ ' &nbsp;&nbsp; '+ data2[i].itemDesc +'</option>';
 														}
 													}
 													html += '</option>';
@@ -505,7 +502,7 @@
 			var catId = $("#catId").val();
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
-
+			if(validation()==true){
 			var editIndex = $("#editIndex").val();
 
 			$('#loader').show();
@@ -532,14 +529,14 @@
 
 								if (data == "") {
 									alert("No records found !!");
-
+									document.getElementById("submit").disabled=true;
 								}
 
 								$
 										.each(
 												data,
 												function(key, itemList) {
-
+													document.getElementById("submit").disabled=false;
 													var tr = $('<tr></tr>');
 													tr.append($('<td></td>')
 															.html(key + 1));
@@ -562,11 +559,7 @@
 																					+ key
 																					+ '" onclick="edit('
 																					+ key
-																					+ ');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('
-																					+ key
-																					+ ');" id="ok'
-																					+ key
-																					+ '"></span><span class="glyphicon glyphicon-remove"  onclick="del('
+																					+ ');"> </span> <span class="glyphicon glyphicon-remove"  onclick="del('
 																					+ key
 																					+ ')" id="del'
 																					+ key
@@ -578,36 +571,44 @@
 
 								document.getElementById("qty").value = "";
 								document.getElementById("catId").value = "";
+								$('#catId').trigger("chosen:updated");
 								document.getElementById("grpId").value = "";
+								$('#grpId').trigger("chosen:updated");
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
 							});
+			}
 
 		}
 	</script>
 	<script type="text/javascript">
 		function validation() {
 			var itemId = $("#itemId").val();
-			var qty = $("#qty").val();
-			var enqItemDate = $("#enqItemDate").val();
+			var catId = $("#catId").val();
+			var grpId = $("#grpId").val();
+			var qty = $("#qty").val(); 
 
 			var isValid = true;
-			if (itemId == "" || itemId == null) {
+			if (catId == "" || catId == null) {
+				isValid = false;
+				alert("Please Select Category ");
+			}
+			
+			else if (grpId == "" || grpId == null) {
+				isValid = false;
+				alert("Please Select Group ");
+			}
+			
+			else if (itemId == "" || itemId == null) {
 				isValid = false;
 				alert("Please Select Item ");
-			}
-
-			else if (isNaN(qty) || qty < 0 || qty == "") {
+			} 
+			else if (isNaN(qty) || qty < 1 || qty == "") {
 				isValid = false;
 				alert("Please enter Quantity");
 			}
-
-			else if (enqItemDate == "" || enqItemDate == null) {
-				isValid = false;
-				alert("Please enter Item Date");
-			}
-
+ 
 			return isValid;
 
 		}
@@ -643,14 +644,14 @@
 
 								if (data == "") {
 									alert("No records found !!");
-
+									document.getElementById("submit").disabled=true;
 								}
 
 								$
 										.each(
 												data,
 												function(key, itemList) {
-
+													document.getElementById("submit").disabled=false;
 													var tr = $('<tr></tr>');
 													tr.append($('<td></td>')
 															.html(key + 1));
@@ -674,11 +675,7 @@
 																					+ key
 																					+ '" onclick="edit('
 																					+ key
-																					+ ');"> </span><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('
-																					+ key
-																					+ ');" id="ok'
-																					+ key
-																					+ '"></span><span class="glyphicon glyphicon-remove"  onclick="del('
+																					+ ');"> </span> <span class="glyphicon glyphicon-remove"  onclick="del('
 																					+ key
 																					+ ')" id="del'
 																					+ key
