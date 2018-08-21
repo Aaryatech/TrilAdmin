@@ -81,7 +81,7 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="button" class="btn btn-info" onclick="search()" value="Search"> 
+								<input type="button" class="btn btn-info" onclick="search()" value="Submit"> 
 							</div>
 						</div> <br>
 							 

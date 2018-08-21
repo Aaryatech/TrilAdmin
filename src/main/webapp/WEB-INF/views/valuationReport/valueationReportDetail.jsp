@@ -81,16 +81,12 @@
 								<br>
 
 								<div class="box-content">
-									<div class="col-md-2">Item Code:</div>
+									<div class="col-md-2">Item :</div>
 
-									<div class="col-md-2">
-										${item.itemCode}
+									<div class="col-md-10">
+										${item.itemCode} &nbsp;&nbsp; ${item.itemDesc}
 									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Item Description:</div> 
-									<div class="col-md-3">
-										${item.itemDesc}
-									</div>
+									 
  
 								</div>
 								<br>
