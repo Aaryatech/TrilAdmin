@@ -107,12 +107,13 @@
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
-										<th	style="text-align: left; padding: 0px; align-items: left;"
-														width="10%"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
-										<th class="col-sm-1">Sr no.</th> 
+										<th	style="width:2%;"><input type="checkbox" name="name1"
+														value="0" />All</th>
+										<th style="width:2%;">Sr no.</th> 
 										<th class="col-md-1">Issue No</th> 
 										<th class="col-md-1">Issue Date</th>
+										<th class="col-md-3">Department</th> 
+										<th class="col-md-3">Sub Department</th>  
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -122,19 +123,23 @@
 										varStatus="count">
 										<tr>
 										
-										<td style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="10%">&nbsp;&nbsp;<input type="checkbox"
+										<td ><input type="checkbox"
 															name="name1" value="${issueHeaderList.issueId}" /></td>
 										
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+											<td ><c:out value="${count.index+1}" /></td>
 
 
-											<td class="col-md-1"><c:out
+											<td ><c:out
 													value="${issueHeaderList.issueNo}" /></td>
 													
-											<td class="col-md-1"><c:out
+											<td ><c:out
 													value="${issueHeaderList.issueDate}" /></td> 
-											 
+											
+											<td ><c:out
+													value="${issueHeaderList.deptCode}" /></td> 
+											
+											<td ><c:out
+													value="${issueHeaderList.subDeptCode}" /></td>  
  
 											<td>
 											<a href="javascript:genPdf(${issueHeaderList.issueId});"><abbr title="PDF"><i
@@ -290,13 +295,15 @@
 										
 
 											var tr = $('<tr></tr>'); 
-											 tr.append($('<td width=10%></td>')
+											 tr.append($('<td></td>')
 														.html('<input type="checkbox"  name="name1" value="'+ itemList.issueId +'"/>'));
 												 
 											
 										  	tr.append($('<td></td>').html(key+1));
 										  	tr.append($('<td></td>').html(itemList.issueNo));
 										  	tr.append($('<td></td>').html(itemList.issueDate)); 
+										  	tr.append($('<td></td>').html(itemList.deptCode));
+										  	tr.append($('<td></td>').html(itemList.subDeptCode));
 										  	tr.append($('<td></td>').html('<a href="javascript:genPdf('+ itemList.issueId +');"><abbr'+
 													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>	<a href="${pageContext.request.contextPath}/editIssueHeader/'+itemList.issueId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteIssueHeader/'+itemList.issueId+'"'+

@@ -326,6 +326,9 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 //issueHeader.setIssueNo(issueNo);
 			 issueHeader.setDeleteStatus(1);
 			 issueHeader.setIssueDetailList(issueDetailList);
+			 issueHeader.setDeptId(deptId);
+			 issueHeader.setSubDeptId(subDeptId);
+			 issueHeader.setAccHead(acc);
 			 
 			 String mrnDetailList = new String();
 			 
@@ -399,8 +402,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			map.add("fromDate", sf.format(date));
 			map.add("toDate", sf.format(date));
 			
-			IssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, IssueHeader[].class);
-			List<IssueHeader> issueHeaderList = new ArrayList<IssueHeader>(Arrays.asList(IssueHeader)); 
+			GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, GetIssueHeader[].class);
+			List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader)); 
 			model.addObject("issueHeaderList", issueHeaderList);
 			
 			model.addObject("date", disply.format(date));
@@ -416,9 +419,9 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 	
 	@RequestMapping(value = "/getIssueDateBetweenDate", method = RequestMethod.GET)
 	@ResponseBody
-	public List<IssueHeader> getIssueDateBetweenDate(HttpServletRequest request, HttpServletResponse response) {
+	public List<GetIssueHeader> getIssueDateBetweenDate(HttpServletRequest request, HttpServletResponse response) {
  
-		List<IssueHeader> issueHeaderList = new ArrayList<>();
+		List<GetIssueHeader> issueHeaderList = new ArrayList<>();
 		
 		try {
 			String fromDate = request.getParameter("fromDate") ;
@@ -428,8 +431,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			map.add("fromDate",DateConvertor.convertToYMD(fromDate) );
 			map.add("toDate",DateConvertor.convertToYMD(toDate) );
 			
-			IssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, IssueHeader[].class);
-			 issueHeaderList = new ArrayList<IssueHeader>(Arrays.asList(IssueHeader)); 
+			GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, GetIssueHeader[].class);
+			 issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader)); 
 			 
 			 
 		} catch (Exception e) {
@@ -752,6 +755,9 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			getIssueHeader.setIssueDate(issueDate);
 			//getIssueHeader.setIssueNo(issueNo);
 			getIssueHeader.setDeleteStatus(1);
+			getIssueHeader.setDeptId(deptId);
+			getIssueHeader.setSubDeptId(subDeptId);
+			getIssueHeader.setAccHead(acc);
 			getIssueHeader.setIssueDetailList(issueDetailEditList); 
 			
 			String mrnDetailList = new String();

@@ -8,7 +8,10 @@ public class IssueHeader {
 	private int issueId; 
 	private String issueNo; 
 	private int itemCategory; 
-	private String issueDate; 
+	private String issueDate;  
+	private int deptId; 
+	private int subDeptId; 
+	private int accHead;
 	private int deleteStatus; 
 	private int status; 
 	List<IssueDetail> issueDetailList;
@@ -55,11 +58,31 @@ public class IssueHeader {
 	public void setIssueDetailList(List<IssueDetail> issueDetailList) {
 		this.issueDetailList = issueDetailList;
 	}
+	
+	public int getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+	public int getSubDeptId() {
+		return subDeptId;
+	}
+	public void setSubDeptId(int subDeptId) {
+		this.subDeptId = subDeptId;
+	}
+	public int getAccHead() {
+		return accHead;
+	}
+	public void setAccHead(int accHead) {
+		this.accHead = accHead;
+	}
 	@Override
 	public String toString() {
 		return "IssueHeader [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
-				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", status=" + status
-				+ ", issueDetailList=" + issueDetailList + "]";
+				+ ", issueDate=" + issueDate + ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", accHead="
+				+ accHead + ", deleteStatus=" + deleteStatus + ", status=" + status + ", issueDetailList="
+				+ issueDetailList + "]";
 	}
 	
 	

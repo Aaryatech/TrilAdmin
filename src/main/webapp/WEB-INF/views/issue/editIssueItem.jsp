@@ -113,7 +113,7 @@
 											  
 											<c:forEach items="${accountHeadList}" var="accountHeadList"> 
 												<c:choose>
-													<c:when test="${getIssueHeader.issueDetailList.get(0).accHead==accountHeadList.accHeadId}">
+													<c:when test="${getIssueHeader.accHead==accountHeadList.accHeadId}">
 													
 													<option value="${accountHeadList.accHeadId}" selected><c:out value="${accountHeadList.accHeadDesc}"></c:out> </option>
 													</c:when>
@@ -135,7 +135,7 @@
 										<select   class="form-control chosen" name="deptId" onchange="getSubDeptListByDeptId()" id="deptId"  required>
 											<c:forEach items="${deparmentList}" var="deparmentList">  
 											<c:choose>
-												<c:when test="${getIssueHeader.issueDetailList.get(0).deptId==deparmentList.deptId}">
+												<c:when test="${getIssueHeader.deptId==deparmentList.deptId}">
 												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc} </option>
 												
 												</c:when>
@@ -149,7 +149,7 @@
 											 </c:forEach>
 											</select>
 									</div>
-									<input id="tempSubDeptId"  value="${getIssueHeader.issueDetailList.get(0).subDeptId}"  name="tempSubDeptId" type="hidden" required>
+									<input id="tempSubDeptId"  value="${getIssueHeader.subDeptId}"  name="tempSubDeptId" type="hidden" required>
 									<div class="col-md-2" >Select Sub Department</div>
 									<div class="col-md-3">
 										<select   class="form-control chosen" name="subDeptId"  id="subDeptId"  required>

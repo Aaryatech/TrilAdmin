@@ -1,6 +1,7 @@
 package com.ats.tril.model;
  
 import java.util.List;
+ 
   
 public class GetIssueHeader {
 	 
@@ -8,8 +9,14 @@ public class GetIssueHeader {
 	private String issueNo; 
 	private int itemCategory; 
 	private String issueDate; 
+	private int deptId; 
+	private int subDeptId; 
+	private int accHead;
 	private int deleteStatus; 
-	private int status; 
+	private int status;  
+	private String deptCode; 
+	private String subDeptCode; 
+	private String accHeadDesc;
 	List<GetIssueDetail> issueDetailList;
 	public int getIssueId() {
 		return issueId;
@@ -53,11 +60,51 @@ public class GetIssueHeader {
 	public void setIssueDetailList(List<GetIssueDetail> issueDetailList) {
 		this.issueDetailList = issueDetailList;
 	}
+	
+	public int getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+	public int getSubDeptId() {
+		return subDeptId;
+	}
+	public void setSubDeptId(int subDeptId) {
+		this.subDeptId = subDeptId;
+	}
+	public int getAccHead() {
+		return accHead;
+	}
+	public void setAccHead(int accHead) {
+		this.accHead = accHead;
+	}
+	
+	public String getDeptCode() {
+		return deptCode;
+	}
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+	public String getSubDeptCode() {
+		return subDeptCode;
+	}
+	public void setSubDeptCode(String subDeptCode) {
+		this.subDeptCode = subDeptCode;
+	}
+	public String getAccHeadDesc() {
+		return accHeadDesc;
+	}
+	public void setAccHeadDesc(String accHeadDesc) {
+		this.accHeadDesc = accHeadDesc;
+	}
 	@Override
 	public String toString() {
 		return "GetIssueHeader [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
-				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", status=" + status
-				+ ", issueDetailList=" + issueDetailList + "]";
+				+ ", issueDate=" + issueDate + ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", accHead="
+				+ accHead + ", deleteStatus=" + deleteStatus + ", status=" + status + ", deptCode=" + deptCode
+				+ ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", issueDetailList="
+				+ issueDetailList + "]";
 	}
 	 
 	
