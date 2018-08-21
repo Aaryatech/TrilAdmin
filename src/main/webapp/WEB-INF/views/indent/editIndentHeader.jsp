@@ -171,10 +171,10 @@
 												varStatus="count">
 												<c:choose>
 													<c:when test="${indent.deptId==dept.deptId}">
-														<option selected value="${dept.deptId}"><c:out value="${dept.deptDesc}"/></option>
+														<option selected value="${dept.deptId}"> ${dept.deptCode} &nbsp;&nbsp; ${dept.deptDesc} </option>
 													</c:when>
 													<c:otherwise>
-														<option value="${dept.deptId}"><c:out value="${dept.deptDesc}"/></option>
+														<option value="${dept.deptId}"> ${dept.deptCode} &nbsp;&nbsp; ${dept.deptDesc} </option>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
@@ -327,20 +327,20 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1" style="text-align: center;">Sr</th>
-													<th class="col-md-1" style="text-align: center;">Item
+													<th class="col-sm-1" >Sr</th>
+													<th class="col-md-1" >Item
 														Code</th>
-													<th class="col-md-3" style="text-align: center;">Item
+													<th class="col-md-3" >Item
 														Desc</th>
-													<th class="col-md-1" style="text-align: center;">UOM</th>
+													<th class="col-md-1" >UOM</th>
 												
-													<th class="col-md-1" style="text-align: center;">Indent
+													<th class="col-md-1" >Indent
 														Qty</th>
-													<th class="col-md-1" style="text-align: center;">Sch Day</th>
-													<th class="col-md-1" style="text-align: center;">Sch
+													<th class="col-md-1" >Sch Day</th>
+													<th class="col-md-1" >Sch
 														Date</th>
-														<th class="col-md-1" style="text-align: center;">Remark</th>
-														<th class="col-md-1" style="text-align: center;">Action
+														<th class="col-md-1" >Remark</th>
+														<th class="col-md-1" >Action
 														</th>
 												</tr>
 											</thead>
@@ -349,34 +349,34 @@
 													varStatus="count">
 
 													<tr>
-														<td style="text-align: center;" class="col-sm-1"><c:out
+														<td  class="col-sm-1"><c:out
 																value="${count.index+1}" /></td>
 																
-																<td style="text-align: center;" class="col-md-1"><c:out
+																<td  class="col-md-1"><c:out
 																value="${indDetail.itemCode}" /></td>
 
-														<td style="text-align: left;" class="col-md-3"><c:out
+														<td  class="col-md-3"><c:out
 																value="${indDetail.itemDesc}" /></td>
 																
 																	
-																<td style="text-align: center;" class="col-md-1"><c:out
+																<td  class="col-md-1"><c:out
 																value="${indDetail.itemUom}" /></td>
 																
 
-														<td style="text-align: center;" class="col-md-1"><input
+														<td  class="col-md-1"><input
 															type="number" class="form-control"
 															value="${indDetail.indQty}" min="1"  
 															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
 															name="indQty${indDetail.indDId}"></td>
-														<td style="text-align: center;" class="col-md-1"><input type="number" class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /></td>
+														<td  class="col-md-1"><input type="number" class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /></td>
 
-														<td style="text-align: center;" class="col-md-1"><c:out
+														<td  class="col-md-1"><c:out
 																value="${indDetail.indItemSchddt}" /></td>
 
-														<td style="text-align: left;" class="col-md-1"><input type="text" class="form-control" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
+														<td  class="col-md-1"><input type="text" class="form-control" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
 
-														<td style="text-align: center;" class="col-md-1">
+														<td  class="col-md-1">
 															<%-- <input
 															type="button" value="update"
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
@@ -555,18 +555,18 @@
 						alert("Item Already Added in Indent");
 					}
 					var tr = $('<tr></tr>');
-					tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemCode));
+					tr.append($('<td  class="col-sm-1"></td>').html(key + 1));
+					tr.append($('<td  class="col-md-1"></td>').html(trans.itemCode));
 
-					tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.itemDesc));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemUom));
+					tr.append($('<td  class="col-md-2"></td>').html(trans.itemDesc));
+					tr.append($('<td  class="col-md-1"></td>').html(trans.itemUom));
 
 					//tr.append($('<td></td>').html(trans.qty));
 				tr
 															.append($(
-																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	'<td class="col-md-1" ></td>')
 																	.html(
-																			"<input type=number style='text-align:center; width:90px' class=form-control  name=indQty"
+																			"<input type=number style='text-align:right; width:90px' class=form-control  name=indQty"
 																					+ trans.indDId
 																					+ " id=indQty"
 																					+ trans.indDId
@@ -577,15 +577,15 @@
 																					+ ")' value="
 																					+ trans.indQty 
 																					+ " />"));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html("<input type=number style='text-align:center; ' class=form-control  name=indSchDays"
+					tr.append($('<td  class="col-md-1"></td>').html("<input type=number style='text-align:right; ' class=form-control  name=indSchDays"
 							+ trans.indDId
 							+ " id=indSchDays"
 							+ trans.indDId
 							+ " value="
 							+ trans.indItemSchd 
 							+ " />"));
-					tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
-					tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left; ' class=form-control size=20 maxlength=20  name=indRemark"
+					tr.append($('<td  class="col-md-1"></td>').html(trans.indItemSchddt));
+					tr.append($('<td  class="col-md-1"></td>').html("<input type=text style='text-align:right; ' class=form-control size=20 maxlength=20  name=indRemark"
 							+ trans.indDId
 							+ " id=indRemark"
 							+ trans.indDId
@@ -596,7 +596,7 @@
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
+							'<td class="col-md-1" ></td>')
 							.html(
 									"<a href='#'  class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)  title='Update'><i id='updateButton+"+trans.indMId+"' class='fa fa-edit'></i></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1) title='Delete'><i class='fa fa-trash-o'></i></a>"));
 				  	
@@ -607,7 +607,7 @@
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
+							'<td class="col-md-1" ></td>')
 							.html(''));
 				  	
 					}
@@ -673,29 +673,29 @@
 			$('#table1 td').remove();
 			$.each(data, function(key, trans) {
 			var tr = $('<tr></tr>');
-				tr.append($('<td style="text-align: center;" class="col-sm-1"></td>').html(key + 1));
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemCode));
+				tr.append($('<td  class="col-sm-1"></td>').html(key + 1));
+				tr.append($('<td  class="col-md-1"></td>').html(trans.itemCode));
 
-				tr.append($('<td style="text-align: left;" class="col-md-2"></td>').html(trans.itemDesc));
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.itemUom));
+				tr.append($('<td  class="col-md-2"></td>').html(trans.itemDesc));
+				tr.append($('<td  class="col-md-1"></td>').html(trans.itemUom));
 
 				//tr.append($('<td></td>').html(trans.indQty));
 				
 				tr
 			.append($(
-					'<td class="col-md-1" style="text-align: center;"></td>')
+					'<td class="col-md-1" ></td>')
 					.html(
 							"<input type='number' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
 		  	
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html("<input type=number style='text-align:center; ' class=form-control  name=indSchDays"
+				tr.append($('<td  class="col-md-1"></td>').html("<input type=number style='text-align:right; ' class=form-control  name=indSchDays"
 						+ trans.indDId
 						+ " id=indSchDays"
 						+ trans.indDId
 						+ " value="
 						+ trans.indItemSchd 
 						+ " />"));
-				tr.append($('<td style="text-align: center;" class="col-md-1"></td>').html(trans.indItemSchddt));
-				tr.append($('<td style="text-align: left;" class="col-md-1"></td>').html("<input type=text style='text-align:left;' class=form-control size=20 maxlength=20  name=indRemark"
+				tr.append($('<td  class="col-md-1"></td>').html(trans.indItemSchddt));
+				tr.append($('<td  class="col-md-1"></td>').html("<input type=text style='text-align:left;' class=form-control size=20 maxlength=20  name=indRemark"
 						+ trans.indDId
 						+ " id=indRemark"
 						+ trans.indDId
@@ -706,7 +706,7 @@
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
+							'<td class="col-md-1" ></td>')
 							.html(
 									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i  id='updateButton+"+trans.indMId+"' class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
 				  	
@@ -715,7 +715,7 @@
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
+							'<td class="col-md-1" ></td>')
 							.html(''));
 				  	
 					}
@@ -781,8 +781,7 @@
 																								.attr(
 																										"value",
 																										data[i].subDeptId)
-																								.text(
-																										data[i].subDeptDesc));
+																								.text(data[i].subDeptCode+" "+data[i].subDeptDesc));
 																	}
 
 																	$(
@@ -953,7 +952,7 @@
 														"value",
 														data[i].subDeptId)
 												.text(
-														data[i].subDeptDesc));
+														data[i].subDeptCode+" "+data[i].subDeptDesc));
 					}
 
 					$(

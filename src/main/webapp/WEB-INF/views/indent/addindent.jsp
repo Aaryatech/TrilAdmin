@@ -176,7 +176,7 @@
 											<option value="0">Select Department</option>
 											<c:forEach items="${deparmentList}" var="dept"
 												varStatus="count">
-												<option value="${dept.deptId}"><c:out value="${dept.deptDesc}"/></option>
+												<option value="${dept.deptId}"> ${dept.deptCode} &nbsp;&nbsp; ${dept.deptDesc}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -300,22 +300,22 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1" style="text-align: center;">Sr</th>
-													<th class="col-md-1" style="text-align: center;">Item
+													<th class="col-sm-1" >Sr</th>
+													<th class="col-md-1" >Item
 														Code</th>
-													<th class="col-md-3" style="text-align: center;">Item
+													<th class="col-md-3" >Item
 														Desc</th>
-													<th class="col-md-1" style="text-align: center;">UOM</th>
-													<th class="col-md-1" style="text-align: center;">Cur
+													<th class="col-md-1" >UOM</th>
+													<th class="col-md-1" >Cur
 														Stk</th>
 
-													<th class="col-md-1" style="text-align: center;">Indent
+													<th class="col-md-1" >Indent
 														Qty</th>
-													<th class="col-md-1" style="text-align: center;">Sch Day</th>
-													<th class="col-md-1" style="text-align: center;">Sch
+													<th class="col-md-1" >Sch Day</th>
+													<th class="col-md-1" >Sch
 														Date</th>
-														<th class="col-md-1" style="text-align: center;">Remark</th>
-														<th class="col-md-1" style="text-align: center;">Action
+														<th class="col-md-1" >Remark</th>
+														<th class="col-md-1" >Action
 														</th>
 												</tr>
 											</thead>
@@ -474,7 +474,7 @@ $(document).ready(function() {
                                 
                         $("#sub_dept").append(
                                 $("<option></option>").attr(
-                                    "value", data[i].subDeptId).text(data[i].subDeptDesc)
+                                    "value", data[i].subDeptId).text(data[i].subDeptCode+" "+data[i].subDeptDesc)
                             );
                     }
 
@@ -584,17 +584,17 @@ $(document).ready(function() {
 					alert("Item Already Added in Indent");
 				}
 			var tr = $('<tr></tr>');
-			tr.append($('<td class="col-sm-1" style="text-align: center;"></td>').html(key+1));
-		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));
-		  	tr.append($('<td class="col-md-4" style="text-align: left;"></td>').html(trans.itemName));
-		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.uom));
-		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.curStock));
+			tr.append($('<td class="col-sm-1" ></td>').html(key+1));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
+		  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
 
-		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
-		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
-		  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
 		  	
-		  	tr.append($('<td class="col-md-1" style="text-align: left;"></td>').html(trans.remark));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
 
 		  	
 		  	/* tr
@@ -677,16 +677,16 @@ function deleteIndentItem(itemId,key){
 		$('#table1 td').remove();
 		$.each(data,function(key, trans) {
 		var tr = $('<tr></tr>');
-		tr.append($('<td class="col-sm-1" style="text-align: center;"></td>').html(key+1));
-	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.itemCode));
-	  	tr.append($('<td class="col-md-4" style="text-align: left;"></td>').html(trans.itemName));
-	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.uom));
-	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.curStock));
+		tr.append($('<td class="col-sm-1" ></td>').html(key+1));
+	  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
+	  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
+	  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
+	  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
 
-	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.qty));
-	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.schDays));
-	  	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(trans.date));
-		tr.append($('<td class="col-md-1" style="text-align: left;"></td>').html(trans.remark));
+	  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
+	  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
+	  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
+		tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
 	  	
 	  /* 	tr
 		.append($(
@@ -699,7 +699,7 @@ function deleteIndentItem(itemId,key){
 								
 								tr
 								.append($(
-										'<td class="col-md-1" style="text-align: center;"></td>')
+										'<td class="col-md-1" ></td>')
 										.html(
 												"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
 		$('#table1 tbody').append(tr);
