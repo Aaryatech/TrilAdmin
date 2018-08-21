@@ -34,6 +34,11 @@ public class IndentTrans {
 	private int delStatus;
 	
 	
+	private String indApr1Date;
+	
+	private String indApr2Date;
+	
+	
 
 	public int getDelStatus() {
 		return delStatus;
@@ -157,13 +162,32 @@ public class IndentTrans {
 		this.indFyr = indFyr;
 	}
 	
+	
+	
+	
+	public String getIndApr1Date() {
+		return indApr1Date;
+	}
+
+	public String getIndApr2Date() {
+		return indApr2Date;
+	}
+
+	public void setIndApr1Date(String indApr1Date) {
+		this.indApr1Date = indApr1Date;
+	}
+
+	public void setIndApr2Date(String indApr2Date) {
+		this.indApr2Date = indApr2Date;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentTrans [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate
 				+ ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom + ", indItemDesc="
 				+ indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd + ", indItemSchddt="
 				+ indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus + ", indFyr=" + indFyr
-				+ ", delStatus=" + delStatus + "]";
+				+ ", delStatus=" + delStatus + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date + "]";
 	}
 
 }

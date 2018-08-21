@@ -1,6 +1,5 @@
 package com.ats.tril.model.indent;
 
-import java.sql.Date;
 import java.util.List;
 
 public class Indent {
@@ -31,7 +30,12 @@ public class Indent {
 	private int subDeptId;
 	
 	int delStatus;
-	
+	//new field 21 aug
+		
+		private String indApr1Date;
+		
+		private String indApr2Date;
+
 	
 	public int getDelStatus() {
 		return delStatus;
@@ -126,13 +130,32 @@ public class Indent {
 	public void setIndentTrans(List<IndentTrans> indentTrans) {
 		this.indentTrans = indentTrans;
 	}
+	
+	
+	
+	
+	public String getIndApr1Date() {
+		return indApr1Date;
+	}
+	public String getIndApr2Date() {
+		return indApr2Date;
+	}
+	public void setIndApr1Date(String indApr1Date) {
+		this.indApr1Date = indApr1Date;
+	}
+	public void setIndApr2Date(String indApr2Date) {
+		this.indApr2Date = indApr2Date;
+	}
 	@Override
 	public String toString() {
 		return "Indent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType=" + indMType
 				+ ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev + ", indRemark=" + indRemark
 				+ ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus + ", deptId=" + deptId
-				+ ", subDeptId=" + subDeptId + ", delStatus=" + delStatus + ", indentTrans=" + indentTrans + "]";
+				+ ", subDeptId=" + subDeptId + ", delStatus=" + delStatus + ", indApr1Date=" + indApr1Date
+				+ ", indApr2Date=" + indApr2Date + ", indentTrans=" + indentTrans + "]";
 	}
+	
+	
 	
 	
 	
