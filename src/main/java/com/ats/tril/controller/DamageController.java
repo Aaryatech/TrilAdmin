@@ -25,7 +25,8 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Damage;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetDamage;
-import com.ats.tril.model.GetItemGroup; 
+import com.ats.tril.model.GetItemGroup;
+import com.ats.tril.model.StockHeader; 
 
 @Controller
 @Scope("session")
@@ -44,6 +45,17 @@ public class DamageController {
 			GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
 					GetItemGroup[].class);
 			model.addObject("itemGroupList", itemGroupList);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					
+			model.addObject("date", sf.format(date));
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			 
+			 System.out.println( " stock Date: " + stockHeader.getDate());
+			 
+			 model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockHeader.getDate()));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,6 +202,10 @@ public class DamageController {
 					GetDamage.class);
 			editDamage.setDate(DateConvertor.convertToYMD(editDamage.getDate()));
 			model.addObject("editDamage", editDamage);
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class); 
+			 System.out.println( " stock Date: " + stockHeader.getDate()); 
+			 model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockHeader.getDate()));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -85,7 +85,27 @@ body {
 </style>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	<body>
+	<body onload="disabledDate()">
+	 
+	  <script type="text/javascript">
+	 function disabledDate () {
+		 var c = document.getElementById("stockDateDDMMYYYY").value; 
+			var toDateValue = c.split('-');
+			 var dtToday = new Date();
+			 dtToday.setFullYear(toDateValue[2],(toDateValue[1] - 1 ),toDateValue[0]); 
+			  var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
+			  var day = dtToday.getDate();
+			  var year = dtToday.getFullYear();
+			  if(month < 10)
+			      month = '0' + month.toString();
+			  if(day < 10)
+			      day = '0' + day.toString(); 
+			  var maxDate = year + '-' + month + '-' + day;  
+	  		$('#date').attr('min', maxDate);
+	  
+	 }
+ 
+ </script> 
 	   
  
 	<!-- BEGIN Sidebar -->
@@ -151,7 +171,7 @@ body {
 				<div class="col-md-2">Date</div>
 				<div class="col-md-3"><input type="date" id="date" name="date" value="${editDamage.date}"   class="form-control" >
 				</div>
-						 
+						 <input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
 									</div><br/>
 								 
 			

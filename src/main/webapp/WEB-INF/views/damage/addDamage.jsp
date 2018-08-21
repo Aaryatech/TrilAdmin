@@ -5,9 +5,9 @@
 	 
  <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-	<body >
+	<body onload="disabledDate()">
 	 
-	<!-- <script type="text/javascript">
+	  <script type="text/javascript">
 	 function disabledDate () {
 		 var c = document.getElementById("stockDateDDMMYYYY").value; 
 			var toDateValue = c.split('-');
@@ -21,11 +21,11 @@
 			  if(day < 10)
 			      day = '0' + day.toString(); 
 			  var maxDate = year + '-' + month + '-' + day;  
-	  		$('#issueDate').attr('min', maxDate);
+	  		$('#date').attr('min', maxDate);
 	  
 	 }
  
- </script> -->
+ </script> 
 	   
 	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>  
       <c:url var="addItmeInDamageList" value="/addItmeInDamageList"></c:url> 
@@ -87,7 +87,7 @@
 								<div class="col-md-2">Date*</div>
 									<div class="col-md-3">
 										<input id="date" class="form-control"
-								 placeholder="Date"  name="date" type="date"   required> 
+								 placeholder="Date"  name="date" type="date" value="${date}"  required> 
 								 
 								 
 						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
