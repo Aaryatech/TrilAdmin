@@ -691,7 +691,7 @@ public class MastersController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/addVendor";
+		return "redirect:/vendorList";
 	}
 
 	@RequestMapping(value = "/vendorList", method = RequestMethod.GET)

@@ -373,7 +373,7 @@ body {
 			</div>
 
 			<footer>
-				<p>2017 © MONGINIS.</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 		</div>
 

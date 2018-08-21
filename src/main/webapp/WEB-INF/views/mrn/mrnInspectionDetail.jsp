@@ -114,14 +114,14 @@ body {
 	<!-- BEGIN Content -->
 	<div id="main-content">
 		<!-- BEGIN Page Title -->
-		<div class="page-title">
+		<!-- <div class="page-title">
 			<div>
 				<h1>
 					<i class="fa fa-file-o"></i>MRN Inspection Detail
 				</h1>
-				<!-- <h4>Bill for franchises</h4> -->
+				<h4>Bill for franchises</h4>
 			</div>
-		</div>
+		</div> -->
 		<!-- END Page Title -->
 
 		<!-- BEGIN Breadcrumb -->
@@ -166,6 +166,11 @@ body {
 									<div class="col-md-3">
 										${getMrnHeader.vendorName}
 									</div>
+					 
+			</div><br/>
+			
+			<div class="box-content">
+				 
 					<div class="col-md-2" >MRN Type</div>
 									<div class="col-md-3">
 										<c:choose>

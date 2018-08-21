@@ -23,7 +23,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 
@@ -31,7 +31,7 @@
 
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -157,7 +157,7 @@
 													<th class="col-md-1">MRN No.</th> 
 													<th class="col-md-1">Date</th>
 													<th class="col-md-1">MRN Type</th>
-													<th class="col-md-1">Vendor</th>
+													<th class="col-md-5">Vendor</th>
 													<th class="col-md-1">Status</th>
 													<th class="col-md-1">Action</th>
 												</tr>
@@ -171,7 +171,7 @@
 										 <td class="col-md-1"><c:out value="${getMrnHeaderList.mrnNo}" /></td> 
 									     <td class="col-md-1"><c:out value="${getMrnHeaderList.mrnDate}" /></td> 
 									     <td class="col-md-1"><c:choose><c:when test="${getMrnHeaderList.mrnType==1}"><c:out value="Regular" /></c:when><c:when test="${getMrnHeaderList.mrnType==2}"><c:out value="Job Work" /></c:when><c:when test="${getMrnHeaderList.mrnType==3}"><c:out value="General" /></c:when></c:choose></td> 
-										 <td class="col-md-1"><c:out value="${getMrnHeaderList.vendorName}" /></td> 
+										 <td class="col-md-5"><c:out value="${getMrnHeaderList.vendorName}" /></td> 
 									     <td class="col-md-1"><c:choose><c:when test="${getMrnHeaderList.mrnStatus==0}"><c:out value="Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==1}"><c:out value="Partial Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==2}"><c:out value="Completed" /></c:when></c:choose></td> 
 									     <td class="col-md-1"> <a href="${pageContext.request.contextPath}/getMrnDetail/${getMrnHeaderList.mrnId}"><abbr title="Details"><i  class="fa fa-list"></i></abbr></a></td> 
 									</tr>

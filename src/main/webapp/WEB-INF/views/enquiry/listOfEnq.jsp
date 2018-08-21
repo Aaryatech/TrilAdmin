@@ -28,7 +28,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 
@@ -36,7 +36,7 @@
 
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -122,7 +122,7 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th style="width:2%;">Sr no.</th>
+											<th style="width:2%;">Sr</th>
 											<th class="col-md-1">Date</th> 
 											<th class="col-md-5">Vendor Name</th>
 											<th class="col-md-1">Enquiry No</th>
@@ -177,7 +177,7 @@
 
 			</div>
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 		</div>
 

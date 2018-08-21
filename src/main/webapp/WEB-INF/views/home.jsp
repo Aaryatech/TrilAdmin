@@ -194,6 +194,7 @@ h6{
 											<th class="col-md-1">Current Stk </th>
 											<th class="col-md-1">ROL Qty</th>
 											<th class="col-md-1">Max Lvl</th> 
+											<th class="col-md-1">Min Lvl</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -213,6 +214,7 @@ h6{
 											
 												<td class="col-md-1"><c:out value="${lowReorderItemList.rolLevel}" /></td>
 												<td class="col-md-1"><c:out value="${lowReorderItemList.itemMaxLevel}" /></td>
+												<td class="col-md-1"><c:out value="${lowReorderItemList.itemMinLevel}" /></td>
 												
 											</tr>
 										</c:when>
@@ -431,7 +433,7 @@ h6{
 						<table class="table table-advance" id="table1">  
 									<thead>
 										<tr class="bgpink">
-										<th style="width:2%;">Sr No</th>
+										<th style="width:2%;">Sr</th>
 											<th class="col-md-1">Item Code</th>
 											<th class="col-md-5">Name</th>
 											<th class="col-md-1">UOM</th>

@@ -80,7 +80,7 @@
 									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
-								 placeholder="Enquiry Date"  name="enqDate" type="text" required>
+								 placeholder="Enquiry Date" value="${date}" name="enqDate" type="text" required>
 								
 								</div>
 				 

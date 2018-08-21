@@ -56,6 +56,10 @@ public class EnquiryController {
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			model.addObject("itemList", itemList);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			model.addObject("date", sf.format(date));
 
 		} catch (Exception e) {
 			e.printStackTrace();

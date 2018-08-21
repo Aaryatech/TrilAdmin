@@ -15,6 +15,8 @@ public class GetCurrStockRol {
 	
 	private float itemMaxLevel;
 	
+	private float itemMinLevel;
+	
 	private float openingStock;
 
 	private float approveQty;
@@ -143,13 +145,21 @@ public class GetCurrStockRol {
 		this.rolLevel = rolLevel;
 	}
 
+	public float getItemMinLevel() {
+		return itemMinLevel;
+	}
+
+	public void setItemMinLevel(float itemMinLevel) {
+		this.itemMinLevel = itemMinLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "GetCurrStockRol [itemId=" + itemId + ", itemCode=" + itemCode + ", itemName=" + itemName + ", itemUom="
-				+ itemUom + ", catId=" + catId + ", itemMaxLevel=" + itemMaxLevel + ", openingStock=" + openingStock
-				+ ", approveQty=" + approveQty + ", issueQty=" + issueQty + ", returnIssueQty=" + returnIssueQty
-				+ ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty + ", gatepassReturnQty="
-				+ gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
+				+ itemUom + ", catId=" + catId + ", itemMaxLevel=" + itemMaxLevel + ", itemMinLevel=" + itemMinLevel
+				+ ", openingStock=" + openingStock + ", approveQty=" + approveQty + ", issueQty=" + issueQty
+				+ ", returnIssueQty=" + returnIssueQty + ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty
+				+ ", gatepassReturnQty=" + gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
 	}
 
 	
