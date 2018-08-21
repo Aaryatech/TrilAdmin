@@ -610,7 +610,7 @@ public class IndentController {
 
 			indent.setIndMStatus(9);
 			indent.setIndMType(indType);
-			indent.setIndRemark("default remark");
+			indent.setIndRemark("-");
 
 			indent.setDeptId(dept);
 			indent.setSubDeptId(subDept);
