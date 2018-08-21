@@ -71,7 +71,7 @@ public class MrnController {
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			for(int i=0;i<vendorList.size();i++) {
-				vendorList.get(i).setVendorName(vendorList.get(i).getVendorCode()+"-"+vendorList.get(i).getVendorName());
+				vendorList.get(i).setVendorName(vendorList.get(i).getVendorCode()+" "+vendorList.get(i).getVendorName());
 			}
 			
 			model.addObject("vendorList", vendorList);

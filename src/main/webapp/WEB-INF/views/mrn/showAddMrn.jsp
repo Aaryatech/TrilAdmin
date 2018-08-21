@@ -120,14 +120,14 @@ body {
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Add MRN
 					</h1>
 
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -322,21 +322,21 @@ body {
 																	<thead>
 																		<tr>
 																			<!-- <th class="col-md-1" style="text-align: center;">Select</th> -->
-																			<th class="col-sm-1" style="text-align: center;">Sr</th>
+																			<th class="col-sm-1" >Sr</th>
 																		
-																			<th class="col-md-1" style="text-align: center;">Item
+																			<th class="col-md-1" >Item
 																				</th>
-																			<th class="col-md-1" style="text-align: center;">PO
+																			<th class="col-md-1" >PO
 																				QTY</th>
-																			<th class="col-md-1" style="text-align: center;">Challan
+																			<th class="col-md-1" >Challan
 																				QTY</th>
-																			<th class="col-md-1" style="text-align: center;">Rec
+																			<th class="col-md-1" >Rec
 																				QTY</th>
-																			<th class="col-md-1" style="text-align: center;">Pend
+																			<th class="col-md-1" >Pend
 																				QTY</th>
-																			<th class="col-md-1" style="text-align: center;">PO
+																			<th class="col-md-1" >PO
 																				No</th>
-																			<th class="col-md-1" style="text-align: center;">Status</th>
+																			<th class="col-md-1" >Status</th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -376,17 +376,17 @@ body {
 															<thead>
 																<tr>
 																	<th  style="text-align: center; width: 2%;">Sr</th>
-																	<th class="col-md-1" style="text-align: center;">Item
+																	<th class="col-md-1" >Item
 																		</th>
-																	<th class="col-md-1" style="text-align: center;">PO
+																	<th class="col-md-1" >PO
 																		QTY</th>
-																	<th class="col-md-1" style="text-align: center;">Rec
+																	<th class="col-md-1" >Rec
 																		QTY</th>
-																	<th class="col-md-1" style="text-align: center;">Pend
+																	<th class="col-md-1" >Pend
 																		QTY</th>
-																	<th class="col-md-1" style="text-align: center;">PO
+																	<th class="col-md-1" >PO
 																		No</th>
-																	<th class="col-md-1" style="text-align: center;">Status</th>
+																	<th class="col-md-1" >Status</th>
 																</tr>
 															</thead>
 
@@ -752,7 +752,7 @@ body {
 
 														tr
 																.append($(
-																		'<td style="text-align:center; width:2% ;"></td>')
+																		'<td  style="width=2%"></td>')
 																		.html(
 																				key + 1));
 														/* tr
@@ -764,7 +764,7 @@ body {
 																				
 																				tr
 																				.append($(
-																						'<td class="col-md-1" style="text-align: center;"></td>')
+																						'<td class="col-md-1"  ></td>')
 																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
 				
 													/* 							
@@ -775,15 +775,15 @@ body {
 																				itemList.itemName)); */
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
 																				itemList.itemQty));
 
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
-																				"<input type=text style='text-align:center; width:90px' class=form-control name=chalanQty"
+																				"<input type=text style='text-align:right; width:90px' class=form-control name=chalanQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -803,9 +803,9 @@ body {
 
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
-																				"<input type=text style='text-align:center; width:90px' class=form-control name=recQty"
+																				"<input type=text style='text-align:right; width:90px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -844,17 +844,17 @@ body {
 														}
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
 																				pendQty));
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
 																				itemList.poNo));
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
 																				status));
 														$('#table_grid1 tbody')
@@ -944,7 +944,7 @@ body {
 																	cnt=			 */
 															tr
 																	.append($(
-																			'<td style="text-align: center; width=2%"></td>')
+																			'<td style=" width=2%"></td>')
 																			.html(
 																					cnt));
 															/* tr
@@ -956,7 +956,7 @@ body {
 
 															tr
 															.append($(
-																	'<td class="col-md-1" style="text-align: center;"></td>')
+																	'<td class="col-md-1" ></td>')
 																	.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
 
 														/* 	tr
@@ -966,15 +966,15 @@ body {
 																					itemList.itemName)); */
 															tr
 																	.append($(
-																			'<td class="col-md-1" style="text-align: center;"></td>')
+																			'<td class="col-md-1" ></td>')
 																			.html(
 																					itemList.itemQty));
 
 															tr
 																	.append($(
-																			'<td class="col-md-1" style="text-align: center;"></td>')
+																			'<td class="col-md-1" ></td>')
 																			.html(
-																					"<input type=text style='text-align:center; width:90px' class=form-control name=recQty"
+																					"<input type=text style='text-align:right; width:90px' class=form-control name=recQty"
 																							+ itemList.poDetailId
 																							+ ""
 																							+ itemList.itemId
@@ -1013,17 +1013,17 @@ body {
 															}
 															tr
 																	.append($(
-																			'<td class="col-md-1" style="text-align: center;"></td>')
+																			'<td class="col-md-1" ></td>')
 																			.html(
 																					pendQty));
 															tr
 																	.append($(
-																			'<td class="col-md-1" style="text-align: center;"></td>')
+																			'<td class="col-md-1" ></td>')
 																			.html(
 																					itemList.poNo));
 															tr
 																	.append($(
-																			'<td class="col-md-1" style="text-align: center;"></td>')
+																			'<td class="col-md-1" ></td>')
 																			.html(
 																					status));
 															$(
@@ -1260,13 +1260,13 @@ body {
 
 														tr
 																.append($(
-																		'<td  style="text-align: center; width:2%"></td>')
+																		'<td  style=" width:2%"></td>')
 																		.html(
 																				key + 1));
 
 																						tr
 																						.append($(
-																								'<td class="col-md-1" style="text-align: center;"></td>')
+																								'<td class="col-md-1" ></td>')
 																								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
 						
 														/* tr
@@ -1276,15 +1276,15 @@ body {
 																				itemList.itemName)); */
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1" ></td>')
 																		.html(
 																				itemList.itemQty));
 
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1" ></td>')
 																		.html(
-																				"<input type=text style='text-align:center; width:90px' class=form-control name=chalanQty"
+																				"<input type=text style='text-align:right; width:90px' class=form-control name=chalanQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -1304,9 +1304,9 @@ body {
 
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1" ></td>')
 																		.html(
-																				"<input type=text style='text-align:center; width:90px' class=form-control name=recQty"
+																				"<input type=text style='text-align:right; width:90px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -1345,17 +1345,17 @@ body {
 														}
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1" ></td>')
 																		.html(
 																				pendQty));
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1" ></td>')
 																		.html(
 																				itemList.poNo));
 														tr
 																.append($(
-																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		'<td class="col-md-1" ></td>')
 																		.html(
 																				status));
 														$('#table_grid1 tbody')

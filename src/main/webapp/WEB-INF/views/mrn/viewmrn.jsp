@@ -32,7 +32,7 @@
 						<i class="fa fa-file-o"></i>
 					</h1>
 
-				</div> -->
+				</div> --><br>
 			</div>
 			<!-- END Page Title -->
 
@@ -47,14 +47,11 @@
 								<i class="fa fa-bars"></i>MRN List
 							</h3>
 							<div class="box-tool">
-								<a href=""></a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/showAddMrn"> Add
+									MRN</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
-							<!-- <div class="box-tool">
-								<a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a> <a data-action="close" href="#"><i
-									class="fa fa-times"></i></a>
-							</div> -->
+							 
 						</div>
 
 

@@ -364,13 +364,13 @@ body {
 												style="width: 100%" id="table_grid1">
 												<thead>
 													<tr>
-														<th   style="text-align: center; width: 2%;">Sr</th>
-														<th  class="col-md-1" style="text-align: center;">Item </th>
-														<th  class="col-md-1" style="text-align: center;">PO QTY</th>
-														<th  class="col-md-1" style="text-align: center;">Mrn QTY</th>
-														<th  class="col-md-1" style="text-align: center;">PO No</th>
-														<th  class="col-md-1" style="text-align: center;">Status</th>
-														<th  class="col-md-1" style="text-align: center;">Action</th>
+														<th   style="  width: 2%;">Sr</th>
+														<th  class="col-md-1"  >Item </th>
+														<th  class="col-md-1"  >PO QTY</th>
+														<th  class="col-md-1"  >Mrn QTY</th>
+														<th  class="col-md-1"  >PO No</th>
+														<th  class="col-md-1"  >Status</th>
+														<th  class="col-md-1"  >Action</th>
 													</tr>
 												</thead>
 
@@ -380,10 +380,10 @@ body {
 
 														<tr>
 
-															<td style="text-align: center; width: 2%;"><c:out
+															<td style="  width: 2%;"><c:out
 																	value="${count.index+1}" /></td>
 														
-															<td class="col-md-1" style="text-align: center;">
+															<td class="col-md-1"  >
 															<div title="${mrnDetail.itemName}">${mrnDetail.itemCode}</div>
 															</td>
 															<c:set var="status" value="o"></c:set>
@@ -402,19 +402,19 @@ body {
 																</c:otherwise>
 															</c:choose>
 
-															<td class="col-md-1" style="text-align: center;"><c:out
+															<td class="col-md-1"  ><c:out
 																	value="${mrnDetail.poQty}" /></td>
 
-															<td class="col-md-1" style="text-align: center;">
-															<input type="text" style="text-align: center;"  class="form-control" id="mrnRecQty${mrnDetail.mrnDetailId}" onchange="updateMrnQty(this.value,${mrnDetail.mrnDetailId},${mrnDetail.itemId},${mrnDetail.mrnQty},${mrnDetail.poPendingQty})" name="mrnRecQty${mrnDetail.mrnDetailId}" value="${mrnDetail.mrnQty}">
+															<td class="col-md-1"  >
+															<input type="text" style="text-align: right;"  class="form-control" id="mrnRecQty${mrnDetail.mrnDetailId}" onchange="updateMrnQty(this.value,${mrnDetail.mrnDetailId},${mrnDetail.itemId},${mrnDetail.mrnQty},${mrnDetail.poPendingQty})" name="mrnRecQty${mrnDetail.mrnDetailId}" value="${mrnDetail.mrnQty}">
 															</td>
 
-															<td class="col-md-1" style="text-align: center;"><c:out
+															<td class="col-md-1"  ><c:out
 																	value="${mrnDetail.poNo}" /></td>
 
-															<td class="col-md-1" style="text-align: center;"><c:out
+															<td class="col-md-1"  ><c:out
 																	value="${status}" /></td>
-															<td class="col-md-1" style="text-align: center;">		
+															<td class="col-md-1"  >		
 															<a
 															href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}" title="Delete"><span
 																class="fa fa-trash-o"></span></a>
@@ -432,22 +432,20 @@ body {
 					<button class="buttonload" id="loader" style="display: none">
 						<i class="fa fa-spinner fa-spin" style="color: red;"></i>Loading
 					</button>
+								 <div class="form-group">
+								 </div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Transport
-									</label>
-
-									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="transport" id="transport"
-											class="form-control" placeholder="Transport" value="${mrnHeader.transport}"
-										
-											data-rule-required="true" />
-									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Lorry No
-									</label>
+									<label class="col-sm-3 col-lg-2 control-label">Lorry No</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="lorry_no" id="lorry_no"
 											class="form-control" placeholder="Lorry No" value="${mrnHeader.lrNo}"
+											data-rule-required="true" />
+									</div>
+									<label class="col-sm-3 col-lg-2 control-label">Transport </label>
+
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="transport" id="transport"
+											class="form-control" placeholder="Transport" value="${mrnHeader.transport}" 
 											data-rule-required="true" />
 									</div>
 								</div>
@@ -479,7 +477,7 @@ body {
 					<div class="col-md-3" align= center>
 					<input type="button"
 						
-						onclick="editMrn()" class="btn btn-info" value="Edit Mrn">
+						onclick="editMrn()" class="btn btn-info" value="Submit">
 
 					</div>
 					</div>
