@@ -75,6 +75,8 @@ public class QueryItemController {
 	docBean = restTemplate.postForObject(Constants.url + "getDocumentInfo", map, DocumentBean.class);
 	System.err.println("Doc" + docBean.toString());
 	
+	
+	
 	}catch (Exception e) {
 		
 		System.err.println("Exce in /getQueryItemDetail   "+e.getMessage());
