@@ -33,7 +33,7 @@
 	href="${pageContext.request.contextPath}/resources/img/favicon.png">
 </head>
 <body>
-
+<c:url var="setSubModId" value="/setSubModId" />
 
 	<!-- BEGIN Navbar -->
 
@@ -214,5 +214,22 @@
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
  --%>
+ 
+ <script>
+ 
+ 
+  
+
+  
+ function selectSubMod(subModId, modId){
+	 
+	 $.getJSON('${setSubModId}', {
+		 subModId : subModId,
+		 modId : modId,
+						ajax : 'true'
+					});
+ }
+ 
+ </script>
 </body>
 </html>
