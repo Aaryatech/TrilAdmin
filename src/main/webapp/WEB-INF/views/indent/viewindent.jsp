@@ -32,7 +32,7 @@
 					</h1>
 
 				</div> -->
-			</div>
+			</div><br>
 			<!-- END Page Title -->
 
 
@@ -43,11 +43,13 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> View Indent Header
+								<i class="fa fa-bars"></i>Indent  List
 							</h3>
 							<div class="box-tool">
-								<a href=""></a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
+								<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/showIndent">Add Indent</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a> 
+							</div>
 							</div>
 							<!-- <div class="box-tool">
 								<a data-action="collapse" href="#"><i

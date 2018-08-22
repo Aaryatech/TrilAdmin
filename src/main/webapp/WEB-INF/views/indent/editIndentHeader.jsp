@@ -279,7 +279,7 @@
 										<div class="col-sm-6 col-lg-2 controls">
 											<input type="text" name="quantity" id="quantity" min="1"
 												class="form-control" placeholder="Quantity"
-												data-rule-required="true" data-rule-number="true" />
+												  data-rule-number="true" />
 										</div>
 										<!-- </div>
 
@@ -290,14 +290,14 @@
 										<div class="col-sm-3 col-lg-2 controls">
 											<input type="text" name="sch_days" id="sch_days"
 												class="form-control" placeholder="Schedule Days"
-												data-rule-required="true" data-rule-number="true" />
+												  data-rule-number="true" />
 										</div>
 										<label class="col-sm-3 col-lg-1 control-label">Remark</label>
 										<div class="col-sm-6 col-lg-2 controls">
 
 											<input type="text" name="remark" id="remark" maxlength="20" 
 												class="form-control" placeholder="Remark"
-												data-rule-required="true" />
+												  />
 										</div>
 
 										<!-- </div>
@@ -364,7 +364,7 @@
 																
 
 														<td  class="col-md-1"><input
-															type="number" class="form-control"
+															type="text" class="form-control"
 															value="${indDetail.indQty}" min="1"  
 															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
@@ -382,7 +382,7 @@
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
 
 															<c:choose>
-																<c:when test="${indDetail.indDStatus==0}">
+																<c:when test="${indDetail.indDStatus==0 || indDetail.indDStatus==7 || indDetail.indDStatus==9 }">
 
 																	<a href="#" class="action_btn" title="Update" 
 																		onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i id="updateButton${indDetail.indDId}"
@@ -523,6 +523,34 @@
 	<!-- 1 -->
 	
 	<script type="text/javascript">
+	function validation()
+	{
+		var itemId = $("#item_name").val();
+		var qty = $("#quantity").val();
+		var schDay = $("#sch_days").val();
+		 
+		var isValid = true;
+		if(itemId=="" || itemId==null)
+		{
+		isValid = false;
+		alert("Please Select Item ");
+		}
+		
+		else if(isNaN(qty) || qty < 1 || qty=="")
+		{
+		isValid = false;
+		alert("Please enter Quantity");
+		}
+		
+		else if(isNaN(schDay) || schDay < 0 || schDay=="")
+		{
+		isValid = false;
+		alert("Please enter Schedule Day ");
+		}
+		
+	return isValid;
+		
+	}
 		function insertIndentDetail() {
 			//alert
 			var itemId = $('#item_name').val();
@@ -533,6 +561,10 @@
 			var indMId=${indent.indMId};
 			//alert("item Name " +itemName);
 			var indentDate = $('#indent_date').val();
+			
+			if(validation()==true){	
+				
+		
 			$.getJSON('${getIndentDetailForEdit}', {
 				itemId : itemId,
 				qty : qty,
@@ -566,7 +598,7 @@
 															.append($(
 																	'<td class="col-md-1" ></td>')
 																	.html(
-																			"<input type=number style='text-align:right; width:90px' class=form-control  name=indQty"
+																			"<input type=text style='text-align:right; width:90px' class=form-control  name=indQty"
 																					+ trans.indDId
 																					+ " id=indQty"
 																					+ trans.indDId
@@ -592,7 +624,7 @@
 							+ " value='"
 							+ trans.indRemark
 							+ "' >"));					
-					if(trans.indDStatus==0)
+					if(trans.indDStatus==0 || trans.indDStatus==7 || trans.indDStatus==9 )
 					{
 					tr
 					.append($(
@@ -616,6 +648,7 @@
 					$('#table1 tbody').append(tr);
 				})
 			});
+			}
 		}
 	</script>
 	<!--/1  -->
@@ -643,7 +676,14 @@
 			var remark = $('#indRemark'+indDId).val();
 			var schDays = $('#indSchDays'+indDId).val();
 		//	alert("qty " +qty +"remark  " +remark + "schDays  " +schDays);
+		if(isNaN(qty) || qty < 1 || qty==""){
+			alert("Enter Qty  ");
+		}
+		else{
+			
 			getValue(qty,indDId,indMId,remark,schDays);
+		}
+			
 		}
 		//var qty = $('#indQty'+indDId).val();
 		//alert(qty);
@@ -685,7 +725,7 @@
 			.append($(
 					'<td class="col-md-1" ></td>')
 					.html(
-							"<input type='number' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
+							"<input type='text' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
 		  	
 				tr.append($('<td  class="col-md-1"></td>').html("<input type=number style='text-align:right; ' class=form-control  name=indSchDays"
 						+ trans.indDId
@@ -702,7 +742,7 @@
 						+ " value='"+trans.indRemark+"'>"));					
 				//tr.append($('<td></td>').html(trans.indMDate));
 				
-				if(trans.indDStatus==0)
+				if(trans.indDStatus==0 || trans.indDStatus==7 || trans.indDStatus==9)
 					{
 					tr
 					.append($(
