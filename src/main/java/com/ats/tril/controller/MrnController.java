@@ -29,6 +29,7 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetPODetail;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
@@ -82,6 +83,10 @@ public class MrnController {
 			model.addObject("vendorId", 0);
 			model.addObject("poId", 0);
 			System.err.println("Inside show Add Mrn ");
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 
@@ -544,6 +549,10 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			model.addObject("mrnHeaderList", mrnHeaderList);
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 
@@ -640,6 +649,10 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			model.addObject("poItemList", poDetailForEditMrn);
 
 			model.addObject("mrnHeader", getMrnHeader);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 

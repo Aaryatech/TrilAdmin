@@ -40,6 +40,7 @@ import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.StockHeader;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.accessright.ModuleJson;
 import com.ats.tril.model.indent.GetIndents;
@@ -281,6 +282,10 @@ public class HomeController {
 			
 			model.addObject("poId",poId);
 			model.addObject("poNo",poNo);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 			
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();

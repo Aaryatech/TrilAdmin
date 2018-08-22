@@ -162,28 +162,27 @@ body {
 														<c:choose>
 
 															<c:when test="${poType!=0}">
-
-																<c:if test="${poType==1}">
-																	<option selected value="1">Regular</option>
-																</c:if>
-																<c:if test="${poType==2}">
-																	<option selected value="2">Job Work</option>
-																</c:if>
-																<c:if test="${poType==3}">
-																	<option selected value="3">General</option>
-																</c:if>
-																<c:if test="${poType==4}">
-																	<option selected value="4">Other</option>
-																</c:if>
-
+															
+															<c:forEach items="${typeList}" var="typeList"> 
+																<c:choose>
+																	<c:when test="${poType==typeList.typeId}">
+																		<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																	</c:when>
+																	<c:otherwise>
+																		<option value="${typeList.typeId}" disabled>${typeList.typeName}</option>
+																	</c:otherwise>
+																
+																</c:choose>
+																 
+																</c:forEach>
+ 
 															</c:when>
 
 															<c:otherwise>
-																<option value="-1">Select Grn Type</option>
-																<option value="1">Regular</option>
-																<option value="2">Job Work</option>
-																<option value="3">General</option>
-																<option value="4">Other</option>
+																<option value="">Select Indent Type</option>
+																<c:forEach items="${typeList}" var="typeList"> 
+																<option value="${typeList.typeId}">${typeList.typeName}</option>
+																</c:forEach>
 															</c:otherwise>
 
 														</c:choose>

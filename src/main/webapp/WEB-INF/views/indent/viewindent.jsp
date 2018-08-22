@@ -132,19 +132,17 @@
 												<tr class="bgpink">
 
 													<th
-														style="text-align: center; padding: 0px; align-items: center;"
-														width="60"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;All</th>
-													<th width="180" style="text-align: center;"
-														style="width: 150px">Indent No</th>
-													<th width="100" style="text-align: center;" align="center">Date</th>
-													<th width="150" style="text-align: center;" align="center">Category</th>
-													<th width="150" style="text-align: center;" align="center">Account Head</th>
+														style="width:2%;"><input type="checkbox" name="name1"
+														value="0" /> All</th>
+													<th class="col-md-1" >Indent No</th>
+													<th class="col-md-1">Date</th>
+													<th class="col-md-1">Category</th>
+													<th class="col-md-1">Account Head</th>
 
-													<th width="150" style="text-align: center;" align="center">Type</th>
-													<th width="150" style="text-align: center;" align="center">Development</th>
-													<th width="150" style="text-align: center;" align="center">Monthly</th>
-													<th width="150" style="text-align: center;" align="center">Action</th>
+													<th class="col-md-1">Type</th>
+													<th class="col-md-1">Development</th>
+													<th class="col-md-1">Monthly</th>
+													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<!-- 	<div class="table-responsive" style="border: 0">
@@ -162,17 +160,15 @@
 											<tbody>
 												<c:forEach items="${indentList}" var="indent">
 													<tr>
-														<td
-															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="60">&nbsp;&nbsp;<input type="checkbox"
+														<td > <input type="checkbox"
 															name="name1" value="${indent.indMId}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indent.indMNo}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td ><c:out
 																value="${indent.indMDate}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indent.catDesc}" /></td>
-																<td align="left" style="text-align: center;"><c:out
+																<td  ><c:out
 																value="${indent.accHeadDesc}" /></td>
 														 
 														<c:set var="indIsDev" value="o"></c:set>
@@ -206,22 +202,22 @@
 															</c:choose> 
 														</c:forEach>
 
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indmtype}" /></td>
 
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indIsDev}" /></td>
 
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indIsmonthly}" /></td>
 
-														<td align="left" style="text-align: center;"><a
+														<td  ><a
 															href="javascript:genPdf(${indent.indMId});" title="PDF"><span
 																class="glyphicon glyphicon glyphicon-file"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<a
 															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}" title="View/Edit"><span
 																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;
-																<c:if test="${indent.indMStatus==0}">
+																<c:if test="${indent.indMStatus==7 || indent.indMStatus==9}">
 																	 <a
 															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="glyphicon glyphicon-trash"></span></a>

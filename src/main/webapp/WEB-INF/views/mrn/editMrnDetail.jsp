@@ -173,38 +173,15 @@ body {
 										<select name="grn_type" id="grn_type"
 											class="form-control chosen" placeholder="Grn Type"
 											data-rule-required="true" disabled>
-
-											<c:choose>
-
-												<c:when test="${mrnHeader.mrnType==1}">
-													<option selected value="1">Regular</option>
-													<option value="2">Job Work</option>
-													<option value="3">General</option>
-													<option value="4">Other</option>
-												</c:when>
-
-												<c:when test="${mrnHeader.mrnType==2}">
-													<option value="1">Regular</option>
-													<option selected value="2">Job Work</option>
-													<option value="3">General</option>
-													<option value="4">Other</option>
-												</c:when>
-
-												<c:when test="${mrnHeader.mrnType==3}">
-													<option value="1">Regular</option>
-													<option value="2">Job Work</option>
-													<option selected value="3">General</option>
-													<option value="4">Other</option>
-												</c:when>
-
-												<c:otherwise>
-													<option value="1">Regular</option>
-													<option value="2">Job Work</option>
-													<option value="3">General</option>
-													<option selected value="4">Other</option>
-												</c:otherwise>
-
-											</c:choose>
+											
+											<c:forEach items="${typeList}" var="typeList">  
+														<c:choose>
+															<c:when test="${mrnHeader.mrnType==typeList.typeId}">
+																<option value="${typeList.typeId}" selected> ${typeList.typeName}</option>
+															</c:when> 
+														</c:choose>
+														</c:forEach>
+ 
 										</select>
 									</div>
 									</div><!--End of form-group div  -->

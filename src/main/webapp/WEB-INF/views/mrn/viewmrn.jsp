@@ -90,10 +90,9 @@
 											class="form-control chosen" placeholder="Grn Type" onchange="getInvoiceNo()"
 											data-rule-required="true">
 												<option value="-1">Select Grn Type</option>
-											<option value="1">Regular</option>
-											<option value="2">Job Work</option>
-											<option value="3">General</option>
-											<option value="4">Other</option>
+											<c:forEach items="${typeList}" var="typeList"> 
+															<option value="${typeList.typeId}">${typeList.typeName}</option>
+														</c:forEach>
 										</select>
 									</div>
 <div class="col-md-1">
@@ -139,15 +138,13 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-												<th
-														style="text-align: center; padding: 0px; align-items: center;"
-														width="60"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;All</th>
-													<th width="180" style="text-align: center;" style="width: 150px">Mrn No</th>
-													<th width="150" style="text-align: center;" align="center">Date</th>
-													<th width="150"  style="text-align: center;" align="center">Vendor</th>
-													<th width="150" style="text-align: center;" align="center">Type</th>
-													<th width="150" style="text-align: center;" align="center">Action</th>
+												<th style="width:2%;"><input type="checkbox" name="name1"
+														value="0" />All</th>
+													<th class="col-md-1" >Mrn No</th>
+													<th class="col-md-1">Date</th>
+													<th class="col-md-5">Vendor</th>
+													<th class="col-md-1">Type</th>
+													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<!-- 	<div class="table-responsive" style="border: 0">
@@ -165,32 +162,23 @@
 											<tbody>
 												<c:forEach items="${mrnHeaderList}" var="mrn">
 													<tr>
-													<td
-															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="60">&nbsp;&nbsp;<input type="checkbox"
+													<td ><input type="checkbox"
 															name="name1" value="${mrn.mrnId}" /></td>
-														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnNo}" /></td>
-														<td align="left" style="text-align: center;"><c:out value="${mrn.mrnDate}" /></td>
-														<td align="left" style="text-align: center;"><c:out value="${mrn.vendorName}" /></td>
+														<td ><c:out value="${mrn.mrnNo}" /></td>
+														<td ><c:out value="${mrn.mrnDate}" /></td>
+														<td ><c:out value="${mrn.vendorName}" /></td>
 														<c:set var="mrnType" value="o"></c:set>
+														<c:forEach items="${typeList}" var="typeList">  
 														<c:choose>
-															<c:when test="${mrn.mrnType==1}">
-																<c:set var="mrnType" value="Regular"></c:set>
-															</c:when>
-															<c:when test="${mrn.mrnType==2}">
-																<c:set var="mrnType" value="Job Work"></c:set>
-															</c:when>
-															<c:when test="${mrn.mrnType==3}">
-																<c:set var="mrnType" value="General"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="mrnType" value="Other"></c:set>
-															</c:otherwise>
+															<c:when test="${mrn.mrnType==typeList.typeId}">
+																<c:set var="mrnType" value="${typeList.typeName}"></c:set>
+															</c:when> 
 														</c:choose>
+														</c:forEach>
 													
-														<td align="left" style="text-align: center;"><c:out value="${mrnType}" /></td>
+														<td ><c:out value="${mrnType}" /></td>
 
-														<td align="left" style="text-align: center;">
+														<td   >
 														
 														<a href="javascript:genPdf(${ mrn.mrnId});" title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></a>

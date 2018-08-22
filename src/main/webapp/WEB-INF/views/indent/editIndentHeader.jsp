@@ -376,7 +376,7 @@
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
 
 															<c:choose>
-																<c:when test="${indDetail.indDStatus==0 || indDetail.indDStatus==7 || indDetail.indDStatus==9 }">
+																<c:when test="${ indDetail.indDStatus==7 || indDetail.indDStatus==9 }">
 
 																	<a href="#" class="action_btn" title="Update" 
 																		onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i id="updateButton${indDetail.indDId}"
@@ -398,14 +398,15 @@
 									<div class="col-md-12" style="text-align: center">
 
 										<c:choose>
-											<c:when test="${indent.indMStatus==2}">
-												<input type="submit" class="btn btn-info"
-													value="Submit" disabled>
+											<c:when test="${indent.indMStatus==7 || indent.indMStatus==9}">
+											<input type="submit" class="btn btn-info"
+													value="Submit">
+												
 											</c:when>
 											<c:otherwise>
-
-												<input type="submit" class="btn btn-info"
-													value="Submit">
+											<input type="submit" class="btn btn-info"
+													value="Submit" disabled>
+ 
 											</c:otherwise>
 										</c:choose>
 
