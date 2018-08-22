@@ -54,7 +54,8 @@
 							</div>
 
 						</div>
-
+			<form action="${pageContext.request.contextPath}/listOfPurachaseOrder"
+								class="form-horizontal" id="validation-form" method="get">
 						<div class="box-content">
 
 							<div class="box-content">
@@ -62,7 +63,7 @@
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${date}" name="fromDate"
+										placeholder="From Date" value="${fromDate}" name="fromDate"
 										type="text" required>
 
 
@@ -71,7 +72,7 @@
 								<div class="col-md-2">To Date*</div>
 								<div class="col-md-3">
 									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${date}" name="toDate"
+										placeholder="To Date" value="${toDate}" name="toDate"
 										type="text" required>
 
 
@@ -83,8 +84,10 @@
 							<br>
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<input type="button" class="btn btn-primary"
-										value="Submit" onclick="search()">
+									<!-- <input type="button" class="btn btn-primary"
+										value="Submit" onclick="search()"> -->
+										<input type="submit" class="btn btn-primary"
+										value="Submit"  >
 								</div>
 							</div>
 							<br>
@@ -141,20 +144,14 @@
 												 
 												<td class="col-md-1"><c:out value="${poList.poNo}" /></td>
 												<c:set var="type"></c:set>
-												<c:choose>
-													<c:when test="${poList.poType==1}">
-														<c:set var="type" value="Regular"></c:set>
-													</c:when>
-													<c:when test="${poList.poType==2}">
-														<c:set var="type" value="Job Work"></c:set>
-													</c:when>
-													<c:when test="${poList.poType==3}">
-														<c:set var="type" value="General"></c:set>
-													</c:when>
-													 <c:otherwise>
-													 	<c:set var="type" value="Other"></c:set>
-													 </c:otherwise>
-												</c:choose>
+												<c:forEach items="${typeList}" var="typeList"> 
+															<c:choose>
+																<c:when test="${typeList.typeId==poList.poType}">
+																	<c:set var="type" value="${typeList.typeName}"></c:set>
+																</c:when>
+																 
+															</c:choose> 
+														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
 												<td class="col-md-4"><c:out
@@ -191,7 +188,7 @@
 							</div>
 						</div>
 
-
+</form>
 
 					</div>
 

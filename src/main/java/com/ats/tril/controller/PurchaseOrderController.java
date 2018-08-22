@@ -424,10 +424,10 @@ public class PurchaseOrderController {
 								Float.parseFloat(request.getParameter("disc" + intendDetailList.get(i).getIndDId())));
 						intendDetailList.get(i).setRate(
 								Float.parseFloat(request.getParameter("rate" + intendDetailList.get(i).getIndDId())));
-						intendDetailList.get(i)
+						/*intendDetailList.get(i)
 								.setIndRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));
 						intendDetailList.get(i).setIndItemSchd(Integer
-								.parseInt(request.getParameter("indItemSchd" + intendDetailList.get(i).getIndDId())));
+								.parseInt(request.getParameter("indItemSchd" + intendDetailList.get(i).getIndDId())));*/
 						getIntendDetailforJsp.add(intendDetailList.get(i));
 						PoHeader.setIndNo(intendDetailList.get(i).getIndMNo());
 					}
@@ -651,15 +651,40 @@ public class PurchaseOrderController {
 			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("fromDate", sf.format(date));
-			map.add("toDate", sf.format(date));
+			
+			if (request.getParameter("fromDate") == null || request.getParameter("toDate") == null) {
+				
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+				
+				model.addObject("fromDate", display.format(date));
+				model.addObject("toDate", display.format(date));
+				
+			}
+			else {
+				
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				
+			}
+			
 
 			GetPoHeaderList[] list = rest.postForObject(Constants.url + "/getPoHeaderListBetweenDate", map,
 					GetPoHeaderList[].class);
 			List<GetPoHeaderList> poList = new ArrayList<GetPoHeaderList>(Arrays.asList(list));
 
 			model.addObject("poList", poList);
-			model.addObject("date", display.format(date));
+			
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -811,7 +836,12 @@ public class PurchaseOrderController {
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);*/
+			 
+				Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 
+				model.addObject("typeList", typeList);
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -916,10 +946,10 @@ public class PurchaseOrderController {
 								Float.parseFloat(request.getParameter("discAdd" + intendDetailList.get(i).getIndDId())));
 						intendDetailList.get(i).setRate(
 								Float.parseFloat(request.getParameter("rateAdd" + intendDetailList.get(i).getIndDId())));
-						intendDetailList.get(i)
+						/*intendDetailList.get(i)
 								.setIndRemark(request.getParameter("indRemarkAdd" + intendDetailList.get(i).getIndDId()));
 						intendDetailList.get(i).setIndItemSchd(Integer
-								.parseInt(request.getParameter("indItemSchdAdd" + intendDetailList.get(i).getIndDId())));
+								.parseInt(request.getParameter("indItemSchdAdd" + intendDetailList.get(i).getIndDId())));*/
 						getIntendDetailforJsp.add(intendDetailList.get(i));
 						 
 					}

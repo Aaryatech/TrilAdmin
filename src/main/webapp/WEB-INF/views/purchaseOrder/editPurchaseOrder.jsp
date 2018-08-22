@@ -149,39 +149,13 @@ body {
 									<div class="col-md-3">
 									<input type="hidden" id="poType" name="poType" value="${getPoHeader.poType}">
 										<select name="poTypes" id="poTypes"   class="form-control chosen"  disabled>
-										<c:choose>
-											<c:when test="${getPoHeader.poType==1}">
-												<option value="1" selected>Regular</option>
-												<option value="2">Job Work</option>
-												<option value="3">General</option>
-												<option value="4">Other</option> 
-											</c:when>
-											<c:when test="${getPoHeader.poType==2}">
-												<option value="1">Regular</option>
-												<option value="2" selected>Job Work</option>
-												<option value="3">General</option>
-												<option value="4">Other</option> 
-											</c:when>
-											<c:when test="${getPoHeader.poType==3}">
-												<option value="1">Regular</option>
-												<option value="2">Job Work</option>
-												<option value="3" selected>General</option>
-												<option value="4">Other</option> 
-											</c:when>
-											<c:when test="${getPoHeader.poType==4}">
-												<option value="1">Regular</option>
-												<option value="2">Job Work</option>
-												<option value="3">General</option>
-												<option value="4" selected>Other</option> 
-											</c:when>
-											<c:otherwise>
-											<option value="" >Select PO Type</option>
-											<option value="1">Regular</option>
-											<option value="2">Job Work</option>
-											<option value="3">General</option>
-											<option value="4">Other</option> 
-											</c:otherwise>
-										</c:choose>
+										<c:forEach items="${typeList}" var="typeList">
+															<c:choose> 
+																<c:when test="${getPoHeader.poType==typeList.typeId}">
+																	<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																</c:when> 
+															</c:choose>
+														</c:forEach>
 										
 										</select>
 									</div>
@@ -931,12 +905,22 @@ function calculateBalaceQtyAdd(key)
 			 	 document.getElementById("poQtyAdd"+key).value = "";
 			 	document.getElementById("balanceQtyAdd"+key).value = indQty;
 			 	alert("Your Enter PO QTY Greater Than Balance QTY");
+			 	document.getElementById("select_to_approve"+key).checked=false; 
+				  requiredField(key);
 			  }
 		  else
 			  {  
 			  document.getElementById("balanceQtyAdd"+key).value = indQty-poQty;
+			  document.getElementById("select_to_approve"+key).checked=true; 
+			  requiredField(key);
 			   }
-	   
+		    
+	   if(poQty<1 || poQty=="")
+		   {
+		   	alert("Enter Valid Qty ");
+		   	document.getElementById("select_to_approve"+key).checked=false; 
+			  requiredField(key);
+		   }
 	 
 } 
 
