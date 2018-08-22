@@ -36,6 +36,7 @@ import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.TaxForm;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
@@ -91,6 +92,9 @@ public class PurchaseOrderController {
 			model.addObject("quotationDateTemp", sf.format(date));
 			model.addObject("isFromDashBoard", 0);
 			 
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,6 +154,10 @@ public class PurchaseOrderController {
 			
 			String code = getInvoiceNo(poType,2,sf.format(date));
 			model.addObject("code", code);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -436,6 +444,10 @@ public class PurchaseOrderController {
 			model.addObject("poDetailList", poDetailList);
 			model.addObject("indId", indId);
 			model.addObject("poHeader", PoHeader);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -604,7 +616,7 @@ public class PurchaseOrderController {
 					e.printStackTrace();
 				}
 			}
-			if (save != null) {
+			if (save != null  && getIntendDetailforJsp.size()>0) {
 				for (int i = 0; i < getIntendDetailforJsp.size(); i++) {
 					getIntendDetailforJsp.get(i)
 							.setIndMDate(DateConvertor.convertToYMD(getIntendDetailforJsp.get(i).getIndMDate()));
@@ -721,7 +733,7 @@ public class PurchaseOrderController {
 			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deletePo", map, ErrorMessage.class);
 			System.out.println(errorMessage);
 
-			if (errorMessage.isError() == false) {
+			if (errorMessage.isError() == false && updateIntendQty.size()>0) {
 				 
 				 errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty", updateIntendQty,
 							ErrorMessage.class);
@@ -967,7 +979,7 @@ public class PurchaseOrderController {
 			System.out.println(save);
 			
 			
-			if(save!=null)
+			if(save!=null && getIntendDetailforJsp.size()>0)
 			{
 				 
 				for (int i = 0; i < getIntendDetailforJsp.size(); i++) {

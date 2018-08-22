@@ -18,6 +18,8 @@ public class GetIntendDetail {
 	private String indRemark; 
 	private int delStatus;
 	private int indDStatus; 
+	private String indApr1Date; 
+	private String indApr2Date;
 	private float	indFyr;
 	private float	poQty;
 	private float	pendingQty;
@@ -147,14 +149,28 @@ public class GetIntendDetail {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
+	
+	public String getIndApr1Date() {
+		return indApr1Date;
+	}
+	public void setIndApr1Date(String indApr1Date) {
+		this.indApr1Date = indApr1Date;
+	}
+	public String getIndApr2Date() {
+		return indApr2Date;
+	}
+	public void setIndApr2Date(String indApr2Date) {
+		this.indApr2Date = indApr2Date;
+	}
 	@Override
 	public String toString() {
 		return "GetIntendDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
 				+ indMDate + ", itemId=" + itemId + ", itemCode=" + itemCode + ", indQty=" + indQty + ", indItemUom="
 				+ indItemUom + ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd="
 				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", delStatus="
-				+ delStatus + ", indDStatus=" + indDStatus + ", indFyr=" + indFyr + ", poQty=" + poQty + ", pendingQty="
-				+ pendingQty + ", disc=" + disc + ", rate=" + rate + "]";
+				+ delStatus + ", indDStatus=" + indDStatus + ", indApr1Date=" + indApr1Date + ", indApr2Date="
+				+ indApr2Date + ", indFyr=" + indFyr + ", poQty=" + poQty + ", pendingQty=" + pendingQty + ", disc="
+				+ disc + ", rate=" + rate + "]";
 	}
 	
 	

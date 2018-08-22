@@ -174,22 +174,7 @@
 																value="${indent.catDesc}" /></td>
 																<td align="left" style="text-align: center;"><c:out
 																value="${indent.accHeadDesc}" /></td>
-														<c:set var="indmtype" value="o"></c:set>
-														<c:choose>
-															<c:when test="${indent.indMType==1}">
-																<c:set var="indmtype" value="Regular"></c:set>
-															</c:when>
-															<c:when test="${indent.indMType==2}">
-																<c:set var="indmtype" value="Job Work"></c:set>
-															</c:when>
-															<c:when test="${indent.indMType==3}">
-																<c:set var="indmtype" value="General"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="indmtype" value="Other"></c:set>
-															</c:otherwise>
-														</c:choose>
-
+														 
 														<c:set var="indIsDev" value="o"></c:set>
 
 														<c:choose>
@@ -211,6 +196,15 @@
 																<c:set var="indIsmonthly" value="No"></c:set>
 															</c:otherwise>
 														</c:choose>
+														
+														<c:forEach items="${typeList}" var="typeList"> 
+															<c:choose>
+																<c:when test="${typeList.typeId==indent.indMType}">
+																	<c:set var="indmtype" value="${typeList.typeName}"></c:set>
+																</c:when>
+																 
+															</c:choose> 
+														</c:forEach>
 
 														<td align="left" style="text-align: center;"><c:out
 																value="${indmtype}" /></td>

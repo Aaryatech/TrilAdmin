@@ -32,6 +32,7 @@ import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.SubDept;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
 
 @Controller
@@ -43,6 +44,23 @@ public class MasterController {
 	List<GetSubDept> getSubDeptList = new ArrayList<>();
 	List<GetItem> itemList = new ArrayList<>();
 	List<Uom> uomList = new ArrayList<Uom>();
+	
+	@RequestMapping(value = "/getAllType", method = RequestMethod.GET)
+	public List<Type> getAllType(HttpServletRequest request, HttpServletResponse response) {
+
+		List<Type> typeList = new ArrayList<Type>();
+		try {
+
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			typeList = new ArrayList<Type>(Arrays.asList(type));
+ 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return typeList;
+	}
 	
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {

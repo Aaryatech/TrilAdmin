@@ -62,13 +62,11 @@
 										Type</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select name="indent_type" id="indent_type"
-											data-rule-required="true" class="form-control chosen"
-											placeholder="Type" data-rule-required="true">
+											data-rule-required="true" class="form-control chosen"  data-rule-required="true">
 											<option value="">Select Indent Type</option>
-											<option value="1">Regular</option>
-											<option value="2">Job Work</option>
-											<option value="3">General</option>
-											<option value="4">Other</option>
+											<c:forEach items="${typeList}" var="typeList"> 
+															<option value="${typeList.typeId}">${typeList.typeName}</option>
+														</c:forEach>
 										</select>
 									</div>
 									

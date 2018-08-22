@@ -179,7 +179,7 @@ body {
 										<c:when test="${isFromDashBoard==1}">
 										<input type="hidden" id="poType" name="poType" value="${poTypeTemp}">
 											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"   disabled>
-												<c:choose>
+												<%-- <c:choose>
 													<c:when test="${poTypeTemp==1}"> 
 														<option value="1" selected>Regular</option> 
 													</c:when>
@@ -199,33 +199,64 @@ body {
 													<option value="3">General</option>
 													<option value="4">Other</option> 
 													</c:otherwise>
-												</c:choose>
-										
+												</c:choose> --%>
+												
+												 
+														<c:forEach items="${typeList}" var="typeList">
+															<c:choose>
+															
+																<c:when test="${poTypeTemp==typeList.typeId}">
+																	<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																</c:when>
+																 
+															</c:choose>
+														</c:forEach>
+													 
 											</select>
 										</c:when>
 										<c:otherwise>
 											<select name="poType" id="poType"   class="form-control chosen" onchange="getInvoiceNo()"   required>
+												  <c:set var="poSelected" value="0"></c:set>
+												  <c:forEach items="${typeList}" var="typeList">
+												  <c:choose>
+													<c:when test="${poTypeTemp==typeList.typeId}"> 
+														<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+														<c:set var="poSelected" value="1"></c:set> 
+													</c:when>
+												</c:choose>  
+												</c:forEach>
 												<c:choose>
-													<c:when test="${poTypeTemp==1}"> 
-														<option value="1" selected>Regular</option> 
+													<c:when test="${poSelected==0}">
+													 <option value="" >Select PO Type</option>
+														<c:forEach items="${typeList}" var="typeList">
+													  	<option value="${typeList.typeId}"  >${typeList.typeName}</option>
+														</c:forEach>
 													</c:when>
-													<c:when test="${poTypeTemp==2}"> 
-														<option value="2" selected>Job Work</option> 
-													</c:when>
-													<c:when test="${poTypeTemp==3}"> 
-														<option value="3" selected>General</option> 
-													</c:when>
-													<c:when test="${poTypeTemp==4}">
-														<option value="4" selected>Other</option>
-													</c:when>
-													<c:otherwise>
-													<option value="" >Select PO Type</option>
-													<option value="1">Regular</option>
-													<option value="2">Job Work</option>
-													<option value="3">General</option>
-													<option value="4">Other</option> 
-													</c:otherwise>
 												</c:choose>
+												
+												<%-- <c:choose>
+													<c:when test="${poTypeTemp==''}">
+														<option value="" >Select PO Type</option>
+														 <c:forEach items="${typeList}" var="typeList">
+															 
+																	<option value="${typeList.typeId}">${typeList.typeName}</option>
+														</c:forEach>
+																
+														
+													</c:when> 
+													<c:otherwise>
+														<c:forEach items="${typeList}" var="typeList">
+															<c:choose>
+															
+																<c:when test="${poTypeTemp==typeList.typeId}">
+																	<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																</c:when>
+																 
+															</c:choose>
+														</c:forEach>
+													</c:otherwise>
+													
+												</c:choose> --%>
 										
 											</select>
 										

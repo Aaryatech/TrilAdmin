@@ -34,6 +34,7 @@ import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.StockHeader;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
@@ -94,6 +95,10 @@ public class IndentController {
 			 */
 
 			// System.out.println("stockList " + stockList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing add Indent" + e.getMessage());
@@ -729,6 +734,10 @@ public class IndentController {
 			model.addObject("indentList", indentList);
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 
@@ -818,6 +827,13 @@ public class IndentController {
 
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
+			
+			  
+			 
+				Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+				
+				model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 
