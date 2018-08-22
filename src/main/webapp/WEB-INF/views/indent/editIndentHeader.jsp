@@ -44,7 +44,7 @@
 					</h1>
 
 				</div>
-			</div> -->
+			</div> --><br>
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -109,6 +109,17 @@
 											value="${indent.indMDate}" required />
 									</div>
 								</div>
+								
+								<div class="form-group">
+								
+								<div class="col-md-1"></div>
+									<div class="col-md-2">Remark</div>
+									<div class="col-md-8">
+										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="${indent.indRemark}" required />
+									</div>
+								 
+								</div>
+								 
 								
 								<div class="form-group">
 								<div class="col-md-1"></div>

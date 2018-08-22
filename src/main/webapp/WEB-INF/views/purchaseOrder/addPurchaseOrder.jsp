@@ -306,6 +306,16 @@ body {
 			</div><br/>
 			
 			<div class="box-content">
+				<div class="col-md-2" >Remark</div>
+									<div class="col-md-10">
+										<input type="text"   placeholder="Remark" value="${remarkTemp}" name="poRemark" id="poRemark" class="form-control" required>
+									
+									</div>
+									
+				 
+			</div><br/>
+			
+			<div class="box-content">
 			<div class="col-md-2">Vendor Quotation</div>
 				<div class="col-md-3">
 					<input type="text" placeholder="Enter Quotation No"  value="${quotationTemp}" name="quotation" id="quotation" class="form-control" required>
@@ -643,6 +653,7 @@ body {
 					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
 					<input   type="hidden" value="${code}" name="poNoTemp" id="poNoTemp"    >
 					<input   type="hidden" value="${isFromDashBoard}" name="isFromDashBoard" id="isFromDashBoard"    >
+						<input   type="hidden"   name="remarkTemp" id="remarkTemp"    >
 										      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
@@ -1053,8 +1064,8 @@ function requiredField(key)
 	document.getElementById("deliveryIdTemp").value=document.getElementById("deliveryId").value;
 	document.getElementById("dispatchModeTemp").value=document.getElementById("dispatchMode").value;
 	document.getElementById("poDateTemp").value=document.getElementById("poDate").value;
+	document.getElementById("remarkTemp").value=document.getElementById("poRemark").value;
 	
-	 
 } 
   function calculateBalaceQty(key)
   {

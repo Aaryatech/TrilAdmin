@@ -89,6 +89,7 @@ public class PurchaseOrderController {
 			model.addObject("taxFormList", taxFormList);
  
 			model.addObject("quotationTemp", "-");
+			model.addObject("remarkTemp", "-");
 			model.addObject("quotationDateTemp", sf.format(date));
 			model.addObject("isFromDashBoard", 0);
 			 
@@ -327,6 +328,12 @@ public class PurchaseOrderController {
 				// TODO: handle exception
 			}
 			try {
+				String remarkTemp = request.getParameter("remarkTemp");
+				model.addObject("remarkTemp", remarkTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 				String poNoTemp = request.getParameter("poNoTemp");
 				model.addObject("code", poNoTemp);
 			} catch (Exception e) {
@@ -558,6 +565,8 @@ public class PurchaseOrderController {
 			String insuRemark = request.getParameter("insuRemark");
 			String freghtRemark = request.getParameter("freghtRemark");
 			String otherRemark = request.getParameter("otherRemark");
+			String poRemark = request.getParameter("poRemark");
+			
 			// ----------------------------Inv No---------------------------------
 			DocumentBean docBean = null;
 			try {
@@ -603,6 +612,7 @@ public class PurchaseOrderController {
 			PoHeader.setPoPackRemark(packRemark);
 			PoHeader.setIndId(PoHeader.getPoDetailList().get(0).getIndId());
 			PoHeader.setDelStatus(1);
+			PoHeader.setPoRemark(poRemark);
 			System.out.println(PoHeader);
 			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", PoHeader, PoHeader.class);
 			System.out.println(save);

@@ -553,6 +553,8 @@ public class IndentController {
 			String indNo = request.getParameter("indent_no");
 
 			int indType = Integer.parseInt(request.getParameter("indent_type"));
+			
+			String indHeaderRemark = request.getParameter("indHeaderRemark");
 
 			String indDate = request.getParameter("indent_date");
 			System.err.println("indeDate " + indDate);
@@ -623,7 +625,7 @@ public class IndentController {
 			indent.setIndApr2Date(DateConvertor.convertToYMD(indDate));
 
 			indent.setDelStatus(Constants.delStatus);
-
+			indent.setIndRemark(indHeaderRemark);
 			List<IndentTrans> indTrasList = new ArrayList<IndentTrans>();
 			for (int i = 0; i < tempIndentList.size(); i++) {
 
@@ -859,6 +861,8 @@ public class IndentController {
 			int accHead = Integer.parseInt(request.getParameter("acc_head"));
 
 			int isMachineSpe = Integer.parseInt(request.getParameter("machine_specific"));
+			
+			String indRemark = request.getParameter("indHeaderRemark");
 
 			int dept = 0;
 			int subDept = 0;
@@ -885,7 +889,8 @@ public class IndentController {
 			map.add("indIsdev", isDev);
 			map.add("indIsmonthly", isMonthly);
 			map.add("indMId", indentId);
-
+			map.add("indRemark", indRemark);
+			
 			ErrorMessage editIndentHeaderResponse = rest.postForObject(Constants.url + "/editIndentHeader", map,
 					ErrorMessage.class);
 			System.err.println("editIndentHeaderResponse " + editIndentHeaderResponse.toString());

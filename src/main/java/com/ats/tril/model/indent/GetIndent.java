@@ -13,6 +13,8 @@ public class GetIndent {
 
 	private int indMType;
 	
+	private String indRemark;
+	
 	private String indIsdev;
 	
 	private int indIsmonthly;
@@ -141,12 +143,20 @@ public class GetIndent {
 		this.subDeptId = subDeptId;
 	}
 
+	public String getIndRemark() {
+		return indRemark;
+	}
+
+	public void setIndRemark(String indRemark) {
+		this.indRemark = indRemark;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIndent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
-				+ indMType + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly + ", catDesc=" + catDesc
-				+ ", indMStatus=" + indMStatus + ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", catId="
-				+ catId + ", deptId=" + deptId + ", subDeptId=" + subDeptId + "]";
+				+ indMType + ", indRemark=" + indRemark + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly
+				+ ", catDesc=" + catDesc + ", indMStatus=" + indMStatus + ", achdId=" + achdId + ", accHeadDesc="
+				+ accHeadDesc + ", catId=" + catId + ", deptId=" + deptId + ", subDeptId=" + subDeptId + "]";
 	}
 	
 }

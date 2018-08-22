@@ -108,6 +108,14 @@
 									
 								</div>
 <br/>
+								<div class="box-content"> 
+								
+									<label class="col-sm-3 col-lg-2 control-label">Account
+										Head</label>
+									<div class="col-md-10">
+										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="-" required />
+									</div> 
+								</div><br>
 								<div class="box-content">
 
 
@@ -424,13 +432,21 @@ function insertIndent(){
  var form = document.getElementById("validation-form");
  var indentDate=$('#indent_date').val();
  var indNo	=$('#indent_no').val();
-
+ var indentType	=$('#indent_type').val();
+ var accHead	=$('#acc_head').val();
+ 
  //alert(indentDate);
  if(indentDate=="" || indentDate==null){
 	 	alert("Please Select Valid Indent Date");
  }else  if(indNo=="" || indNo==null){
 	 	alert("Please provide Indent No");
  }
+ else  if(indentType=="" || indentType==null){
+	 	alert("Select PoType ");
+}
+ else  if(accHead=="" || accHead==null){
+	 	alert("Select Account Head  ");
+}
  else{
 	  	form.action ="${pageContext.request.contextPath}/saveIndent";
 	    form.submit();
