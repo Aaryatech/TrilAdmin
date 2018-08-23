@@ -261,7 +261,7 @@
 	
 		function getQueryItemDetail(itemId,docType) {
 			
-			alert("Item " +itemId+"doc Type  " +docType);
+			//alert("Item " +itemId+"doc Type  " +docType);
 			document.getElementById("itemId").value=itemId;
 			document.getElementById("docType").value=docType;
 			

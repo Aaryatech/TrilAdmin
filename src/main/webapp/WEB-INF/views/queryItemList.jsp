@@ -529,17 +529,7 @@
 
 
 
-							<div class=" box-content">
-								<div class="col-md-12" style="text-align: center">
-
-									<input type="button" id="expExcel" class="btn btn-primary"
-										value="EXPORT TO Excel" onclick="exportToExcel();">
-									<button class="btn btn-primary" value="PDF" id="PDFButton"
-										disabled="disabled" onclick="genPdf()">PDF</button>
-
-								</div>
-							</div>
-
+						
 
 						</div>
 
