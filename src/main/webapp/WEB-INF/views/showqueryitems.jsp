@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Item List
+								<i class="fa fa-table"></i>View Query Items
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem"> Add
@@ -76,7 +76,7 @@
 									<label class="col-sm-3 col-lg-2 control-label">To Date</label>
 									<div class="col-sm-5 col-lg-3 controls">
 										<input class="form-control date-picker" id="date" size="16"
-											type="text" name="date" required value="${toDate}" />
+											type="text" name="date" required value="${date}" />
 									</div>
 
 									<div
@@ -94,7 +94,7 @@
 											<th style="width:3%;">Code</th>
 											<th class="col-md-5">Item Description</th>  
 											<th  style="width:3%;">UOM</th>
-											<th class="col-md-2" style="text-align: center;">Action</th>
+											<th class="col-md-2" style="text-align: center;">Get Query Items</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -111,36 +111,45 @@
 												<td class="col-md-2"><a
 													href="#" onclick="getQueryItemDetail(${itemList.itemId},1)"
 													data-toggle="tooltip" title="Indent Items"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp; 
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
 														<a
-													href="${pageContext.request.contextPath}/deleteItem/${itemList.itemId}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													data-toggle="tooltip" title="Delete"><span
-														class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;&nbsp;
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},2)"
+													data-toggle="tooltip" title="PO Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
 														<a
-													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
-													data-toggle="tooltip" title="Edit"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},3)"
+													data-toggle="tooltip" title="MRN Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
 														<a
-													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
-													data-toggle="tooltip" title="Edit"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},4)"
+													data-toggle="tooltip" title="Returnabel/NonReturnable Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
 														<a
-													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
-													data-toggle="tooltip" title="Edit"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},6)"
+													data-toggle="tooltip" title="Issue Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
 														<a
-													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
-													data-toggle="tooltip" title="Edit"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},8)"
+													data-toggle="tooltip" title="Enquiry Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
 														<a
-													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
-													data-toggle="tooltip" title="Edit"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},9)"
+													data-toggle="tooltip" title="Rejection Memo Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
 														<a
-													href="${pageContext.request.contextPath}/editItem/${itemList.itemId}"
-													data-toggle="tooltip" title="Edit"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;</td>
+													href="#" onclick="getQueryItemDetail(${itemList.itemId},10)"
+													data-toggle="tooltip" title="Damaged Items"><span
+														class="glyphicon glyphicon-th"></span></a>&nbsp;&nbsp;&nbsp; 
+														
+														
+														
+														</td>
 											</tr>
 										</c:forEach>
 									</tbody>
