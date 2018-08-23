@@ -196,7 +196,7 @@
 
 			</div>
 			<footer>
-				<p>2018 © AARYATECH SOLUTIONS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 		</div>
 

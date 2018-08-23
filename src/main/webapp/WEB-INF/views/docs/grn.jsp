@@ -58,25 +58,27 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 <div align="right"> <h5> COM-F-01 REV.00 DT.01-05-2018   </h5></div>
 
 <h3 align="center">TRAMBAK  &nbsp;&nbsp;RUBBER  &nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
-<p align="center">GOODS RECEIPT NOTE</p>
+
 
 
 <div class="invoice-box">
 		<table cellpadding="0" cellspacing="0">
 
 			<tr class="information">
-				<td colspan="2" valign="top">
+				<td colspan="3" valign="top">
 					<table>
 						<tr>
-							<td valign="top">
-								Party Code : ${item.vendorCode}<br>
+							<td valign="top" width="20%">
+								Party Code :&nbsp;&nbsp; ${item.vendorCode}<br>
 								${item.vendorName}
 								</td>
 
+<td valign="top" width="60%" align="center" style="font-weight: bold; font-size: 12px;">
+GOODS RECEIPT NOTE
+								</td>
 
-
-							<td align="right">GRN NO : ${item.mrnNo }<br>
-							Date : ${item.mrnDate }
+							<td align="left" width="20">GRN NO : &nbsp;&nbsp;${item.mrnNo }<br>
+							Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; ${item.mrnDate }
 							</td>
 						</tr>
 					</table>
@@ -108,12 +110,12 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 
 
 							<td align="left" width="33%">Invoice No : <br>
-							Invoice Dt: 
+							Invoice Dt&nbsp;&nbsp;: 
 							</td>
 							
 							
-							<td align="left"  width="33%">D/C NO. - ${item.docNo } <br>
-							D/C Dt. - ${item.docDate }
+							<td align="left"  width="33%">D/C No. - ${item.docNo } <br>
+							D/C Dt.&nbsp;&nbsp;- ${item.docDate }
 							</td>
 						</tr>
 					</table>
@@ -131,7 +133,6 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 				<th >SR.</th>
 				<th >ITEM</th>
 				<th >DESCRIPTION</th>
-				<th >EX.DUTY</th>
 				<th >CHLN.QTY</th>
 				<th >RECT.QTY</th>
 				<th >WT/SIZE</th>
@@ -146,11 +147,10 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 			<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
-					<td width="0" align="center"><c:out value="0.00" /></td>
+					<td width="50%" align="left"><c:out value="${row.itemDesc}" /></td>
 					<td width="0" align="right"><c:out value="${row.mrnQty}" /></td>
-					<td width="0" align="center"><c:out value="${row.rejectQty }" /></td>
-					<td width="0" align="center"><c:out value="0.0" /></td>
+					<td width="0" align="right"><c:out value="${row.rejectQty }" /></td>
+					<td width="0" align="center"><c:out value="NA" /></td>
 
 				</tr>
 			</c:forEach>
@@ -158,7 +158,7 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 		</tbody>
 	</table>
 	
-	<br><br>
+	<br>
 	
 	
 <div class="invoice-box">

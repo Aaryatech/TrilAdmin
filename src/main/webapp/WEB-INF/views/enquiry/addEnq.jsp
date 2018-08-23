@@ -115,13 +115,13 @@ body {
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Add Enquiry From Indent
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -322,7 +322,7 @@ body {
 
 									<div class="modal-content" style="color: black;">
 										<span class="close" id="close">&times;</span>
-										<h3 style="text-align: center;">Select Item From Intend</h3>
+										<h3 style="text-align: center;">Select Item From Indent</h3>
 										<div class=" box-content">
 											<div class="row">
 												<div

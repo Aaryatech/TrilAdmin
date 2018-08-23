@@ -110,8 +110,7 @@
 <br/>
 								<div class="box-content"> 
 								
-									<label class="col-sm-3 col-lg-2 control-label">Account
-										Head</label>
+									<label class="col-sm-3 col-lg-2 control-label">Remark</label>
 									<div class="col-md-10">
 										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="-" required />
 									</div> 
@@ -556,7 +555,7 @@ $(document).ready(function() {
                                 
                         $("#group").append(
                                 $("<option></option>").attr(
-                                    "value", data[i].grpId).text(data[i].grpDesc)
+                                    "value", data[i].grpId).text(data[i].grpCode+' '+data[i].grpDesc)
                             );
                     }
 

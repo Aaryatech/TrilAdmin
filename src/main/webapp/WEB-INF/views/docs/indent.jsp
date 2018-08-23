@@ -140,24 +140,24 @@ hr {
 
 
 		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0" >
 				<tr class="information">
 					<td colspan="3" valign="top">
 						<table>
 							<tr>
 
-								<td width="33%"></td>
+<td width="20%"></td>
+
+								<td width="60%" valign="top" align="center" 
+									style="font-weight: bold; ">&nbsp;&nbsp;&nbsp;&nbsp;PUR. REQUISITION / INDENT</td>
 
 
-								<td width="33%" valign="bottom" align="center"
-									style="font-weight: bold;">PUR. REQUISITION / INDENT</td>
-
-
-								<td width="33%" align="right">Indent No.&nbsp;&nbsp;:
-									${item.indMNo}<br> Date&nbsp;&nbsp;:
-									${item.indMDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-								</td>
+							 	<td width="20%" align="left">Indent No.&nbsp;&nbsp;:
+									${item.indMNo}<br> Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+									${item.indMDate}
+								</td> 
+								
+								
 							</tr>
 						</table>
 					</td>
@@ -176,14 +176,22 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc}
+									Dept. &nbsp;&nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc} <br> For
+									Department &nbsp;&nbsp;&nbsp;- <br> Indent Type
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
 								</td>
 
-								<!-- 	<td width="50%" valign="top"
-								style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"> &nbsp; ..
-							</td> -->
+								<td width="50%" valign="top"
+									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
 
+									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- <br> Sub department
+									&nbsp;&nbsp;&nbsp; &nbsp;- <br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;	-
+
+
+
+								</td>
+ 
 							</tr>
 
 						</table>
@@ -201,8 +209,8 @@ hr {
 			<thead>
 				<tr>
 					<th>Sr.</th>
-					<th>Item</th>
-					<th>Description</th>
+
+					<th width="40%">Description</th>
 					<th>UOM</th>
 					<th>Qty. Req.</th>
 					<th>When Req. / Stock/ Avg.</th>
@@ -221,15 +229,14 @@ hr {
 
 						<c:when test="${totalRowCount eq maxRowCount}">
 
-					<c:set var="totalRowCount" value="${totalRowCount+1}" />
+							<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
 							<div style="page-break-after: always;"></div>
 
 
 
-<!-- new page -->
-
-</tbody>
+							<!-- new page -->
+			</tbody>
 		</table>
 
 
@@ -286,18 +293,24 @@ hr {
 			<table cellpadding="0" cellspacing="0">
 
 				<tr class="information">
-					<td colspan="1" valign="top">
+					<td colspan="2" valign="top">
 						<table>
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">Indenting
 									Dept. &nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc}
+									&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc} <br> For
+									Department &nbsp;&nbsp;&nbsp;- <br> Indent Type
+									&nbsp;&nbsp;&nbsp;-
 								</td>
 
-								<!-- 	<td width="50%" valign="top"
-								style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"> &nbsp; ..
-							</td> -->
+								<td width="50%" valign="top"
+									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
+
+									Department &nbsp;&nbsp;&nbsp;- <br> Sub department
+									&nbsp;&nbsp;&nbsp;- <br> Monthly &nbsp;&nbsp;&nbsp;-
+
+								</td>
 
 							</tr>
 
@@ -316,8 +329,7 @@ hr {
 			<thead>
 				<tr>
 					<th>Sr. No.</th>
-					<th>Item</th>
-					<th>Description</th>
+					<th >Description</th>
 					<th>UOM</th>
 					<th>Qty. Req.</th>
 					<th>When Req. / Stock/ Avg.</th>
@@ -330,26 +342,22 @@ hr {
 				<c:set var="maxRowCount" value="5" />
 
 
+				<!-- end of new page -->
+
+				</c:when>
+
+				</c:choose>
 
 
-<!-- end of new page -->
+				<tr>
+					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
+					<td width="30%" align="left"><c:out value="${row.indItemDesc}" /></td>
+					<td width="0" align="center"><c:out value="${row.indItemUom}" /></td>
+					<td width="0" align="right"><c:out value="${row.indQty}" /></td>
+					<td width="0" align="center"><c:out
+							value="${row.indItemSchddt}" /></td>
 
-						</c:when>
-
-					</c:choose>
-
-
-					<tr>
-						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
-						<td width="0" align="center"><c:out value="${row.itemId}" /></td>
-						<td width="0" align="center"><c:out
-								value="${row.indItemDesc}" /></td>
-						<td width="0" align="center"><c:out value="${row.indItemUom}" /></td>
-						<td width="0" align="center"><c:out value="${row.indQty}" /></td>
-						<td width="0" align="center"><c:out
-								value="${row.indItemSchddt}" /></td>
-
-					</tr>
+				</tr>
 
 
 
@@ -360,11 +368,28 @@ hr {
 		</table>
 
 		<br>
-		<br>
+		
 
 
+	<table cellpadding="0" cellspacing="0">
+
+				<tr class="information">
+					<td colspan="1" valign="top">
+						<table>
+							<tr>
+								<td width="25%" valign="top" align="left"
+									style="padding: 8px; color: #000; font-size: 12px; ">
+
+									Purpose &nbsp;&nbsp;&nbsp;- </td>
 
 
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+<br><br>
 		<div class="invoice-box">
 			<table cellpadding="0" cellspacing="0">
 
@@ -398,9 +423,10 @@ hr {
 					</td>
 				</tr>
 			</table>
-			
-				<hr	style="height: 1px; border: none; color: black; background-color: black;">
-			
+
+			<hr
+				style="height: 1px; border: none; color: black; background-color: black;">
+
 		</div>
 	</c:forEach>
 

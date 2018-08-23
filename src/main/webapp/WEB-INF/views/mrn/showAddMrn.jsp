@@ -350,7 +350,7 @@ body {
 													<div class="box-content">
 														<div class="col-md-12" style="text-align: center">
 															<input type=button class="btn btn-info"
-																value="Submit Temp" onclick="tempSubmit()">
+																value="Submit" onclick="tempSubmit()">
 
 
 														</div>
@@ -439,7 +439,7 @@ body {
 												<div class="col-md-3">
 													<input type="button"
 														style="text-align: center; align-content: center;"
-														onclick="insertMrn()" class="btn btn-info" value="Add Mrn">
+														onclick="insertMrn()" class="btn btn-info" value="Submit">
 
 
 												</div>

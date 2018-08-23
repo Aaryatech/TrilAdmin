@@ -11,7 +11,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Indent PDF</title>
+<title>Item Issue PDF</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -147,15 +147,15 @@ hr {
 						<table>
 							<tr>
 
-								<td width="33%">Issue No. : ${item.issueNo}</td>
+								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
 
 
-								<td width="33%" valign="bottom" align="center"
+								<td width="60%" valign="top" align="center"
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="33%" align="right">Slip No.&nbsp;&nbsp;:
-									<br> Date&nbsp;&nbsp;:
+								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: 0001
+									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
 									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								</td>
@@ -177,8 +177,8 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
-									Department. &nbsp;&nbsp;&nbsp;- <br>
-									Sub.Dept. : &nbsp;&nbsp;&nbsp;&nbsp;- 
+									Department.  &nbsp;&nbsp;&nbsp;:<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -262,15 +262,15 @@ hr {
 						<table>
 							<tr>
 
-								<td width="33%">Issue No. : ${item.issueNo}</td>
+								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
 
 
-								<td width="33%" valign="bottom" align="center"
+								<td width="60%" valign="top" align="center"
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="33%" align="right">Slip No.&nbsp;&nbsp;:
-									<br> Date&nbsp;&nbsp;:
+								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: 0001
+									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
 									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								</td>
@@ -292,8 +292,8 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
-									Department. &nbsp;&nbsp;&nbsp;- <br>
-									Sub.Dept. : &nbsp;&nbsp;&nbsp;&nbsp;- 
+									Department.  &nbsp;&nbsp;&nbsp;:<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -342,13 +342,13 @@ hr {
 				<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="0" align="center"><c:out value="${row.itemDesc}" /></td>
+					<td width="50%" align="left"><c:out value="${row.itemDesc}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemIssueQty}" /></td>
 					<td width="0" align="center"><c:out
-							value="0" /></td>
+							value="NA" /></td>
 					<td width="0" align="center"><c:out
-							value="0" /></td>
+							value="NA" /></td>
 
 				</tr>
 

@@ -130,15 +130,16 @@ hr {
 
 				<tr class="information">
 					<td colspan="2" valign="top">
-						<table> 
+						<table>
 							<tr>
 								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 
 								</td>
 
-								<td align="right" valign="top"><br> Date : ${item.gpReturnDate}</td>
-								
+								<td align="right" valign="top"><br> Date :
+									${item.gpReturnDate}</td>
+
 							</tr>
 						</table>
 					</td>
@@ -146,16 +147,17 @@ hr {
 			</table>
 		</div>
 
-<br><br>
+		<br>
+		<br>
 
 		<p
 			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-			Sending with following materials personally / Vehicle No. - <br>
-			as per details given below. <br>
+			Sending with following materials personally / Vehicle No. -
+			${item.sendingWith}<br> as per details given below. <br>
 
 		</p>
 
-<br>
+		<br>
 
 
 
@@ -173,37 +175,136 @@ hr {
 			</thead>
 			<tbody>
 
+				<c:set var="totalRowCount" value="0" />
+				<c:set var="maxRowCount" value="3" />
 
 				<c:forEach items="${item.gatepassReportDetailList}" var="row"
 					varStatus="count">
 
-					<tr>
-						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
-						<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-						<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
-						<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-						<td width="0" align="right"><c:out value="${row.gpQty}" /></td>
-						<td width="0" align="center"><c:out value="."/></td>
+					<c:choose>
 
-					</tr>
+						<c:when test="${totalRowCount eq maxRowCount}">
+
+							<c:set var="totalRowCount" value="${totalRowCount+1}" />
+
+							<div style="page-break-after: always;"></div>
+
+
+
+							<!-- new page -->
+			</tbody>
+		</table>
+
+
+
+
+<hr
+				style="height: 1px; border: none; color: black; background-color: black;">
+
+
+
+		<div align="right">
+			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
+		</div>
+
+		<h3 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
+			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
+		<p align="center">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
+
+
+		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0">
+
+				<tr class="information">
+					<td colspan="2" valign="top">
+						<table>
+							<tr>
+								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
+									${item.vendorName} ,<br> ${item.vendorAdd1}
+
+								</td>
+
+								<td align="right" valign="top"><br> Date :
+									${item.gpReturnDate}</td>
+
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<br>
+		<br>
+
+		<p
+			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+			Sending with following materials personally / Vehicle No. -
+			${item.sendingWith}<br> as per details given below. <br>
+
+		</p>
+
+		<br>
+
+
+
+		<table align="center" border="1" cellspacing="0" cellpadding="1"
+			id="table_grid" class="table table-bordered">
+			<thead>
+				<tr>
+					<th>SR.</th>
+					<th>ITEM NO.</th>
+					<th>DESCRIPTION</th>
+					<th>UOM</th>
+					<th>QTY</th>
+					<th>REMARKS</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<c:set var="totalRowCount" value="0" />
+				<c:set var="maxRowCount" value="3" />
+
+
+				<!-- end of new page -->
+
+				</c:when>
+
+				</c:choose>
+
+
+				<c:set var="totalRowCount" value="${totalRowCount+1}" />
+
+
+
+				<tr>
+					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
+
+					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
+					<td width="50%" align="left"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
+					<td width="0" align="right"><c:out value="${row.gpQty}" /></td>
+					<td width="0" align="center"><c:out value="NA" /></td>
+
+				</tr>
 				</c:forEach>
 
 			</tbody>
 		</table>
 
 		<br>
-		
-		
-		
-		
-		
-			<p
+
+
+
+
+
+		<p
 			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
 			Reason : ${item.remark1} <br>
 
 		</p>
-		
-		
+
+
 		<br>
 
 
@@ -227,18 +328,15 @@ hr {
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
 									Prepared By</td>
-									
-										<td width="25%" valign="top" align="center"
+
+								<td width="25%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
 									Approved By</td>
-										<td width="25%" valign="top" align="center"
+								<td width="25%" valign="top" align="center"
 									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
 
-									Authorised By
-									
-									
-									</td>
+									Authorised By</td>
 
 
 							</tr>
@@ -247,14 +345,15 @@ hr {
 					</td>
 				</tr>
 			</table>
-												<hr	style="height: 1px; border: none; color: black; background-color: black;">
-		
+			<hr
+				style="height: 1px; border: none; color: black; background-color: black;">
+
 		</div>
-		
+
 	</c:forEach>
 	<br>
-	
-	
+
+
 
 	<!-- END Main Content -->
 

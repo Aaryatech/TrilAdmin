@@ -101,9 +101,9 @@ hr {
 
 
 
-																Memo NO : ${item.rejectionNo }<br> Date :
-																${item.rejectionDate } <br> <br> DC.No :
-																${item.dcoId }<br> D.C. Date : ${item.dcoDate }
+																Memo No &nbsp;&nbsp;: ${item.rejectionNo }<br> Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+																${item.rejectionDate } <br> <br> DC.No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+																${item.dcoId }<br> D.C. Date &nbsp;&nbsp;: ${item.dcoDate }
 
 															</td>
 														</tr>
@@ -149,13 +149,13 @@ hr {
 					<tr>
 						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 						<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-						<td width="40%" align="center"><c:out value="${row.itemDesc}" /></td>
+						<td width="40%" align="left"><c:out value="${row.itemDesc}" /></td>
 						<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-						<td width="0" align="center"><c:out
+						<td width="0" align="right"><c:out
 								value="${row.rejectionQty}" /></td>
 
 						<td width="0" align="left">
-								GRN- ${row.mrnNo} <br> DT- ${row.mrnDate } </td>
+								GRN&nbsp;&nbsp;- ${row.mrnNo} <br> DT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${row.mrnDate } </td>
 
 					</tr>
 				</c:forEach>

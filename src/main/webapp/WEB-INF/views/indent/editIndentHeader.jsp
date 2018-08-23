@@ -927,8 +927,7 @@
 																								.attr(
 																										"value",
 																										data[i].grpId)
-																								.text(
-																										data[i].grpDesc));
+																								.text(data[i].grpCode+' '+data[i].grpDesc));
 																	}
 
 																	$("#group")
