@@ -40,6 +40,7 @@ import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
+import com.ats.tril.model.getqueryitems.GetPoQueryItem;
 import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.GetIntendDetail;
 import com.ats.tril.model.indent.IndentTrans;
@@ -230,6 +231,29 @@ public class PurchaseOrderController {
 		}
 
 		return intedList;
+	}
+	
+	@RequestMapping(value = "/getPreviousRecordOfPoItem", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetPoQueryItem> getPreviousRecordOfPoItem(HttpServletRequest request, HttpServletResponse response) {
+
+		List<GetPoQueryItem> list = new ArrayList<GetPoQueryItem>();
+		try {
+
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemId", itemId);
+			GetPoQueryItem[] getPoQueryItem = rest.postForObject(Constants.url + "/getPreviousRecordOfPoItem", map,
+					GetPoQueryItem[].class);
+			list = new ArrayList<GetPoQueryItem>(Arrays.asList(getPoQueryItem));
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 	@RequestMapping(value = "/geIntendDetailByIndId", method = RequestMethod.GET)

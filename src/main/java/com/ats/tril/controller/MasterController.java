@@ -31,6 +31,7 @@ import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.Item;
+import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.SubDept;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
@@ -737,7 +738,7 @@ public class MasterController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
 	@ResponseBody
 	public int checkItemCodeExist(HttpServletRequest request, HttpServletResponse response) {
  
@@ -760,7 +761,7 @@ public class MasterController {
 		}
 
 		return exist;
-	}
+	}*/
 	
 	@RequestMapping(value = "/getgroupIdByCatId", method = RequestMethod.GET)
 	@ResponseBody
@@ -975,6 +976,31 @@ public class MasterController {
 		return "redirect:/getItemList";
 	}
 	
+	
+	@RequestMapping(value = "/getNextItemCode", method = RequestMethod.GET)
+	@ResponseBody
+	public ErrorMessage getNextItemCode(HttpServletRequest request, HttpServletResponse response) {
+ 
+		  
+		 ErrorMessage errorMessage = new ErrorMessage();
+		try {
+
+			int grpId = Integer.parseInt(request.getParameter("grpId"));
+			 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("grpId", grpId);
+			ItemGroup itemGroup = rest.postForObject(Constants.url + "/getItemGroupByGrpId", map, ItemGroup.class);
+			 
+			map = new LinkedMultiValueMap<String,Object>();
+			map.add("str", itemGroup.getGrpCode());
+			errorMessage = rest.postForObject(Constants.url + "/getNextItemCode",map,
+					ErrorMessage.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return errorMessage;
+	}
 	
 	/*@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
 	@ResponseBody

@@ -14,7 +14,7 @@
 	<c:url var="getSubGroupIdByGroupId" value="/getSubGroupIdByGroupId"></c:url>
 	<c:url var="exhibitorMobileNo" value="/exhibitorMobileNo"></c:url>
 
-	<c:url var="checkItemCodeExist" value="/checkItemCodeExist"></c:url>
+	<c:url var="getNextItemCode" value="/getNextItemCode"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -74,6 +74,27 @@
 
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
+									
+									<c:choose>
+										<c:when test="${isEdit==1}">
+										<input id="catId" value="${editItem.catId}" name="catId" type="hidden" >
+										<select class="form-control chosen"  name="catIde" id="catIde" disabled>
+											<option value="">select</option>
+											<c:forEach items="${categoryList}" var="categoryList">
+												<c:choose>
+													<c:when test="${categoryList.catId==editItem.catId}">
+														<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+													</c:otherwise>
+												</c:choose>
+
+
+											</c:forEach>
+										</select>
+										</c:when>
+										<c:otherwise>
 										<select class="form-control"
 											onchange="getgroupIdByCatId()" name="catId" id="catId"
 											required>
@@ -91,11 +112,33 @@
 
 											</c:forEach>
 										</select>
+										</c:otherwise>
+									</c:choose>
+									 
 
 									</div>
 									<div class="col-md-1"></div>
 									<div class="col-md-2">Select Group*</div>
 									<div class="col-md-3">
+									
+									<c:choose>
+										<c:when test="${isEdit==1}">
+										<input id="grpId" value="${editItem.grpId}" name="grpId" type="hidden" >
+										<select class="form-control chosen"
+											onchange="getSubGroupIdByGroupId()" name="grpIde" id="grpIde" disabled>
+											<c:forEach items="${getItemGroupList}" var="getItemGroupList">
+												<c:choose>
+													<c:when test="${getItemGroupList.grpId==editItem.grpId}">
+														<option value="${getItemGroupList.grpId}" selected>${getItemGroupList.grpCode}&nbsp;&nbsp;${getItemGroupList.grpDesc}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${getItemGroupList.grpId}">${getItemGroupList.grpCode}&nbsp;&nbsp;${getItemGroupList.grpDesc}</option>
+													</c:otherwise>
+												</c:choose> 
+											</c:forEach> 
+										</select>
+										</c:when>
+										<c:otherwise>
 										<select class="form-control chosen"
 											onchange="getSubGroupIdByGroupId()" name="grpId" id="grpId"
 											required>
@@ -113,8 +156,9 @@
 											</c:forEach>
 
 										</select>
-
-
+										</c:otherwise>
+									</c:choose>
+									 
 									</div>
 
 								</div>
@@ -135,7 +179,7 @@
 										<input id="itemCode" class="form-control"
 											placeholder="Item Code" value="${editItem.itemCode}"
 											style="text-align: left;" maxlength="6" onchange="checkItemCodeExist()" onkeydown="upperCaseF(this)" name="itemCode" type="text"
-											required>
+											readonly>
 										</c:otherwise>
 									</c:choose>
 										 <input id="itemId" class="form-control"
@@ -548,7 +592,7 @@
 										</c:when>
 										<c:otherwise>
 										<input type="submit" class="btn btn-info" onclick="check()" value="Submit"
-											id="submit" disabled>
+											id="submit"  >
 										</c:otherwise>
 									</c:choose> 
 
@@ -735,6 +779,8 @@
 		function getSubGroupIdByGroupId() {
 
 			var grpId = document.getElementById("grpId").value;
+			
+			getNextItemCode();
 
 			$.getJSON('${getSubGroupIdByGroupId}', {
 
@@ -754,6 +800,20 @@
 				$("#subGrpId").trigger("chosen:updated"); 
 			});
 		}
+		
+		function getNextItemCode() {
+
+			var grpId = document.getElementById("grpId").value;
+
+			$.getJSON('${getNextItemCode}', {
+
+				grpId : grpId,
+				ajax : 'true'
+			}, function(data) {
+				 document.getElementById("itemCode").value = data.message;
+			});
+		}
+		
 		function upperCaseF(a){
 		    setTimeout(function(){
 		        a.value = a.value.toUpperCase();
