@@ -1345,6 +1345,7 @@ public class PurchaseOrderController {
 			String insuRemark = request.getParameter("insuRemark");
 			String freghtRemark = request.getParameter("freghtRemark");
 			String otherRemark = request.getParameter("otherRemark");
+			String poRemark = request.getParameter("poRemark");
 
 			getPoHeader.setVendId(vendId);
 			getPoHeader.setVendQuation(quotation);
@@ -1360,6 +1361,7 @@ public class PurchaseOrderController {
 			getPoHeader.setPoInsuRemark(insuRemark);
 			getPoHeader.setPoPackRemark(packRemark);
 			getPoHeader.setDelStatus(1);
+			getPoHeader.setPoRemark(poRemark);
 			System.out.println(getPoHeader);
 
 			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {

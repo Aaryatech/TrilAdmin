@@ -196,6 +196,16 @@ body {
 			</div><br/>
 			
 			<div class="box-content">
+				<div class="col-md-2" >Remark</div>
+									<div class="col-md-10">
+										<input type="text"   placeholder="Remark" value="${getPoHeader.poRemark}" name="poRemark" id="poRemark" class="form-control" required>
+									
+									</div>
+									
+				 
+			</div><br/>
+			
+			<div class="box-content">
 				 
 									<div class="col-md-2">Vendor Quotation</div>
 				<div class="col-md-3">
