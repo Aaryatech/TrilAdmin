@@ -249,7 +249,7 @@
 								<div>
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 									<div class="box-content">
-										<label class="col-sm-3 col-lg-2 control-label">Group </label>
+										<label class="col-md-2">Group </label>
 										<div class="col-sm-6 col-lg-10 controls">
 
 											<select name="group" id="group" class="form-control"
@@ -266,7 +266,7 @@
 									<br />
 
 									<div class="box-content">
-										<label class="col-sm-3 col-lg-2 control-label">Item
+										<label class="col-md-2">Item
 											Name </label>
 										<div class="col-sm-6 col-lg-10 controls">
 
@@ -277,50 +277,42 @@
 											</select>
 										</div>
 									</div>
-									<br />
-									<br />
+									<br /> <br>
 									<div class="box-content">
-										<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+										<label class="col-md-2">Quantity</label>
 										<div class="col-sm-6 col-lg-2 controls">
 											<input type="text" name="quantity" id="quantity" min="1"
 												class="form-control" placeholder="Quantity"
 												  data-rule-number="true" />
 										</div>
-										<!-- </div>
-
-								<div class="form-group"> -->
-
-										<label class="col-sm-3 col-lg-2 control-label">Schedule
+										 
+										<label class="col-md-2">Schedule
 											Days</label>
 										<div class="col-sm-3 col-lg-2 controls">
 											<input type="text" name="sch_days" id="sch_days"
 												class="form-control" placeholder="Schedule Days"
 												  data-rule-number="true" />
 										</div>
-										<label class="col-sm-3 col-lg-1 control-label">Remark</label>
+										<label class="col-md-2">Remark</label>
 										<div class="col-sm-6 col-lg-2 controls">
 
 											<input type="text" name="remark" id="remark" maxlength="20" 
 												class="form-control" placeholder="Remark"
 												  />
 										</div>
-
-										<!-- </div>
-
-								<div class="box-content">
-									<div class="col-md-12" style="text-align: center"> -->
-
-										<input type="button" onclick="insertIndentDetail()"
+ 
+										
+ 
+									</div><br><br>
+									
+									
+								<div class="row">
+						<div class="col-md-12" style="text-align: center">
+						<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
-
-
-
-
-
-										<!-- 										<input type="button" onclick="validateQty()" class="btn btn-info" value="Submit">
- -->
-										<!-- </div> -->
-									</div>
+							 
+						</div>
+					</div>
 								</div>
 
 								<br />

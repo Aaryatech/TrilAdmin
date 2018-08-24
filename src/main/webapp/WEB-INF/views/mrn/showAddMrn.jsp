@@ -200,6 +200,7 @@ body {
 														size="14" type="text" name="grn_date" value="${date}"
 														onblur="getInvoiceNo()" required />
 												</div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">GRN No</div>
 												<div class="col-md-3 controls">
 													<input type="text" readonly name="grn_no" id="grn_no"
@@ -241,7 +242,7 @@ body {
 														class="form-control" placeholder="Gate Entry No"
 														data-rule-required="true" />
 												</div>
-
+<div class="col-md-1 "></div>
 												<div class="col-md-2">Gate Entry Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker"
@@ -257,7 +258,7 @@ body {
 														class="form-control" placeholder="Chalan No"
 														data-rule-required="true" />
 												</div>
-
+<div class="col-md-1 "></div>
 												<div class="col-md-2">Challan Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="chalan_date"
@@ -274,7 +275,7 @@ body {
 														class="form-control" placeholder="Bill No"
 														data-rule-required="true" />
 												</div>
-
+<div class="col-md-1 "></div>
 												<div class="col-md-2">Bill Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="bill_date"
@@ -297,7 +298,7 @@ body {
 														
 													</select>
 												</div>
-
+<div class="col-md-1 "></div>
 												<div class="col-md-2">
 													<input class="btn btn-info" id="getPoButton"
 														onclick="getPoDetail()" size="16" type="button"
@@ -399,18 +400,18 @@ body {
 											</div>
 
 											<div class="form-group">
-												<label class="col-sm-3 col-lg-2 control-label">Transport
+												<label class="col-md-2">Transport
 												</label>
 
-												<div class="col-sm-6 col-lg-4 controls">
+												<div class="col-md-3">
 													<input type="text" name="transport" id="transport"
 														class="form-control" placeholder="Transport"
 														data-rule-required="true" value="-" />
 												</div>
-
-												<label class="col-sm-3 col-lg-2 control-label">LR No
+<div class="col-md-1 "></div>
+												<label class="col-md-2">LR No
 												</label>
-												<div class="col-sm-6 col-lg-4 controls">
+												<div class="col-md-3">
 													<input type="text" name="lorry_no" id="lorry_no"
 														class="form-control" placeholder="Lorry No"
 														data-rule-required="true" value="-" />
@@ -418,17 +419,18 @@ body {
 											</div>
 
 											<div class="form-group">
-												<label class="col-sm-3 col-lg-2 control-label">LR
+												<label class="col-md-2">LR
 													Date </label>
-												<div class="col-sm-6 col-lg-4 controls">
+												<div class="col-md-3">
 													<input class="form-control date-picker" id="lorry_date"
 														size="16" type="text" name="lorry_date" value="${date}"
 														required />
 												</div>
-												<label class="col-sm-3 col-lg-2 control-label">Remark
+												<div class="col-md-1 "></div>
+												<label class="col-md-2">Remark
 												</label>
 
-												<div class="col-sm-6 col-lg-4 controls">
+												<div class="col-md-3">
 													<input type="text" name="lorry_remark" id="lorry_remark"
 														class="form-control" placeholder="Lorry Remark" value="NA"
 														data-rule-required="true" />

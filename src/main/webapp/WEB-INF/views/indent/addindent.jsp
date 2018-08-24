@@ -58,9 +58,9 @@
 
 								<div class="box-content"> 
 								
-								<label class="col-sm-3 col-lg-2 control-label">Indent
+								<label class="col-md-2">Indent
 										Type</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="indent_type" id="indent_type"
 											data-rule-required="true" class="form-control chosen"  data-rule-required="true">
 											<option value="">Select Indent Type</option>
@@ -69,10 +69,10 @@
 														</c:forEach>
 										</select>
 									</div>
-									
-									<label class="col-sm-3 col-lg-2 control-label">Indent
+									<div class="col-md-1"></div>
+									<label class="col-md-2">Indent
 										Category </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 
 										<select id="ind_cat" name="ind_cat"
 											class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
@@ -91,16 +91,16 @@
 
 								<div class="box-content">
 									 
-									<label class="col-sm-3 col-lg-2 control-label">Indent
+									<label class="col-md-2">Indent
 										No.</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="indent_no" id="indent_no"
 											class="form-control" placeholder="Indent No" readonly="readonly"
 											 />
 									</div>
-									
-									<label class="col-sm-3 col-lg-2 control-label">Date</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-1"></div>
+									<label class="col-md-2">Date</label>
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="indent_date" onblur="getInvoiceNo()"
 											size="16" type="text" name="indent_date" value="${date}"
 											required data-rule-required="true" />
@@ -110,7 +110,7 @@
 <br/>
 								<div class="box-content"> 
 								
-									<label class="col-sm-3 col-lg-2 control-label">Remark</label>
+									<label class="col-md-2">Remark</label>
 									<div class="col-md-10">
 										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="-" required />
 									</div> 
@@ -118,9 +118,9 @@
 								<div class="box-content">
 
 
-									<label class="col-sm-3 col-lg-2 control-label">Account
+									<label class="col-md-2">Account
 										Head</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="acc_head" id="acc_head"
 											class="form-control chosen" placeholder="Account Head"
 											data-rule-required="true">
@@ -131,11 +131,11 @@
 											</c:forEach>
 										</select>
 									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Machine
+<div class="col-md-1"></div>
+									<label class="col-md-2">Machine
 										Specific</label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="machine_specific" id="machine_specific"
 											onchange="showDept()" class="form-control chosen"
 											placeholder="Is Machine Specific" data-rule-required="true">
@@ -147,10 +147,10 @@
 								<br/>
 								
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">For
+									<label class="col-md-2">For
 										Development </label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="is_dev" id="is_dev" class="form-control"
 											placeholder="Is Dev" data-rule-required="true">
 											<option value="0">No</option>
@@ -158,10 +158,10 @@
 
 										</select>
 									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">For
+<div class="col-md-1"></div>
+									<label class="col-md-2">For
 										Monthly </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="is_monthly" id="is_monthly" class="form-control"
 											placeholder="Is Monthly" data-rule-required="true">
 											<option value="0">No</option>
@@ -169,13 +169,12 @@
 										</select>
 									</div>
 								</div>
-								<br/>
-<br/>
-								<div class="form-group" style="display: none" id="deptDiv">
-									<label class="col-sm-3 col-lg-2 control-label">Department
+								<br/> 
+								<div class="box-content" style="display: none" id="deptDiv">
+									<label class="col-md-2">Department
 									</label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="dept" id="dept" class="form-control chosen"
 											placeholder="Department" data-rule-required="true">
 											<option value="0">Select Department</option>
@@ -185,10 +184,10 @@
 											</c:forEach>
 										</select>
 									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Sub
+<div class="col-md-1"></div>
+									<label class="col-md-2">Sub
 										Department </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="sub_dept" id="sub_dept"
 											class="form-control chosen" placeholder="Sub Department"
 											data-rule-required="true">
@@ -203,7 +202,7 @@
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 								
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Group </label>
+									<label class="col-md-2">Group </label>
 									<div class="col-sm-6 col-lg-10 controls">
 
 										<select name="group" id="group" class="form-control"
@@ -217,10 +216,10 @@
 											data-rule-required="true" />
 									</div> -->
 								</div>
-								<br/><br/>
+								<br/> 
 
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Item
+									<label class="col-md-2">Item
 										Name </label>
 									<div class="col-sm-6 col-lg-10 controls">
 
@@ -231,49 +230,40 @@
 										</select>
 									</div>
 								</div>
-								<br/><br/>
+								<br/> 
 								<div class="box-content">
-									<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+									<label class="col-md-2">Quantity</label>
 									<div class="col-sm-6 col-lg-2 controls">
 										<input type="text" name="quantity" id="quantity"
 											class="form-control" placeholder="Quantity"
 											data-rule-required="true" data-rule-number="true" />
 									</div>
-									<!-- </div>
-
-								<div class="form-group"> -->
-
-									<label class="col-sm-3 col-lg-2 control-label">Schedule
+								 
+									<label class="col-md-2">Schedule
 										Days</label>
 									<div class="col-sm-3 col-lg-2 controls">
 										<input type="text" name="sch_days" id="sch_days"
 											class="form-control" placeholder="Schedule Days"
 											data-rule-required="true" data-rule-number="true" />
 									</div>
-									<label class="col-sm-3 col-lg-1 control-label">Remark</label>
+									<label class="col-md-2">Remark</label>
 									<div class="col-sm-6 col-lg-2 controls">
 
 										<input type="text" name="remark" id="remark"
 											class="form-control" placeholder="Remark"
 											data-rule-required="true" />
 									</div>
-
-								<!-- </div>
-
-								<div class="box-content">
-									<div class="col-md-12" style="text-align: center"> -->
-
-										<input type="button" onclick="insertIndentDetail()"
+ 
+								</div><br><br>
+								
+								
+								<div class="row">
+						<div class="col-md-12" style="text-align: center">
+						<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
-										
-
-
-
-
-										<!-- 										<input type="button" onclick="validateQty()" class="btn btn-info" value="Submit">
- -->
-									<!-- </div> -->
-								</div>
+							 
+						</div>
+					</div>
 								<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input

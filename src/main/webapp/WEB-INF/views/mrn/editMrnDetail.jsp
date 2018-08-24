@@ -167,9 +167,9 @@ body {
 							<form method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Grn Type
+									<label class="col-md-2">Grn Type
 									</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<select name="grn_type" id="grn_type"
 											class="form-control chosen" placeholder="Grn Type"
 											data-rule-required="true" disabled>
@@ -192,23 +192,24 @@ body {
 
 									
 
-									<label class="col-sm-3 col-lg-2 control-label">Grn Date
+									<label class="col-md-2">Grn Date
 									</label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="grn_date" disabled
 											size="16" type="text" name="grn_date"
 											value="${mrnHeader.mrnDate}" required />
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">GRN No </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-1"></div>
+									<label class="col-md-2">GRN No </label>
+									<div class="col-md-3">
 										<input type="text" name="grn_no" id="grn_no"
 											value="${mrnHeader.mrnNo}" class="form-control"
 											placeholder="GRN No" data-rule-required="true" readonly="readonly" />
 									</div>
 								</div>
 <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">
+									<label class="col-md-2">
 										Vendor </label>
 									<div class="col-md-10">
 										<select name="vendor_id" id="vendor_id"
@@ -226,36 +227,36 @@ body {
 
 								</div><!--/form-grp  -->
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Gate
+									<label class="col-md-2">Gate
 										Entry No </label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="gate_entry_no" id="gate_entry_no"
 											value="${mrnHeader.gateEntryNo}" class="form-control"
 											placeholder="Gate Entry No" data-rule-required="true" />
 									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Gate
+<div class="col-md-1"></div>
+									<label class="col-md-2">Gate
 										Entry Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="gate_entry_date"
 											size="16" type="text" name="gate_entry_date"
 											value="${mrnHeader.gateEntryDate}" required />
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Challan
+									<label class="col-md-2">Challan
 										No </label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="chalan_no" id="chalan_no"
 											class="form-control" placeholder="Chalan No"
 											data-rule-required="true" value="${mrnHeader.docNo}" />
 									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Challan
+<div class="col-md-1"></div>
+									<label class="col-md-2">Challan
 										Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="chalan_date"
 											size="16" type="text" name="chalan_date"
 											value="${mrnHeader.docDate}" required />
@@ -265,18 +266,18 @@ body {
 
 
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Bill No
+									<label class="col-md-2">Bill No
 									</label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="bill_no" id="bill_no"
 											class="form-control" placeholder="Bill No"
 											value="${mrnHeader.billNo}" data-rule-required="true" />
 									</div>
-
-									<label class="col-sm-3 col-lg-2 control-label">Bill
+<div class="col-md-1"></div>
+									<label class="col-md-2">Bill
 										Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="bill_date"
 											size="16" type="text" name="bill_date"
 											value="${mrnHeader.billDate}" required />
@@ -412,15 +413,16 @@ body {
 								 <div class="form-group">
 								 </div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Lorry No</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<label class="col-md-2">Lorry No</label>
+									<div class="col-md-3">
 										<input type="text" name="lorry_no" id="lorry_no"
 											class="form-control" placeholder="Lorry No" value="${mrnHeader.lrNo}"
 											data-rule-required="true" />
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">Transport </label>
+									<div class="col-md-1"></div>
+									<label class="col-md-2">Transport </label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="transport" id="transport"
 											class="form-control" placeholder="Transport" value="${mrnHeader.transport}" 
 											data-rule-required="true" />
@@ -428,16 +430,17 @@ body {
 								</div>
 
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Lorry
+									<label class="col-md-2">Lorry
 										Date </label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input class="form-control date-picker" id="lorry_date"
 											size="16" type="text" name="lorry_date" value="${mrnHeader.lrDate}"
 											required />
 									</div>
-									<label class="col-sm-3 col-lg-2 control-label">Remark </label>
+									<div class="col-md-1"></div>
+									<label class="col-md-2">Remark </label>
 
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-md-3">
 										<input type="text" name="lorry_remark" id="lorry_remark"
 											class="form-control" placeholder="Lorry Remark" value="${mrnHeader.remark1}"
 											data-rule-required="true" />
