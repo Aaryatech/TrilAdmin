@@ -68,7 +68,7 @@
 						<div class=" box-content">
 							<form id="addSupplier"
 								action="${pageContext.request.contextPath}/insertsubDept"
-								method="post">
+								onsubmit="return confirm('Do you really want to submit the form?');" method="post">
 								<div class="box-content">
 								
 								<div class="col-md-2">Sub Department Code*</div>

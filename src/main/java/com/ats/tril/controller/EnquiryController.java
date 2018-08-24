@@ -205,14 +205,35 @@ public class EnquiryController {
 			SimpleDateFormat  display = new SimpleDateFormat("dd-MM-yyyy");
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("fromDate", sf.format(date));
-			map.add("toDate", sf.format(date));
-			 
-			GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnquiryHeaderListBetweenDate",map, GetEnquiryHeader[].class);
-			List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
 			
-			model.addObject("enquiryList", enquiryList);
-			model.addObject("date", display.format(date));
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null)
+			{
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+				 
+				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnquiryHeaderListBetweenDate",map, GetEnquiryHeader[].class);
+				List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+				
+				model.addObject("enquiryList", enquiryList);
+				model.addObject("fromDate", display.format(date));
+				model.addObject("toDate", display.format(date));
+			}
+			else
+			{
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				 
+				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnquiryHeaderListBetweenDate",map, GetEnquiryHeader[].class);
+				List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+				
+				model.addObject("enquiryList", enquiryList);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+			}
+			
 			
 			 
 

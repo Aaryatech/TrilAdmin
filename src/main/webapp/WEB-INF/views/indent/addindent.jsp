@@ -230,7 +230,7 @@
 										</select>
 									</div>
 								</div>
-								<br/> 
+								<br/> <br>
 								<div class="box-content">
 									<label class="col-md-2">Quantity</label>
 									<div class="col-sm-6 col-lg-2 controls">
@@ -437,8 +437,12 @@ function insertIndent(){
 	 	alert("Select Account Head  ");
 }
  else{
-	  	form.action ="${pageContext.request.contextPath}/saveIndent";
-	    form.submit();
+	 
+	 if(confirm("Do you really want Submit Indent ?")){
+		 form.action ="${pageContext.request.contextPath}/saveIndent";
+		    form.submit();
+	 }
+	  	
  }
 }
 </script>

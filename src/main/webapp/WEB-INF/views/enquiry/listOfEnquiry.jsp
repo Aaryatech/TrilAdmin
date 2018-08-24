@@ -56,13 +56,15 @@
 						</div>
 
 						<div class="box-content">
+						<form action="${pageContext.request.contextPath}/listOfEnquiry"
+								class="form-horizontal" id="validation-form" method="get">
 
 							<div class="box-content">
 
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${date}" name="fromDate"
+										placeholder="From Date" value="${fromDate}" name="fromDate"
 										type="text" required>
 
 
@@ -71,7 +73,7 @@
 								<div class="col-md-2">To Date*</div>
 								<div class="col-md-3">
 									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${date}" name="toDate"
+										placeholder="To Date" value="${toDate}" name="toDate"
 										type="text" required>
 
 
@@ -80,13 +82,15 @@
 
 							</div>
 							<br> <br>
+							
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<input type="button" class="btn btn-primary"
-										value="Submit" onclick="search()">
+									<input type="submit" class="btn btn-primary"
+										value="Submit"  >
 								</div>
 							</div>
 							<br>
+							</form>
 
 							<div align="center" id="loader" style="display: none">
 

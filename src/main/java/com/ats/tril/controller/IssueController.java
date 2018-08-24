@@ -399,14 +399,36 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			SimpleDateFormat disply = new SimpleDateFormat("dd-MM-yyyy");
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("fromDate", sf.format(date));
-			map.add("toDate", sf.format(date));
 			
-			GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, GetIssueHeader[].class);
-			List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader)); 
-			model.addObject("issueHeaderList", issueHeaderList);
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+				
+				GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, GetIssueHeader[].class);
+				List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader)); 
+				model.addObject("issueHeaderList", issueHeaderList);
+				
+				model.addObject("fromDate", disply.format(date));
+				model.addObject("toDate", disply.format(date));
+				
+			}
+			else {
+				
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
+				GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, GetIssueHeader[].class);
+				List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader)); 
+				model.addObject("issueHeaderList", issueHeaderList);
+				
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				
+			}
 			
-			model.addObject("date", disply.format(date));
 			
 		 
 

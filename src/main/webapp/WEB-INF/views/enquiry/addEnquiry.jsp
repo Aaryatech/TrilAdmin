@@ -60,7 +60,8 @@
 						
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/insertEnquiry" method="post" >
+							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/insertEnquiry" 
+							onsubmit="return confirm('Do you really want to submit Enquiry ?');" method="post" >
 							 
 							
 							<div class="box-content">

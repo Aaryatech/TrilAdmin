@@ -84,7 +84,7 @@
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
 											tabindex="6" required>
@@ -93,21 +93,27 @@
 												<c:choose>
 													<c:when
 														test="${vendorList.vendorId==getpassHeaderItemName.gpVendor}">
-														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}</option>
+														<option value="${vendorList.vendorId}" selected>${vendorList.vendorCode} &nbsp;&nbsp; ${vendorList.vendorName}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${vendorList.vendorId}">${vendorList.vendorName}</option>
+														<option value="${vendorList.vendorId}">${vendorList.vendorCode} &nbsp;&nbsp; ${vendorList.vendorName}</option>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
 										</select>
 
 									</div>
-									<div class="col-md-2">Select Mrn No</div>
-									<div class="col-md-3">
+									 
+									</div>
 
-										<select name="mrnId[]" id="mrnId" class="form-control chosen"
-											placeholder="Mrn No" data-rule-required="true"
+									<br> 
+									
+									<div class="box-content">
+ 
+									<div class="col-md-2">Select Mrn No</div>
+									<div class="col-md-10">
+
+										<select name="mrnId[]" id="mrnId" class="form-control chosen"  data-rule-required="true"
 											multiple="multiple">
 											<c:forEach items="${mrnList}" var="mrnList" varStatus="count">
 												<option value="${mrnList.mrnId}"><c:out
@@ -115,8 +121,9 @@
 											</c:forEach>
 										</select>
 									</div>
+									</div>
 
-									<br> <br>
+									<br><br>
 
 									<div class="box-content">
 

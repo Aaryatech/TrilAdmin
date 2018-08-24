@@ -172,7 +172,7 @@ body {
 		<div>
 			<form id="submitPurchaseOrder"
 				action="${pageContext.request.contextPath}/submitPurchaseOrder"
-				method="post">
+				onsubmit="return confirm('Do you really want to submit the Purchase Order ?');" method="post">
 			<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">

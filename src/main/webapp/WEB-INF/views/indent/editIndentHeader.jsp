@@ -64,7 +64,7 @@
 						<div class="box-content">
 							<form
 								action="${pageContext.request.contextPath}/editIndentProcess"
-								method="post" class="form-horizontal" id="validation-form">
+								onsubmit="return confirm('Do you really want to Apply Changes In Indent ?');" method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
 

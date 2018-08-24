@@ -64,7 +64,7 @@
 
 							<form id="submitMaterialStore"
 								action="${pageContext.request.contextPath}/submitEditEnquiry"
-								method="post">
+								onsubmit="return confirm('Do you really want to Apply Changes In Enquiry ?');" method="post">
 
 
 								<div class="box-content">

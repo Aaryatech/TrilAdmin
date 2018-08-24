@@ -82,7 +82,8 @@
 						
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitEditIssueReciept" method="post" >
+							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitEditIssueReciept" 
+							onsubmit="return confirm('Do you really want to Apply Changes In Issue ?');" method="post" >
 							 
 							
 							<div class="box-content">
