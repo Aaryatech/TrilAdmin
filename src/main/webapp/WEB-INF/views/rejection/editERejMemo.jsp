@@ -66,28 +66,31 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Rejection Date*</div>
+									<div class="col-md-2">Rejection Date:</div>
 									<div class="col-md-3">
-										<input id="rejectionDate" class="form-control date-picker"
+									${editRejection.rejectionDate}
+										<%-- <input id="rejectionDate" class="form-control date-picker"
 											placeholder="Rejection Date" name="rejectionDate" type="text" value="${editRejection.rejectionDate}"
-											required>
+											required> --%>
 
 
 									</div>
 
-									<div class="col-md-2">Rejection No</div>
+									<div class="col-md-2">Rejection No:</div>
 									<div class="col-md-3">
-										<input class="form-control" id="rejectionNo"
-											placeholder="Rejection No" type="text" name="rejectionNo"   value="${editRejection.rejectionNo}"/>
+									${editRejection.rejectionNo}
+										<%-- <input class="form-control" id="rejectionNo"
+											placeholder="Rejection No" type="text" name="rejectionNo"   value="${editRejection.rejectionNo}"/> --%>
 									</div>
 								</div>
 								<br>
 								<div class="box-content">
 
-									<div class="col-md-2">Select Vendor</div>
+									<div class="col-md-2">Select Vendor:</div>
 									<div class="col-md-3">
+									${editRejection.vendorName}
 
-										<select name="vendId" id="vendId" class="form-control chosen"
+										<%-- <select name="vendId" id="vendId" class="form-control chosen"
 											tabindex="6" required>
 											<option value="">Select Vendor</option>
 											<c:forEach items="${vendorList}" var="vendorList">
@@ -101,13 +104,14 @@
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
-										</select>
+										</select> --%>
 
 									</div>
-									<div class="col-md-2">Select Mrn No</div>
+									<div class="col-md-2">Select Mrn No:</div>
 									<div class="col-md-3">
+									${editRejection.mrnNo}
 
-										<select name="mrnId[]" id="mrnId" class="form-control chosen"
+										<%-- <select name="mrnId[]" id="mrnId" class="form-control chosen"
 											placeholder="Mrn No" data-rule-required="true"
 											readonly>
 											<c:forEach items="${mrnList}" var="mrnList">
@@ -121,26 +125,28 @@
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
-										</select>
+										</select> --%>
 									</div>
 
 									<br> <br>
 
 									<div class="box-content">
 
-										<div class="col-md-2">Document Date*</div>
+										<div class="col-md-2">Document Date:</div>
 										<div class="col-md-3">
-											<input id="docDate" class="form-control date-picker"
+										${editRejection.dcoDate}
+											<%-- <input id="docDate" class="form-control date-picker"
 												placeholder="Document Date" name="docDate" type="text" value="${editRejection.dcoDate}"
-												required>
+												required> --%>
 
 
 										</div>
 
-										<div class="col-md-2">Document No*</div>
+										<div class="col-md-2">Document No:</div>
 										<div class="col-md-3">
-											<input class="form-control" id="docNo"
-												placeholder="Document No" type="text" name="docNo"  value="${editRejection.dcoId}"/>
+										${editRejection.dcoId}
+											<%-- <input class="form-control" id="docNo"
+												placeholder="Document No" type="text" name="docNo"  value="${editRejection.dcoId}"/> --%>
 										</div>
 									</div>
 									<br>
@@ -148,16 +154,18 @@
 
 
 
-										<div class="col-md-2">Remark</div>
+										<div class="col-md-2">Remark:</div>
 										<div class="col-md-3">
-											<input type="text" name="remark" id="remark"
-												placeholder="Remark" class="form-control"  value="${editRejection.rejectionRemark}"/>
+										${editRejection.rejectionRemark}
+											<%-- <input type="text" name="remark" id="remark"
+												placeholder="Remark" class="form-control"  value="${editRejection.rejectionRemark}"/> --%>
 
 										</div>
-										<div class="col-md-2">Remark1</div>
+										<div class="col-md-2">Remark1:</div>
 										<div class="col-md-3">
-											<input type="text" name="remark1" id="remark1"
-												placeholder="Remark" class="form-control" value="${editRejection.rejectionRemark1}"/>
+										${editRejection.rejectionRemark}
+											<%-- <input type="text" name="remark1" id="remark1"
+												placeholder="Remark" class="form-control" value="${editRejection.rejectionRemark1}"/> --%>
 
 										</div>
 									</div>
@@ -174,10 +182,10 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
+														<th style="width:2%;">Sr.No.</th>
 														<th>Item Name</th>
-														<th>Rejection Qty</th>
-														<th>Memo Qty</th>
+														<th class="col-md-2">Rejection Qty</th>
+														<th class="col-md-2">Memo Qty</th>
 
 
 
@@ -190,18 +198,18 @@
 													<c:forEach items="${editRejectionDetailList}" var="editRejectionDetailList"
 														varStatus="count">
 														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+															<td  ><c:out value="${count.index+1}" /></td>
 
 
-															<td class="col-md-3"><c:out
+															<td  ><c:out
 																	value="${editRejectionDetailList.itemCode}" /></td>
 
-															<td class="col-md-2"><input class="form-control"
+															<td  ><input class="form-control"
 																id="gpQty${count.index}" placeholder="Qty" type="text"
 																name="gpQty${count.index}"
 																value="${editRejectionDetailList.rejectionQty}" Readonly /></td>
 
-															<td class="col-md-2"><input class="form-control"
+															<td  ><input class="form-control"
 																id="memoQty${editRejectionDetailList.rejDetailId}" placeholder=" memo Qty" onchange="editMemoQty(this.value,${editRejectionDetailList.rejDetailId})"
 																type="text" name="memoQty${count.index}" value="${editRejectionDetailList.memoQty}"></td>
 
@@ -219,13 +227,13 @@
 									</div>
 								</div>
 
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="submit" class="btn btn-primary" value="Submit">
 
 									</div>
 								</div>
-								<br> <br>
+								<br> <br> -->
 
 
 

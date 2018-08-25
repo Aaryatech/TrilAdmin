@@ -1,7 +1,9 @@
 package com.ats.tril.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,16 +64,42 @@ public class RejectionController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			model.addObject("date", sf.format(date));
 
-			MrnHeader[] mrnHeaderList = rest.getForObject(Constants.url + "/getMrnList", MrnHeader[].class);
+			/*MrnHeader[] mrnHeaderList = rest.getForObject(Constants.url + "/getMrnList", MrnHeader[].class);
 			List<MrnHeader> mrnList = new ArrayList<MrnHeader>(Arrays.asList(mrnHeaderList));
 
-			model.addObject("mrnList", mrnList);
+			model.addObject("mrnList", mrnList);*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/getMrnListByVendorIdForRejectionMemo", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MrnHeader> getMrnListByVendorIdForRejectionMemo(HttpServletRequest request, HttpServletResponse response) {
+
+		List<MrnHeader> mrnList = new ArrayList<MrnHeader>();
+		
+		try {
+			
+			
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("vendId", vendId);
+			MrnHeader[] mrnHeaderList = rest.postForObject(Constants.url + "/getMrnListByVendorIdForRejectionMemo",map, MrnHeader[].class);
+			 mrnList = new ArrayList<MrnHeader>(Arrays.asList(mrnHeaderList));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mrnList;
 	}
 
 	@RequestMapping(value = "/getMrnListByMrnId", method = RequestMethod.GET)
@@ -80,21 +108,21 @@ public class RejectionController {
 
 		try {
 
-			String[] mrnIdList = request.getParameterValues("mrnId[]");
+			int mrnIdList = Integer.parseInt(request.getParameter("mrnId"));
 			System.out.println("mrn Td" + mrnIdList);
 
-			StringBuilder sb = new StringBuilder();
+			/*StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < mrnIdList.length; i++) {
 				sb = sb.append(mrnIdList[i] + ",");
 
 			}
 			String items = sb.toString();
-			items = items.substring(0, items.length() - 1);
+			items = items.substring(0, items.length() - 1);*/
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
-			map.add("status", items);
+			map.add("status", mrnIdList);
 
 			// getMrnList = rest.postForObject(Constants.url + "getMrnHeaderDetail", map,
 			// List.class);
@@ -104,6 +132,8 @@ public class RejectionController {
 			ResponseEntity<List<GetMrnHeaderRej>> responseEntity = rest.exchange(Constants.url + "getMrnHeaderDetail",
 					HttpMethod.POST, new HttpEntity<>(map), typeRef);
 			getMrnList = responseEntity.getBody();
+			
+			
 			System.out.println("getMrnList" + getMrnList);
 
 		} catch (Exception e) {
@@ -122,13 +152,13 @@ public class RejectionController {
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
 
-			int rejectionNo = Integer.parseInt(request.getParameter("rejectionNo"));
+			String rejectionNo =  request.getParameter("rejectionNo") ;
 
 			String rejectionDate = request.getParameter("rejectionDate");
 
 			String docDate = request.getParameter("docDate");
 
-			String[] mrnIdList = request.getParameterValues("mrnId[]");
+			int mrnId = Integer.parseInt(request.getParameter("mrnId"));
 			String remark = request.getParameter("remark");
 
 			String remark1 = request.getParameter("remark1");
@@ -140,13 +170,13 @@ public class RejectionController {
 			String docuDate = DateConvertor.convertToYMD(docDate);
 
 			RejectionMemo rejectionMemo = new RejectionMemo();
-			for (int i = 0; i < mrnIdList.length; i++) {
-				System.out.println(" \n current mrn Id" + mrnIdList[i].toString());
+			//for (int i = 0; i < mrnIdList.length; i++) {
+				//System.out.println(" \n current mrn Id" + mrnIdList[i].toString());
 				rejectionMemo = new RejectionMemo();
 				rejectionMemo.setDcoDate(docuDate);
 				rejectionMemo.setDcoId(docNo);
 				rejectionMemo.setIsUsed(1);
-				rejectionMemo.setMrnId(Integer.parseInt(mrnIdList[i]));
+				rejectionMemo.setMrnId(mrnId);
 				rejectionMemo.setRejectionDate(rejDate);
 				rejectionMemo.setRejectionNo(rejectionNo);
 				rejectionMemo.setRejectionRemark(remark);
@@ -157,7 +187,7 @@ public class RejectionController {
 
 				for (int j = 0; j < getMrnList.size(); j++) {
 
-					if (Integer.parseInt(mrnIdList[i]) == getMrnList.get(j).getMrnId()) {
+					if (mrnId == getMrnList.get(j).getMrnId()) {
 
 						for (int k = 0; k < getMrnList.get(j).getGetMrnDetailRejList().size(); k++) {
 							RejectionMemoDetail rejectionMemoDetail = new RejectionMemoDetail();
@@ -167,7 +197,7 @@ public class RejectionController {
 
 							rejectionMemoDetail.setItemId(getMrnDetail.getItemId());
 							rejectionMemoDetail.setMemoQty(
-									Float.parseFloat(request.getParameter("memoQty" + getMrnList.get(j).getMrnId())));
+									Float.parseFloat(request.getParameter("memoQty" + getMrnDetail.getMrnDetailId())));
 							rejectionMemoDetail.setMrnDate(DateConvertor.convertToYMD(getMrnList.get(j).getMrnDate()));
 							rejectionMemoDetail.setMrnNo(getMrnList.get(j).getMrnNo());
 							rejectionMemoDetail.setRejectionQty(getMrnDetail.getRejectQty());
@@ -180,7 +210,7 @@ public class RejectionController {
 				rejectionMemo.setRejectionMemoDetailList(rejectionMemoDetailList);
 				rejectionMemoList.add(rejectionMemo);
 
-			}
+			//}
 			System.out.println("rejectionMemoList" + rejectionMemoList);
 			List<RejectionMemo> res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
 					rejectionMemoList, List.class);
@@ -223,6 +253,40 @@ public class RejectionController {
 
 		ModelAndView model = new ModelAndView("rejection/listOfRejectionMemo");
 		try {
+			List<GetRejectionMemo> list = new ArrayList<GetRejectionMemo>();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				 
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat disp = new SimpleDateFormat("dd-MM-yyyy");
+				
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+				
+				model.addObject("fromDate", disp.format(date));
+				model.addObject("toDate", disp.format(date));
+			}
+			else {
+				
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+ 
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+			}
+			
+			
+
+			GetRejectionMemo[] getlist = rest.postForObject(Constants.url + "/getRejectionMemoByDate", map,
+					GetRejectionMemo[].class);
+			list = new ArrayList<GetRejectionMemo>(Arrays.asList(getlist));
+			
+			model.addObject("list", list);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,13 +325,13 @@ public class RejectionController {
 		ModelAndView model = new ModelAndView("rejection/editERejMemo");
 		try {
 
-			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			/*Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			model.addObject("vendorList", vendorList);
 
 			MrnHeader[] mrnHeaderList = rest.getForObject(Constants.url + "/getMrnList", MrnHeader[].class);
 			List<MrnHeader> mrnList = new ArrayList<MrnHeader>(Arrays.asList(mrnHeaderList));
-			model.addObject("mrnList", mrnList);
+			model.addObject("mrnList", mrnList);*/
 
 			getRejectionMemoDetailList = new ArrayList<GetRejectionMemoDetail>();
 
@@ -340,7 +404,7 @@ public class RejectionController {
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
 
-			int rejectionNo = Integer.parseInt(request.getParameter("rejectionNo"));
+			String rejectionNo =  request.getParameter("rejectionNo") ;
 
 			String rejectionDate = request.getParameter("rejectionDate");
 

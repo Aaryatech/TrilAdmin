@@ -55,6 +55,9 @@
 							</div>
 
 						</div>
+						
+						<form action="${pageContext.request.contextPath}/listOfRejectionMemo"
+								class="form-horizontal" id="validation-form" method="get">
 
 						<div class="box-content">
 
@@ -63,7 +66,7 @@
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${date}" name="fromDate"
+										placeholder="From Date" value="${fromDate}" name="fromDate"
 										type="text" required>
 
 
@@ -72,7 +75,7 @@
 								<div class="col-md-2">To Date*</div>
 								<div class="col-md-3">
 									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${date}" name="toDate"
+										placeholder="To Date" value="${toDate}" name="toDate"
 										type="text" required>
 
 
@@ -86,8 +89,8 @@
 						
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<input type="button" class="btn btn-primary" value="Submit"
-										onclick="search()">
+									<input type="submit" class="btn btn-primary" value="Submit"
+										 >
 								</div>
 							</div>
 							<br>
@@ -102,6 +105,13 @@
 									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 								<span class="l-6"></span>
 							</div>
+							
+							<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 
 							<br /> <br />
 							<div class="clearfix"></div>
@@ -109,13 +119,13 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-										<th	style="text-align: left; padding: 0px; align-items: left;"
-														width="10%"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;Select All</th>
+										<th	 style="width:2%;"><input type="checkbox" name="name1"
+														value="0" /> All</th>
 										
-											<th class="col-sm-1">Sr no.</th>
+											<th style="width:2%;">Sr no.</th>
 											<th class="col-md-1">Rejection Date</th>
-											<th class="col-md-1">Vendor Name</th>
+											<th class="col-md-1">Rejection No.</th>
+											<th  >Vendor Name</th>
 											<th class="col-md-1">Mrn No</th>
 											<th class="col-md-1">Dco No</th>
 											<th class="col-md-1">Dco Date</th>
@@ -128,22 +138,23 @@
 											<tr>
 											
 												
-										<td style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="10%">&nbsp;&nbsp;<input type="checkbox"
+										<td  > <input type="checkbox"
 															name="name1" value="${list.rejectionId}" /></td>
 									
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<td  ><c:out value="${count.index+1}" /></td>
 
 
-												<td class="col-md-1"><c:out
+												<td  ><c:out
 														value="${list.rejectionDate}" /></td>
+												<td  ><c:out
+														value="${list.rejectionNo}" /></td>
 
-												<td class="col-md-1"><c:out value="${list.vendorName}" /></td>
+												<td  ><c:out value="${list.vendorName}" /></td>
 
-												<td class="col-md-1"><c:out value="${list.mrnNo}" /></td>
+												<td  ><c:out value="${list.mrnNo}" /></td>
 
-												<td class="col-md-1"><c:out value="${list.dcoId}" /></td>
-												<td class="col-md-1"><c:out value="${list.dcoDate}" /></td>
+												<td  ><c:out value="${list.dcoId}" /></td>
+												<td  ><c:out value="${list.dcoDate}" /></td>
 											
 
 
@@ -152,11 +163,11 @@
 												<a href="javascript:genPdf(${ list.rejectionId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
 													
-												
+												 
 												<a
-													href="${pageContext.request.contextPath}/editReturnList/${list.rejectionId}"><abbr
+													href="${pageContext.request.contextPath}/editRejectionMemo/${list.rejectionId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteGetpassHeaderReturn/${list.rejectionId}"
+													href="${pageContext.request.contextPath}/deleteRejectionMemo/${list.rejectionId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 
@@ -174,7 +185,7 @@
 							</div>
 						</div>
 
-
+</form>
 
 					</div>
 
@@ -370,7 +381,33 @@
 			
 			
 		</script>
-	
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td ,td1,td2, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    td1 = tr[i].getElementsByTagName("td")[4]; 
+    if (td || td1 ) {
+    	
+    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    	        tr[i].style.display = "";
+    	      } else {
+    	        tr[i].style.display = "none";
+    	      }
+       
+    }  
+    
+     
+  }
+}
+ 
+</script>
 
 </body>
 </html>

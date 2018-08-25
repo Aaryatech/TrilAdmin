@@ -9,6 +9,7 @@
 
 
 	<c:url var="getMrnListByMrnId" value="/getMrnListByMrnId"></c:url>
+	<c:url var="getMrnListByVendorIdForRejectionMemo" value="/getMrnListByVendorIdForRejectionMemo"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -61,14 +62,14 @@
 
 							<form id="submitMaterialStore"
 								action="${pageContext.request.contextPath}/insertRejectionMemo"
-								method="post">
+								onsubmit="return confirm('Do you really want to submit the Rejection Memo ?');" method="post">
 
 								<div class="box-content">
 
 									<div class="col-md-2">Rejection Date*</div>
 									<div class="col-md-3">
 										<input id="rejectionDate" class="form-control date-picker"
-											placeholder="Rejection Date" name="rejectionDate" type="text"
+											placeholder="Rejection Date" value="${date}" name="rejectionDate" type="text"
 											required>
 
 
@@ -77,7 +78,7 @@
 									<div class="col-md-2">Rejection No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="rejectionNo"
-											placeholder="Rejection No" type="text" name="rejectionNo" />
+											placeholder="Rejection No" type="text" name="rejectionNo" required/>
 									</div>
 								</div>
 								<br>
@@ -86,8 +87,7 @@
 									<div class="col-md-2">Select Vendor</div>
 									<div class="col-md-10">
 
-										<select name="vendId" id="vendId" class="form-control chosen"
-											tabindex="6" required>
+										<select name="vendId" id="vendId" class="form-control chosen" onchange="getMrnList()" required>
 											<option value="">Select Vendor</option>
 											<c:forEach items="${vendorList}" var="vendorList">
 												<c:choose>
@@ -113,8 +113,7 @@
 									<div class="col-md-2">Select Mrn No</div>
 									<div class="col-md-10">
 
-										<select name="mrnId[]" id="mrnId" class="form-control chosen"  data-rule-required="true"
-											multiple="multiple">
+										<select name="mrnId" id="mrnId" class="form-control chosen" onchange="search()" required>
 											<c:forEach items="${mrnList}" var="mrnList" varStatus="count">
 												<option value="${mrnList.mrnId}"><c:out
 														value="${mrnList.mrnNo}" /></option>
@@ -139,7 +138,7 @@
 										<div class="col-md-2">Document No*</div>
 										<div class="col-md-3">
 											<input class="form-control" id="docNo"
-												placeholder="Document No" type="text" name="docNo" />
+												placeholder="Document No" type="text" name="docNo" required/>
 										</div>
 									</div>
 									<br>
@@ -161,16 +160,16 @@
 										</div>
 									</div>
 
-									<br>
-									<div class="form-group">
+									<br><br>
+									<!-- <div class="form-group">
 										<div
 											class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 											<input type="button" class="btn btn-primary" value="Search"
 												onclick="search()">
 										</div>
 									</div>
-									<br>
-								</div>
+									<br> -->
+								
 
 								<div class=" box-content">
 									<div class="row">
@@ -179,11 +178,11 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>Mrn No</th>
-														<th>Item Name</th>
-														<th>Rejection Qty</th>
-														<th>Memo Qty</th>
+														<th style="width:2%;">Sr.No.</th>
+														<th class="col-md-1">Mrn No</th>
+														<th class="col-md-5">Item Name</th>
+														<th class="col-md-1">Rejection Qty</th>
+														<th class="col-md-1">Memo Qty</th>
 
 
 
@@ -193,36 +192,7 @@
 												</thead>
 
 												<tbody>
-
-													<c:forEach items="${getMrnList}" var="getMrnList"
-														varStatus="count">
-														<tr>
-															<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-															<td class="col-md-3"><c:out
-																	value="${getMrnList.mrnNo}" /></td>
-
-															<td class="col-md-3"><c:out
-																	value="${getMrnList.itemCode}" /></td>
-
-															<td class="col-md-2"><input class="form-control"
-																id="gpQty${count.index}" placeholder="Qty" type="text"
-																name="gpQty${count.index}"
-																value="${getMrnList.rejectQty}" Readonly /></td>
-
-															<td class="col-md-2"><input class="form-control"
-																id="remQty${count.index}" placeholder=" Rem Qty"
-																type="text" name="remQty${count.index}" Readonly /></td>
-
-
-
-
-															<td class="col-md-2"><input class="form-control"
-																id="remarkDetail" placeholder="Remark" type="text"
-																name="remarkDetail"></td>
-														</tr>
-													</c:forEach>
-
-
+ 
 												</tbody>
 											</table>
 										</div>
@@ -231,7 +201,7 @@
 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit">
+										<input type="submit" class="btn btn-primary" value="Submit" onclick="check()">
 
 									</div>
 								</div>
@@ -241,6 +211,7 @@
 
 
 							</form>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -328,9 +299,34 @@
 
 
 	<script type="text/javascript">
+	
+	function getMrnList() {
+		 
+		var vendId = $("#vendId").val();  
+		$.getJSON('${getMrnListByVendorIdForRejectionMemo}', {
+	 
+			vendId : vendId,
+			ajax : 'true',
+
+		}, function(data) { 
+			
+			var html = '<option value="">Select Indend</option>';
+
+			var len = data.length;
+			for (var i = 0; i < len; i++) {
+				html += '<option value="' + data[i].mrnId + '">'
+						+ data[i].mrnNo +'</option>';
+			}
+			html += '</option>';
+			$('#mrnId').html(html);
+			$("#mrnId").trigger("chosen:updated");
+		
+		});
+
+	}
 		function search() {
 
-			alert("hi");
+			//alert("hi");
 			var mrnId = $("#mrnId").val();
 			$('#loader').show();
 
@@ -349,7 +345,7 @@
 								$('#table_grid td').remove();
 								$('#loader').hide();
 
-								alert(data);
+								//alert(data);
 								if (data == "") {
 									alert("No records found !!");
 
@@ -366,7 +362,7 @@
 										tr
 												.append($('<td></td>')
 														.html(
-																data[i].getMrnDetailRejList[j].itemCode));
+																data[i].getMrnDetailRejList[j].itemCode+' '+data[i].getMrnDetailRejList[j].itemName));
 
 										tr
 												.append($('<td></td>')
@@ -374,8 +370,7 @@
 																data[i].getMrnDetailRejList[j].rejectQty));
 
 										tr
-												.append($('<td > <input type="text"  id= memoQty'+
-												  data[i].getMrnDetailRejList[j].mrnId+ ' name=memoQty'+ data[i].getMrnDetailRejList[j].mrnId+ '></td>'));
+												.append($('<td > <input type="text" onchange="checkValue('+ data[i].getMrnDetailRejList[j].mrnDetailId+ ')" id= memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ ' class="form-control" value="'+data[i].getMrnDetailRejList[j].rejectQty+'" name=memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ '></td>'));
 
 										$('#table_grid tbody').append(tr);
 									}
@@ -383,6 +378,34 @@
 								}
 
 							});
+		}
+		
+		function checkValue(mrnDetailId) {
+			 
+			var memoQty = parseFloat($("#memoQty"+mrnDetailId).val()); 
+  
+			 if(memoQty<0 || memoQty=="" || memoQty==null || isNaN(memoQty)){
+				 alert("Enter valid Qty");
+				 document.getElementById("memoQty"+mrnDetailId).value = 0;
+			 }
+
+		}
+		
+		function check()
+		{
+			 	   
+			var vendId = $("#vendId").val();
+			var mrnId = $("#mrnId").val();  
+			
+			if(vendId==null || vendId == "")
+			{
+			alert("Select Vendor");
+			}
+			else if(mrnId==null || mrnId == "")
+			{
+			alert("Select Mrn ");
+			}
+			 
 		}
 	</script>
 
