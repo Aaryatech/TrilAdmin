@@ -315,8 +315,9 @@
 	<script type="text/javascript">
 	function checkGroupCodeExist() {
 		
+		
 		var grpCode = $("#grpCode").val(); 
-
+		if(grpCode.length==2){
 		$.getJSON('${checkGroupCodeExist}', {
 
 			grpCode : grpCode,
@@ -335,10 +336,19 @@
 			else
 			{
 				alert("Code Is Available ");
+				document.getElementById("grpCode").value = "";
 				document.getElementById("submit").disabled = true;
+				document.getElementById("grpCode").focus();
 			}
 	 
 		});
+		}
+		else{
+			alert("Enter 2 Length Group Code ");
+			document.getElementById("grpCode").value = "";
+			document.getElementById("submit").disabled = true;
+			document.getElementById("grpCode").focus();
+		}
 
 	}
 		function check() {
