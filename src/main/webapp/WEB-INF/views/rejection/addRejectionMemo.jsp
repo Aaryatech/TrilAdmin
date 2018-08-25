@@ -310,7 +310,7 @@
 
 		}, function(data) { 
 			
-			var html = '<option value="">Select Indend</option>';
+			var html = '<option value="">Select MRN</option>';
 
 			var len = data.length;
 			for (var i = 0; i < len; i++) {

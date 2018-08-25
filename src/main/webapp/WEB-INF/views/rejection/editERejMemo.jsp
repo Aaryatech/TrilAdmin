@@ -87,7 +87,7 @@
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor:</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 									${editRejection.vendorName}
 
 										<%-- <select name="vendId" id="vendId" class="form-control chosen"
@@ -107,11 +107,11 @@
 										</select> --%>
 
 									</div>
-									<div class="col-md-2">Select Mrn No:</div>
+									  <%-- <div class="col-md-2">Select Mrn No:</div>
 									<div class="col-md-3">
 									${editRejection.mrnNo}
 
-										<%-- <select name="mrnId[]" id="mrnId" class="form-control chosen"
+										<select name="mrnId[]" id="mrnId" class="form-control chosen"
 											placeholder="Mrn No" data-rule-required="true"
 											readonly>
 											<c:forEach items="${mrnList}" var="mrnList">
@@ -125,10 +125,20 @@
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
-										</select> --%>
+										</select>
+									</div>   --%>
 									</div>
+									<br>  
+									
+									<div class="box-content">
 
-									<br> <br>
+										<div class="col-md-2">Select Mrn No:</div>
+									<div class="col-md-10">
+									${editRejection.mrnNo}
+ 
+									</div>
+									</div>
+									<br>
 
 									<div class="box-content">
 
@@ -173,7 +183,7 @@
 									<br>
 									
 									<br>
-								</div>
+								
 
 								<div class=" box-content">
 									<div class="row">
@@ -239,6 +249,7 @@
 
 
 							</form>
+							</div>
 						</div>
 					</div>
 				</div>
