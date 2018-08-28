@@ -1287,13 +1287,13 @@ function requiredField(key)
 function getInvoiceNo() {
 	
 	var date = $("#poDate").val(); 
-	var catId = $("#poType").val(); 
-
+	var poType = $("#poType").val();  
 	$.getJSON('${getInvoiceNo}', {
 
-		catId:catId,
+		catId:1,
 		docId:2,
 		date : date,
+		typeId : poType,
 		ajax : 'true',
 
 	}, function(data) { 

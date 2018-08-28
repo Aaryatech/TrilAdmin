@@ -1197,9 +1197,10 @@ body {
 
 				$.getJSON('${getInvoiceNo}', {
 
-					catId : catId,
+					catId : 1,
 					docId : 3,
 					date : date,
+					typeId : catId,
 					ajax : 'true',
 
 				}, function(data) {

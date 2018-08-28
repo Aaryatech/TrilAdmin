@@ -61,7 +61,7 @@
 								<label class="col-md-2">Indent
 										Type</label>
 									<div class="col-md-3">
-										<select name="indent_type" id="indent_type"
+										<select name="indent_type" onchange="getInvoiceNo()" id="indent_type"
 											data-rule-required="true" class="form-control chosen"  data-rule-required="true">
 											<option value="">Select Indent Type</option>
 											<c:forEach items="${typeList}" var="typeList"> 
@@ -724,12 +724,14 @@ function getInvoiceNo() {
 	
 	var date = $("#indent_date").val(); 
 	var catId = $("#ind_cat").val(); 
-
+	var typeId = $("#indent_type").val(); 
+	
 	$.getJSON('${getInvoiceNo}', {
 
 		catId:catId,
 		docId:1,
 		date : date,
+		typeId : typeId,
 		ajax : 'true',
 
 	}, function(data) { 

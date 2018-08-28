@@ -817,6 +817,7 @@ function getInvoiceNo() {
 		catId:1,
 		docId:6,
 		date : min,
+		typeId : 1,
 		ajax : 'true',
 
 	}, function(data) { 
