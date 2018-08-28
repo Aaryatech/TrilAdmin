@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,24 +103,75 @@ public class DashboardController {
 					e.printStackTrace();
 				}
 				
+				/*Calendar c = Calendar.getInstance();   
+			    c.set(Calendar.DAY_OF_MONTH, 1);
+			    DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			    //System.out.println(df.format(c.getTime())); 
+			    
+			    Calendar cal = Calendar.getInstance();
+			    cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE)); 
+			    Date lastDayOfMonth = cal.getTime();*/
+				
+				/*Calendar gc = new GregorianCalendar();
+		        gc.set(Calendar.MONTH, month);
+		        gc.set(Calendar.DAY_OF_MONTH, 1);
+		        Date monthStart = gc.getTime();
+		        gc.add(Calendar.MONTH, 1);
+		        gc.add(Calendar.DAY_OF_MONTH, -1);
+		        Date monthEnd = gc.getTime();
+		        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		        System.out.println("Calculated month start date : " + format.format(monthStart));
+		        System.out.println("Calculated month end date : " + format.format(monthEnd));*/
+				
+				Date[] dates = new Date[2];
+
+			    Calendar start = Calendar.getInstance();
+			    Calendar end = Calendar.getInstance();
+			    
+			    Date date = new Date();
+
+			    start.setTime(date);
+			    start.set(Calendar.DAY_OF_MONTH, start.getActualMinimum(Calendar.DAY_OF_MONTH));
+			    start.set(Calendar.HOUR_OF_DAY, 0);
+			    start.set(Calendar.MINUTE, 0);
+			    start.set(Calendar.SECOND, 0);
+
+			    end.setTime(date);
+			    end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH));
+			    end.set(Calendar.HOUR_OF_DAY, 23);
+			    end.set(Calendar.MINUTE, 59);
+			    end.set(Calendar.SECOND, 59);
+
+			    //System.out.println("start "+ start.getTime());
+			    //System.out.println("end   "+ end.getTime());
+
+			    dates[0] = start.getTime();
+			    dates[1] = end.getTime();
+			    
+			    System.out.println("start "+ start.getTime());
+			    System.out.println("end   "+ end.getTime());
+			    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			    
 				 map = new LinkedMultiValueMap<String, Object>();
 				 map.add("poType", 1);
-				 map.add("fromDate","2018-07-01");
-				 map.add("toDate", "2018-07-30");
+				 map.add("fromDate",df.format(dates[0]));
+				 map.add("toDate", df.format(dates[1]));
 				 
 				 List<ConsumptionReportData> regularList=rest.postForObject(Constants.url+"getConsumptionData", map, List.class);
 				 model.addObject("regularList", regularList);
 				 map = new LinkedMultiValueMap<String, Object>();
 				 map.add("poType", 2);
-				 map.add("fromDate","2018-07-01");
-				 map.add("toDate", "2018-07-30");
+				 map.add("fromDate",df.format(dates[0]));
+				 map.add("toDate", df.format(dates[1]));
 				 
 				 List<ConsumptionReportData> jobWorkList=rest.postForObject(Constants.url+"getConsumptionData", map, List.class);
 				model.addObject("jobWorkList", jobWorkList);
+				System.err.println(jobWorkList);
 				 map = new LinkedMultiValueMap<String, Object>();
 				 map.add("poType", 3);
-				 map.add("fromDate","2018-07-01");
-				 map.add("toDate", "2018-07-30");
+				 map.add("fromDate",df.format(dates[0]));
+				 map.add("toDate", df.format(dates[1]));
 				 
 				 List<ConsumptionReportData>  generalList=rest.postForObject(Constants.url+"getConsumptionData", map, List.class);
 				model.addObject("generalList", generalList);

@@ -1,5 +1,6 @@
 package com.ats.tril.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +15,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
+ 
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.common.VpsImageUpload;
 import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.DeliveryTerms;
@@ -809,7 +813,7 @@ public class MasterController {
 	}
 	
 	@RequestMapping(value = "/insertItem", method = RequestMethod.POST)
-	public String insertItem(HttpServletRequest request, HttpServletResponse response) {
+	public String insertItem(@RequestParam("documentFile") List<MultipartFile> documentFile,HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		try {
@@ -837,6 +841,24 @@ public class MasterController {
 			int catId = Integer.parseInt(request.getParameter("catId")); 
 			int grpId = Integer.parseInt(request.getParameter("grpId"));  
 			int subGrpId = Integer.parseInt(request.getParameter("subGrpId")); 
+			String imageName = request.getParameter("imageName"); 
+			
+			
+			VpsImageUpload upload = new VpsImageUpload();
+			String docFile = null;
+			try {
+				docFile = documentFile.get(0).getOriginalFilename();
+
+				upload.saveUploadedFiles(documentFile, Constants.ItemImage,
+						documentFile.get(0).getOriginalFilename());
+
+				System.out.println("upload method called for image Upload " + documentFile.toString());
+
+			} catch (IOException e) {
+
+				System.out.println("Exce in File Upload In GATE ENTRY  Insert " + e.getMessage());
+				e.printStackTrace();
+			}
 
 			Item insert = new Item();
 
@@ -878,6 +900,12 @@ public class MasterController {
 			insert.setCatId(catId);
 			insert.setGrpId(grpId);
 			insert.setSubGrpId(subGrpId);
+			if(docFile.equalsIgnoreCase("")||docFile.equalsIgnoreCase(null)) {
+				insert.setItemDesc3(imageName);
+			}
+			else {
+				insert.setItemDesc3(docFile);
+			}
 			
 			System.out.println("insert" + insert);
 
@@ -948,6 +976,7 @@ public class MasterController {
 				model.addObject("isEdit", 1);
 				
 				model.addObject("date",item.getItemDate());
+				model.addObject("imageUrl", Constants.Item_Image_URL);
 
 		} catch (Exception e) {
 			e.printStackTrace();

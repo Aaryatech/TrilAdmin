@@ -562,7 +562,7 @@ h6{
                                       <td class="col-sm-1"><c:out value="Job Work" /></td>
 										<c:forEach items="${jobWorkList}" var="jobWork" varStatus="count">
 												<td class="col-md-2"><c:out value="${jobWork.target}" /></td>
-												<td class="col-md-1"><c:out value="${jobWork.totalValue}" /></td>
+												<td class="col-md-1"><c:out value="${jobWork.basicValue}" /></td>
 												
 											
 										</c:forEach>
@@ -572,7 +572,7 @@ h6{
                                       <td class="col-sm-1"><c:out value="General" /></td>
 										<c:forEach items="${generalList}" var="general" varStatus="count">
 												<td class="col-md-2"><c:out value="${general.target}" /></td>
-												<td class="col-md-1"><c:out value="${general.totalValue}" /></td>
+												<td class="col-md-1"><c:out value="${general.basicValue}" /></td>
 												
 										</c:forEach>
 										</tr>

@@ -67,7 +67,7 @@
 
 						<div class=" box-content">
 							<form id="addSupplier"
-								action="${pageContext.request.contextPath}/insertItem"
+								action="${pageContext.request.contextPath}/insertItem" enctype="multipart/form-data"
 								onsubmit="return confirm('Do you really want to submit the form?');" method="post">
 								
 								<div class="box-content">
@@ -581,6 +581,42 @@
 								</div>
 
 								<br>
+								
+								<div class="box-content">
+									<div class="form-group">
+										<div class="col-md-2">Image</div>
+										<div class="col-md-3">
+											<div class="fileupload fileupload-new"
+												data-provides="fileupload">
+												<div class="fileupload-new img-thumbnail"
+													style="width: 150px; height: 150px;">
+													<img src="${imageUrl}${editItem.itemDesc3}"
+														onerror="this.src='http://www.placehold.it/150x150/EFEFEF/AAAAAA&amp;text=no+image"
+														alt="" />
+												</div>
+												<div
+													class="fileupload-preview fileupload-exists img-thumbnail"
+													style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+												<div>
+													<span class="btn btn-default btn-file"><span
+														class="fileupload-new">Select image</span> <span
+														class="fileupload-exists">Change</span> <input type="file"
+														oninvalid="this.setCustomValidity('Please insert Image here')"
+														oninput="this.setCustomValidity('')" / class="file-input"
+														name="documentFile" id="documentFile" /></span> <a href="#"
+														class="btn btn-default fileupload-exists"
+														data-dismiss="fileupload">Remove</a>
+
+												</div>
+											</div>
+											<input class="form-control" id="imageName" value="${editItem.itemDesc3}"  type="hidden" name="imageName" />
+										</div>
+
+									</div>
+${imageUrl}${editItem.itemDesc3}
+								</div>
+								<br> <br> <br> <br> <br> <br> <br>
+								<br> <br> <br> <br>
 
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
