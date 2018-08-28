@@ -383,8 +383,9 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("docId", 3);
-				map.add("catId", grnType);
+				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(grnDate));
+				map.add("typeId", grnType);
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

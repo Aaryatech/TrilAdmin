@@ -597,8 +597,9 @@ public class PurchaseOrderController {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("docId", 2);
-				map.add("catId", poType);
+				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(poDate));
+				map.add("typeId", poType);
 				RestTemplate restTemplate = new RestTemplate();
 
 				docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

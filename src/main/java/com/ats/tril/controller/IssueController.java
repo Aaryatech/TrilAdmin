@@ -301,6 +301,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					map.add("docId",6);
 					map.add("catId", 1);
 					map.add("date", issueDate);
+					map.add("typeId", 1);
 					RestTemplate restTemplate = new RestTemplate();
 
 					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

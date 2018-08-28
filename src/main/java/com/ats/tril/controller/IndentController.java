@@ -505,7 +505,8 @@ public class IndentController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
 			String date = request.getParameter("date");
-
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			
 			if (date == "") {
 				Date currDate = new Date();
 				date = new SimpleDateFormat("yyyy-MM-dd").format(currDate);
@@ -515,7 +516,8 @@ public class IndentController {
 			map.add("docId", docId);
 			map.add("catId", catId);
 			map.add("date", DateConvertor.convertToYMD(date));
-
+			map.add("typeId", typeId);
+			
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -588,6 +590,7 @@ public class IndentController {
 				map.add("docId", 1);
 				map.add("catId", catId);
 				map.add("date", DateConvertor.convertToYMD(indDate));
+				map.add("typeId", indType);
 				RestTemplate restTemplate = new RestTemplate();
 
 				docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

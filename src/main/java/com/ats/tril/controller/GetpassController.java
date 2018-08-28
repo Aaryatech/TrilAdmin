@@ -235,6 +235,7 @@ public class GetpassController {
 				map.add("docId", 5);
 				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(gpDate));
+				map.add("typeId", 1);
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -604,6 +605,7 @@ public class GetpassController {
 				map.add("docId", 4);
 				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(gpDate));
+				map.add("typeId", 1);
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -1079,6 +1081,7 @@ public class GetpassController {
 				map.add("docId", 7);
 				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(date));
+				map.add("typeId", 1);
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);

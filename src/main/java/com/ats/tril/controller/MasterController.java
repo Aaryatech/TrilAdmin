@@ -1060,5 +1060,95 @@ public class MasterController {
 
 		return errorMessage;
 	}*/
+	
+	@RequestMapping(value = "/addUom", method = RequestMethod.GET)
+	public ModelAndView addUom(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addUom");
+		try {
+			
+			 
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/insertUom", method = RequestMethod.POST)
+	public String insertUom(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+			String uomId = request.getParameter("uomId"); 
+			String uom = request.getParameter("uom"); 
+
+			Uom insert = new Uom();
+
+			if (uomId == "" || uomId == null)
+				insert.setUomId(0);
+			else
+				insert.setUomId(Integer.parseInt(uomId));
+			insert.setUom(uom); 
+			insert.setIsUsed(1); 
+
+			System.out.println("Uom  " + insert);
+
+			Uom res = rest.postForObject(Constants.url + "/saveUom", insert, Uom.class);
+
+			System.out.println("res " + res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUom";
+	}
+	
+	@RequestMapping(value = "/editUom/{uomId}", method = RequestMethod.GET)
+	public ModelAndView editUom(@PathVariable int uomId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addUom");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("uomId", uomId);
+			Uom  uom = rest.postForObject(Constants.url + "/getUomFormByUomId",map, Uom .class);
+			 model.addObject("editUom", uom);
+			  
+			 Uom[] list = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+				List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(list));
+				model.addObject("uomList", uomList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/deleteUom/{uomId}", method = RequestMethod.GET)
+	public String deleteUom(@PathVariable int uomId, HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("uomId", uomId); 
+			ErrorMessage  errorMessage = rest.postForObject(Constants.url + "/deleteItem",map, ErrorMessage .class);
+			System.out.println(errorMessage);
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUom";
+	}
 
 }

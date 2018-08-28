@@ -237,6 +237,7 @@ public class EnqController {
 					map.add("docId", 8);
 					map.add("catId", 1);
 					map.add("date", DateConvertor.convertToYMD(enqDate));
+					map.add("typeId", 1);
 					RestTemplate restTemplate = new RestTemplate();
 
 					docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
