@@ -5,8 +5,9 @@
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-<body>
+<body onload="getInvoiceNo()">
 
+<c:url var="getInvoiceNo" value="/getInvoiceNo"></c:url>
 
 	<c:url var="getMrnListByMrnId" value="/getMrnListByMrnId"></c:url>
 	<c:url var="getMrnListByVendorIdForRejectionMemo" value="/getMrnListByVendorIdForRejectionMemo"></c:url>
@@ -69,7 +70,7 @@
 									<div class="col-md-2">Rejection Date*</div>
 									<div class="col-md-3">
 										<input id="rejectionDate" class="form-control date-picker"
-											placeholder="Rejection Date" value="${date}" name="rejectionDate" type="text"
+											onchange="getInvoiceNo()" placeholder="Rejection Date" value="${date}" name="rejectionDate" type="text"
 											required>
 
 
@@ -78,7 +79,7 @@
 									<div class="col-md-2">Rejection No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="rejectionNo"
-											placeholder="Rejection No" type="text" name="rejectionNo" required/>
+											placeholder="Rejection No" type="text" name="rejectionNo" readonly/>
 									</div>
 								</div>
 								<br>
@@ -183,11 +184,7 @@
 														<th class="col-md-5">Item Name</th>
 														<th class="col-md-1">Rejection Qty</th>
 														<th class="col-md-1">Memo Qty</th>
-
-
-
-
-
+ 
 													</tr>
 												</thead>
 
@@ -390,7 +387,25 @@
 			 }
 
 		}
-		
+		function getInvoiceNo() {
+			
+			var date = $("#rejectionDate").val();  
+			
+			$.getJSON('${getInvoiceNo}', {
+
+				catId:1,
+				docId:9,
+				date : date,
+				typeId : 1,
+				ajax : 'true',
+
+			}, function(data) { 
+			 
+			document.getElementById("rejectionNo").value=data.code; 
+			 
+			});
+
+		}
 		function check()
 		{
 			 	   

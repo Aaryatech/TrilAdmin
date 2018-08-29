@@ -9,7 +9,7 @@
 
 	<c:url var="getgroupIdByCatId" value="/getgroupIdByCatId"></c:url>
 	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
-    <c:url var="getInvoiceNo" value="/getInvoiceNoGp" /> 
+    <c:url var="getInvoiceNo" value="/getInvoiceNo" /> 
 	<c:url var="editItemInAddGetpass" value="/editItemInAddGetpass"></c:url>
 	<c:url var="addItemInGetpassReturnableList"
 		value="/addItemInGetpassReturnableList"></c:url>

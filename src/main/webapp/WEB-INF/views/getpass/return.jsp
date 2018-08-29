@@ -11,7 +11,7 @@
 	<c:url var="getQuantity" value="/getQuantity"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<c:url var="getInvoiceNo" value="/getInvoiceNoGp" /> 
+<c:url var="getInvoiceNo" value="/getInvoiceNo" /> 
 
 	<div class="container" id="main-container">
 
@@ -106,7 +106,7 @@
 									<div class="col-md-2">Return No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="returnNo"
-											placeholder="Return No" type="text" name="returnNo" />
+											placeholder="Return No" type="text" name="returnNo" readonly/>
 									</div>
 								</div>
 								<br>

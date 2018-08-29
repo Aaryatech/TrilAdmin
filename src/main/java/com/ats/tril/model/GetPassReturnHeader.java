@@ -6,9 +6,9 @@ import java.util.List;
 public class GetPassReturnHeader {
 	 
 	private int returnId; 
-	private int returnNo; 
+	private String returnNo; 
 	private int gpId; 
-	private int gpNo; 
+	private String gpNo; 
 	private int vendorId; 
 	private String gpReturnDate; 
 	private String gpRemark; 
@@ -23,10 +23,10 @@ public class GetPassReturnHeader {
 	public void setReturnId(int returnId) {
 		this.returnId = returnId;
 	}
-	public int getReturnNo() {
+	public String getReturnNo() {
 		return returnNo;
 	}
-	public void setReturnNo(int returnNo) {
+	public void setReturnNo(String returnNo) {
 		this.returnNo = returnNo;
 	}
 	public int getGpId() {
@@ -35,10 +35,10 @@ public class GetPassReturnHeader {
 	public void setGpId(int gpId) {
 		this.gpId = gpId;
 	}
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
 	public int getVendorId() {

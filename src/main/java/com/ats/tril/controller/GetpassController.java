@@ -217,7 +217,7 @@ public class GetpassController {
 			GetpassHeader getpassHeaderRes = new GetpassHeader();
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
-			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpNo =  request.getParameter("gpNo") ;
 			String gpDate = request.getParameter("gpDate");
 			int stock = Integer.parseInt(request.getParameter("stock"));
 			String sendingWith = request.getParameter("sendingWith");
@@ -239,11 +239,27 @@ public class GetpassController {
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
-				int counter=docBean.getSubDocument().getCounter();
+				/*int counter=docBean.getSubDocument().getCounter();
 				
 				getpassHeader.setGpNo(counter);
 				
-				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);*/
+				 
+				 String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+					int counter = docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo + "");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+
+					getpassHeader.setGpNo("" + code);
+
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -368,7 +384,7 @@ public class GetpassController {
 		try {
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
-			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpNo = request.getParameter("gpNo");
 			String gpDate = request.getParameter("gpDate");
 			int stock = Integer.parseInt(request.getParameter("stock"));
 			String sendingWith = request.getParameter("sendingWith");
@@ -536,6 +552,7 @@ public class GetpassController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
 			String date = request.getParameter("date");
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			if(date=="") {
 				Date currDate = new Date();
 				date= new SimpleDateFormat("yyyy-MM-dd").format(currDate);
@@ -545,6 +562,7 @@ public class GetpassController {
 			map.add("docId",docId);
 			map.add("catId", catId);
 			map.add("date", DateConvertor.convertToYMD(date));
+			map.add("typeId", typeId);
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -567,7 +585,7 @@ public class GetpassController {
 			GetpassHeader getpassHeaderRes = new GetpassHeader();
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
-			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpNo = request.getParameter("gpNo");
 			String gpDate = request.getParameter("gpDate");
 			int stock = Integer.parseInt(request.getParameter("stock"));
 			String sendingWith = request.getParameter("sendingWith");
@@ -609,11 +627,26 @@ public class GetpassController {
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
-				int counter=docBean.getSubDocument().getCounter();
+				/*int counter=docBean.getSubDocument().getCounter();
 				
 				getpassHeader.setGpNo(counter);
 				
-				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);*/
+				 
+				 String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+					int counter = docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo + "");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter)); 
+					getpassHeader.setGpNo("" + code);
+					
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -908,7 +941,7 @@ public class GetpassController {
 		try {
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
-			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpNo = request.getParameter("gpNo");
 			String gpDate = request.getParameter("gpDate");
 			int stock = Integer.parseInt(request.getParameter("stock"));
 			String sendingWith = request.getParameter("sendingWith");
@@ -984,7 +1017,7 @@ public class GetpassController {
 		try {
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
-			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
+			String gpNo = request.getParameter("gpNo");
 			String gpDate = request.getParameter("gpDate");
 			int stock = Integer.parseInt(request.getParameter("stock"));
 			String sendingWith = request.getParameter("sendingWith");
@@ -1063,8 +1096,8 @@ public class GetpassController {
 		try {
 
 			int gpId = Integer.parseInt(request.getParameter("gpId"));
-			int gpNo = Integer.parseInt(request.getParameter("gpNo"));
-			int returnNo = Integer.parseInt(request.getParameter("returnNo"));
+			String gpNo = request.getParameter("gpNo");
+			String returnNo =  request.getParameter("returnNo") ;
 			String date = request.getParameter("date");
 			// float retQty = Float.parseFloat(request.getParameter("retQty"));
 
@@ -1085,20 +1118,35 @@ public class GetpassController {
 				RestTemplate restTemplate = new RestTemplate();
 
 				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
-				int counter=docBean.getSubDocument().getCounter();
+				/*int counter=docBean.getSubDocument().getCounter();
 				
 				getpassReturn.setGpNo(counter);
 				
-				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);*/
+				 
+				 String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+					int counter = docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo + "");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+
+					getpassReturn.setReturnNo("" + code);
+
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+			getpassReturn.setGpNo(gpNo);
 			getpassReturn.setGpReturnDate(DateConvertor.convertToYMD(date));
 			getpassReturn.setIsUsed(1);
 			getpassReturn.setGpRemark(remark);
-			getpassReturn.setGpRemark1("null");
-			getpassReturn.setReturnNo(returnNo);
+			getpassReturn.setGpRemark1("null"); 
 			getpassReturn.setGpId(gpId);
 			getpassReturn.setStatus(1);
 			getpassReturnDetailList = new ArrayList<GetpassReturnDetail>();

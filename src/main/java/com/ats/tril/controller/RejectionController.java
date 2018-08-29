@@ -36,6 +36,7 @@ import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassReturnVendor;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
 import com.ats.tril.model.mrn.GetMrnDetail;
@@ -168,11 +169,40 @@ public class RejectionController {
 			String rejDate = DateConvertor.convertToYMD(rejectionDate);
 
 			String docuDate = DateConvertor.convertToYMD(docDate);
-
 			RejectionMemo rejectionMemo = new RejectionMemo();
+			DocumentBean docBean=null;
+			try {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 7);
+				map.add("catId", 1);
+				map.add("date", DateConvertor.convertToYMD(rejDate));
+				map.add("typeId", 1);
+				RestTemplate restTemplate = new RestTemplate();
+
+				 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				 String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+					int counter = docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo + "");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+				
+				rejectionMemo.setMrnNo(""+code);
+				
+				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			
 			//for (int i = 0; i < mrnIdList.length; i++) {
-				//System.out.println(" \n current mrn Id" + mrnIdList[i].toString());
-				rejectionMemo = new RejectionMemo();
+				//System.out.println(" \n current mrn Id" + mrnIdList[i].toString()); 
 				rejectionMemo.setDcoDate(docuDate);
 				rejectionMemo.setDcoId(docNo);
 				rejectionMemo.setIsUsed(1);
