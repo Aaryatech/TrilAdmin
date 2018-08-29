@@ -11,6 +11,7 @@ public class Damage {
 	private float value; 
 	private String reason; 
 	private int delStatus;
+	private String damageNo; 
 	
 	public int getDamageId() {
 		return damageId;
@@ -61,10 +62,18 @@ public class Damage {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
+	
+	public String getDamageNo() {
+		return damageNo;
+	}
+	public void setDamageNo(String damageNo) {
+		this.damageNo = damageNo;
+	}
 	@Override
 	public String toString() {
 		return "Damage [damageId=" + damageId + ", date=" + date + ", itemId=" + itemId + ", itemName=" + itemName
-				+ ", qty=" + qty + ", value=" + value + ", reason=" + reason + ", delStatus=" + delStatus + "]";
+				+ ", qty=" + qty + ", value=" + value + ", reason=" + reason + ", delStatus=" + delStatus
+				+ ", damageNo=" + damageNo + "]";
 	}
 	
 	

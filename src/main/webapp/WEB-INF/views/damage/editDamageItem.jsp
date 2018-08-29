@@ -171,6 +171,10 @@ body {
 				<div class="col-md-2">Date</div>
 				<div class="col-md-3"><input type="date" id="date" name="date" value="${editDamage.date}"   class="form-control" >
 				</div>
+				
+				<div class="col-md-2">Damage No</div>
+				<div class="col-md-3"><input type="text" id="damageNo" name="damageNo" value="${editDamage.damageNo}"   class="form-control" readonly>
+				</div>
 						 <input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
 									</div><br/>
 								 

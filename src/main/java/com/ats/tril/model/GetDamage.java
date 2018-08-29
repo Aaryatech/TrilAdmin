@@ -12,6 +12,7 @@ public class GetDamage {
 	private int delStatus; 
 	private String itemCode; 
 	private String itemDesc;
+	private String damageNo; 
 	public int getDamageId() {
 		return damageId;
 	}
@@ -66,11 +67,18 @@ public class GetDamage {
 	public void setItemDesc(String itemDesc) {
 		this.itemDesc = itemDesc;
 	}
+	
+	public String getDamageNo() {
+		return damageNo;
+	}
+	public void setDamageNo(String damageNo) {
+		this.damageNo = damageNo;
+	}
 	@Override
 	public String toString() {
 		return "GetDamage [damageId=" + damageId + ", date=" + date + ", itemId=" + itemId + ", qty=" + qty + ", value="
 				+ value + ", reason=" + reason + ", delStatus=" + delStatus + ", itemCode=" + itemCode + ", itemDesc="
-				+ itemDesc + "]";
+				+ itemDesc + ", damageNo=" + damageNo + "]";
 	}
 	
 	

@@ -26,7 +26,9 @@ import com.ats.tril.model.Damage;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetDamage;
 import com.ats.tril.model.GetItemGroup;
-import com.ats.tril.model.StockHeader; 
+import com.ats.tril.model.StockHeader;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument; 
 
 @Controller
 @Scope("session")
@@ -116,17 +118,69 @@ public class DamageController {
 		 
 		try {
 			String date = request.getParameter("date"); 
+			String itemName = request.getParameter("itemName");
+			int itemId = Integer.parseInt(request.getParameter("itemId")); 
+			String reason = request.getParameter("reason");  
+			float qty = Float.parseFloat(request.getParameter("qty"));  
+			float value = Float.parseFloat(request.getParameter("value"));
 			
-			for(int i = 0 ; i<damageList.size() ; i++)
-			{
-				damageList.get(i).setDate(date);
-			}
+			Damage damage = new Damage();
+			
+			 DocumentBean docBean=null;
+				try {
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docId",10);
+					map.add("catId", 1);
+					map.add("date", date);
+					map.add("typeId", 1);
+					RestTemplate restTemplate = new RestTemplate();
+
+					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+					String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+					int counter=docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth =4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo+"");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+					
+					damage.setDamageNo(""+code);
+					
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				}catch (Exception e) {
+					e.printStackTrace(); 
+				}
+			damage.setItemId(itemId);
+			damage.setItemName(itemName);
+			damage.setQty(qty);
+			damage.setValue(value);
+			damage.setReason(reason);
+			damage.setDelStatus(1);
+			damage.setDate(date);
+			damageList.add(damage);
+			 
 			
 			System.out.println(damageList);
 			
 			ErrorMessage res = rest.postForObject(Constants.url + "/saveDamage",damageList,
 					ErrorMessage.class);
 			System.out.println(res);
+			
+			if(res.isError()==false) {
+				try {
+        			
+        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+        		
+        		}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

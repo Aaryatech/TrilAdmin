@@ -22,11 +22,12 @@
 			      day = '0' + day.toString(); 
 			  var maxDate = year + '-' + month + '-' + day;  
 	  		$('#date').attr('min', maxDate);
+	  		getInvoiceNo();
 	  
 	 }
  
  </script> 
-	   
+	   <c:url var="getInvoiceNo" value="/getInvoiceNo"></c:url>  
 	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>  
       <c:url var="addItmeInDamageList" value="/addItmeInDamageList"></c:url> 
 	  <c:url var="deleteDamageFromList" value="/deleteDamageFromList"></c:url>
@@ -87,7 +88,16 @@
 								<div class="col-md-2">Date*</div>
 									<div class="col-md-3">
 										<input id="date" class="form-control"
-								 placeholder="Date"  name="date" type="date" value="${date}"  required> 
+								 placeholder="Date" onchange="getInvoiceNo()"  name="date" type="date" value="${date}"  required> 
+								 
+								 
+						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
+									</div>
+									
+									<div class="col-md-2">Damage No*</div>
+									<div class="col-md-3">
+										<input id="damageNo" class="form-control"
+								 placeholder="Damage No"  name="damageNo" type="text"    readonly> 
 								 
 								 
 						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
@@ -164,11 +174,11 @@
 									</div>
 								 
 							 <br>
-							<div class="form-group">
+							<!-- <div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="button" class="btn btn-primary" value="Add Item" onclick="addItem()">  
 									</div>
-								</div><br><br>
+								</div><br><br> -->
 							
 								<div align="center" id="loader" style="display: none">
 
@@ -183,7 +193,7 @@
 											
 							
 							
-							<div class="col-md-9"></div>
+							<!-- <div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
@@ -213,11 +223,11 @@
 								 
 									<br> <br>
 										 
-					</div>
+					</div> -->
 								
 							<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit" id="submit" onclick="check();" disabled>
+										<input type="submit" class="btn btn-primary" value="Submit" id="submit" onclick="check();"  >
 <!-- 										<button type="button" class="btn">Cancel</button>
  -->									</div>
 								</div><br><br>
@@ -655,7 +665,27 @@ function myFunction() {
      
   }
 }
- 
+function getInvoiceNo() {
+	
+	var date = $("#date").val();  
+	var toDateValue = date.split('-'); 
+	var min = toDateValue[2]+"-"+(toDateValue[1] - 1 )+"-"+toDateValue[0];
+	
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:1,
+		docId:10,
+		date : min,
+		typeId : 1,
+		ajax : 'true',
+
+	}, function(data) { 
+	 
+	document.getElementById("damageNo").value=data.code; 
+	 
+	});
+
+}
 </script>
 	 
 </body>
