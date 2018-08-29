@@ -201,14 +201,31 @@ public class DamageController {
 			Date date = new Date();
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
-			map.add("fromDate", sf.format(date));
-			map.add("toDate", sf.format(date));
+			
+			if( request.getParameter("fromDate")==null ||  request.getParameter("toDate")==null) {
+				
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+				model.addObject("fromDate", show.format(date));
+				model.addObject("toDate", show.format(date)); 
+			}
+			else {
+				
+				 String fromDate = request.getParameter("fromDate");
+				 String toDate = request.getParameter("toDate");
+				 
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				model.addObject("fromDate", fromDate); 
+				model.addObject("toDate", toDate); 
+			}
+			
 			GetDamage[] getDamage = rest.postForObject(Constants.url + "/getDamageList",map,
 					GetDamage[].class);
 			List<GetDamage> getDamagelist = new ArrayList<GetDamage>(Arrays.asList(getDamage));
 			model.addObject("getDamagelist", getDamagelist);
 			
-			model.addObject("date", show.format(date)); 
+			
 			
 
 		} catch (Exception e) {
