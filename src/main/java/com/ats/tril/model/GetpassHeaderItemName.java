@@ -10,8 +10,8 @@ public class GetpassHeaderItemName {
 	private int gpType;
 	private String gpReturnDate;
 	private int gpStatus;
-	private int isUsed;
-
+	private int isUsed; 
+	
 	private String remark1;
 	private String remark2;
 	private String sendingWith;
