@@ -42,10 +42,12 @@ import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.mrn.GetMrnHeader;
 import com.fasterxml.jackson.databind.util.Converter;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -142,7 +144,7 @@ public class GetpassController {
 				getpassDetail.setGpDetailId(0);
 				getpassDetail.setGpNoDays(0);
 				getpassDetail.setGpReturnDate(Date);
-				getpassDetail.setGpStatus(0);
+				getpassDetail.setGpStatus(9);
 				getpassDetail.setCatId(catId);
 				getpassDetail.setGroupId(grpId);
 				getpassDetail.setGpRemQty(0);
@@ -156,8 +158,7 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setGpDetailId(0);
 
 				addItemInGetpassDetail.get(index).setGpReturnDate(Date);
-				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc());
-				addItemInGetpassDetail.get(index).setGpStatus(0);
+				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc()); 
 				addItemInGetpassDetail.get(index).setCatId(catId);
 				addItemInGetpassDetail.get(index).setGroupId(grpId);
 				addItemInGetpassDetail.get(index).setIsUsed(1);
@@ -274,7 +275,7 @@ public class GetpassController {
 			getpassHeader.setIsStockable(stock);
 			getpassHeader.setGpType(0);
 			getpassHeader.setGpDate(Date);
-
+			getpassHeader.setGpStatus(9);
 			getpassHeader.setGetpassDetail(addItemInGetpassDetail);
 
 			System.out.println(getpassHeader);
@@ -308,8 +309,30 @@ public class GetpassController {
 
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			List<GetpassItemVen> passList = new ArrayList<>();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			if(request.getParameter("vendId")==null) {
+				
+				map.add("vendId", 0);
 
+				GetpassItemVen[] list = rest.postForObject(Constants.url + "/getGetpassNonReturnable", map,
+						GetpassItemVen[].class);
+				 passList = new ArrayList<GetpassItemVen>(Arrays.asList(list));
+				 model.addObject("vendId", 0);
+			}
+			else {
+			String vendId = request.getParameter("vendId");
+			map.add("vendId", vendId); 
+			GetpassItemVen[] list = rest.postForObject(Constants.url + "/getGetpassNonReturnable", map,
+					GetpassItemVen[].class);
+			 passList = new ArrayList<GetpassItemVen>(Arrays.asList(list));
+			 model.addObject("vendId", vendId);
+			}
+			
+			model.addObject("passList", passList);
 			model.addObject("vendorList", vendorList);
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -512,7 +535,7 @@ public class GetpassController {
 				getpassDetail.setGpDetailId(0);
 				getpassDetail.setGpNoDays(noOfDays);
 				getpassDetail.setGpReturnDate(newDate);
-				getpassDetail.setGpStatus(0);
+				getpassDetail.setGpStatus(9);
 				getpassDetail.setCatId(catId);
 				getpassDetail.setGroupId(grpId);
 				getpassDetail.setGpRemQty(qty);
@@ -525,13 +548,11 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setGpQty(qty);
 				addItemInGetpassDetail.get(index).setGpDetailId(0); 
 				addItemInGetpassDetail.get(index).setGpReturnDate(newDate);
-				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc());
-				addItemInGetpassDetail.get(index).setGpStatus(0);
+				addItemInGetpassDetail.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc()); 
 				addItemInGetpassDetail.get(index).setCatId(catId);
 				addItemInGetpassDetail.get(index).setGroupId(grpId);
 				addItemInGetpassDetail.get(index).setIsUsed(1);
-				addItemInGetpassDetail.get(index).setGpRemQty(qty);
-				addItemInGetpassDetail.get(index).setGpRetQty(0);
+				addItemInGetpassDetail.get(index).setGpRemQty(qty); 
 				addItemInGetpassDetail.get(index).setGpNoDays(noOfDays);
 				addItemInGetpassDetail.get(index).setRemark(remark);
 			}
@@ -660,7 +681,7 @@ public class GetpassController {
 			getpassHeader.setIsStockable(stock);
 			getpassHeader.setGpType(1);
 			getpassHeader.setGpDate(Date);
-			getpassHeader.setGpStatus(1);
+			getpassHeader.setGpStatus(9);
 			getpassHeader.setGetpassDetail(addItemInGetpassDetail);
 			
 			String returnDate = new String();
@@ -905,7 +926,7 @@ public class GetpassController {
 				getpassDetail.setGpDetailId(0);
 				getpassDetail.setGpNoDays(noOfDays);
 				getpassDetail.setGpReturnDate(newDate);
-				getpassDetail.setGpStatus(0);
+				getpassDetail.setGpStatus(9);
 				getpassDetail.setCatId(catId);
 				getpassDetail.setGrpId(grpId);
 				getpassDetail.setGpRemQty(qty);
@@ -917,13 +938,11 @@ public class GetpassController {
 				editGatepassHeaderList.get(index).setGpItemId(itemId);
 				editGatepassHeaderList.get(index).setGpQty(qty);
 				editGatepassHeaderList.get(index).setGpReturnDate(newDate);
-				editGatepassHeaderList.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc());
-				editGatepassHeaderList.get(index).setGpStatus(0);
+				editGatepassHeaderList.get(index).setItemCode(item.getItemCode()+"-"+item.getItemDesc()); 
 				editGatepassHeaderList.get(index).setCatId(catId);
 				editGatepassHeaderList.get(index).setGrpId(grpId);
 				editGatepassHeaderList.get(index).setIsUsed(1);
-				editGatepassHeaderList.get(index).setGpRemQty(qty);
-				editGatepassHeaderList.get(index).setGpRetQty(0);
+				editGatepassHeaderList.get(index).setGpRemQty(qty); 
 				editGatepassHeaderList.get(index).setGpNoDays(noOfDays);
 				editGatepassHeaderList.get(index).setRemark(remark);
 			}
@@ -1514,6 +1533,172 @@ public class GetpassController {
 
 		//return "redirect:/listOfGetpassReturn";
 		return "redirect:/listOfGetpassReturnable";
+	}
+	
+	List<GetpassItemVen> getPassListForApprove = new ArrayList<GetpassItemVen>( );
+	
+	@RequestMapping(value = "/firstApproveGatePass", method = RequestMethod.GET)
+	public ModelAndView firstApproveGatePass(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("getpass/approveGatePass");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+ 
+			map.add("status","7,9"); 
+			GetpassItemVen[] gatePassList =rest.postForObject(Constants.url+"getGetpassItemHeaderAndDetailForApprove", map,  GetpassItemVen[].class);
+			 getPassListForApprove = new ArrayList<GetpassItemVen>(Arrays.asList(gatePassList));
+			model.addObject("approve", 1);
+			model.addObject("getPassListForApprove", getPassListForApprove);
+			
+			/*Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);*/
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/secondApproveGatePass", method = RequestMethod.GET)
+	public ModelAndView secondApprovePurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("getpass/approveGatePass");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 
+			map.add("status","7"); 
+			GetpassItemVen[] gatePassList =rest.postForObject(Constants.url+"getGetpassItemHeaderAndDetailForApprove", map,  GetpassItemVen[].class);
+			 getPassListForApprove = new ArrayList<GetpassItemVen>(Arrays.asList(gatePassList));
+			model.addObject("approve", 2);
+			model.addObject("getPassListForApprove", getPassListForApprove);
+			
+			/*Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);*/
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	GetpassHeaderItemName gatepassFroApprove = new GetpassHeaderItemName();
+	
+	@RequestMapping(value = "/approveGatePassDetail/{gpId}/{approve}", method = RequestMethod.GET)
+	public ModelAndView approvePoDetail(@PathVariable int gpId,@PathVariable int approve, HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		ModelAndView model = new ModelAndView("getpass/approveGatepassDetail");
+		try {
+
+			 gatepassFroApprove = new GetpassHeaderItemName();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("gpId",gpId); 
+			 gatepassFroApprove = rest.postForObject(Constants.url + "/getGetpassItemHeaderAndDetailWithItemNameForNonReturnable", map,
+						GetpassHeaderItemName.class);
+			
+           model.addObject("gatepassFroApprove", gatepassFroApprove);
+			model.addObject("approve", approve);
+			
+			for(int i = 1 ; i<getPassListForApprove.size() ; i++) {
+				
+				if(getPassListForApprove.get(i).getGpId()==gpId) {
+					model.addObject("vendorName",getPassListForApprove.get(i).getVendorName()); 
+					break;
+				}
+			}
+			
+			
+			
+			/*Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);*/
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitGatepassApprove", method = RequestMethod.POST)
+	public String submitMrnApprove(HttpServletRequest request, HttpServletResponse response) {
+
+		String ret = null;
+		int approve = Integer.parseInt(request.getParameter("approve"));
+		try {
+			 
+			
+			String gpDetailId = new String();
+			int gpId = 0 ;
+			int status = 7;
+			
+			
+			if(approve==1) {
+				
+				gatepassFroApprove.setGpStatus(7);
+				gpId=gatepassFroApprove.getGpId();
+				String[] checkbox = request.getParameterValues("select_to_approve");
+				status=7;
+				for(int i=0 ; i<checkbox.length ;i++) {
+					
+					for(int j=0 ; j<gatepassFroApprove.getGetpassDetailItemNameList().size() ; j++) {
+						
+						if(Integer.parseInt(checkbox[i])==gatepassFroApprove.getGetpassDetailItemNameList().get(j).getGpDetailId()) {
+							gatepassFroApprove.getGetpassDetailItemNameList().get(j).setGpStatus(7);
+							gpDetailId=gpDetailId+","+gatepassFroApprove.getGetpassDetailItemNameList().get(j).getGpDetailId();
+							break;
+						}
+					}
+				}
+				
+				 
+			}
+			else if(approve==2){
+				
+				gatepassFroApprove.setGpStatus(1);
+				gpId=gatepassFroApprove.getGpId();
+				String[] checkbox = request.getParameterValues("select_to_approve");
+				status=1;
+				for(int i=0 ; i<checkbox.length ;i++) {
+					
+					for(int j=0 ; j<gatepassFroApprove.getGetpassDetailItemNameList().size() ; j++) {
+						
+						if(Integer.parseInt(checkbox[i])==gatepassFroApprove.getGetpassDetailItemNameList().get(j).getGpDetailId()) {
+							gatepassFroApprove.getGetpassDetailItemNameList().get(j).setGpStatus(1);
+							gpDetailId=gpDetailId+","+gatepassFroApprove.getGetpassDetailItemNameList().get(j).getGpDetailId();
+							break;
+						}
+					}
+				}
+				
+			}
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("gpId", gpId);
+			map.add("gpDetailId", gpDetailId.substring(1, gpDetailId.length()));
+			map.add("status", status);
+			System.out.println("map " + map);
+			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileGatepassApprov", map, ErrorMessage.class);
+ 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		if(approve==1) {
+			ret = "redirect:/firstApproveGatePass";
+		}
+		else {
+			ret = "redirect:/secondApproveGatePass";
+		}
+
+		return ret;
 	}
 
 }

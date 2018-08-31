@@ -73,7 +73,7 @@
 									<label class="col-md-2">Indent
 										Category </label>
 									<div class="col-md-3">
-
+										<input type="hidden" name="catId" id="catId" value="0"/>
 										<select id="ind_cat" name="ind_cat"
 											class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
 											data-rule-required="true">
@@ -324,7 +324,7 @@
 
 								<input type="button"
 									
-									onclick="insertIndent()" class="btn btn-info" value="Submit">
+									onclick="insertIndent()" id="submit" class="btn btn-info" value="Submit" disabled>
 									</div>
 									</div>
 							</form>
@@ -567,7 +567,7 @@ $(document).ready(function() {
 		 var remark=$('#remark').val();
 		 var schDay=$('#sch_days').val();
 		 var itemName=$("#item_name option:selected").html();
-		 
+		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
 		 
 		if(qty>0){
@@ -621,6 +621,11 @@ $(document).ready(function() {
 							"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
 		  	
 			$('#table1 tbody').append(tr);
+			//document.getElementById("ind_cat").disabled=true;
+			$('#ind_cat').prop('disabled', true).trigger("chosen:updated");
+			 
+			document.getElementById("catId").value = catId; 
+			document.getElementById("submit").disabled=false;
 			})
 		
 		
@@ -680,6 +685,11 @@ function deleteIndentItem(itemId,key){
 
 	}, function(data) {
 		//alert(data);
+		if(data==""){
+			alert("No Record ");
+			$('#ind_cat').prop('disabled', false).trigger("chosen:updated");
+			document.getElementById("submit").disabled=true;
+		}
 		var len = data.length;
 		$('#table1 td').remove();
 		$.each(data,function(key, trans) {

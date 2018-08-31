@@ -47,7 +47,7 @@
 							<h3>
 								<i class="fa fa-table"></i>Approve<c:choose>
 								<c:when test="${approve==1}">1</c:when><c:when test="${approve==2}">2</c:when>
-								</c:choose> MRN Detail
+								</c:choose> Gatepass Detail
 							</h3>
 
 							<%-- <div class="box-tool">
@@ -62,28 +62,31 @@
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
-								action="${pageContext.request.contextPath}/submitMrnApprove"
+								action="${pageContext.request.contextPath}/submitGatepassApprove"
 								method="post">
 
 								<div class="box-content">
 
-									<div class="col-md-2">Mrn Type:</div>
+									<div class="col-md-2">Gatepass Type:</div>
 									<div class="col-md-3">
 									
-									<c:forEach items="${typeList}" var="typeList"> 
+									 
 															<c:choose>
-																<c:when test="${typeList.typeId==mrnFroApprove.mrnType}">
-																	${typeList.typeName}
+																<c:when test="${gatepassFroApprove.gpType==0}">
+																	Non Returnable
+																</c:when>
+																<c:when test="${gatepassFroApprove.gpType==1}">
+																	 Returnable
 																</c:when>
 																 
 															</c:choose> 
-														</c:forEach>
+													 
 									 
 									</div>
 
-									<div class="col-md-2">Mrn Date:</div>
+									<div class="col-md-2">Gatepass Date:</div>
 									<div class="col-md-3">
-									${mrnFroApprove.mrnDate}
+									${gatepassFroApprove.gpDate}
 										<%-- <input class="form-control" id="rejectionNo"
 											placeholder="Rejection No" type="text" name="rejectionNo"   value="${editRejection.rejectionNo}"/> --%>
 									</div>
@@ -93,10 +96,8 @@
 
 									<div class="col-md-2">Vendor Name :</div>
 									<div class="col-md-10">
-									${mrnFroApprove.vendorName}
-
-										 
-
+									${vendorName}
+ 
 									</div>
 									  
 									</div>
@@ -104,9 +105,9 @@
 									
 									<div class="box-content">
 									
-									<div class="col-md-2">Mrn No:</div>
+									<div class="col-md-2">Gatepass No:</div>
 									<div class="col-md-3">
-									${mrnFroApprove.mrnNo}
+									${gatepassFroApprove.gpNo}
  
 									</div>
  
@@ -125,7 +126,7 @@
 
 										<div class="col-md-2">Remark:</div>
 										<div class="col-md-3">
-										${mrnFroApprove.remark1}
+										${gatepassFroApprove.remark1}
 											<%-- <input type="text" name="remark" id="remark"
 												placeholder="Remark" class="form-control"  value="${editRejection.rejectionRemark}"/> --%>
 
@@ -149,38 +150,35 @@
 																	<th  ><input type="checkbox" id="allCheckTable1"   onClick="selectAll(this)"  />All</th>
 																		<th style="width:2%;">Sr.No.</th>
 																		<th>Item Name</th>
-																		<th class="col-md-2">MRN Qty</th>
-																		<th class="col-md-2">Approved Qty</th>
-																		<th class="col-md-2">Rejected Qty</th>
+																		<th class="col-md-2">Gatepass Qty</th> 
 				 
 																	</tr>
 																</thead>
 				
 																<tbody>
 				
-																	<c:forEach items="${mrnFroApprove.getMrnDetailList}" var="mrnDetailList"
+																	<c:forEach items="${gatepassFroApprove.getpassDetailItemNameList}" var="getpassDetailItemNameList"
 																		varStatus="count">
 																		<tr>
 																		<td  > 
 																		<c:choose>
-																			<c:when test="${mrnDetailList.mrnDetailStatus==3}">
-																			<input type="checkbox" id="select_to_approve${mrnDetailList.mrnDetailId}"
-															name="select_to_approve" value="${mrnDetailList.mrnDetailId}" checked/>
+																			<c:when test="${getpassDetailItemNameList.gpStatus==7}">
+																			<input type="checkbox" id="select_to_approve${getpassDetailItemNameList.gpDetailId}"
+															name="select_to_approve" value="${getpassDetailItemNameList.gpDetailId}" checked/>
 																			</c:when>
 																			<c:otherwise>
-																			<input type="checkbox" id="select_to_approve${mrnDetailList.mrnDetailId}"
-															name="select_to_approve" value="${mrnDetailList.mrnDetailId}"  />
+																			<input type="checkbox" id="select_to_approve${getpassDetailItemNameList.gpDetailId}"
+															name="select_to_approve" value="${getpassDetailItemNameList.gpDetailId}"  />
 																			
 																			</c:otherwise>
 																		</c:choose> </td>
 																			<td  ><c:out value="${count.index+1}" /></td>
 				 
 																			<td  ><c:out
-																					value="${mrnDetailList.itemCode} ${mrnDetailList.itemName}" /></td>
+																					value="${getpassDetailItemNameList.itemCode}" /></td>
 				
-																			<td  >${mrnDetailList.mrnQty}</td>
-																			<td  >${mrnDetailList.approveQty}</td>
-																			<td  >${mrnDetailList.rejectQty}</td>
+																			<td  >${getpassDetailItemNameList.gpQty}</td>
+																			 
 				 
 																		</tr>
 																	</c:forEach>
@@ -202,39 +200,35 @@
 																	<th  ><input type="checkbox" id="allCheckTable1"   onClick="selectAll(this)"  />All</th>
 																		<th style="width:2%;">Sr.No.</th>
 																		<th>Item Name</th>
-																		<th class="col-md-2">MRN Qty</th>
-																		<th class="col-md-2">Approved Qty</th>
-																		<th class="col-md-2">Rejected Qty</th>
+																		<th class="col-md-2">Gatepass Qty</th> 
 				 
 																	</tr>
 																</thead>
 				
 																<tbody>
 				
-																	<c:forEach items="${mrnFroApprove.getMrnDetailList}" var="mrnDetailList"
+																	<c:forEach items="${gatepassFroApprove.getpassDetailItemNameList}" var="getpassDetailItemNameList"
 																		varStatus="count">
 																		<tr>
 																		<td  > 
 																		<c:choose>
-																			<c:when test="${mrnDetailList.mrnDetailStatus==3}">
-																			<input type="checkbox" id="select_to_approve${mrnDetailList.mrnDetailId}"
-															name="select_to_approve" value="${mrnDetailList.mrnDetailId}" checked/>
+																			<c:when test="${getpassDetailItemNameList.gpStatus==7}">
+																			<input type="checkbox" id="select_to_approve${getpassDetailItemNameList.gpDetailId}"
+															name="select_to_approve" value="${getpassDetailItemNameList.gpDetailId}" checked/>
 																			</c:when>
 																			<c:otherwise>
-																			<input type="checkbox" id="select_to_approve${mrnDetailList.mrnDetailId}"
-															name="select_to_approve" value="${mrnDetailList.mrnDetailId}" disabled/>
+																			<input type="checkbox" id="select_to_approve${getpassDetailItemNameList.gpDetailId}"
+															name="select_to_approve" value="${getpassDetailItemNameList.gpDetailId}"  disabled/>
 																			
 																			</c:otherwise>
-																		</c:choose>
-																		 </td>
+																		</c:choose> </td>
 																			<td  ><c:out value="${count.index+1}" /></td>
 				 
 																			<td  ><c:out
-																					value="${mrnDetailList.itemCode} ${mrnDetailList.itemName}" /></td>
+																					value="${getpassDetailItemNameList.itemCode}" /></td>
 				
-																			<td  >${mrnDetailList.mrnQty}</td>
-																			<td  >${mrnDetailList.approveQty}</td>
-																			<td  >${mrnDetailList.rejectQty}</td>
+																			<td  >${getpassDetailItemNameList.gpQty}</td>
+																			 
 				 
 																		</tr>
 																	</c:forEach>

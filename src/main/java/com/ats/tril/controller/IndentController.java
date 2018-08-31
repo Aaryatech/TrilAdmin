@@ -550,7 +550,7 @@ public class IndentController {
 
 			System.err.println("Inside saveIndent");
 
-			int catId = Integer.parseInt(request.getParameter("ind_cat"));
+			int catId = Integer.parseInt(request.getParameter("catId"));
 
 			String indNo = request.getParameter("indent_no");
 

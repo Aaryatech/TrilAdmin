@@ -55,7 +55,8 @@
 
 						</div>
 
-
+<form action="${pageContext.request.contextPath}/listOfGetpass"
+								class="form-horizontal" id="validation-form" method="get">
 						<div class="box-content">
 							 
 							<div class="col-md-2">Select Gate Pass Vendor</div>
@@ -63,10 +64,19 @@
 
 								<select name="vendId" id="vendId" class="form-control chosen"
 									  required>
-									<option value="0">All Vendors</option>
+									<option value="0" selected>All Vendors</option>
 									<c:forEach items="${vendorList}" var="vendorList">
+									<c:choose>
+										<c:when test="${vendorList.vendorId==vendId}">
+										<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode} 
+										</option>
+										</c:when>
+										<c:otherwise>
 										<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}
 										</option>
+										</c:otherwise>
+									</c:choose>
+										
 									</c:forEach>
 								</select>
 
@@ -74,14 +84,14 @@
  
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<input type="button" class="btn btn-primary" value="Search"
-										onclick="search()">
+									<input type="submit" class="btn btn-primary" value="Search"
+										 >
 								</div>
 							</div>
 							<br>
 
 						</div>
-
+</form>
 						<div class="box-content">
 						
 						<div class="col-md-9"></div>
@@ -138,12 +148,15 @@
 												<a href="javascript:genPdf(${ passList.gpId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
 												
-												<a
-													href="${pageContext.request.contextPath}/editGetpassHeader/${passList.gpId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteGetpassHeader/${passList.gpId}"
+												<a href="${pageContext.request.contextPath}/editGetpassHeader/${passList.gpId}"><abbr
+														title="Edit"><i class="fa fa-edit"></i></abbr></a> 
+														<c:choose>
+										<c:when test="${editGetpassHeaderNon.gpStatus==7 or editGetpassHeaderNon.gpStatus==9}">
+										<a href="${pageContext.request.contextPath}/deleteGetpassHeader/${passList.gpId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a></td>
+														class="glyphicon glyphicon-remove"></span></a>
+										</c:when>
+										</c:choose></td>
 
 											</tr>
 										</c:forEach>

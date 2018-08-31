@@ -284,8 +284,14 @@
 								
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+									
+									<c:choose>
+										<c:when test="${editGetpassHeader.gpStatus==7 or editGetpassHeader.gpStatus==9}">
 										<input type="button" class="btn btn-primary" value="Add Item"
 											onclick="addItem()">
+										</c:when>
+										</c:choose>
+										
 									</div>
 								</div><br>
 								
@@ -339,11 +345,27 @@
 																	value="${getpassDetailItemNameList.remark}" /></td>
 
 
-															<td><a href="#"><span
+															<td>
+															
+															<c:choose>
+															<c:when test="${(editGetpassHeader.gpStatus==7 or editGetpassHeader.gpStatus==9) && (getpassDetailItemNameList.gpStatus==7 or getpassDetailItemNameList.gpStatus==9)}">
+															<a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a>
 																<a href="#"><span class="glyphicon glyphicon-remove"
 																	onclick="del(${count.index})" id="del${count.index}"></span></a>
+															
+															</c:when>
+															<c:when test="${(getpassDetailItemNameList.gpStatus==3 or getpassDetailItemNameList.gpStatus==1 or getpassDetailItemNameList.gpStatus==2)}">
+													  			 	
+													  			 	Approved
+													  			 	</c:when>
+													  			 	
+													  			 	<c:otherwise>
+													  			 	Disapproved
+													  			 	</c:otherwise>
+															</c:choose>
+															
 															</td>
 
 														</tr>
@@ -357,7 +379,11 @@
 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+										<c:choose>
+										<c:when test="${editGetpassHeader.gpStatus==7 or editGetpassHeader.gpStatus==9}">
 										<input type="submit" class="btn btn-primary" value="Submit">
+										</c:when>
+										</c:choose>
 
 									</div>
 								</div>
