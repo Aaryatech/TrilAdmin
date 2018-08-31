@@ -292,8 +292,12 @@ body {
 									 	 
 									</div>	
 									<div class="col-md-1"></div>
+									<c:choose>
+															<c:when test="${getPoHeader.poStatus==9 or getPoHeader.poStatus==7}">
 									  <div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Indend "  id="myBtn"></div>
+									  </c:when>
 									  
+									  </c:choose>
 									 
 					</div>
 			 		<br/>
@@ -339,7 +343,7 @@ body {
 																<td align="right"><font size="2"><input type="hidden" id="indQty${count.index}" name="indQty${count.index}" value="${poDetailList.indedQty}" ><c:out value="${poDetailList.indedQty}" /></font></td>
 																
 													  			 <c:choose>
-													  			 	<c:when test="${poDetailList.status==0}">
+													  			 	<c:when test="${(poDetailList.status==7 or poDetailList.status==9) && (getPoHeader.poStatus==9 or getPoHeader.poStatus==7)}">
 																			<td align="right"><font size="2"><input style="text-align:right; width:95px" type="text" onchange="calculateBalaceQty(${count.index})"  id="poQty${count.index}" name="poQty${count.index}" value="${poDetailList.itemQty}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font> </td>
 													  				  			 	
 													  			 	</c:when>
@@ -353,7 +357,7 @@ body {
 													  			 pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></font> </td>
 													  			 
 													  			  <c:choose>
-													  			 	<c:when test="${poDetailList.status==0}">
+													  			 	<c:when test="${(poDetailList.status==7 or poDetailList.status==9) && (getPoHeader.poStatus==9 or getPoHeader.poStatus==7)}">
 															  			 	<td align="right"><font size="2"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font> </td>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font></td>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:50px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font></td>
@@ -374,11 +378,19 @@ body {
 													  			 
 													  			 <td> 
 													  			 <c:choose>
-													  			 	<c:when test="${poDetailList.status==0}">
+													  			 	<c:when test="${(poDetailList.status==7 or poDetailList.status==9) && (getPoHeader.poStatus==9 or getPoHeader.poStatus==7)}">
 													  			 	<a href="${pageContext.request.contextPath}/deletePoItemInEditPo/${poDetailList.poDetailId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a> 
 													  			 	</c:when>
+													  			 	<c:when test="${(poDetailList.status==0 or poDetailList.status==1 or poDetailList.status==2)}">
+													  			 	
+													  			 	Approved
+													  			 	</c:when>
+													  			 	<c:otherwise>
+													  			 	
+													  			 	Disapproved
+													  			 	</c:otherwise>
 													  			 </c:choose>
 														 </td>
 																</tr>
@@ -531,8 +543,12 @@ body {
 			
 			<div class="row">
 						<div class="col-md-12" style="text-align: center">
-						
 						<c:choose>
+															<c:when test="${getPoHeader.poStatus==9 or getPoHeader.poStatus==7}">
+															<input type="submit" class="btn btn-info" value="Submit" onclick="check()" >
+															</c:when>
+															</c:choose>
+						<%-- <c:choose>
 							<c:when test="${getPoHeader.poStatus==2}">
 								<input type="submit" class="btn btn-info" value="Submit" onclick="check()" disabled>
 							
@@ -540,7 +556,7 @@ body {
 							<c:otherwise>
 								<input type="submit" class="btn btn-info" value="Submit" onclick="check()" >
 							</c:otherwise>
-						</c:choose>
+						</c:choose> --%>
 							
 
 

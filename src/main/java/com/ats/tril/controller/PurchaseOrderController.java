@@ -420,6 +420,7 @@ public class PurchaseOrderController {
 						poDetail.setItemId(intendDetailList.get(i).getItemId());
 						poDetail.setIndedQty(intendDetailList.get(i).getIndQty());
 						poDetail.setItemUom(intendDetailList.get(i).getIndItemUom());
+						poDetail.setStatus(9);
 						poDetail.setItemQty(
 								Float.parseFloat(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
 						poDetail.setPendingQty(
@@ -638,6 +639,7 @@ public class PurchaseOrderController {
 			PoHeader.setIndId(PoHeader.getPoDetailList().get(0).getIndId());
 			PoHeader.setDelStatus(1);
 			PoHeader.setPoRemark(poRemark);
+			PoHeader.setPoStatus(9);
 			System.out.println(PoHeader);
 			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", PoHeader, PoHeader.class);
 			System.out.println(save);
@@ -966,6 +968,7 @@ public class PurchaseOrderController {
 						poDetail.setSchDate(sdf.format(c.getTime()));
 						poDetail.setIndId(intendDetailList.get(i).getIndMId());
 						//poDetail.setIndMNo(intendDetailList.get(i).getIndMNo());
+						poDetail.setStatus(9);
 						poDetail.setBasicValue(poDetail.getItemQty() * poDetail.getItemRate());
 						poDetail.setDiscValue((poDetail.getDiscPer() / 100) * poDetail.getBasicValue());
 						poDetail.setLandingCost(
@@ -1434,6 +1437,279 @@ public class PurchaseOrderController {
 		}
 
 		return "redirect:/listOfPurachaseOrder";
+	}
+	
+	@RequestMapping(value = "/firstApprovePurchaseOrder", method = RequestMethod.GET)
+	public ModelAndView firstApprovePurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/approvePO");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("status", "7,9");
+			GetPoHeaderList[] list = rest.postForObject(Constants.url + "/getPoHeaderListForApprove" ,map,
+					GetPoHeaderList[].class);
+			List<GetPoHeaderList> poList = new ArrayList<GetPoHeaderList>(Arrays.asList(list));
+
+			model.addObject("poList", poList);
+			model.addObject("approve", 1);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/secondApprovePurchaseOrder", method = RequestMethod.GET)
+	public ModelAndView secondApprovePurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/approvePO");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("status", "7");
+			GetPoHeaderList[] list = rest.postForObject(Constants.url + "/getPoHeaderListForApprove" ,map,
+					GetPoHeaderList[].class);
+			List<GetPoHeaderList> poList = new ArrayList<GetPoHeaderList>(Arrays.asList(list));
+
+			model.addObject("poList", poList);
+			model.addObject("approve", 2);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	GetPoHeaderList poHeaderForApprove = new GetPoHeaderList();
+	
+	@RequestMapping(value = "/approvePoDetail/{poId}/{approve}", method = RequestMethod.GET)
+	public ModelAndView approvePoDetail(@PathVariable int poId,@PathVariable int approve, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/approvePoDetail");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("poId", poId);
+			 poHeaderForApprove = rest.postForObject(Constants.url + "/getPoHeaderAndDetailByHeaderId", map,
+					GetPoHeaderList.class);
+			model.addObject("poHeaderForApprove", poHeaderForApprove);
+			model.addObject("approve", approve);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitPoApprove", method = RequestMethod.POST)
+	public String submitApprove(HttpServletRequest request, HttpServletResponse response) {
+
+		String ret = null;
+		try {
+			getIntendDetailforJsp = new ArrayList<>();
+			int approve = Integer.parseInt(request.getParameter("approve"));
+			String poDetalId = new String();
+			int poId = 0 ;
+			int status = 9;
+			
+			
+			if(approve==1) {
+				
+				poHeaderForApprove.setPoStatus(7);
+				poId=poHeaderForApprove.getPoId();
+				String[] checkbox = request.getParameterValues("select_to_approve");
+				status=7;
+				for(int i=0 ; i<checkbox.length ;i++) {
+					
+					for(int j=0 ; j<poHeaderForApprove.getPoDetailList().size() ; j++) {
+						
+						if(Integer.parseInt(checkbox[i])==poHeaderForApprove.getPoDetailList().get(j).getPoDetailId()) {
+							poHeaderForApprove.getPoDetailList().get(j).setStatus(7);
+							poDetalId=poDetalId+","+poHeaderForApprove.getPoDetailList().get(j).getPoDetailId();
+							break;
+						}
+					}
+				}
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("poId", poId);
+				map.add("poDetalId", poDetalId.substring(1, poDetalId.length()));
+				map.add("status", status);
+				System.out.println("map " + map);
+				ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileApprov", map, ErrorMessage.class);
+				
+			}
+			else if(approve==2){
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map = new LinkedMultiValueMap<>();
+				map.add("indId", poHeaderForApprove.getIndId());
+				GetIntendDetail[] GetIntendDetail = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
+						GetIntendDetail[].class);
+				getIntendDetailListforEdit = new ArrayList<>(Arrays.asList(GetIntendDetail));
+	 
+				
+				
+				poHeaderForApprove.setPoStatus(0);
+				poId=poHeaderForApprove.getPoId();
+				String[] checkbox = request.getParameterValues("select_to_approve");
+				status=0;
+				try {
+					for(int i=0 ; i<checkbox.length ;i++) {
+						
+						for(int j=0 ; j<poHeaderForApprove.getPoDetailList().size() ; j++) {
+							
+							if(Integer.parseInt(checkbox[i])==poHeaderForApprove.getPoDetailList().get(j).getPoDetailId()) {
+								poHeaderForApprove.getPoDetailList().get(j).setStatus(0);
+								poDetalId=poDetalId+","+poHeaderForApprove.getPoDetailList().get(j).getPoDetailId();
+								break;
+							}
+						}
+					}
+				}catch(Exception e)
+				{
+					
+				}
+				
+				float total = 0;
+				float poBasicValue = 0;
+				float poDiscValue = 0;
+				
+				System.out.println(getPoHeader);
+				 
+				 
+				for (int i = 0; i < poHeaderForApprove.getPoDetailList().size(); i++) {
+					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0) {
+						poBasicValue = poBasicValue + poHeaderForApprove.getPoDetailList().get(i).getBasicValue();
+						poDiscValue = poDiscValue + poHeaderForApprove.getPoDetailList().get(i).getDiscValue();
+						poHeaderForApprove.getPoDetailList().get(i).setSchDate(DateConvertor.convertToYMD(poHeaderForApprove.getPoDetailList().get(i).getSchDate()));
+					}
+					else {
+						poHeaderForApprove.getPoDetailList().get(i).setSchDate(DateConvertor.convertToYMD(poHeaderForApprove.getPoDetailList().get(i).getSchDate()));
+					}
+				}
+
+				poHeaderForApprove.setPoBasicValue(poBasicValue);
+				poHeaderForApprove.setDiscValue(poDiscValue);
+				
+				if (poHeaderForApprove.getPoPackPer() != 0) {
+					poHeaderForApprove.setPoPackVal((poHeaderForApprove.getPoPackPer() / 100) * poHeaderForApprove.getPoBasicValue());
+				}
+
+				if (poHeaderForApprove.getPoInsuPer() != 0) {
+					poHeaderForApprove.setPoInsuVal((poHeaderForApprove.getPoInsuPer() / 100) * poHeaderForApprove.getPoBasicValue());
+				}
+
+				if (poHeaderForApprove.getPoFrtPer() != 0) {
+					poHeaderForApprove.setPoFrtVal((poHeaderForApprove.getPoFrtPer() / 100) * poHeaderForApprove.getPoBasicValue());
+				}
+
+				total = poHeaderForApprove.getPoBasicValue() + poHeaderForApprove.getPoPackVal() + poHeaderForApprove.getPoInsuVal()
+						+ poHeaderForApprove.getPoFrtVal() - poHeaderForApprove.getDiscValue();
+				getPoHeader.setPoTaxValue((poHeaderForApprove.getPoTaxPer() / 100) * total);
+
+				for (int i = 0; i < poHeaderForApprove.getPoDetailList().size(); i++) {
+					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0) {
+					float divFactor = poHeaderForApprove.getPoDetailList().get(i).getBasicValue() / poHeaderForApprove.getPoBasicValue()
+							* 100;
+					poHeaderForApprove.getPoDetailList().get(i).setPackValue(divFactor * poHeaderForApprove.getPoPackVal() / 100);
+					poHeaderForApprove.getPoDetailList().get(i).setInsu(divFactor * poHeaderForApprove.getPoInsuVal() / 100);
+					poHeaderForApprove.getPoDetailList().get(i).setFreightValue(divFactor * poHeaderForApprove.getPoFrtVal() / 100);
+					poHeaderForApprove.getPoDetailList().get(i).setTaxValue(divFactor * poHeaderForApprove.getPoTaxValue() / 100);
+					poHeaderForApprove.getPoDetailList().get(i)
+							.setOtherChargesAfter(divFactor * poHeaderForApprove.getOtherChargeAfter() / 100);
+					poHeaderForApprove.getPoDetailList().get(i)
+							.setLandingCost(poHeaderForApprove.getPoDetailList().get(i).getBasicValue()
+									- poHeaderForApprove.getPoDetailList().get(i).getDiscValue()
+									+ poHeaderForApprove.getPoDetailList().get(i).getPackValue()
+									+ poHeaderForApprove.getPoDetailList().get(i).getInsu()
+									+ poHeaderForApprove.getPoDetailList().get(i).getFreightValue()
+									+ poHeaderForApprove.getPoDetailList().get(i).getTaxValue()
+									+ poHeaderForApprove.getPoDetailList().get(i).getOtherChargesAfter());
+					}
+				}
+				poHeaderForApprove.setVendQuationDate(DateConvertor.convertToYMD(poHeaderForApprove.getVendQuationDate()));
+				poHeaderForApprove.setPoDate(DateConvertor.convertToYMD(poHeaderForApprove.getPoDate()));
+				System.out.println(poHeaderForApprove);
+				
+				 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", poHeaderForApprove, PoHeader.class);
+				System.out.println(save);
+				 
+				if(save!=null) {
+					
+					for (int j = 0; j < poHeaderForApprove.getPoDetailList().size(); j++) {
+						if (poHeaderForApprove.getPoDetailList().get(j).getStatus()==7 || poHeaderForApprove.getPoDetailList().get(j).getStatus()==9) {
+							 
+								for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
+									if (poHeaderForApprove.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i).getItemId()) {
+										getIntendDetailListforEdit.get(i).setIndFyr(getIntendDetailListforEdit.get(i).getIndFyr()+poHeaderForApprove.getPoDetailList().get(j).getItemQty());
+										getIntendDetailListforEdit.get(i).setIndMDate(DateConvertor.convertToYMD(getIntendDetailListforEdit.get(i).getIndMDate()));
+										if (getIntendDetailListforEdit.get(i).getIndFyr() == 0)
+											getIntendDetailListforEdit.get(i).setIndDStatus(2);
+										else if (getIntendDetailListforEdit.get(i).getIndFyr() > 0 && getIntendDetailListforEdit.get(i).getIndFyr() < getIntendDetailListforEdit.get(i).getIndQty())
+											getIntendDetailListforEdit.get(i).setIndDStatus(1);
+										else
+											getIntendDetailListforEdit.get(i).setIndDStatus(0);
+										getIntendDetailforJsp.add(getIntendDetailListforEdit.get(i));
+										
+										break;
+									}
+								}
+						}
+					}
+					
+					System.out.println(getIntendDetailforJsp);
+					if(getIntendDetailforJsp.size()>0) {
+						
+						 ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
+								 getIntendDetailforJsp, ErrorMessage.class);
+						 System.out.println("After Approve    " + errorMessage);
+					}
+					
+				}
+					
+				
+			}
+			
+			/*System.out.println(poHeaderForApprove);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("poId", poId);
+			map.add("poDetalId", poDetalId.substring(1, poDetalId.length()));
+			map.add("status", status);
+			System.out.println("map " + map);
+			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileApprov", map, ErrorMessage.class);*/
+
+			if(approve==1) {
+				ret = "redirect:/firstApprovePurchaseOrder";
+			}
+			else {
+				ret = "redirect:/secondApprovePurchaseOrder";
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+
+		return ret;
 	}
 
 }

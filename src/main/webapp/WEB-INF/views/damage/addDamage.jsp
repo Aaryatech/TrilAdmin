@@ -80,7 +80,7 @@
 						
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitDamageList" method="post" >
+							<form id="submitMaterialStore" onsubmit="return confirm('Do you really want to submit Damage ?');" action="${pageContext.request.contextPath}/submitDamageList" method="post" >
 							 
 							 
 							<div class="box-content">
@@ -111,7 +111,7 @@
 								
 									<div class="col-md-2" >Select Group</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId"  >
+										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId" required >
 											<option   value="">Select Group</option>
 											
 											<c:forEach items="${itemGroupList}" var="itemGroupList"> 
@@ -127,7 +127,7 @@
 								
 									<div class="col-md-2" >Select Item</div>
 									<div class="col-md-10">
-										<select   class="form-control chosen" name="itemId"  id="itemId"  >
+										<select   class="form-control chosen" name="itemId"  id="itemId"  required>
 										 
 											</select>
 									</div> 
@@ -139,14 +139,14 @@
 									<div class="col-md-3">
 										<input type="text" name="qty" id="qty"
 											placeholder="Qty" class="form-control"
-											 pattern="\d+"  />
+											 pattern="[+-]?([0-9]*[.])?[0-9]+"  required/>
 										  
 												 
 									</div>
 									<div class="col-md-1"> </div>
 									<div class="col-md-2">Value</div>
 									<div class="col-md-3">
-										<input type="text" name="value" id="value" placeholder="Value" class="form-control" />
+										<input type="text" name="value" id="value" placeholder="Value" class="form-control" required/>
 										  
 												 
 									</div>
