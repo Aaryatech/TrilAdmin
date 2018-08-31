@@ -190,9 +190,14 @@
 															<%-- 	<a
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
 											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
-																<a
-															href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
+											 					
+											 					<c:choose>
+											 						<c:when test="${mrn.mrnStatus==0}">
+											 						<a href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="fa fa-trash-o"></span></a>
+											 						</c:when> 
+											 					</c:choose>
+																
 														</td>
 													</tr>
 												</c:forEach>
@@ -201,7 +206,7 @@
 										</table>
 										
 										<br> <br>
-										<button
+										<buttons
 											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
 											onclick="commonPdf()">PDF</button>
 

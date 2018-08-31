@@ -153,7 +153,7 @@ body {
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Edit MRN
+								<i class="fa fa-bars"></i> Edit MRN111
 							</h3>
 							<div class="box-tool">
 							<a href="${pageContext.request.contextPath}/getMrnHeaders">Back
@@ -286,9 +286,13 @@ body {
 								</div>
 	<div class="col-md-2"></div>
 	
-	<div class="col-md-3">	<input class="btn btn-info"  id="getPoButton" style="text-align: center;"
+	<div class="col-md-3">	<c:choose>
+								<c:when test="${mrnHeader.mrnStatus==0}">
+								<input class="btn btn-info"  id="getPoButton" style="text-align: center;"
 											onclick="getPoDetail(0,0)" size="16" type="button"
-											name="getPoButton" value="Get PO Detail to Add New Item"  > </div>
+											name="getPoButton" value="Get PO Detail to Add New Item"  >
+																</c:when> 
+															</c:choose> </div>
 
 							<br/><br/>
 								<div id="myModal" class="modal">
@@ -393,9 +397,28 @@ body {
 															<td class="col-md-1"  ><c:out
 																	value="${status}" /></td>
 															<td class="col-md-1"  >		
-															<a
+															<c:choose>
+																<c:when test="${(mrnDetail.mrnDetailStatus==0) && (mrnHeader.mrnStatus==0)}">
+																	<a
 															href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}" title="Delete"><span
 																class="fa fa-trash-o"></span></a>
+																</c:when> 
+																    
+																    <c:when test="${(mrnDetail.mrnDetailStatus==3) && (mrnHeader.mrnStatus==3)}">
+																	Approved By 1st
+																</c:when>
+																 <c:when test="${(mrnDetail.mrnDetailStatus==4) && (mrnHeader.mrnStatus==4)}">
+																	Approved By 2nd
+																</c:when>
+																  <c:when test="${(mrnDetail.mrnDetailStatus==1)}">
+																	 Inspection Complete
+																</c:when>
+																<c:otherwise>
+																	Inspection Incomplete
+																</c:otherwise>    
+																 
+															</c:choose>
+															
 																</td>
 
 														</tr>
@@ -455,9 +478,13 @@ body {
 					<div class="form-group">
 					<div class="col-md-4"></div>
 					<div class="col-md-3" align= center>
-					<input type="button"
+					
+						<c:choose>
+								<c:when test="${mrnHeader.mrnStatus==0}">
+								<input type="button" onclick="editMrn()" class="btn btn-info" value="Submit">
+																</c:when> 
+															</c:choose>
 						
-						onclick="editMrn()" class="btn btn-info" value="Submit">
 
 					</div>
 					</div>

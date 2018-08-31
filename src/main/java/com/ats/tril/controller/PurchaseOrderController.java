@@ -1521,9 +1521,10 @@ public class PurchaseOrderController {
 	public String submitApprove(HttpServletRequest request, HttpServletResponse response) {
 
 		String ret = null;
+		int approve = Integer.parseInt(request.getParameter("approve"));
 		try {
 			getIntendDetailforJsp = new ArrayList<>();
-			int approve = Integer.parseInt(request.getParameter("approve"));
+			
 			String poDetalId = new String();
 			int poId = 0 ;
 			int status = 9;
@@ -1694,20 +1695,19 @@ public class PurchaseOrderController {
 			map.add("status", status);
 			System.out.println("map " + map);
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileApprov", map, ErrorMessage.class);*/
-
-			if(approve==1) {
-				ret = "redirect:/firstApprovePurchaseOrder";
-			}
-			else {
-				ret = "redirect:/secondApprovePurchaseOrder";
-			}
+ 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		
-		
+		if(approve==1) {
+			ret = "redirect:/firstApprovePurchaseOrder";
+		}
+		else {
+			ret = "redirect:/secondApprovePurchaseOrder";
+		}
 
 		return ret;
 	}
