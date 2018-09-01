@@ -141,9 +141,9 @@
 											<td class="col-md-1"><c:out
 													value="${stockList.gatepassReturnQty}" /></td>
 											
-											<td class="col-md-1"><c:out
-													value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
-													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" /></td>
+											<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
+													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
 											  
 										</tr>
 									</c:forEach>
