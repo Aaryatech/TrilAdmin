@@ -56,6 +56,8 @@
 
 						</div>
 						<div class="box-content">
+						<form action="${pageContext.request.contextPath}/listOfGetpassReturnable"
+								class="form-horizontal" id="validation-form" method="get">
 
 							<div class="box-content">
 
@@ -79,6 +81,7 @@
 									<select name="gpStatusList[]" id="gpStatusList"
 										class="form-control chosen" multiple="multiple" tabindex="6"
 										required>
+										 
 										<option value="0">All</option>
 										<option value="1">Pending</option>
 										<option value="2">Partial Pending</option>
@@ -92,13 +95,13 @@
 
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<input type="button" class="btn btn-primary" value="Search"
-										onclick="search()">
+									<input type="submit" class="btn btn-primary" value="Search"
+										 >
 								</div>
 							</div>
 							<br>
 
-
+</form>
 
 							<div class="box-content">
 							
@@ -153,6 +156,8 @@
 
 												</c:choose>
 												<tr>
+												
+												<td style="width:2%;"><input type="checkbox"  name="name1" value="${passList.gpId}"/></td>
 													<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
@@ -175,12 +180,34 @@
 														
 												<a href="javascript:genPdf(${ passList.gpId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
-													<a
-														href="${pageContext.request.contextPath}/editGetpassHeaderRet/${passList.gpId}"><abbr
-															title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
+												<a href="${pageContext.request.contextPath}/editGetpassHeaderRet/${passList.gpId}"><abbr
+															title="Edit"><i class="fa fa-edit"></i></abbr></a>
+													<c:choose>
+														<c:when test="${passList.gpStatus==7 or passList.gpStatus==9}">
+													 <a
 														href="${pageContext.request.contextPath}/deleteGetpassHeaderReturnable/${passList.gpId}"
 														onClick="return confirm('Are you sure want to delete this record');"><span
-															class="glyphicon glyphicon-remove"></span></a></td>
+															class="glyphicon glyphicon-remove"></span></a>
+															</c:when>
+															</c:choose>
+															</td>
+															
+															<td>
+															<c:choose>
+															<c:when test="${passList.gpStatus==7 or passList.gpStatus==9}">
+															 
+															<button name="a" class="btn btn-primary" disabled>Return</button> 
+															</c:when>
+															<c:when test="${passList.gpStatus==3}">
+															 Return Complete
+															</c:when>
+															<c:otherwise>
+															<a href="${pageContext.request.contextPath}/addGetpassReturn/${passList.gpId}">
+															<button name="a" class="btn btn-primary"  >Return</button></a>
+															</c:otherwise>
+															</c:choose>
+															</td>
+															
 
 												</tr>
 											</c:forEach>

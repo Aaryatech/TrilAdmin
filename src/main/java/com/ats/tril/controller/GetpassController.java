@@ -730,6 +730,44 @@ public class GetpassController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
+			List<GetpassItemVen> passList = new ArrayList<GetpassItemVen>();
+			
+			if(request.getParameterValues("gpStatusList[]")==null) {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("vendId", 0);
+				map.add("gpStatusList", "0");
+
+				GetpassItemVen[] list = rest.postForObject(Constants.url + "/getGetpassReturnable", map,
+						GetpassItemVen[].class);
+				passList = new ArrayList<GetpassItemVen>(Arrays.asList(list));
+				model.addObject("gpStatusList", 0);
+			}
+			else {
+				
+				String[] gpStatusList = request.getParameterValues("gpStatusList[]");
+				List<String> stsList = new ArrayList<String>(Arrays.asList(gpStatusList));
+				
+				model.addObject("gpStatusList", stsList);
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < gpStatusList.length; i++) {
+					sb = sb.append(gpStatusList[i] + ",");
+
+				}
+				String items = sb.toString();
+				items = items.substring(0, items.length() - 1);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("vendId", 0);
+				map.add("gpStatusList", items);
+
+				GetpassItemVen[] list = rest.postForObject(Constants.url + "/getGetpassReturnable", map,
+						GetpassItemVen[].class);
+				passList = new ArrayList<GetpassItemVen>(Arrays.asList(list));
+			}
+			
+			model.addObject("passList", passList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1479,7 +1517,7 @@ public class GetpassController {
 					getPassReturnDetailWithItemNamelList, GetpassReturnDetail[].class);
 
 			List<GetpassReturnDetail> list = new ArrayList<>(Arrays.asList(getpassReturnDetail));
-			if (res != null && list != null) {
+			if (res != null ) {
  
 				for (int i = 0; i < editGatepassHeaderList.size(); i++) {
 					for (int j = 0; j < getPassReturnDetailWithItemNamelList.size(); j++) {
@@ -1531,8 +1569,8 @@ public class GetpassController {
 			e.printStackTrace();
 		}
 
-		//return "redirect:/listOfGetpassReturn";
-		return "redirect:/listOfGetpassReturnable";
+		return "redirect:/listOfGetpassReturn";
+		//return "redirect:/listOfGetpassReturnable";
 	}
 	
 	List<GetpassItemVen> getPassListForApprove = new ArrayList<GetpassItemVen>( );

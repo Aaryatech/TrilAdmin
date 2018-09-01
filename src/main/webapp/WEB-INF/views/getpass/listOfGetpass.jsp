@@ -151,7 +151,7 @@
 												<a href="${pageContext.request.contextPath}/editGetpassHeader/${passList.gpId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> 
 														<c:choose>
-										<c:when test="${editGetpassHeaderNon.gpStatus==7 or editGetpassHeaderNon.gpStatus==9}">
+										<c:when test="${passList.gpStatus==7 or passList.gpStatus==9}">
 										<a href="${pageContext.request.contextPath}/deleteGetpassHeader/${passList.gpId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a>
