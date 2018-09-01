@@ -88,11 +88,11 @@ public class IndentController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
-			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock", map,
+			/*GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock", map,
 					GetCurrentStock[].class);
-			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
+			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));*/
 
-			System.out.println("stockList " + stockList);
+			//System.out.println("stockList " + stockList);
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing add Indent" + e.getMessage());

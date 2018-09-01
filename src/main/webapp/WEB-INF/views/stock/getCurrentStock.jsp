@@ -104,7 +104,7 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-3">Item Name</th>
+										<th class="col-md-4">Item Name</th>
 										<th class="col-md-1">OP QTY</th>
 										<th class="col-md-1">APPV QTY</th>
 										<th class="col-md-1">ISSUE QTY</th>
@@ -123,7 +123,7 @@
 											<td style="width:1%;"><c:out value="${count.index+1}" /></td>
 
 
-											<td class="col-md-3"><c:out
+											<td class="col-md-4"><c:out
 													value="${stockList.itemCode}" /></td>
 													
 											<td class="col-md-1"><c:out
@@ -145,10 +145,9 @@
 													
 											<td class="col-md-1"><c:out
 													value="${stockList.gatepassReturnQty}" /></td>
-											
-											<td class="col-md-1"><c:out
-													value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
-													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" /></td>
+											<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
+													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
 											  
 										</tr>
 									</c:forEach>

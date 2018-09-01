@@ -7,14 +7,14 @@ public class StockDetail {
 	private int stockDetailId; 
 	private int stockHeaderId; 
 	private int itemId; 
-	private int opStockQty; 
-	private int approvedQty; 
-	private int issueQty; 
-	private int returnIssueQty; 
-	private int damageQty; 
-	private int gatepassQty; 
-	private int gatepassReturnQty; 
-	private int closingQty; 
+	private float opStockQty; 
+	private float approvedQty; 
+	private float issueQty; 
+	private float returnIssueQty; 
+	private float damageQty; 
+	private float gatepassQty; 
+	private float gatepassReturnQty; 
+	private float closingQty; 
 	private int delStatus;
 	public int getStockDetailId() {
 		return stockDetailId;
@@ -34,52 +34,52 @@ public class StockDetail {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public int getOpStockQty() {
+	public float getOpStockQty() {
 		return opStockQty;
 	}
-	public void setOpStockQty(int opStockQty) {
+	public void setOpStockQty(float opStockQty) {
 		this.opStockQty = opStockQty;
 	}
-	public int getApprovedQty() {
+	public float getApprovedQty() {
 		return approvedQty;
 	}
-	public void setApprovedQty(int approvedQty) {
+	public void setApprovedQty(float approvedQty) {
 		this.approvedQty = approvedQty;
 	}
-	public int getIssueQty() {
+	public float getIssueQty() {
 		return issueQty;
 	}
-	public void setIssueQty(int issueQty) {
+	public void setIssueQty(float issueQty) {
 		this.issueQty = issueQty;
 	}
-	public int getReturnIssueQty() {
+	public float getReturnIssueQty() {
 		return returnIssueQty;
 	}
-	public void setReturnIssueQty(int returnIssueQty) {
+	public void setReturnIssueQty(float returnIssueQty) {
 		this.returnIssueQty = returnIssueQty;
 	}
-	public int getDamageQty() {
+	public float getDamageQty() {
 		return damageQty;
 	}
-	public void setDamageQty(int damageQty) {
+	public void setDamageQty(float damageQty) {
 		this.damageQty = damageQty;
 	}
-	public int getGatepassQty() {
+	public float getGatepassQty() {
 		return gatepassQty;
 	}
-	public void setGatepassQty(int gatepassQty) {
+	public void setGatepassQty(float gatepassQty) {
 		this.gatepassQty = gatepassQty;
 	}
-	public int getGatepassReturnQty() {
+	public float getGatepassReturnQty() {
 		return gatepassReturnQty;
 	}
-	public void setGatepassReturnQty(int gatepassReturnQty) {
+	public void setGatepassReturnQty(float gatepassReturnQty) {
 		this.gatepassReturnQty = gatepassReturnQty;
 	}
-	public int getClosingQty() {
+	public float getClosingQty() {
 		return closingQty;
 	}
-	public void setClosingQty(int closingQty) {
+	public void setClosingQty(float closingQty) {
 		this.closingQty = closingQty;
 	}
 	public int getDelStatus() {
