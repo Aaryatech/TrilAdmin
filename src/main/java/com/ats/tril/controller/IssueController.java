@@ -39,6 +39,7 @@ import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.sun.org.apache.bcel.internal.generic.NEWARRAY; 
 
@@ -853,6 +854,158 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		}
 
 		return "redirect:/issueList";
+	}
+	
+	@RequestMapping(value = "/firstApproveIssue", method = RequestMethod.GET)
+	public ModelAndView firstApprovePurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("issue/approveIssue");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+ 
+			map.add("status","0,1");  
+			GetIssueHeader[] getIssueHeader =rest.postForObject(Constants.url+"getIssueHeaderByStatus", map,  GetIssueHeader[].class);
+			List<GetIssueHeader> getIssueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(getIssueHeader));
+			model.addObject("approve", 1);
+			model.addObject("getIssueHeaderList", getIssueHeaderList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/secondApproveIssue", method = RequestMethod.GET)
+	public ModelAndView secondApprovePurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("issue/approveIssue");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+ 
+			map.add("status","1");  
+			GetIssueHeader[] getIssueHeader =rest.postForObject(Constants.url+"getIssueHeaderByStatus", map,  GetIssueHeader[].class);
+			List<GetIssueHeader> getIssueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(getIssueHeader));
+			model.addObject("approve", 2);
+			model.addObject("getIssueHeaderList", getIssueHeaderList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	
+	GetIssueHeader issueForApprove = new GetIssueHeader();
+	
+	@RequestMapping(value = "/approveIssueDetail/{issueId}/{approve}", method = RequestMethod.GET)
+	public ModelAndView approvePoDetail(@PathVariable int issueId,@PathVariable int approve, HttpServletRequest request, HttpServletResponse response) {
+ 
+		ModelAndView model = new ModelAndView("issue/approveIssueDetail");
+		try {
+			 
+			issueForApprove = new GetIssueHeader();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("issueId",issueId); 
+			 issueForApprove = rest.postForObject(Constants.url + "/getIssueHeaderAndDetailById",map, GetIssueHeader.class);
+			
+           model.addObject("issueForApprove", issueForApprove);
+			model.addObject("approve", approve);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitIssueApprove", method = RequestMethod.POST)
+	public String submitMrnApprove(HttpServletRequest request, HttpServletResponse response) {
+
+		String ret = null;
+		int approve = Integer.parseInt(request.getParameter("approve"));
+		try {
+			 
+			
+			String issueDetalId = new String();
+			int issueId = 0 ;
+			int status = 1;
+			
+			
+			if(approve==1) {
+				
+				issueForApprove.setStatus(1);
+				issueId=issueForApprove.getIssueId();
+				String[] checkbox = request.getParameterValues("select_to_approve");
+				status=1;
+				for(int i=0 ; i<checkbox.length ;i++) {
+					
+					for(int j=0 ; j<issueForApprove.getIssueDetailList().size() ; j++) {
+						
+						if(Integer.parseInt(checkbox[i])==issueForApprove.getIssueDetailList().get(j).getIssueDetailId()) {
+							issueForApprove.getIssueDetailList().get(j).setStatus(1);
+							issueDetalId=issueDetalId+","+issueForApprove.getIssueDetailList().get(j).getIssueDetailId();
+							break;
+						}
+					}
+				}
+				
+				 
+			}
+			else if(approve==2){
+				
+				issueForApprove.setStatus(2);
+				issueId=issueForApprove.getIssueId();
+				String[] checkbox = request.getParameterValues("select_to_approve");
+				status=2;
+				for(int i=0 ; i<checkbox.length ;i++) {
+					
+					for(int j=0 ; j<issueForApprove.getIssueDetailList().size() ; j++) {
+						
+						if(Integer.parseInt(checkbox[i])==issueForApprove.getIssueDetailList().get(j).getIssueDetailId()) {
+							issueForApprove.getIssueDetailList().get(j).setStatus(2);
+							issueDetalId=issueDetalId+","+issueForApprove.getIssueDetailList().get(j).getIssueDetailId();
+							break;
+						}
+					}
+				}
+				
+			}
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("issueId", issueId);
+			map.add("issueDetalId", issueDetalId.substring(1, issueDetalId.length()));
+			map.add("status", status);
+			System.out.println("map " + map);
+			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileIssueApprov", map, ErrorMessage.class);
+			  
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		if(approve==1) {
+			ret = "redirect:/firstApproveIssue";
+		}
+		else {
+			ret = "redirect:/secondApproveIssue";
+		}
+
+		return ret;
 	}
 
 }
