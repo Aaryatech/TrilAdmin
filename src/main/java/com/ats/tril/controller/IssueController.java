@@ -33,6 +33,7 @@ import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
 import com.ats.tril.model.StockHeader;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.IndentTrans;
@@ -69,6 +70,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
 
 			model.addObject("accountHeadList", accountHeadList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 			
 			
 			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
@@ -116,11 +121,13 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			int type = Integer.parseInt(request.getParameter("type"));
 			String date = request.getParameter("date");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemId", itemId);
 			map.add("date", date);
+			map.add("type", type);
 			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "getBatchByItemId", map, MrnDetail[].class);
 
 			batchList = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
@@ -289,7 +296,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
 			int acc = Integer.parseInt(request.getParameter("acc"));
-			
+			int type = Integer.parseInt(request.getParameter("type"));
 			System.out.println("issueDate " + issueDate);
 			 IssueHeader issueHeader = new IssueHeader();
 		 
@@ -301,7 +308,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					map.add("docId",6);
 					map.add("catId", 1);
 					map.add("date", issueDate);
-					map.add("typeId", 1);
+					map.add("typeId", type);
 					RestTemplate restTemplate = new RestTemplate();
 
 					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
@@ -330,7 +337,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 issueHeader.setDeptId(deptId);
 			 issueHeader.setSubDeptId(subDeptId);
 			 issueHeader.setAccHead(acc);
-			 
+			 issueHeader.setItemCategory(type);
 			 String mrnDetailList = new String();
 			 
 			 for(int i=0 ; i<issueDetailList.size() ; i++)
@@ -557,6 +564,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 
 			model.addObject("accountHeadList", accountHeadList);
 			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
 			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
 			 
 			 System.out.println( " stock Date: " + stockHeader.getDate());
@@ -600,12 +611,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		
 		try {
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
-
+			int type = Integer.parseInt(request.getParameter("type"));
 			String date = request.getParameter("date") ;
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemId", itemId);
-			map.add("date", date);
+			map.add("date", date);map.add("type", type);
 			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "getBatchByItemId", map, MrnDetail[].class);
 
 			batchListInEditIssue = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));

@@ -110,7 +110,19 @@
 								 placeholder="Issue No" value="1" name="issueNo" type="text" readonly>
 									
 									</div>
-								 
+									
+									<div class="col-md-2">Type*</div>
+									<div class="col-md-3">
+									<input type="hidden" id="type" name="type"  >
+											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"    >
+												  <option value="" >Select  Type</option>
+														<c:forEach items="${typeList}" var="typeList">
+															 
+																	<option value="${typeList.typeId}"  >${typeList.typeName}</option>
+															 
+														</c:forEach>
+														</select>
+								 </div>
 				 
 							</div><br>
 							
@@ -370,11 +382,16 @@
 
 			var itemId = document.getElementById("itemId").value;
 			var date = $("#issueDate").val();
-			
+			var type = $("#type").val();
+			if(type=="" || type==null){
+				alert("select Type ");
+			}
+			else{ 
 			$.getJSON('${getBatchByItemId}', {
 
 				itemId : itemId,
 				date : date,
+				type : type,
 				ajax : 'true'
 			}, function(data) {
 
@@ -395,6 +412,7 @@
 				$('#batchNo').html(html);
 				$("#batchNo").trigger("chosen:updated");
 			});
+			}
 		}
 		
 		function getItemIdByGroupId() {
@@ -460,6 +478,7 @@
 				var accName = $("#acc option:selected").text();
 				var editIndex = $("#editIndex").val();
 				var batchQty = parseFloat($("#batchQty").val());
+				var type = parseFloat($("#type").val());
 				
 				if(validation()==true){
 					var valid = true;
@@ -515,14 +534,14 @@
 
 									if (data == "") {
 										alert("No records found !!");
-										document.getElementById("submit").disabled=true;
+										document.getElementById("submit").disabled=true; 
 									}
 								 
   
 								  $.each(
 												data,
 												function(key, itemList) {
-												
+													
 
 													var tr = $('<tr></tr>'); 
 												  	tr.append($('<td></td>').html(key+1)); 
@@ -533,6 +552,8 @@
 												    */tr.append($('<td></td>').html('<span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 												     $('#table_grid tbody').append(tr);
 												     document.getElementById("submit").disabled=false;
+												     $('#poTyped').prop('disabled', true).trigger("chosen:updated"); 
+														document.getElementById("type").value = type; 
 												})  
 												
 									document.getElementById("qty").value= "";
@@ -703,6 +724,7 @@
 						if (data == "") {
 							alert("No records found !!");
 							document.getElementById("submit").disabled=true;
+							$('#poTyped').prop('disabled', false).trigger("chosen:updated");
 						}
 					 
 
@@ -751,11 +773,16 @@ function validation()
 	var subDeptId = $("#subDeptId").val();
 	var acc = $("#acc").val();
 	var batchNo = $("#batchNo").val();
+	var type = parseFloat($("#type").val());
 	
 	var isValid = true;
 	
-	
-	 if(groupId=="" || groupId==null)
+	 if(type=="" || type==null)
+	{
+	isValid = false;
+	alert("Select Type ");
+	}
+	else if(groupId=="" || groupId==null)
 	{
 	isValid = false;
 	alert("Please Select Group ");
@@ -809,7 +836,7 @@ function getInvoiceNo() {
 
 	var date = $("#issueDate").val();
 	var toDateValue = date.split('-'); 
-	  
+	var type = $("#poTyped").val();
 	var min = toDateValue[2]+"-"+(toDateValue[1] - 1 )+"-"+toDateValue[0];
 	 
 	$.getJSON('${getInvoiceNo}', {
@@ -817,13 +844,14 @@ function getInvoiceNo() {
 		catId:1,
 		docId:6,
 		date : min,
-		typeId : 1,
+		typeId : type,
 		ajax : 'true',
 
 	}, function(data) { 
 		
 	document.getElementById("issueNo").value=data.code;  
-	
+	document.getElementById("type").value=type; 
+	getBatchByItemId();
 	});
 
 }

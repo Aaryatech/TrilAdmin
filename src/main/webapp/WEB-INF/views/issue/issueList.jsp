@@ -148,8 +148,12 @@
 																								
 											<a href="${pageContext.request.contextPath}/editIssueHeader/${issueHeaderList.issueId}"><abbr
 													title="Edit"><i class="fa fa-edit"></i></abbr></a>
+													<c:choose>
+															<c:when test="${issueHeaderList.status==0 or issueHeaderList.status==1}">
 													<a href="${pageContext.request.contextPath}/deleteIssueHeader/${issueHeaderList.issueId}" onClick="return confirm('Are you sure want to delete this record');"><span
 												class="glyphicon glyphicon-remove"></span></a>
+												</c:when>
+												</c:choose>
 												 </td>
 
 										</tr>

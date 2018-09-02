@@ -95,6 +95,21 @@
 								 placeholder="Issue No" value="${getIssueHeader.issueNo}" name="issueNo" type="text" readonly>
 									
 									</div>
+									
+									<div class="col-md-2" > Type</div>
+									<div class="col-md-3">
+									<input type="hidden" id="type" name="type" value="${getIssueHeader.itemCategory}">
+										 
+										<c:forEach items="${typeList}" var="typeList">
+															<c:choose> 
+																<c:when test="${getIssueHeader.itemCategory==typeList.typeId}">
+																	${typeList.typeName}
+																</c:when> 
+															</c:choose>
+														</c:forEach>
+										
+										 
+									</div>
 								 
 							</div><br>
 							
@@ -265,8 +280,18 @@
 															<td><%-- <a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a> --%>
+																	<c:choose>
+															<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) && (getIssueHeader.status==0 or getIssueHeader.status==1)}">
 																<a href="#"><span class="glyphicon glyphicon-remove"
 																	onclick="del(${count.index})" id="del${count.index}"></span></a>
+																	</c:when>
+																	<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) }">
+																 Disapprove
+																	</c:when>
+																	<c:otherwise>
+																	Approve 
+																	</c:otherwise>
+																	</c:choose>
 															</td>
 
 														</tr>
@@ -280,7 +305,11 @@
 								
 							<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+									<c:choose>
+															<c:when test="${getIssueHeader.status==0 or getIssueHeader.status==1}">
 										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
+										</c:when>
+										</c:choose>
 <!-- 										<button type="button" class="btn">Cancel</button>
  -->									</div>
 								</div><br><br>
@@ -389,12 +418,14 @@
 		function getBatchByItemId() {
 
 			var itemId = document.getElementById("itemId").value;
+			var type = $("#type").val();
 			var date = $("#issueDate").val();
 			
 			$.getJSON('${getBatchByItemIdInIssueEdit}', {
 
 				itemId : itemId,
 				date : date,
+				type : type,
 				ajax : 'true'
 			}, function(data) {
 
