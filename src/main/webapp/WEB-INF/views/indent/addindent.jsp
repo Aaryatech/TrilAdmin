@@ -132,17 +132,18 @@
 										</select>
 									</div>
 <div class="col-md-1"></div>
-									<label class="col-md-2">Machine
-										Specific</label>
+									<!-- <label class="col-md-2">Machine
+										Specific</label> -->
+										<input   id="machine_specific"  type="hidden" name="machine_specific" value="1" />
 
-									<div class="col-md-3">
-										<select name="machine_specific" id="machine_specific"
+									<!-- <div class="col-md-3">
+										<select name="machine_specificd" id="machine_specificd"
 											onchange="showDept()" class="form-control chosen"
-											placeholder="Is Machine Specific" data-rule-required="true">
-											<option selected value="0">No</option>
-											<option value="1">Yes</option>
+											placeholder="Is Machine Specific"   disabled>
+											<option  value="0">No</option>
+											<option value="1" selected>Yes</option>
 										</select>
-									</div>
+									</div> -->
 								</div>
 								<br/>
 								
@@ -163,21 +164,21 @@
 										Monthly </label>
 									<div class="col-md-3">
 										<select name="is_monthly" id="is_monthly" class="form-control"
-											placeholder="Is Monthly" data-rule-required="true">
+											  data-rule-required="true">
 											<option value="0">No</option>
 											<option value="1">Yes</option>
 										</select>
 									</div>
 								</div>
 								<br/> 
-								<div class="box-content" style="display: none" id="deptDiv">
+								<div class="box-content"> <!-- style="display: none" id="deptDiv" -->
 									<label class="col-md-2">Department
 									</label>
 
 									<div class="col-md-3">
 										<select name="dept" id="dept" class="form-control chosen"
-											placeholder="Department" data-rule-required="true">
-											<option value="0">Select Department</option>
+											  required>
+											<option value="">Select Department</option>
 											<c:forEach items="${deparmentList}" var="dept"
 												varStatus="count">
 												<option value="${dept.deptId}"> ${dept.deptCode} &nbsp;&nbsp; ${dept.deptDesc}</option>
@@ -189,8 +190,8 @@
 										Department </label>
 									<div class="col-md-3">
 										<select name="sub_dept" id="sub_dept"
-											class="form-control chosen" placeholder="Sub Department"
-											data-rule-required="true">
+											class="form-control chosen"  
+											required>
 
 										</select>
 									</div>
@@ -423,6 +424,8 @@ function insertIndent(){
  var indNo	=$('#indent_no').val();
  var indentType	=$('#indent_type').val();
  var accHead	=$('#acc_head').val();
+ var dept	=$('#dept').val();
+ var subDept	=$('#sub_dept').val();
  
  //alert(indentDate);
  if(indentDate=="" || indentDate==null){
@@ -435,6 +438,12 @@ function insertIndent(){
 }
  else  if(accHead=="" || accHead==null){
 	 	alert("Select Account Head  ");
+}
+ else  if(dept=="" || dept==null){
+	 	alert("Select Department  ");
+}
+ else  if(subDept=="" || subDept==null){
+	 	alert("Select Sub Department  ");
 }
  else{
 	 

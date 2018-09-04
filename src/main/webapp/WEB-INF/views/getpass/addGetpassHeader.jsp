@@ -114,15 +114,15 @@
 											<option value="1">Replace</option>
 										</select>
 									</div>
-
-									<div class="col-md-2">Stockable</div>
+						<input   id="stock" value="1"  type="hidden" name="stock"  />
+									<!-- <div class="col-md-2">Stockable</div>
 									<div class="col-md-3">
-										<select name="stock" id="stock" class="form-control chosen"
-											  required>
+										<select name="stockd" id="stockd" class="form-control chosen"
+											  disabled>
 											<option value="0">Yes</option>
-											<option value="1">No</option>
+											<option value="1" selected>No</option>
 										</select>
-									</div>
+									</div> -->
 								</div>
 								<br>
 								<div class="box-content">
