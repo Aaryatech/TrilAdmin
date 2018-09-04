@@ -142,12 +142,15 @@
 											</c:forEach>
 										</select>
 									</div>
+									
+									<input   id="machine_specific"  type="hidden"   name="machine_specific"
+											value="${indent.deptId}"   />
 
-									<div class="col-md-2">Machine
+									<%-- <div class="col-md-2">Machine
 										Specific</div>
 
 									<div class="col-md-3">
-										<select name="machine_specific" id="machine_specific"
+										<select name="machine_specificd" id="machine_specificd"
 											onchange="showDept()" class="form-control chosen"
 											placeholder="Is Machine Specific" data-rule-required="true">
 											<c:choose>
@@ -162,7 +165,7 @@
 												</c:otherwise>
 											</c:choose>
 										</select>
-									</div>
+									</div> --%>
 								</div>
 								
 								<div class="form-group" style="display: none" id="deptDiv">

@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.IssueDetail;
@@ -1083,7 +1084,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 				 
 			}
 			else if(approve==2){
-				
+				 
 				mrnFroApprove.setMrnStatus(4);
 				mrnId=mrnFroApprove.getMrnId();
 				String[] checkbox = request.getParameterValues("select_to_approve");
@@ -1109,8 +1110,10 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			System.out.println("map " + map);
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileMrnApprov", map, ErrorMessage.class);
 			
-			/*if(approve==2) {
-				
+			 if(approve==2 && approved.isError()==false) {
+				 
+				 GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+					List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item)); 
 					map = new LinkedMultiValueMap<String, Object>();
 					map.add("name", "autoIssue"); 
 					System.out.println("map " + map);
@@ -1161,49 +1164,66 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 								e.printStackTrace();
 								 issueHeader.setIssueNo("1");
 							}
+							
+							ErrorMessage getDeptId = new ErrorMessage();
+							try {
+								
+								int poId = mrnFroApprove.getGetMrnDetailList().get(0).getPoId(); 
+								 map = new LinkedMultiValueMap<>();
+								 map.add("poId", poId);
+								 getDeptId = rest.postForObject(Constants.url + "/getDeptAndSubDeptFromIndentByPoId", map,
+										 ErrorMessage.class);
+								
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+							
+							String[] deptIdAndSubDeptId = getDeptId.getMessage().split(",");
 						 //issueHeader.setIssueNo(issueNo);
 						 issueHeader.setDeleteStatus(1);
-						 //issueHeader.setIssueDetailList(issueDetailList); 
-						 issueHeader.setDeptId(deptId);
-						 issueHeader.setSubDeptId(subDeptId);
-						 issueHeader.setAccHead(acc);
+						
+						 issueHeader.setDeptId(Integer.parseInt(deptIdAndSubDeptId[0]));
+						 issueHeader.setSubDeptId(Integer.parseInt(deptIdAndSubDeptId[1]));
+						 issueHeader.setAccHead(1);
 						 issueHeader.setItemCategory(mrnFroApprove.getMrnType());
 						 String mrnDetailList = new String();
 						 List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 						 for(int i=0 ; i<mrnFroApprove.getGetMrnDetailList().size() ; i++)
 						 {
-							 IssueDetail issueDetail = new IssueDetail();
-							 issueDetail.setItemId(mrnFroApprove.getGetMrnDetailList().get(i).getItemId());
-							 issueDetail.setItemIssueQty(mrnFroApprove.getGetMrnDetailList().get(i).getMrnQty());
-							 //issueDetail.setItemGroupId(mrnFroApprove.getGetMrnDetailList().get(i));
-							 issueDetail.setDeptId(deptId);
-							 issueDetail.setSubDeptId(subDeptId);
-							 issueDetail.setAccHead(acc);
-							 //issueDetail.setItemName(itemName);
-							 issueDetail.setGroupName(groupName);
-							 issueDetail.setDeptName(deptName);
-							 issueDetail.setSubDeptName(subDeptName);
-							 issueDetail.setAccName(accName);
-							 issueDetail.setDelStatus(1);
-							 for(int i = 0 ;i< batchList.size() ; i++)
+							 for(int j=0 ; j<itemList.size() ;j++)
 							 {
-								 if(batchList.get(i).getMrnDetailId()==mrnDetailId)
-								 {
-									 issueDetail.setBatchNo(batchList.get(i).getBatchNo());
-									 issueDetail.setMrnDetailId(mrnDetailId); 
+								 if(itemList.get(j).getItemId()==mrnFroApprove.getGetMrnDetailList().get(i).getItemId()) {
+									 IssueDetail issueDetail = new IssueDetail();
+									 issueDetail.setItemId(mrnFroApprove.getGetMrnDetailList().get(i).getItemId());
+									 issueDetail.setItemIssueQty(mrnFroApprove.getGetMrnDetailList().get(i).getMrnQty());
+									 issueDetail.setItemGroupId(itemList.get(j).getGrpId());
+									 issueDetail.setDeptId(Integer.parseInt(deptIdAndSubDeptId[0]));
+									 issueDetail.setSubDeptId(Integer.parseInt(deptIdAndSubDeptId[1]));
+									 issueDetail.setAccHead(1);
+									 //issueDetail.setItemName(itemName);
+									 /*issueDetail.setGroupName(groupName);
+									 issueDetail.setDeptName(deptName);
+									 issueDetail.setSubDeptName(subDeptName);
+									 issueDetail.setAccName(accName);*/
+									 issueDetail.setDelStatus(1); 
+									 issueDetail.setBatchNo(mrnFroApprove.getGetMrnDetailList().get(i).getBatchNo());
+									 issueDetail.setMrnDetailId(mrnFroApprove.getGetMrnDetailList().get(i).getMrnDetailId()); 
+									 mrnDetailList=mrnDetailList+","+mrnFroApprove.getGetMrnDetailList().get(i).getMrnDetailId();
+									 issueDetailList.add(issueDetail);
+									 break;
 								 }
 							 }
-							 issueDetailList.add(issueDetail);
+							 
 						 }
 			  
 						 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
 						 
-						 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+						  map = new LinkedMultiValueMap<>();
 						 map.add("mrnDetailList", mrnDetailList);
 						 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
 								 MrnDetail[].class);
 						 
-						 updateMrnDetail = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
+						 List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
 						 
 						 for(int j=0 ; j<issueDetailList.size() ; j++)
 						 {
@@ -1216,14 +1236,16 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 								 }
 							 }
 						 }
-						 
-						 System.out.println("issueHeader  " + issueHeader); 
-						 
+						 issueHeader.setIssueDetailList(issueDetailList); 
+						 System.err.println("issueHeader  " + issueHeader); 
+						 System.err.println("updateMrnDetail  " + updateMrnDetail); 
 						  IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
 								IssueHeader.class);
+						  MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+			    					 MrnDetail[].class);
 						 
 					 }
-			}*/
+			} 
  
 			
 		} catch (Exception e) {
