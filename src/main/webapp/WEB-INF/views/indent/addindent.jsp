@@ -324,7 +324,7 @@
 
 								<input type="button"
 									
-									onclick="insertIndent()" id="submit" class="btn btn-info" value="Submit" disabled>
+									onclick="insertIndent()" id="submitt" class="btn btn-info" value="Submit" disabled>
 									</div>
 									</div>
 							</form>
@@ -622,10 +622,10 @@ $(document).ready(function() {
 		  	
 			$('#table1 tbody').append(tr);
 			//document.getElementById("ind_cat").disabled=true;
-			$('#ind_cat').prop('disabled', true).trigger("chosen:updated");
+			  $('#ind_cat').prop('disabled', true).trigger("chosen:updated");
 			 
-			document.getElementById("catId").value = catId; 
-			document.getElementById("submit").disabled=false;
+			document.getElementById("catId").value = catId;   
+			document.getElementById("submitt").disabled=false;
 			})
 		
 		
@@ -687,8 +687,8 @@ function deleteIndentItem(itemId,key){
 		//alert(data);
 		if(data==""){
 			alert("No Record ");
-			$('#ind_cat').prop('disabled', false).trigger("chosen:updated");
-			document.getElementById("submit").disabled=true;
+			  $('#ind_cat').prop('disabled', false).trigger("chosen:updated");  
+			document.getElementById("submitt").disabled=true;
 		}
 		var len = data.length;
 		$('#table1 td').remove();

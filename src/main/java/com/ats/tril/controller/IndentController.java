@@ -1031,6 +1031,10 @@ public class IndentController {
 			model.addObject("indentList", indentList);
 			model.addObject("toDate", indToDate);
 			model.addObject("apr", apr);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 

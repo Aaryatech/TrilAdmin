@@ -114,7 +114,7 @@
 							</div><br>
 							
 							<div class="box-content">
-							
+							 
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control"

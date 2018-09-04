@@ -162,20 +162,14 @@
 																<td align="left" style="text-align: center;"><c:out
 																value="${indent.accHeadDesc}" /></td>
 														<c:set var="indmtype" value="o"></c:set>
+														<c:forEach items="${typeList}" var="typeList"  varStatus="count">
 														<c:choose>
-															<c:when test="${indent.indMType==1}">
-																<c:set var="indmtype" value="Regular"></c:set>
+															<c:when test="${indent.indMType==typeList.typeId}">
+																<c:set var="indmtype" value="${typeList.typeName}"></c:set>
 															</c:when>
-															<c:when test="${indent.indMType==2}">
-																<c:set var="indmtype" value="Job Work"></c:set>
-															</c:when>
-															<c:when test="${indent.indMType==3}">
-																<c:set var="indmtype" value="General"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="indmtype" value="Other"></c:set>
-															</c:otherwise>
+															 
 														</c:choose>
+														</c:forEach>
 
 														<c:set var="indIsDev" value="o"></c:set>
 

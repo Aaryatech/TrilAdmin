@@ -151,12 +151,12 @@
 																		<td  > 
 																		<c:choose>
 																			<c:when test="${issueDetailList.status==1}">
-																			<input type="checkbox" id="select_to_approve${issueDetailList.issueId}"
-															name="select_to_approve" value="${issueDetailList.issueId}" checked/>
+																			<input type="checkbox" id="select_to_approve${issueDetailList.issueDetailId}"
+															name="select_to_approve" value="${issueDetailList.issueDetailId}" checked/>
 																			</c:when>
 																			<c:otherwise>
-																			<input type="checkbox" id="select_to_approve${issueDetailList.issueId}"
-															name="select_to_approve" value="${issueDetailList.issueId}"  />
+																			<input type="checkbox" id="select_to_approve${issueDetailList.issueDetailId}"
+															name="select_to_approve" value="${issueDetailList.issueDetailId}"  />
 																			
 																			</c:otherwise>
 																		</c:choose> </td>
@@ -200,12 +200,12 @@
 																		<td  > 
 																		<c:choose>
 																			<c:when test="${issueDetailList.status==1}">
-																			<input type="checkbox" id="select_to_approve${issueDetailList.issueId}"
-															name="select_to_approve" value="${issueDetailList.issueId}" checked/>
+																			<input type="checkbox" id="select_to_approve${issueDetailList.issueDetailId}"
+															name="select_to_approve" value="${issueDetailList.issueDetailId}" checked/>
 																			</c:when>
 																			<c:otherwise>
-																			<input type="checkbox" id="select_to_approve${issueDetailList.issueId}"
-															name="select_to_approve" value="${issueDetailList.issueId}"  disabled/>
+																			<input type="checkbox" id="select_to_approve${issueDetailList.issueDetailId}"
+															name="select_to_approve" value="${issueDetailList.issueDetailId}"  disabled/>
 																			
 																			</c:otherwise>
 																		</c:choose> </td>
