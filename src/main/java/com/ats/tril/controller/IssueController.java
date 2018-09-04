@@ -991,6 +991,40 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			map.add("status", status);
 			System.out.println("map " + map);
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileIssueApprov", map, ErrorMessage.class);
+			
+			if(approve==2 && approved.isError()==false) {
+				String mrnDetailList = new String();
+				
+				for(int i=0 ; i<issueForApprove.getIssueDetailList().size() ; i++)
+				 {
+					 mrnDetailList = mrnDetailList+","+issueForApprove.getIssueDetailList().get(i).getMrnDetailId();
+				 }
+	 
+				 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
+				 
+				 map = new LinkedMultiValueMap<>();
+				 map.add("mrnDetailList", mrnDetailList);
+				 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
+						 MrnDetail[].class);
+				 List<MrnDetail> updateMrnDetail = new ArrayList<>(Arrays.asList(MrnDetail));
+				 
+				 for(int i=0 ; i<issueForApprove.getIssueDetailList().size() ; i++)
+				 {
+					 for(int j=0 ; j<updateMrnDetail.size() ; j++)
+					 {
+						 if(updateMrnDetail.get(j).getMrnDetailId()==issueForApprove.getIssueDetailList().get(i).getMrnDetailId())
+						 {
+							 updateMrnDetail.get(j).setRemainingQty(updateMrnDetail.get(j).getRemainingQty()+issueForApprove.getIssueDetailList().get(i).getItemIssueQty());
+							 updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()-issueForApprove.getIssueDetailList().get(i).getItemIssueQty());
+						 }
+					 }
+				 }
+				 
+				 
+					MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+	   					 MrnDetail[].class);
+					System.out.println(update); 
+			}
 			  
 			
 		} catch (Exception e) {
