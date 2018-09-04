@@ -47,6 +47,8 @@ import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
 @Scope("session")
 public class IssueController {
 	
+	
+	
 RestTemplate rest = new RestTemplate();
 List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
 List<MrnDetail> batchList = new ArrayList<MrnDetail>();
