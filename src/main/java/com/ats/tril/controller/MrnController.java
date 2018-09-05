@@ -1184,7 +1184,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 						
 						 issueHeader.setDeptId(Integer.parseInt(deptIdAndSubDeptId[0]));
 						 issueHeader.setSubDeptId(Integer.parseInt(deptIdAndSubDeptId[1]));
-						 issueHeader.setAccHead(1);
+						 issueHeader.setAccHead(Integer.parseInt(deptIdAndSubDeptId[2]));
 						 issueHeader.setItemCategory(mrnFroApprove.getMrnType());
 						 String mrnDetailList = new String();
 						 List<IssueDetail> issueDetailList = new ArrayList<IssueDetail>();
@@ -1199,7 +1199,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 									 issueDetail.setItemGroupId(itemList.get(j).getGrpId());
 									 issueDetail.setDeptId(Integer.parseInt(deptIdAndSubDeptId[0]));
 									 issueDetail.setSubDeptId(Integer.parseInt(deptIdAndSubDeptId[1]));
-									 issueDetail.setAccHead(1);
+									 issueDetail.setAccHead(Integer.parseInt(deptIdAndSubDeptId[2]));
 									 //issueDetail.setItemName(itemName);
 									 /*issueDetail.setGroupName(groupName);
 									 issueDetail.setDeptName(deptName);
