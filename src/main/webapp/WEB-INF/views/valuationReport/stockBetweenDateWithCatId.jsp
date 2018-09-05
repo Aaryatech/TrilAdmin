@@ -126,15 +126,17 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-3">Item Name</th>
+										<th class="col-md-4">Item Name</th>
 										<th class="col-md-1">OP QTY</th>
+										<th class="col-md-1">OP VALUE</th>
 										<th class="col-md-1">APPV QTY</th>
+										<th class="col-md-1">APPV VALUE</th>
 										<th class="col-md-1">ISSUE QTY</th>
-										<th class="col-md-1">ISSUE RE QTY</th>
+										<th class="col-md-1">ISSUE VALUE</th> 
 										<th class="col-md-1">DAMAGE QTY</th>
-										<th class="col-md-1">GP QTY</th>
-										<th class="col-md-1">GP Return QTY</th>
+										<th class="col-md-1">DAMAGE VALUE</th> 
 										<th class="col-md-1">C/L QTY</th>
+										<th class="col-md-1">C/L VALUE</th> 
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -278,13 +280,15 @@
 										  	tr.append($('<td></td>').html(key+1));
 										  	tr.append($('<td></td>').html(itemList.itemCode));
 										  	tr.append($('<td></td>').html(itemList.openingStock));  
+										  	tr.append($('<td></td>').html(itemList.opStockValue)); 
 										  	tr.append($('<td></td>').html(itemList.approveQty));
+										  	tr.append($('<td></td>').html(itemList.approvedQtyValue));
 										  	tr.append($('<td></td>').html(itemList.issueQty));
-										  	tr.append($('<td></td>').html(itemList.returnIssueQty));
+										  	tr.append($('<td></td>').html(itemList.issueQtyValue)); 
 										  	tr.append($('<td></td>').html(itemList.damageQty));
-										  	tr.append($('<td></td>').html(itemList.gatepassQty));
-										  	tr.append($('<td></td>').html(itemList.gatepassReturnQty));
+										  	tr.append($('<td></td>').html(itemList.damagValue)); 
 										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
+											tr.append($('<td></td>').html(itemList.opStockValue+itemList.approvedQtyValue-itemList.issueQtyValue-itemList.damagValue)); 
 										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
 										  	
 										    $('#table1 tbody').append(tr); 
