@@ -181,14 +181,18 @@ public class StockController {
 					 if(stockDetailList.get(i).getItemId() == stockListForMonthEnd.get(j).getItemId())
 					 {
 						 stockDetailList.get(i).setApprovedQty(stockListForMonthEnd.get(j).getApproveQty());
+						 stockDetailList.get(i).setApprovedQtyValue(stockListForMonthEnd.get(j).getApprovedQtyValue());
 						 stockDetailList.get(i).setIssueQty(stockListForMonthEnd.get(j).getIssueQty());
+						 stockDetailList.get(i).setIssueQtyValue(stockListForMonthEnd.get(j).getIssueQtyValue());
 						 stockDetailList.get(i).setReturnIssueQty(stockListForMonthEnd.get(j).getReturnIssueQty());
 						 stockDetailList.get(i).setDamageQty(stockListForMonthEnd.get(j).getDamageQty());
+						 stockDetailList.get(i).setDamageValue(stockListForMonthEnd.get(j).getDamagValue());
 						 stockDetailList.get(i).setGatepassQty(stockListForMonthEnd.get(j).getGatepassQty());
 						 stockDetailList.get(i).setGatepassReturnQty(stockListForMonthEnd.get(j).getGatepassReturnQty());
 						 stockDetailList.get(i).setClosingQty(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
 								 +stockListForMonthEnd.get(j).getReturnIssueQty()-stockListForMonthEnd.get(j).getDamageQty()-stockListForMonthEnd.get(j).getGatepassQty()
 								 +stockListForMonthEnd.get(j).getGatepassReturnQty());
+						 stockDetailList.get(i).setCloasingValue(stockListForMonthEnd.get(j).getOpStockValue()+stockListForMonthEnd.get(j).getApprovedQtyValue()-stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue());
 						 
 					 }
 				 }
@@ -230,6 +234,8 @@ public class StockController {
 					 stockDetail1.setOpStockQty(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
 							 +stockListForMonthEnd.get(j).getReturnIssueQty()-stockListForMonthEnd.get(j).getDamageQty()-stockListForMonthEnd.get(j).getGatepassQty()
 							 +stockListForMonthEnd.get(j).getGatepassReturnQty());
+					 stockDetail1.setOpStockValue(stockListForMonthEnd.get(j).getOpStockValue()+stockListForMonthEnd.get(j).getApprovedQtyValue()-stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue());
+					 
 					 insertNewList.add(stockDetail1);
 				 }
 				 newEntry.setStockDetailList(insertNewList);
@@ -251,8 +257,81 @@ public class StockController {
 
 		ModelAndView model = new ModelAndView("stock/stockBetweenDate");
 		try {
-		  
-			  
+			List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
+			 
+			if( request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				 
+			}
+			else {
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				 
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				
+				Date date = dd.parse(fromDate);
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 String firstDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 
+				 System.out.println(DateConvertor.convertToYMD(firstDate) + DateConvertor.convertToYMD(fromDate));
+				 
+				 if(DateConvertor.convertToYMD(firstDate).compareTo(DateConvertor.convertToYMD(fromDate))<0)
+				 {
+					 calendar.add(Calendar.DATE, -1);
+					  String previousDate = yy.format(new Date(calendar.getTimeInMillis())); 
+					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					 map.add("fromDate",DateConvertor.convertToYMD(firstDate));
+		 			 map.add("toDate",previousDate); 
+		 			 System.out.println(map);
+		 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+		 			List<GetCurrentStock> diffDateStock = new ArrayList<>(Arrays.asList(getCurrentStock));
+		 			
+		 			 calendar.add(Calendar.DATE, 1);
+					  String addDay = yy.format(new Date(calendar.getTimeInMillis()));
+		 			map = new LinkedMultiValueMap<>();
+					 map.add("fromDate",addDay);
+		 			 map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+		 			 System.out.println(map);
+		 			GetCurrentStock[] getCurrentStock1 = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+		 			 getStockBetweenDate = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock1));
+		 			 
+		 			 for(int i = 0 ; i< getStockBetweenDate.size() ; i++)
+		 			 {
+		 				 for(int j = 0 ; j< diffDateStock.size() ; j++)
+			 			 {
+		 					 if(getStockBetweenDate.get(i).getItemId()==diffDateStock.get(j).getItemId())
+		 					 {
+		 						getStockBetweenDate.get(i).setOpeningStock(diffDateStock.get(j).getOpeningStock()+diffDateStock.get(j).getApproveQty()-diffDateStock.get(j).getIssueQty()
+								 +diffDateStock.get(j).getReturnIssueQty()-diffDateStock.get(j).getDamageQty()-diffDateStock.get(j).getGatepassQty()
+								 +diffDateStock.get(j).getGatepassReturnQty());
+		 						getStockBetweenDate.get(i).setOpStockValue(diffDateStock.get(j).getOpStockValue()+diffDateStock.get(j).getApprovedQtyValue()-diffDateStock.get(j).getIssueQtyValue()-diffDateStock.get(j).getDamagValue());
+		 						break;
+		 					 }
+			 			 }
+		 			 }
+				 }
+				 else
+				 {
+					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					 map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			 map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+		 			 System.out.println(map);
+		 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+		 			getStockBetweenDate = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock));
+				 }
+				 
+				 
+				 model.addObject("fromDate", fromDate);
+					model.addObject("toDate", toDate);
+					model.addObject("stockList", getStockBetweenDate);
+			}
+			
+			System.out.println(getStockBetweenDate);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -260,12 +339,11 @@ public class StockController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/getStockBetweenDate", method = RequestMethod.GET)
-	@ResponseBody
-	public List<GetCurrentStock> getStockBetweenDate(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/getStockBetweenDate", method = RequestMethod.GET) 
+	public ModelAndView getStockBetweenDate(HttpServletRequest request, HttpServletResponse response) {
 
 		List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
-		
+		ModelAndView model = new ModelAndView("stock/stockBetweenDate");
 		try {
 		 
 			String fromDate = request.getParameter("fromDate");
@@ -312,6 +390,7 @@ public class StockController {
 	 						getStockBetweenDate.get(i).setOpeningStock(diffDateStock.get(j).getOpeningStock()+diffDateStock.get(j).getApproveQty()-diffDateStock.get(j).getIssueQty()
 							 +diffDateStock.get(j).getReturnIssueQty()-diffDateStock.get(j).getDamageQty()-diffDateStock.get(j).getGatepassQty()
 							 +diffDateStock.get(j).getGatepassReturnQty());
+	 						getStockBetweenDate.get(i).setOpStockValue(diffDateStock.get(j).getOpStockValue()+diffDateStock.get(j).getApprovedQtyValue()-diffDateStock.get(j).getIssueQtyValue()-diffDateStock.get(j).getDamagValue());
 	 						break;
 	 					 }
 		 			 }
@@ -328,14 +407,17 @@ public class StockController {
 			 }
 			 
 			 
- 			
+			 model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
  			 
 			  
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return getStockBetweenDate;
+		model.addObject("getStockBetweenDate", getStockBetweenDate);
+		
+		return model;
 	}
 
 }

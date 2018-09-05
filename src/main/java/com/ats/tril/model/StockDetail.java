@@ -3,7 +3,7 @@ package com.ats.tril.model;
 
 public class StockDetail {
 	
-	 
+	  
 	private int stockDetailId; 
 	private int stockHeaderId; 
 	private int itemId; 
@@ -15,7 +15,17 @@ public class StockDetail {
 	private float gatepassQty; 
 	private float gatepassReturnQty; 
 	private float closingQty; 
-	private int delStatus;
+	private int delStatus; 
+	private float opStockValue; 
+	private float approvedQtyValue; 
+	private float issueQtyValue; 
+	private float returnIssueValue; 
+	private float damageValue; 
+	private float gatepassValue; 
+	private float gatepassReturnValue; 
+	private float cloasingValue;
+	
+	
 	public int getStockDetailId() {
 		return stockDetailId;
 	}
@@ -88,13 +98,66 @@ public class StockDetail {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
+	
+	
+	public float getOpStockValue() {
+		return opStockValue;
+	}
+	public void setOpStockValue(float opStockValue) {
+		this.opStockValue = opStockValue;
+	}
+	public float getApprovedQtyValue() {
+		return approvedQtyValue;
+	}
+	public void setApprovedQtyValue(float approvedQtyValue) {
+		this.approvedQtyValue = approvedQtyValue;
+	}
+	public float getIssueQtyValue() {
+		return issueQtyValue;
+	}
+	public void setIssueQtyValue(float issueQtyValue) {
+		this.issueQtyValue = issueQtyValue;
+	}
+	public float getReturnIssueValue() {
+		return returnIssueValue;
+	}
+	public void setReturnIssueValue(float returnIssueValue) {
+		this.returnIssueValue = returnIssueValue;
+	}
+	public float getDamageValue() {
+		return damageValue;
+	}
+	public void setDamageValue(float damageValue) {
+		this.damageValue = damageValue;
+	}
+	public float getGatepassValue() {
+		return gatepassValue;
+	}
+	public void setGatepassValue(float gatepassValue) {
+		this.gatepassValue = gatepassValue;
+	}
+	public float getGatepassReturnValue() {
+		return gatepassReturnValue;
+	}
+	public void setGatepassReturnValue(float gatepassReturnValue) {
+		this.gatepassReturnValue = gatepassReturnValue;
+	}
+	public float getCloasingValue() {
+		return cloasingValue;
+	}
+	public void setCloasingValue(float cloasingValue) {
+		this.cloasingValue = cloasingValue;
+	}
 	@Override
 	public String toString() {
 		return "StockDetail [stockDetailId=" + stockDetailId + ", stockHeaderId=" + stockHeaderId + ", itemId=" + itemId
 				+ ", opStockQty=" + opStockQty + ", approvedQty=" + approvedQty + ", issueQty=" + issueQty
 				+ ", returnIssueQty=" + returnIssueQty + ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty
 				+ ", gatepassReturnQty=" + gatepassReturnQty + ", closingQty=" + closingQty + ", delStatus=" + delStatus
-				+ "]";
+				+ ", opStockValue=" + opStockValue + ", approvedQtyValue=" + approvedQtyValue + ", issueQtyValue="
+				+ issueQtyValue + ", returnIssueValue=" + returnIssueValue + ", damageValue=" + damageValue
+				+ ", gatepassValue=" + gatepassValue + ", gatepassReturnValue=" + gatepassReturnValue
+				+ ", cloasingValue=" + cloasingValue + "]";
 	}
 	
 	

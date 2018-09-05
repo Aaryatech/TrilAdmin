@@ -54,7 +54,7 @@
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/submitMonthEnd" method="post">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/stockBetweenDate" method="get">
 								<div class="box-content">
 								
 								 
@@ -63,7 +63,7 @@
 								<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"   name="fromDate" type="text"  >
+								 placeholder="From Date" value="${fromDate}"  name="fromDate" type="text"  >
 
 
 									</div>
@@ -71,7 +71,7 @@
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-3">
 										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date"   name="toDate" type="text"  >
+								 placeholder="To Date"  value="${toDate}" name="toDate" type="text"  >
 
 
 									</div>
@@ -81,7 +81,7 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="button" class="btn btn-info" onclick="search()" value="Submit"> 
+								<input type="submit" class="btn btn-info"  value="Submit"> 
 							</div>
 						</div> <br>
 							 
@@ -99,55 +99,57 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-3">Item Name</th>
+										<th class="col-md-4">Item Name</th>
 										<th class="col-md-1">OP QTY</th>
+										<th class="col-md-1">OP VALUE</th>
 										<th class="col-md-1">APPV QTY</th>
+										<th class="col-md-1">APPV VALUE</th>
 										<th class="col-md-1">ISSUE QTY</th>
-										<th class="col-md-1">ISSUE RE QTY</th>
+										<th class="col-md-1">ISSUE VALUE</th> 
 										<th class="col-md-1">DAMAGE QTY</th>
-										<th class="col-md-1">GP QTY</th>
-										<th class="col-md-1">GP Return QTY</th>
+										<th class="col-md-1">DAMAGE VALUE</th> 
 										<th class="col-md-1">C/L QTY</th>
+										<th class="col-md-1">C/L VALUE</th> 
 									</tr>
 								</thead>
 								<tbody>
 
-									<c:forEach items="${stockList}" var="stockList"
+									  <c:forEach items="${stockList}" var="stockList"
 										varStatus="count">
 										<tr>
-											<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+											<td style="width:1%;"><c:out value="${count.index+1}" /></td>
 
 
-											<td class="col-md-1"><c:out
+											<td class="col-md-4"><c:out
 													value="${stockList.itemCode}" /></td>
 													
 											<td class="col-md-1"><c:out
 													value="${stockList.openingStock}" /></td> 
 											<td class="col-md-1"><c:out
+													value="${stockList.opStockValue}" /></td> 
+											<td class="col-md-1"><c:out
 													value="${stockList.approveQty}" /></td>
-
 											<td class="col-md-1"><c:out
-													value="${stockList.issueQty}" /></td>
-											
+													value="${stockList.approvedQtyValue}" /></td> 
 											<td class="col-md-1"><c:out
-													value="${stockList.returnIssueQty}" /></td>
+													value="${stockList.issueQty}" /></td> 
+											<td class="col-md-1"><c:out
+													value="${stockList.issueQtyValue}" /></td>
 													
 											<td class="col-md-1"><c:out
 													value="${stockList.damageQty}" /></td>
 													
 											<td class="col-md-1"><c:out
-													value="${stockList.gatepassQty}" /></td>
-													
-											<td class="col-md-1"><c:out
-													value="${stockList.gatepassReturnQty}" /></td>
-											
+													value="${stockList.damagValue}" /></td> 
 											<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
 													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
+											<c:set var="closingStockValue" value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}" ></c:set>
+													
 											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-											  
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+											
 										</tr>
 									</c:forEach>
-
 								</tbody>
 
 								</table>

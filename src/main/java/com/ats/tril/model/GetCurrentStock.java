@@ -7,12 +7,18 @@ public class GetCurrentStock {
 	private int itemId; 
 	private String itemCode; 
 	private float openingStock; 
+	private float opStockValue; 
 	private float approveQty; 
+	private float approvedQtyValue; 
+	private float approvedLandingValue; 
 	private float issueQty; 
+	private float issueQtyValue; 
+	private float issueLandingValue; 
 	private float returnIssueQty; 
 	private float damageQty; 
+	private float damagValue; 
 	private float gatepassQty; 
-	private float gatepassReturnQty;
+	private float gatepassReturnQty; 
 	private float rolLevel;
 	
 	public int getItemId() {
@@ -76,12 +82,51 @@ public class GetCurrentStock {
 	public void setRolLevel(float rolLevel) {
 		this.rolLevel = rolLevel;
 	}
+	
+	public float getOpStockValue() {
+		return opStockValue;
+	}
+	public void setOpStockValue(float opStockValue) {
+		this.opStockValue = opStockValue;
+	}
+	public float getApprovedQtyValue() {
+		return approvedQtyValue;
+	}
+	public void setApprovedQtyValue(float approvedQtyValue) {
+		this.approvedQtyValue = approvedQtyValue;
+	}
+	public float getApprovedLandingValue() {
+		return approvedLandingValue;
+	}
+	public void setApprovedLandingValue(float approvedLandingValue) {
+		this.approvedLandingValue = approvedLandingValue;
+	}
+	public float getIssueQtyValue() {
+		return issueQtyValue;
+	}
+	public void setIssueQtyValue(float issueQtyValue) {
+		this.issueQtyValue = issueQtyValue;
+	}
+	public float getIssueLandingValue() {
+		return issueLandingValue;
+	}
+	public void setIssueLandingValue(float issueLandingValue) {
+		this.issueLandingValue = issueLandingValue;
+	}
+	public float getDamagValue() {
+		return damagValue;
+	}
+	public void setDamagValue(float damagValue) {
+		this.damagValue = damagValue;
+	}
 	@Override
 	public String toString() {
 		return "GetCurrentStock [itemId=" + itemId + ", itemCode=" + itemCode + ", openingStock=" + openingStock
-				+ ", approveQty=" + approveQty + ", issueQty=" + issueQty + ", returnIssueQty=" + returnIssueQty
-				+ ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty + ", gatepassReturnQty="
-				+ gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
+				+ ", opStockValue=" + opStockValue + ", approveQty=" + approveQty + ", approvedQtyValue="
+				+ approvedQtyValue + ", approvedLandingValue=" + approvedLandingValue + ", issueQty=" + issueQty
+				+ ", issueQtyValue=" + issueQtyValue + ", issueLandingValue=" + issueLandingValue + ", returnIssueQty="
+				+ returnIssueQty + ", damageQty=" + damageQty + ", damagValue=" + damagValue + ", gatepassQty="
+				+ gatepassQty + ", gatepassReturnQty=" + gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
 	}
 	
 	
