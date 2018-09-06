@@ -28,6 +28,7 @@ import com.ats.tril.model.Category;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.IssueAndMrnGroupWise;
+import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
@@ -405,6 +406,33 @@ public class ValuationReport {
 	 			groupWiseList = new ArrayList<IssueAndMrnGroupWise>(Arrays.asList(issueAndMrnGroupWise));
 			 
 			 model.addObject("list",groupWiseList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		 
+		return model;
+	}
+	
+	@RequestMapping(value = "/issueAndMrnReportItemWise/{groupId}", method = RequestMethod.GET)
+	public ModelAndView issueAndMrnReportItemWise(@PathVariable int groupId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportItemWise");
+		List<IssueAndMrnItemWise> itemWiseList = new ArrayList<IssueAndMrnItemWise>();
+		
+		try {
+		   
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+	 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+	 			map.add("groupId", groupId);
+	 			map.add("typeId", typeId);
+	 			map.add("isDev", isDev);
+	 			System.out.println(map);
+	 			IssueAndMrnItemWise[] issueAndMrnGroupWise = rest.postForObject(Constants.url + "/issueAndMrnItemWiseReportByGroupId",map,IssueAndMrnItemWise[].class); 
+	 			itemWiseList = new ArrayList<IssueAndMrnItemWise>(Arrays.asList(issueAndMrnGroupWise));
+			 
+			 model.addObject("list",itemWiseList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

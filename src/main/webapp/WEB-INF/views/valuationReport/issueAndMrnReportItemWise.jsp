@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Group Wise Detail
+						<i class="fa fa-file-o"></i>Item Wise Detail
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Group Wise Detail
+								<i class="fa fa-table"></i>Item Wise Detail
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
@@ -126,12 +126,11 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-4">GROUP Name</th> 
+										<th class="col-md-4">ITEM NAME</th> 
 										<th class="col-md-1">APPV QTY</th>
 										<th class="col-md-1">APPV VALUE</th>
 										<th class="col-md-1">ISSUE QTY</th>
-										<th class="col-md-1">ISSUE VALUE</th>
-										<th class="col-md-1">ACTION</th>  
+										<th class="col-md-1">ISSUE VALUE</th> 
 									</tr>
 								</thead>
 								<tbody>
@@ -142,7 +141,7 @@
 												<td  ><c:out value="${count.index+1}" /></td>
 
 
-												<td  ><c:out value="${list.grpCode}" /></td> 
+												 <td  ><c:out value="${list.itemCode}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${list.approveQty}" /></td>
 											<td class="col-md-1"><c:out
@@ -150,9 +149,8 @@
 											<td class="col-md-1"><c:out
 													value="${list.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
-													value="${list.issueQtyValue}" /></td>
-												<td><a href="${pageContext.request.contextPath}/issueAndMrnReportItemWise/${list.grpId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
-												 
+													value="${list.issueQtyValue}" /></td> 
+											 
 											 
 											</tr>
 										</c:forEach>
