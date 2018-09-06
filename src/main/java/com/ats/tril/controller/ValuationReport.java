@@ -27,6 +27,7 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
@@ -41,7 +42,7 @@ public class ValuationReport {
 	String fromDate;
 	String toDate;
 	int typeId;
-	
+	int isDev;
 	@RequestMapping(value = "/stockBetweenDateWithCatId", method = RequestMethod.GET)
 	public ModelAndView itemValueationReport(HttpServletRequest request, HttpServletResponse response) {
 
@@ -333,6 +334,77 @@ public class ValuationReport {
 			 }
 			  
 			 model.addObject("list",getStockBetweenDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		 
+		return model;
+	}
+	
+	@RequestMapping(value = "/issueAndMrnReportCategoryWise", method = RequestMethod.GET)
+	public ModelAndView issueAndMrnReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportCategoryWise");
+		try {
+			List<StockValuationCategoryWise> categoryWiseReport = new ArrayList<StockValuationCategoryWise>();
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null || request.getParameter("isDev")==null) {
+				
+			}
+			else {
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				typeId = Integer.parseInt(request.getParameter("typeId"));
+				isDev =Integer.parseInt(request.getParameter("isDev"));
+				 
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			System.out.println(map);
+		 			StockValuationCategoryWise[] stockValuationCategoryWise1 = rest.postForObject(Constants.url + "/issueAndMrnCatWiseReport",map, StockValuationCategoryWise[].class);
+					 categoryWiseReport = new ArrayList<StockValuationCategoryWise>(Arrays.asList(stockValuationCategoryWise1));
+				 
+				model.addObject("categoryWiseReport", categoryWiseReport);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				model.addObject("typeId", typeId);
+				model.addObject("isDevelompent", isDev);
+				
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/issueAndMrnReportGroupWise/{catId}", method = RequestMethod.GET)
+	public ModelAndView issueAndMrnReportGroupWise(@PathVariable int catId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportGroupWise");
+		List<IssueAndMrnGroupWise> groupWiseList = new ArrayList<IssueAndMrnGroupWise>();
+		
+		try {
+		   
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+	 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+	 			map.add("catId", catId);
+	 			map.add("typeId", typeId);
+	 			map.add("isDev", isDev);
+	 			System.out.println(map);
+	 			IssueAndMrnGroupWise[] issueAndMrnGroupWise = rest.postForObject(Constants.url + "/issueAndMrnGroupWisReportByCatId",map,IssueAndMrnGroupWise[].class); 
+	 			groupWiseList = new ArrayList<IssueAndMrnGroupWise>(Arrays.asList(issueAndMrnGroupWise));
+			 
+			 model.addObject("list",groupWiseList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
