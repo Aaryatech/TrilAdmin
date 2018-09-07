@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Issue & Mrn Summary
+						<i class="fa fa-file-o"></i>Issue Report Item Wise  
 
 					</h1>
 				</div>
@@ -45,20 +45,19 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue & Mrn Summary
+								<i class="fa fa-table"></i>Issue Report Item Wise  
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
-									Add PO</a> <a data-action="collapse" href="#"><i
+								 <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueAndMrnReportCategoryWise" method="get">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueReportDeptWise" method="get">
 								<div class="box-content">
 								
 								 
-								<div class="box-content">
+								<%-- <div class="box-content">
 							
 								<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
@@ -77,9 +76,9 @@
 									</div>
 								
 				 
-							</div><br>
+							</div><br> --%>
 							
-							<div class="box-content">
+							<%-- <div class="box-content">
 
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
@@ -131,13 +130,37 @@
 										</select>
 
 									</div>
-								</div><br><br>
+								</div><br>  --%>
+								<%-- <div class="box-content">
+
+									<div class="col-md-2">Select Type*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="deptId" id="deptId"
+											required>
+											<option value="0">All</option>
+											<c:forEach items="${deparmentList}" var="deparmentList">
+											<c:choose>
+												<c:when test="${deparmentList.deptId==deptId}">
+												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc} </option> 
+												</c:when>
+												<c:otherwise>
+												<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc}</option> 
+												</c:otherwise>
+											</c:choose> 
+													 
+											</c:forEach>
+										</select>
+
+									</div>
+									<div class="col-md-1"></div>
+									 
+								</div><br><br> --%>
 							
-							<div class="row">
+							<!-- <div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
 							</div>
-						</div> <br>
+						</div> <br> -->
 							 
 								
 								<div align="center" id="loader" style="display: none">
@@ -163,34 +186,27 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
-										<th class="col-md-4">CATEGORY NAME</th> 
-										<th class="col-md-1">APPV QTY</th>
-										<th class="col-md-1">APPV VALUE</th>
+										<th class="col-md-4">ITEM NAME</th>  
 										<th class="col-md-1">ISSUE QTY</th>
 										<th class="col-md-1">ISSUE VALUE</th>   
-										<th class="col-md-1">Action</th>
+										<!-- <th class="col-md-1">Action</th> -->
 									</tr>
 								</thead>
 								<tbody>
 								
-								<c:forEach items="${categoryWiseReport}" var="categoryWiseReport" varStatus="count">
+								<c:forEach items="${itemWiselist}" var="itemWiselist" varStatus="count">
 											<tr>
 											
 												 
 												<td  ><c:out value="${count.index+1}" /></td>
-
-
-												<td  ><c:out value="${categoryWiseReport.catDesc}" /></td> 
+ 
+												<td  ><c:out value="${itemWiselist.deptCode}" /></td>   
 											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.approveQty}" /></td>
+													value="${itemWiselist.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.approvedQtyValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.issueQty}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.issueQtyValue}" /></td> 
-											 <td><a href="${pageContext.request.contextPath}/issueAndMrnReportGroupWise/${categoryWiseReport.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
-											
+													value="${itemWiselist.issueQtyValue}" /></td> 
+											 <%-- <td><a href="${pageContext.request.contextPath}/issueSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 --%>
 											</tr>
 										</c:forEach>
   
