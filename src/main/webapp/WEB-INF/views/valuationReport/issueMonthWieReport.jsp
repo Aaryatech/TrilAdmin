@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Issue Report Dept Wise  
+						<i class="fa fa-file-o"></i>Issue MonthWise Report  
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Report Dept Wise  
+								<i class="fa fa-table"></i>Issue MonthWise Report   
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i
@@ -53,11 +53,11 @@
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueReportDeptWise" method="get">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueMonthWieReport" method="get">
 								<div class="box-content">
 								
 								 
-								<div class="box-content">
+								<%-- <div class="box-content">
 							
 								<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
@@ -76,7 +76,7 @@
 									</div>
 								
 				 
-							</div><br>
+							</div><br> --%>
 							
 							<div class="box-content">
 
@@ -131,30 +131,7 @@
 
 									</div>
 								</div><br> 
-								<div class="box-content">
-
-									<div class="col-md-2">Select Department*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="deptId" id="deptId"
-											required>
-											<option value="0">All</option>
-											<c:forEach items="${deparmentList}" var="deparmentList">
-											<c:choose>
-												<c:when test="${deparmentList.deptId==deptId}">
-												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc} </option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									 
-								</div><br><br>
+								 <br>
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
@@ -181,34 +158,90 @@
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
+					<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
+									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
+										style="width: 100%" id="table_grid">
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">DEPARMENT NAME</th>  
-										<th class="col-md-1">ISSUE QTY</th>
-										<th class="col-md-1">ISSUE VALUE</th>   
-										<th class="col-md-1">Action</th>
+										<th class="col-md-1" colspan="2">APR</th>
+										<th class="col-md-1" colspan="2">MAY</th>   
+										<th class="col-md-1" colspan="2">JUN</th>
+										<th class="col-md-1" colspan="2">JUL</th>
+										<th class="col-md-1" colspan="2">AUG</th>
+										<th class="col-md-1" colspan="2">SEP</th>
+										<th class="col-md-1" colspan="2">OCT</th>
+										<th class="col-md-1" colspan="2">NOV</th>
+										<th class="col-md-1" colspan="2">DEC</th>
+										<th class="col-md-1" colspan="2">JAN</th>
+										<th class="col-md-1" colspan="2">FEB</th>
+										<th class="col-md-1" colspan="2">MAR</th>
+										<th class="col-md-1">Action</th> 
 									</tr>
+									<tr class="bgpink">
+										  <th style="width:1%;"></th>
+											<th class="col-md-4"></th>
+												 
+											<th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1">Qty</th>
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1"></th>
+										</tr>
 								</thead>
 								<tbody>
 								
-								<c:forEach items="${deptWiselist}" var="deptWiselist" varStatus="count">
-											<tr>
-											
-												 
+								<c:forEach items="${deparmentList}" var="deparmentList" varStatus="count">
+											<tr> 
 												<td  ><c:out value="${count.index+1}" /></td>
  
-												<td  ><c:out value="${deptWiselist.deptCode}" /></td>   
-											<td class="col-md-1"><c:out
-													value="${deptWiselist.issueQty}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${deptWiselist.issueQtyValue}" /></td> 
-											 <td><a href="${pageContext.request.contextPath}/issueReportSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td  ><c:out value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>  
+												<c:forEach items="${list}" var="list" varStatus="count">
+												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
+												 <c:choose>
+												 <c:when test="${monthList.deptId==deparmentList.deptId}">
+												<td ><c:out value="${monthList.issueQty}" /></td> 
+														<td ><c:out value="${monthList.issueQtyValue}" /></td> 
+														
+														 </c:when>
+														</c:choose> 
+														</c:forEach> 
+												</c:forEach>
+												<td><a href="${pageContext.request.contextPath}/issueMonthWiseReportByDeptId/${deparmentList.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 										</c:forEach>
+										 <%-- <c:forEach items="${list}" var="list" varStatus="count">
+													 
+														 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
+														 
+														<td ><c:out value="${monthList.monthNo} ${monthList.issueQty}" /></td>  
+														</c:forEach> 
+												 
+													 
+												</c:forEach> --%>
+										
   
 								</tbody>
 
@@ -372,7 +405,7 @@ function myFunction() {
   var input, filter, table, tr, td ,td1, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
+  table = document.getElementById("table_grid");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1]; 
