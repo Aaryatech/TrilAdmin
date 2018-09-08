@@ -154,7 +154,7 @@ public class PurchaseOrderController {
 			 
 			model.addObject("intedList", intedList);
 			
-			String code = getInvoiceNo(poType,2,sf.format(date));
+			String code = getInvoiceNo(1,2,sf.format(date),poType);
 			model.addObject("code", code);
 			
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
@@ -168,7 +168,7 @@ public class PurchaseOrderController {
 		return model;
 	}
 	
-	public String getInvoiceNo(int catId,int docId,String date) {
+	public String getInvoiceNo(int catId,int docId,String date,int poType) {
         
 		String invNo="";
 		DocumentBean docBean=null;
@@ -183,7 +183,7 @@ public class PurchaseOrderController {
 						map.add("docId",docId);
 						map.add("catId", catId);
 						map.add("date", DateConvertor.convertToYMD(date));
-
+						map.add("typeId", poType);
 			RestTemplate restTemplate = new RestTemplate();
 
 			docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
