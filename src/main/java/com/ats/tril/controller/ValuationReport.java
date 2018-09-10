@@ -28,6 +28,7 @@ import com.ats.tril.model.Category;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.IssueDeptWise;
@@ -560,10 +561,6 @@ public class ValuationReport {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
-			
-			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
-			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
-			model.addObject("deparmentList", deparmentList);
 			 
 			if(request.getParameter("typeId")==null || request.getParameter("isDev")==null) {
 				
@@ -596,8 +593,73 @@ public class ValuationReport {
 				model.addObject("typeId", typeId);
 				model.addObject("isDevelompent", isDev);
 				
+				Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+				List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
+				model.addObject("deparmentList", deparmentList);
+				
 				
 			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/issueMonthSubDeptWieReportByDeptId/{deptId}", method = RequestMethod.GET)
+	public ModelAndView issueMonthSubDeptWieReportByDeptId(@PathVariable int deptId,HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/issueReportMonthSubDeptWise");
+		try {
+				List<IssueMonthWiseList> subDeptWiselist = new ArrayList<IssueMonthWiseList>();
+			  
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			map.add("deptId", deptId);
+		 			System.out.println(map);
+		 			IssueMonthWiseList[] issueMonthWiseList = rest.postForObject(Constants.url + "/issueMonthSubDeptWiseReportByDeptId",map, IssueMonthWiseList[].class);
+		 			subDeptWiselist = new ArrayList<IssueMonthWiseList>(Arrays.asList(issueMonthWiseList));
+				 
+				model.addObject("list", subDeptWiselist);
+				
+				GetSubDept[] getSubDept = rest.getForObject(Constants.url + "/getAllSubDept", GetSubDept[].class);
+				List<GetSubDept> subDeptList = new ArrayList<GetSubDept>(Arrays.asList(getSubDept));
+				
+				model.addObject("subDeptList", subDeptList);
+				
+				model.addObject("deptId", deptId);
+				 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/issueMonthItemWieReportBySubDeptId/{subDeptId}", method = RequestMethod.GET)
+	public ModelAndView issueMonthItemWieReportBySubDeptId(@PathVariable int subDeptId,HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/issueReportMonthItemWise");
+		try {
+				List<IssueMonthWiseList> subDeptWiselist = new ArrayList<IssueMonthWiseList>();
+			  
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			map.add("subDeptId", subDeptId);
+		 			System.out.println(map);
+		 			IssueMonthWiseList[] issueMonthWiseList = rest.postForObject(Constants.url + "/issueMonthItemWiseReportBySubDeptId",map, IssueMonthWiseList[].class);
+		 			subDeptWiselist = new ArrayList<IssueMonthWiseList>(Arrays.asList(issueMonthWiseList));
+				 
+				model.addObject("list", subDeptWiselist);
+				
+				GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+				List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+				model.addObject("itemList", itemList);
+				  
 			
 		} catch (Exception e) {
 			e.printStackTrace();
