@@ -211,7 +211,8 @@ h6{
     <div class="selector1"></div>
     <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart "></i>Indent Pending</a>
     <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending MRN</a>
-    <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Consumption Report</a>
+    <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Consumption MRN Report</a>
+       <a href="#" onclick="enableDiv(4)"><i class="fa fa-file-pdf-o" ></i>Consumption Issue Report</a>
     <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
   </nav>
 </div>
@@ -625,6 +626,123 @@ h6{
                                 </div>
                             </div>
     </div>
+   <!-- **************************************************************************************************** -->
+     <div id="consumptionReportIssue" style="display: none;">
+      <div class="row">
+                        <div class="col-md-12">
+                      <div class="box" id="todayslist">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>Consumption Report
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/addItem">
+									</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
+						</div>
+				<div class="box-content">
+				<div class="box-content">
+							
+								<div class="col-md-2">From Date</div>
+									<div class="col-md-3">
+										<input id="fromDate1" class="form-control date-picker"  value="${fromDate}" name="fromDate1" type="date"  >
+
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">To Date</div>
+									<div class="col-md-3">
+										<input id="toDate1" class="form-control date-picker"  value="${toDate}"  name="toDate1" type="date"  >
+
+
+									</div>
+								
+				 
+							</div><br><br>
+							<div align="center" id="loader" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+									  <input type="button" class="btn btn-primary"
+										value="Submit" onclick="search()">  
+										 
+								</div>
+							</div>
+							<br>
+							<br>
+					<div class="clearfix"></div>
+					<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
+									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
+										style="width: 100%" id="table_grid"> 
+									<thead>
+									<tr class="bgpink">
+										  <th class="col-sm-1"></th>
+											<th class="col-md-1"></th>
+												<c:forEach items="${categoryList}" var="category" varStatus="count">
+											<th class="col-md-1" colspan="2">${category.catDesc}</th>
+											</c:forEach>
+										</tr>
+										<tr class="bgpink">
+										  <th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">PO Type.</th>
+												<c:forEach items="${categoryList}" var="category" varStatus="count">
+											
+											<th class="col-md-1">Monthly</th>
+											<th class="col-md-1">YTD</th>
+											</c:forEach>
+										</tr>
+									</thead>
+									<tbody>
+                                     <%--  <tr>
+                                      <td class="col-sm-1"><c:out value="1" /></td>
+                                      <td class="col-sm-1"><c:out value="Regular" /></td>
+										<c:forEach items="${regularList}" var="regular" varStatus="count">
+											
+											<td class="col-md-2"><c:out value="${regular.target}" /></td>
+												<td class="col-md-1"><c:out value="${regular.basicValue}" /></td>
+												
+											
+										</c:forEach>
+                                      </tr>
+                                        <tr>
+                                       <td class="col-sm-1"><c:out value="2" /></td>
+                                      <td class="col-sm-1"><c:out value="Job Work" /></td>
+										<c:forEach items="${jobWorkList}" var="jobWork" varStatus="count">
+												<td class="col-md-2"><c:out value="${jobWork.target}" /></td>
+												<td class="col-md-1"><c:out value="${jobWork.basicValue}" /></td>
+												
+											
+										</c:forEach>
+										</tr>
+										  <tr>
+                                       <td class="col-sm-1"><c:out value="3" /></td>
+                                      <td class="col-sm-1"><c:out value="General" /></td>
+										<c:forEach items="${generalList}" var="general" varStatus="count">
+												<td class="col-md-2"><c:out value="${general.target}" /></td>
+												<td class="col-md-1"><c:out value="${general.basicValue}" /></td>
+												
+										</c:forEach>
+										</tr> --%>
+										</tbody>
+
+								</table>
+  
+					</div>
+				</div>
+						</div>
+                                </div>
+                            </div>
+    </div>
 </div>
 <br>
 		
@@ -911,6 +1029,8 @@ function enableDiv(status) {
     y.style.display = "none";
     var z = document.getElementById("consumptionReport");
     z.style.display = "none";
+    var z1 = document.getElementById("consumptionReportIssue");
+    z1.style.display = "none";
 	}
 	else if(status==2)
 		{
@@ -920,6 +1040,8 @@ function enableDiv(status) {
 		    y.style.display = "block";
 		    var z = document.getElementById("consumptionReport");
 		    z.style.display = "none";
+		    var z1 = document.getElementById("consumptionReportIssue");
+		    z1.style.display = "none";
 		}
 	else if(status==3)
 	{
@@ -929,6 +1051,19 @@ function enableDiv(status) {
 		    y.style.display = "none";
 		    var z = document.getElementById("consumptionReport");
 		    z.style.display = "block";
+		    var z1 = document.getElementById("consumptionReportIssue");
+		    z1.style.display = "none";
+	}
+	else if(status==4)
+	{
+		 var x = document.getElementById("poPending");
+		    x.style.display = "none";
+		    var y = document.getElementById("mrnPending");
+		    y.style.display = "none";
+		    var z = document.getElementById("consumptionReport");
+		    z.style.display = "none";
+		    var z1 = document.getElementById("consumptionReportIssue");
+		    z1.style.display = "block";
 	}
 }
 function enableDiv1(status) {
