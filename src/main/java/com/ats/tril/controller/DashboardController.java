@@ -110,9 +110,9 @@ public class DashboardController {
 			    
 			    Calendar cal = Calendar.getInstance();
 			    cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE)); 
-			    Date lastDayOfMonth = cal.getTime();*/
+			    Date lastDayOfMonth = cal.getTime();
 				
-				/*Calendar gc = new GregorianCalendar();
+				Calendar gc = new GregorianCalendar();
 		        gc.set(Calendar.MONTH, month);
 		        gc.set(Calendar.DAY_OF_MONTH, 1);
 		        Date monthStart = gc.getTime();
@@ -122,7 +122,7 @@ public class DashboardController {
 		        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 		        System.out.println("Calculated month start date : " + format.format(monthStart));
-		        System.out.println("Calculated month end date : " + format.format(monthEnd));*/
+		        System.out.println("Calculated month end date : " + format.format(monthEnd));
 				
 				Date[] dates = new Date[2];
 
@@ -174,12 +174,13 @@ public class DashboardController {
 				 map.add("toDate", df.format(dates[1]));
 				 
 				 List<ConsumptionReportData>  generalList=rest.postForObject(Constants.url+"getConsumptionData", map, List.class);
-				model.addObject("generalList", generalList);
+				model.addObject("generalList", generalList);*/
 				
 				Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
 				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
 
 				model.addObject("categoryList", categoryList);
+				 
 			}
 				catch (Exception e) {
 					e.printStackTrace();

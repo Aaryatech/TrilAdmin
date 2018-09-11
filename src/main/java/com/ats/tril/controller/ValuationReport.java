@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
@@ -666,6 +667,35 @@ public class ValuationReport {
 		}
 
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/consumptionMrnReportCategoryWise", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> consumptionMrnReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
+
+		List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
+		try {
+			
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+				
+			  
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+		 			map.add("fromDate", fromDate);
+		 			map.add("toDate", toDate); 
+		 			System.out.println(map);
+		 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionMrnData",map, ConsumptionReportWithCatId[].class);
+		 			list = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
+				 
+				  System.out.println(list);
+				  
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 	
 	

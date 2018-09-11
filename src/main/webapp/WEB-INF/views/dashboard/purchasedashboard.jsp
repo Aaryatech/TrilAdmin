@@ -163,6 +163,7 @@ h6{
 </head>
 <body>
      <c:url var="getPoListRes" value="/getPoListRes"></c:url>
+     <c:url var="consumptionMrnReportCategoryWise" value="/consumptionMrnReportCategoryWise"></c:url>
 
 	<!-- BEGIN Container -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -524,9 +525,47 @@ h6{
 
 						</div>
 				<div class="box-content">
+				<div class="box-content">
+							
+								<div class="col-md-2">From Date</div>
+									<div class="col-md-3">
+										<input id="fromDate" class="form-control date-picker"  value="${fromDate}" name="fromDate" type="date"  >
+
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">To Date</div>
+									<div class="col-md-3">
+										<input id="toDate" class="form-control date-picker"  value="${toDate}"  name="toDate" type="date"  >
+
+
+									</div>
+								
+				 
+							</div><br><br>
+							<div align="center" id="loader" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+									  <input type="button" class="btn btn-primary"
+										value="Submit" onclick="search()">  
+										 
+								</div>
+							</div>
+							<br>
+							<br>
 					<div class="clearfix"></div>
-					<div class="table-responsive" >
-						<table class="table table-advance" id="mrnTable" border="1" style="border-left:1px solid black;">  
+					<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
+									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
+										style="width: 100%" id="table_grid"> 
 									<thead>
 									<tr class="bgpink">
 										  <th class="col-sm-1"></th>
@@ -540,13 +579,13 @@ h6{
 											<th class="col-md-1">PO Type.</th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
 											
-											<th class="col-md-1">Limit</th>
-											<th class="col-md-1">Basic Value</th>
+											<th class="col-md-1">Monthly</th>
+											<th class="col-md-1">YTD</th>
 											</c:forEach>
 										</tr>
 									</thead>
 									<tbody>
-                                      <tr>
+                                     <%--  <tr>
                                       <td class="col-sm-1"><c:out value="1" /></td>
                                       <td class="col-sm-1"><c:out value="Regular" /></td>
 										<c:forEach items="${regularList}" var="regular" varStatus="count">
@@ -575,7 +614,7 @@ h6{
 												<td class="col-md-1"><c:out value="${general.basicValue}" /></td>
 												
 										</c:forEach>
-										</tr>
+										</tr> --%>
 										</tbody>
 
 								</table>
@@ -690,7 +729,68 @@ $(window).load(function() {
 
 </script>
 <script type="text/javascript">
+function search() {
+	  
+	
+	var fromDate = $("#fromDate").val();
+	var toDate = $("#toDate").val();
+	
+	if(fromDate=="" || fromDate == null){
+		alert("Select From Date");
+	}
+	else if (toDate=="" || toDate == null){
+		alert("Select To Date");
+	}
+	else{
+	$('#loader').show();
 
+	$
+			.getJSON(
+					'${consumptionMrnReportCategoryWise}',
+
+					{
+						 
+						fromDate : fromDate,
+						toDate : toDate, 
+						ajax : 'true'
+
+					},
+					function(data) {
+
+						$('#table_grid td').remove();
+						$('#loader').hide();
+
+						if (data == "") {
+							alert("No records found !!");
+
+						}
+					 
+
+					  $.each(
+									data,
+									function(key, itemList) {
+									
+
+										var tr = $('<tr></tr>');
+										  
+									  	tr.append($('<td></td>').html(key+1));
+									  	tr.append($('<td></td>').html(itemList.typeName));
+									  	
+									  	for(var i=0 ; i<itemList.consumptionReportList.length ;i++){
+									  		
+									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].monthlyValue));
+									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].ytd));
+									  		
+									  	}
+									   
+									  	
+									    $('#table_grid tbody').append(tr); 
+									})  
+									
+						 
+					}); 
+	}
+}
 function getPoList() {
 	  
 		var poType = $("#poType").val();
