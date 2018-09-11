@@ -995,6 +995,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileIssueApprov", map, ErrorMessage.class);
 			
 			if(approve==2 && approved.isError()==false) {
+				
+				issueForApprove = new GetIssueHeader();
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("issueId",issueId); 
+				 issueForApprove = rest.postForObject(Constants.url + "/getIssueHeaderAndDetailById",map, GetIssueHeader.class);
+				
 				String mrnDetailList = new String();
 				
 				for(int i=0 ; i<issueForApprove.getIssueDetailList().size() ; i++)
@@ -1014,7 +1020,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 {
 					 for(int j=0 ; j<updateMrnDetail.size() ; j++)
 					 {
-						 if(updateMrnDetail.get(j).getMrnDetailId()==issueForApprove.getIssueDetailList().get(i).getMrnDetailId())
+						 if(updateMrnDetail.get(j).getMrnDetailId()==issueForApprove.getIssueDetailList().get(i).getMrnDetailId() 
+								 && (issueForApprove.getIssueDetailList().get(i).getStatus()==7 || issueForApprove.getIssueDetailList().get(i).getStatus()==9))
 						 {
 							 updateMrnDetail.get(j).setRemainingQty(updateMrnDetail.get(j).getRemainingQty()+issueForApprove.getIssueDetailList().get(i).getItemIssueQty());
 							 updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()-issueForApprove.getIssueDetailList().get(i).getItemIssueQty());
