@@ -163,6 +163,7 @@ h6{
 </head>
 <body>
      <c:url var="getPoListRes" value="/getPoListRes"></c:url>
+     <c:url var="consumptionIssueReportCategoryWise" value="/consumptionIssueReportCategoryWise"></c:url>
      <c:url var="consumptionMrnReportCategoryWise" value="/consumptionMrnReportCategoryWise"></c:url>
 
 	<!-- BEGIN Container -->
@@ -516,7 +517,7 @@ h6{
                       <div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Consumption Report
+								<i class="fa fa-table"></i>Consumption Mrn Report
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -544,6 +545,14 @@ h6{
 								
 				 
 							</div><br><br>
+							
+							<div class="form-group">
+								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+									  <input type="button" class="btn btn-primary"
+										value="Submit" onclick="search()">  
+										 
+								</div>
+							</div>
 							<div align="center" id="loader" style="display: none">
 
 								<span>
@@ -553,13 +562,6 @@ h6{
 								</span> <span class="l-1"></span> <span class="l-2"></span> <span
 									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 								<span class="l-6"></span>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									  <input type="button" class="btn btn-primary"
-										value="Submit" onclick="search()">  
-										 
-								</div>
 							</div>
 							<br>
 							<br>
@@ -633,7 +635,7 @@ h6{
                       <div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Consumption Report
+								<i class="fa fa-table"></i>Consumption Issue Report
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -674,16 +676,26 @@ h6{
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									  <input type="button" class="btn btn-primary"
-										value="Submit" onclick="search()">  
+										value="Submit" onclick="searchIssueData()">  
 										 
 								</div>
+							</div>
+							<div align="center" id="loader" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
 							</div>
 							<br>
 							<br>
 					<div class="clearfix"></div>
 					<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid"> 
+										style="width: 100%" id="table_grid1"> 
 									<thead>
 									<tr class="bgpink">
 										  <th class="col-sm-1"></th>
@@ -903,6 +915,69 @@ function search() {
 									   
 									  	
 									    $('#table_grid tbody').append(tr); 
+									})  
+									
+						 
+					}); 
+	}
+}
+
+function searchIssueData() {
+	  
+	
+	var fromDate = $("#fromDate1").val();
+	var toDate = $("#toDate1").val();
+	
+	if(fromDate=="" || fromDate == null){
+		alert("Select From Date");
+	}
+	else if (toDate=="" || toDate == null){
+		alert("Select To Date");
+	}
+	else{
+	$('#loader').show();
+
+	$
+			.getJSON(
+					'${consumptionIssueReportCategoryWise}',
+
+					{
+						 
+						fromDate : fromDate,
+						toDate : toDate, 
+						ajax : 'true'
+
+					},
+					function(data) {
+
+						$('#table_grid1 td').remove();
+						$('#loader').hide();
+
+						if (data == "") {
+							alert("No records found !!");
+
+						}
+					 
+
+					  $.each(
+									data,
+									function(key, itemList) {
+									
+
+										var tr = $('<tr></tr>');
+										  
+									  	tr.append($('<td></td>').html(key+1));
+									  	tr.append($('<td></td>').html(itemList.typeName));
+									  	
+									  	for(var i=0 ; i<itemList.consumptionReportList.length ;i++){
+									  		
+									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].monthlyValue));
+									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].ytd));
+									  		
+									  	}
+									   
+									  	
+									    $('#table_grid1 tbody').append(tr); 
 									})  
 									
 						 
