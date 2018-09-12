@@ -453,7 +453,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].subDeptId + '">'
-							+ data[i].subDeptCode +'&nbsp;&nbsp;&nbsp;s'+data[i].subDeptDesc+'</option>';
+							+ data[i].subDeptCode +' &nbsp;&nbsp;&nbsp; '+data[i].subDeptDesc+'</option>';
 				}
 				html += '</option>';
 				$('#subDeptId').html(html);

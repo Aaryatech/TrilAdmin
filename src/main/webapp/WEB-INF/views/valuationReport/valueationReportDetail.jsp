@@ -35,13 +35,13 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Item Value Report
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -50,7 +50,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Item Value Report
+								<i class="fa fa-table"></i>Item Ledger Report
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/stockBetweenDateWithCatId">Back to List</a> <a data-action="collapse" href="#"><i

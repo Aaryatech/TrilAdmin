@@ -1243,6 +1243,8 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 								IssueHeader.class);
 						  MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
 			    					 MrnDetail[].class);
+						  SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
 						 
 					 }
 			} 

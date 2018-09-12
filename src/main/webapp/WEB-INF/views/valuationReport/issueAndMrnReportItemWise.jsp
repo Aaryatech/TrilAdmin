@@ -28,7 +28,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 
@@ -36,7 +36,7 @@
 
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -48,8 +48,8 @@
 								<i class="fa fa-table"></i>Item Wise Detail
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
-									Add PO</a> <a data-action="collapse" href="#"><i
+								<%-- <a href="${pageContext.request.contextPath}/addPurchaseOrder">
+									Add PO</a> --%> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
