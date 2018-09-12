@@ -218,6 +218,26 @@ public class ValuationReport {
 			
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null) {
 				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 
+				 fromDate =  "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date);
+				 typeId=0;
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",yy.format(date)); 
+		 			map.add("typeId",typeId);
+					StockValuationCategoryWise[] stockValuationCategoryWise = rest.postForObject(Constants.url + "/stockValueationReport",map, StockValuationCategoryWise[].class);
+					categoryWiseReport = new ArrayList<StockValuationCategoryWise>(Arrays.asList(stockValuationCategoryWise));
+					
+					model.addObject("categoryWiseReport", categoryWiseReport);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", dd.format(date));
 			}
 			else {
 				fromDate = request.getParameter("fromDate");
@@ -391,6 +411,29 @@ public class ValuationReport {
 			
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null || request.getParameter("isDev")==null) {
 				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date);
+				 typeId=0;
+				 isDev=-1;
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",yy.format(date)); 
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			System.out.println(map);
+		 			StockValuationCategoryWise[] stockValuationCategoryWise1 = rest.postForObject(Constants.url + "/issueAndMrnCatWiseReport",map, StockValuationCategoryWise[].class);
+					 categoryWiseReport = new ArrayList<StockValuationCategoryWise>(Arrays.asList(stockValuationCategoryWise1));
+				 
+				model.addObject("categoryWiseReport", categoryWiseReport);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", dd.format(date));
 			}
 			else {
 				fromDate = request.getParameter("fromDate");
@@ -1806,6 +1849,34 @@ public class ValuationReport {
 				 
 				  System.out.println(list);
 				  
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+	
+	
+	@RequestMapping(value = "/consumptionIssueReportCategoryWise", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> consumptionIssueReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
+
+		List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
+		try {
+			
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+				
+			  
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+		 			map.add("fromDate", fromDate);
+		 			map.add("toDate", toDate); 
+		 			System.out.println(map);
+		 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionIssueData",map, ConsumptionReportWithCatId[].class);
+		 			list = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
+				 
+				  System.out.println(list); 
 			
 		} catch (Exception e) {
 			e.printStackTrace();

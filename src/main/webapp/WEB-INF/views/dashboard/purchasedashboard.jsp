@@ -212,8 +212,8 @@ h6{
     <div class="selector1"></div>
     <a href="#" class="active" onclick="enableDiv(1)" ><i class="fa fa-shopping-cart "></i>Indent Pending</a>
     <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending MRN</a>
-    <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Receipt Consumption </a>
-       <a href="#" onclick="enableDiv(4)"><i class="fa fa-file-pdf-o" ></i>Issue Consumption </a>
+    <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Receipt  Valuation  </a>
+       <a href="#" onclick="enableDiv(4)"><i class="fa fa-file-pdf-o" ></i>Issue  Valuation </a>
     <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
   </nav>
 </div>
@@ -517,7 +517,7 @@ h6{
                       <div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Receipt Consumption
+								<i class="fa fa-table"></i>Receipt Valuation
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
@@ -635,7 +635,7 @@ h6{
                       <div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Consumption
+								<i class="fa fa-table"></i>Issue Valuation
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addItem">
