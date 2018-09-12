@@ -151,10 +151,9 @@
 								<span class="l-6"></span>
 							</div>
 							<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
+								<label for="search" class="col-md-3" id="search"><input
+									type="text1" id="myInput" onkeyup="myFunction()" 
+									placeholder="Search.." title="Type in a name" class="form-style-search" style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
@@ -214,14 +213,14 @@
 								
 								<c:forEach items="${deparmentList}" var="deparmentList" varStatus="count">
 											<tr> 
-												<td  ><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${count.index+1}" /></td>
  
-												<td  ><c:out value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>  
+												<td><c:out value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>  
 												<c:forEach items="${list}" var="list" varStatus="count">
 												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
 												 <c:choose>
 												 <c:when test="${monthList.deptId==deparmentList.deptId}">
-												<td ><c:out value="${monthList.issueQty}" /></td> 
+												<td><c:out value="${monthList.issueQty}"/></td> 
 														<td ><c:out value="${monthList.issueQtyValue}" /></td> 
 														
 														 </c:when>
@@ -246,6 +245,16 @@
 								</tbody>
 
 								</table>
+								<div class="form-group"  id="range">
+								 
+											 
+											 
+											<div class="col-md-5  controls">
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											
+																								    <button id="btn_pdf" class="btn btn-primary" onclick="genPdf()" >PDF </button>
+											</div>
+											</div>
   
 					</div> 
 					 
@@ -424,6 +433,21 @@ function myFunction() {
 }
  
 </script>
+<script type="text/javascript">
 
+function genPdf(){
+	window.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/');
+}
+
+</script>
+<script type="text/javascript">
+function exportToExcel()
+{
+	 
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled=true;
+}
+
+	</script>
 </body>
 </html>

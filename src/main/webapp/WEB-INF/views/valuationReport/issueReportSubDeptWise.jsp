@@ -476,7 +476,7 @@ function showChart(){
 								       var dataTable = new google.visualization.DataTable();
 								       
 								       dataTable.addColumn('string', 'Department'); // Implicit domain column.
-								       dataTable.addColumn('number', 'Issue Qty'); // Implicit data column.
+								     /*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
 								      // dataTable.addColumn({type:'string', role:'interval'});
 								     //  dataTable.addColumn({type:'string', role:'interval'});
 								       dataTable.addColumn('number', 'Issue Value');
@@ -487,7 +487,7 @@ function showChart(){
 											if(item.issueQty>0){
 										   dataTable.addRows([
 											 
-										             [item.deptCode, item.issueQty, item.issueQtyValue, ]
+										             [item.deptCode,item.issueQtyValue, ]
 										           
 										           ]);
 										   }
