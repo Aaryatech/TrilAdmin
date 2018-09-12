@@ -9,7 +9,7 @@
 
 	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
-
+   	<c:url var="issueReportSubDeptWiseReport" value="/issueReportSubDeptWiseReport"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -55,7 +55,13 @@
 						</div>
 						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueReportDeptWise" method="get">
 								<div class="box-content">
-								
+							<%-- 	
+								 <input type="hidden" name="fromDate" id="fromDate" value="${fromDate}"/>
+								  <input type="hidden" name="toDate" id="toDate" value="${toDate}"/>
+								   <input type="hidden" name="typeId" id="typeId" value="${typeId}"/>
+								    <input type="hidden" name="isDev" id="isDev" value="${isDev}"/>
+								 								     --%>   <input type="hidden" name="deptId" id="deptId" value="${deptId}" />
+
 								 
 								<%-- <div class="box-content">
 							
@@ -224,8 +230,22 @@
 												 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+												&nbsp;
+											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">
+											
 											</div>
+											
+											
 											</div><br><br>
+											
+					<div id="chart" style="display: none"><br> <hr>
+		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
+		
+			<div   id="Piechart" style="width:50%; height:300; float: Left;" ></div>
+			<div   id="PieAmtchart" style="width:50%; height:300; float: right;" ></div> 
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>						
+											
 				</div>
 							</form> 
 
@@ -411,6 +431,211 @@ function exportToExcel()
 {
 	window.open("${pageContext.request.contextPath}/exportToExcel");
 	document.getElementById("expExcel").disabled=true;
+}
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script type="text/javascript">
+	 
+function showChart(){
+		
+		document.getElementById('chart').style.display = "block";
+		  // document.getElementById("tbl").style="display:none";
+		
+		 
+				  // document.getElementById('btn_pdf').style.display = "block";
+				//var fromDate = document.getElementById("fromDate").value;
+				//var toDate = document.getElementById("toDate").value;
+				//var typeId = document.getElementById("typeId").value;
+				//var isDev= document.getElementById("isDev").value;
+				var deptId= document.getElementById("deptId").value;
+				
+				
+				$.getJSON('${issueReportSubDeptWiseReport}',{
+					
+					deptId:deptId,
+									ajax : 'true',
+
+								},
+								function(data) {			
+									//alert(data);alert("No records found !!");
+									
+									 if (data == "") {
+											alert("No records found !!");
+
+									 }
+									 var i=0;
+
+									 google.charts.load('current', {'packages':['corechart', 'bar']});
+									 google.charts.setOnLoadCallback(drawStuff);
+
+									 function drawStuff() {
+		 
+									   var chartDiv = document.getElementById('chart_div');
+									   document.getElementById("chart_div").style.border = "thin dotted red";
+								       var dataTable = new google.visualization.DataTable();
+								       
+								       dataTable.addColumn('string', 'Department'); // Implicit domain column.
+								       dataTable.addColumn('number', 'Issue Qty'); // Implicit data column.
+								      // dataTable.addColumn({type:'string', role:'interval'});
+								     //  dataTable.addColumn({type:'string', role:'interval'});
+								       dataTable.addColumn('number', 'Issue Value');
+								       $.each(data,function(key, item) {
+
+											//var tax=item.cgst + item.sgst;
+											//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
+											if(item.issueQty>0){
+										   dataTable.addRows([
+											 
+										             [item.deptCode, item.issueQty, item.issueQtyValue, ]
+										           
+										           ]);
+										   }
+										     }) 
+								    
+		 var materialOptions = {
+		          width: 600,
+		          height:450,
+		          chart: {
+		            title: ' Issue Qty & Value',
+		            subtitle: 'SubDepartment wise Quantity & Value Graph'
+		          },
+		          series: {
+		            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+		            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+		          },
+		          axes: {
+		            y: {
+		            /*   distance: {label: 'Issue Quantity'}, // Left y-axis. */
+		              brightness: {side: 'right', label: 'Issue Value'} // Right y-axis.
+		            },
+		            textStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  },
+	                  titleTextStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  }
+
+		          }
+		          
+		          
+		        };
+								       var materialChart = new google.charts.Bar(chartDiv);
+								       
+								       function selectHandler() {
+									          var selectedItem = materialChart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									            itemSellBill(data[i].deptCode);
+									           // google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+								       
+								       function drawMaterialChart() {
+								          // var materialChart = new google.charts.Bar(chartDiv);
+								           google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+								           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
+								          // button.innerText = 'Change to Classic';
+								          // button.onclick = drawClassicChart;
+								         }
+								       
+								       function drawQtyChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'SubDepartment');
+											 dataTable.addColumn('number', 'Issue Qty');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.deptCode, item.issueQty]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'SubDept Issue Quantity',
+							                       'width':400,
+							                       'height':250};
+											   
+											   document.getElementById("Piechart").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('Piechart'));
+									        function selectQtyHandler() {
+									          var selectedItem = chart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									          itemSellBill(data[i].deptCode);
+									           // google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+
+									        google.visualization.events.addListener(chart, 'select', selectQtyHandler);    
+									        chart.draw(dataTable, options);
+									      }
+										 
+								       function drawAmtChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'Sub Department');
+											 dataTable.addColumn('number', 'Issue Value');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.deptCode, item.issueQtyValue]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'Sub Department Issue Value',
+							                       'width':400,
+							                       'height':250};
+											   document.getElementById("PieAmtchart").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PieAmtchart'));
+									        function selectAmtHandler() {
+									          var selectedItem = chart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									          itemSellBill(data[i].deptCode);
+									            //google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+
+									        google.visualization.events.addListener(chart, 'select', selectAmtHandler);    
+									        chart.draw(dataTable, options);
+									      }
+										 
+								      /*  var chart = new google.visualization.ColumnChart(
+								                document.getElementById('chart_div'));
+								       chart.draw(dataTable,
+								          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+								       drawMaterialChart();
+								       google.charts.setOnLoadCallback(drawQtyChart);
+								       google.charts.setOnLoadCallback(drawAmtChart);
+									 };
+									 
+										
+							  	});
+			//}
 }
 </script>
 </body>

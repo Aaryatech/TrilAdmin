@@ -532,7 +532,7 @@ function showChart(){
 		          },
 		          axes: {
 		            y: {
-		              distance: {label: 'Issue Quantity'}, // Left y-axis.
+		            /*   distance: {label: 'Issue Quantity'}, // Left y-axis. */
 		              brightness: {side: 'right', label: 'Issue Value'} // Right y-axis.
 		            },
 		            textStyle: {

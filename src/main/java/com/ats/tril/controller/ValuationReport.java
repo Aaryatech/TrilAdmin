@@ -614,6 +614,7 @@ public class ValuationReport {
 					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
 				 
 				model.addObject("deptWiselist", deptWiselist);
+				model.addObject("deptId", deptId);
 				   deptWiselistGlobal=deptWiselist;
 				//------------------------ Export To Excel--------------------------------------
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -654,6 +655,30 @@ public class ValuationReport {
 		}
 
 		return model;
+	}
+	@RequestMapping(value = "/issueReportSubDeptWiseReport", method = RequestMethod.GET)
+	public @ResponseBody List<IssueDeptWise> issueReportSubDeptWiseReport(HttpServletRequest request, HttpServletResponse response) {
+		List<IssueDeptWise> deptWiselist = new ArrayList<IssueDeptWise>();
+
+		try {
+			deptId = Integer.parseInt(request.getParameter("deptId"));
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			map.add("deptId", deptId);
+		 			System.out.println(map);
+		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueSubDepartmentWiseReport",map, IssueDeptWise[].class);
+					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
+					   deptWiselistGlobal=deptWiselist;
+					   System.err.println(deptWiselistGlobal.toString());
+				
+		}catch (Exception e) {
+			// TODO: handle exception
+		    e.printStackTrace();
+		}
+		return deptWiselist;
 	}
 	@RequestMapping(value = "/issueReportItemWise/{subDeptId}", method = RequestMethod.GET)
 	public ModelAndView issueReportItemWise(@PathVariable int subDeptId,HttpServletRequest request, HttpServletResponse response) {
