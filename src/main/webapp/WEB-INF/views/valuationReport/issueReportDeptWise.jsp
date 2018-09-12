@@ -9,7 +9,7 @@
 
 	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
-
+    <c:url var="getIssueReportDeptWise" value="/getIssueReportDeptWise"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -62,7 +62,7 @@
 								<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"  value="${fromDate}" name="fromDate" type="text"  >
+								 placeholder="From Date"  value="${fromDate}" name="fromDate" type="text"  required>
 
 
 									</div>
@@ -70,7 +70,7 @@
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-3">
 										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date" value="${toDate}"  name="toDate" type="text"  >
+								 placeholder="To Date" value="${toDate}"  name="toDate" type="text" required >
 
 
 									</div>
@@ -151,16 +151,32 @@
 											</c:forEach>
 										</select>
 
-									</div>
-									<div class="col-md-1"></div>
+									</div><div class="col-md-1" >
+								<input type="submit" class="btn btn-info"   value="Search"> 
+							</div>
+									<c:choose>
+												<c:when test="${fromDate!=null}">
+									<div class="form-group"  id="range">
+								 
+											 
+											<div class="col-md-4  controls">
+											
+											 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											&nbsp;
+											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph"></div>
+											</div>
+											</c:when></c:choose>
 									 
-								</div><br><br>
+								</div>
 							
-							<div class="row">
+						<!-- 	<div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
 							</div>
-						</div> <br>
+								
+						</div> --> <br>
 							 
 								
 								<div align="center" id="loader" style="display: none">
@@ -174,14 +190,15 @@
 								<span class="l-6"></span>
 							</div>
 							<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
-								</label> 
+								 <label for="search" class="col-md-3" id="search"> <!-- <i
+									class="fa fa-search" style="font-size: 20px"></i> --> <input
+									type="text1" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name" class="form-style-search" style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;
+									"> 
+								 </label>  
 					<br /> <br />
 					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
+					<div class="table-responsive" style="border: 0" id="tbl">
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
@@ -216,6 +233,13 @@
   
 					</div> 
 					 
+	<div id="chart" style="display: none"><br> <hr>
+		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
+		 <br> <br> <br><br> <br> 
+			<div   id="Piechart" style="width:40%; height:300; float: Left;" ></div>
+			<div   id="PieAmtchart" style="width:40%; height:300; float: right;" ></div> 
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>
 					 
 				</div>
 							</form> 
@@ -391,6 +415,239 @@ function myFunction() {
 }
  
 </script>
+<script type="text/javascript">
+function exportToExcel()
+{
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+	document.getElementById("expExcel").disabled=true;
+}
+</script>
+<script type="text/javascript">
 
+function genPdf(){
+	window.open('${pageContext.request.contextPath}/issueReportDeptWisePDF/');
+}
+
+</script>
+	<script type="text/javascript">
+	function validate() {
+	
+	
+		var fromDate =$("#fromDate").val();
+		var toDate =$("#toDate").val();
+		
+
+		var isValid = true;
+
+	 if (fromDate == "" || fromDate == null) {
+
+			isValid = false;
+			alert("Please select From Date");
+		}
+	 else if (toDate == "" || toDate == null) {
+
+			isValid = false;
+			alert("Please select To Date");
+		}
+		return isValid;
+
+	}
+ 
+</script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script type="text/javascript">
+	 
+function showChart(){
+		
+		document.getElementById('chart').style.display = "block";
+		   document.getElementById("tbl").style="display:none";
+		
+		   var isValid = validate();
+			
+			if (isValid) {
+				  // document.getElementById('btn_pdf').style.display = "block";
+				var fromDate = document.getElementById("fromDate").value;
+				var toDate = document.getElementById("toDate").value;
+				var typeId = document.getElementById("typeId").value;
+				var isDev= document.getElementById("isDev").value;
+				var deptId= document.getElementById("deptId").value;
+				
+				
+				$.getJSON('${getIssueReportDeptWise}',{
+					
+									fromDate : fromDate,
+									toDate : toDate,
+									typeId : typeId,
+									isDev:isDev,
+									deptId:deptId,
+									ajax : 'true',
+
+								},
+								function(data) {			
+									//alert(data);
+									 if (data == "") {
+											alert("No records found !!");
+
+									 }
+									 var i=0;
+
+									 google.charts.load('current', {'packages':['corechart', 'bar']});
+									 google.charts.setOnLoadCallback(drawStuff);
+
+									 function drawStuff() {
+		 
+									   var chartDiv = document.getElementById('chart_div');
+									   document.getElementById("chart_div").style.border = "thin dotted red";
+								       var dataTable = new google.visualization.DataTable();
+								       
+								       dataTable.addColumn('string', 'Department'); // Implicit domain column.
+								       dataTable.addColumn('number', 'Issue Qty'); // Implicit data column.
+								      // dataTable.addColumn({type:'string', role:'interval'});
+								     //  dataTable.addColumn({type:'string', role:'interval'});
+								       dataTable.addColumn('number', 'Issue Value');
+								       $.each(data,function(key, item) {
+
+											//var tax=item.cgst + item.sgst;
+											//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
+											if(item.issueQty>0){
+										   dataTable.addRows([
+											 
+										             [item.deptCode, item.issueQty, item.issueQtyValue, ]
+										           
+										           ]);
+										   }
+										     }) 
+								    
+		 var materialOptions = {
+		          width: 600,
+		          height:450,
+		          chart: {
+		            title: ' Issue Qty & Value',
+		            subtitle: 'Department wise Quantity & Value Graph'
+		          },
+		          series: {
+		            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+		            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+		          },
+		          axes: {
+		            y: {
+		              distance: {label: 'Issue Quantity'}, // Left y-axis.
+		              brightness: {side: 'right', label: 'Issue Value'} // Right y-axis.
+		            }
+		          }
+		          
+		          
+		        };
+								       var materialChart = new google.charts.Bar(chartDiv);
+								       
+								       function selectHandler() {
+									          var selectedItem = materialChart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									            itemSellBill(data[i].deptCode);
+									           // google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+								       
+								       function drawMaterialChart() {
+								          // var materialChart = new google.charts.Bar(chartDiv);
+								           google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+								           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
+								          // button.innerText = 'Change to Classic';
+								          // button.onclick = drawClassicChart;
+								         }
+								       
+								       function drawQtyChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'Department');
+											 dataTable.addColumn('number', 'Issue Qty');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.deptCode, item.issueQty]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'Dept Issue Quantity',
+							                       'width':400,
+							                       'height':250};
+											   
+											   document.getElementById("Piechart").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('Piechart'));
+									        function selectQtyHandler() {
+									          var selectedItem = chart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									          itemSellBill(data[i].deptCode);
+									           // google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+
+									        google.visualization.events.addListener(chart, 'select', selectQtyHandler);    
+									        chart.draw(dataTable, options);
+									      }
+										 
+								       function drawAmtChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'Department');
+											 dataTable.addColumn('number', 'Issue Value');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.deptCode, item.issueQtyValue]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'Department Issue Value',
+							                       'width':400,
+							                       'height':250};
+											   document.getElementById("PieAmtchart").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PieAmtchart'));
+									        function selectAmtHandler() {
+									          var selectedItem = chart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									          itemSellBill(data[i].deptCode);
+									            //google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+
+									        google.visualization.events.addListener(chart, 'select', selectAmtHandler);    
+									        chart.draw(dataTable, options);
+									      }
+										 
+								      /*  var chart = new google.visualization.ColumnChart(
+								                document.getElementById('chart_div'));
+								       chart.draw(dataTable,
+								          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+								       drawMaterialChart();
+								       google.charts.setOnLoadCallback(drawQtyChart);
+								       google.charts.setOnLoadCallback(drawAmtChart);
+									 };
+									 
+										
+							  	});
+			}
+}
+</script>
 </body>
 </html>

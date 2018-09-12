@@ -174,10 +174,10 @@
 								<span class="l-6"></span>
 							</div>
 							<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
+								<label for="search" class="col-md-3" id="search"> <!-- <i
+									class="fa fa-search" style="font-size: 20px"></i> --> <input
+									type="text1" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name" class="form-style-search" style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
@@ -215,7 +215,14 @@
 								</table>
   
 					</div> 
-					 
+					 <div class="form-group"  id="range" >
+								 
+											<div class="col-md-5 controls">
+											<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											</div>
+											</div><br><br>
 					 
 				</div>
 							</form> 
@@ -391,6 +398,19 @@ function myFunction() {
 }
  
 </script>
+<script type="text/javascript">
+function exportToExcel()
+{
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+	document.getElementById("expExcel").disabled=true;
+}
+</script>
+<script type="text/javascript">
 
+function genPdf(){
+	window.open('${pageContext.request.contextPath}/issueReportItemWisePDF/');
+}
+
+</script>
 </body>
 </html>
