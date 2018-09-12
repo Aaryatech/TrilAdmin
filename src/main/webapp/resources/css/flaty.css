@@ -1280,7 +1280,28 @@ input.search-query,
     -webkit-box-shadow: none;
             box-shadow: none;
 }
-
+input[type="text1"],
+.form-style-search
+{
+    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 1px 1px #fcfcfc;
+    border: 1px solid #d1d1d1;
+    font: bold 12px Arial,Helvetica,Sans-serif;
+    color:#ec9da5;
+    width: 200px;
+    padding: 6px 15px 6px 35px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -webkit-transition: all 0.7s ease 0s;
+    -moz-transition: all 0.7s ease 0s;
+    -o-transition: all 0.7s ease 0s;
+    transition: all 0.7s ease 0s;
+    
+    }
 .form-control:focus,
 .has-error .form-control:focus,
 .has-success .form-control:focus,
