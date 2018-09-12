@@ -1021,7 +1021,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					 for(int j=0 ; j<updateMrnDetail.size() ; j++)
 					 {
 						 if(updateMrnDetail.get(j).getMrnDetailId()==issueForApprove.getIssueDetailList().get(i).getMrnDetailId() 
-								 && (issueForApprove.getIssueDetailList().get(i).getStatus()==7 || issueForApprove.getIssueDetailList().get(i).getStatus()==9))
+								 && (issueForApprove.getIssueDetailList().get(i).getStatus()!=2))
 						 {
 							 updateMrnDetail.get(j).setRemainingQty(updateMrnDetail.get(j).getRemainingQty()+issueForApprove.getIssueDetailList().get(i).getItemIssueQty());
 							 updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()-issueForApprove.getIssueDetailList().get(i).getItemIssueQty());
