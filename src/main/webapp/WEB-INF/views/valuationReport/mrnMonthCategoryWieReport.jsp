@@ -5,11 +5,11 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="getSubDeptList()">
 
 	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
-
+<c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Issue Month Report Item Wise  
+						<i class="fa fa-file-o"></i>Mrn Category Month Wise Report  
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Month Report Item Wise  
+								<i class="fa fa-table"></i>Mrn Category Month Wise Report   
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i
@@ -53,7 +53,7 @@
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueReportDeptWise" method="get">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/mrnMonthCategoryWieReport" method="get">
 								<div class="box-content">
 								
 								 
@@ -78,7 +78,7 @@
 				 
 							</div><br> --%>
 							
-							<%-- <div class="box-content">
+							<div class="box-content">
 
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
@@ -130,21 +130,23 @@
 										</select>
 
 									</div>
-								</div><br>  --%>
-								<%-- <div class="box-content">
+								</div><br> 
+								
+								<div class="box-content">
+								
 
-									<div class="col-md-2">Select Type*</div>
+									<div class="col-md-2">Select Department*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="deptId" id="deptId"
-											required>
+											onchange="getSubDeptList()" required>
 											<option value="0">All</option>
 											<c:forEach items="${deparmentList}" var="deparmentList">
 											<c:choose>
 												<c:when test="${deparmentList.deptId==deptId}">
-												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc} </option> 
+												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp; ${deparmentList.deptDesc}</option> 
 												</c:when>
 												<c:otherwise>
-												<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc}</option> 
+												<option value="${deparmentList.deptId}" >${deparmentList.deptCode} &nbsp; ${deparmentList.deptDesc}</option> 
 												</c:otherwise>
 											</c:choose> 
 													 
@@ -153,14 +155,23 @@
 
 									</div>
 									<div class="col-md-1"></div>
+									<input type="hidden"    value="${subDeptId}" id="subDeptIds"> 
+									<div class="col-md-2">Select Sub Dept *</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="subDeptId" id="subDeptId"  required>
+											 
+										</select>
+
+									</div>
 									 
-								</div><br><br> --%>
+								</div><br> 
+								 <br>
 							
-							<!-- <div class="row">
+							<div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
 							</div>
-						</div> <br> -->
+						</div> <br>
 							 
 								
 								<div align="center" id="loader" style="display: none">
@@ -187,7 +198,7 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
-										<th class="col-md-4">ITEM NAME</th>  
+										<th class="col-md-4">CATEGORY NAME</th>  
 										<th class="col-md-1" colspan="2">APR</th>
 										<th class="col-md-1" colspan="2">MAY</th>   
 										<th class="col-md-1" colspan="2">JUN</th>
@@ -199,7 +210,8 @@
 										<th class="col-md-1" colspan="2">DEC</th>
 										<th class="col-md-1" colspan="2">JAN</th>
 										<th class="col-md-1" colspan="2">FEB</th>
-										<th class="col-md-1" colspan="2">MAR</th> 
+										<th class="col-md-1" colspan="2">MAR</th>
+										<th class="col-md-1">Action</th> 
 									</tr>
 									<tr class="bgpink">
 										  <th style="width:1%;"></th>
@@ -228,32 +240,42 @@
 											 <th class="col-md-1">Qty</th>
 											 <th class="col-md-1">Value</th>
 											 <th class="col-md-1">Qty</th>
-											 <th class="col-md-1">Value</th> 
+											 <th class="col-md-1">Value</th>
+											 <th class="col-md-1"></th>
 										</tr>
 								</thead>
 								<tbody>
-								<c:set var="sr" value="0" ></c:set>
-								 
-												<c:forEach items="${itemList}" var="itemList" varStatus="count">
+								
+								<c:forEach items="${categoryList}" var="categoryList" varStatus="count">
 											<tr> 
 												<td  ><c:out value="${count.index+1}" /></td>
  
-												<td  ><c:out value="${itemList.itemCode} ${itemList.itemDesc}" /></td>  
+												<td  ><c:out value="${categoryList.catDesc}" /></td>  
 												<c:forEach items="${list}" var="list" varStatus="count">
-												  <c:forEach items="${list.monthSubDeptList}" var="monthSubDeptList" varStatus="count">
+												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
 												 <c:choose>
-												 <c:when test="${monthSubDeptList.subDeptId==itemList.itemId}">
-												<td ><c:out value="${monthSubDeptList.issueQty}" /></td> 
-														<td ><c:out value="${monthSubDeptList.issueQtyValue}" /></td> 
+												 <c:when test="${monthList.catId==categoryList.catId}">
+												<td ><c:out value="${monthList.approveQty}" /></td> 
+														<td ><c:out value="${monthList.approvedQtyValue}" /></td> 
 														
 														 </c:when>
 														</c:choose> 
 														</c:forEach> 
 												</c:forEach>
-												 
+												<td><a href="${pageContext.request.contextPath}/mrnMonthItemWiseReportBycatId/${categoryList.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											
 											</tr>
 										</c:forEach>
-   
+										 <%-- <c:forEach items="${list}" var="list" varStatus="count">
+													 
+														 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
+														 
+														<td ><c:out value="${monthList.monthNo} ${monthList.issueQty}" /></td>  
+														</c:forEach> 
+												 
+													 
+												</c:forEach> --%>
+										
   
 								</tbody>
 
@@ -349,6 +371,37 @@
 
 
 	<script type="text/javascript">
+	
+	function getSubDeptList() {
+		
+		var deptId = document.getElementById("deptId").value;
+		var subDeptIds = document.getElementById("subDeptIds").value;
+		$.getJSON('${getSubDeptList}', {
+
+			deptId : deptId,
+			ajax : 'true'
+		}, function(data) {
+
+			var html = '<option value="0">All</option>';
+
+			var len = data.length;
+			for (var i = 0; i < len; i++) {
+				
+				if(subDeptIds==data[i].subDeptId){
+					html += '<option value="' + data[i].subDeptId + '" selected>'
+					+ data[i].subDeptCode +'&nbsp;&nbsp;&nbsp;s'+data[i].subDeptDesc+'</option>';
+				}
+				else{
+					html += '<option value="' + data[i].subDeptId + '">'
+					+ data[i].subDeptCode +'&nbsp;&nbsp;&nbsp;s'+data[i].subDeptDesc+'</option>';
+				}
+				
+			}
+			html += '</option>';
+			$('#subDeptId').html(html);
+			$("#subDeptId").trigger("chosen:updated");
+		});
+	}
 	function search() {
 		  
 		

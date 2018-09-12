@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Issue Month Report Item Wise  
+						<i class="fa fa-file-o"></i>MRN Month Report Item Wise  
 
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Month Report Item Wise  
+								<i class="fa fa-table"></i>MRN Month Report Item Wise  
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i
@@ -236,20 +236,25 @@
 								 
 												<c:forEach items="${itemList}" var="itemList" varStatus="count">
 											<tr> 
-												<td  ><c:out value="${count.index+1}" /></td>
- 
+											<c:choose>
+												 <c:when test="${catId==itemList.catId}">
+												<td  ><c:out value="${sr+1}" /></td>
+ 													<c:set var="sr" value="${sr+1}" ></c:set>
+ 													
 												<td  ><c:out value="${itemList.itemCode} ${itemList.itemDesc}" /></td>  
 												<c:forEach items="${list}" var="list" varStatus="count">
-												  <c:forEach items="${list.monthSubDeptList}" var="monthSubDeptList" varStatus="count">
+												  <c:forEach items="${list.itemWiseMonthList}" var="itemWiseMonthList" varStatus="count">
 												 <c:choose>
-												 <c:when test="${monthSubDeptList.subDeptId==itemList.itemId}">
-												<td ><c:out value="${monthSubDeptList.issueQty}" /></td> 
-														<td ><c:out value="${monthSubDeptList.issueQtyValue}" /></td> 
+												 <c:when test="${itemWiseMonthList.itemId==itemList.itemId}">
+												<td ><c:out value="${itemWiseMonthList.approveQty}" /></td> 
+														<td ><c:out value="${itemWiseMonthList.approvedQtyValue}" /></td> 
 														
 														 </c:when>
 														</c:choose> 
 														</c:forEach> 
 												</c:forEach>
+												</c:when>
+												</c:choose>
 												 
 											</tr>
 										</c:forEach>
