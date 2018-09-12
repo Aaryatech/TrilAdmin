@@ -235,9 +235,9 @@
 					 
 	<div id="chart" style="display: none"><br> <hr>
 		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
-		 <br> <br> <br><br> <br> 
-			<div   id="Piechart" style="width:40%; height:300; float: Left;" ></div>
-			<div   id="PieAmtchart" style="width:40%; height:300; float: right;" ></div> 
+		
+			<div   id="Piechart" style="width:50%; height:300; float: Left;" ></div>
+			<div   id="PieAmtchart" style="width:50%; height:300; float: right;" ></div> 
 				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
 				</div>
 					 
@@ -534,7 +534,22 @@ function showChart(){
 		            y: {
 		              distance: {label: 'Issue Quantity'}, // Left y-axis.
 		              brightness: {side: 'right', label: 'Issue Value'} // Right y-axis.
-		            }
+		            },
+		            textStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  },
+	                  titleTextStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  }
+
 		          }
 		          
 		          
