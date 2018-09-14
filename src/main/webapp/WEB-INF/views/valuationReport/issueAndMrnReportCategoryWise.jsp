@@ -136,6 +136,20 @@
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
+								<c:choose>
+												<c:when test="${fromDate!=null}">
+									 
+								 
+											 
+											 
+											
+											 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											&nbsp;
+											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
+											 
+											</c:when></c:choose>
 							</div>
 						</div> <br>
 							 
@@ -293,6 +307,14 @@
 
 
 	<script type="text/javascript">
+	function genPdf(){
+		window.open('${pageContext.request.contextPath}/issueAndMrnCategoryWisePDF/');
+	}
+	function exportToExcel()
+	{
+		window.open("${pageContext.request.contextPath}/exportToExcel");
+		document.getElementById("expExcel").disabled=true;
+	}
 	function search() {
 		  
 		
