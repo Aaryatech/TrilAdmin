@@ -193,12 +193,14 @@
 									</tr>
 								</thead>
 								<tbody>
-								
+								<c:set var="sr" value="0"> </c:set>
 								<c:forEach items="${itemWiselist}" var="itemWiselist" varStatus="count">
 											<tr>
 											
-												 
-												<td  ><c:out value="${count.index+1}" /></td>
+												  <c:choose>
+												 	<c:when test="${itemWiselist.issueQty>0 or itemWiselist.issueQtyValue>0}">
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
  
 												<td  ><c:out value="${itemWiselist.deptCode}" /></td>   
 											<td class="col-md-1"><c:out
@@ -207,6 +209,8 @@
 													value="${itemWiselist.issueQtyValue}" /></td> 
 											 <%-- <td><a href="${pageContext.request.contextPath}/issueSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											 --%>
+											 </c:when>
+											 </c:choose>
 											</tr>
 										</c:forEach>
   

@@ -210,9 +210,25 @@
 										</tr>
 								</thead>
 								<tbody>
-								
+								<c:set var="sr" value="0"> </c:set>
 								<c:forEach items="${deparmentList}" var="deparmentList" varStatus="count">
 											<tr> 
+											<%-- <c:set var="flag" value="0"> </c:set>
+											<c:forEach items="${list}" var="list" varStatus="count">
+												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
+												 <c:choose>
+												 <c:when test="${monthList.deptId==deparmentList.deptId}">
+												  <c:choose>
+												 	<c:when test="${monthList.issueQty>0 or monthList.issueQtyValue>0}">
+												 	<c:set var="flag" value="0"> </c:set>
+												 	</c:when>
+												 	</c:choose>
+														 </c:when>
+														</c:choose> 
+														</c:forEach> 
+												</c:forEach> --%>
+												
+												
 												<td><c:out value="${count.index+1}" /></td>
  
 												<td><c:out value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>  

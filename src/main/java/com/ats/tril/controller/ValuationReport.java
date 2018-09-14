@@ -538,6 +538,32 @@ public class ValuationReport {
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null || 
 					request.getParameter("isDev")==null || request.getParameter("deptId")==null) {
 				
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date);
+				 typeId=0;
+				 isDev=-1;
+				 deptId=0;
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",yy.format(date)); 
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			map.add("deptId", deptId);
+		 			System.out.println(map);
+		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueDepartmentWiseReport",map, IssueDeptWise[].class);
+					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
+			
+					 model.addObject("deptWiselist", deptWiselist);
+						model.addObject("fromDate", fromDate);
+						model.addObject("toDate", toDate);
 			}
 			else {
 				fromDate = request.getParameter("fromDate");

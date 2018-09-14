@@ -149,12 +149,17 @@
 									</tr>
 								</thead>
 								<tbody>
-								
+								<c:set var="sr" value="0"> </c:set>
 								<c:forEach items="${categoryWiseReport}" var="categoryWiseReport" varStatus="count">
+								<c:choose>
+												 	<c:when test="${categoryWiseReport.approveQty>0 or categoryWiseReport.approvedQtyValue>0 
+												 	or categoryWiseReport.issueQty>0 or categoryWiseReport.issueQtyValue>0 or categoryWiseReport.damageQty>0 or categoryWiseReport.damageValue>0 
+												 	or categoryWiseReport.openingStock>0 or categoryWiseReport.opStockValue>0 }">
 											<tr>
 											
 												 
-												<td  ><c:out value="${count.index+1}" /></td>
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
 
 
 												<td  ><c:out value="${categoryWiseReport.catDesc}" /></td>
@@ -186,6 +191,8 @@
 											 <td><a href="${pageContext.request.contextPath}/stockSummaryWithCatId/${categoryWiseReport.catId}/" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
+											</c:when>
+											</c:choose>
 										</c:forEach>
   
 								</tbody>

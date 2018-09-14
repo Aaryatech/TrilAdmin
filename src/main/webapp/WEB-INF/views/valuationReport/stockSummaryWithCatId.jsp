@@ -140,11 +140,16 @@
 									</tr>
 								</thead>
 								<tbody>
-								
+								<c:set var="sr" value="0"> </c:set>
 								<c:forEach items="${list}" var="list" varStatus="count">
+								<c:choose>
+												 	<c:when test="${list.approveQty>0 or list.approvedQtyValue>0 
+												 	or list.issueQty>0 or list.issueQtyValue>0 or list.damageQty>0 or list.damagValue>0 
+												 	or list.openingStock>0 or list.opStockValue>0}">
 											<tr>
 											 
-												<td  ><c:out value="${count.index+1}" /></td>
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
 
 
 												<td  ><c:out value="${list.itemCode}" /></td>
@@ -175,6 +180,9 @@
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
 											  
 											</tr>
+											</c:when>
+											</c:choose>
+											
 										</c:forEach>
   
 								</tbody>
