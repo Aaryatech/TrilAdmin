@@ -9,6 +9,7 @@
 
 	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="listForStockValuetioinGraph" value="/listForStockValuetioinGraph"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -107,6 +108,22 @@
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
+								
+								<c:choose>
+												<c:when test="${fromDate!=null}">
+									 
+								 
+											 
+											 
+											
+											 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											&nbsp;
+											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph"> 
+											 
+											</c:when></c:choose>
+											
 							</div>
 						</div> <br>
 							 
@@ -129,7 +146,7 @@
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
+					<div class="table-responsive" style="border: 0" id="tbl">
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
@@ -200,8 +217,18 @@
 								</table>
   
 					</div> 
+					
+					<div id="chart" style="display: none"><br> <hr>
+		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
+		
+			<div   id="Piechart" style="width:50%; height:300; float: Left;" ></div>
+			<div   id="PieAmtchart" style="width:50%; height:300; float: right;" ></div> 
+			<div   id="PiechartIssue" style="width:50%; height:300; float: Left;" ></div>
+			<div   id="PiechartDamage" style="width:50%; height:300; float: right;" ></div> 
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>
 					 
-					 
+					 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br>
 				</div>
 							</form> 
 
@@ -211,6 +238,7 @@
 					</div>
 					 
 				</div>
+				
 				<footer>
 				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
@@ -286,9 +314,243 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	 
+function showChart(){
+		
+		document.getElementById('chart').style.display = "block";
+		   document.getElementById("tbl").style="display:none";
+		 
+				$.getJSON('${listForStockValuetioinGraph}',{
+					
+									 
+									ajax : 'true',
 
+								},
+								function(data) {			
+									//alert(data);
+									 if (data == "") {
+											alert("No records found !!");
 
+									 }
+									 var i=0;
+									 //alert(data);
+									 google.charts.load('current', {'packages':['corechart', 'bar']});
+									 google.charts.setOnLoadCallback(drawStuff);
+									 //alert(data);
+									 function drawStuff() {
+		 
+									   var chartDiv = document.getElementById('chart_div');
+									   document.getElementById("chart_div").style.border = "thin dotted red";
+								       var dataTable = new google.visualization.DataTable();
+								       
+								       dataTable.addColumn('string', 'Department'); // Implicit domain column.
+								     /*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
+								      // dataTable.addColumn({type:'string', role:'interval'});
+								     //  dataTable.addColumn({type:'string', role:'interval'});
+								       dataTable.addColumn('number', 'OP VALUE');
+								       dataTable.addColumn('number', 'MRN Value');
+								       dataTable.addColumn('number', 'ISSUE Value');
+								       dataTable.addColumn('number', 'DAMAGE Value');
+								       $.each(data,function(key, item) {
+
+											//var tax=item.cgst + item.sgst;
+											//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
+											 
+										   dataTable.addRows([
+											 
+										             [item.catDesc, item.opStockValue,item.approvedQtyValue,item.issueQtyValue,item.damageValue, ]
+										           
+										           ]);
+										  
+										     }) 
+								    
+		 var materialOptions = {
+		          width: 600,
+		          height:450,
+		          chart: {
+		            title: 'STOCK VALUE',
+		            subtitle: 'CATEGORY WISE'
+		          },
+		          series: {
+		            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+		            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+		          },
+		          axes: {
+		            y: {
+		            /*   distance: {label: 'Issue Quantity'}, // Left y-axis. */
+		              brightness: {side: 'right', label: 'VALUE'} // Right y-axis.
+		            },
+		            textStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  },
+	                  titleTextStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  }
+
+		          }
+		          
+		          
+		        };
+								       var materialChart = new google.charts.Bar(chartDiv);
+								       
+								       function selectHandler() {
+									          var selectedItem = materialChart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									            itemSellBill(data[i].deptCode);
+									           // google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+								       
+								       function drawMaterialChart() {
+								          // var materialChart = new google.charts.Bar(chartDiv);
+								           google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+								           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
+								          // button.innerText = 'Change to Classic';
+								          // button.onclick = drawClassicChart;
+								         }
+								        
+								       function drawOpValueChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'CATEGORY');
+											 dataTable.addColumn('number', 'OP VALUE');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.catDesc, item.opStockValue,]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'CATEGORY OP VALUE',
+							                       'width':400,
+							                       'height':250};
+											   document.getElementById("Piechart").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('Piechart'));
+									           
+									        chart.draw(dataTable, options);
+									      }
+								       
+								       function drawMrnValueChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'CATEGORY');
+											 dataTable.addColumn('number', 'MRN VALUE');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.catDesc, item.approvedQtyValue,]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'CATEGORY MRN VALUE',
+							                       'width':400,
+							                       'height':250};
+											   document.getElementById("PieAmtchart").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PieAmtchart'));
+									           
+									        chart.draw(dataTable, options);
+									      }
+								       
+								       function drawIssueChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'CATEGORY');
+											 dataTable.addColumn('number', 'ISSUE VALUE');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.catDesc, item.issueQtyValue,]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'CATEGORY ISSUE VALUE',
+							                       'width':400,
+							                       'height':250};
+											   document.getElementById("PiechartIssue").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PiechartIssue'));
+									           
+									        chart.draw(dataTable, options);
+									      }
+								       
+								       function drawDamageChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'CATEGORY');
+											 dataTable.addColumn('number', 'DAMAGE VALUE');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.catDesc, item.damageValue,]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'CATEGORY DAMAGE VALUE',
+							                       'width':400,
+							                       'height':250};
+											   document.getElementById("PiechartDamage").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PiechartDamage'));
+									           
+									        chart.draw(dataTable, options);
+									      }
+										 
+								      /*  var chart = new google.visualization.ColumnChart(
+								                document.getElementById('chart_div'));
+								       chart.draw(dataTable,
+								          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+								       drawMaterialChart();
+								          google.charts.setOnLoadCallback(drawDamageChart);
+								          google.charts.setOnLoadCallback(drawIssueChart);
+								          google.charts.setOnLoadCallback(drawOpValueChart);
+								       google.charts.setOnLoadCallback(drawMrnValueChart);
+									 };
+									 
+										
+							  	});
+			 
+}
+</script>
 	<script type="text/javascript">
+	function genPdf(){
+		window.open('${pageContext.request.contextPath}/stockValuetionReportCategoryWisePDF/');
+	}
+	function exportToExcel()
+	{
+		window.open("${pageContext.request.contextPath}/exportToExcel");
+		document.getElementById("expExcel").disabled=true;
+	}
 	function search() {
 		  
 		

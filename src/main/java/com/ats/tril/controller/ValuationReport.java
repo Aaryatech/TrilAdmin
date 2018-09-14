@@ -286,6 +286,8 @@ public class ValuationReport {
 		return model;
 	}
 	
+	List<StockValuationCategoryWise> stockCategoryWiseListForPdf = new ArrayList<StockValuationCategoryWise>();
+	
 	@RequestMapping(value = "/stockValueationReportCategoryWise", method = RequestMethod.GET)
 	public ModelAndView stockValueationReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
 
@@ -318,6 +320,7 @@ public class ValuationReport {
 					model.addObject("categoryWiseReport", categoryWiseReport);
 					model.addObject("fromDate", fromDate);
 					model.addObject("toDate", dd.format(date));
+					stockCategoryWiseListForPdf=categoryWiseReport;
 			}
 			else {
 				fromDate = request.getParameter("fromDate");
@@ -387,10 +390,69 @@ public class ValuationReport {
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
 				model.addObject("typeId", typeId);
-				
+				stockCategoryWiseListForPdf=categoryWiseReport;
 				
 				
 			}
+			
+			//----------------exel-------------------------
+			
+			
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("CATEGORY");
+			rowData.add("OP QTY");
+			rowData.add("OP VALUE");
+			rowData.add("MRN QTY");
+			rowData.add("MRN VALUE");
+			rowData.add("ISSUE QTY");
+			rowData.add("ISSUE VALUE");
+			rowData.add("DAMAGE QTY");
+			rowData.add("DAMAGE VALUE");
+			rowData.add("C\\L QTY");
+			rowData.add("C\\L VALUE");
+			
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < categoryWiseReport.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i+1)+"");
+				rowData.add(categoryWiseReport.get(i).getCatDesc());
+				rowData.add(""+categoryWiseReport.get(i).getOpeningStock());
+				rowData.add(""+categoryWiseReport.get(i).getOpStockValue());
+				rowData.add(""+categoryWiseReport.get(i).getApproveQty());
+				rowData.add(""+categoryWiseReport.get(i).getApprovedQtyValue());
+				rowData.add(""+categoryWiseReport.get(i).getIssueQty());
+				rowData.add(""+categoryWiseReport.get(i).getIssueQtyValue());
+				rowData.add(""+categoryWiseReport.get(i).getDamageQty());
+				rowData.add(""+categoryWiseReport.get(i).getDamageValue());
+				
+				float closingQty = categoryWiseReport.get(i).getOpeningStock()+categoryWiseReport.get(i).getApproveQty()-
+						categoryWiseReport.get(i).getIssueQty()-categoryWiseReport.get(i).getDamageQty();
+				
+				float closingValue = categoryWiseReport.get(i).getOpStockValue()+categoryWiseReport.get(i).getApprovedQtyValue()-
+						categoryWiseReport.get(i).getIssueQtyValue()-categoryWiseReport.get(i).getDamageValue();
+				
+				
+				rowData.add(""+closingQty);
+				rowData.add(""+closingValue);
+
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "CategoryWiseStockValue");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,6 +460,291 @@ public class ValuationReport {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/stockValuetionReportCategoryWisePDF", method = RequestMethod.GET)
+	public void stockValuetionReportCategoryWisePDF(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+	
+		PdfPTable table = new PdfPTable(12);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.4f, 1.7f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("CATEGORY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OP QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OP VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DAMAGE QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DAMAGE VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			
+			int index = 0;
+			if(!stockCategoryWiseListForPdf.isEmpty()) {
+					for (int k = 0; k < stockCategoryWiseListForPdf.size(); k++) {
+                            
+						if(stockCategoryWiseListForPdf.get(k).getOpeningStock()>0 || stockCategoryWiseListForPdf.get(k).getOpStockValue()>0 
+								|| stockCategoryWiseListForPdf.get(k).getApproveQty()>0 || stockCategoryWiseListForPdf.get(k).getApprovedQtyValue()>0
+								|| stockCategoryWiseListForPdf.get(k).getIssueQty()>0 || stockCategoryWiseListForPdf.get(k).getIssueQtyValue()>0
+								|| stockCategoryWiseListForPdf.get(k).getDamageQty()>0 || stockCategoryWiseListForPdf.get(k).getDamageValue()>0) {
+							
+						
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(stockCategoryWiseListForPdf.get(k).getCatDesc(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getOpeningStock(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getOpStockValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getApproveQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getIssueQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getIssueQtyValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getDamageQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getDamageValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							float closingQty = stockCategoryWiseListForPdf.get(k).getOpeningStock()+stockCategoryWiseListForPdf.get(k).getApproveQty()-
+									stockCategoryWiseListForPdf.get(k).getIssueQty()-stockCategoryWiseListForPdf.get(k).getDamageQty();
+							
+							float closingValue = stockCategoryWiseListForPdf.get(k).getOpStockValue()+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue()-
+									stockCategoryWiseListForPdf.get(k).getIssueQtyValue()-stockCategoryWiseListForPdf.get(k).getDamageValue();
+							
+							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						}
+					}
+			}
+			
+			document.open();
+			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+
+				Paragraph headingDate=new Paragraph("Category Wise Stock Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
+			document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/listForStockValuetioinGraph", method = RequestMethod.GET)
+	public @ResponseBody List<StockValuationCategoryWise> listForStockValuetioinGraph(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return stockCategoryWiseListForPdf;
+	}
+	
+	
+	List<GetCurrentStock> itemWiseStockValuetionListForPDF = new ArrayList<>();
 	
 	@RequestMapping(value = "/stockSummaryWithCatId/{catId}", method = RequestMethod.GET)
 	public ModelAndView stockSummaryWithCatId(@PathVariable int catId, HttpServletRequest request, HttpServletResponse response) {
@@ -469,14 +816,356 @@ public class ValuationReport {
 	 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
 	 			getStockBetweenDate = new ArrayList<>(Arrays.asList(getCurrentStock));
 			 }
-			  
+			 itemWiseStockValuetionListForPDF=getStockBetweenDate;
 			 model.addObject("list",getStockBetweenDate);
+			 
+			//----------------exel-------------------------
+				
+				
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				rowData.add("SR. No");
+				rowData.add("ITEM NAME");
+				rowData.add("OP QTY");
+				rowData.add("OP VALUE");
+				rowData.add("MRN QTY");
+				rowData.add("MRN VALUE");
+				rowData.add("ISSUE QTY");
+				rowData.add("ISSUE VALUE");
+				rowData.add("DAMAGE QTY");
+				rowData.add("DAMAGE VALUE");
+				rowData.add("C\\L QTY");
+				rowData.add("C\\L VALUE");
+				
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				int k=0;
+				for (int i = 0; i < getStockBetweenDate.size(); i++) {
+					if(getStockBetweenDate.get(i).getOpeningStock()>0 || getStockBetweenDate.get(i).getOpStockValue()>0 || 
+							getStockBetweenDate.get(i).getApproveQty()>0 || getStockBetweenDate.get(i).getApprovedQtyValue()>0 || 
+							getStockBetweenDate.get(i).getIssueQty()>0 || getStockBetweenDate.get(i).getApprovedQtyValue()>0 || 
+							getStockBetweenDate.get(i).getIssueQty()>0 || getStockBetweenDate.get(i).getIssueQtyValue()>0 
+							|| getStockBetweenDate.get(i).getDamageQty()>0 || getStockBetweenDate.get(i).getDamagValue()>0) {
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					k++;
+					rowData.add((k)+"");
+					rowData.add(getStockBetweenDate.get(i).getItemCode());
+					rowData.add(""+getStockBetweenDate.get(i).getOpeningStock());
+					rowData.add(""+getStockBetweenDate.get(i).getOpStockValue());
+					rowData.add(""+getStockBetweenDate.get(i).getApproveQty());
+					rowData.add(""+getStockBetweenDate.get(i).getApprovedQtyValue());
+					rowData.add(""+getStockBetweenDate.get(i).getIssueQty());
+					rowData.add(""+getStockBetweenDate.get(i).getIssueQtyValue());
+					rowData.add(""+getStockBetweenDate.get(i).getDamageQty());
+					rowData.add(""+getStockBetweenDate.get(i).getDamagValue());
+					
+					float closingQty = getStockBetweenDate.get(i).getOpeningStock()+getStockBetweenDate.get(i).getApproveQty()-
+							getStockBetweenDate.get(i).getIssueQty()-getStockBetweenDate.get(i).getDamageQty();
+					
+					float closingValue = getStockBetweenDate.get(i).getOpStockValue()+getStockBetweenDate.get(i).getApprovedQtyValue()-
+							getStockBetweenDate.get(i).getIssueQtyValue()-getStockBetweenDate.get(i).getDamagValue();
+					
+					
+					rowData.add(""+closingQty);
+					rowData.add(""+closingValue);
+
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+					}
+
+				}
+
+				HttpSession session = request.getSession();
+				session.setAttribute("exportExcelList", exportToExcelList);
+				session.setAttribute("excelName", "ItemWiseStockValue");
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		 
 		return model;
+	}
+	
+	@RequestMapping(value = "/stockValuetionReportItemWisePDF", method = RequestMethod.GET)
+	public void stockValuetionReportItemWisePDF(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A3);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+	
+		PdfPTable table = new PdfPTable(12);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.4f, 4.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("CATEGORY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OP QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OP VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DAMAGE QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DAMAGE VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			
+			int index = 0;
+			if(!itemWiseStockValuetionListForPDF.isEmpty()) {
+					for (int k = 0; k < itemWiseStockValuetionListForPDF.size(); k++) {
+                            
+						if(itemWiseStockValuetionListForPDF.get(k).getOpeningStock()>0 || itemWiseStockValuetionListForPDF.get(k).getOpStockValue()>0 
+								|| itemWiseStockValuetionListForPDF.get(k).getApproveQty()>0 || itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue()>0
+								|| itemWiseStockValuetionListForPDF.get(k).getIssueQty()>0 || itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue()>0
+								|| itemWiseStockValuetionListForPDF.get(k).getDamageQty()>0 || itemWiseStockValuetionListForPDF.get(k).getDamagValue()>0) {
+							
+						
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(itemWiseStockValuetionListForPDF.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getOpeningStock(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getOpStockValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getApproveQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getIssueQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getDamageQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getDamagValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							float closingQty = itemWiseStockValuetionListForPDF.get(k).getOpeningStock()+itemWiseStockValuetionListForPDF.get(k).getApproveQty()-
+									itemWiseStockValuetionListForPDF.get(k).getIssueQty()-itemWiseStockValuetionListForPDF.get(k).getDamageQty();
+							
+							float closingValue = itemWiseStockValuetionListForPDF.get(k).getOpStockValue()+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue()-
+									itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue()-itemWiseStockValuetionListForPDF.get(k).getDamagValue();
+							
+							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						}
+					}
+			}
+			
+			document.open();
+			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+
+				Paragraph headingDate=new Paragraph("Item Wise Stock Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
+			document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping(value = "/issueAndMrnReportCategoryWise", method = RequestMethod.GET)
@@ -644,6 +1333,7 @@ public class ValuationReport {
 					 model.addObject("deptWiselist", deptWiselist);
 						model.addObject("fromDate", fromDate);
 						model.addObject("toDate", toDate);
+						deptWiselistGlobal=deptWiselist;
 			}
 			else {
 				fromDate = request.getParameter("fromDate");

@@ -76,9 +76,9 @@
 			</a>
 			<div style="clear: both;"></div>
 			<ul class="nav nav-list">
-				<li class="active"><a href="home"> <i
+				<!-- <li class="active"><a href="home"> <i
 						class="fa fa-dashboard"></i> <span>Dashboard</span>
-				</a></li>
+				</a></li> -->
 
 				<c:forEach items="${sessionScope.newModuleList}" var="allModuleList"
 									varStatus="count">
