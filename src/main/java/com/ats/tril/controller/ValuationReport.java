@@ -79,6 +79,8 @@ public class ValuationReport {
 	int isDev;
 	int deptId;
 	int subDeptId;
+	int catId;
+	
 	List<IssueMonthWiseList> listGlobal;List<Dept> deparmentList;
 	@RequestMapping(value = "/stockBetweenDateWithCatId", method = RequestMethod.GET)
 	public ModelAndView itemValueationReport(HttpServletRequest request, HttpServletResponse response) {
@@ -90,6 +92,83 @@ public class ValuationReport {
 			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
 
 			model.addObject("categoryList", categoryList); 
+			List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
+			
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("catId")==null) {
+				
+			}
+			else {
+				
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				catId = Integer.parseInt(request.getParameter("catId"));
+				 
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				
+				Date date = dd.parse(fromDate);
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 String firstDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 
+				 System.out.println(DateConvertor.convertToYMD(firstDate) + DateConvertor.convertToYMD(fromDate));
+				 
+				 if(DateConvertor.convertToYMD(firstDate).compareTo(DateConvertor.convertToYMD(fromDate))<0)
+				 {
+					calendar.add(Calendar.DATE, -1);
+					String previousDate = yy.format(new Date(calendar.getTimeInMillis())); 
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(firstDate));
+		 			map.add("toDate",previousDate); 
+		 			map.add("catId", catId);
+		 			System.out.println(map);
+		 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatId",map,GetCurrentStock[].class); 
+		 			List<GetCurrentStock> diffDateStock = new ArrayList<>(Arrays.asList(getCurrentStock));
+		 			
+		 			calendar.add(Calendar.DATE, 1);
+					String addDay = yy.format(new Date(calendar.getTimeInMillis()));
+		 			map = new LinkedMultiValueMap<>();
+					map.add("fromDate",addDay);
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+		 			map.add("catId", catId);
+		 			System.out.println(map);
+		 			GetCurrentStock[] getCurrentStock1 = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatId",map,GetCurrentStock[].class); 
+		 			 getStockBetweenDate = new ArrayList<>(Arrays.asList(getCurrentStock1));
+		 			 
+		 			 for(int i = 0 ; i< getStockBetweenDate.size() ; i++)
+		 			 {
+		 				 for(int j = 0 ; j< diffDateStock.size() ; j++)
+			 			 {
+		 					 if(getStockBetweenDate.get(i).getItemId()==diffDateStock.get(j).getItemId())
+		 					 {
+		 						getStockBetweenDate.get(i).setOpeningStock(diffDateStock.get(j).getOpeningStock()+diffDateStock.get(j).getApproveQty()-diffDateStock.get(j).getIssueQty()
+								 +diffDateStock.get(j).getReturnIssueQty()-diffDateStock.get(j).getDamageQty()-diffDateStock.get(j).getGatepassQty()
+								 +diffDateStock.get(j).getGatepassReturnQty());
+		 						getStockBetweenDate.get(i).setOpStockValue(diffDateStock.get(j).getOpStockValue()+diffDateStock.get(j).getApprovedQtyValue()-diffDateStock.get(j).getIssueQtyValue()-diffDateStock.get(j).getDamagValue());
+		 						
+		 						break;
+		 					 }
+			 			 }
+		 			 }
+				 }
+				 else
+				 {
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+		 			map.add("catId", catId);
+		 			System.out.println(map);
+		 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatId",map,GetCurrentStock[].class); 
+		 			getStockBetweenDate = new ArrayList<>(Arrays.asList(getCurrentStock));
+				 }
+				 model.addObject("list", getStockBetweenDate); 
+				 model.addObject("fromDate", fromDate);
+				 model.addObject("toDate", toDate);
+				 model.addObject("catId", catId);
+				
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,7 +187,7 @@ public class ValuationReport {
 		 
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
-			int catId = Integer.parseInt(request.getParameter("catId"));
+			catId = Integer.parseInt(request.getParameter("catId"));
 			 
 			
 			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
@@ -191,6 +270,7 @@ public class ValuationReport {
 			
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			//map.add("catId", catId);
 			ItemValuationList[] itemValuation = rest.postForObject(Constants.url + "/valueationReportDetail",map, ItemValuationList[].class);
 			List<ItemValuationList> itemValuationList = new ArrayList<ItemValuationList>(Arrays.asList(itemValuation));
 

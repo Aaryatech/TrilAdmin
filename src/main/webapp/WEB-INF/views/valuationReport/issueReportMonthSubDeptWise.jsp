@@ -28,7 +28,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 
@@ -36,7 +36,7 @@
 
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Month Report Sub Dept Wise  
+								<i class="fa fa-table"></i>Issue Sub Dept Month Wise Report    
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i

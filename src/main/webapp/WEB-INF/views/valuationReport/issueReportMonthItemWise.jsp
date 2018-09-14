@@ -28,15 +28,15 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Issue Month Report Item Wise  
+						<i class="fa fa-file-o"></i>Issue Item Wise Month Report   
 
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Month Report Item Wise  
+								<i class="fa fa-table"></i>Issue Item Wise Month Report  
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i

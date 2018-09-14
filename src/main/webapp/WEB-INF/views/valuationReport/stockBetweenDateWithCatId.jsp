@@ -54,7 +54,7 @@
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/submitMonthEnd" method="post">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/stockBetweenDateWithCatId" method="get">
 								<div class="box-content">
 								
 								 
@@ -63,7 +63,7 @@
 								<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"   name="fromDate" type="text"  >
+								 placeholder="From Date"   name="fromDate" value="${fromDate}" type="text"  >
 
 
 									</div>
@@ -71,7 +71,7 @@
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-3">
 										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date"   name="toDate" type="text"  >
+								 placeholder="To Date"   name="toDate" value="${toDate}" type="text"  >
 
 
 									</div>
@@ -87,7 +87,15 @@
 											required>
 											<option value="">select</option>
 											<c:forEach items="${categoryList}" var="categoryList"> 
-														<option value="${categoryList.catId}">${categoryList.catDesc}</option> 
+												<c:choose>
+													<c:when test="${categoryList.catId==catId}">
+													<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+													</c:when>
+													<c:otherwise>
+													<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+													</c:otherwise>
+												</c:choose>
+														 
 											</c:forEach>
 										</select>
 
@@ -98,7 +106,7 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="button" class="btn btn-info" onclick="search()" value="Search"> 
+								<input type="submit" class="btn btn-info"   value="Search"> 
 							</div>
 						</div> <br>
 							 
@@ -141,6 +149,52 @@
 									</tr>
 								</thead>
 								<tbody>
+								
+								<c:set var="sr" value="0"> </c:set>
+								<c:forEach items="${list}" var="list" varStatus="count">
+								<c:choose>
+												 	<c:when test="${list.approveQty>0 or list.approvedQtyValue>0 
+												 	or list.issueQty>0 or list.issueQtyValue>0 or list.damageQty>0 or list.damagValue>0 
+												 	or list.openingStock>0 or list.opStockValue>0}">
+											<tr>
+											 
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
+
+
+												<td  ><c:out value="${list.itemCode}" /></td>
+												 
+												<td  ><c:out value="${list.openingStock}" /></td>
+												 
+												<td class="col-md-1"><c:out
+													value="${list.opStockValue}" /></td> 
+											<td class="col-md-1"><c:out
+													value="${list.approveQty}" /></td>
+											<td class="col-md-1"><c:out
+													value="${list.approvedQtyValue}" /></td> 
+											<td class="col-md-1"><c:out
+													value="${list.issueQty}" /></td> 
+											<td class="col-md-1"><c:out
+													value="${list.issueQtyValue}" /></td>
+													
+											 <td class="col-md-1"><c:out
+													value="${list.damageQty}" /></td>
+													
+											 <td class="col-md-1"><c:out
+													value="${list.damagValue}" /></td>  
+											 <c:set var="closingStock" value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}" ></c:set>
+												<c:set var="closingStockValue" value="${list.opStockValue+list.approvedQtyValue
+												-list.issueQtyValue-list.damagValue}" ></c:set>
+												
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+											   
+											   <td class="col-md-1"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
+											</tr>
+											</c:when>
+											</c:choose>
+											
+										</c:forEach>
   
 								</tbody>
 
@@ -272,12 +326,16 @@
 
 							}
 						 
+							var index=0;
 
 						  $.each( data,
 										function(key, itemList) {
-											  
+											  if(itemList.openingStock>0 || itemList.opStockValue>0 || itemList.approveQty>0 || itemList.approvedQtyValue>0 ||
+													  itemList.issueQty>0 || itemList.issueQtyValue>0 || itemList.damageQty>0 || itemList.damagValue>0 )
+												  {
 											var tr = $('<tr></tr>'); 
-										  	tr.append($('<td></td>').html(key+1));
+										  	tr.append($('<td></td>').html(index+1));
+										  	index=index+1;
 										  	tr.append($('<td></td>').html(itemList.itemCode));
 										  	tr.append($('<td></td>').html(itemList.openingStock));  
 										  	tr.append($('<td></td>').html(itemList.opStockValue)); 
@@ -291,7 +349,8 @@
 											tr.append($('<td></td>').html(itemList.opStockValue+itemList.approvedQtyValue-itemList.issueQtyValue-itemList.damagValue)); 
 										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
 										  	
-										    $('#table1 tbody').append(tr); 
+										    $('#table1 tbody').append(tr);
+												  }
 										})  
 										
 							 
