@@ -9,6 +9,29 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+#overlay2 {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(101, 113, 119, 0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+#text2 {
+   position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 25px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+
 /* The Modal (background) */
 .modal {
 	display: none; /* Hidden by default */
@@ -90,6 +113,9 @@ body {
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <body onload="callToInvoice()">
+<div id="overlay2" >  <div id="text2"> Saving Mrn....
+
+</div></div>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
@@ -1142,6 +1168,7 @@ body {
 
 				if (isValid == true) {
 					$('#loader').show();
+					on();
 					$
 							.getJSON(
 									'${insertMrnProcess}',
@@ -1165,6 +1192,7 @@ body {
 										ajax : 'true',
 									},
 									function(data) {
+										off();
 										if (data != null) {
 											document.getElementById('loader').style = "display:none";
 
@@ -1376,6 +1404,15 @@ body {
 			}
 		}
 		</script>
+		<script>
+function on() {
+    document.getElementById("overlay2").style.display = "block";
+}
+
+function off() {
+    document.getElementById("overlay2").style.display = "none";
+}
+</script>
 </body>
 </html>
 

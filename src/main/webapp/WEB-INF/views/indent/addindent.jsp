@@ -87,7 +87,7 @@
 									
 
 								</div>
-								<br/>
+								<br><br>
 
 								<div class="box-content">
 									 
@@ -107,19 +107,19 @@
 									</div>
 									
 								</div>
-<br/>
+<br><br>
 								<div class="box-content"> 
 								
 									<label class="col-md-2">Remark</label>
 									<div class="col-md-10">
 										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="-" required />
 									</div> 
-								</div><br>
+								</div><br><br>
 								<div class="box-content">
 
 
-									<label class="col-md-2">Account
-										Head</label>
+									<div class="col-md-2">Account
+										Head</div>
 									<div class="col-md-3">
 										<select name="acc_head" id="acc_head"
 											class="form-control chosen" placeholder="Account Head"
@@ -144,8 +144,8 @@
 											<option value="1" selected>Yes</option>
 										</select>
 									</div> -->
-								</div>
-								<br/>
+								</div><br>
+								<br>
 								
 								<div class="box-content">
 									<label class="col-md-2">For
@@ -170,7 +170,7 @@
 										</select>
 									</div>
 								</div>
-								<br/> 
+								<br><br> 
 								<div class="box-content"> <!-- style="display: none" id="deptDiv" -->
 									<label class="col-md-2">Department
 									</label>
@@ -196,7 +196,7 @@
 										</select>
 									</div>
 
-								</div>
+								</div><br>
 							
 								
 								<hr />
