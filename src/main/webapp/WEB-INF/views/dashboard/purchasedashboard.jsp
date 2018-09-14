@@ -579,7 +579,7 @@ h6{
 										</tr>
 										<tr class="bgpink">
 										  <th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">PO Type.</th>
+											<th class="col-md-1">Type</th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
 											
 											<th class="col-md-1">Monthly</th>
@@ -588,36 +588,26 @@ h6{
 										</tr>
 									</thead>
 									<tbody>
-                                     <%--  <tr>
-                                      <td class="col-sm-1"><c:out value="1" /></td>
-                                      <td class="col-sm-1"><c:out value="Regular" /></td>
-										<c:forEach items="${regularList}" var="regular" varStatus="count">
+                                    <c:set var="sr" value="0"> </c:set>
+								<c:forEach items="${mrnReportList}" var="mrnReportList" varStatus="count">
+								 
+											<tr>
 											
-											<td class="col-md-2"><c:out value="${regular.target}" /></td>
-												<td class="col-md-1"><c:out value="${regular.basicValue}" /></td>
-												
-											
+												 
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
+
+
+												<td  ><c:out value="${mrnReportList.typeName}" /></td>
+												 <c:forEach items="${mrnReportList.consumptionReportList}" var="consumptionReportList" varStatus="count">
+												 <td  ><c:out value="${consumptionReportList.monthlyValue}" /></td>
+												 <td  ><c:out value="${consumptionReportList.ytd}" /></td>
+												 
+												 </c:forEach>
+												 
+											</tr>
+											 
 										</c:forEach>
-                                      </tr>
-                                        <tr>
-                                       <td class="col-sm-1"><c:out value="2" /></td>
-                                      <td class="col-sm-1"><c:out value="Job Work" /></td>
-										<c:forEach items="${jobWorkList}" var="jobWork" varStatus="count">
-												<td class="col-md-2"><c:out value="${jobWork.target}" /></td>
-												<td class="col-md-1"><c:out value="${jobWork.basicValue}" /></td>
-												
-											
-										</c:forEach>
-										</tr>
-										  <tr>
-                                       <td class="col-sm-1"><c:out value="3" /></td>
-                                      <td class="col-sm-1"><c:out value="General" /></td>
-										<c:forEach items="${generalList}" var="general" varStatus="count">
-												<td class="col-md-2"><c:out value="${general.target}" /></td>
-												<td class="col-md-1"><c:out value="${general.basicValue}" /></td>
-												
-										</c:forEach>
-										</tr> --%>
 										</tbody>
 
 								</table>
@@ -680,7 +670,7 @@ h6{
 										 
 								</div>
 							</div>
-							<div align="center" id="loader" style="display: none">
+							<div align="center" id="loader1" style="display: none">
 
 								<span>
 									<h4>
@@ -706,7 +696,7 @@ h6{
 										</tr>
 										<tr class="bgpink">
 										  <th class="col-sm-1">Sr No</th>
-											<th class="col-md-1">PO Type.</th>
+											<th class="col-md-1">Type</th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
 											
 											<th class="col-md-1">Monthly</th>
@@ -715,36 +705,25 @@ h6{
 										</tr>
 									</thead>
 									<tbody>
-                                     <%--  <tr>
-                                      <td class="col-sm-1"><c:out value="1" /></td>
-                                      <td class="col-sm-1"><c:out value="Regular" /></td>
-										<c:forEach items="${regularList}" var="regular" varStatus="count">
+                                     <c:forEach items="${issueReportList}" var="issueReportList" varStatus="count">
+								 
+											<tr>
 											
-											<td class="col-md-2"><c:out value="${regular.target}" /></td>
-												<td class="col-md-1"><c:out value="${regular.basicValue}" /></td>
-												
-											
+												 
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
+
+
+												<td  ><c:out value="${issueReportList.typeName}" /></td>
+												 <c:forEach items="${issueReportList.consumptionReportList}" var="consumptionReportList" varStatus="count">
+												 <td  ><c:out value="${consumptionReportList.monthlyValue}" /></td>
+												 <td  ><c:out value="${consumptionReportList.ytd}" /></td>
+												 
+												 </c:forEach>
+												 
+											</tr>
+											 
 										</c:forEach>
-                                      </tr>
-                                        <tr>
-                                       <td class="col-sm-1"><c:out value="2" /></td>
-                                      <td class="col-sm-1"><c:out value="Job Work" /></td>
-										<c:forEach items="${jobWorkList}" var="jobWork" varStatus="count">
-												<td class="col-md-2"><c:out value="${jobWork.target}" /></td>
-												<td class="col-md-1"><c:out value="${jobWork.basicValue}" /></td>
-												
-											
-										</c:forEach>
-										</tr>
-										  <tr>
-                                       <td class="col-sm-1"><c:out value="3" /></td>
-                                      <td class="col-sm-1"><c:out value="General" /></td>
-										<c:forEach items="${generalList}" var="general" varStatus="count">
-												<td class="col-md-2"><c:out value="${general.target}" /></td>
-												<td class="col-md-1"><c:out value="${general.basicValue}" /></td>
-												
-										</c:forEach>
-										</tr> --%>
 										</tbody>
 
 								</table>
@@ -935,7 +914,7 @@ function searchIssueData() {
 		alert("Select To Date");
 	}
 	else{
-	$('#loader').show();
+	$('#loader1').show();
 
 	$
 			.getJSON(
@@ -951,7 +930,7 @@ function searchIssueData() {
 					function(data) {
 
 						$('#table_grid1 td').remove();
-						$('#loader').hide();
+						$('#loader1').hide();
 
 						if (data == "") {
 							alert("No records found !!");

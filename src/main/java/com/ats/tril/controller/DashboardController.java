@@ -26,6 +26,7 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.ConsumptionReportData;
+import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.EnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
@@ -175,6 +176,35 @@ public class DashboardController {
 				 
 				 List<ConsumptionReportData>  generalList=rest.postForObject(Constants.url+"getConsumptionData", map, List.class);
 				model.addObject("generalList", generalList);*/
+				
+				List<ConsumptionReportWithCatId> mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
+				List<ConsumptionReportWithCatId> issueReportList = new ArrayList<ConsumptionReportWithCatId>();
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 String toDate = yy.format(date);
+				 
+						 map = new LinkedMultiValueMap<>(); 
+				 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				 			map.add("toDate", toDate); 
+				 			System.out.println(map);
+				 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionMrnData",map, ConsumptionReportWithCatId[].class);
+				 			mrnReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
+						  
+				 			ConsumptionReportWithCatId[] consumptionReportWithCatId1 = rest.postForObject(Constants.url + "/getConsumptionIssueData",map, ConsumptionReportWithCatId[].class);
+				 			issueReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId1));
+						 
+				 			
+						  model.addObject("mrnReportList", mrnReportList);
+						  model.addObject("issueReportList", issueReportList);
+						  
+						  model.addObject("fromDate", DateConvertor.convertToYMD(fromDate));
+						  model.addObject("toDate", toDate);
 				
 				Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
 				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
