@@ -163,16 +163,15 @@
 						</div> <br> -->
 							 
 								
-								<div align="center" id="loader" style="display: none">
-
-								<span>
-									<h4>
-										<font color="#343690">Loading</font>
-									</h4>
-								</span> <span class="l-1"></span> <span class="l-2"></span> <span
-									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-								<span class="l-6"></span>
-							</div>
+								<div class="row">
+							<div class="col-md-12" style="text-align: center">
+								<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											&nbsp;
+											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
+											   </div>
+											   </div>
 							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
@@ -354,6 +353,15 @@
 
 
 	<script type="text/javascript">
+	
+	function genPdf(){
+		window.open('${pageContext.request.contextPath}/mrnItemMonthWiseReportPdf/');
+	}
+	function exportToExcel()
+	{
+		window.open("${pageContext.request.contextPath}/exportToExcel");
+		document.getElementById("expExcel").disabled=true;
+	}
 	function search() {
 		  
 		

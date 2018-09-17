@@ -170,6 +170,9 @@
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
+								<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 							</div>
 						</div> <br>
 							 
@@ -371,7 +374,14 @@
 
 
 	<script type="text/javascript">
-	
+	function genPdf(){
+		window.open('${pageContext.request.contextPath}/mrnCategoryMonthWiseReportPdf/');
+	}
+	function exportToExcel()
+	{
+		window.open("${pageContext.request.contextPath}/exportToExcel");
+		document.getElementById("expExcel").disabled=true;
+	}
 	function getSubDeptList() {
 		
 		var deptId = document.getElementById("deptId").value;
