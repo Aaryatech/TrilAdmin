@@ -124,14 +124,22 @@
 												<c:when test="${editGetpassHeader.forRepair==0}">
 													<option value="0" selected>Repair</option>
 													<option value="1">Replace</option>
+													<option value="2"  >Job Work</option>
 												</c:when>
 												<c:when test="${editGetpassHeader.forRepair==1}">
 													<option value="0">Repair</option>
 													<option value="1" selected>Replace</option>
+													<option value="2"  >Job Work</option>
+												</c:when>
+												<c:when test="${editGetpassHeader.forRepair==2}">
+													<option value="0">Repair</option>
+													<option value="1">Replace</option>
+													<option value="2" selected>Job Work</option>
 												</c:when>
 												<c:otherwise>
 													<option value="0">Repair</option>
 													<option value="1">Replace</option>
+													<option value="2"  >Job Work</option>
 												</c:otherwise>
 											</c:choose>
 										</select>
@@ -160,10 +168,10 @@
 								</div>
 								<br>
 								<div class="box-content">
-									<div class="col-md-2">Sending With</div>
+									<div class="col-md-2">Sending for</div>
 									<div class="col-md-3">
 										<input type="text" name="sendingWith" id="sendingWith"
-											placeholder="Sending With" class="form-control"
+											placeholder="Sending for" class="form-control"
 											value="${editGetpassHeader.sendingWith}" />
 
 									</div>

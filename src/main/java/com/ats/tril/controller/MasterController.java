@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +52,7 @@ public class MasterController {
 	List<Uom> uomList = new ArrayList<Uom>();
 	
 	@RequestMapping(value = "/getAllType", method = RequestMethod.GET)
+	@ResponseBody
 	public List<Type> getAllType(HttpServletRequest request, HttpServletResponse response) {
 
 		List<Type> typeList = new ArrayList<Type>();
@@ -734,6 +736,12 @@ public class MasterController {
 			
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 			itemList = new ArrayList<GetItem>(Arrays.asList(item));
+			
+			GetItem intialValueItem = new GetItem();
+			intialValueItem.setItemOpRate((float) 0);
+			intialValueItem.setItemClRate((float) 0);
+			intialValueItem.setItemWt((float) 0);
+			model.addObject("editItem", intialValueItem);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -862,7 +870,7 @@ public class MasterController {
 
 			Item insert = new Item();
 
-			if(itemId.equalsIgnoreCase("") || itemId.equalsIgnoreCase(null))
+			if(itemId.equalsIgnoreCase("") || itemId.equalsIgnoreCase(null) || itemId.equalsIgnoreCase("0"))
 				insert.setItemId(0);
 			else
 				insert.setItemId(Integer.parseInt(itemId));

@@ -80,7 +80,7 @@
 
 							</div>
 							<br> <br>
-							<div class="col-md-2">Select Status.</div>
+							<!-- <div class="col-md-2">Select Status.</div>
 							<div class="col-md-3">
 								<select name="status" id="status" class="form-control chosen"
 									tabindex="6">
@@ -90,7 +90,7 @@
 
 								</select>
 							</div>
-							<br>
+							<br> -->
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary"
@@ -258,7 +258,8 @@
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-			var status = $("#status").val();
+			/* var status = $("#status").val(); */
+			var status = 1;
 
 			if (fromDate == "" || fromDate == null)
 				alert("Select From Date");

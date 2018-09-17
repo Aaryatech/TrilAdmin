@@ -210,8 +210,8 @@ public class EnquiryController {
 			{
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
-				 
-				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnquiryHeaderListBetweenDate",map, GetEnquiryHeader[].class);
+				map.add("status", 0);
+				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate",map, GetEnquiryHeader[].class);
 				List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
 				
 				model.addObject("enquiryList", enquiryList);
@@ -225,8 +225,8 @@ public class EnquiryController {
 				
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
-				 
-				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnquiryHeaderListBetweenDate",map, GetEnquiryHeader[].class);
+				map.add("status", 0);
+				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate",map, GetEnquiryHeader[].class);
 				List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
 				
 				model.addObject("enquiryList", enquiryList);

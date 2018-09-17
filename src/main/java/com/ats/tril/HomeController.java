@@ -107,6 +107,10 @@ public class HomeController {
 				System.err.println(lowReorderItemList.toString());
 				mav.addObject("lowReorderItemList", lowReorderItemList);
 				mav.addObject("categoryList", categoryList);
+				
+				Type[] type = restTemp.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type)); 
+				mav.addObject("typeList", typeList);
 			
 				}
 				catch (Exception e) {
@@ -209,6 +213,14 @@ public class HomeController {
 					System.err.println(lowReorderItemList.toString());
 					mav.addObject("lowReorderItemList", lowReorderItemList);
 					mav.addObject("categoryList", categoryList);
+					
+					  
+					 
+						Type[] type = restTemp.getForObject(Constants.url + "/getAlltype", Type[].class);
+						List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+						
+						mav.addObject("typeList", typeList);
+						
 					}
 					catch (Exception e) {
 						e.printStackTrace();

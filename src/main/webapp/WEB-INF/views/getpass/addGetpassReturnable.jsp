@@ -113,9 +113,10 @@
 									<div class="col-md-2">Return For*</div>
 									<div class="col-md-3">
 										<select name="returnFor" id="returnFor"
-											class="form-control chosen" tabindex="6" required>
+											class="form-control chosen"   required>
 											<option value="0">Repair</option>
 											<option value="1">Replace</option>
+											<option value="2">Job Work</option>
 										</select>
 									</div>
 									<input   id="stock" value="1"  type="hidden" name="stock"  />
@@ -134,10 +135,10 @@
 
 								
 								<div class="box-content">
-									<div class="col-md-2">Sending With</div>
+									<div class="col-md-2">Sending for</div>
 									<div class="col-md-3">
 										<input type="text" name="sendingWith" id="sendingWith"
-											placeholder="Sending With" class="form-control" />
+											placeholder="Sending for" class="form-control" />
 
 									</div>
 

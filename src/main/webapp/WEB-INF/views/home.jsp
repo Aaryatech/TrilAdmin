@@ -115,6 +115,7 @@ h6{
 </head>
 <body>
      <c:url var="getPoListRes" value="/getPoListRes"></c:url>
+     <c:url var="getAllType" value="/getAllType"></c:url>
 
 	<!-- BEGIN Container -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -495,9 +496,13 @@ h6{
 									<select class="form-control chosen" name="poType" id="poType"
 										required>
 										<option value="">Select PO Type</option>
-										<option value="1">Regular</option>
+										<c:forEach items="${typeList}" var="typeList">
+													  	<option value="${typeList.typeId}"  >${typeList.typeName}</option>
+														</c:forEach>
+										
+										<!-- <option value="1">Regular</option>
 										<option value="2">Job Work</option>
-										<option value="3">General</option>
+										<option value="3">General</option> -->
 									</select>
 								</div>
 									<div class="col-md-1"></div>
@@ -628,7 +633,7 @@ function getPoList() {
 
 						},
 						function(data) {
-							
+							 
 							$('#mrnTable td').remove();
 							$('#loader').hide();
 
@@ -636,6 +641,17 @@ function getPoList() {
 								alert("No records found !!");
 
 							}
+							
+							$.getJSON('${getAllType}',
+				                     {
+							                 
+											ajax : 'true',
+
+										},
+										function(data1) {
+											
+											
+										
 						  $.each(data,
 										function(key, poList) {
 							  
@@ -646,18 +662,15 @@ function getPoList() {
 										  	tr.append($('<td></td>').html(poList.poNo));
 										 	tr.append($('<td></td>').html(poList.poDate));
 										 	var poType;
-										 	if(poList.poType==1)
+										 	 
+										 	for(var i=0;i<data1.length ; i++){
+										 		 
+										 		if(poList.poType==data1[i].typeId)
 										 		{
-										 		poType="Regular";
+										 		poType=data1[i].typeName;
 										 		}
-										 	else if(poList.poType==2)
-										 		{
-										 		poType="Job Work";
-										 		}
-											else if(poList.poType==3)
-									 		{
-												poType="General";
-									 		}
+										 	}
+										 	
 										 	var poStatus;
 										 	if(poList.poStatus==0)
 										 		{
@@ -684,7 +697,8 @@ function getPoList() {
 									 			}
 										 	
 										 	$('#mrnTable tbody').append(tr);
-										})  
+										}) 
+										});
 						});
 }
 

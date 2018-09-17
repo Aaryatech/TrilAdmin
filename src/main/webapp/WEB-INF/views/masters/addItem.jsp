@@ -448,7 +448,7 @@
 									<div class="col-md-2">Item Location*</div>
 									<div class="col-md-3">
 										<input id="itemLocation" class="form-control"
-											placeholder="Item Rod Level" name="itemLocation"
+											placeholder="Item Location" name="itemLocation"
 											value="${editItem.itemLocation}" style="text-align: left;"
 											type="text" required>
 
@@ -613,7 +613,7 @@
 										</div>
 
 									</div>
-${imageUrl}${editItem.itemDesc3}
+
 								</div>
 								<br> <br> <br> <br> <br> <br> <br>
 								<br> <br> <br> <br>
