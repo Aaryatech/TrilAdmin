@@ -4235,61 +4235,7 @@ public class ValuationReport {
 	}
 
 	
-	@RequestMapping(value = "/consumptionMrnReportCategoryWise", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ConsumptionReportWithCatId> consumptionMrnReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
-
-		List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
-		try {
-			
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
-				
-			  
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
-		 			map.add("fromDate", fromDate);
-		 			map.add("toDate", toDate); 
-		 			System.out.println(map);
-		 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionMrnData",map, ConsumptionReportWithCatId[].class);
-		 			list = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
-				 
-				  System.out.println(list);
-				  
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
 	
-	
-	@RequestMapping(value = "/consumptionIssueReportCategoryWise", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ConsumptionReportWithCatId> consumptionIssueReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
-
-		List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
-		try {
-			
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
-				
-			  
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
-		 			map.add("fromDate", fromDate);
-		 			map.add("toDate", toDate); 
-		 			System.out.println(map);
-		 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionIssueData",map, ConsumptionReportWithCatId[].class);
-		 			list = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
-				 
-				  System.out.println(list); 
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
 	
 	List<MrnMonthWiseList> mrnCategoryMonthWiseListForPdf = new ArrayList<MrnMonthWiseList>();
 	List<Category> categoryList = new ArrayList<Category>();

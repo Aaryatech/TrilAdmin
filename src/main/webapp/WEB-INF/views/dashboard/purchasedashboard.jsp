@@ -165,6 +165,9 @@ h6{
      <c:url var="getPoListRes" value="/getPoListRes"></c:url>
      <c:url var="consumptionIssueReportCategoryWise" value="/consumptionIssueReportCategoryWise"></c:url>
      <c:url var="consumptionMrnReportCategoryWise" value="/consumptionMrnReportCategoryWise"></c:url>
+     
+      <c:url var="consumptionMrnReportCategoryWiseExel" value="/consumptionMrnReportCategoryWiseExel"></c:url>
+       <c:url var="consumptionIssueReportCategoryWiseExel" value="/consumptionIssueReportCategoryWiseExel"></c:url>
 
 	<!-- BEGIN Container -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -550,6 +553,9 @@ h6{
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									  <input type="button" class="btn btn-primary"
 										value="Submit" onclick="search()">  
+										 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genMrnPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportMrnExcel();" >
 										 
 								</div>
 							</div>
@@ -666,7 +672,10 @@ h6{
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									  <input type="button" class="btn btn-primary"
-										value="Submit" onclick="searchIssueData()">  
+										value="Submit" onclick="searchIssueData()"> 
+										<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genIssuePdf()" />&nbsp;
+											 <input type="button" id="expExcel1" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportIssueExcel();" > 
 										 
 								</div>
 							</div>
@@ -838,6 +847,59 @@ $(window).load(function() {
 
 </script>
 <script type="text/javascript">
+
+function genMrnPdf(){
+	var fromDate = $("#fromDate").val();
+	var toDate = $("#toDate").val();
+	window.open('${pageContext.request.contextPath}/consumptionMrnReportCategoryWisePdf/'+fromDate+'/'+toDate);
+}
+
+function genIssuePdf(){
+	var fromDate = $("#fromDate1").val();
+	var toDate = $("#toDate1").val();
+	window.open('${pageContext.request.contextPath}/consumptionIssueReportCategoryWisePdf/'+fromDate+'/'+toDate);
+}
+function exportToExcel()
+{
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+	
+}
+
+ 
+function exportMrnExcel()
+{
+	$ .getJSON(
+			'${consumptionMrnReportCategoryWiseExel}',
+
+			{
+				  
+				ajax : 'true'
+
+			},
+			function(data) {
+				document.getElementById("expExcel").disabled=true;
+				exportToExcel();
+ 
+			});
+}
+
+function exportIssueExcel()
+{
+	$ .getJSON(
+			'${consumptionIssueReportCategoryWiseExel}',
+
+			{
+				  
+				ajax : 'true'
+
+			},
+			function(data) {
+				document.getElementById("expExcel1").disabled=true;
+				exportToExcel();
+ 
+			});
+}
+
 function search() {
 	  
 	
@@ -874,7 +936,7 @@ function search() {
 
 						}
 					 
-
+						document.getElementById("expExcel").disabled=false;
 					  $.each(
 									data,
 									function(key, itemList) {
@@ -937,7 +999,7 @@ function searchIssueData() {
 
 						}
 					 
-
+						document.getElementById("expExcel1").disabled=false;
 					  $.each(
 									data,
 									function(key, itemList) {
