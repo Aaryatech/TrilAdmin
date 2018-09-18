@@ -161,7 +161,7 @@
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
 										style="width: 100%" id="table_grid">
 									<thead>
-									<tr class="bgpink">
+									<!-- <tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">DEPARMENT NAME</th>  
 										<th class="col-md-1" colspan="2">APR</th>
@@ -207,7 +207,24 @@
 											 <th class="col-md-1">Qty</th>
 											 <th class="col-md-1">Value</th>
 											 <th class="col-md-1"></th>
-										</tr>
+										</tr> -->
+										
+										<tr class="bgpink">
+										<th style="width:1%;">SR</th>
+										<th class="col-md-4">DEPARMENT NAME</th>  
+										<th class="col-md-1"  >APR</th>
+										<th class="col-md-1" >MAY</th>   
+										<th class="col-md-1"  >JUN</th>
+										<th class="col-md-1"  >JUL</th>
+										<th class="col-md-1"  >AUG</th>
+										<th class="col-md-1"  >SEP</th>
+										<th class="col-md-1"  >OCT</th>
+										<th class="col-md-1"  >NOV</th>
+										<th class="col-md-1"  >DEC</th>
+										<th class="col-md-1"  >JAN</th>
+										<th class="col-md-1"  >FEB</th>
+										<th class="col-md-1"  >MAR</th>
+										<th class="col-md-1">Action</th> 
 								</thead>
 								<tbody>
 								<c:set var="sr" value="0"> </c:set>
@@ -236,7 +253,7 @@
 												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
 												 <c:choose>
 												 <c:when test="${monthList.deptId==deparmentList.deptId}">
-												<td><c:out value="${monthList.issueQty}"/></td> 
+												<%-- <td><c:out value="${monthList.issueQty}"/></td>  --%>
 														<td ><c:out value="${monthList.issueQtyValue}" /></td> 
 														
 														 </c:when>
