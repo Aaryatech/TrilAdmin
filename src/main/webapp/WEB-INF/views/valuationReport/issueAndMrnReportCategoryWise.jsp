@@ -9,7 +9,7 @@
 
 	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
-
+	<c:url var="listForIssueAndMrnGraphCategoryWise" value="/listForIssueAndMrnGraphCategoryWise"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -147,7 +147,7 @@
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 											&nbsp;
-											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
+											      <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">  
 											 
 											</c:when></c:choose>
 							</div>
@@ -172,7 +172,7 @@
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
+					<div class="table-responsive" style="border: 0" id="tbl">
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
@@ -219,6 +219,13 @@
   
 					</div> 
 					 
+					 <div id="chart" style="display: none"><br> <hr>
+		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
+		
+			<div   id="PiechartMrnValue" style="width:50%; height:300; float: Left;" ></div>
+			<div   id="PiechartIssueValue" style="width:50%; height:300; float: right;" ></div>  
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>
 					 
 				</div>
 							</form> 
@@ -304,7 +311,201 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	 
+function showChart(){
+		
+		document.getElementById('chart').style.display = "block";
+		   document.getElementById("tbl").style="display:none";
+		 
+				$.getJSON('${listForIssueAndMrnGraphCategoryWise}',{
+					
+									 
+									ajax : 'true',
 
+								},
+								function(data) {			
+									//alert(data);
+									 if (data == "") {
+											alert("No records found !!");
+
+									 }
+									 var i=0;
+									 //alert(data);
+									 google.charts.load('current', {'packages':['corechart', 'bar']});
+									 google.charts.setOnLoadCallback(drawStuff);
+									 //alert(data);
+									 function drawStuff() {
+		 
+									   var chartDiv = document.getElementById('chart_div');
+									   document.getElementById("chart_div").style.border = "thin dotted red";
+								       var dataTable = new google.visualization.DataTable();
+								       
+								       dataTable.addColumn('string', 'CATEGORY'); // Implicit domain column.
+								     /*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
+								      // dataTable.addColumn({type:'string', role:'interval'});
+								     //  dataTable.addColumn({type:'string', role:'interval'}); 
+								       dataTable.addColumn('number', 'MRN Value');
+								       dataTable.addColumn('number', 'ISSUE Value'); 
+								       $.each(data,function(key, item) {
+
+											//var tax=item.cgst + item.sgst;
+											//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
+											 
+										   dataTable.addRows([
+											 
+										             [item.catDesc,item.approvedQtyValue,item.issueQtyValue]
+										           
+										           ]);
+										  
+										     }) 
+								    
+		/*  var materialOptions = {
+		          width: 600,
+		          height:450,
+		          chart: {
+		            title: 'MRN & ISSUE CATEGORY VALUE',
+		            subtitle: 'CATEGORY WISE'
+		          },
+		          series: {
+		            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+		            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+		          },
+		          axes: {
+		            y: {
+		               distance: {label: 'Issue Quantity'}, // Left y-axis.  
+		              brightness: {side: 'right', label: 'VALUE'} // Right y-axis.
+		            },
+		            textStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  },
+	                  titleTextStyle: {
+	                     color: '#1a237e',
+	                     fontSize: 5,
+	                     bold: true,
+	                     italic: true
+
+	                  }
+
+		          }
+		          
+		          
+		        }; */
+								       
+								       var materialOptions = {
+								    		    legend: {position:'top'},
+								    		    hAxis: {
+								    		        title: 'CATEGORY', 
+								    		        titleTextStyle: {color: 'black'}, 
+								    		        count: -1, 
+								    		        viewWindowMode: 'pretty', 
+								    		        slantedText: true
+								    		    },  
+								    		    vAxis: {
+								    		        title: 'VALUE', 
+								    		        titleTextStyle: {color: 'black'}, 
+								    		        count: -1, 
+								    		        format: '#'
+								    		    },
+								    		    /* colors: ['#F1CA3A'] */
+								    		  };
+								       var materialChart = new google.charts.Bar(chartDiv);
+								       
+								       function selectHandler() {
+									          var selectedItem = materialChart.getSelection()[0];
+									          if (selectedItem) {
+									            var topping = dataTable.getValue(selectedItem.row, 0);
+									           // alert('The user selected ' + selectedItem.row,0);
+									            i=selectedItem.row,0;
+									            itemSellBill(data[i].deptCode);
+									           // google.charts.setOnLoadCallback(drawBarChart);
+									          }
+									        }
+								       
+								       function drawMaterialChart() {
+								          // var materialChart = new google.charts.Bar(chartDiv);
+								           google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+								           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
+								          // button.innerText = 'Change to Classic';
+								          // button.onclick = drawClassicChart;
+								         }
+								        
+								        
+								       function drawMrnValueChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'CATEGORY');
+											 dataTable.addColumn('number', 'MRN VALUE');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.catDesc, item.approvedQtyValue,]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'CATEGORY MRN VALUE',
+							                       'width':550,
+							                       'height':250};
+											   document.getElementById("PiechartMrnValue").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PiechartMrnValue'));
+									           
+									        chart.draw(dataTable, options);
+									      }
+								       
+								       function drawIssueChart() {
+											 var dataTable = new google.visualization.DataTable();
+											 dataTable.addColumn('string', 'CATEGORY');
+											 dataTable.addColumn('number', 'ISSUE VALUE');
+									
+											   $.each(data,function(key, item) {
+
+												//	var amt=item.cash + item.card + item.other;
+
+												   dataTable.addRows([
+
+												             [item.catDesc, item.issueQtyValue,]
+
+												           ]);
+												   
+
+												   }) 
+										 var options = {'title':'CATEGORY ISSUE VALUE',
+							                       'width':550,
+							                       'height':250};
+											   document.getElementById("PiechartIssueValue").style.border = "thin dotted red";
+										 var chart = new google.visualization.PieChart(document.getElementById('PiechartIssueValue'));
+									           
+									        chart.draw(dataTable, options);
+									      }
+								       
+								       
+										 
+								      /*  var chart = new google.visualization.ColumnChart(
+								                document.getElementById('chart_div'));
+								       chart.draw(dataTable,
+								          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+								       drawMaterialChart();
+								           
+								          google.charts.setOnLoadCallback(drawIssueChart);
+								           
+								       google.charts.setOnLoadCallback(drawMrnValueChart);
+									 };
+									 
+										
+							  	});
+			 
+}
+</script>
 
 	<script type="text/javascript">
 	function genPdf(){

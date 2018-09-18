@@ -1284,6 +1284,13 @@ public class ValuationReport {
 		return model;
 	}
 	
+	@RequestMapping(value = "/listForIssueAndMrnGraphCategoryWise", method = RequestMethod.GET)
+	public @ResponseBody List<StockValuationCategoryWise> listForIssueAndMrnGraph(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return categoryWiseIssueAndMrnForPdf;
+	}
+	
 	@RequestMapping(value = "/issueAndMrnCategoryWisePDF", method = RequestMethod.GET)
 	public void issueAndMrnCategoryWisePDF(HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
@@ -1549,6 +1556,13 @@ public class ValuationReport {
 
 		 
 		return model;
+	}
+	
+	@RequestMapping(value = "/listForIssueAndMrnGraphGroupWise", method = RequestMethod.GET)
+	public @ResponseBody List<IssueAndMrnGroupWise> listForIssueAndMrnGraphGroupWise(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return issueAndMrnGroupWiseListForPdf;
 	}
 	
 	@RequestMapping(value = "/issueAndMrnGroupWisePDF", method = RequestMethod.GET)
@@ -4682,6 +4696,20 @@ public class ValuationReport {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/listForMrnGraphCategoryMonthWise", method = RequestMethod.GET)
+	public @ResponseBody List<MrnMonthWiseList> listForMrnGraphCategoryMonthWise(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return mrnCategoryMonthWiseListForPdf;
+	}
+	
+	@RequestMapping(value = "/getCatListForGraph", method = RequestMethod.GET)
+	public @ResponseBody List<Category> getCatListForGraph(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return categoryList;
 	}
 	
 	@RequestMapping(value = "/mrnCategoryMonthWiseReportPdf", method = RequestMethod.GET)

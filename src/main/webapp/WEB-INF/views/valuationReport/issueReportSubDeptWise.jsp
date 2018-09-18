@@ -496,42 +496,25 @@ function showChart(){
 										           ]);
 										   }
 										     }) 
-								    
-		 var materialOptions = {
-		          width: 600,
-		          height:450,
-		          chart: {
-		            title: ' Issue Qty & Value',
-		            subtitle: 'SubDepartment wise Quantity & Value Graph'
-		          },
-		          series: {
-		            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
-		            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
-		          },
-		          axes: {
-		            y: {
-		            /*   distance: {label: 'Issue Quantity'}, // Left y-axis. */
-		              brightness: {side: 'right', label: 'Issue Value'} // Right y-axis.
-		            },
-		            textStyle: {
-	                     color: '#1a237e',
-	                     fontSize: 5,
-	                     bold: true,
-	                     italic: true
-
-	                  },
-	                  titleTextStyle: {
-	                     color: '#1a237e',
-	                     fontSize: 5,
-	                     bold: true,
-	                     italic: true
-
-	                  }
-
-		          }
-		          
-		          
-		        };
+			 
+										     
+										     var materialOptions = {
+								    		    legend: {position:'top'},
+								    		    hAxis: {
+								    		        title: 'CATEGORY', 
+								    		        titleTextStyle: {color: 'black'}, 
+								    		        count: -1, 
+								    		        viewWindowMode: 'pretty', 
+								    		        slantedText: true
+								    		    },  
+								    		    vAxis: {
+								    		        title: 'VALUE', 
+								    		        titleTextStyle: {color: 'black'}, 
+								    		        count: -1, 
+								    		        format: '#'
+								    		    },
+								    		    /* colors: ['#F1CA3A'] */
+								    		  }; 
 								       var materialChart = new google.charts.Bar(chartDiv);
 								       
 								       function selectHandler() {
@@ -571,7 +554,7 @@ function showChart(){
 
 												   }) 
 										 var options = {'title':'SubDept Issue Quantity',
-							                       'width':400,
+							                       'width':550,
 							                       'height':250};
 											   
 											   document.getElementById("Piechart").style.border = "thin dotted red";
@@ -609,7 +592,7 @@ function showChart(){
 
 												   }) 
 										 var options = {'title':'Sub Department Issue Value',
-							                       'width':400,
+							                       'width':550,
 							                       'height':250};
 											   document.getElementById("PieAmtchart").style.border = "thin dotted red";
 										 var chart = new google.visualization.PieChart(document.getElementById('PieAmtchart'));

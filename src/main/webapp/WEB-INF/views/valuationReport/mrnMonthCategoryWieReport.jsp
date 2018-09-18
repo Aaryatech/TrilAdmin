@@ -8,9 +8,9 @@
 <body onload="getSubDeptList()">
 
 	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
-	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="listForMrnGraphCategoryMonthWise" value="/listForMrnGraphCategoryMonthWise"></c:url>
 <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
-
+  <c:url var="getCatListForGraph" value="/getCatListForGraph"></c:url>
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -169,10 +169,11 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
+								<input type="submit" class="btn btn-primary"   value="Search"> 
 								<input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+							 <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">  
 							</div>
 						</div> <br>
 							 
@@ -195,7 +196,7 @@
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
-					<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
+					<div style="overflow:scroll;height:100%;width:100%;overflow:auto" id="tbl">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
 										style="width: 100%" id="table_grid">
 									<thead>
@@ -303,6 +304,24 @@
 								</table>
   
 					</div> 
+					
+					<div id="chart" style="display: none"><br> <hr>
+		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
+		
+			<div   id="PiechartApr" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartMay" style="width:25%; height:300; float: Left;" ></div> 
+			<div   id="PiechartJun" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartJul" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartAug" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartSep" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartOct" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartNov" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartDec" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartJan" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartFeb" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartMar" style="width:25%; height:300; float: Left;" ></div> 
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>
 					 
 					 
 				</div>
@@ -389,8 +408,670 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+ 
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		 
+	function showChart(){
+			
+			document.getElementById('chart').style.display = "block";
+			   document.getElementById("tbl").style="display:none";
+			   
+			   $.getJSON('${getCatListForGraph}',{
+					
+					 
+					ajax : 'true',
 
+				},
+				function(data1) {
+					 
+				 
+					$.getJSON('${listForMrnGraphCategoryMonthWise}',{
+						
+										 
+										ajax : 'true',
 
+									},
+									function(data) {			
+										
+										 if (data == "") {
+												alert("No records found !!");
+
+										 }
+										 var i=0;
+										 
+										 google.charts.load('current', {'packages':['corechart', 'bar']});
+										 
+										 google.charts.setOnLoadCallback(drawStuff); 
+										 function drawStuff() {
+			 
+										   var chartDiv = document.getElementById('chart_div');
+										   document.getElementById("chart_div").style.border = "thin dotted red";
+									       var dataTable = new google.visualization.DataTable();
+									        
+									       dataTable.addColumn('string', 'CATEGORY'); // Implicit domain column.
+									     /*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
+									      // dataTable.addColumn({type:'string', role:'interval'});
+									     //  dataTable.addColumn({type:'string', role:'interval'}); 
+									       dataTable.addColumn('number', 'APR '); 
+									       dataTable.addColumn('number', 'MAY '); 
+									        dataTable.addColumn('number', 'JUN ');
+									       dataTable.addColumn('number', 'JUL ');
+									       dataTable.addColumn('number', 'AUG ');
+									       dataTable.addColumn('number', 'SEP ');
+									       dataTable.addColumn('number', 'OCT ');
+									       dataTable.addColumn('number', 'NOV ');
+									       dataTable.addColumn('number', 'DEC ');
+									       dataTable.addColumn('number', 'JAN ');
+									       dataTable.addColumn('number', 'FEB ');
+									       dataTable.addColumn('number', 'MAR ');   
+									       
+									         for(var i = 0 ; i<data1.length ;i++){
+									        	 var arry=[];
+									        	
+									        	 arry.push(data1[i].catDesc);
+									        	   
+									        	 
+									    	   for(var j=0 ; j<data.length ;j++){
+									    		   
+									    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+									    			   
+									    			   if(data1[i].catId==data[j].monthList[k].catId){
+									    				   
+									    				   arry.push(data[j].monthList[k].approvedQtyValue);
+									    				    
+									    			   }
+									    		   }
+									    		   
+									    	   }
+									    	    
+									    	   dataTable.addRows([
+													 
+										             [arry[0],arry[1],arry[2],arry[3],arry[4],arry[5],arry[6],arry[7],arry[8],arry[9],arry[10],
+										            	 arry[11],arry[12],]
+										           
+										           ]);
+									    	   
+									       }  
+									      
+									           var materialOptions = {
+										    		    legend: {position:'top'},
+										    		    hAxis: {
+										    		        title: 'CATEGORY', 
+										    		        titleTextStyle: {color: 'black'}, 
+										    		        count: -1, 
+										    		        viewWindowMode: 'pretty', 
+										    		        slantedText: true
+										    		    },  
+										    		    vAxis: {
+										    		        title: 'VALUE', 
+										    		        titleTextStyle: {color: 'black'}, 
+										    		        count: -1, 
+										    		        format: '#'
+										    		    },
+										    		    /* colors: ['#F1CA3A'] */
+										    		  };
+									       var materialChart = new google.charts.Bar(chartDiv);
+									       
+									       function selectHandler() {
+										          var selectedItem = materialChart.getSelection()[0];
+										          if (selectedItem) {
+										            var topping = dataTable.getValue(selectedItem.row, 0);
+										           // alert('The user selected ' + selectedItem.row,0);
+										            i=selectedItem.row,0;
+										            itemSellBill(data[i].deptCode);
+										           // google.charts.setOnLoadCallback(drawBarChart);
+										          }
+										        }
+									       
+									       function drawMaterialChart() {
+									          // var materialChart = new google.charts.Bar(chartDiv);
+									           google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+									           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
+									          // button.innerText = 'Change to Classic';
+									          // button.onclick = drawClassicChart;
+									         }
+									        
+									       function drawAprValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==4){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'APR VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartApr").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartApr'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawMayValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==5){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'MAY VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartMay").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartMay'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawJunValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==6){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'JUN VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartJun").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartJun'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawJulValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==7){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'JUL VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartJul").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartJul'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawAugValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==8){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'AUG VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartAug").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartAug'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawSepValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==9){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'SEP VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartSep").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartSep'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawOctValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==10){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'OCT VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartOct").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartOct'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawNovValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==11){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'NOV VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartNov").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartNov'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawDecValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==12){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'DEC VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartDec").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartDec'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawJanValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==1){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'JAN VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartJan").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartJan'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawFebValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==2){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'FEB VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartFeb").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartFeb'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									       
+									       function drawMarValueChart() {
+												 var dataTable = new google.visualization.DataTable();
+												 dataTable.addColumn('string', 'CATEGORY');
+												 dataTable.addColumn('number', 'MONTHWISE VALUE');
+										
+												 
+												 for(var i = 0 ; i<data1.length ;i++){
+										        	 var arry=[];
+										        	 var approvedQtyValue=0;
+										        	 arry.push(data1[i].catDesc);
+										        	   
+										        	 
+										    	   for(var j=0 ; j<data.length ;j++){
+										    		   
+										    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+										    			   
+										    			   if(data1[i].catId==data[j].monthList[k].catId && data[j].monthList[k].monthNo==3){
+										    				   
+										    				   approvedQtyValue=approvedQtyValue+data[j].monthList[k].approvedQtyValue;
+										    				   /* arry.push(data[j].monthList[k].approvedQtyValue); */
+										    				    
+										    			   }
+										    		   }
+										    		   
+										    	   }
+										    	   
+										    	   dataTable.addRows([
+														 
+											             [arry[0],approvedQtyValue,]
+											           
+											           ]);
+										    	    
+										       }  
+												    
+											 var options = {'title':'MAR VALUE',
+								                       'width':275,
+								                       'height':250};
+												   document.getElementById("PiechartMar").style.border = "thin dotted red";
+											 var chart = new google.visualization.PieChart(document.getElementById('PiechartMar'));
+										           
+										        chart.draw(dataTable, options);
+										      }
+									      /*  var chart = new google.visualization.ColumnChart(
+									                document.getElementById('chart_div'));
+									       chart.draw(dataTable,
+									          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+									       drawMaterialChart();
+									       google.charts.setOnLoadCallback(drawAprValueChart);
+									       google.charts.setOnLoadCallback(drawMayValueChart);
+									       google.charts.setOnLoadCallback(drawJunValueChart);
+									       google.charts.setOnLoadCallback(drawJulValueChart);
+									       google.charts.setOnLoadCallback(drawAugValueChart);
+									       google.charts.setOnLoadCallback(drawSepValueChart);
+									       google.charts.setOnLoadCallback(drawOctValueChart);
+									       google.charts.setOnLoadCallback(drawNovValueChart);
+									       google.charts.setOnLoadCallback(drawDecValueChart);
+									       google.charts.setOnLoadCallback(drawJanValueChart);
+									       google.charts.setOnLoadCallback(drawFebValueChart);
+									       google.charts.setOnLoadCallback(drawMarValueChart);
+										 };
+										 
+											
+								  	});
+				});
+	}
+	
+	</script>
 	<script type="text/javascript">
 	function genPdf(){
 		window.open('${pageContext.request.contextPath}/mrnCategoryMonthWiseReportPdf/');

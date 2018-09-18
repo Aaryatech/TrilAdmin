@@ -366,7 +366,7 @@ function showChart(){
 										  
 										     }) 
 								    
-		 var materialOptions = {
+		 /* var materialOptions = {
 		          width: 600,
 		          height:450,
 		          chart: {
@@ -379,7 +379,7 @@ function showChart(){
 		          },
 		          axes: {
 		            y: {
-		            /*   distance: {label: 'Issue Quantity'}, // Left y-axis. */
+		                distance: {label: 'Issue Quantity'}, // Left y-axis.
 		              brightness: {side: 'right', label: 'VALUE'} // Right y-axis.
 		            },
 		            textStyle: {
@@ -400,7 +400,25 @@ function showChart(){
 		          }
 		          
 		          
-		        };
+		        }; */
+								       
+								       var materialOptions = {
+								    		    legend: {position:'top'},
+								    		    hAxis: {
+								    		        title: 'CATEGORY', 
+								    		        titleTextStyle: {color: 'black'}, 
+								    		        count: -1, 
+								    		        viewWindowMode: 'pretty', 
+								    		        slantedText: true
+								    		    },  
+								    		    vAxis: {
+								    		        title: 'VALUE', 
+								    		        titleTextStyle: {color: 'black'}, 
+								    		        count: -1, 
+								    		        format: '#'
+								    		    },
+								    		    /* colors: ['#F1CA3A'] */
+								    		  };
 								       var materialChart = new google.charts.Bar(chartDiv);
 								       
 								       function selectHandler() {
@@ -440,7 +458,7 @@ function showChart(){
 
 												   }) 
 										 var options = {'title':'CATEGORY OP VALUE',
-							                       'width':400,
+							                       'width':550,
 							                       'height':250};
 											   document.getElementById("Piechart").style.border = "thin dotted red";
 										 var chart = new google.visualization.PieChart(document.getElementById('Piechart'));
@@ -466,7 +484,7 @@ function showChart(){
 
 												   }) 
 										 var options = {'title':'CATEGORY MRN VALUE',
-							                       'width':400,
+							                       'width':550,
 							                       'height':250};
 											   document.getElementById("PieAmtchart").style.border = "thin dotted red";
 										 var chart = new google.visualization.PieChart(document.getElementById('PieAmtchart'));
@@ -492,7 +510,7 @@ function showChart(){
 
 												   }) 
 										 var options = {'title':'CATEGORY ISSUE VALUE',
-							                       'width':400,
+							                       'width':550,
 							                       'height':250};
 											   document.getElementById("PiechartIssue").style.border = "thin dotted red";
 										 var chart = new google.visualization.PieChart(document.getElementById('PiechartIssue'));
@@ -518,7 +536,7 @@ function showChart(){
 
 												   }) 
 										 var options = {'title':'CATEGORY DAMAGE VALUE',
-							                       'width':400,
+							                       'width':550,
 							                       'height':250};
 											   document.getElementById("PiechartDamage").style.border = "thin dotted red";
 										 var chart = new google.visualization.PieChart(document.getElementById('PiechartDamage'));
