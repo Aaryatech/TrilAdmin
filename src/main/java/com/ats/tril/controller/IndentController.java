@@ -28,6 +28,7 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetCurrentStock;
@@ -50,12 +51,52 @@ import com.ats.tril.model.item.ItemList;
 public class IndentController {
 
 	RestTemplate rest = new RestTemplate();
+	List<ConsumptionReportWithCatId> mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
+	
+	public List<ConsumptionReportWithCatId> getValueFunction() {
+		 
+		mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
+		
+		try {
+			 
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			  Calendar calendar = Calendar.getInstance();
+			  calendar.setTime(date);
+			   
+			 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 String toDate = yy.format(date);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate", toDate); 
+			 			System.out.println(map);
+			 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionMrnData",map, ConsumptionReportWithCatId[].class);
+			 		 mrnReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
+					   
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+		return mrnReportList;
+	}
+	
+	@RequestMapping(value = "/getlimitationValue", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> getlimitationValue(HttpServletRequest request, HttpServletResponse response) {
+  
+		return mrnReportList;
+	}
+	
+	
 	@RequestMapping(value = "/showIndent", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = null;
 		try {
+			
 			tempIndentList = new ArrayList<TempIndentDetail>();
 			model = new ModelAndView("indent/addindent");
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
@@ -99,6 +140,9 @@ public class IndentController {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
+			
+			getValueFunction();
+			
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing add Indent" + e.getMessage());

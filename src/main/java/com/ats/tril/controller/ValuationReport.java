@@ -2829,6 +2829,34 @@ public class ValuationReport {
 			 
 			if(request.getParameter("typeId")==null || request.getParameter("isDev")==null) {
 				
+				typeId = 0;
+				isDev = 0;
+				 
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					/*map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); */
+		 			map.add("typeId", typeId);
+		 			map.add("isDev", isDev);
+		 			System.out.println(map);
+		 			IssueMonthWiseList[] issueMonthWiseList = rest.postForObject(Constants.url + "/issueMonthWiseReportByDept",map, IssueMonthWiseList[].class);
+		 			list = new ArrayList<IssueMonthWiseList>(Arrays.asList(issueMonthWiseList));
+		 			
+		 			System.out.println("list " + list);
+		 			
+		 			for(int i=0 ; i<list.size() ; i++) {
+		 				
+		 				model.addObject("month"+i,list.get(i));
+		 			}
+				 listGlobal=list;
+				model.addObject("list", list);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				model.addObject("typeId", typeId);
+				model.addObject("isDevelompent", isDev);
+				
+				Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+				 deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
+				model.addObject("deparmentList", deparmentList);
 			}
 			else {
 				/*fromDate = request.getParameter("fromDate");
@@ -2862,90 +2890,91 @@ public class ValuationReport {
 				 deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
 				model.addObject("deparmentList", deparmentList);
 				
-				//------------------------ Export To Excel--------------------------------------
-				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
-
-				ExportToExcel expoExcel = new ExportToExcel();
-				List<String> rowData = new ArrayList<String>();
-;
-
-					/*rowData.add("SR. No");
-					rowData.add("DEPARMENT NAME");
-					rowData.add("APR ISSUE QTY");
-					rowData.add("APR ISSUE VALUE");
-					rowData.add("MAY ISSUE QTY");
-					rowData.add("MAY ISSUE VALUE");
-					rowData.add("JUNE ISSUE QTY");
-					rowData.add("JUNE ISSUE VALUE");
-					rowData.add("JULY ISSUE QTY");
-					rowData.add("JULY ISSUE VALUE");
-					rowData.add("AUGUST ISSUE QTY");
-					rowData.add("AUGUST ISSUE VALUE");
-					rowData.add("SEPTEMBR ISSUE QTY");
-					rowData.add("SEPTEMBR ISSUE VALUE");
-					rowData.add("OCTOMBER ISSUE QTY");
-					rowData.add("OCTOMBER ISSUE VALUE");
-					rowData.add("NOVEMBER ISSUE QTY");
-					rowData.add("NOVEMBER ISSUE VALUE");
-					rowData.add("DECEMBER ISSUE QTY");
-					rowData.add("DECEMBER ISSUE VALUE");
-					rowData.add("JANUARY ISSUE QTY");
-					rowData.add("JANUARY ISSUE VALUE");
-					rowData.add("FEBRUARY ISSUE QTY");
-					rowData.add("FEBRUARY ISSUE VALUE");
-					rowData.add("MARCH ISSUE QTY");
-					rowData.add("MARCH ISSUE VALUE");*/
-
-					rowData.add("SR. No");
-					rowData.add("DEPARMENT NAME"); 
-					rowData.add("APR ISSUE VALUE"); 
-					rowData.add("MAY ISSUE VALUE"); 
-					rowData.add("JUNE ISSUE VALUE"); 
-					rowData.add("JULY ISSUE VALUE"); 
-					rowData.add("AUGUST ISSUE VALUE"); 
-					rowData.add("SEPTEMBR ISSUE VALUE"); 
-					rowData.add("OCTOMBER ISSUE VALUE"); 
-					rowData.add("NOVEMBER ISSUE VALUE"); 
-					rowData.add("DECEMBER ISSUE VALUE"); 
-					rowData.add("JANUARY ISSUE VALUE"); 
-					rowData.add("FEBRUARY ISSUE VALUE"); 
-					rowData.add("MARCH ISSUE VALUE");
- 
-					expoExcel.setRowData(rowData);
-				
-				exportToExcelList.add(expoExcel);
-				for (int i = 0; i < deparmentList.size(); i++) {
-					expoExcel = new ExportToExcel();
-					rowData = new ArrayList<String>();
-
-					rowData.add((i+1)+"");
-					rowData.add(deparmentList.get(i).getDeptCode()+" "+deparmentList.get(i).getDeptDesc());
-					for(int k=0;k<list.size();k++) {
-						List<MonthWiseIssueReport> monthList=list.get(k).getMonthList();
-					
-					for(int j=0;j<monthList.size();j++)
-					{
-						if(monthList.get(j).getDeptId()==deparmentList.get(i).getDeptId())
-						{
-							//rowData.add(""+monthList.get(j).getIssueQty());
-							rowData.add(""+monthList.get(j).getIssueQtyValue());
-						}
-					}
-					
-					}
-				
-
-
-					expoExcel.setRowData(rowData);
-					exportToExcelList.add(expoExcel);
-
-				}
-
-				HttpSession session = request.getSession();
-				session.setAttribute("exportExcelList", exportToExcelList);
-				session.setAttribute("excelName", "MonthWiseConsumption(Issues)");
-				//------------------------------------END------------------------------------------
 			}
+			
+
+			//------------------------ Export To Excel--------------------------------------
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>(); 
+
+				/*rowData.add("SR. No");
+				rowData.add("DEPARMENT NAME");
+				rowData.add("APR ISSUE QTY");
+				rowData.add("APR ISSUE VALUE");
+				rowData.add("MAY ISSUE QTY");
+				rowData.add("MAY ISSUE VALUE");
+				rowData.add("JUNE ISSUE QTY");
+				rowData.add("JUNE ISSUE VALUE");
+				rowData.add("JULY ISSUE QTY");
+				rowData.add("JULY ISSUE VALUE");
+				rowData.add("AUGUST ISSUE QTY");
+				rowData.add("AUGUST ISSUE VALUE");
+				rowData.add("SEPTEMBR ISSUE QTY");
+				rowData.add("SEPTEMBR ISSUE VALUE");
+				rowData.add("OCTOMBER ISSUE QTY");
+				rowData.add("OCTOMBER ISSUE VALUE");
+				rowData.add("NOVEMBER ISSUE QTY");
+				rowData.add("NOVEMBER ISSUE VALUE");
+				rowData.add("DECEMBER ISSUE QTY");
+				rowData.add("DECEMBER ISSUE VALUE");
+				rowData.add("JANUARY ISSUE QTY");
+				rowData.add("JANUARY ISSUE VALUE");
+				rowData.add("FEBRUARY ISSUE QTY");
+				rowData.add("FEBRUARY ISSUE VALUE");
+				rowData.add("MARCH ISSUE QTY");
+				rowData.add("MARCH ISSUE VALUE");*/
+
+				rowData.add("SR. No");
+				rowData.add("DEPARMENT NAME"); 
+				rowData.add("APR ISSUE VALUE"); 
+				rowData.add("MAY ISSUE VALUE"); 
+				rowData.add("JUNE ISSUE VALUE"); 
+				rowData.add("JULY ISSUE VALUE"); 
+				rowData.add("AUGUST ISSUE VALUE"); 
+				rowData.add("SEPTEMBR ISSUE VALUE"); 
+				rowData.add("OCTOMBER ISSUE VALUE"); 
+				rowData.add("NOVEMBER ISSUE VALUE"); 
+				rowData.add("DECEMBER ISSUE VALUE"); 
+				rowData.add("JANUARY ISSUE VALUE"); 
+				rowData.add("FEBRUARY ISSUE VALUE"); 
+				rowData.add("MARCH ISSUE VALUE");
+
+				expoExcel.setRowData(rowData);
+			
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < deparmentList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i+1)+"");
+				rowData.add(deparmentList.get(i).getDeptCode()+" "+deparmentList.get(i).getDeptDesc());
+				for(int k=0;k<list.size();k++) {
+					List<MonthWiseIssueReport> monthList=list.get(k).getMonthList();
+				
+				for(int j=0;j<monthList.size();j++)
+				{
+					if(monthList.get(j).getDeptId()==deparmentList.get(i).getDeptId())
+					{
+						//rowData.add(""+monthList.get(j).getIssueQty());
+						rowData.add(""+monthList.get(j).getIssueQtyValue());
+					}
+				}
+				
+				}
+			
+
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "MonthWiseConsumption(Issues)");
+			//------------------------------------END------------------------------------------
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2953,6 +2982,21 @@ public class ValuationReport {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/listForIssueGraphDeptWise", method = RequestMethod.GET)
+	public @ResponseBody List<IssueMonthWiseList> listForIssueGraphDeptWise(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return listGlobal;
+	}
+	
+	@RequestMapping(value = "/getDeptListForGraph", method = RequestMethod.GET)
+	public @ResponseBody List<Dept> getDeptListForGraph(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return deparmentList;
+	}
+	
 	@RequestMapping(value = "/issueMonthWieReportPdf", method = RequestMethod.GET)
 	public void issueMonthWieReportPdf(HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {

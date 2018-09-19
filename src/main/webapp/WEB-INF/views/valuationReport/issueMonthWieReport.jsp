@@ -7,9 +7,9 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
-	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
-
+	<c:url var="listForMrnGraphCategoryMonthWise" value="/listForMrnGraphCategoryMonthWise"></c:url>
+	<c:url var="getCatListForGraph" value="/getCatListForGraph"></c:url>
+ 
 
 	<div class="container" id="main-container">
 
@@ -135,7 +135,10 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
+								<input type="submit" class="btn btn-primary"   value="Search"> 
+								<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" > 
+										 <input type="button" class="btn btn-primary" value="PDF" onclick="genPdf()" > 
+										  <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">  
 							</div>
 						</div> <br>
 							 
@@ -157,7 +160,7 @@
 								</label> 
 					<br /> <br />
 					<div class="clearfix"></div>
-					<div style="overflow:scroll;height:100%;width:100%;overflow:auto">
+					<div style="overflow:scroll;height:100%;width:100%;overflow:auto" id="tbl">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
 										style="width: 100%" id="table_grid">
 									<thead>
@@ -278,16 +281,25 @@
 								</tbody>
 
 								</table>
-								<div class="form-group"  id="range">
+								
+								<div id="chart" style="display: none"><br> <hr>
+		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
+		
+			<div   id="PiechartApr" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartMay" style="width:25%; height:300; float: Left;" ></div> 
+			<div   id="PiechartJun" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartJul" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartAug" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartSep" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartOct" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartNov" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartDec" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartJan" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartFeb" style="width:25%; height:300; float: Left;" ></div>
+			<div   id="PiechartMar" style="width:25%; height:300; float: Left;" ></div> 
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>
 								 
-											 
-											 
-											<div class="col-md-5  controls">
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
-											
-																								    <button id="btn_pdf" class="btn btn-primary" onclick="genPdf()" >PDF </button>
-											</div>
-											</div>
   
 					</div> 
 					 
@@ -376,7 +388,165 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+		
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+	<script type="text/javascript">
+		 
+	  function showChart(){
+		alert("df");
+			document.getElementById('chart').style.display = "block";
+			   document.getElementById("tbl").style="display:none";
+			   alert("df");
+			   $.getJSON('${getCatListForGraph}',{
+					
+					 
+					ajax : 'true',
 
+				},
+				function(data1) {
+					
+					alert(data1);
+					$.getJSON('${listForMrnGraphCategoryMonthWise}',{
+						
+										 
+										ajax : 'true',
+
+									},
+									function(data) {			
+										 
+										 if (data == "") {
+												alert("No records found !!");
+
+										 }
+										 var i=0;
+										 
+										 google.charts.load('current', {'packages':['corechart', 'bar']});
+										  
+										 google.charts.setOnLoadCallback(drawStuff); 
+										 function drawStuff() {
+											 alert(data);
+										   var chartDiv = document.getElementById('chart_div');
+										   document.getElementById("chart_div").style.border = "thin dotted red";
+									       var dataTable = new google.visualization.DataTable();
+									        
+									       dataTable.addColumn('string', 'Depatment'); // Implicit domain column.
+									     /*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
+									      // dataTable.addColumn({type:'string', role:'interval'});
+									     //  dataTable.addColumn({type:'string', role:'interval'}); 
+									       dataTable.addColumn('number', 'APR '); 
+									      /*  dataTable.addColumn('number', 'MAY '); 
+									        dataTable.addColumn('number', 'JUN ');
+									       dataTable.addColumn('number', 'JUL ');
+									       dataTable.addColumn('number', 'AUG ');
+									       dataTable.addColumn('number', 'SEP ');
+									       dataTable.addColumn('number', 'OCT ');
+									       dataTable.addColumn('number', 'NOV ');
+									       dataTable.addColumn('number', 'DEC ');
+									       dataTable.addColumn('number', 'JAN ');
+									       dataTable.addColumn('number', 'FEB ');
+									       dataTable.addColumn('number', 'MAR ');    */
+									      
+									         /* for(var i = 0 ; i<2 ;i++){
+									        	 var arry=[];
+									        	
+									        	 arry.push(data1[i].deptCode);
+									        	   
+									        	 
+									    	   for(var j=0 ; j<data.length ;j++){
+									    		   
+									    		   for(var k=0 ; k<data[j].monthList.length ;k++){
+									    			   
+									    			   if(data1[i].deptId==data[j].monthList[k].deptId){
+									    				   
+									    				   arry.push(data[j].monthList[k].issueQtyValue);
+									    				    
+									    			   }
+									    		   }
+									    		   
+									    	   }
+									    	   
+									    	   /* dataTable.addRows([
+													 
+										             [arry[0],arry[1],arry[2],arry[3],arry[4],arry[5],arry[6],arry[7],arry[8],arry[9],arry[10],
+										            	 arry[11],arry[12],]
+										           
+										           ]); 
+									    	    
+									       }  */
+									       
+									       dataTable.addRows([
+												 
+									             ['dept',500,]
+									           
+									           ]);
+									         
+									           var materialOptions = {
+										    		    legend: {position:'top'},
+										    		    hAxis: {
+										    		        title: 'DEPARTMENT', 
+										    		        titleTextStyle: {color: 'black'}, 
+										    		        count: -1, 
+										    		        viewWindowMode: 'pretty', 
+										    		        slantedText: true
+										    		    },  
+										    		    vAxis: {
+										    		        title: 'VALUE', 
+										    		        titleTextStyle: {color: 'black'}, 
+										    		        count: -1, 
+										    		        format: '#'
+										    		    },
+										    		    /* colors: ['#F1CA3A'] */
+										    		  };
+									       var materialChart = new google.charts.Bar(chartDiv);
+									       
+									        function selectHandler() {
+										          var selectedItem = materialChart.getSelection()[0];
+										          if (selectedItem) {
+										            var topping = dataTable.getValue(selectedItem.row, 0);
+										           // alert('The user selected ' + selectedItem.row,0);
+										            i=selectedItem.row,0;
+										            itemSellBill(data[i].itemcode);
+										           // google.charts.setOnLoadCallback(drawBarChart);
+										          }
+										        } 
+									       
+									       function drawMaterialChart() {
+									    	   
+									          // var materialChart = new google.charts.Bar(chartDiv);
+									          alert("FUNCTON");
+									         google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+									           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
+									           alert("FUNCTON");
+									          // button.innerText = 'Change to Classic';
+									          // button.onclick = drawClassicChart;
+									         }
+									        
+									         
+									      /*  var chart = new google.visualization.ColumnChart(
+									                document.getElementById('chart_div'));
+									       chart.draw(dataTable,
+									          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+									          drawMaterialChart();
+									       /* google.charts.setOnLoadCallback(drawAprValueChart);
+									       google.charts.setOnLoadCallback(drawMayValueChart);
+									       google.charts.setOnLoadCallback(drawJunValueChart);
+									       google.charts.setOnLoadCallback(drawJulValueChart);
+									       google.charts.setOnLoadCallback(drawAugValueChart);
+									       google.charts.setOnLoadCallback(drawSepValueChart);
+									       google.charts.setOnLoadCallback(drawOctValueChart);
+									       google.charts.setOnLoadCallback(drawNovValueChart);
+									       google.charts.setOnLoadCallback(drawDecValueChart);
+									       google.charts.setOnLoadCallback(drawJanValueChart);
+									       google.charts.setOnLoadCallback(drawFebValueChart);
+									       google.charts.setOnLoadCallback(drawMarValueChart); */
+										 };
+										 
+											
+								  	});
+				});
+	}
+	 
+	</script>
 
 	<script type="text/javascript">
 	function search() {

@@ -16,7 +16,7 @@
 
 	<c:url var="getIndentDetail" value="/getIndentDetail" />
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
-
+<c:url var="getlimitationValue" value="/getlimitationValue" />
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 	<div class="container" id="main-container">
 
@@ -200,6 +200,19 @@
 							
 								
 								<hr />
+								<div class="box-content">
+									<div class="col-md-2">Total MRN : </div>
+									<div class="col-md-2" id="totalmrn">
+ 
+									</div>
+									
+									<div class="col-md-2">MRN Limit : </div>
+									<div class="col-md-2" id="mrnLimit">
+ 
+									</div>
+									 
+								</div>
+								<br> <br>
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 								
 								<div class="box-content">
@@ -756,6 +769,41 @@ function getInvoiceNo() {
 	}, function(data) { 
 		
 	document.getElementById("indent_no").value=data.code;  
+	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix; 
+	getlimitationValue(catId,typeId);
+	
+	});
+
+}
+
+function getlimitationValue(catId,typeId) {
+	 
+	$.getJSON('${getlimitationValue}', {
+ 
+		ajax : 'true',
+
+	}, function(data) { 
+		
+		var flag=0;
+		
+	for(var i=0;i<data.length;i++){
+		
+		if(data[i].typeId==typeId){
+			
+			for(var j=0;j<data[i].consumptionReportList.length;j++){
+				
+				if(data[i].consumptionReportList[j].catId==catId){
+					
+					//alert("Monthly Value Is " + data[i].consumptionReportList[j].monthlyValue);
+					document.getElementById("totalmrn").innerHTML = data[i].consumptionReportList[j].monthlyValue;
+					flag=1;
+					break;
+				}
+				 
+			}
+			 
+		}
+	}
 	
 	});
 
