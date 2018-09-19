@@ -180,28 +180,22 @@ body {
 										<c:when test="${isFromDashBoard==1}">
 										<input type="hidden" id="poType" name="poType" value="${poTypeTemp}">
 											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"   disabled>
-												<%-- <c:choose>
-													<c:when test="${poTypeTemp==1}"> 
-														<option value="1" selected>Regular</option> 
-													</c:when>
-													<c:when test="${poTypeTemp==2}"> 
-														<option value="2" selected>Job Work</option> 
-													</c:when>
-													<c:when test="${poTypeTemp==3}"> 
-														<option value="3" selected>General</option> 
-													</c:when>
-													<c:when test="${poTypeTemp==4}">
-														<option value="4" selected>Other</option>
-													</c:when>
-													<c:otherwise>
-													<option value="" >Select PO Type</option>
-													<option value="1">Regular</option>
-													<option value="2">Job Work</option>
-													<option value="3">General</option>
-													<option value="4">Other</option> 
-													</c:otherwise>
-												</c:choose> --%>
-												
+												 
+														<c:forEach items="${typeList}" var="typeList">
+															<c:choose>
+															
+																<c:when test="${poTypeTemp==typeList.typeId}">
+																	<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																</c:when>
+																 
+															</c:choose>
+														</c:forEach>
+													 
+											</select>
+										</c:when>
+										<c:when test="${isGeneralPurchase==1}">
+										<input type="hidden" id="poType" name="poType" value="${poTypeTemp}">
+											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"   disabled>
 												 
 														<c:forEach items="${typeList}" var="typeList">
 															<c:choose>
@@ -316,17 +310,37 @@ body {
 				 
 			</div><br/>
 			
-			<div class="box-content">
-			<div class="col-md-2">Vendor Quotation</div>
-				<div class="col-md-3">
-					<input type="text" placeholder="Enter Quotation No"  value="${quotationTemp}" name="quotation" id="quotation" class="form-control" required>
-				</div>
+			<c:choose>
+				<c:when test="${isGeneralPurchase==1}">
+										<div class="box-content">
+										<div class="col-md-2">Bill No</div>
+											<div class="col-md-3">
+												<input type="text" placeholder="Bill No"   name="quotation" id="quotation" class="form-control" required>
+											</div>
+									
+									<div class="col-md-2" >Bill Date</div>
+									<div class="col-md-3">
+										 <input type="text"   placeholder="Bill Date" value="${quotationDateTemp}" name="quotationDate" id="quotationDate" class="form-control date-picker" required>
+									</div>
+									</div><br/>
+					</c:when>
+					<c:otherwise>
+										<div class="box-content">
+									<div class="col-md-2">Vendor Quotation</div>
+										<div class="col-md-3">
+											<input type="text" placeholder="Enter Quotation No"  value="${quotationTemp}" name="quotation" id="quotation" class="form-control" required>
+										</div>
 									
 									<div class="col-md-2" >Quotation Ref. Date</div>
 									<div class="col-md-3">
 										 <input type="text"   placeholder="Select Quotation Date" value="${quotationDateTemp}" name="quotationDate" id="quotationDate" class="form-control date-picker" required>
 									</div>
 									</div><br/>
+										
+					</c:otherwise>
+			
+			</c:choose>
+			
 									
 								
 			<div class="box-content">
@@ -654,6 +668,7 @@ body {
 					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
 					<input   type="hidden" value="${code}" name="poNoTemp" id="poNoTemp"    >
 					<input   type="hidden" value="${isFromDashBoard}" name="isFromDashBoard" id="isFromDashBoard"    >
+					<input   type="hidden" value="${isGeneralPurchase}" name="isGeneralPurchase" id="isGeneralPurchase"    >
 						<input   type="hidden"   name="remarkTemp" id="remarkTemp"    >
 										      
 					<div class="modal-content" style="color: black;">

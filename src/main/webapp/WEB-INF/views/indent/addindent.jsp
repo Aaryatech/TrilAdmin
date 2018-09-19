@@ -201,15 +201,19 @@
 								
 								<hr />
 								<div class="box-content">
-									<div class="col-md-2">Total MRN : </div>
-									<div class="col-md-2" id="totalmrn">
+									<div class="col-md-2">Total MRN : 
+									</div>
+									<div  class="col-md-2" style="font-weight: bold; font-size: 25px;" id="totalmrn">
+ 
+									</div>
+									  
+									<div class="col-md-2">MRN Limit : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 25px;" id="mrnLimit">
  
 									</div>
 									
-									<div class="col-md-2">MRN Limit : </div>
-									<div class="col-md-2" id="mrnLimit">
- 
-									</div>
 									 
 								</div>
 								<br> <br>

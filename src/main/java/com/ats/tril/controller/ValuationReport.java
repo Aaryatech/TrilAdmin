@@ -2830,7 +2830,7 @@ public class ValuationReport {
 			if(request.getParameter("typeId")==null || request.getParameter("isDev")==null) {
 				
 				typeId = 0;
-				isDev = 0;
+				isDev = -1;
 				 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					/*map.add("fromDate",DateConvertor.convertToYMD(fromDate));

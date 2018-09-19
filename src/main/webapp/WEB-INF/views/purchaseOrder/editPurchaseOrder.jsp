@@ -205,19 +205,40 @@ body {
 				 
 			</div><br/>
 			
-			<div class="box-content">
-				 
-									<div class="col-md-2">Vendor Quotation</div>
-				<div class="col-md-3">
-					<input type="text" placeholder="Enter Quotation No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control"  required>
-				</div>
+								<c:choose> 
+										<c:when test="${autoMrn==1}"> 
+											<div class="box-content"> 
+												<div class="col-md-2">Bill No</div>
+													<div class="col-md-3">
+														<input type="text" placeholder="Bill No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control"  required>
+													</div>
 				
-				<div class="col-md-2" >Quotation Ref. Date</div>
-									<div class="col-md-3">
-										 <input type="text"   placeholder="Select Quotation Date" value="${getPoHeader.vendQuationDate}" name="quotationDate" id="quotationDate" class="form-control date-picker" required>
-									</div>
+												<div class="col-md-2" >Bill Date</div>
+												<div class="col-md-3">
+													 <input type="text"   placeholder="Bill Date" value="${getPoHeader.vendQuationDate}" name="quotationDate" id="quotationDate" class="form-control date-picker" required>
+												</div>
 				 
-			</div><br/>
+											</div><br/> 		 
+										</c:when> 
+										<c:otherwise>
+											<div class="box-content"> 
+												<div class="col-md-2">Vendor Quotation</div>
+													<div class="col-md-3">
+														<input type="text" placeholder="Enter Quotation No"  value="${getPoHeader.vendQuation}" name="quotation" id="quotation" class="form-control"  required>
+													</div>
+				
+												<div class="col-md-2" >Quotation Ref. Date</div>
+												<div class="col-md-3">
+													 <input type="text"   placeholder="Select Quotation Date" value="${getPoHeader.vendQuationDate}" name="quotationDate" id="quotationDate" class="form-control date-picker" required>
+												</div>
+				 
+											</div><br/>
+										
+										</c:otherwise>
+										
+								</c:choose>
+			
+			
 			 			
 			<div class="box-content">
 				<div class="col-md-2" >Payment Terms</div>

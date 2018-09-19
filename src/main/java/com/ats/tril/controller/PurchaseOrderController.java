@@ -31,10 +31,14 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetPoDetailList;
 import com.ats.tril.model.GetPoHeaderList;
+import com.ats.tril.model.IssueDetail;
+import com.ats.tril.model.IssueHeader;
 import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.PoDetail;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
@@ -44,6 +48,8 @@ import com.ats.tril.model.getqueryitems.GetPoQueryItem;
 import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.GetIntendDetail;
 import com.ats.tril.model.indent.IndentTrans;
+import com.ats.tril.model.mrn.MrnDetail;
+import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.po.PoHeader;
 
 @Controller
@@ -160,6 +166,90 @@ public class PurchaseOrderController {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/addPurchaseOrderforGeneralPurchase", method = RequestMethod.GET)
+	public ModelAndView addPurchaseOrderforGeneralPurchase( HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/addPurchaseOrder");
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("name", "autoMrn"); 
+			System.out.println("map " + map);
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			/*int flag=0;
+			 String[] types = settingValue.getValue().split(",");
+			 
+			 for(int i = 0 ; i<types.length ; i++) {
+				 
+				 if(6==Integer.parseInt(types[i])) {
+					  flag=1;
+					  break;
+				 }
+			 }*/
+			 
+			   int poType=0;
+				 if(6==Integer.parseInt(settingValue.getValue())) {
+					 
+					 poType=Integer.parseInt(settingValue.getValue());
+					 
+			PoHeader = new PoHeader();
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+
+			model.addObject("date", sf.format(date));
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			model.addObject("vendorList", vendorList);
+
+			DispatchMode[] dispatchMode = rest.getForObject(Constants.url + "/getAllDispatchModesByIsUsed",
+					DispatchMode[].class);
+			List<DispatchMode> dispatchModeList = new ArrayList<DispatchMode>(Arrays.asList(dispatchMode));
+
+			model.addObject("dispatchModeList", dispatchModeList);
+
+			PaymentTerms[] paymentTermsLists = rest.getForObject(Constants.url + "/getAllPaymentTermsByIsUsed",
+					PaymentTerms[].class);
+			model.addObject("paymentTermsList", paymentTermsLists);
+
+			DeliveryTerms[] deliveryTerms = rest.getForObject(Constants.url + "/getAllDeliveryTermsByIsUsed",
+					DeliveryTerms[].class);
+			List<DeliveryTerms> deliveryTermsList = new ArrayList<DeliveryTerms>(Arrays.asList(deliveryTerms));
+
+			model.addObject("deliveryTermsList", deliveryTermsList);
+
+			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
+			model.addObject("taxFormList", taxFormList);
+ 
+			model.addObject("quotationTemp", "-");
+			model.addObject("quotationDateTemp", sf.format(date)); 
+			model.addObject("poTypeTemp", poType); 
+			model.addObject("isGeneralPurchase", 1); 
+			map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1");
+			map.add("poType", poType);
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
+					GetIndentByStatus[].class);
+			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			 
+			model.addObject("intedList", intedList);
+			
+			String code = getInvoiceNo(1,2,sf.format(date),poType);
+			model.addObject("code", code);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+				 }
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -366,6 +456,12 @@ public class PurchaseOrderController {
 			try {
 				String isFromDashBoard = request.getParameter("isFromDashBoard");
 				model.addObject("isFromDashBoard", isFromDashBoard);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+				String isGeneralPurchase = request.getParameter("isGeneralPurchase");
+				model.addObject("isGeneralPurchase", isGeneralPurchase);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -878,6 +974,27 @@ public class PurchaseOrderController {
 				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 
 				model.addObject("typeList", typeList);
+				
+				map = new LinkedMultiValueMap<>();
+				map.add("name", "autoMrn"); 
+				System.out.println("map " + map);
+				SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+				
+				int flag=0;
+				 String[] types = settingValue.getValue().split(",");
+				 
+				 for(int i = 0 ; i<types.length ; i++) {
+					 
+					 if(getPoHeader.getPoType()==Integer.parseInt(types[i])) {
+						  flag=1;
+						  break;
+					 }
+				 }
+				 if(flag==1)
+					 model.addObject("autoMrn", 1);
+				 else  
+					 model.addObject("autoMrn", 0);
+						 
 				
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1565,38 +1682,60 @@ public class PurchaseOrderController {
 						GetIntendDetail[].class);
 				getIntendDetailListforEdit = new ArrayList<>(Arrays.asList(GetIntendDetail));
 	 
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("name", "autoMrn"); 
+				System.out.println("map " + map);
+				SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 				
+				int flag=0;
+				 String[] type = settingValue.getValue().split(",");
+				 
+				 for(int i = 0 ; i<type.length ; i++) {
+					 
+					 if(poHeaderForApprove.getPoType()==Integer.parseInt(type[i])) {
+						  flag=1;
+						  break;
+					 }
+				 }
 				
-				poHeaderForApprove.setPoStatus(0);
+				 if(flag==1) {
+					 	poHeaderForApprove.setPoStatus(2);
+					}
+					else {
+						poHeaderForApprove.setPoStatus(0);
+					} 
+				
 				poId=poHeaderForApprove.getPoId();
 				String[] checkbox = request.getParameterValues("select_to_approve");
 				status=0;
-				try {
+				 
 					for(int i=0 ; i<checkbox.length ;i++) {
 						
 						for(int j=0 ; j<poHeaderForApprove.getPoDetailList().size() ; j++) {
 							
 							if(Integer.parseInt(checkbox[i])==poHeaderForApprove.getPoDetailList().get(j).getPoDetailId()) {
-								poHeaderForApprove.getPoDetailList().get(j).setStatus(0);
+								if(flag==1) {
+									poHeaderForApprove.getPoDetailList().get(j).setStatus(2);
+									poHeaderForApprove.getPoDetailList().get(j).setPendingQty(0);
+								}
+								else {
+									poHeaderForApprove.getPoDetailList().get(j).setStatus(0);
+								} 
 								poDetalId=poDetalId+","+poHeaderForApprove.getPoDetailList().get(j).getPoDetailId();
 								break;
 							}
 						}
 					}
-				}catch(Exception e)
-				{
-					
-				}
-				
+				  
 				float total = 0;
 				float poBasicValue = 0;
 				float poDiscValue = 0;
 				
-				System.out.println(getPoHeader);
+				System.out.println(poHeaderForApprove);
 				 
 				 
 				for (int i = 0; i < poHeaderForApprove.getPoDetailList().size(); i++) {
-					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0) {
+					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0 || poHeaderForApprove.getPoDetailList().get(i).getStatus()==2) {
 						poBasicValue = poBasicValue + poHeaderForApprove.getPoDetailList().get(i).getBasicValue();
 						poDiscValue = poDiscValue + poHeaderForApprove.getPoDetailList().get(i).getDiscValue();
 						poHeaderForApprove.getPoDetailList().get(i).setSchDate(DateConvertor.convertToYMD(poHeaderForApprove.getPoDetailList().get(i).getSchDate()));
@@ -1626,7 +1765,7 @@ public class PurchaseOrderController {
 				getPoHeader.setPoTaxValue((poHeaderForApprove.getPoTaxPer() / 100) * total);
 
 				for (int i = 0; i < poHeaderForApprove.getPoDetailList().size(); i++) {
-					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0) {
+					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0 || poHeaderForApprove.getPoDetailList().get(i).getStatus()==2) {
 					float divFactor = poHeaderForApprove.getPoDetailList().get(i).getBasicValue() / poHeaderForApprove.getPoBasicValue()
 							* 100;
 					poHeaderForApprove.getPoDetailList().get(i).setPackValue(divFactor * poHeaderForApprove.getPoPackVal() / 100);
@@ -1683,9 +1822,99 @@ public class PurchaseOrderController {
 						 System.out.println("After Approve    " + errorMessage);
 					}
 					
-				}
 					
-				
+					
+					//----------------auto MRN--------------------------------------
+					  
+						 if(flag==1) {
+							 
+							  map = new LinkedMultiValueMap<>();
+								map.add("poId", poHeaderForApprove.getPoId());
+								GetPoHeaderList	 poHeaderForAutoMrn = rest.postForObject(Constants.url + "/getPoHeaderAndDetailByHeaderId", map,
+										GetPoHeaderList.class); 
+							 MrnHeader mrnHeader = new MrnHeader();
+								//----------------------------Inv No---------------------------------
+								DocumentBean docBean=null;
+								 
+								try {
+									
+									map = new LinkedMultiValueMap<String, Object>();
+									map.add("docId", 3);
+									map.add("catId", 1);
+									map.add("date", DateConvertor.convertToYMD(poHeaderForAutoMrn.getPoDate()));
+									map.add("typeId", poHeaderForAutoMrn.getPoType());
+									RestTemplate restTemplate = new RestTemplate();
+
+									 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+									String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+									int counter=docBean.getSubDocument().getCounter();
+									int counterLenth = String.valueOf(counter).length();
+									counterLenth = 4 - counterLenth;
+									StringBuilder code = new StringBuilder(indMNo+"");
+
+									for (int i = 0; i < counterLenth; i++) {
+										String j = "0";
+										code.append(j);
+									}
+									code.append(String.valueOf(counter));
+									
+									mrnHeader.setMrnNo(""+code);
+									
+									docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+								}catch (Exception e) {
+									e.printStackTrace();
+								}
+								
+								List<MrnDetail> mrnDetailList = new ArrayList<MrnDetail>();
+
+								mrnHeader.setBillDate(DateConvertor.convertToYMD(poHeaderForAutoMrn.getVendQuationDate()));
+								mrnHeader.setBillNo(poHeaderForAutoMrn.getVendQuation());
+								mrnHeader.setDelStatus(1);
+								mrnHeader.setDocDate(DateConvertor.convertToYMD(poHeaderForAutoMrn.getVendQuationDate())); 
+								mrnHeader.setGateEntryDate(DateConvertor.convertToYMD(poHeaderForAutoMrn.getVendQuationDate())); 
+								mrnHeader.setLrDate(DateConvertor.convertToYMD(poHeaderForAutoMrn.getVendQuationDate())); 
+								mrnHeader.setMrnDate(DateConvertor.convertToYMD(poHeaderForAutoMrn.getVendQuationDate())); 
+								mrnHeader.setMrnStatus(2);
+								mrnHeader.setMrnType(poHeaderForAutoMrn.getPoType());
+								mrnHeader.setRemark1("-");
+								mrnHeader.setRemark2("def"); 
+								mrnHeader.setUserId(1);
+								mrnHeader.setVendorId(poHeaderForAutoMrn.getVendId());
+								
+								for (GetPoDetailList detail : poHeaderForAutoMrn.getPoDetailList()) {
+									
+									if(detail.getStatus()==2) {
+ 
+										MrnDetail mrnDetail = new MrnDetail(); 
+										mrnDetail.setIndentQty(detail.getIndedQty()); 
+										mrnDetail.setPoQty(detail.getItemQty()); 
+										mrnDetail.setMrnQty(detail.getItemQty()); 
+										mrnDetail.setItemId(detail.getItemId()); 
+										mrnDetail.setPoId(detail.getPoId()); 
+										mrnDetail.setPoNo(poHeaderForAutoMrn.getPoNo()); 
+										mrnDetail.setMrnDetailStatus(1); 
+										mrnDetail.setBatchNo("Default Batch KKKK-00456");
+										mrnDetail.setDelStatus(1); 
+										mrnDetail.setPoDetailId(detail.getPoDetailId()); 
+										mrnDetail.setChalanQty(detail.getItemQty()); 
+										mrnDetail.setRemainingQty(detail.getItemQty());
+										mrnDetail.setApproveQty(detail.getItemQty());
+										mrnDetail.setMrnQtyBeforeEdit(-1); 
+										mrnDetailList.add(mrnDetail); 
+									}
+									 
+								}
+
+								mrnHeader.setMrnDetailList(mrnDetailList);
+								MrnHeader mrnHeaderRes = rest.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
+											MrnHeader.class);
+								
+							  SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+ 
+						 }
+					
+				}
+				 
 			}
 			
 			/*System.out.println(poHeaderForApprove);
