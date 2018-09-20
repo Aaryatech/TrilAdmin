@@ -261,7 +261,7 @@ public class DamageController {
 	}
 	
 	@RequestMapping(value = "/editDamageItem/{damageId}", method = RequestMethod.GET)
-	public ModelAndView deleteDamageItem(@PathVariable int damageId, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView editDamageItem(@PathVariable int damageId, HttpServletRequest request, HttpServletResponse response) {
 		 
 		ModelAndView model = new ModelAndView("damage/editDamageItem");
 		editDamage = new GetDamage();
@@ -283,6 +283,25 @@ public class DamageController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/deleteDamageItem/{damageId}", method = RequestMethod.GET)
+	public String deleteDamageItem(@PathVariable int damageId, HttpServletRequest request, HttpServletResponse response) {
+		 
+		try {
+			 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("damageId", damageId);
+			ErrorMessage delete = rest.postForObject(Constants.url + "/deleteDamage",map,
+					ErrorMessage.class);
+			  
+			 System.out.println( " delete " +  delete);  
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/getDamageList";
 	}
 	
 	@RequestMapping(value = "/submitEditDamageList", method = RequestMethod.POST)
