@@ -34,6 +34,7 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
@@ -88,6 +89,48 @@ public class IndentController {
 	public List<ConsumptionReportWithCatId> getlimitationValue(HttpServletRequest request, HttpServletResponse response) {
   
 		return mrnReportList;
+	}
+	
+	@RequestMapping(value = "/getIndentValueLimit", method = RequestMethod.GET)
+	@ResponseBody
+	public float getIndentValueLimit(HttpServletRequest request, HttpServletResponse response) {
+  
+		float total = 0;
+		try {
+			List<IndentValueLimit> list = new ArrayList<IndentValueLimit>();
+			
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd"); 
+			Date date = new Date();
+			  Calendar calendar = Calendar.getInstance();
+			  calendar.setTime(date);
+			   
+			 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 String toDate = yy.format(date);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate", toDate);
+			 			map.add("catId", catId);
+			 			map.add("typeId", typeId);
+			 			System.out.println(map);
+			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
+			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
+			
+			 			System.out.println("list " + list);
+			 			
+			 			for(int i=0; i<list.size() ; i++) {
+			 				
+			 				total=total+(list.get(i).getQty()*list.get(i).getRate());
+			 				
+			 			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return total;
 	}
 	
 	

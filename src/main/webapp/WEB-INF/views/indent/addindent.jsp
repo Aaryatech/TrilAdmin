@@ -18,6 +18,7 @@
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
 <c:url var="getlimitationValue" value="/getlimitationValue" />
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
+	<c:url var="getIndentValueLimit" value="/getIndentValueLimit" />
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -211,6 +212,13 @@
 									</div>
 									
 									<div class="col-md-2"  style="font-weight: bold; font-size: 25px;" id="mrnLimit">
+ 
+									</div>
+									
+									<div class="col-md-2">Indent Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 25px;" id="totalIndentValue">
  
 									</div>
 									
@@ -775,6 +783,7 @@ function getInvoiceNo() {
 	document.getElementById("indent_no").value=data.code;  
 	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix; 
 	getlimitationValue(catId,typeId);
+	getIndentValueLimit(catId,typeId);
 	
 	});
 
@@ -809,6 +818,22 @@ function getlimitationValue(catId,typeId) {
 		}
 	}
 	
+	});
+
+}
+
+function getIndentValueLimit(catId,typeId) {
+	 
+	$.getJSON('${getIndentValueLimit}', {
+ 
+		catId:catId,  
+		typeId : typeId,
+		ajax : 'true',
+
+	}, function(data) { 
+		 
+		document.getElementById("totalIndentValue").innerHTML = data;
+	 
 	});
 
 }
