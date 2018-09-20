@@ -308,7 +308,7 @@ function showChart(){
 
 											//var tax=item.cgst + item.sgst;
 											//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
-											 if(item.approvedQtyValue>0 || item.issueQtyValue){
+											 if(item.approvedQtyValue>0 || item.issueQtyValue>0){
 										   dataTable.addRows([
 											 
 										             [item.grpCode,item.approvedQtyValue,item.issueQtyValue]

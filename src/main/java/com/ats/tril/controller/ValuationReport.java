@@ -3562,6 +3562,20 @@ public class ValuationReport {
 		return model;
 	}
 	
+	@RequestMapping(value = "/listForIssueMonthGraphSubDeptWise", method = RequestMethod.GET)
+	public @ResponseBody List<IssueMonthWiseList> listForIssueMonthGraphSubDeptWise(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return subDeptWiselistForPdf;
+	}
+	
+	@RequestMapping(value = "/getSubDeptListForGraph", method = RequestMethod.GET)
+	public @ResponseBody List<GetSubDept> getSubDeptListForGraph(HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		return subDeptList;
+	}
+	
 	@RequestMapping(value = "/issueMonthSubDeptWiseReportPdf", method = RequestMethod.GET)
 	public void issueMonthSubDeptWiseReportPdf(HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
