@@ -256,6 +256,13 @@ public class DashboardController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/listMrnConsumptionGraph", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> listMrnConsumptionGraph(HttpServletRequest request, HttpServletResponse response) {
+   
+		return mrnReportList;
+	}
+	
 	@RequestMapping(value = "/consumptionMrnReportCategoryWiseExel", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ConsumptionReportWithCatId> consumptionMrnReportCategoryWiseExel(HttpServletRequest request, HttpServletResponse response) {
@@ -582,6 +589,13 @@ public class DashboardController {
 			e.printStackTrace();
 		}
 
+		return issueReportList;
+	}
+	
+	@RequestMapping(value = "/listIssueConsumptionGraph", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> listIssueConsumptionGraph(HttpServletRequest request, HttpServletResponse response) {
+   
 		return issueReportList;
 	}
 	
