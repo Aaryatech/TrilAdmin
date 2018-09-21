@@ -29,5 +29,14 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<filter>
+	<filter-name>noBrowserCacheFilter</filter-name>
+	<filter-class>com.ats.tril.NoBrowserCacheFilter</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>noBrowserCacheFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
 
 </web-app>
