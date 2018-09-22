@@ -22,8 +22,9 @@
 <style type="text/css">
 table {
 	border-collapse: separate;
-	border-color: black;
-	font-size: 12;
+	font-family: arial;
+	font-weight: bold;
+	font-size: 90%;
 	width: 100%;
 	page-break-inside: auto !important;
 	display: block;
@@ -58,9 +59,9 @@ h4 {
 
 h5 {
 	color: black;
-	font-family: sans-serif;
-	font-size: 70%;
-	font-weight: normal;
+	font-family: arial;
+	font-size: 95%;
+	font-weight: bold;
 	padding-bottom: 10px;
 	margin: 0;
 }
@@ -74,8 +75,8 @@ h6 {
 }
 
 th {
-	background-color: #6a9ef2;
-	color: white;
+	 
+	color: black;
 }
 
 hr {
@@ -117,26 +118,13 @@ hr {
 
 
 	<c:forEach items="${list}" var="item" varStatus="count">
-
-
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
-
-				<tr class="information">
-					<td colspan="1" valign="top">
-						<table>
-							<tr>
-								<td align="right">COM-F-01 REV.00 DT.01-05-2018<br>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+ 
+		<div align="left">
+			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
 		</div>
 
 
-		<h4 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
+		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
 			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h4>
 
 
@@ -176,7 +164,7 @@ hr {
 						<table>
 							<tr>
 								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
+									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">
 									Department.  &nbsp;&nbsp;&nbsp;:<br>
 									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
 								</td>
@@ -342,9 +330,9 @@ hr {
 				<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left"><c:out value="${row.itemDesc}" /></td>
+					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-					<td width="0" align="center"><c:out value="${row.itemIssueQty}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.itemIssueQty}" /></td>
 					<td width="0" align="center"><c:out
 							value="NA" /></td>
 					<td width="0" align="center"><c:out
@@ -366,7 +354,7 @@ hr {
 
 
 		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 90%;">
 			Remark - <br> <br> <br> <br>
 			<br>
 
@@ -380,17 +368,17 @@ hr {
 						<table>
 							<tr>
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Authorised By</td>
 
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Issued By</td>
 
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Received By</td>
 

@@ -6,7 +6,7 @@ public class GatePassReport {
 
 	
 	private int gpId;
-	private int gpNo;
+	private String gpNo;
 	private int gpVendor;
 
 	private int gpType;
@@ -34,11 +34,11 @@ public class GatePassReport {
 		this.gpId = gpId;
 	}
 
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
 
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
 

@@ -20,7 +20,9 @@
  <style type="text/css">
  table {
 	border-collapse: collapse;
-	font-size: 12;
+	font-family: arial;
+	font-weight: bold;
+	font-size: 90%;
 	width:100%;
     page-break-inside: auto !important ;
     
@@ -34,6 +36,14 @@ p  {
 	font-weight: bold;
 
 }
+h5 {
+	color: black;
+	font-family: arial;
+	font-size: 95%;
+	font-weight: bold;
+	padding-bottom: 10px;
+	margin: 0;
+}
 h6  {
     color: black;
     font-family: arial;
@@ -41,8 +51,8 @@ h6  {
 }
 
 th {
-	background-color: #6a9ef2;
-	color: white;
+	 
+	color: black;
 	
 }
 hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,180); }
@@ -55,12 +65,10 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 	<c:forEach items="${list}" var="item" varStatus="count">
 
 
-<div align="right"> <h5> COM-F-01 REV.00 DT.01-05-2018   </h5></div>
+<div align="left"> <h5> COM-F-01 REV.00 DT.01-05-2018   </h5></div>
 
-<h3 align="center">TRAMBAK  &nbsp;&nbsp;RUBBER  &nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
-
-
-
+<h3 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK  &nbsp;&nbsp;RUBBER  &nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
+ 
 <div class="invoice-box">
 		<table cellpadding="0" cellspacing="0">
 
@@ -73,7 +81,7 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 								${item.vendorName}
 								</td>
 
-<td valign="top" width="60%" align="center" style="font-weight: bold; font-size: 12px;">
+<td valign="top" width="60%" align="center" style="font-weight: bold;  ">
 GOODS RECEIPT NOTE
 								</td>
 
@@ -109,8 +117,8 @@ GOODS RECEIPT NOTE
 
 
 
-							<td align="left" width="33%">Invoice No : <br>
-							Invoice Dt&nbsp;&nbsp;: 
+							<td align="left" width="33%">Invoice No : ${item.billNo }<br>
+							Invoice Dt&nbsp;&nbsp;: ${item.billDate }
 							</td>
 							
 							
@@ -146,10 +154,10 @@ GOODS RECEIPT NOTE
 			
 			<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
-					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left"><c:out value="${row.itemDesc}" /></td>
-					<td width="0" align="right"><c:out value="${row.mrnQty}" /></td>
-					<td width="0" align="right"><c:out value="${row.rejectQty }" /></td>
+					<td width="0" align="center" ><c:out value="${row.itemCode}" /></td>
+					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.mrnQty}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.rejectQty }" /></td>
 					<td width="0" align="center"><c:out value="NA" /></td>
 
 				</tr>
@@ -207,12 +215,12 @@ GOODS RECEIPT NOTE
 					<table>
 						<tr>
 							<td width="50%" valign="top" align="center"
-								style=" padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+								style=" padding: 8px; color: #000;  font-weight: bold;">
 
 								Prepared By</td>
 								
 							<td width="50%" valign="top" align="center"
-								style=" padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+								style=" padding: 8px; color: #000;   font-weight: bold;">
 
 								Checked By</td>
 

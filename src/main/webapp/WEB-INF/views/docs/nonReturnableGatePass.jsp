@@ -21,8 +21,9 @@
 <style type="text/css">
 table {
 	border-collapse: separate;
-	border-color: black;
-	font-size: 12;
+	font-family: arial;
+	font-weight: bold;
+	font-size: 90%;
 	width: 100%;
 	page-break-inside: auto !important;
 	display: block;
@@ -57,9 +58,9 @@ h4 {
 
 h5 {
 	color: black;
-	font-family: sans-serif;
-	font-size: 70%;
-	font-weight: normal;
+	font-family: arial;
+	font-size: 95%;
+	font-weight: bold;
 	padding-bottom: 10px;
 	margin: 0;
 }
@@ -73,8 +74,8 @@ h6 {
 }
 
 th {
-	background-color: #6a9ef2;
-	color: white;
+	/* background-color: #6a9ef2; */
+	color: black;
 }
 
 hr {
@@ -116,13 +117,14 @@ hr {
 	<c:forEach items="${list}" var="item" varStatus="count">
 
 
-		<div align="right">
+		<div align="left">
 			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
 		</div>
 
-		<h3 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
-			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
-		<p align="center">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
+		<div align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
+			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</div>
+			<div align="center" style=" font-family: arial; font-weight: bold; font-size: 85%;">A-81 TO A-67 & A-106 TO A-112 Tal.Indl.Estate,SINNAR - 422112</div>
+		<p align="center" style=" font-family: arial; font-weight: bold; font-size: 95%;">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
 
 
 		<div class="invoice-box">
@@ -151,8 +153,8 @@ hr {
 		<br>
 
 		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-			Sending with following materials personally / Vehicle No. -
+			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
+			Sending following materials personally / Vehicle No. -
 			${item.sendingWith}<br> as per details given below. <br>
 
 		</p>
@@ -203,13 +205,13 @@ hr {
 
 
 
-		<div align="right">
+		<div align="left">
 			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
 		</div>
 
-		<h3 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
+		<h3 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
 			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
-		<p align="center">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
+		<p align="center" style=" font-family: arial; font-weight: bold; font-size: 95%;">OUTWARD MATERIAL GATE PASS NON-RETURNABLE</p>
 
 
 		<div class="invoice-box">
@@ -237,12 +239,12 @@ hr {
 		<br>
 		<br>
 
-		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-			Sending with following materials personally / Vehicle No. -
+		 <p
+			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
+			Sending following materials personally / Vehicle No. -
 			${item.sendingWith}<br> as per details given below. <br>
 
-		</p>
+		</p>  
 
 		<br>
 
@@ -281,9 +283,9 @@ hr {
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left"><c:out value="${row.itemDesc}" /></td>
+					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-					<td width="0" align="right"><c:out value="${row.gpQty}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.gpQty}" /></td>
 					<td width="0" align="center"><c:out value="NA" /></td>
 
 				</tr>
@@ -299,7 +301,7 @@ hr {
 
 
 		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
+			style="color: #000; font-family: arial; font-weight: bold; font-size: 90%; text-align: left; margin: 0px;  ">
 			Reason : ${item.remark1} <br>
 
 		</p>
@@ -320,21 +322,21 @@ hr {
 						<table>
 							<tr>
 								<td width="25" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Receiver Signature</td>
 
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Prepared By</td>
 
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Approved By</td>
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000; font-size: 12px; font-weight: bold;">
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Authorised By</td>
 
