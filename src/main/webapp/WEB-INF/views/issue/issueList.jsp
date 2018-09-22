@@ -354,9 +354,9 @@ function myFunction() {
 	
 <script type="text/javascript">
 			function genPdf(id) {
-				alert(id);
+				//alert(id);
 		
-				window.open('pdfForReport?url=issueListDoc/'
+				window.open('pdfForReport?url=/pdf/issueListDoc/'
 						+ id );
 
 			}
@@ -371,7 +371,7 @@ function myFunction() {
 					list.push($(this).val());
 				});
 
-				window.open('pdfForReport?url=issueListDoc/' + list);
+				window.open('pdfForReport?url=/pdf/issueListDoc/' + list);
 
 			}
 			

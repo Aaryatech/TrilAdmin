@@ -365,7 +365,7 @@
 
 <script type="text/javascript">
 			function genPdf(id) {
-				alert(id);
+				//alert(id);
 		
 				window.open('poPdf/'
 						+ id );

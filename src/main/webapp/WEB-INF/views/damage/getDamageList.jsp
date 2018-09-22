@@ -314,7 +314,7 @@
 			function genPdf(id) {
 				alert(id);
 		
-				window.open('poPdf/'
+				window.open('/pdf/poPdf/'
 						+ id );
 
 			}
@@ -327,7 +327,7 @@
 					list.push($(this).val());
 				});
 
-				window.open('poPdf/' + list);
+				window.open('/pdf/poPdf/' + list);
 
 			}
 			

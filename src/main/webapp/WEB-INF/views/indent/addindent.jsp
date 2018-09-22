@@ -19,6 +19,8 @@
 <c:url var="getlimitationValue" value="/getlimitationValue" />
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 	<c:url var="getIndentValueLimit" value="/getIndentValueLimit" />
+	<c:url var="getIndentPendingValueLimit" value="/getIndentPendingValueLimit" />
+	
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -204,21 +206,33 @@
 								<div class="box-content">
 									<div class="col-md-2">Total MRN : 
 									</div>
-									<div  class="col-md-2" style="font-weight: bold; font-size: 25px;" id="totalmrn">
+									<div  class="col-md-2" style="font-weight: bold; font-size: 15px;" id="totalmrn">
  
 									</div>
 									  
 									<div class="col-md-2">MRN Limit : 
 									</div>
 									
-									<div class="col-md-2"  style="font-weight: bold; font-size: 25px;" id="mrnLimit">
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="mrnLimit">
  
 									</div>
 									
 									<div class="col-md-2">Indent Value : 
 									</div>
 									
-									<div class="col-md-2"  style="font-weight: bold; font-size: 25px;" id="totalIndentValue">
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentValue">
+ 
+									</div>
+									
+									 
+								</div>
+								<div class="box-content">
+									 
+									
+									<div class="col-md-2">Indent Pending Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentPendingValue">
  
 									</div>
 									
@@ -833,6 +847,22 @@ function getIndentValueLimit(catId,typeId) {
 	}, function(data) { 
 		 
 		document.getElementById("totalIndentValue").innerHTML = data;
+		getIndentPeningValueLimit(catId,typeId);
+	});
+
+}
+
+function getIndentPeningValueLimit(catId,typeId) {
+	 
+	$.getJSON('${getIndentPendingValueLimit}', {
+ 
+		catId:catId,  
+		typeId : typeId,
+		ajax : 'true',
+
+	}, function(data) {  
+		 
+		document.getElementById("totalIndentPendingValue").innerHTML = data;
 	 
 	});
 

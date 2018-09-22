@@ -361,7 +361,7 @@
 			function genPdf(id) {
 				
 		
-				window.open('pdfForReport?url=rejectionMemoDoc/'
+				window.open('pdfForReport?url=/pdf/rejectionMemoDoc/'
 						+ id );
 
 			}
@@ -375,7 +375,7 @@
 					list.push($(this).val());
 				});
 
-				window.open('pdfForReport?url=rejectionMemoDoc/' + list);
+				window.open('pdfForReport?url=/pdf/rejectionMemoDoc/' + list);
 
 			}
 			

@@ -104,7 +104,7 @@ public class PdfReportController {
 	
 	// Indent Doc
 
-	@RequestMapping(value = "/indentPdfDoc/{indId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/indentPdfDoc/{indId}", method = RequestMethod.GET)
 	public ModelAndView showIndentDocs(@PathVariable int[] indId, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -157,7 +157,7 @@ public class PdfReportController {
 	
 	// GRN
 	
-	@RequestMapping(value = "/grnPdf/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/grnPdf/{id}", method = RequestMethod.GET)
 	public ModelAndView addCategory ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		
@@ -205,7 +205,7 @@ public class PdfReportController {
 	
 	// ISSUE
 	
-	@RequestMapping(value = "/issueListDoc/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/issueListDoc/{id}", method = RequestMethod.GET)
 	public ModelAndView itemIssueSlipDoc ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		
@@ -253,7 +253,7 @@ public class PdfReportController {
 	
 	// REJECTION MEMO
 		
-	@RequestMapping(value = "/rejectionMemoDoc/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/rejectionMemoDoc/{id}", method = RequestMethod.GET)
 	public ModelAndView rejectionMemoDoc( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("docs/rejectionMemo");
@@ -292,7 +292,7 @@ public class PdfReportController {
 	
 	// Non Returnable Gate Pass
 			
-	@RequestMapping(value = "/nonReturnableGPDoc/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/nonReturnableGPDoc/{id}", method = RequestMethod.GET)
 	public ModelAndView nonReturnableGPDoc( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("docs/nonReturnableGatePass");
@@ -331,7 +331,7 @@ public class PdfReportController {
 	
 	// RETURNABLE GATE PASS
 	
-	@RequestMapping(value = "/returnableGPDoc/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/returnableGPDoc/{id}", method = RequestMethod.GET)
 	public ModelAndView returnableGPDoc( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("docs/returnableGatePass");
@@ -371,12 +371,13 @@ public class PdfReportController {
 	
 	// ENQUIRY
 
-	@RequestMapping(value = "/enquiryPdf/{enqId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdf/enquiryPdf/{enqId}", method = RequestMethod.GET)
 	public ModelAndView editEnquiry(@PathVariable int enqId, HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("reports/enquiry");
+		ModelAndView model = new ModelAndView("docs/enquiry");
 		try {
 
+			System.out.println("in fuc");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("enqId", enqId);
 
@@ -421,8 +422,8 @@ public class PdfReportController {
 		// String url="/showEditViewIndentDetail/1";
 		System.out.println("URL " + url);
 
-		File f = new File("/report.pdf");
-		// File f = new File("/home/ats-12/report.pdf");
+		//File f = new File("/report.pdf");
+		 File f = new File("C:/pdf/report.pdf");
 
 		try {
 			runConverter(Constants.ReportURL + url, f, request, response);
@@ -436,9 +437,9 @@ public class PdfReportController {
 		// get absolute path of the application
 		ServletContext context = request.getSession().getServletContext();
 		String appPath = context.getRealPath("");
-		String filePath = "/report.pdf";
+		//String filePath = "/report.pdf";
 
-		// String filePath ="/home/ats-12/report.pdf";
+		  String filePath ="C:/pdf/report.pdf";
 
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;

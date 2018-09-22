@@ -26,7 +26,7 @@ public class CheckUserInterceptor extends HandlerInterceptorAdapter {
     	HttpSession session = request.getSession();
     	 //request.getSession().setMaxInactiveInterval(20);
     	
-    	System.err.println("max interval is  " +request.getSession().getMaxInactiveInterval());
+    	//System.err.println("max interval is  " +request.getSession().getMaxInactiveInterval());
         String path = request.getRequestURI().substring(request.getContextPath().length());
        // System.out.println("path is: "+path);
       

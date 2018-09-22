@@ -357,7 +357,7 @@ function myFunction() {
 	<script type="text/javascript">
 		function genPdf(id) {
 
-			window.open('pdfForReport?url=showEditViewIndentDetail/' + id);
+			window.open('pdfForReport?url=/pdf/enquiryPdf/' + id);
 
 		}
 	</script>

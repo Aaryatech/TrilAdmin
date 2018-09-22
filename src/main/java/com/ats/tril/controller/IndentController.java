@@ -115,6 +115,7 @@ public class IndentController {
 			 			map.add("toDate", toDate);
 			 			map.add("catId", catId);
 			 			map.add("typeId", typeId);
+			 			map.add("status", "0,1,2");
 			 			System.out.println(map);
 			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
 			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
@@ -124,6 +125,50 @@ public class IndentController {
 			 			for(int i=0; i<list.size() ; i++) {
 			 				
 			 				total=total+(list.get(i).getQty()*list.get(i).getRate());
+			 				System.out.println("total ----------" + total);
+			 			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+	
+	@RequestMapping(value = "/getIndentPendingValueLimit", method = RequestMethod.GET)
+	@ResponseBody
+	public float getIndentPendingValueLimit(HttpServletRequest request, HttpServletResponse response) {
+  
+		float total = 0;
+		try {
+			List<IndentValueLimit> list = new ArrayList<IndentValueLimit>();
+			
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd"); 
+			Date date = new Date();
+			  Calendar calendar = Calendar.getInstance();
+			  calendar.setTime(date);
+			   
+			 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 String toDate = yy.format(date);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate", toDate);
+			 			map.add("catId", catId);
+			 			map.add("typeId", typeId);
+			 			map.add("status", "7,9");
+			 			System.out.println(map);
+			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
+			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
+			
+			 			System.out.println("list " + list);
+			 			
+			 			for(int i=0; i<list.size() ; i++) {
+			 				System.out.println("total ----------" + total);
+			 				total=total+(list.get(i).getQty()*list.get(i).getRate());
+			 				
 			 				
 			 			}
 			

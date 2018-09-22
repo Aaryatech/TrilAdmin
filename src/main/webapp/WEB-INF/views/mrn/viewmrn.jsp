@@ -241,7 +241,7 @@
 			function genPdf(id) {
 			
 		
-				window.open('pdfForReport?url=grnPdf/'+id
+				window.open('pdfForReport?url=/pdf/grnPdf/'+id
 						 );
 
 			}
@@ -255,7 +255,7 @@
 								list.push($(this).val());
 				});
 							
-							window.open('pdfForReport?url=grnPdf/' + list);
+							window.open('pdfForReport?url=/pdf/grnPdf/' + list);
 
 						}
 			
