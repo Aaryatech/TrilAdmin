@@ -133,6 +133,42 @@ public class IndentController {
 		}
 		return total;
 	}
+	  
+	@RequestMapping(value = "/getLastRate", method = RequestMethod.GET)
+	@ResponseBody
+	public float getLastRate(HttpServletRequest request, HttpServletResponse response) {
+  
+		float rate = 0;
+		float totalIndentValueText=0;
+		try {
+			 
+			int itemId = Integer.parseInt(request.getParameter("itemId")); 
+			int flag = Integer.parseInt(request.getParameter("flag"));
+			float itemQty = Integer.parseInt(request.getParameter("qty"));
+			 totalIndentValueText = Integer.parseInt(request.getParameter("totalIndentValueText"));
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();  
+			 
+			 
+			 if(flag==1) {
+				 map.add("itemId", itemId); 
+				 System.out.println(map);
+				  rate = rest.postForObject(Constants.url + "/getLatestRateofItem",map, Float.class); 
+				 System.out.println("rate " + rate);
+				 totalIndentValueText=totalIndentValueText+(itemQty*rate);
+			 }
+			 else {
+				 map.add("itemId", itemIdforMinus); 
+				 System.out.println(map);
+				  rate = rest.postForObject(Constants.url + "/getLatestRateofItem",map, Float.class); 
+				 System.out.println("rate " + rate);
+				 totalIndentValueText=totalIndentValueText-(qty*rate);
+			 }
+			 			  
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return totalIndentValueText;
+	}
 	
 	@RequestMapping(value = "/getIndentPendingValueLimit", method = RequestMethod.GET)
 	@ResponseBody
@@ -392,6 +428,8 @@ public class IndentController {
 
 	List<TempIndentDetail> tempIndentList = new ArrayList<TempIndentDetail>();
 
+	float qty=0; 
+	int itemIdforMinus=0; 
 	// getIndentDetail to add a new Item in add Indent jsp
 	@RequestMapping(value = "/getIndentDetail", method = RequestMethod.GET)
 	public @ResponseBody List<TempIndentDetail> getIndentDetail(HttpServletRequest request,
@@ -511,6 +549,8 @@ public class IndentController {
 
 			else {
 				System.err.println("remove call Indent");
+				qty=tempIndentList.get(key).getQty();
+				itemIdforMinus=tempIndentList.get(key).getItemId();
 				tempIndentList.remove(key);
 			}
 		} catch (Exception e) {

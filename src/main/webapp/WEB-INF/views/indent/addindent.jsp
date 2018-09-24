@@ -20,6 +20,7 @@
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 	<c:url var="getIndentValueLimit" value="/getIndentValueLimit" />
 	<c:url var="getIndentPendingValueLimit" value="/getIndentPendingValueLimit" />
+	<c:url var="getLastRate" value="/getLastRate" />
 	
 	<div class="container" id="main-container">
 
@@ -204,38 +205,49 @@
 								
 								<hr />
 								<div class="box-content">
+								
+								<div class="col-md-2">MRN Limit : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="mrnLimit"> 
+									</div>
+									<input type="hidden" name="mrnLimitText" id="mrnLimitText" />
+									
 									<div class="col-md-2">Total MRN : 
 									</div>
 									<div  class="col-md-2" style="font-weight: bold; font-size: 15px;" id="totalmrn">
  
 									</div>
-									  
-									<div class="col-md-2">MRN Limit : 
+									<input type="hidden" name="totalmrnText" id="totalmrnText" />
+									   
+									
+									<div class="col-md-2">Approved Indent Value : 
 									</div>
 									
-									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="mrnLimit">
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="approvedIndentValue">
  
 									</div>
 									
-									<div class="col-md-2">Indent Value : 
-									</div>
-									
-									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentValue">
- 
-									</div>
-									
-									 
+									 <input type="hidden" name="approvedIndentValueText" id="approvedIndentValueText" />
 								</div>
 								<div class="box-content">
 									 
 									
-									<div class="col-md-2">Indent Pending Value : 
+									<div class="col-md-2">Non-Approved Indent Value : 
 									</div>
 									
 									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentPendingValue">
  
 									</div>
+									<input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
 									
+									<div class="col-md-2">Total Indent Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentValue">
+ 
+									</div>
+									<input type="text" name="totalIndentValueText" id="totalIndentValueText" />
 									 
 								</div>
 								<br> <br>
@@ -246,7 +258,7 @@
 									<div class="col-sm-6 col-lg-10 controls">
 
 										<select name="group" id="group" class="form-control"
-											placeholder="Group" data-rule-required="true">
+											placeholder="Group"  >
 										</select>
 									</div>
 									<!-- <label class="col-sm-3 col-lg-2 control-label">Quantity</label>
@@ -265,7 +277,7 @@
 
 										<select id="item_name" name="item_name"
 											class="form-control chosen" placeholder="Item Name"
-											data-rule-required="true">
+											  >
 
 										</select>
 									</div>
@@ -276,7 +288,7 @@
 									<div class="col-sm-6 col-lg-2 controls">
 										<input type="text" name="quantity" id="quantity"
 											class="form-control" placeholder="Quantity"
-											data-rule-required="true" data-rule-number="true" />
+											  data-rule-number="true" />
 									</div>
 								 
 									<label class="col-md-2">Schedule
@@ -284,14 +296,14 @@
 									<div class="col-sm-3 col-lg-2 controls">
 										<input type="text" name="sch_days" id="sch_days"
 											class="form-control" placeholder="Schedule Days"
-											data-rule-required="true" data-rule-number="true" />
+											  data-rule-number="true" />
 									</div>
 									<label class="col-md-2">Remark</label>
 									<div class="col-sm-6 col-lg-2 controls">
 
 										<input type="text" name="remark" id="remark"
 											class="form-control" placeholder="Remark"
-											data-rule-required="true" />
+											  />
 									</div>
  
 								</div><br><br>
@@ -674,6 +686,7 @@ $(document).ready(function() {
 			 
 			document.getElementById("catId").value = catId;   
 			document.getElementById("submitt").disabled=false;
+			getLastRate(qty,1);
 			})
 		
 		
@@ -769,6 +782,12 @@ function deleteIndentItem(itemId,key){
 												"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
 		$('#table1 tbody').append(tr);
 		})
+		 
+		var html = '<option value="" selected >Select Item</option>';
+				html += '</option>';
+				$('#item_name').html(html);
+				$("#item_name").trigger("chosen:updated");
+		getLastRate(qty,-1);
 		});
 	
 	
@@ -795,7 +814,8 @@ function getInvoiceNo() {
 	}, function(data) { 
 		
 	document.getElementById("indent_no").value=data.code;  
-	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix; 
+	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix;
+	document.getElementById("mrnLimitText").value = data.subDocument.categoryPostfix;;
 	getlimitationValue(catId,typeId);
 	getIndentValueLimit(catId,typeId);
 	
@@ -823,6 +843,7 @@ function getlimitationValue(catId,typeId) {
 					
 					//alert("Monthly Value Is " + data[i].consumptionReportList[j].monthlyValue);
 					document.getElementById("totalmrn").innerHTML = data[i].consumptionReportList[j].monthlyValue;
+					document.getElementById("totalmrnText").value = data[i].consumptionReportList[j].monthlyValue;
 					flag=1;
 					break;
 				}
@@ -846,7 +867,8 @@ function getIndentValueLimit(catId,typeId) {
 
 	}, function(data) { 
 		 
-		document.getElementById("totalIndentValue").innerHTML = data;
+		document.getElementById("approvedIndentValue").innerHTML = data;
+		document.getElementById("approvedIndentValueText").value = data;
 		getIndentPeningValueLimit(catId,typeId);
 	});
 
@@ -863,7 +885,33 @@ function getIndentPeningValueLimit(catId,typeId) {
 	}, function(data) {  
 		 
 		document.getElementById("totalIndentPendingValue").innerHTML = data;
+		document.getElementById("totalIndentPendingValueText").value = data;
+		
+		var approvedIndentValueText = parseFloat($("#approvedIndentValueText").val());
+		
+		document.getElementById("totalIndentValue").innerHTML = parseFloat(approvedIndentValueText+data);
+		document.getElementById("totalIndentValueText").value = parseFloat(approvedIndentValueText+data);
+	});
+
+}
+
+function getLastRate(qty,flag) {
 	 
+	var itemId = $("#item_name").val();
+	var totalIndentValueText = parseFloat($("#totalIndentValueText").val());
+	$.getJSON('${getLastRate}', {
+  
+		itemId : itemId,
+		flag : flag,
+		qty : qty,
+		totalIndentValueText : totalIndentValueText,
+		ajax : 'true',
+
+	}, function(data) {  
+		   
+			document.getElementById("totalIndentValue").innerHTML = data;
+			document.getElementById("totalIndentValueText").value = data;
+		  
 	});
 
 }
