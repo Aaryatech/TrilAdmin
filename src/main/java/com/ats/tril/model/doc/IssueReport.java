@@ -17,6 +17,14 @@ public class IssueReport {
 	private int deleteStatus;
 
 	private int status;
+	
+	private int deptId;
+	
+	private int subDeptId;
+	
+	private String deptCode; 
+	
+	private String subDeptCode;
 
 	List<IssueReportDetail> issueReportDetailList;
 
@@ -76,10 +84,43 @@ public class IssueReport {
 		this.issueReportDetailList = issueReportDetailList;
 	}
 
+	public int getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+
+	public int getSubDeptId() {
+		return subDeptId;
+	}
+
+	public void setSubDeptId(int subDeptId) {
+		this.subDeptId = subDeptId;
+	}
+
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+
+	public String getSubDeptCode() {
+		return subDeptCode;
+	}
+
+	public void setSubDeptCode(String subDeptCode) {
+		this.subDeptCode = subDeptCode;
+	}
+
 	@Override
 	public String toString() {
 		return "IssueReport [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
-				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", status=" + status
+				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", status=" + status + ", deptId="
+				+ deptId + ", subDeptId=" + subDeptId + ", deptCode=" + deptCode + ", subDeptCode=" + subDeptCode
 				+ ", issueReportDetailList=" + issueReportDetailList + "]";
 	}
 

@@ -8,7 +8,7 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
-<body onload="checkIndentDept()">
+<body onload="getInvoiceNo()">
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
 	<c:url var="getSubDeptListByDeptId" value="/getSubDeptListByDeptId" />
@@ -19,6 +19,12 @@
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 
 	<c:url var="updateIndDetail" value="/updateIndDetail" />
+	
+	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
+<c:url var="getlimitationValue" value="/getlimitationValue" /> 
+	<c:url var="getIndentValueLimit" value="/getIndentValueLimit" />
+	<c:url var="getIndentPendingValueLimit" value="/getIndentPendingValueLimit" />
+	<c:url var="getLastRate" value="/getLastRate" />
 
 	<div class="container" id="main-container">
 
@@ -89,12 +95,15 @@
 									<div class="col-md-3">
 										<c:out value="${indmtype}"></c:out>
 									</div>
+									<input type="hidden" value="${indent.indMType}" name="indent_type" id="indent_type">
+									
 									<div class="col-md-2">Indent
 										Category </div>
 									<div class="col-md-3">
 										<c:out value="${indent.catDesc}"></c:out>
 										<input type="hidden" value="${indent.indMId}" name="indentId">
 									</div>
+									<input type="hidden" value="${indent.catId}" name="ind_cat" id="ind_cat">
 								</div>
 								<div class="form-group">
 								
@@ -220,6 +229,54 @@
 								</div>
 								<br /> 
 <hr/>
+<div class="box-content">
+								
+								<div class="col-md-2">MRN Limit : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="mrnLimit"> 
+									</div>
+									<input type="hidden" name="mrnLimitText" id="mrnLimitText" />
+									
+									<div class="col-md-2">Total MRN : 
+									</div>
+									<div  class="col-md-2" style="font-weight: bold; font-size: 15px;" id="totalmrn">
+ 
+									</div>
+									<input type="hidden" name="totalmrnText" id="totalmrnText" />
+									   
+									
+									<div class="col-md-2">Approved Indent Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="approvedIndentValue">
+ 
+									</div>
+									
+									 <input type="hidden" name="approvedIndentValueText" id="approvedIndentValueText" />
+								</div>
+								<div class="box-content">
+									 
+									
+									<div class="col-md-2">Non-Approved Indent Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentPendingValue">
+ 
+									</div>
+									<input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
+									
+									<div class="col-md-2">Total Indent Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentValue">
+ 
+									</div>
+									<input type="hidden" name="totalIndentValueText" id="totalIndentValueText" />
+									 
+								</div>
+								<br><br>
+								
 								<h4> Items to Approve</h4>
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
@@ -440,6 +497,128 @@
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
+		<script type="text/javascript">
+
+function getInvoiceNo() {
+	
+	var date = $("#indent_date").val(); 
+	var catId = $("#ind_cat").val(); 
+	var typeId = $("#indent_type").val(); 
+	
+	$.getJSON('${getInvoiceNo}', {
+
+		catId:catId,
+		docId:1,
+		date : date,
+		typeId : typeId,
+		ajax : 'true',
+
+	}, function(data) { 
+		 
+	 
+	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix;
+	document.getElementById("mrnLimitText").value = data.subDocument.categoryPostfix;;
+	getlimitationValue(catId,typeId);
+	getIndentValueLimit(catId,typeId);
+	
+	});
+
+}
+
+function getlimitationValue(catId,typeId) {
+	 
+	$.getJSON('${getlimitationValue}', {
+ 
+		ajax : 'true',
+
+	}, function(data) { 
+		
+		var flag=0;
+		
+	for(var i=0;i<data.length;i++){
+		
+		if(data[i].typeId==typeId){
+			
+			for(var j=0;j<data[i].consumptionReportList.length;j++){
+				
+				if(data[i].consumptionReportList[j].catId==catId){
+					
+					//alert("Monthly Value Is " + data[i].consumptionReportList[j].monthlyValue);
+					document.getElementById("totalmrn").innerHTML = data[i].consumptionReportList[j].monthlyValue;
+					document.getElementById("totalmrnText").value = data[i].consumptionReportList[j].monthlyValue;
+					flag=1;
+					break;
+				}
+				 
+			}
+			 
+		}
+	}
+	
+	});
+
+}
+
+function getIndentValueLimit(catId,typeId) {
+	 
+	$.getJSON('${getIndentValueLimit}', {
+ 
+		catId:catId,  
+		typeId : typeId,
+		ajax : 'true',
+
+	}, function(data) { 
+		 
+		document.getElementById("approvedIndentValue").innerHTML = data;
+		document.getElementById("approvedIndentValueText").value = data;
+		getIndentPeningValueLimit(catId,typeId);
+	});
+
+}
+
+function getIndentPeningValueLimit(catId,typeId) {
+	 
+	$.getJSON('${getIndentPendingValueLimit}', {
+ 
+		catId:catId,  
+		typeId : typeId,
+		ajax : 'true',
+
+	}, function(data) {  
+		 
+		document.getElementById("totalIndentPendingValue").innerHTML = data;
+		document.getElementById("totalIndentPendingValueText").value = data;
+		
+		var approvedIndentValueText = parseFloat($("#approvedIndentValueText").val());
+		
+		document.getElementById("totalIndentValue").innerHTML = parseFloat(approvedIndentValueText+data);
+		document.getElementById("totalIndentValueText").value = parseFloat(approvedIndentValueText+data);
+	});
+
+}
+
+function getLastRate(qty,flag) {
+	 
+	var itemId = $("#item_name").val();
+	var totalIndentValueText = parseFloat($("#totalIndentValueText").val());
+	$.getJSON('${getLastRate}', {
+  
+		itemId : itemId,
+		flag : flag,
+		qty : qty,
+		totalIndentValueText : totalIndentValueText,
+		ajax : 'true',
+
+	}, function(data) {  
+		   
+			document.getElementById("totalIndentValue").innerHTML = data;
+			document.getElementById("totalIndentValueText").value = data;
+		  
+	});
+
+}
+
+</script>
 	<script type="text/javascript">
 		function callApproveIndent(apr) {
 			

@@ -165,8 +165,8 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">
-									Department.  &nbsp;&nbsp;&nbsp;:<br>
-									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
+									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -280,8 +280,8 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
-									Department.  &nbsp;&nbsp;&nbsp;:<br>
-									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
+									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
 								</td>
 
 								<!-- 	<td width="50%" valign="top"

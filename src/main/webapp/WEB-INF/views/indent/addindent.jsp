@@ -247,7 +247,7 @@
 									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentValue">
  
 									</div>
-									<input type="text" name="totalIndentValueText" id="totalIndentValueText" />
+									<input type="hidden" name="totalIndentValueText" id="totalIndentValueText" />
 									 
 								</div>
 								<br> <br>
@@ -783,10 +783,10 @@ function deleteIndentItem(itemId,key){
 		$('#table1 tbody').append(tr);
 		})
 		 
-		var html = '<option value="" selected >Select Item</option>';
+		/* var html = '<option value="" selected >Select Item</option>';
 				html += '</option>';
 				$('#item_name').html(html);
-				$("#item_name").trigger("chosen:updated");
+				$("#item_name").trigger("chosen:updated"); */
 		getLastRate(qty,-1);
 		});
 	

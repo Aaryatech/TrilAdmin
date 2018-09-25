@@ -165,17 +165,19 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc} <br> For
-									Department &nbsp;&nbsp;&nbsp;- <br> Indent Type
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.typeName}
+									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
+									Development &nbsp;&nbsp;&nbsp;- <c:choose>
+										<c:when test="${item.indIsdev==1}">YES</c:when><c:otherwise>NO</c:otherwise>
+									</c:choose><br> Indent Type
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000;">
 
 									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
-									&nbsp;&nbsp;&nbsp;  - ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
+									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
 										<c:when test="${item.indIsmonthly==1}">YES</c:when><c:otherwise>NO</c:otherwise>
 									</c:choose>
@@ -278,7 +280,9 @@ hr {
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">Indenting
 									Dept. &nbsp;&nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc} <br> For
-									Department &nbsp;&nbsp;&nbsp;- <br> Indent Type
+									Development &nbsp;&nbsp;&nbsp;- <c:choose>
+										<c:when test="${item.indIsdev==1}">YES</c:when><c:otherwise>NO</c:otherwise>
+									</c:choose><br> Indent Type
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.typeName}
 								</td>
 

@@ -151,7 +151,17 @@ hr {
 <br>
 
 <p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
-			For :  <br>
+			For :  <c:choose>
+			<c:when test="${item.forRepair==0}">
+			Repair
+			</c:when>
+			<c:when test="${item.forRepair==1}">
+			Replace
+			</c:when>
+			<c:when test="${item.forRepair==2}">
+			Job Work
+			</c:when>
+			</c:choose><br>
 
 		</p>
 		<br>
@@ -239,7 +249,17 @@ hr {
 <br>
 
 <p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
-			For :  <br>
+			For :  <c:choose>
+			<c:when test="${item.forRepair==0}">
+			Repair
+			</c:when>
+			<c:when test="${item.forRepair==1}">
+			Replace
+			</c:when>
+			<c:when test="${item.forRepair==2}">
+			Job Work
+			</c:when>
+			</c:choose><br>
 
 		</p>
 		<br>

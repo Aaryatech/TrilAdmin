@@ -142,7 +142,7 @@ public class IndentController {
 		float totalIndentValueText=0;
 		try {
 			 
-			int itemId = Integer.parseInt(request.getParameter("itemId")); 
+			 
 			int flag = Integer.parseInt(request.getParameter("flag"));
 			float itemQty = Integer.parseInt(request.getParameter("qty"));
 			 totalIndentValueText = Integer.parseInt(request.getParameter("totalIndentValueText"));
@@ -150,6 +150,7 @@ public class IndentController {
 			 
 			 
 			 if(flag==1) {
+				 int itemId = Integer.parseInt(request.getParameter("itemId"));
 				 map.add("itemId", itemId); 
 				 System.out.println(map);
 				  rate = rest.postForObject(Constants.url + "/getLatestRateofItem",map, Float.class); 
