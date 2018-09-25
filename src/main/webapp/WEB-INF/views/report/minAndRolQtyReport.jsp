@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getStockBetweenDate" value="/getStockBetweenDate"></c:url>
+	<c:url var="getPoListByDate" value="/getPoListByDate"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Stock Between Date
+						<i class="fa fa-file-o"></i>Pending Month End Stock
 
 					</h1>
 				</div>
@@ -45,41 +45,18 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Stock Between Date
+								<i class="fa fa-table"></i>Minimum Level And ROL Level Report
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
-									Add PO</a> <a data-action="collapse" href="#"><i
+								 <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/stockBetweenDate" method="get">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/minAndRolQtyReport" method="get">
 								<div class="box-content">
 								
-								 
 								<div class="box-content">
-							
-								<div class="col-md-2">From Date</div>
-									<div class="col-md-3">
-										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date" value="${fromDate}"  name="fromDate" type="text"  >
-
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">To Date</div>
-									<div class="col-md-3">
-										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date"  value="${toDate}" name="toDate" type="text"  >
-
-
-									</div>
-								
-				 
-							</div><br>
-							
-							<div class="box-content">
 
 									<div class="col-md-2">Select *</div>
 									<div class="col-md-3">
@@ -88,20 +65,20 @@
 											  
 												<c:choose>
 													<c:when test="${1==selectedQty}">
-													<option value="1" selected>Stock Summary</option>
-													<option value="2"  >Op Stock</option>
-													<option value="3"  >Cl Stock</option>
+													<option value=""  >Select</option>
+													<option value="1"  selected>Min-Level</option>
+													<option value="2"  >ROL</option> 
 													</c:when>
 													<c:when test="${2==selectedQty}">
-													<option value="1"  >Stock Summary</option>
-													<option value="2" selected>Op Stock</option>
-													<option value="3"  >Cl Stock</option>
+													<option value=""  >Select</option>
+													<option value="1"  >Min-Level</option>
+													<option value="2"  selected>ROL</option> 
 													</c:when>
-													<c:when test="${3==selectedQty}">
-													<option value="1"  >Stock Summary</option>
-													<option value="2"  >Op Stock</option>
-													<option value="3" selected>Cl Stock</option>
-													</c:when>
+													<c:otherwise>
+													<option value=""  >Select</option>
+													<option value="1"  >Min-Level</option>
+													<option value="2"  >ROL</option> 
+													</c:otherwise>
 													 
 												</c:choose>
 														 
@@ -109,24 +86,41 @@
 										</select>
 
 									</div>
-									<div class="col-md-1"></div>
-									  <div class="col-md-3"></div>
-								</div><br><br>
-							<br>
-							
-							<div class="row">
+									<div class="col-md-2">Select Category*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="catId" id="catId"
+											required>
+											<option value="0">All</option>
+											<c:forEach items="${categoryList}" var="categoryList"> 
+												<c:choose>
+													<c:when test="${categoryList.catId==catId}">
+													<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+													</c:when>
+													<c:otherwise>
+													<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+													</c:otherwise>
+												</c:choose>
+														 
+											</c:forEach>
+										</select> 
+
+									</div>
+								</div><br>
+								
+								 <br>
+								 <div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"  value="Submit"> 
+								<input type="submit" class="btn btn-info"   value="Submit"> 
 							</div>
 						</div> <br>
 							 
 								
-								 <div class="col-md-9"></div>
+							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
-								</label>	
+								</label>	 
 					<br /> <br />
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
@@ -134,97 +128,79 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th>Item Name</th>
+										<th>Item Name</th> 
 										
-										<c:choose>  
-												<c:when test="${2==selectedQty}">
-													<th class="col-md-1">OP QTY</th> 
-													<th class="col-md-1">OP VALUE</th>
-												</c:when>
-												<c:when test="${3==selectedQty}">
-													<th class="col-md-1">C/L QTY</th>
-													<th class="col-md-1">C/L VALUE</th>
-												</c:when> 
-												<c:otherwise>
-													<th>OP QTY</th> 
-													<th>OP VALUE</th>
-													<th>APPV QTY</th>
-													<th>APPV VALUE</th>
-													<th>ISSUE QTY</th>
-													<th>ISSUE VALUE</th> 
-													<th>DAMAGE QTY</th>
-													<th>DAMAGE VALUE</th> 
-													<th>C/L QTY</th>
-													<th>C/L VALUE</th> 
-												</c:otherwise>
-										</c:choose>
-										
-										
+										<c:choose>
+													<c:when test="${1==selectedQty}">
+													<th class="col-md-1">MIN</th> 
+													</c:when>
+													<c:when test="${2==selectedQty}"> 
+													<th class="col-md-1">ROL</th>
+													</c:when> 
+													<c:otherwise>
+													<th class="col-md-1">ROL</th>
+													<th class="col-md-1">MIN</th> 
+													</c:otherwise>
+												</c:choose> 
+										<th class="col-md-1">C/L QTY</th>
+										<th class="col-md-1">C/L VALUE</th> 
 									</tr>
 								</thead>
 								<tbody>
-									<c:set var="sr" value="0"> </c:set>
-									  <c:forEach items="${stockList}" var="stockList"
+								
+								<c:set var="index" value="0"></c:set>
+
+									<c:forEach items="${stockList}" var="stockList"
 										varStatus="count">
-										<c:choose>
-												 	<c:when test="${stockList.approveQty>0 or stockList.approvedQtyValue>0 
-												 	or stockList.issueQty>0 or stockList.issueQtyValue>0 or stockList.damageQty>0 or stockList.damagValue>0 
-												 	or stockList.openingStock>0 or stockList.opStockValue>0}">
-										<tr>
-											<td  ><c:out value="${sr+1}" /></td> 
-												<c:set var="sr" value="${sr+1}" ></c:set>
-
-
-											<td><c:out
-													value="${stockList.itemCode}" /></td>
-													
-													<c:choose>  
-														<c:when test="${2==selectedQty}">
-															<td align="right"><c:out value="${stockList.openingStock}" /></td> 
-															<td align="right"><c:out
-																	value="${stockList.opStockValue}" /></td>
-														</c:when>
-														<c:when test="${3==selectedQty}">
-															<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
-																	stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
-															<c:set var="closingStockValue" value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}" ></c:set>
-													
-															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-															 <td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td> 
-														</c:when> 
-														<c:otherwise>
-															<td align="right"><c:out value="${stockList.openingStock}" /></td> 
-															<td align="right"><c:out
-																	value="${stockList.opStockValue}" /></td> 
-															<td align="right"><c:out
-																	value="${stockList.approveQty}" /></td>
-															<td align="right"><c:out
-																	value="${stockList.approvedQtyValue}" /></td> 
-															<td align="right"><c:out
-																	value="${stockList.issueQty}" /></td> 
-															<td align="right"><c:out
-																	value="${stockList.issueQtyValue}" /></td>
-																	
-															<td align="right"><c:out
-																	value="${stockList.damageQty}" /></td>
-																	
-															<td align="right"><c:out
-																	value="${stockList.damagValue}" /></td> 
-															<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
-																	stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
-															<c:set var="closingStockValue" value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}" ></c:set>
-																	
-															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-															 <td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
-															
-														</c:otherwise>
-													</c:choose>
-												 
+										
+										<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
+													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
+											<c:set var="closingStockValue" value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}" ></c:set>
 											
-										</tr>
-										</c:when>
-										</c:choose>
+											<c:choose>
+													<c:when test="${1==selectedQty}">
+													 
+														 <c:choose>
+														<c:when test="${stockList.itemMinLevel>closingStock}">
+																<tr>
+																	<td style="width:1%;"><c:out value="${index+1}" /></td>
+ 																	<c:set var="index" value="${index+1}"></c:set>
+ 																	<td><c:out
+																			value="${stockList.itemCode}" /></td>
+																	<td class="col-md-1"><c:out
+																			value="${stockList.itemMinLevel}" /></td>
+																	 
+																	<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
+																	 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+																	
+																</tr>
+														</c:when> 
+													</c:choose> 
+													 
+													</c:when>
+													<c:when test="${2==selectedQty}">
+													 	<c:choose> 
+														<c:when test="${stockList.itemRodLevel>closingStock}">
+															<tr>
+																	<td style="width:1%;"><c:out value="${index+1}" /></td>
+ 																	<c:set var="index" value="${index+1}"></c:set>
+																	<td><c:out
+																			value="${stockList.itemCode}" /></td>
+ 	
+																	<td class="col-md-1"><c:out
+																			value="${stockList.itemRodLevel}" /></td>
+																	 
+																	<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
+																	 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+																	
+																</tr>
+														</c:when> 
+													</c:choose> 
+													</c:when> 
+												</c:choose> 
+										
 									</c:forEach>
+
 								</tbody>
 
 								</table>
@@ -334,7 +310,7 @@
 
 		$
 				.getJSON(
-						'${getStockBetweenDate}',
+						'${getPoListByDate}',
 
 						{
 							 
@@ -354,21 +330,20 @@
 							}
 						 
 
-						  $.each( data,
+						  $.each(
+										data,
 										function(key, itemList) {
-											  
+										
+
 											var tr = $('<tr></tr>'); 
 										  	tr.append($('<td></td>').html(key+1));
-										  	tr.append($('<td></td>').html(itemList.itemCode));
-										  	tr.append($('<td></td>').html(itemList.openingStock));  
-										  	tr.append($('<td></td>').html(itemList.approveQty));
-										  	tr.append($('<td></td>').html(itemList.issueQty));
-										  	tr.append($('<td></td>').html(itemList.returnIssueQty));
-										  	tr.append($('<td></td>').html(itemList.damageQty));
-										  	tr.append($('<td></td>').html(itemList.gatepassQty));
-										  	tr.append($('<td></td>').html(itemList.gatepassReturnQty));
-										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
-										  	 
+										  	tr.append($('<td></td>').html(itemList.poDate));
+										  	tr.append($('<td></td>').html(itemList.poNo));  
+										  	tr.append($('<td></td>').html(itemList.vendorName));
+										  	tr.append($('<td></td>').html(itemList.indNo));
+										  	tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
+													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'+itemList.poId+'"'+
+													'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
 										    $('#table1 tbody').append(tr); 
 										})  
 										
@@ -376,7 +351,7 @@
 						}); 
 }
 	</script>
-	<script>
+<script>
 function myFunction() {
   var input, filter, table, tr, td ,td1,td2, i;
   input = document.getElementById("myInput");
@@ -401,6 +376,5 @@ function myFunction() {
 }
  
 </script>
-
 </body>
 </html>

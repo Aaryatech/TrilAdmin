@@ -45,6 +45,7 @@ import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.MonthCategoryWiseMrnReport;
 import com.ats.tril.model.PoDetail;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.model.mrn.GetMrnDetail;
@@ -893,6 +894,11 @@ public class DashboardController {
 			 map.add("venId","0");
 			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  List.class);
             model.addObject("getMrnHeaderList", getMrnHeaderList);
+            
+            Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -928,6 +934,11 @@ public class DashboardController {
 			 map.add("venId",vendorId);
 			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  List.class);
 			System.err.println("Mrn Header List  " +getMrnHeaderList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
             model.addObject("getMrnHeaderList", getMrnHeaderList);
             model.addObject("vendorId", vendorId);
             model.addObject("status", status);

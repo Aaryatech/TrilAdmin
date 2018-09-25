@@ -142,7 +142,7 @@
 									<input type="text" value="" id="myInput" style="text-align: left; width: 240px;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor" title="Type in a name">
 										</label>  -->
 										<div class="input-group">
-    <input type="text"  id="myInput"  style="text-align: left; color: green;" class="form-control" onkeyup="myFunction()" placeholder="Search Mrn by Name or Vendor"/>
+    <input type="text"  id="myInput"  style="text-align: left; color: green;" class="form-control" onkeyup="myFunction()" placeholder="Search By Mrn No or Vendor Name"/>
     <span class="input-group-addon">
         <i class="fa fa-search"></i>
     </span>
@@ -156,8 +156,8 @@
 													<th class="col-sm-1">Sr no.</th> 
 													<th class="col-md-1">MRN No.</th> 
 													<th class="col-md-1">Date</th>
-													<th class="col-md-1">MRN Type</th>
-													<th class="col-md-5">Vendor</th>
+													<th class="col-md-2">MRN Type</th>
+													<th class="col-md-4">Vendor</th>
 													<th class="col-md-1">Status</th>
 													<th class="col-md-1">Action</th>
 												</tr>
@@ -170,16 +170,27 @@
 										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
 										 <td class="col-md-1"><c:out value="${getMrnHeaderList.mrnNo}" /></td> 
 									     <td class="col-md-1"><c:out value="${getMrnHeaderList.mrnDate}" /></td> 
-									     <td class="col-md-1"><c:choose><c:when test="${getMrnHeaderList.mrnType==1}"><c:out value="Regular" /></c:when><c:when test="${getMrnHeaderList.mrnType==2}"><c:out value="Job Work" /></c:when><c:when test="${getMrnHeaderList.mrnType==3}"><c:out value="General" /></c:when></c:choose></td> 
-										 <td class="col-md-5"><c:out value="${getMrnHeaderList.vendorName}" /></td> 
+									     <td class="col-md-2">
+									     <c:forEach items="${typeList}" var="typeList" >
+									<c:choose><c:when test="${typeList.typeId==getMrnHeaderList.mrnType}"><c:out value="${typeList.typeName}" /></c:when></c:choose>
+									</c:forEach>
+									     
+									     </td> 
+										 <td class="col-md-4"><c:out value="${getMrnHeaderList.vendorName}" /></td> 
 									     <td class="col-md-1"><c:choose><c:when test="${getMrnHeaderList.mrnStatus==0}"><c:out value="Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==1}"><c:out value="Partial Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==2}"><c:out value="Completed" /></c:when></c:choose></td> 
-									     <td class="col-md-1"> <a href="${pageContext.request.contextPath}/getMrnDetail/${getMrnHeaderList.mrnId}"><abbr title="Details"><i  class="fa fa-list"></i></abbr></a></td> 
+									     <td class="col-md-1">
+									     <a href="javascript:genPdf(${ getMrnHeaderList.mrnId});" title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></a>
+										<a href="${pageContext.request.contextPath}/getMrnDetail/${getMrnHeaderList.mrnId}"><abbr title="Details"><i  class="fa fa-list"></i></abbr></a></td> 
 									</tr>
 								</c:forEach>  
 
 											</tbody>
 
 								</table>
+								<buttons
+											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
+											onclick="commonPdf()">PDF</button>
   
 					</div>
 				</div>
@@ -295,6 +306,29 @@
 			}
 		}
 	</script>
+	<script type="text/javascript">
+			function genPdf(id) {
+			
+		
+				window.open('pdfForReport?url=/pdf/grnInspectionPdf/'+id
+						 );
+
+			}
+			
+			function commonPdf() {
+
+				 
+				 var list = [];
+				 
+							$("input:checkbox[name=name1]:checked").each(function(){
+								list.push($(this).val());
+				});
+							
+							window.open('pdfForReport?url=/pdf/grnInspectionPdf/' + list);
+
+						}
+			
+		</script>
 	<script>
 function myFunction() {
   var input, filter, table, tr, td,td1, i;

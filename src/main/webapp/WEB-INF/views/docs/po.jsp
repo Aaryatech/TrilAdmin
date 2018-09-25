@@ -508,11 +508,11 @@ hr {
 					<td height="5px" style="max-height: 5px" align="center"
 						width="30px"><c:out value="${count.index+1}" /></td>
 					<td align="center"><c:out value="${row.itemCode}" /></td>
-					<td align="center"><c:out value="${row.itemDesc}" /></td>
+					<td align="left" width=50%><c:out value="${row.itemDesc}" /></td>
 					<td align="center"><c:out value="${row.itemUom}" /></td>
-					<td align="right"><c:out value="${row.itemQty}" /></td>
-					<td align="right"><c:out value="${row.itemRate}" /></td>
-					<td align="right"><c:out value="${row.basicValue}" /></td>
+					<td align="right" style="padding: 5px;"><c:out value="${row.itemQty}" /></td>
+					<td align="right" style="padding: 5px;"><c:out value="${row.itemRate}" /></td>
+					<td align="right" style="padding: 5px;"><c:out value="${row.basicValue}" /></td>
 					<td align="center"><c:out
 							value="On / Before ${row.schDate} ${row.schRemark} " /></td>
 

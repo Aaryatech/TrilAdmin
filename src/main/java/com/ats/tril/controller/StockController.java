@@ -22,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.model.Category;
 import com.ats.tril.model.GetCurrentStock;
+import com.ats.tril.model.MinAndRolLevelReport;
 import com.ats.tril.model.StockDetail;
 import com.ats.tril.model.StockHeader; 
 
@@ -260,12 +262,32 @@ public class StockController {
 			List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
 			 
 			if( request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 String firstDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 map.add("fromDate",DateConvertor.convertToYMD(firstDate));
+	 			 map.add("toDate",yy.format(date)); 
+	 			 System.out.println(map);
+	 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+	 			getStockBetweenDate = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock));
+	 			
+	 			 model.addObject("fromDate", firstDate);
+					model.addObject("toDate", dd.format(date));
+					model.addObject("stockList", getStockBetweenDate);
+					model.addObject("selectedQty", 1);
 				 
 			}
 			else {
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
-				 
+				int selectedQty = Integer.parseInt(request.getParameter("selectedQty"));
 				
 				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
@@ -327,6 +349,7 @@ public class StockController {
 				 model.addObject("fromDate", fromDate);
 					model.addObject("toDate", toDate);
 					model.addObject("stockList", getStockBetweenDate);
+					model.addObject("selectedQty", selectedQty);
 			}
 			
 			System.out.println(getStockBetweenDate);
@@ -417,6 +440,72 @@ public class StockController {
 
 		model.addObject("getStockBetweenDate", getStockBetweenDate);
 		
+		return model;
+	}
+	
+	@RequestMapping(value = "/minAndRolQtyReport", method = RequestMethod.GET)
+	public ModelAndView minAndRolQtyReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/minAndRolQtyReport");
+		try {
+		 
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+			model.addObject("categoryList", categoryList); 
+			
+			if(request.getParameter("selectedQty")!=null) {
+				
+				String fromDate,toDate;
+				StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+				 
+				int selectedQty = Integer.parseInt(request.getParameter("selectedQty"));
+				int catId = Integer.parseInt(request.getParameter("catId"));
+				
+				 System.out.println(stockHeader);
+				 
+				 if(stockHeader.getStockHeaderId()!=0)
+				 {
+					 Date date = new Date();
+					 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					 
+					 fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+					 toDate=sf.format(date); 
+				 }
+				 else
+				 {
+					 Date date = new Date();
+					 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					 
+					 Calendar cal = Calendar.getInstance();
+					 cal.setTime(date);
+					 int year = cal.get(Calendar.YEAR);
+					 int month = cal.get(Calendar.MONTH);
+					  
+					 fromDate=year+"-"+(month+1)+"-"+"01";
+					 toDate=sf.format(date);
+					  
+				 }
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 map.add("fromDate", fromDate);
+	 			 map.add("toDate", toDate);
+	 			map.add("catId", catId);
+	 			 System.out.println("map" + map); 
+	 			MinAndRolLevelReport[] getCurrentStock = rest.postForObject(Constants.url + "/minQtyAndRolQtyLevelReport",map,MinAndRolLevelReport[].class);
+	 			
+	 			List<MinAndRolLevelReport> stockList = new ArrayList<MinAndRolLevelReport>(Arrays.asList(getCurrentStock));
+	 			
+	 			System.out.println(stockList);
+	 			model.addObject("stockList", stockList); 
+	 			model.addObject("selectedQty", selectedQty);
+	 			model.addObject("catId", catId);
+			}
+			
+			  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return model;
 	}
 

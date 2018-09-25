@@ -201,6 +201,51 @@ public class PdfReportController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/pdf/grnInspectionPdf/{id}", method = RequestMethod.GET)
+	public ModelAndView grnInspectionPdf ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		ModelAndView model = new ModelAndView("docs/grnInspection");
+		try {
+		System.out.println("GRN Report ids " + id);
+		
+		
+		RestTemplate restTemplate = new RestTemplate();
+
+	    MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+	    List<Integer> integersList = new ArrayList<Integer>();
+
+		for (int i = 0; i < id.length; i++) {
+
+			if (id[i] > 0) {
+
+				integersList.add(id[i]);
+			}
+		}
+
+		String listOfIds = integersList.stream().map(Object::toString).collect(Collectors.joining(","));
+    
+	    
+		map.add("mrnIdList", listOfIds);
+		
+		MrnReport[] reportarray =restTemplate.postForObject(Constants.url + "/getAllMrnListHeaderDetailReport", map,MrnReport[].class );
+		
+		List<MrnReport>reportsList=new ArrayList<MrnReport>(Arrays.asList(reportarray));
+		
+		System.out.println("GRN Report data " + reportsList.toString());
+
+		
+		model.addObject("list", reportsList);
+		
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+						
+		}
+		return model;
+	}
 
 	
 	// ISSUE
