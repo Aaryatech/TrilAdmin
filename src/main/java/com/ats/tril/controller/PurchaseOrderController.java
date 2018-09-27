@@ -1716,7 +1716,7 @@ public class PurchaseOrderController {
 							if(Integer.parseInt(checkbox[i])==poHeaderForApprove.getPoDetailList().get(j).getPoDetailId()) {
 								if(flag==1) {
 									poHeaderForApprove.getPoDetailList().get(j).setStatus(2);
-									poHeaderForApprove.getPoDetailList().get(j).setPendingQty(0);
+									//poHeaderForApprove.getPoDetailList().get(j).setPendingQty(0);
 								}
 								else {
 									poHeaderForApprove.getPoDetailList().get(j).setStatus(0);

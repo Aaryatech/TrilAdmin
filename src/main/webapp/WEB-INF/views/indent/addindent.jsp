@@ -629,8 +629,8 @@ $(document).ready(function() {
 		 var itemName=$("#item_name option:selected").html();
 		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
-		 
-		if(qty>0){
+		  
+		if(qty>0 && (itemId!="" || itemId!=null) && schDay>=0){
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
@@ -699,7 +699,7 @@ $(document).ready(function() {
 		   $("#group").focus();
 		 //document.getElementById("rm_cat").selectedIndex = "0";  
 		 }else{
-			 alert("Please Enter  valid quantity");
+			 alert("Please Enter  valid Infromation");
 		 }
 		}
 	</script>
@@ -750,6 +750,10 @@ function deleteIndentItem(itemId,key){
 			alert("No Record ");
 			  $('#ind_cat').prop('disabled', false).trigger("chosen:updated");  
 			document.getElementById("submitt").disabled=true;
+			var html = '<option value="" selected >Select Item</option>';
+			html += '</option>';
+			$('#item_name').html(html);
+			$("#item_name").trigger("chosen:updated");
 		}
 		var len = data.length;
 		$('#table1 td').remove();
@@ -782,11 +786,7 @@ function deleteIndentItem(itemId,key){
 												"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
 		$('#table1 tbody').append(tr);
 		})
-		 
-		/* var html = '<option value="" selected >Select Item</option>';
-				html += '</option>';
-				$('#item_name').html(html);
-				$("#item_name").trigger("chosen:updated"); */
+		  
 		getLastRate(qty,-1);
 		});
 	

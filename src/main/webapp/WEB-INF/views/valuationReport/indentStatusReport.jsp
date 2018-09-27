@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Stock Between Date
+								<i class="fa fa-table"></i>Indent Status Report
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i
@@ -53,7 +53,7 @@
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/stockBetweenDateWithCatId" method="get">
+						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/indentStatusReport" method="get">
 								<div class="box-content">
 								
 								 
@@ -78,30 +78,7 @@
 				 
 							</div><br>
 							
-							<div class="box-content">
-
-									<div class="col-md-2">Select Category*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="catId" id="catId"
-											required>
-											<option value="">select</option>
-											<c:forEach items="${categoryList}" var="categoryList"> 
-												<c:choose>
-													<c:when test="${categoryList.catId==catId}">
-													<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
-													</c:when>
-													<c:otherwise>
-													<option value="${categoryList.catId}">${categoryList.catDesc}</option>
-													</c:otherwise>
-												</c:choose>
-														 
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									  <div class="col-md-3"></div>
-								</div><br><br>
+							 <br>
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
@@ -109,17 +86,8 @@
 							</div>
 						</div> <br>
 							 
-								
-								<div align="center" id="loader" style="display: none">
-
-								<span>
-									<h4>
-										<font color="#343690">Loading</font>
-									</h4>
-								</span> <span class="l-1"></span> <span class="l-2"></span> <span
-									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-								<span class="l-6"></span>
-							</div>
+								 
+								 
 							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
@@ -133,66 +101,40 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-4">Item Name</th>
-										<th class="col-md-1">OP QTY</th>
-										<th class="col-md-1">OP VALUE</th>
-										<th class="col-md-1">APPV QTY</th>
-										<th class="col-md-1">APPV VALUE</th>
-										<th class="col-md-1">ISSUE QTY</th>
-										<th class="col-md-1">ISSUE VALUE</th> 
-										<th class="col-md-1">DAMAGE QTY</th>
-										<th class="col-md-1">DAMAGE VALUE</th> 
-										<th class="col-md-1">C/L QTY</th>
-										<th class="col-md-1">C/L VALUE</th> 
-										<th class="col-md-1">Action</th>
+										<th style="width:10%;">INDENT NO</th>
+										<th class="col-md-1">INDENT DATE</th>
+										<th class="col-md-5">ITEM DESC</th> 
+										<th class="col-md-1" align="right" >INDENT QTY</th>
+										<th class="col-md-1">SCH DATE</th>
+										<th class="col-md-1">EXPRESS DAYS</th>
+										<th class="col-md-1">REMARK</th> 
 									</tr>
 								</thead>
 								<tbody>
 								
 								<c:set var="sr" value="0"> </c:set>
-								<c:forEach items="${list}" var="list" varStatus="count">
-								<c:choose>
-												 	<c:when test="${list.approveQty>0 or list.approvedQtyValue>0 
-												 	or list.issueQty>0 or list.issueQtyValue>0 or list.damageQty>0 or list.damagValue>0 
-												 	or list.openingStock>0 or list.opStockValue>0}">
+								<c:forEach items="${indentStatusReport}" var="list" varStatus="count">
+								  
 											<tr>
 											 
 												<td  ><c:out value="${sr+1}" /></td> 
-												<c:set var="sr" value="${sr+1}" ></c:set>
+												<c:set var="sr" value="${sr+1}" ></c:set> 
 
-
-												<td  ><c:out value="${list.itemCode}" /></td>
+												<td  ><c:out value="${list.indMNo}" /></td>
 												 
-												<td  ><c:out value="${list.openingStock}" /></td>
+												<td  ><c:out value="${list.indMDate}" /></td>
 												 
-												<td class="col-md-1"><c:out
-													value="${list.opStockValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${list.approveQty}" /></td>
-											<td class="col-md-1"><c:out
-													value="${list.approvedQtyValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${list.issueQty}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${list.issueQtyValue}" /></td>
-													
-											 <td class="col-md-1"><c:out
-													value="${list.damageQty}" /></td>
-													
-											 <td class="col-md-1"><c:out
-													value="${list.damagValue}" /></td>  
-											 <c:set var="closingStock" value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}" ></c:set>
-												<c:set var="closingStockValue" value="${list.opStockValue+list.approvedQtyValue
-												-list.issueQtyValue-list.damagValue}" ></c:set>
-												
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
-											   
-											   <td class="col-md-1"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
-											</tr>
-											</c:when>
-											</c:choose>
-											
+												<td><c:out
+													value="${list.itemCode}" /></td> 
+													<td  align="right"><c:out value="${list.indQty}" /></td>
+											<td><c:out
+													value="${list.indItemSchddt}" /></td>
+											<td ><c:out
+													value="${list.excessDays}" /></td> 
+											<td ><c:out
+													value="${list.remark}" /></td> 
+											 </tr>
+										 
 										</c:forEach>
   
 								</tbody>

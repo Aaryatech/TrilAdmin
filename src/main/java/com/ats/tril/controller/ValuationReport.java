@@ -44,6 +44,7 @@ import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.IndentStatusReport;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.IssueDeptWise;
@@ -5772,6 +5773,60 @@ public class ValuationReport {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping(value = "/indentStatusReport", method = RequestMethod.GET)
+	public ModelAndView indentStatusReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/indentStatusReport");
+		try {
+			 
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 
+				 fromDate =  "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date); 
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",yy.format(date)); 
+		 			IndentStatusReport[] indentStatusReport = rest.postForObject(Constants.url + "/indentStatusReport",map, IndentStatusReport[].class);
+					List<IndentStatusReport> list = new ArrayList<IndentStatusReport>(Arrays.asList(indentStatusReport));
+					
+					model.addObject("indentStatusReport", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", dd.format(date));
+			}
+			else {
+				 
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
+		 			
+		 			IndentStatusReport[] indentStatusReport = rest.postForObject(Constants.url + "/indentStatusReport",map, IndentStatusReport[].class);
+					List<IndentStatusReport> list = new ArrayList<IndentStatusReport>(Arrays.asList(indentStatusReport));
+					
+					model.addObject("indentStatusReport", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", toDate);
+			}
+			
+			 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
 	}
 	
 	
