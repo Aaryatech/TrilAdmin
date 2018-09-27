@@ -145,14 +145,16 @@ public class HomeController {
 						Constants.url+"/login?username=" + name + "&password=" + password,
 						UserResponse.class);
 				
-				session.setAttribute("UserDetail", userObj);
-				UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
-				
-
+				 
 				String loginResponseMessage="";
 
 				
 				if (userObj.getErrorMessage().isError()==false) {
+					
+					session.setAttribute("UserDetail", userObj);
+					UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
+					session.setAttribute("userInfo", userResponse.getUser());
+					
 					mav = new ModelAndView("home");
 					session.setAttribute("userName", name);
 					

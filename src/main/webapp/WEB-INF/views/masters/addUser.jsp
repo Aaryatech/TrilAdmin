@@ -49,9 +49,19 @@
 								<c:choose><c:when test="${isEdit==1}">Edit User</c:when><c:otherwise>Add User</c:otherwise> </c:choose> 
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addUser">
+								<c:choose>
+									<c:when test="${flag==1}">
+									<a href="${pageContext.request.contextPath}/addUser">
 									Add User</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
+									</c:when>
+									<c:otherwise>
+									<a href="${pageContext.request.contextPath}/userEdit/${userInfo.id}/0">
+									Edit Profile </a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+									
+									</c:otherwise>
+									</c:choose> 
 							</div>
 
 						</div>
@@ -77,6 +87,8 @@
 								  name="userId" value="${editUser.id}" type="hidden" >
 								  <input id="roleId" class="form-control"
 								  name="roleId" value="${editUser.roleId}" type="hidden" >
+								  <input id="flag" class="form-control"
+								  name="flag" value="${flag}" type="hidden" >
 									</div>
 									<div class="col-md-1"></div>
 									
@@ -132,7 +144,9 @@
 
 									</div>
 								</div>
-								
+								<c:choose>
+									<c:when test="${flag==1}">
+									 
 								<div class="box-content">
 								
 								<div class="col-md-9"></div> 
@@ -165,7 +179,7 @@
 										 <td><c:out value="${userList.username}" /></td> 
 										 <td class="col-md-1"><c:out value="${userList.password}" /></td>
 									 <td class="col-md-1">
-									 <a href="${pageContext.request.contextPath}/userEdit/${userList.id}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+									 <a href="${pageContext.request.contextPath}/userEdit/${userList.id}/1"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
 									 <a href="${pageContext.request.contextPath}/userDelete/${userList.id}" onClick="return confirm('Are you sure want to delete this record');"><span
 												class="glyphicon glyphicon-remove"></span></a>
 									  
@@ -180,6 +194,8 @@
   
 					</div>
 				</div>
+				</c:when>
+								</c:choose>
 							</form>
 
 

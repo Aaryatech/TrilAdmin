@@ -1172,6 +1172,7 @@ public class MasterController {
 			userList = new ArrayList<User>(Arrays.asList(user));
 
 			model.addObject("userList", userList);
+			model.addObject("flag", 1);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1211,12 +1212,14 @@ public class MasterController {
 	public String insertUser(HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		String ret = new String();
 		try {
 			String userId = request.getParameter("userId"); 
 			String roleId = request.getParameter("roleId");
 			String userName = request.getParameter("userName");
 			String pass = request.getParameter("pass");
-
+			int flag = Integer.parseInt(request.getParameter("flag"));
+			
 			User insert = new User();
 
 			if (userId == "" || userId == null) {
@@ -1237,16 +1240,25 @@ public class MasterController {
 			User res = rest.postForObject(Constants.url + "/saveUser", insert, User.class);
 
 			System.out.println("res " + res);
+			
+			
+			if(flag==1) {
+				ret= "redirect:/addUser";
+			}
+			else {
+				ret= "redirect:/userEdit/"+userId+"/0";
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "redirect:/addUser";
+		 
+			return ret;
 	}
 	
-	@RequestMapping(value = "/userEdit/{userId}", method = RequestMethod.GET)
-	public ModelAndView editUser(@PathVariable int userId, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/userEdit/{userId}/{flag}", method = RequestMethod.GET)
+	public ModelAndView editUser(@PathVariable int userId,@PathVariable int flag, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/addUser");
 		try {
@@ -1256,10 +1268,12 @@ public class MasterController {
 			User  editUser = rest.postForObject(Constants.url + "/getUserById",map, User .class);
 			 model.addObject("editUser", editUser);
 			 model.addObject("isEdit", 1);
-			  
-			 User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
-				List<User> userList = new ArrayList<User>(Arrays.asList(user)); 
-				model.addObject("userList", userList);
+			  if(flag==1) {
+				  User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
+					List<User> userList = new ArrayList<User>(Arrays.asList(user)); 
+					model.addObject("userList", userList);
+			  } 
+			  model.addObject("flag", flag);
 
 		} catch (Exception e) {
 			e.printStackTrace();
