@@ -40,6 +40,7 @@ import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.SubDept;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
+import com.ats.tril.model.login.User;
 
 @Controller
 @Scope("session")
@@ -1157,6 +1158,133 @@ public class MasterController {
 		}
 
 		return "redirect:/addUom";
+	}
+	
+	List<User> userList = new ArrayList<>();
+	
+	@RequestMapping(value = "/addUser", method = RequestMethod.GET)
+	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addUser");
+		try {
+
+			User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
+			userList = new ArrayList<User>(Arrays.asList(user));
+
+			model.addObject("userList", userList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/checkUserExist", method = RequestMethod.GET)
+	@ResponseBody
+	public String checkUserExist(HttpServletRequest request, HttpServletResponse response) {
+
+		String flag="0";
+		
+		try {
+
+			String userName = request.getParameter("userName");
+			
+			for(int i=0 ; i<userList.size();i++) {
+				
+				if(userName.equals(userList.get(i).getUsername())) {
+					flag="1";
+					break;
+				}
+			}
+			
+			System.out.println(flag);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return flag;
+	}
+	
+	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+	public String insertUser(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+			String userId = request.getParameter("userId"); 
+			String roleId = request.getParameter("roleId");
+			String userName = request.getParameter("userName");
+			String pass = request.getParameter("pass");
+
+			User insert = new User();
+
+			if (userId == "" || userId == null) {
+				insert.setId(0);
+			}
+			else {
+				insert.setId(Integer.parseInt(userId));
+				insert.setRoleId(Integer.parseInt(roleId));
+			}
+			insert.setUsername(userName); 
+			insert.setPassword(pass); 
+			insert.setDeptId(1);
+			insert.setUsertype(1);
+			
+			
+			System.out.println("User  " + insert);
+
+			User res = rest.postForObject(Constants.url + "/saveUser", insert, User.class);
+
+			System.out.println("res " + res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUser";
+	}
+	
+	@RequestMapping(value = "/userEdit/{userId}", method = RequestMethod.GET)
+	public ModelAndView editUser(@PathVariable int userId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addUser");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("userId", userId);
+			User  editUser = rest.postForObject(Constants.url + "/getUserById",map, User .class);
+			 model.addObject("editUser", editUser);
+			 model.addObject("isEdit", 1);
+			  
+			 User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
+				List<User> userList = new ArrayList<User>(Arrays.asList(user)); 
+				model.addObject("userList", userList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/userDelete/{userId}", method = RequestMethod.GET)
+	public String deleteUser(@PathVariable int userId, HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("userId", userId); 
+			ErrorMessage  errorMessage = rest.postForObject(Constants.url + "/deleteUser",map, ErrorMessage .class);
+			System.out.println(errorMessage);
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUser";
 	}
 
 }

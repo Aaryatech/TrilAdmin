@@ -82,7 +82,9 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
+								<input type="submit" class="btn btn-primary"   value="Search"> 
+								 <input type="button" value="PDF" class="btn btn-primary" onclick="genPdf()" /> 
+								<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 							</div>
 						</div> <br>
 							 
@@ -228,91 +230,29 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-
-	<script type="text/javascript">
-	function search() {
-		  
-		
-		var fromDate = $("#fromDate").val();
-		var toDate = $("#toDate").val();
-		var catId = $("#catId").val();
-		
-		if(fromDate=="" || fromDate == null)
-			alert("Select From Date");
-		else if (toDate=="" || toDate == null)
-			alert("Select To Date");
-		 
-		$('#loader').show();
-
-		$
-				.getJSON(
-						'${getStockBetweenDateWithCatId}',
-
-						{
-							 
-							fromDate : fromDate,
-							toDate : toDate, 
-							catId : catId,
-							ajax : 'true'
-
-						},
-						function(data) {
-
-							$('#table1 td').remove();
-							$('#loader').hide();
-
-							if (data == "") {
-								alert("No records found !!");
-
-							}
-						 
-							var index=0;
-
-						  $.each( data,
-										function(key, itemList) {
-											  if(itemList.openingStock>0 || itemList.opStockValue>0 || itemList.approveQty>0 || itemList.approvedQtyValue>0 ||
-													  itemList.issueQty>0 || itemList.issueQtyValue>0 || itemList.damageQty>0 || itemList.damagValue>0 )
-												  {
-											var tr = $('<tr></tr>'); 
-										  	tr.append($('<td></td>').html(index+1));
-										  	index=index+1;
-										  	tr.append($('<td></td>').html(itemList.itemCode));
-										  	tr.append($('<td></td>').html(itemList.openingStock));  
-										  	tr.append($('<td></td>').html(itemList.opStockValue)); 
-										  	tr.append($('<td></td>').html(itemList.approveQty));
-										  	tr.append($('<td></td>').html(itemList.approvedQtyValue));
-										  	tr.append($('<td></td>').html(itemList.issueQty));
-										  	tr.append($('<td></td>').html(itemList.issueQtyValue)); 
-										  	tr.append($('<td></td>').html(itemList.damageQty));
-										  	tr.append($('<td></td>').html(itemList.damagValue)); 
-										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
-											tr.append($('<td></td>').html(itemList.opStockValue+itemList.approvedQtyValue-itemList.issueQtyValue-itemList.damagValue)); 
-										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
-										  	
-										    $('#table1 tbody').append(tr);
-												  }
-										})  
-										
-							 
-						}); 
-}
-	</script>
-	
+ 
 	<script>
 function myFunction() {
-  var input, filter, table, tr, td ,td1, i;
+  var input, filter, table, tr, td ,td1 ,td2 , i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("table1");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1]; 
+    td1 = tr[i].getElementsByTagName("td")[2]; 
+    td2 = tr[i].getElementsByTagName("td")[3]; 
     if (td) {
     	
     	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
     	        tr[i].style.display = "";
-    	      } else {
+    	      }
+    	 else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+ 	        tr[i].style.display = "";
+ 	      }
+    	 else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+ 	        tr[i].style.display = "";
+ 	      }else {
     	        tr[i].style.display = "none";
     	      }
        
@@ -321,7 +261,14 @@ function myFunction() {
      
   }
 }
- 
+function genPdf(){
+	window.open('${pageContext.request.contextPath}/indentStatusReportPDF/');
+}
+function exportToExcel()
+{
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+	document.getElementById("expExcel").disabled=true;
+}
 </script>
 
 </body>

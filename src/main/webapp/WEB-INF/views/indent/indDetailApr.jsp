@@ -258,13 +258,13 @@
 								<div class="box-content">
 									 
 									
-									<div class="col-md-2">Non-Approved Indent Value : 
+									<div class="col-md-2"> 
 									</div>
 									
-									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentPendingValue">
+									<div class="col-md-2">
  
 									</div>
-									<input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
+									
 									
 									<div class="col-md-2">Total Indent Value : 
 									</div>
@@ -273,7 +273,14 @@
  
 									</div>
 									<input type="hidden" name="totalIndentValueText" id="totalIndentValueText" />
-									 
+									
+									<div class="col-md-2">Non-Approved Indent Value : 
+									</div>
+									
+									<div class="col-md-2"  style="font-weight: bold; font-size: 15px;" id="totalIndentPendingValue">
+ 
+									</div>
+									 <input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
 								</div>
 								<br><br>
 								
