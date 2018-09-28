@@ -129,7 +129,7 @@
 				 
 
 				<c:choose>
-					<c:when test="${Constants.mainAct==9999}">
+					<c:when test="${sessionScope.sessionModuleId==9999}">
 						<li class="active">
 					</c:when>
 
@@ -143,26 +143,26 @@
 				<!-- BEGIN Submenu -->
 				<ul class="submenu">
 					<c:choose>
-						<c:when test="${Constants.subAct==998}">
+						<c:when test="${sessionScope.sessionSubModuleId==998}">
 							<li class="active">
 						</c:when>
 						<c:otherwise>
 							<li>
 						</c:otherwise>
 					</c:choose>
-				<a onclick="selectSubMod(9999,998)" href="${pageContext.request.contextPath}/logout">Logout</a>
+				<a onclick="selectSubMod(998,9999)" href="${pageContext.request.contextPath}/logout">Logout</a>
 					</li>
 					
 					 
 					<c:choose>
-						<c:when test="${Constants.subAct==999}">
+						<c:when test="${sessionScope.sessionSubModuleId==999}">
 							<li class="active">
 						</c:when>
 						<c:otherwise>
 							<li>
 						</c:otherwise>
 					</c:choose>
-				<a onclick="selectSubMod(9999,999)" href="${pageContext.request.contextPath}/userEdit/${userInfo.id}/0">Edit Profile </a>
+				<a onclick="selectSubMod(999,9999)" href="${pageContext.request.contextPath}/userEdit/${userInfo.id}/0">Edit Profile </a>
 					</li>
 					</ul>
 				<%-- 		
