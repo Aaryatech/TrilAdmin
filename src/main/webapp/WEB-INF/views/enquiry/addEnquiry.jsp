@@ -5,13 +5,13 @@
 	 
  <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-	<body>
+	<body onload="getInvoiceNo()">
 	
 	 
 <c:url var="addItmeInEnquiryList" value="/addItmeInEnquiryList"></c:url>
 	<c:url var="editItemInAddEnquiry" value="/editItemInAddEnquiry"></c:url>
 	<c:url var="deleteItemFromEnquiry" value="/deleteItemFromEnquiry"></c:url>
-
+<c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 
@@ -67,7 +67,7 @@
 							<div class="box-content">
 							
 								<div class="col-md-2">Select Vendor</div>
-									<div class="col-md-4">
+									<div class="col-md-10">
 									
 									<select name="vendId" id="vendId" class="form-control chosen" multiple="multiple"   required>
 											<option value="">Select Vendor</option>
@@ -77,15 +77,27 @@
 										</select>
 									
 									</div>
+									 
+							</div><br>
+							
+							<div class="box-content">
+
+									<div class="col-md-2">Enquiry No</div>
+									<div class="col-md-3">
+										<input class="form-control" id="enq_no"
+											placeholder="Enquiry Number" type="text" name="enqNo"
+											Readonly />
+									</div>
 									
 									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
-								 placeholder="Enquiry Date" value="${date}" name="enqDate" type="text" required>
+								 placeholder="Enquiry Date" onblur="getInvoiceNo()" value="${date}" name="enqDate" type="text" required>
 								
 								</div>
-				 
-							</div><br>
+
+								</div>
+								<br>
 							
 							<div class="box-content">
 							 
@@ -479,9 +491,27 @@ function check()
 	 
 }
 </script>
-	
-								
-							
-	
+	 <script type="text/javascript">
+		function getInvoiceNo() {
+
+			var date = $("#enqDate").val();
+			//alert(date);
+
+			$.getJSON('${getInvoiceNo}', {
+
+				catId : 2,
+				docId : 8,
+				date : date,
+				typeId : 1,
+				ajax : 'true',
+
+			}, function(data) {
+
+				document.getElementById("enq_no").value = data.code;
+
+			});
+
+		}
+	</script>
 </body>
 </html>

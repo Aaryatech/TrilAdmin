@@ -31,6 +31,8 @@ import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 
 @Controller
 @Scope("session")
@@ -168,11 +170,50 @@ public class EnquiryController {
 			String enqDate = request.getParameter("enqDate"); 
 			
 			String Date = DateConvertor.convertToYMD(enqDate);
+			
+			DocumentBean docBean = null;
+			
+			try {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 8);
+				map.add("catId", 2);
+				map.add("date", DateConvertor.convertToYMD(enqDate));
+				map.add("typeId", 1);
+				RestTemplate restTemplate = new RestTemplate();
+
+				docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			 
 			 for(int i = 0 ; i<vendId.length ; i++)
 			 {
 				 
 				 EnquiryHeader enquiryHeader = new EnquiryHeader();
+				 
+				 try {
+					 
+						String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+						int counter = docBean.getSubDocument().getCounter();
+						int counterLenth = String.valueOf(counter).length();
+						counterLenth = 4 - counterLenth;
+						StringBuilder code = new StringBuilder(indMNo + "");
+
+						for (int k = 0; k < counterLenth; k++) {
+							String j = "0";
+							code.append(j);
+						}
+						code.append(String.valueOf(counter));
+
+						enquiryHeader.setEnqNo("" + code);
+
+						docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1); 
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				 
 				 enquiryHeader.setVendId(Integer.parseInt(vendId[i]));
 				 enquiryHeader.setEnqRemark(enqRemark);
 				 enquiryHeader.setEnqDate(Date);
@@ -184,6 +225,18 @@ public class EnquiryController {
 			 
 			ErrorMessage res = rest.postForObject(Constants.url + "/saveEnquiryHeaderAndDetail", enquiryHeaderList, ErrorMessage.class);
 			System.out.println(res);
+			
+			if (res.isError() == false) {
+				try {
+					/*for (int l = 0; l < docList.size(); l++) {*/
+						SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(),
+								SubDocument.class);
+					//}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			
  
 		} catch (Exception e) {
@@ -307,6 +360,11 @@ public class EnquiryController {
 			model.addObject("itemList", itemList);
 			
 			model.addObject("editEnquiry", editEnquiry);
+			
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			
+			model.addObject("vendorList", vendorList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -413,7 +471,7 @@ public class EnquiryController {
 			
 			List<GetEnquiryHeader> enquiryHeaderList = new ArrayList<GetEnquiryHeader>();
 			
-			 
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
 			String enqRemark = request.getParameter("enqRemark"); 
 			String enqDate = request.getParameter("enqDate"); 
 			
@@ -422,6 +480,7 @@ public class EnquiryController {
 			editEnquiry.setEnqRemark(enqRemark);
 			editEnquiry.setEnqDate(Date);
 			editEnquiry.setDelStatus(1);
+			editEnquiry.setVendId(vendId);
 			editEnquiry.setEnquiryDetailList(addItemInEditEnquiryDetail);
 			enquiryHeaderList.add(editEnquiry);
 				  

@@ -152,7 +152,7 @@ body {
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
 											multiple="multiple"  required>
@@ -171,13 +171,26 @@ body {
 
 									</div>
 
+ 
+								</div>
+								<br>
+								
+								<div class="box-content">
 
+									<div class="col-md-2">Enquiry No</div>
+									<div class="col-md-3">
+										<input class="form-control" id="enq_no"
+											placeholder="Enquiry Number" type="text" name="enqNo"
+											Readonly />
+									</div>
+									
 									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
 											placeholder="Enquiry Date" name="enqDate" type="text"
 											onblur="getInvoiceNo()" value="${enqDateTemp}" required>
 									</div>
+
 								</div>
 								<br>
 
@@ -192,17 +205,7 @@ body {
 
 								</div>
 								<br> <br>
-								<div class="box-content">
-
-									<div class="col-md-2">Enquiry No</div>
-									<div class="col-md-3">
-										<input class="form-control" id="enq_no"
-											placeholder="Enquiry Number" type="text" name="enqNo"
-											Readonly />
-									</div>
-
-								</div>
-								<br>
+								
 								<div class="box-content">
 									<div class="col-md-2">Select Indent No.</div>
 									<div class="col-md-3">

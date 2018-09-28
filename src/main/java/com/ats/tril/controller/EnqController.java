@@ -61,7 +61,7 @@ public class EnqController {
 			model.addObject("vendorList", vendorList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("status", "0,1,2");
+			map.add("status", "0,1");
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatusWithoutPoType", map,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
@@ -159,7 +159,7 @@ public class EnqController {
 			model.addObject("vendorList", vendorList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("status", "0,1,2");
+			map.add("status", "0,1");
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatusWithoutPoType", map,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
@@ -226,21 +226,30 @@ public class EnqController {
 
 			String Date = DateConvertor.convertToYMD(enqDate);
 			List<SubDocument> docList = new ArrayList<SubDocument>();
+			DocumentBean docBean = null;
+			
+			try {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 8);
+				map.add("catId", 1);
+				map.add("date", DateConvertor.convertToYMD(enqDate));
+				map.add("typeId", 1);
+				RestTemplate restTemplate = new RestTemplate();
+
+				docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			for (int i = 0; i < vendId.length; i++) {
 
-				EnquiryHeader enquiryHeader = new EnquiryHeader();
+				EnquiryHeader insert = new EnquiryHeader();
 
-				DocumentBean docBean = null;
+				 
 				try {
-
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-					map.add("docId", 8);
-					map.add("catId", 1);
-					map.add("date", DateConvertor.convertToYMD(enqDate));
-					map.add("typeId", 1);
-					RestTemplate restTemplate = new RestTemplate();
-
-					docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+ 
 					String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
 					int counter = docBean.getSubDocument().getCounter();
 					int counterLenth = String.valueOf(counter).length();
@@ -253,26 +262,23 @@ public class EnqController {
 					}
 					code.append(String.valueOf(counter));
 
-					enquiryHeader.setEnqNo("" + code);
+					insert.setEnqNo("" + code);
 
 					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1);
-					docList.add(docBean.getSubDocument());
+					System.out.println("docBean " + docBean);
+					//docList.add(docBean.getSubDocument());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				enquiryHeader.setVendId(Integer.parseInt(vendId[i]));
-				enquiryHeader.setEnqRemark(enqRemark);
-				enquiryHeader.setEnqDate(Date);
-				enquiryHeader.setDelStatus(1);
-				enquiryHeader.setEnqStatus(1);
-				System.out.println("indId" + indId);
-				if (indId == intendDetailList.get(i).getIndMId()) {
-					enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
-					enquiryHeader.setIndId(intendDetailList.get(i).getIndMId());
-
-				}
-				enquiryHeader.setEnquiryDetailList(enqDetailList);
-				enquiryHeaderList.add(enquiryHeader);
+				insert.setVendId(Integer.parseInt(vendId[i]));
+				insert.setEnqRemark(enqRemark);
+				insert.setEnqDate(Date);
+				insert.setDelStatus(1);
+				insert.setEnqStatus(1);
+				insert.setIndId(enquiryHeader.getIndId());
+				insert.setIndNo(enquiryHeader.getIndNo());
+				insert.setEnquiryDetailList(enqDetailList);
+				enquiryHeaderList.add(insert);
 
 			}
 
@@ -280,10 +286,11 @@ public class EnqController {
 					ErrorMessage.class);
 			if (res.isError() == false) {
 				try {
-					for (int l = 0; l < docList.size(); l++) {
-						SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docList.get(l),
+					/*for (int l = 0; l < docList.size(); l++) {*/
+					System.out.println("docBean " + docBean);
+						SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc",  docBean.getSubDocument(),
 								SubDocument.class);
-					}
+					//}
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -311,8 +318,9 @@ public class EnqController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("fromDate", sf.format(date));
 			map.add("toDate", sf.format(date));
-
-			GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnquiryHeaderListBetweenDate", map,
+			map.add("status", 1);
+			
+			GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate", map,
 					GetEnquiryHeader[].class);
 			List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
 

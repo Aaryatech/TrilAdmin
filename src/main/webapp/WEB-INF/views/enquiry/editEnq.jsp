@@ -151,7 +151,7 @@ body {
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 
 										<select name="vendId" id="vendId" class="form-control chosen"
 											>
@@ -168,8 +168,19 @@ body {
 										</select>
 
 									</div>
+ 
+								</div>
+								<br>
+								
+								<div class="box-content">
 
-
+									<div class="col-md-2">Enquiry No</div>
+									<div class="col-md-3">
+										<input class="form-control" id="enq_no"
+											placeholder="Enquiry Number" type="text" name="enqNo"
+											value="${editEnquiry.enqNo}" Readonly />
+									</div>
+									
 									<div class="col-md-2">Enquiry Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
@@ -177,6 +188,7 @@ body {
 											  value="${editEnquiry.enqDate}"
 											required>
 									</div>
+
 								</div>
 								<br>
 
@@ -187,24 +199,12 @@ body {
 									<input class="form-control" id="enqRemark" size="16"
 											placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}"
 											type="text" name="enqRemark" />
-										<%-- <textarea rows="2" cols="95" id="enqRemark"
-											placeholder="Enquiry Remark" type="text" name="enqRemark">${editEnquiry.enqRemark}
-										</textarea> --%>
+										 
 									</div>
 
 								</div>
 								<br> <br>
-								<div class="box-content">
-
-									<div class="col-md-2">Enquiry No</div>
-									<div class="col-md-3">
-										<input class="form-control" id="enq_no"
-											placeholder="Enquiry Number" type="text" name="enqNo"
-											value="${editEnquiry.enqNo}" Readonly />
-									</div>
-
-								</div>
-								<br>
+								
 								<div class="box-content">
 									<div class="col-md-2">Intend No.</div>
 

@@ -70,11 +70,33 @@
 								<div class="box-content">
 
 									<div class="col-md-2">Vendor Name</div>
+									<div class="col-md-10">
+									
+									<select name="vendId" id="vendId" class="form-control chosen"   required> 
+											<c:forEach items="${vendorList}" var="vendorList">
+												<c:choose>
+													<c:when test="${vendorList.vendorId==editEnquiry.vendId}">
+														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</select>
+ 
+									</div>
+									 
+								</div>
+								<br>
+								
+								<div class="box-content">
+
+									<div class="col-md-2">Enquiry No</div>
 									<div class="col-md-3">
-
-										<input id="enqDate" class="form-control"
-											value="${editEnquiry.vendorName}" type="text" readonly>
-
+										<input class="form-control" id="enq_no"
+											placeholder="Enquiry Number" value="${editEnquiry.enqNo}" type="text" name="enqNo"
+											Readonly />
 									</div>
 									
 									<div class="col-md-2">Enquiry Date*</div>
@@ -85,6 +107,7 @@
 
 
 									</div> 
+
 								</div>
 								<br>
 

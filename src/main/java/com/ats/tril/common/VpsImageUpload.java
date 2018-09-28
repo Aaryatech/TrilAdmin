@@ -13,7 +13,8 @@ public class VpsImageUpload {
 	//public static final String FR_FOLDER = "/home/ats-12/";
 	//public static final String FLOUR_MAP= "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/uploads/FLOURMAP/";
 	//public static final String Item_Image= "C:/pdf/";
-	public static final String Item_Image= "/home/aaryate1/tomcat.aaryatechindia.in/tomcat-8.0.18/webapps/uploads/Item/";
+	public static final String Item_Image= "/opt/apache-tomcat-8.5.6/webapps/triluploads/";
+	//public static final String Item_Image= "/home/aaryate1/tomcat.aaryatechindia.in/tomcat-8.0.18/webapps/uploads/Item/";
 	public static final String SPONSOR_FOLDER = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/uploads/SPONSOR/";
 
 	public static final String GALLARY_FOLDER = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/uploads/GALLARY/";
