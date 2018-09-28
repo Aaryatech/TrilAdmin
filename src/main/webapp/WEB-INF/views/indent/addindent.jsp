@@ -621,6 +621,11 @@ $(document).ready(function() {
                     }
 
                     $("#group").trigger("chosen:updated");
+                    
+                    var html = '<option value="" selected >Select Item</option>';
+        			html += '</option>';
+        			$('#item_name').html(html);
+        			$("#item_name").trigger("chosen:updated");
                 });
             });
 });

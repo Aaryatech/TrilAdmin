@@ -201,12 +201,7 @@
 									</tbody>
 
 								</table>
-<br> <br>
-										<button
-											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
-											onclick="commonPdf()">PDF</button>
-
-								
+<br> <br> 
 							</div>
 								
 								

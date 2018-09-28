@@ -141,7 +141,7 @@
 								<c:choose>
 										<c:when test="${approve==1}"> 
 												 
-													 1
+													 
 														<div class="table-responsive" style="border: 0">
 																<table class="table table-advance" id="table1">
 																<thead>
@@ -191,7 +191,7 @@
 												 
 										</c:when>
 										<c:when test="${approve==2}">
-														 2
+														 
 														<div class="table-responsive" style="border: 0">
 																<table class="table table-advance" id="table1">
 																<thead>

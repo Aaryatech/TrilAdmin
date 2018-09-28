@@ -89,6 +89,8 @@
 								  name="roleId" value="${editUser.roleId}" type="hidden" >
 								  <input id="flag" class="form-control"
 								  name="flag" value="${flag}" type="hidden" >
+								  <input id="orignalPass" class="form-control"
+								  name="orignalPass" value="${editUser.password}" type="hidden" >
 									</div>
 									<div class="col-md-1"></div>
 									
@@ -96,52 +98,90 @@
 								</div>
 								<br> 
 								
+								<c:choose>
+										<c:when test="${flag==0}">
+										 
+											 <div class="box-content"> 
+													<div class="col-md-2">Enter Old Password*</div>
+													<div class="col-md-5">
+													 
+														<input id="oldPass" class="form-control"
+												placeholder="Enter Old Password" onchange="checkOldPass();" style="text-align: left;" name="oldPass" type="text" required>
+														 
+													</div>
+													<div class="col-md-1"></div> 
+											</div>
+											<br>
+										</c:when> 
+									</c:choose>
+								
 								<div class="box-content">
 
-									<div class="col-md-2">Password*</div>
+									
+									<c:choose>
+										<c:when test="${flag==1}">
+										<div class="col-md-2">Password*</div>
 									<div class="col-md-5">
 										<input id="pass" class="form-control"
 								placeholder="Password" value="${editUser.password}"  style="text-align: left;" name="pass" type="text" required>
+										</div>
+										</c:when>
+										<c:otherwise>
+										<div class="col-md-2">New Password*</div>
+									<div class="col-md-5">
+										<input id="pass" class="form-control"
+								placeholder="Password"  onchange="passwordValidation();" style="text-align: left;" name="pass" type="text" required>
+								</div>
+										</c:otherwise>
+									</c:choose>
+									
 								 
-									</div>
 									<div class="col-md-1"></div>
 									
 									 
 								</div>
 								<br>
 								
-								<%-- <div class="box-content">
-
-									<div class="col-md-2">Re-Password*</div>
+								<c:choose>
+										<c:when test="${flag==0}">
+								<div class="box-content"> 
+										<div class="col-md-2">Re-Password*</div>
 									<div class="col-md-5">
 										<input id="repass" class="form-control"
-								placeholder="Re-Password" value="${editAccountHead.accHeadDesc}"  style="text-align: left;" name="repass" type="password" required>
-								 
-									</div>
+								placeholder="Re-Password" onchange="passwordValidation();" style="text-align: left;" name="repass" type="text" required>
+										</div>
+										 
 									<div class="col-md-1"></div>
 									
 									 
-								</div>
-								<br> --%><br>
-								 
+								</div> 
+								<br>
+								</c:when> 
+									</c:choose>
+								
+								  
 					<br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 									<c:choose>
-											<c:when test="${isEdit==1}">
-												<input type="submit" class="btn btn-info" value="Submit"
-														id="submit"  >
-											</c:when>
-													
+											<c:when test="${isEdit==1}"> 
+												<c:choose> 
+													<c:when test="${flag==0}">
+														<input type="submit" class="btn btn-info" value="Submit"
+																id="submit"  disabled>
+													</c:when>
+													<c:otherwise>
+													<input type="submit" class="btn btn-info" value="Submit"
+																id="submit"  >
+													</c:otherwise>  
+												</c:choose> 
+											</c:when> 
 											<c:otherwise>
 										<input type="submit" class="btn btn-info" value="Submit"
 											id="submit" disabled>
 											</c:otherwise> 
-											</c:choose> 
-										
-
-
-
+									</c:choose> 
+											 
 									</div>
 								</div>
 								<c:choose>
@@ -319,9 +359,9 @@ function checkUserExist() {
 
 	}
 		function passwordValidation() {
-
-			var pass = document.getElementById("password").value;
-			var pass1 = document.getElementById("rePassword").value;
+ 
+			var pass = document.getElementById("pass").value;
+			var pass1 = document.getElementById("repass").value;
 
 			if (pass != "" && pass1 != "") {
 				if (pass != pass1) {
@@ -334,6 +374,29 @@ function checkUserExist() {
 
 			}
 		}
+		
+		function checkOldPass() {
+			 
+			var oldPass = document.getElementById("oldPass").value;
+			var originalPass = document.getElementById("orignalPass").value;
+
+			if (oldPass != "" && originalPass != "") {
+				if (oldPass != originalPass) {
+					alert("Old Password Not Matched ");
+					document.getElementById("submit").disabled = true;
+					document.getElementById("oldPass").value="";
+					document.getElementById("oldPass").focus();
+				} else {
+					alert("Password Match");
+					document.getElementById("submit").disabled = false;
+					document.getElementById("oldPass").disabled = true;
+
+				}
+
+			}
+		}
+		
+		
 	</script>
 	<script>
 function myFunction() {

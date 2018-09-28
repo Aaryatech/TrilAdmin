@@ -139,8 +139,7 @@
 								
 								<c:choose>
 										<c:when test="${approve==1}"> 
-												 
-													 1
+												  
 														<div class="table-responsive" style="border: 0">
 																<table class="table table-advance" id="table1">
 																<thead>
@@ -160,8 +159,20 @@
 																	<c:forEach items="${poHeaderForApprove.poDetailList}" var="poDetailList"
 																		varStatus="count">
 																		<tr>
-																		<td  > <input type="checkbox" id="select_to_approve${poDetailList.poDetailId}"
-															name="select_to_approve" value="${poDetailList.poDetailId}" checked/></td>
+																		<td  >
+																		<c:choose>
+																			<c:when test="${poDetailList.status==7}">
+																			 <input type="checkbox" id="select_to_approve${poDetailList.poDetailId}"
+															name="select_to_approve" value="${poDetailList.poDetailId}" checked/>
+																			</c:when>
+																			<c:otherwise>
+																			 <input type="checkbox" id="select_to_approve${poDetailList.poDetailId}"
+															name="select_to_approve" value="${poDetailList.poDetailId}"  />
+																			
+																			</c:otherwise>
+																		
+																		</c:choose>
+																		</td>
 																			<td  ><c:out value="${count.index+1}" /></td>
 				 
 																			<td  ><c:out
@@ -186,7 +197,7 @@
 												 
 										</c:when>
 										<c:when test="${approve==2}">
-														 2
+														 
 														<div class="table-responsive" style="border: 0">
 																<table class="table table-advance" id="table1">
 																<thead>
