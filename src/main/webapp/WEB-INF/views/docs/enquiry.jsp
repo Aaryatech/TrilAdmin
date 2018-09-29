@@ -109,18 +109,16 @@ hr {
 				<td colspan="3" valign="top">
 					<table>
 						<tr>
-							<td valign="top">To,<br> VAIBHAV INDUSTRIES<br>
-							PLOT NO.25, VINAR NAGAR,<br>
-						
-								SINNAR-422103
+							<td valign="top" width="32%">To,<br>${editEnquiry.vendorName} 
+							</td>
+							<td valign="top" width="10%"> 
+							</td>
+							<td valign="top" width="30%">Vendor Code - ${editEnquiry.vendorCode}<br> <br> <br>
+
 							</td>
 
-							<td valign="top">Vendor Code - 123456<br> <br> <br>
-
-							</td>
-
-							<td>Enquiry No.&nbsp;&nbsp;: 1<br> <br>
-								Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 06/04/2018<br>
+							<td>Enquiry No.&nbsp;&nbsp;: ${editEnquiry.enqNo}<br> <br>
+								Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${editEnquiry.enqDate}<br>
 							<br> Due Date &nbsp;&nbsp;&nbsp;&nbsp;: 
 							</td>
 						</tr>
@@ -142,9 +140,8 @@ hr {
 		id="table_grid" class="table table-bordered">
 		<thead>
 			<tr>
-				<th width=10%>Sr. No.</th>
-				<th width=15%>Item No</th>
-				<th width=30%>Description</th>
+				<th width=7%>Sr. No.</th> 
+				<th width=48%>Description</th>
 				<th width=10%>UOM</th>
 				<th width=15%>Quantity</th>
 				<th width=15%>Drg.No. / IND.No.</th>
@@ -152,31 +149,27 @@ hr {
 			</tr>
 		</thead>
 		<tbody>
-
-			<tr>
-				<td width="10%" align="center"><c:out value="1" /></td>
-				<td width="15%" align="center"><c:out value="GM0154" /></td>
-				<td width="30%" align="center"><c:out value="PB-II BUSH O.D.:1222, I.D:98,LENGTH:900MM" /></td>
-				<td width="10%" align="center"><c:out value="NOS" /></td>
-				<td width="15%" align="center"><c:out value="1.00" /></td>
-				<td width="15%" align="center"><c:out value="M00002" /></td>
-
-			</tr>
-
-
-			
-
-			<c:forEach items="${indDetailList}" var="item" varStatus="count">
+ 
+			<c:forEach items="${editEnquiry.enquiryDetailList}" var="item" varStatus="count">
 				<tr>
-					<td width="10%" align="center"><c:out value="${count.index+1}" /></td>
-					<td width="15%" align="center"><c:out value="${item.itemId}" /></td>
-					<td width="30%" align="center"><c:out
-							value="${item.indItemDesc}" /></td>
-					<td width="10%" align="center"><c:out
-							value="${item.indItemUom}" /></td>
-					<td width="15%" align="center"><c:out value="${item.indQty}" /></td>
-					<td width="15%" align="center"><c:out
-							value="${item.indItemSchddt}" /></td>
+					<td width="7%" align="center"><c:out value="${count.index+1}" /></td> 
+					<td width="48%" align="left" style="padding: 5px;"><c:out
+							value="${item.itemCode}" /></td>
+					<td width="10%" align="left" style="padding: 5px;"><c:out
+							value="${item.vendorName}" /></td>
+					<td width="15%" align="right" style="padding: 5px;"><c:out value="${item.enqQty}" /></td>
+					
+					<c:choose>
+						<c:when test="${item.indNo==null || item.indNo==''}">
+						<td width="15%" align="center"><c:out
+							value="-" /></td>
+						</c:when>
+						<c:otherwise>
+						<td width="15%" align="center"><c:out
+							value="${item.indNo}" /></td>
+						</c:otherwise>
+					</c:choose>
+					
 
 				</tr>
 

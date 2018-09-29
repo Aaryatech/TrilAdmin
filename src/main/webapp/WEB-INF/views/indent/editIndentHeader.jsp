@@ -311,8 +311,19 @@
 									
 								<div class="row">
 						<div class="col-md-12" style="text-align: center">
-						<input type="button" onclick="insertIndentDetail()"
+						<c:choose>
+											<c:when test="${indent.indMStatus==7 || indent.indMStatus==9}">
+											<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
+												
+											</c:when>
+											<c:otherwise>
+											<input type="button" onclick="insertIndentDetail()"
+											class="btn btn-info" value="Submit" disabled>
+ 
+											</c:otherwise>
+										</c:choose>
+						
 							 
 						</div>
 					</div>

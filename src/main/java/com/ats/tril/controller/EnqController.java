@@ -403,12 +403,12 @@ public class EnqController {
 
 			model.addObject("vendorList", vendorList);
 
-			MultiValueMap<String, Object> map2 = new LinkedMultiValueMap<>();
-			map2.add("status", "0,1,2");
+			/*MultiValueMap<String, Object> map2 = new LinkedMultiValueMap<>();
+			map2.add("status", "0,1");
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatusWithoutPoType", map2,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
-			model.addObject("intedList", intedList);
+			model.addObject("intedList", intedList);*/
 
 			int indIdForGetList = editEnquiry.getIndId();
 			System.out.println("indIdForGetList" + indIdForGetList);
@@ -560,12 +560,12 @@ public class EnqController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			model.addObject("vendorList", vendorList);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("status", "0,1,2");
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatusWithoutPoType", map,
 					GetIndentByStatus[].class);
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
-			model.addObject("intedList", intedList);
+			model.addObject("intedList", intedList);*/
 
 			try {
 				for (int i = 0; i < intendDetailList.size(); i++) {

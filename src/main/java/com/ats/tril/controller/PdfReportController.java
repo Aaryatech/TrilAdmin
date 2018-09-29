@@ -429,13 +429,14 @@ public class PdfReportController {
 			RestTemplate rest = new RestTemplate();
 			GetEnquiryHeader editEnquiry = new GetEnquiryHeader();
 
-			editEnquiry = rest.postForObject(Constants.url + "/getEnquiryHeaderAndDetail", map, GetEnquiryHeader.class);
+			editEnquiry = rest.postForObject(Constants.url + "/getEnquiryHeaderAndDetailForPdf", map, GetEnquiryHeader.class);
 			addItemInEditEnquiryDetail = editEnquiry.getEnquiryDetailList();
 
-			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
+			/*GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
-			model.addObject("itemList", itemList);
+			model.addObject("itemList", itemList);*/
 
+			System.out.println(editEnquiry.getEnquiryDetailList());
 			model.addObject("editEnquiry", editEnquiry);
 
 		} catch (Exception e) {
@@ -468,7 +469,7 @@ public class PdfReportController {
 		System.out.println("URL " + url);
 
 		File f = new File("/report.pdf");
-		 //File f = new File("C:/pdf/report.pdf");
+		//File f = new File("C:/pdf/report.pdf");
 
 		try {
 			runConverter(Constants.ReportURL + url, f, request, response);

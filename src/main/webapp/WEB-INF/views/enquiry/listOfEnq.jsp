@@ -152,7 +152,10 @@
 
 
 
-												<td><a
+												<td>
+												<a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+												<a
 													href="${pageContext.request.contextPath}/editEnq/${enquiryList.enqId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
 													href="${pageContext.request.contextPath}/deleteEnq/${enquiryList.enqId}"
