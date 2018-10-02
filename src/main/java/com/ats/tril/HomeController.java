@@ -155,7 +155,7 @@ public class HomeController {
 					UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
 					session.setAttribute("userInfo", userResponse.getUser());
 					
-					mav = new ModelAndView("home");
+					mav = new ModelAndView("welcome");
 					session.setAttribute("userName", name);
 					
 					loginResponseMessage="Login Successful";
@@ -188,7 +188,7 @@ public class HomeController {
                    
 					map.add("fromDate", fromDate);
 					map.add("toDate",toDate);*/
-					map.add("status", "0,1");
+					/*map.add("status", "0,1");
 					GetIndents[] indentList = restTemp.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
 					List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
@@ -221,7 +221,7 @@ public class HomeController {
 						Type[] type = restTemp.getForObject(Constants.url + "/getAlltype", Type[].class);
 						List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 						
-						mav.addObject("typeList", typeList);
+						mav.addObject("typeList", typeList);*/
 						
 					}
 					catch (Exception e) {

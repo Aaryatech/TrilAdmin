@@ -118,6 +118,7 @@ body {
 </div></div>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
+<c:url var="exportExcelforMrn" value="/exportExcelforMrn" />
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
 	<c:url var="getPODetailList" value="/getPODetailList" />
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
@@ -378,6 +379,12 @@ body {
 														<div class="col-md-12" style="text-align: center">
 															<input type=button class="btn btn-info"
 																value="Submit" onclick="tempSubmit()">
+																
+																  <c:choose>
+						<c:when test="${userInfo.id==1}">
+						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
+						</c:when>
+					</c:choose>  
 
 
 														</div>
@@ -1411,6 +1418,51 @@ function on() {
 
 function off() {
     document.getElementById("overlay2").style.display = "none";
+}
+
+function exportExcel()
+{
+	  
+	  $
+		.getJSON(
+				'${exportExcelforMrn}',
+
+				{
+					 
+					 
+					ajax : 'true'
+
+				},
+				function(data) {
+					 alert("adf");
+					  if (data == "") {
+						alert("No records found !!");
+
+					}
+					 
+					  addMrnQty(0, 0, 0);
+				  /* $.each(
+								data,
+								function(key, itemList) {
+								//alert(itemList.indDetailId);
+									
+									
+									try {
+										 
+										    
+										  /* document.getElementById("recQty"+itemList.indDetailId+itemList.itemId).value = itemList.qty;
+										document.getElementById("chalanQty"+itemList.indDetailId+itemList.itemId).value =itemList.rate;   
+										 
+									}
+									catch(err) {
+									    
+									}
+								  	
+								})   */
+								
+							 
+					
+				});
 }
 </script>
 </body>

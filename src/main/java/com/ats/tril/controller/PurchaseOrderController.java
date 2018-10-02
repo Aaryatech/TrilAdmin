@@ -1,15 +1,25 @@
 package com.ats.tril.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +44,7 @@ import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetPoDetailList;
 import com.ats.tril.model.GetPoHeaderList;
+import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
 import com.ats.tril.model.PaymentTerms;
@@ -197,7 +208,7 @@ public class PurchaseOrderController {
 			 }*/
 			 
 			   int poType=0;
-				 if(6==Integer.parseInt(settingValue.getValue())) {
+				/* if(6==Integer.parseInt(settingValue.getValue())) {*/
 					 
 					 poType=Integer.parseInt(settingValue.getValue());
 					 
@@ -249,7 +260,7 @@ public class PurchaseOrderController {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
-				 }
+				// }
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1939,6 +1950,95 @@ public class PurchaseOrderController {
 		}
 
 		return ret;
+	}
+	
+	
+	
+	@RequestMapping(value = "/exportExcelforPo", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ImportExcelForPo> exportExcelforPo(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		List<ImportExcelForPo> list = new ArrayList<>();
+		try {
+			  
+			String excelFilePath = "C:/pdf/Books.xlsx";
+			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
+	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+	         
+	        Workbook workbook = new XSSFWorkbook(inputStream);
+	        Sheet firstSheet = workbook.getSheetAt(0);
+	        Iterator<Row> iterator = firstSheet.iterator();
+	         
+	        DataFormatter formatter = new DataFormatter(Locale.US);
+	        
+	        while (iterator.hasNext()) {
+	            Row nextRow = iterator.next();
+	            Iterator<Cell> cellIterator = nextRow.cellIterator();
+	             
+	            int index=0;
+	            ImportExcelForPo importExcelForPo = new ImportExcelForPo();
+	            
+	            while (cellIterator.hasNext()) {
+	                Cell cell = cellIterator.next();
+	                
+	                
+	               
+	                //importExcelForPo.setItemId(Integer.parseInt(cell.getStringCellValue()));
+	                 switch (cell.getCellType()) {
+	                 
+	                    case Cell.CELL_TYPE_STRING:
+	                        System.out.print(cell.getStringCellValue());
+	                        break;
+	                    case Cell.CELL_TYPE_BOOLEAN:
+	                        System.out.print(cell.getBooleanCellValue());
+	                        break;
+	                    case Cell.CELL_TYPE_NUMERIC:
+	                        System.out.print(cell.getNumericCellValue());
+	                        break; 
+	               }
+	                 
+	                 if(index==0)
+		                	importExcelForPo.setItemId(Integer.parseInt(formatter.formatCellValue(cell)));
+		                else if(index==1)
+		                	importExcelForPo.setQty(Float.parseFloat(formatter.formatCellValue(cell)));
+		                else if(index==2)
+		                	importExcelForPo.setRate(Float.parseFloat(formatter.formatCellValue(cell)));
+	                
+	                index++;
+	                
+	                System.out.print(" - ");
+	            }
+	            
+	            list.add(importExcelForPo);
+	            System.out.println();
+	        }
+	         
+	        workbook.close();
+	        inputStream.close();
+	    
+	        
+	        
+	        for(int i=0 ; i<intendDetailList.size() ; i++) {
+	        	
+	        	for(int j=0 ; j< list.size() ; j++) {
+	        		
+	        		if(intendDetailList.get(i).getItemId()==list.get(j).getItemId()) {
+	        			
+	        			list.get(j).setIndDetailId(intendDetailList.get(i).getIndDId());
+	        		}
+	        		
+	        	}
+	        	
+	        } 
+	        
+	        System.out.println("list---------" + list);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 }

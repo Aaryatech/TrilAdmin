@@ -45,11 +45,10 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>PO List
+								<i class="fa fa-table"></i> Welcome To Inventry Management System
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
-									Add PO</a> <a data-action="collapse" href="#"><i
+								 <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -58,158 +57,9 @@
 								class="form-horizontal" id="validation-form" method="get">
 						<div class="box-content">
 
-							<div class="box-content">
-
-								<div class="col-md-2">From Date*</div>
-								<div class="col-md-3">
-									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${fromDate}" name="fromDate"
-										type="text" required>
-
-
-								</div>
-								<div class="col-md-1"></div>
-								<div class="col-md-2">To Date*</div>
-								<div class="col-md-3">
-									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${toDate}" name="toDate"
-										type="text" required>
-
-
-								</div>
-
-
-							</div>
-							<br>
-							<br>
-							<div class="form-group">
-								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<!-- <input type="button" class="btn btn-primary"
-										value="Submit" onclick="search()"> -->
-										<input type="submit" class="btn btn-primary"
-										value="Submit"  >
-								</div>
-							</div>
-							<br>
-
-							<div align="center" id="loader" style="display: none">
-
-								<span>
-									<h4>
-										<font color="#343690">Loading</font>
-									</h4>
-								</span> <span class="l-1"></span> <span class="l-2"></span> <span
-									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-								<span class="l-6"></span>
-							</div>
-							<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
-								</label>
-
-							<br /> <br />
-							<div class="clearfix"></div>
-							<div class="table-responsive" style="border: 0">
-								<table class="table table-advance" id="table1">
-									<thead>
-										<tr class="bgpink">
-										<th style="width:2%;"	style="text-align: left; padding: 0px; align-items: left;"
-														width="10%"><input type="checkbox" name="name1"
-														value="0" />All</th>
-										
-											<th style="width:2%;">SR</th>
-											<th class="col-md-1">Date</th>
-											<th class="col-md-1">PO No</th>
-											<th class="col-md-1">PO TYPE</th>
-											<th class="col-md-4">Vendor Name</th>
-											<th class="col-md-2">Indent No</th>
-											<th class="col-md-2">Status</th>
-											<th class="col-md-1">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-
-										<c:forEach items="${poList}" var="poList" varStatus="count">
-											<tr>
-											
-												<td style="width:2%;" style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="10%">&nbsp;&nbsp;<input type="checkbox"
-															name="name1" value="${poList.poId}" /></td>
-										
-												<td style="width:2%;"><c:out value="${count.index+1}" /></td>
-
-
-												<td class="col-md-1"><c:out value="${poList.poDate}" /></td>
-												 
-												<td class="col-md-1"><c:out value="${poList.poNo}" /></td>
-												<c:set var="type"></c:set>
-												<c:forEach items="${typeList}" var="typeList"> 
-															<c:choose>
-																<c:when test="${typeList.typeId==poList.poType}">
-																	<c:set var="type" value="${typeList.typeName}"></c:set>
-																</c:when>
-																 
-															</c:choose> 
-														</c:forEach>
-												
-												<td class="col-md-1"><c:out value="${type}" /></td>
-												<td class="col-md-4"><c:out
-														value="${poList.vendorName}" /></td>
-
-												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
-												
-												<c:set var="poStatus" value=""></c:set>
-												<c:choose>
-													<c:when test="${poList.poStatus==9}">
-													<c:set var="poStatus" value="1st Approve Pending "></c:set>
-													</c:when>
-													<c:when test="${poList.poStatus==7}">
-													<c:set var="poStatus" value="2st Approve Pending "></c:set>
-													</c:when>
-													<c:when test="${poList.poStatus==0}">
-													<c:set var="poStatus" value="Grn Pending"></c:set>
-													</c:when>
-													<c:when test="${poList.poStatus==1}">
-													<c:set var="poStatus" value="Partially Grn "></c:set>
-													</c:when>
-													<c:when test="${poList.poStatus==2}">
-													<c:set var="poStatus" value="Grn Completed"></c:set>
-													</c:when>
-													
-												</c:choose>
-												
-												<td class="col-md-1"><c:out
-														value="${poStatus}" /></td>
-
-												<td><a href="javascript:genPdf(${ poList.poId});"><abbr title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
-															 
-													<a href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a>
-														<c:choose>
-															<c:when test="${poList.poStatus==9 or poList.poStatus==7}">
-															<a href="${pageContext.request.contextPath}/deletePurchaseOrder/${poList.poId}"
-													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a>
-															</c:when>
-														</c:choose>
-														 </td>
-
-											</tr>
-										</c:forEach>
-
-									</tbody>
-
-								</table>
-<br> <br>
-										<button
-											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
-											onclick="commonPdf()">PDF</button>
-
-								
-							</div>
+							 
+							 
+							 
 						</div>
 
 </form>

@@ -1,17 +1,27 @@
 package com.ats.tril.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.xml.DocumentDefaultsDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -31,6 +41,7 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetPoHeaderList;
+import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
 import com.ats.tril.model.SettingValue;
@@ -1263,5 +1274,95 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 		}
 
 		return ret;
+	}
+	
+	
+	@RequestMapping(value = "/exportExcelforMrn", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ImportExcelForPo> exportExcelforPo(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		List<ImportExcelForPo> list = new ArrayList<>();
+		try {
+			  
+			String excelFilePath = "C:/pdf/Books1.xlsx";
+			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
+	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+	         
+	        Workbook workbook = new XSSFWorkbook(inputStream);
+	        Sheet firstSheet = workbook.getSheetAt(0);
+	        Iterator<Row> iterator = firstSheet.iterator();
+	         
+	        DataFormatter formatter = new DataFormatter(Locale.US);
+	        
+	        while (iterator.hasNext()) {
+	            Row nextRow = iterator.next();
+	            Iterator<Cell> cellIterator = nextRow.cellIterator();
+	             
+	            int index=0;
+	            ImportExcelForPo importExcelForPo = new ImportExcelForPo();
+	            
+	            while (cellIterator.hasNext()) {
+	                Cell cell = cellIterator.next();
+	                
+	                
+	               
+	                //importExcelForPo.setItemId(Integer.parseInt(cell.getStringCellValue()));
+	                 switch (cell.getCellType()) {
+	                 
+	                    case Cell.CELL_TYPE_STRING:
+	                        System.out.print(cell.getStringCellValue());
+	                        break;
+	                    case Cell.CELL_TYPE_BOOLEAN:
+	                        System.out.print(cell.getBooleanCellValue());
+	                        break;
+	                    case Cell.CELL_TYPE_NUMERIC:
+	                        System.out.print(cell.getNumericCellValue());
+	                        break; 
+	               }
+	                 
+	                 if(index==0)
+		                	importExcelForPo.setItemId(Integer.parseInt(formatter.formatCellValue(cell)));
+		                else if(index==1)
+		                	importExcelForPo.setQty(Float.parseFloat(formatter.formatCellValue(cell)));
+		                else if(index==2)
+		                	importExcelForPo.setRate(Float.parseFloat(formatter.formatCellValue(cell)));
+	                
+	                index++;
+	                
+	                System.out.print(" - ");
+	            }
+	            
+	            list.add(importExcelForPo);
+	            System.out.println();
+	        }
+	         
+	        workbook.close();
+	        inputStream.close();
+	    
+	        
+	        
+	        for(int i=0 ; i<poDetailList.size() ; i++) {
+	        	
+	        	for(int j=0 ; j< list.size() ; j++) {
+	        		
+	        		if(poDetailList.get(i).getItemId()==list.get(j).getItemId()) {
+	        			
+	        			list.get(j).setIndDetailId(poDetailList.get(i).getPoDetailId());
+	        			poDetailList.get(i).setReceivedQty(list.get(j).getQty());
+						poDetailList.get(i).setChalanQty(list.get(j).getRate());
+	        		}
+	        		
+	        	}
+	        	
+	        } 
+	        
+	        System.out.println("list---------" + list);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }

@@ -112,6 +112,7 @@ body {
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<body>
 	  
+	  <c:url var="exportExcelforPo" value="/exportExcelforPo" />
 	  <c:url var="getIntendListByPoType" value="/getIntendListByPoType" />
     <c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<c:url var="geIntendDetailByIndId" value="/geIntendDetailByIndId"></c:url>
@@ -705,9 +706,14 @@ body {
 						</div><br>
 						<div class="row">
 						<div class="col-md-12" style="text-align: center">
+						
 							<input type="submit" class="btn btn-info" value="Submit" onclick="checkIndId()">
-
-
+					<c:choose>
+						<c:when test="${userInfo.id==1}">
+						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
+						</c:when>
+					</c:choose>
+					
 						</div>
 					</div>
  
@@ -989,6 +995,53 @@ function previeousRecord(itemId,value)
 								})
 								
 								poPreviousRecord.style.display = "block";
+					
+				});
+}
+
+function exportExcel()
+{
+	  
+	  $
+		.getJSON(
+				'${exportExcelforPo}',
+
+				{
+					 
+					 
+					ajax : 'true'
+
+				},
+				function(data) {
+					 alert("adf");
+					  if (data == "") {
+						alert("No records found !!");
+
+					}
+					 
+
+				  $.each(
+								data,
+								function(key, itemList) {
+								//alert(itemList.indDetailId);
+									
+									
+									try {
+										 
+										 var balanceQty = parseFloat($("#balanceQty"+itemList.indDetailId).val());  
+										document.getElementById("select_to_approve"+itemList.indDetailId).checked = true;
+										 document.getElementById("poQty"+itemList.indDetailId).value = itemList.qty;
+										document.getElementById("balanceQty"+itemList.indDetailId).value = balanceQty-itemList.qty;
+										document.getElementById("rate"+itemList.indDetailId).value = itemList.rate;
+										document.getElementById("indRemark"+itemList.indDetailId).value = "-";
+									}
+									catch(err) {
+									    
+									}
+								  	
+								})  
+								
+							 
 					
 				});
 }
