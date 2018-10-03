@@ -47,11 +47,11 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Add Enquiry
+								<i class="fa fa-table"></i>Add Quotation
 							</h3>
 							
 							<div class="box-tool">
-								  <a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry List</a> <a data-action="collapse" href="#"><i
+								  <a href="${pageContext.request.contextPath}/listOfEnquiry">Quotation List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>  
 							</div>
 							
@@ -63,36 +63,20 @@
 							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/insertEnquiry" 
 							onsubmit="return confirm('Do you really want to submit Enquiry ?');" method="post" >
 							 
-							
-							<div class="box-content">
-							
-								<div class="col-md-2">Select Vendor</div>
-									<div class="col-md-10">
-									
-									<select name="vendId" id="vendId" class="form-control chosen" multiple="multiple"   required>
-											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList"> 
-												<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode} </option>
-											 </c:forEach>
-										</select>
-									
-									</div>
-									 
-							</div><br>
-							
+							 
 							<div class="box-content">
 
-									<div class="col-md-2">Enquiry No</div>
+									<div class="col-md-2">Quotation No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="enq_no"
-											placeholder="Enquiry Number" type="text" name="enqNo"
+											placeholder="Quotation Number" type="text" name="enqNo"
 											Readonly />
 									</div>
 									
-									<div class="col-md-2">Enquiry Date*</div>
+									<div class="col-md-2">Quotation Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
-								 placeholder="Enquiry Date" onblur="getInvoiceNo()" value="${date}" name="enqDate" type="text" required>
+								 placeholder="Quotation Date" onblur="getInvoiceNo()" value="${date}" name="enqDate" type="text" required>
 								
 								</div>
 
@@ -101,10 +85,10 @@
 							
 							<div class="box-content">
 							 
-								 <div class="col-md-2">Enquiry Remark</div>
+								 <div class="col-md-2">Quotation Remark</div>
 									<div class="col-md-10">
 									<input class="form-control" id="enqRemark" size="16"
-									 placeholder="Enquiry Remark"		type="text" name="enqRemark"    />
+									 placeholder="Quotation Remark"		type="text" name="enqRemark"    />
 									</div>
 
  
@@ -154,7 +138,7 @@
 												 
 									</div>
 							
-								<div class="col-md-2">Enquiry Item Date*</div>
+								<div class="col-md-2">Item Date*</div>
 									<div class="col-md-3">
 										<input id="enqItemDate" class="form-control date-picker"
 								 placeholder="Enquiry Item Date"  name="enqItemDate" type="text"  >
@@ -208,7 +192,7 @@
 								
 							<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
+										<input type="submit" class="btn btn-primary" value="Submit" id="Submit" disabled>
 <!-- 										<button type="button" class="btn">Cancel</button>
  -->									</div>
 								</div><br><br>
@@ -356,7 +340,7 @@
 												     $('#table_grid tbody').append(tr);
 
 													 
- 
+												     document.getElementById("Submit").disabled=false;
 												})  
 												
 									document.getElementById("qty").value= "";
@@ -427,7 +411,7 @@
 
 						if (data == "") {
 							alert("No records found !!");
-
+							document.getElementById("Submit").disabled=true;
 						}
 					 
 
@@ -499,8 +483,8 @@ function check()
 
 			$.getJSON('${getInvoiceNo}', {
 
-				catId : 2,
-				docId : 8,
+				catId : 1,
+				docId : 11,
 				date : date,
 				typeId : 1,
 				ajax : 'true',

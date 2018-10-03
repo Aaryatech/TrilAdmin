@@ -29,18 +29,24 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetQuatationDetail;
+import com.ats.tril.model.GetQuatationHeader;
 import com.ats.tril.model.Item;
+import com.ats.tril.model.QuatationDetail;
+import com.ats.tril.model.QuatationHeader;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
+import com.ats.tril.model.indent.GetIndentByStatus;
+import com.ats.tril.model.indent.GetIntendDetail;
 
 @Controller
 @Scope("session")
 public class EnquiryController {
 	
 	List<EnquiryDetail> addItemInEnquiryDetail = new ArrayList<EnquiryDetail>();
-	List<GetEnquiryDetail> addItemInEditEnquiryDetail = new ArrayList<GetEnquiryDetail>();
-	GetEnquiryHeader editEnquiry = new GetEnquiryHeader();
+	List<GetQuatationDetail> addItemInEditEnquiryDetail = new ArrayList<GetQuatationDetail>();
+	GetQuatationHeader editEnquiry = new GetQuatationHeader();
 	
 	RestTemplate rest = new RestTemplate();
 	
@@ -50,10 +56,10 @@ public class EnquiryController {
 		ModelAndView model = new ModelAndView("enquiry/addEnquiry");
 		try {
 			addItemInEnquiryDetail = new ArrayList<EnquiryDetail>();
-			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			/*Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			
-			model.addObject("vendorList", vendorList);
+			model.addObject("vendorList", vendorList);*/
 			
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
@@ -163,9 +169,9 @@ public class EnquiryController {
 		
 		try {
 			
-			List<EnquiryHeader> enquiryHeaderList = new ArrayList<EnquiryHeader>();
+			 
 			
-			String[] vendId = request.getParameterValues("vendId");  
+			 
 			String enqRemark = request.getParameter("enqRemark"); 
 			String enqDate = request.getParameter("enqDate"); 
 			
@@ -176,8 +182,8 @@ public class EnquiryController {
 			try {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("docId", 8);
-				map.add("catId", 2);
+				map.add("docId", 11);
+				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(enqDate));
 				map.add("typeId", 1);
 				RestTemplate restTemplate = new RestTemplate();
@@ -188,10 +194,9 @@ public class EnquiryController {
 				e.printStackTrace();
 			}
 			 
-			 for(int i = 0 ; i<vendId.length ; i++)
-			 {
+			 
 				 
-				 EnquiryHeader enquiryHeader = new EnquiryHeader();
+			QuatationHeader enquiryHeader = new QuatationHeader();
 				 
 				 try {
 					 
@@ -214,28 +219,33 @@ public class EnquiryController {
 						e.printStackTrace();
 					}
 				 
-				 enquiryHeader.setVendId(Integer.parseInt(vendId[i]));
+				 
 				 enquiryHeader.setEnqRemark(enqRemark);
 				 enquiryHeader.setEnqDate(Date);
 				 enquiryHeader.setDelStatus(1);
-				 enquiryHeader.setEnquiryDetailList(addItemInEnquiryDetail);
-				 enquiryHeaderList.add(enquiryHeader);
+				 List<QuatationDetail> detailList = new ArrayList<QuatationDetail>();
+				 
+				 for(int i=0 ; i<addItemInEnquiryDetail.size() ; i++) {
+					 QuatationDetail quatationDetail = new QuatationDetail();
+					 quatationDetail.setEnqDetailDate(DateConvertor.convertToYMD(addItemInEnquiryDetail.get(i).getEnqDetailDate()));
+					 quatationDetail.setItemId(addItemInEnquiryDetail.get(i).getItemId());
+					 quatationDetail.setEnqQty(addItemInEnquiryDetail.get(i).getEnqQty());
+					 quatationDetail.setEnqRemark(addItemInEnquiryDetail.get(i).getEnqRemark());
+					 quatationDetail.setDelStatus(1);
+					 detailList.add(quatationDetail);
+				 }
+				 
+				 enquiryHeader.setQuatationDetailList(detailList);
 				  
-			 }
 			 
-			ErrorMessage res = rest.postForObject(Constants.url + "/saveEnquiryHeaderAndDetail", enquiryHeaderList, ErrorMessage.class);
+				 QuatationHeader res = rest.postForObject(Constants.url + "/saveQuatationHeaderAndDetail", enquiryHeader, QuatationHeader.class);
 			System.out.println(res);
 			
-			if (res.isError() == false) {
-				try {
-					/*for (int l = 0; l < docList.size(); l++) {*/
+			if (res != null) {
+			 
 						SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(),
 								SubDocument.class);
-					//}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					 
 			}
 			
  
@@ -262,10 +272,9 @@ public class EnquiryController {
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null)
 			{
 				map.add("fromDate", sf.format(date));
-				map.add("toDate", sf.format(date));
-				map.add("status", 0);
-				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate",map, GetEnquiryHeader[].class);
-				List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+				map.add("toDate", sf.format(date)); 
+				GetQuatationHeader[] list = rest.postForObject(Constants.url + "/getQuatationHeaderListBetweenDate",map, GetQuatationHeader[].class);
+				List<GetQuatationHeader> enquiryList = new ArrayList<GetQuatationHeader>(Arrays.asList(list));
 				
 				model.addObject("enquiryList", enquiryList);
 				model.addObject("fromDate", display.format(date));
@@ -277,10 +286,9 @@ public class EnquiryController {
 				String toDate = request.getParameter("toDate");
 				
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-				map.add("toDate", DateConvertor.convertToYMD(toDate));
-				map.add("status", 0);
-				GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate",map, GetEnquiryHeader[].class);
-				List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+				map.add("toDate", DateConvertor.convertToYMD(toDate)); 
+				GetQuatationHeader[] list = rest.postForObject(Constants.url + "/getQuatationHeaderListBetweenDate",map, GetQuatationHeader[].class);
+				List<GetQuatationHeader> enquiryList = new ArrayList<GetQuatationHeader>(Arrays.asList(list));
 				
 				model.addObject("enquiryList", enquiryList);
 				model.addObject("fromDate", fromDate);
@@ -331,7 +339,7 @@ public class EnquiryController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("enqId",enqId);
 			
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteEnquiryHeader",map,  ErrorMessage.class); 
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteQuatationHeader",map,  ErrorMessage.class); 
 			System.out.println(errorMessage);
 			 
 
@@ -347,13 +355,13 @@ public class EnquiryController {
 
 		ModelAndView model = new ModelAndView("enquiry/editEnquiry");
 		try {
-			addItemInEditEnquiryDetail = new ArrayList<GetEnquiryDetail>();
+			addItemInEditEnquiryDetail = new ArrayList<GetQuatationDetail>();
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("enqId",enqId);
 			
-			 editEnquiry = rest.postForObject(Constants.url + "/getEnquiryHeaderAndDetail",map, GetEnquiryHeader.class);
-			addItemInEditEnquiryDetail = editEnquiry.getEnquiryDetailList();
+			 editEnquiry = rest.postForObject(Constants.url + "/getQuatationHeaderAndDetail",map, GetQuatationHeader.class);
+			addItemInEditEnquiryDetail = editEnquiry.getQuatationDetailList();
 			  
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
@@ -361,10 +369,10 @@ public class EnquiryController {
 			
 			model.addObject("editEnquiry", editEnquiry);
 			
-			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			/*Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			
-			model.addObject("vendorList", vendorList);
+			model.addObject("vendorList", vendorList);*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -375,7 +383,7 @@ public class EnquiryController {
 	
 	@RequestMapping(value = "/deleteItemFromEditEnquiry", method = RequestMethod.GET)
 	@ResponseBody
-	public List<GetEnquiryDetail> deleteItemFromEditEnquiry(HttpServletRequest request, HttpServletResponse response) {
+	public List<GetQuatationDetail> deleteItemFromEditEnquiry(HttpServletRequest request, HttpServletResponse response) {
 
 		
 		try {
@@ -397,7 +405,7 @@ public class EnquiryController {
 	
 	@RequestMapping(value = "/addItmeInEditEnquiryList", method = RequestMethod.GET)
 	@ResponseBody
-	public List<GetEnquiryDetail> addItmeInEditEnquiryList(HttpServletRequest request, HttpServletResponse response) {
+	public List<GetQuatationDetail> addItmeInEditEnquiryList(HttpServletRequest request, HttpServletResponse response) {
 
 		
 		try {
@@ -414,7 +422,7 @@ public class EnquiryController {
 			  
 			if(editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null))
 			  {
-					GetEnquiryDetail enquiryDetail = new GetEnquiryDetail();
+					GetQuatationDetail enquiryDetail = new GetQuatationDetail();
 					enquiryDetail.setItemId(itemId);
 					enquiryDetail.setEnqQty(qty);
 					enquiryDetail.setEnqRemark(itemRemark);
@@ -444,9 +452,9 @@ public class EnquiryController {
 	
 	@RequestMapping(value = "/editItemInEditEnquiry", method = RequestMethod.GET)
 	@ResponseBody
-	public GetEnquiryDetail editItemInEditEnquiry(HttpServletRequest request, HttpServletResponse response) {
+	public GetQuatationDetail editItemInEditEnquiry(HttpServletRequest request, HttpServletResponse response) {
 
-		GetEnquiryDetail edit = new GetEnquiryDetail();
+		GetQuatationDetail edit = new GetQuatationDetail();
 		
 		try {
 			
@@ -468,10 +476,8 @@ public class EnquiryController {
 		 
 		
 		try {
-			
-			List<GetEnquiryHeader> enquiryHeaderList = new ArrayList<GetEnquiryHeader>();
-			
-			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			 
+			 
 			String enqRemark = request.getParameter("enqRemark"); 
 			String enqDate = request.getParameter("enqDate"); 
 			
@@ -479,14 +485,16 @@ public class EnquiryController {
 			  
 			editEnquiry.setEnqRemark(enqRemark);
 			editEnquiry.setEnqDate(Date);
-			editEnquiry.setDelStatus(1);
-			editEnquiry.setVendId(vendId);
-			editEnquiry.setEnquiryDetailList(addItemInEditEnquiryDetail);
-			enquiryHeaderList.add(editEnquiry);
-				  
-			 System.out.println(enquiryHeaderList);
-			 
-			ErrorMessage res = rest.postForObject(Constants.url + "/saveEnquiryHeaderAndDetail", enquiryHeaderList, ErrorMessage.class);
+			editEnquiry.setDelStatus(1); 
+			
+			for(int i=0 ; i<addItemInEditEnquiryDetail.size() ; i++) {
+				
+				addItemInEditEnquiryDetail.get(i).setEnqDetailDate(DateConvertor.convertToYMD(addItemInEditEnquiryDetail.get(i).getEnqDetailDate()));
+			}
+			
+			editEnquiry.setQuatationDetailList(addItemInEditEnquiryDetail); 
+				   
+			QuatationHeader res = rest.postForObject(Constants.url + "/saveQuatationHeaderAndDetail", editEnquiry, QuatationHeader.class);
 			System.out.println(res);
 			
  
@@ -495,6 +503,378 @@ public class EnquiryController {
 		}
 
 		return "redirect:/listOfEnquiry";
+	}
+	
+	@RequestMapping(value = "/addEnquiryFromQuotation", method = RequestMethod.GET)
+	public ModelAndView addEnquiryFromQuotation(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("enquiry/addEnquiryFromQuotation");
+		try {
+			addItemInEnquiryDetail = new ArrayList<EnquiryDetail>();
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			
+			model.addObject("vendorList", vendorList); 
+			
+			GetQuatationHeader[] getQuatationHeader = rest.getForObject(Constants.url + "/getQuotationListForEnquiry",  GetQuatationHeader[].class); 
+			List<GetQuatationHeader> getQuatationHeaderList = new ArrayList<GetQuatationHeader>(Arrays.asList(getQuatationHeader));
+			model.addObject("getQuatationHeaderList", getQuatationHeaderList); 
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			model.addObject("enqDateTemp", sf.format(date));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	List<GetQuatationDetail> getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>();
+	EnquiryHeader enquiryHeaderFromQuat = new EnquiryHeader();
+	List<EnquiryDetail> enqDetailList = new ArrayList<EnquiryDetail>();
+	GetEnquiryHeader editEnquiryFromQtn = new GetEnquiryHeader();
+	List<GetEnquiryDetail> detailList = new ArrayList<GetEnquiryDetail>();
+	
+	@RequestMapping(value = "/getQuotationDetailByQutIdForEnquiry", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetQuatationDetail> geIntendDetailByIndIdForEnquiry(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			int qutId = Integer.parseInt(request.getParameter("qutId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("qutId", qutId);
+			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutId", map,
+					GetQuatationDetail[].class);
+			getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>(Arrays.asList(indentTrans));
+			
+			System.out.println("getQuatationDetailListForEnq " + getQuatationDetailListForEnq);
+			if(qutId==enquiryHeaderFromQuat.getIndId())
+			{
+				for(int i = 0 ; i < getQuatationDetailListForEnq.size() ; i++)
+				{
+					for(int j = 0 ; j < enqDetailList.size() ; j++)
+					{
+						if(getQuatationDetailListForEnq.get(i).getItemId()==enqDetailList.get(j).getItemId()) {
+							getQuatationDetailListForEnq.get(i).setPoQty(enqDetailList.get(j).getEnqQty());
+							break;
+						}
+					}
+					
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getQuatationDetailListForEnq;
+	}
+	
+	@RequestMapping(value = "/submitEnqListFromQuotation", method = RequestMethod.POST)
+	public ModelAndView submitEnqList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("enquiry/addEnquiryFromQuotation");
+
+		try {
+			enqDetailList = new ArrayList<>();
+			enquiryHeaderFromQuat = new EnquiryHeader();
+ 
+
+			int enqId = Integer.parseInt(request.getParameter("indMId"));
+			String[] checkbox = request.getParameterValues("select_to_approve");
+
+			try {
+				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
+				model.addObject("vendIdTemp", vendIdTemp);
+				System.out.println(vendIdTemp);
+			} catch (Exception e) {
+				 
+			}
+
+			try {
+				String enqDateTemp = request.getParameter("enqDateTemp");
+				model.addObject("enqDateTemp", enqDateTemp);
+				System.out.println(enqDateTemp);
+			} catch (Exception e) {
+				 
+			}
+
+			try {
+				String enqRemarkTemp = request.getParameter("enqRemarkTemp");
+				model.addObject("enqRemarkTemp", enqRemarkTemp);
+				System.out.println(enqRemarkTemp);
+			} catch (Exception e) {
+				 
+			}
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			model.addObject("vendorList", vendorList);
+
+			GetQuatationHeader[] getQuatationHeader = rest.getForObject(Constants.url + "/getQuotationListForEnquiry",  GetQuatationHeader[].class); 
+			List<GetQuatationHeader> getQuatationHeaderList = new ArrayList<GetQuatationHeader>(Arrays.asList(getQuatationHeader));
+			model.addObject("getQuatationHeaderList", getQuatationHeaderList); 
+			
+			try {
+				for (int i = 0; i < getQuatationDetailListForEnq.size(); i++) {
+					for (int j = 0; j < checkbox.length; j++) {
+						System.out.println(checkbox[j] + getQuatationDetailListForEnq.get(i).getEnqDetailId());
+						if (Integer.parseInt(checkbox[j]) == getQuatationDetailListForEnq.get(i).getEnqDetailId()) {
+							EnquiryDetail enqDetail = new EnquiryDetail();
+							enqDetail.setIndId(getQuatationDetailListForEnq.get(i).getEnqId());
+							enqDetail.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
+							enqDetail.setItemCode(getQuatationDetailListForEnq.get(i).getItemCode());
+							enqDetail.setItemId(getQuatationDetailListForEnq.get(i).getItemId()); 
+							enqDetail.setEnqRemark(getQuatationDetailListForEnq.get(i).getEnqRemark());
+							enqDetail.setEnqDetailDate(getQuatationDetailListForEnq.get(i).getEnqDetailDate()); 
+							enqDetail.setDelStatus(1);
+							enqDetail.setEnqQty(
+									Float.parseFloat(request.getParameter("enqQty" + getQuatationDetailListForEnq.get(i).getEnqDetailId())));
+							enqDetail.setEnqRemark(request.getParameter("indRemark" + getQuatationDetailListForEnq.get(i).getEnqDetailId()));
+
+							enqDetailList.add(enqDetail);
+
+							enquiryHeaderFromQuat.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
+							enquiryHeaderFromQuat.setIndId(enqId);
+						}
+
+					}
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			
+			System.out.println("enqDetailList" + enqDetailList);
+
+			model.addObject("enqDetailList", enqDetailList);
+			model.addObject("enqId", enqId);
+			model.addObject("enquiryHeader", enquiryHeaderFromQuat);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/insertEnquiryByQuotation", method = RequestMethod.POST)
+	public String insertEnquiryByIndent(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			List<EnquiryHeader> enquiryHeaderList = new ArrayList<EnquiryHeader>();
+
+			String[] vendId = request.getParameterValues("vendId");
+			String enqRemark = request.getParameter("enqRemark");
+			String enqDate = request.getParameter("enqDate");
+ 
+
+			String Date = DateConvertor.convertToYMD(enqDate); 
+			DocumentBean docBean = null;
+			
+			try {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 8);
+				map.add("catId", 2);
+				map.add("date", DateConvertor.convertToYMD(enqDate));
+				map.add("typeId", 1);
+				RestTemplate restTemplate = new RestTemplate();
+
+				docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+				 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			for (int i = 0; i < vendId.length; i++) {
+
+				EnquiryHeader insert = new EnquiryHeader();
+
+				 
+				try {
+ 
+					String indMNo = docBean.getSubDocument().getCategoryPrefix() + "";
+					int counter = docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo + "");
+
+					for (int k = 0; k < counterLenth; k++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));
+
+					insert.setEnqNo("" + code);
+
+					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter() + 1);
+					System.out.println("docBean " + docBean);
+					//docList.add(docBean.getSubDocument());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				insert.setVendId(Integer.parseInt(vendId[i]));
+				insert.setEnqRemark(enqRemark);
+				insert.setEnqDate(Date);
+				insert.setDelStatus(1); 
+				insert.setIndId(enquiryHeaderFromQuat.getIndId());
+				insert.setIndNo(enquiryHeaderFromQuat.getIndNo());
+				insert.setEnquiryDetailList(enqDetailList);
+				enquiryHeaderList.add(insert);
+
+			}
+
+			ErrorMessage res = rest.postForObject(Constants.url + "/saveEnquiryHeaderAndDetail", enquiryHeaderList,
+					ErrorMessage.class);
+			if (res.isError() == false) {
+				try {
+					/*for (int l = 0; l < docList.size(); l++) {*/
+					System.out.println("docBean " + docBean);
+						SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc",  docBean.getSubDocument(),
+								SubDocument.class);
+					//}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			System.out.println(res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/listOfEnqFromQuotation";
+	}
+	
+	@RequestMapping(value = "/listOfEnqFromQuotation", method = RequestMethod.GET)
+	public ModelAndView listOfEnqFromQuotation(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("enquiry/listOfEnqFromQuotation");
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", sf.format(date));
+			map.add("toDate", sf.format(date));
+			map.add("status",0);
+			
+			GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate", map,
+					GetEnquiryHeader[].class);
+			List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+
+			model.addObject("enquiryList", enquiryList);
+			model.addObject("date", display.format(date));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/getEnqListByDateForQuotation", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetEnquiryHeader> getEnqListByDateForQuotation(HttpServletRequest request, HttpServletResponse response) {
+
+		List<GetEnquiryHeader> enquiryList = new ArrayList<GetEnquiryHeader>();
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			int status = Integer.parseInt(request.getParameter("status"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("status", status);
+
+			GetEnquiryHeader[] list = rest.postForObject(Constants.url + "/getEnqHeaderListBetweenDate", map,
+					GetEnquiryHeader[].class);
+			enquiryList = new ArrayList<GetEnquiryHeader>(Arrays.asList(list));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return enquiryList;
+	}
+	
+	@RequestMapping(value = "/deleteEnqFromQuotation/{enqId}", method = RequestMethod.GET)
+	public String deleteEnqFromQuotation(@PathVariable int enqId, HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("enqId", enqId);
+
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteEnquiryHeader", map,
+					ErrorMessage.class);
+			System.out.println(errorMessage);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/listOfEnqFromQuotation";
+	}
+	
+	@RequestMapping(value = "/editEnqFromQuotation/{enqId}", method = RequestMethod.GET)
+	public ModelAndView editEnqFromQuotation(@PathVariable int enqId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("enquiry/editEnqFromQuotation");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("enqId", enqId);
+			getQuatationDetailListForEnq = new ArrayList<>();
+			
+			editEnquiryFromQtn = rest.postForObject(Constants.url + "/getEnquiryHeaderAndDetail", map,
+					GetEnquiryHeader.class);
+			detailList = editEnquiryFromQtn.getEnquiryDetailList();
+
+			System.out.println("detailList" + detailList);
+
+			model.addObject("editEnquiry", editEnquiryFromQtn);
+			model.addObject("detailList", detailList);
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+
+			/*MultiValueMap<String, Object> map2 = new LinkedMultiValueMap<>();
+			map2.add("status", "0,1");
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatusWithoutPoType", map2,
+					GetIndentByStatus[].class);
+			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			model.addObject("intedList", intedList);*/
+
+			int qtnId = editEnquiryFromQtn.getIndId();
+			System.out.println("qtnId" + qtnId);
+			MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<String, Object>();
+			map1.add("indId", qtnId);
+			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutId", map1,
+					GetQuatationDetail[].class);
+			getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>(Arrays.asList(indentTrans));
+			model.addObject("getQuatationDetailListForEnq", getQuatationDetailListForEnq);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
 	}
 
 }

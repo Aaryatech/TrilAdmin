@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getEnquiryListByDate" value="/getEnquiryListByDate"></c:url>
+	<c:url var="getEnqListByDateForQuotation" value="/getEnqListByDateForQuotation"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -32,7 +32,7 @@
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Enquiry List
+						<i class="fa fa-file-o"></i>Indent Enquiry List
 
 					</h1>
 				</div>
@@ -45,26 +45,24 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Quotation List
+								<i class="fa fa-table"></i> Quotation Enquiry List
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addEnquiry"> Add
-									Quotation</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addEnquiryFromQuotation"> Add
+									Enquiry From Quotation</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
 
 						<div class="box-content">
-						<form action="${pageContext.request.contextPath}/listOfEnquiry"
-								class="form-horizontal" id="validation-form" method="get">
 
 							<div class="box-content">
 
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${fromDate}" name="fromDate"
+										placeholder="From Date" value="${date}" name="fromDate"
 										type="text" required>
 
 
@@ -73,7 +71,7 @@
 								<div class="col-md-2">To Date*</div>
 								<div class="col-md-3">
 									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${toDate}" name="toDate"
+										placeholder="To Date" value="${date}" name="toDate"
 										type="text" required>
 
 
@@ -82,15 +80,24 @@
 
 							</div>
 							<br> <br>
-							
+							<!-- <div class="col-md-2">Select Status.</div>
+							<div class="col-md-3">
+								<select name="status" id="status" class="form-control chosen"
+									tabindex="6">
+									<option value="2">All</option>
+									<option value="0">General</option>
+									<option value="1">Enquiry From Indent</option>
+
+								</select>
+							</div>
+							<br> -->
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<input type="submit" class="btn btn-primary"
-										value="Submit"  >
+									<input type="button" class="btn btn-primary"
+										value="Submit" onclick="search()">
 								</div>
 							</div>
 							<br>
-							</form>
 
 							<div align="center" id="loader" style="display: none">
 
@@ -108,8 +115,7 @@
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
-								</label>
- 
+								</label> 
 							<br /> <br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
@@ -117,8 +123,10 @@
 									<thead>
 										<tr class="bgpink">
 											<th style="width:2%;">Sr</th>
-											<th  >Quotation Date</th> 
-											<th  >Quotation No</th>
+											<th class="col-md-1">Date</th> 
+											<th class="col-md-5">Vendor Name</th>
+											<th class="col-md-1">Enquiry No</th>
+											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -127,25 +135,30 @@
 										<c:forEach items="${enquiryList}" var="enquiryList"
 											varStatus="count">
 											<tr>
-												<td style="width:2%;"><c:out value="${count.index+1}" /></td>
+												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
-												<td ><c:out
+												<td class="col-md-1"><c:out
 														value="${enquiryList.enqDate}" /></td>
+ 
+												<td class="col-md-1"><c:out
+														value="${enquiryList.vendorName}" /></td>
 
-												 
-
-												<td  ><c:out
+												<td class="col-md-1"><c:out
 														value="${enquiryList.enqNo}" /></td>
 
-												 
-												<td class="col-md-1">
-												<%-- <a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a> --%>
+												<td class="col-md-1"><c:out
+														value="${enquiryList.indNo}" /></td>
+
+
+
+												<td>
+												<a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
 												<a
-													href="${pageContext.request.contextPath}/editEnquiry/${enquiryList.enqId}"><abbr
+													href="${pageContext.request.contextPath}/editEnq/${enquiryList.enqId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteEnquiry/${enquiryList.enqId}"
+													href="${pageContext.request.contextPath}/deleteEnqFromQuotation/${enquiryList.enqId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 
@@ -248,6 +261,8 @@
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
+			/* var status = $("#status").val(); */
+			var status = 0;
 
 			if (fromDate == "" || fromDate == null)
 				alert("Select From Date");
@@ -258,12 +273,13 @@
 
 			$
 					.getJSON(
-							'${getEnquiryListByDate}',
+							'${getEnqListByDateForQuotation}',
 
 							{
 
 								fromDate : fromDate,
 								toDate : toDate,
+								status : status,
 								ajax : 'true'
 
 							},
@@ -290,6 +306,7 @@
 																	'<td></td>')
 																	.html(
 																			itemList.enqDate));
+ 
 													tr
 															.append($(
 																	'<td></td>')
@@ -305,18 +322,34 @@
 																	'<td></td>')
 																	.html(
 																			itemList.indNo));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			'  <a href="javascript:genPdf('
-																					+ itemList.enqId
-																					+ ');"><abbr'+
-													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnquiry/'+itemList.enqId+'"><abbr'+
-													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnquiry/'
-																					+ itemList.enqId
-																					+ '"'
-																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													if (itemList.enqStatus == 1) {
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				'  <a href="javascript:genPdf('
+																						+ itemList.enqId
+																						+ ');"><abbr'+
+													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnq/'+itemList.enqId+'"><abbr'+
+													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnqFromQuotation/'
+																						+ itemList.enqId
+																						+ '"'
+																						+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													} else 	if(itemList.enqStatus == 0){
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				'  <a href="javascript:genPdf('
+																						+ itemList.enqId
+																						+ ');"><abbr'+
+												'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnquiry/'+itemList.enqId+'"><abbr'+
+												'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnqFromQuotation/'
+																						+ itemList.enqId
+																						+ '"'
+																						+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													}
 													$('#table1 tbody').append(
 															tr);
 												})
@@ -324,7 +357,24 @@
 							});
 		}
 	</script>
- <script>
+
+
+
+
+
+
+
+
+
+	<script type="text/javascript">
+		function genPdf(id) {
+
+			window.open('pdfForReport?url=/pdf/enquiryPdf/' + id);
+
+		}
+	</script>
+	
+	<script>
 function myFunction() {
   var input, filter, table, tr, td ,td1,td2, i;
   input = document.getElementById("myInput");
@@ -349,12 +399,5 @@ function myFunction() {
 }
  
 </script>
-	<script type="text/javascript">
-		function genPdf(id) {
-
-			window.open('pdfForReport?url=/pdf/enquiryPdf/' + id);
-
-		}
-	</script>
 </body>
 </html>

@@ -33,13 +33,13 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
-						<i class="fa fa-file-o"></i>Edit Enquiry
+						<i class="fa fa-file-o"></i>Edit Quotation
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -48,11 +48,11 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Edit Enquiry
+								<i class="fa fa-table"></i>Edit Quotation
 							</h3>
 
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/listOfEnquiry">Enquiry
+								<a href="${pageContext.request.contextPath}/listOfEnquiry">Quotation
 									List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
@@ -66,43 +66,21 @@
 								action="${pageContext.request.contextPath}/submitEditEnquiry"
 								onsubmit="return confirm('Do you really want to Apply Changes In Enquiry ?');" method="post">
 
-
-								<div class="box-content">
-
-									<div class="col-md-2">Vendor Name</div>
-									<div class="col-md-10">
-									
-									<select name="vendId" id="vendId" class="form-control chosen"   required> 
-											<c:forEach items="${vendorList}" var="vendorList">
-												<c:choose>
-													<c:when test="${vendorList.vendorId==editEnquiry.vendId}">
-														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
-													</c:otherwise>
-												</c:choose>
-											</c:forEach>
-										</select>
  
-									</div>
-									 
-								</div>
-								<br>
 								
 								<div class="box-content">
 
-									<div class="col-md-2">Enquiry No</div>
+									<div class="col-md-2">Quotation No</div>
 									<div class="col-md-3">
 										<input class="form-control" id="enq_no"
-											placeholder="Enquiry Number" value="${editEnquiry.enqNo}" type="text" name="enqNo"
+											placeholder="Quotation Number" value="${editEnquiry.enqNo}" type="text" name="enqNo"
 											Readonly />
 									</div>
 									
-									<div class="col-md-2">Enquiry Date*</div>
+									<div class="col-md-2">Quotation Date*</div>
 									<div class="col-md-3">
 										<input id="enqDate" class="form-control date-picker"
-											placeholder="Enquiry Date" value="${editEnquiry.enqDate}"
+											placeholder="Quotation Date" value="${editEnquiry.enqDate}"
 											name="enqDate" type="text" required>
 
 
@@ -113,10 +91,10 @@
 
 								<div class="box-content">
  
-									<div class="col-md-2">Enquiry Remark</div>
+									<div class="col-md-2">Quotation Remark</div>
 									<div class="col-md-10">
 										<input class="form-control" id="enqRemark" size="16"
-											placeholder="Enquiry Remark" value="${editEnquiry.enqRemark}"
+											placeholder="Quotation Remark" value="${editEnquiry.enqRemark}"
 											type="text" name="enqRemark" />
 									</div>
 
@@ -153,10 +131,10 @@
 								
 								<div class="box-content">
 								
-								<div class="col-md-2">Enquiry Remark</div>
+								<div class="col-md-2">Item Remark</div>
 									<div class="col-md-10">
 										<input class="form-control" id="itemRemark" size="16"
-											placeholder="Enquiry Remark" type="text" name="itemRemark" />
+											placeholder="Item Remark" type="text" name="itemRemark" />
 									</div>
   
 
@@ -172,10 +150,10 @@
 
 									</div>
 									
-									<div class="col-md-2">Enquiry Item Date*</div>
+									<div class="col-md-2">Item Date*</div>
 									<div class="col-md-3">
 										<input id="enqItemDate" class="form-control date-picker"
-											placeholder="Enquiry Date" name="enqItemDate" type="text">
+											placeholder="Item Date" name="enqItemDate" type="text">
 
 
 									</div>
@@ -223,7 +201,7 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach items="${editEnquiry.enquiryDetailList}"
+													<c:forEach items="${editEnquiry.quatationDetailList}"
 														var="enquiryDetailList" varStatus="count">
 														<tr>
 															<td><c:out value="${count.index+1}" /></td>
