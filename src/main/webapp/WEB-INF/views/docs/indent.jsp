@@ -122,11 +122,10 @@ hr {
 
 		 
 <div align="left">
-			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
+			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
 
-		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
-			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h4>
+		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
 
 
 		<div class="invoice-box">
@@ -235,12 +234,11 @@ hr {
 
 
 		 <div align="left">
-			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
+			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
 
 
-		<h4 align="center" align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
-			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h4>
+		<h4 align="center" align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
 
 
 		<div class="invoice-box">

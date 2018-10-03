@@ -1013,7 +1013,7 @@ function exportExcel()
 
 				},
 				function(data) {
-					 alert("adf");
+					 //alert("adf");
 					  if (data == "") {
 						alert("No records found !!");
 

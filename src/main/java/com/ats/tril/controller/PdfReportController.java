@@ -7,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,10 +37,12 @@ import org.zefer.pd4ml.PD4PageMark;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.model.AccountHead;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.EnquiryDetail;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.GatePassReport;
 import com.ats.tril.model.doc.IndentReport;
 import com.ats.tril.model.doc.IssueReport;
@@ -91,6 +95,19 @@ public class PdfReportController {
 		System.out.println("PO Report data " + reportsList.toString());
 		
 		model.addObject("list", reportsList);
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 2);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
 		
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -145,7 +162,20 @@ public class PdfReportController {
 		System.out.println("Report Data " + indentReportList.toString());
 		
 		model.addObject("list", indentReportList);
-
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 1);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
 		}catch (Exception e) {
 			
 			e.printStackTrace();
@@ -194,6 +224,19 @@ public class PdfReportController {
 		
 		model.addObject("list", reportsList);
 		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 3);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
 		}catch (Exception e) {
 			
 			e.printStackTrace();
@@ -238,6 +281,19 @@ public class PdfReportController {
 
 		
 		model.addObject("list", reportsList);
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 3);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
 		
 		}catch (Exception e) {
 			
@@ -287,6 +343,19 @@ public class PdfReportController {
 		
 		model.addObject("list", reportsList);
 		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 6);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
 		}catch (Exception e) {
 			
 			e.printStackTrace();
@@ -326,6 +395,19 @@ public class PdfReportController {
 			RejectionReport[] item = rest.postForObject(Constants.url + "/getAllRejectionListReport", map,RejectionReport[].class);
 			List<RejectionReport> itemList = new ArrayList<RejectionReport>(Arrays.asList(item));
 			model.addObject("list", itemList);
+			
+			Company company = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			model.addObject("company", company);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 9);
+			 map.add("date", sf.format(date));
+			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
+					DocumentBean.class);
+			model.addObject("documentBean", documentBean);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -365,6 +447,19 @@ public class PdfReportController {
 			GatePassReport[] item = rest.postForObject(Constants.url + "/getGatepassListReport", map,GatePassReport[].class);
 			List<GatePassReport> itemList = new ArrayList<GatePassReport>(Arrays.asList(item));
 			model.addObject("list", itemList);
+			
+			Company company = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			model.addObject("company", company);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 5);
+			 map.add("date", sf.format(date));
+			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
+					DocumentBean.class);
+			model.addObject("documentBean", documentBean);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -404,6 +499,19 @@ public class PdfReportController {
 			GatePassReport[] item = rest.postForObject(Constants.url + "/getGatepassListReturnableReport", map,GatePassReport[].class);
 			List<GatePassReport> itemList = new ArrayList<GatePassReport>(Arrays.asList(item));
 			model.addObject("list", itemList);
+			
+			Company company = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			model.addObject("company", company);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 4);
+			 map.add("date", sf.format(date));
+			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
+					DocumentBean.class);
+			model.addObject("documentBean", documentBean);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -438,6 +546,19 @@ public class PdfReportController {
 
 			System.out.println(editEnquiry.getEnquiryDetailList());
 			model.addObject("editEnquiry", editEnquiry);
+			
+			Company company = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			model.addObject("company", company);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 8);
+			 map.add("date", sf.format(date));
+			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
+					DocumentBean.class);
+			model.addObject("documentBean", documentBean);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -468,8 +589,8 @@ public class PdfReportController {
 		// String url="/showEditViewIndentDetail/1";
 		System.out.println("URL " + url);
 
-		File f = new File("/report.pdf");
-		//File f = new File("C:/pdf/report.pdf");
+		//File f = new File("/report.pdf");
+		File f = new File("C:/pdf/report.pdf");
 
 		try {
 			runConverter(Constants.ReportURL + url, f, request, response);
@@ -483,9 +604,9 @@ public class PdfReportController {
 		// get absolute path of the application
 		ServletContext context = request.getSession().getServletContext();
 		String appPath = context.getRealPath("");
-		String filePath = "/report.pdf";
+		//String filePath = "/report.pdf";
 
-		  //String filePath ="C:/pdf/report.pdf";
+		  String filePath ="C:/pdf/report.pdf";
 
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;

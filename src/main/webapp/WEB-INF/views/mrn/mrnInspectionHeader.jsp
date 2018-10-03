@@ -177,7 +177,8 @@
 									     
 									     </td> 
 										 <td class="col-md-4"><c:out value="${getMrnHeaderList.vendorName}" /></td> 
-									     <td class="col-md-1"><c:choose><c:when test="${getMrnHeaderList.mrnStatus==0}"><c:out value="Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==1}"><c:out value="Partial Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==2}"><c:out value="Completed" /></c:when></c:choose></td> 
+									     <td class="col-md-1"><c:choose><c:when test="${getMrnHeaderList.mrnStatus==0}"><c:out value="Inspection Pending" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==2}"><c:out value="Inspection Complete" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==2}"><c:out value="1st Approved Complete" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==3}"><c:out value="1st Approved Complete" /></c:when>
+									     <c:when test="${getMrnHeaderList.mrnStatus==4}"><c:out value="2st Approved Complete" /></c:when><c:when test="${getMrnHeaderList.mrnStatus==1}"><c:out value="Partially Inspection " /></c:when></c:choose></td> 
 									     <td class="col-md-1">
 									     <a href="javascript:genPdf(${ getMrnHeaderList.mrnId});" title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></a>

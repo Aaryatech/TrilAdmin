@@ -119,12 +119,11 @@ hr {
 
 
 		<div align="left">
-			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
+			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
 
-		<div align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
-			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</div>
-			<div align="center" style=" font-family: arial; font-weight: bold; font-size: 85%;">A-81 TO A-67 & A-106 TO A-112 Tal.Indl.Estate,SINNAR - 422112</div>
+		<div align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</div>
+			<div align="center" style=" font-family: arial; font-weight: bold; font-size: 85%;">${company.factoryAdd}</div>
 		<p align="center" style=" font-family: arial; font-weight: bold; font-size: 95%;">OUTWARD MATERIAL GATE PASS - RETURNABLE</p>
 
 
@@ -216,12 +215,11 @@ hr {
 
 
 <<div align="left">
-			<h5>COM-F-01 REV.00 DT.01-05-2018</h5>
+			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
 
-		<div align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK &nbsp;&nbsp;RUBBER
-			&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</div>
-			<div align="center" style=" font-family: arial; font-weight: bold; font-size: 85%;">A-81 TO A-67 & A-106 TO A-112 Tal.Indl.Estate,SINNAR - 422112</div>
+		<div align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</div>
+			<div align="center" style=" font-family: arial; font-weight: bold; font-size: 85%;">${company.factoryAdd}</div>
 		<p align="center" style=" font-family: arial; font-weight: bold; font-size: 95%;">OUTWARD MATERIAL GATE PASS - RETURNABLE</p>
 
 

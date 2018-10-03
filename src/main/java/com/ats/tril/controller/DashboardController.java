@@ -925,7 +925,7 @@ public class DashboardController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			
 			if(status==-1) {
-				map.add("status","1,2,0");
+				map.add("status","1,2,0,3,4");
 			}else {
 				
 				map.add("status",status);

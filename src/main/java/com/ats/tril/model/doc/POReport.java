@@ -1,6 +1,5 @@
 package com.ats.tril.model.doc;
-
-import java.util.Date;
+ 
 import java.util.List;
 
 
@@ -99,7 +98,7 @@ public class POReport {
 	private String vendorGstNo;
 
 	
-	
+	private String indDate;
 	
 
 	List<POReportDetail> pOReportDetailList;
@@ -486,6 +485,14 @@ public class POReport {
 		this.pOReportDetailList = pOReportDetailList;
 	}
 
+	public String getIndDate() {
+		return indDate;
+	}
+
+	public void setIndDate(String indDate) {
+		this.indDate = indDate;
+	}
+
 	@Override
 	public String toString() {
 		return "POReport [poId=" + poId + ", poType=" + poType + ", poNo=" + poNo + ", poDate=" + poDate + ", vendId="
@@ -503,7 +510,7 @@ public class POReport {
 				+ ", approvStatus=" + approvStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName
 				+ ", vendorAdd1=" + vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc
 				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", vendorGstNo=" + vendorGstNo
-				+ ", pOReportDetailList=" + pOReportDetailList + "]";
+				+ ", indDate=" + indDate + ", pOReportDetailList=" + pOReportDetailList + "]";
 	}
 
 	

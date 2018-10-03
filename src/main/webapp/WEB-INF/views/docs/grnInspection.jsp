@@ -11,7 +11,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>GRN</title>
+<title>GRN INSPECTION</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -65,9 +65,9 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 	<c:forEach items="${list}" var="item" varStatus="count">
 
 
-<div align="left"> <h5> COM-F-01 REV.00 DT.01-05-2018   </h5></div>
+<div align="left"> <h5>${documentBean.docIsoSerialNumber}</h5></div>
 
-<h3 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">TRAMBAK  &nbsp;&nbsp;RUBBER  &nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h3>
+<h3 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h3>
  
 <div class="invoice-box">
 		<table cellpadding="0" cellspacing="0">

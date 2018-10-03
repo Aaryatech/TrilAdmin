@@ -93,13 +93,10 @@ hr {
 </head>
 <body>
 	<div align="right">
-		<h6>COM-F-01 REV.00 DT.01-05-2018 &nbsp;&nbsp;&nbsp;&nbsp;
-			${indent.indMDate}</h6>
+		<h6> ${documentBean.docIsoSerialNumber}</h6>
 	</div>
 
-	<h4 align="center">TRAMBAK &nbsp;&nbsp;RUBBER
-		&nbsp;&nbsp;INDUSTRIES &nbsp;&nbsp; LTD.</h4>
-	<h4 align="center">ENQUIRY</h4>
+	<h4 align="center">${company.companyName}</h4>
 	<hr style="height: 1px; border: none; color: black; background-color: black;">
 
 	<div class="invoice-box">
