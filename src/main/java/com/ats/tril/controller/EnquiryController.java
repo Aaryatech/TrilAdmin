@@ -861,20 +861,195 @@ public class EnquiryController {
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);*/
 
-			int qtnId = editEnquiryFromQtn.getIndId();
+			/*int qtnId = editEnquiryFromQtn.getIndId();
 			System.out.println("qtnId" + qtnId);
 			MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<String, Object>();
-			map1.add("indId", qtnId);
+			map1.add("qutId", qtnId);
 			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutId", map1,
 					GetQuatationDetail[].class);
 			getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>(Arrays.asList(indentTrans));
-			model.addObject("getQuatationDetailListForEnq", getQuatationDetailListForEnq);
+			model.addObject("getQuatationDetailListForEnq", getQuatationDetailListForEnq);*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/deleteItemFromEditEnquiryFromQuotation", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetEnquiryDetail> deleteItemFromEditEnquiryFromQuotation(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		try {
+			
+			int index = Integer.parseInt(request.getParameter("index"));  
+			 
+			if(detailList.get(index).getEnqDetailId()!=0)
+				detailList.get(index).setDelStatus(0);
+			else
+				detailList.remove(index);
+			
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return detailList;
+	}
+	
+	@RequestMapping(value = "/geQuotationDetailByQutIdForEditEnquiry", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetQuatationDetail> geQuotationDetailByQutIdForEditEnquiry(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			int qutId = Integer.parseInt(request.getParameter("qutId"));
+
+			MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<String, Object>();
+			map1.add("qutId", qutId);
+			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutId", map1,
+					GetQuatationDetail[].class);
+			getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>(Arrays.asList(indentTrans)); 
+			 
+			for(int j = 0 ; j<detailList.size() ; j++) {
+			 		
+				for(int i = 0 ; i<getQuatationDetailListForEnq.size() ; i++) {
+					if(getQuatationDetailListForEnq.get(i).getItemId()==detailList.get(j).getItemId() && detailList.get(j).getDelStatus()==1)
+					{
+						getQuatationDetailListForEnq.remove(i);
+					}
+				}
+				
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return getQuatationDetailListForEnq;
+	}
+	
+	@RequestMapping(value = "/submitEditEnqFromQuotationList", method = RequestMethod.POST)
+	public ModelAndView submitEditEnqFromQuotationList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("enquiry/editEnqFromQuotation");
+
+		try {
+			 
+			String[] checkbox = request.getParameterValues("select_to_approve");
+
+			try {
+				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
+				model.addObject("vendIdTemp", vendIdTemp);
+				editEnquiryFromQtn.setVendId(vendIdTemp);
+				System.out.println(vendIdTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			try {
+				String enqDateTemp = request.getParameter("enqDateTemp");
+				model.addObject("enqDateTemp", enqDateTemp);
+				System.out.println(enqDateTemp);
+				editEnquiryFromQtn.setEnqDate(enqDateTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			try {
+				String enqRemarkTemp = request.getParameter("enqRemarkTemp");
+				model.addObject("enqRemarkTemp", enqRemarkTemp);
+				System.out.println(enqRemarkTemp);
+				editEnquiryFromQtn.setEnqRemark(enqRemarkTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			model.addObject("vendorList", vendorList);
+
+			/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("status", "0,1,2");
+			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatusWithoutPoType", map,
+					GetIndentByStatus[].class);
+			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
+			model.addObject("intedList", intedList);*/
+
+			try {
+				for (int i = 0; i < getQuatationDetailListForEnq.size(); i++) {
+					for (int j = 0; j < checkbox.length; j++) {
+						System.out.println(checkbox[j] + getQuatationDetailListForEnq.get(i).getEnqDetailId());
+						if (Integer.parseInt(checkbox[j]) == getQuatationDetailListForEnq.get(i).getEnqDetailId()) {
+							GetEnquiryDetail enqDetail = new GetEnquiryDetail();
+							enqDetail.setIndId(getQuatationDetailListForEnq.get(i).getIndId());
+							enqDetail.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
+							enqDetail.setItemCode(getQuatationDetailListForEnq.get(i).getItemCode());
+							enqDetail.setItemId(getQuatationDetailListForEnq.get(i).getItemId()); 
+							enqDetail.setEnqRemark(getQuatationDetailListForEnq.get(i).getEnqRemark());
+							enqDetail.setEnqDetailDate(getQuatationDetailListForEnq.get(i).getEnqDetailDate());
+							enqDetail.setEnqItemDesc(getQuatationDetailListForEnq.get(i).getEnqItemDesc());
+							enqDetail.setDelStatus(1);
+							enqDetail.setEnqQty(
+									Float.parseFloat(request.getParameter("enqQty" + getQuatationDetailListForEnq.get(i).getEnqDetailId())));
+
+							detailList.add(enqDetail); 
+						}
+
+					}
+				}
+			}catch(Exception e)
+			{
+				
+			}
+			
+			System.out.println("detailList" + detailList);
+
+			model.addObject("editEnquiry", editEnquiryFromQtn);
+			model.addObject("detailList", detailList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitEditEnqFromQuotation", method = RequestMethod.POST)
+	public String submitEditEnqFromQuotation(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			List<GetEnquiryHeader> enquiryHeaderList = new ArrayList<GetEnquiryHeader>();
+
+			String enqRemark = request.getParameter("enqRemark");
+			String enqDate = request.getParameter("enqDate");
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			// String enqDate = request.getParameter("enqDate");
+
+			String Date = DateConvertor.convertToYMD(enqDate);
+
+			editEnquiryFromQtn.setEnqRemark(enqRemark);
+			editEnquiryFromQtn.setEnqDate(Date);
+			editEnquiryFromQtn.setDelStatus(1);
+			editEnquiryFromQtn.setEnquiryDetailList(detailList);
+			editEnquiry.setVendId(vendId);
+			enquiryHeaderList.add(editEnquiryFromQtn);
+
+			System.out.println(enquiryHeaderList);
+
+			ErrorMessage res = rest.postForObject(Constants.url + "/saveEnquiryHeaderAndDetail", enquiryHeaderList,
+					ErrorMessage.class);
+			System.out.println(res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/listOfEnqFromQuotation";
 	}
 
 }

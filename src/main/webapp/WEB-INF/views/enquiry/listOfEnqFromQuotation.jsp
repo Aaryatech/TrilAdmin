@@ -156,7 +156,7 @@
 												<a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
 												<a
-													href="${pageContext.request.contextPath}/editEnq/${enquiryList.enqId}"><abbr
+													href="${pageContext.request.contextPath}/editEnqFromQuotation/${enquiryList.enqId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
 													href="${pageContext.request.contextPath}/deleteEnqFromQuotation/${enquiryList.enqId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
@@ -330,7 +330,7 @@
 																				'  <a href="javascript:genPdf('
 																						+ itemList.enqId
 																						+ ');"><abbr'+
-													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnq/'+itemList.enqId+'"><abbr'+
+													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnqFromQuotation/'+itemList.enqId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnqFromQuotation/'
 																						+ itemList.enqId
 																						+ '"'
@@ -344,7 +344,7 @@
 																				'  <a href="javascript:genPdf('
 																						+ itemList.enqId
 																						+ ');"><abbr'+
-												'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnquiry/'+itemList.enqId+'"><abbr'+
+												'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>  <a href="${pageContext.request.contextPath}/editEnqFromQuotation/'+itemList.enqId+'"><abbr'+
 												'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteEnqFromQuotation/'
 																						+ itemList.enqId
 																						+ '"'
