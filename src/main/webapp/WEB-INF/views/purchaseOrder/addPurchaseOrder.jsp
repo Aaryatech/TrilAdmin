@@ -1028,12 +1028,14 @@ function exportExcel()
 									
 									try {
 										 
-										 var balanceQty = parseFloat($("#balanceQty"+itemList.indDetailId).val());  
+										 var balanceQty = parseFloat($("#balanceQty"+itemList.indDetailId).val());
+										 if(balanceQty!=0 && itemList.qty<=balanceQty){
 										document.getElementById("select_to_approve"+itemList.indDetailId).checked = true;
 										 document.getElementById("poQty"+itemList.indDetailId).value = itemList.qty;
 										document.getElementById("balanceQty"+itemList.indDetailId).value = balanceQty-itemList.qty;
 										document.getElementById("rate"+itemList.indDetailId).value = itemList.rate;
 										document.getElementById("indRemark"+itemList.indDetailId).value = "-";
+										 }
 									}
 									catch(err) {
 									    

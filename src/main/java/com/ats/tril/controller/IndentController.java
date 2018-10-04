@@ -1,5 +1,7 @@
  package com.ats.tril.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,11 +9,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -34,6 +44,7 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
@@ -1391,6 +1402,96 @@ public class IndentController {
 		}
 		return "redirect:/getIndentsForApproval/" + apr;
 
+	}
+	
+	@RequestMapping(value = "/exportExcelforIndent", method = RequestMethod.GET)
+	@ResponseBody
+	public List<TempIndentDetail> exportExcelforIndent(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		 
+		try {
+			  Date date = new Date();
+			  SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			String excelFilePath = "C:/pdf/Books2.xlsx";
+			int catId = Integer.parseInt(request.getParameter("catId")); 
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
+			//String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books.xlsx";
+	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+	         
+	        Workbook workbook = new XSSFWorkbook(inputStream);
+	        Sheet firstSheet = workbook.getSheetAt(0);
+	        Iterator<Row> iterator = firstSheet.iterator();
+	         
+	        DataFormatter formatter = new DataFormatter(Locale.US);
+	        
+	        while (iterator.hasNext()) {
+	            Row nextRow = iterator.next();
+	            Iterator<Cell> cellIterator = nextRow.cellIterator();
+	             
+	            int index=0;
+	            TempIndentDetail detail = new TempIndentDetail();
+	            
+	            while (cellIterator.hasNext()) {
+	                Cell cell = cellIterator.next();
+	                
+	                 
+	                 	if(index==0) {
+	                 		detail.setItemId(Integer.parseInt(formatter.formatCellValue(cell)));
+	                 	} 
+		                else if(index==1) {
+		                	detail.setItemCode(formatter.formatCellValue(cell));
+		                } 
+		                else if(index==2) {
+		                	detail.setItemName(formatter.formatCellValue(cell));
+		                } 
+		                else if(index==3) {
+		                	detail.setUom(formatter.formatCellValue(cell));
+		                } 
+		                else if(index==4) { 
+		                	if(catId!=Integer.parseInt(formatter.formatCellValue(cell))) {
+		                		index=0;
+		                		break;
+		                	}
+		                	 
+		                }
+		                else if(index==6) {
+		                	detail.setQty(Float.parseFloat(formatter.formatCellValue(cell)));
+		                }
+		                else if(index==7) { 
+		                	if(typeId!=Integer.parseInt(formatter.formatCellValue(cell))) {
+		                		index=0;
+		                		 break;
+		                	}
+		                }
+		                	 
+	                index++;
+	                
+	                System.out.print(" - ");
+	            }
+	            if(index!=0) {
+	            	detail.setDate(sf.format(date));
+	            	detail.setIsDuplicate(1);
+	            	detail.setRemark("-"); 
+	            	tempIndentList.add(detail);
+	            }
+	           
+	            System.out.println();
+	        }
+	         
+	        workbook.close();
+	        inputStream.close();
+	    
+	         
+	        
+	        System.out.println("tempIndentList---------" + tempIndentList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return tempIndentList;
 	}
 
 }// end of Class

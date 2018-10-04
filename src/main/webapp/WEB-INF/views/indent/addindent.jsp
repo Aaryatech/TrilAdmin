@@ -11,6 +11,7 @@
 <body>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
+<c:url var="exportExcelforIndent" value="/exportExcelforIndent" />
 	<c:url var="getSubDeptListByDeptId" value="/getSubDeptListByDeptId" />
 	<c:url var="getgroupListByCatId" value="/getgroupListByCatId" />
 
@@ -320,6 +321,11 @@
 						<div class="col-md-12" style="text-align: center">
 						<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
+											<c:choose>
+						<c:when test="${userInfo.id==1}">
+						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
+						</c:when>
+					</c:choose>
 							 
 						</div>
 					</div>
@@ -698,10 +704,10 @@ $(document).ready(function() {
 			 
 			document.getElementById("catId").value = catId;   
 			document.getElementById("submitt").disabled=false;
-			getLastRate(qty,1);
+			
 			})
 		
-		
+			getLastRate(qty,1);
 		});
 		document.getElementById("quantity").value = "0"; 
 		 document.getElementById("remark").value="";
@@ -928,6 +934,73 @@ function getLastRate(qty,flag) {
 
 }
 
+function exportExcel()
+{
+	
+	var catId = $("#ind_cat").val(); 
+	var typeId = $("#indent_type").val(); 
+	  alert(catId);
+	  $
+		.getJSON(
+				'${exportExcelforIndent}',
+
+				{
+					catId : catId,
+					typeId : typeId,
+					ajax : 'true'
+
+				},
+				function(data) {
+					 alert(data);
+					  if (data == "") {
+						alert("No records found !!");
+
+					}
+					 
+
+				  $.each(
+								data,
+								function(key, trans) {
+								//alert(itemList.indDetailId);
+									
+									
+									try {
+										 
+										var tr = $('<tr></tr>');
+										tr.append($('<td class="col-sm-1" ></td>').html(key+1));
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
+									  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
+
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
+									  	
+									  	tr.append($('<td class="col-md-1" ></td>').html(trans.remark)); 
+									  	 
+									  	tr
+										.append($(
+												'<td class="col-md-1" style="text-align: center;"></td>')
+												.html(
+														"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
+									  	
+										$('#table1 tbody').append(tr); 
+										  $('#ind_cat').prop('disabled', true).trigger("chosen:updated");
+										 
+										document.getElementById("catId").value = catId;   
+										document.getElementById("submitt").disabled=false;
+									}
+									catch(err) {
+									    
+									}
+								  	
+								})  
+								
+							 
+					
+				});
+}
 </script>
 </body>
 </html>
