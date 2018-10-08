@@ -145,6 +145,8 @@
 									
 									<input   id="machine_specific"  type="hidden"   name="machine_specific"
 											value="${indent.deptId}"   />
+											<input   id="subDeptDeptForCompare"  type="hidden"   name="subDeptDeptForCompare"
+											value="${indent.subDeptId}"   />
 
 									<%-- <div class="col-md-2">Machine
 										Specific</div>
@@ -968,7 +970,8 @@
 	
 	<script type="text/javascript">
 	function checkIndentDept(){
-	var dept=${isDept};
+	var dept=$('#dept').val(); 
+	var subDept=$('#subDeptDeptForCompare').val(); 
 	if(dept==0){
 		//alert("Dept is 0");
 	}else{
@@ -993,17 +996,33 @@
 							.end()
 					// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
 					for (var i = 0; i < len; i++) {
+						
+						if(subDept==data[i].subDeptId){
+							$(
+							"#sub_dept")
+							.append(
+									$(
+											"<option selected></option>")
+											.attr(
+													"value",
+													data[i].subDeptId)
+											.text(
+													data[i].subDeptCode+" "+data[i].subDeptDesc));
+						}
+						else{
+							$(
+							"#sub_dept")
+							.append(
+									$(
+											"<option></option>")
+											.attr(
+													"value",
+													data[i].subDeptId)
+											.text(
+													data[i].subDeptCode+" "+data[i].subDeptDesc));
+						}
 
-						$(
-								"#sub_dept")
-								.append(
-										$(
-												"<option></option>")
-												.attr(
-														"value",
-														data[i].subDeptId)
-												.text(
-														data[i].subDeptCode+" "+data[i].subDeptDesc));
+						
 					}
 
 					$(

@@ -1065,11 +1065,11 @@ public class IndentController {
 			int dept = 0;
 			int subDept = 0;
 
-			if (isMachineSpe == 1) {
-				System.err.println("It is Machine Specific");
+			/*if (isMachineSpe == 1) {
+				System.err.println("It is Machine Specific");*/
 				dept = Integer.parseInt(request.getParameter("dept"));
 				subDept = Integer.parseInt(request.getParameter("sub_dept"));
-			}
+			//}
 
 			System.err.println("dept " + dept + "sub Dept  " + subDept);
 

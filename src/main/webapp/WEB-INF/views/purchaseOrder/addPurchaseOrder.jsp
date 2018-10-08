@@ -477,7 +477,7 @@ body {
 										<th>Rate</th>
 										<th>Disc%</th>
 										<th>Sch Days</th>
-										<th>Remark</th>
+										<th>Value</th>
 
 									</tr>
 										</thead>
@@ -498,7 +498,7 @@ body {
 													  			<td align="right"><c:out value="${poDetailList.itemRate}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.discPer}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.schDays}" /></td>
-													  			<td align="left"><c:out value="${poDetailList.schRemark}" /></td> 
+													  			<td align="left"><c:out value="${poDetailList.basicValue}" /></td> 
 																</tr>
 												</c:forEach>
  
