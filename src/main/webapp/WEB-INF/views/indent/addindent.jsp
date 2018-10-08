@@ -939,7 +939,7 @@ function exportExcel()
 	
 	var catId = $("#ind_cat").val(); 
 	var typeId = $("#indent_type").val(); 
-	  alert(catId);
+	  //alert(catId);
 	  $
 		.getJSON(
 				'${exportExcelforIndent}',
@@ -951,13 +951,13 @@ function exportExcel()
 
 				},
 				function(data) {
-					 alert(data);
+					 //alert(data);
 					  if (data == "") {
 						alert("No records found !!");
 
 					}
 					 
-
+					  $('#table1 td').remove();
 				  $.each(
 								data,
 								function(key, trans) {

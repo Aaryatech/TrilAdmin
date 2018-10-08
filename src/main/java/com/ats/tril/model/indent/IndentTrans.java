@@ -19,7 +19,7 @@ public class IndentTrans {
 	
 	private String indItemDesc;
 	
-	private int indItemCurstk;
+	private float indItemCurstk;
 	
 	private int indItemSchd;
 	
@@ -85,7 +85,7 @@ public class IndentTrans {
 		return indItemDesc;
 	}
 
-	public int getIndItemCurstk() {
+	public float getIndItemCurstk() {
 		return indItemCurstk;
 	}
 
@@ -138,7 +138,7 @@ public class IndentTrans {
 		this.indItemDesc = indItemDesc;
 	}
 
-	public void setIndItemCurstk(int indItemCurstk) {
+	public void setIndItemCurstk(float indItemCurstk) {
 		this.indItemCurstk = indItemCurstk;
 	}
 

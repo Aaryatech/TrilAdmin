@@ -1285,9 +1285,9 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 		List<ImportExcelForPo> list = new ArrayList<>();
 		try {
 			  
-			String excelFilePath = "C:/pdf/Books1.xlsx";
+			//String excelFilePath = "C:/pdf/Books1.xlsx";
 			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books1.xlsx";
-			//String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books1.xlsx";
+			String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books1.xlsx";
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 	         
 	        Workbook workbook = new XSSFWorkbook(inputStream);

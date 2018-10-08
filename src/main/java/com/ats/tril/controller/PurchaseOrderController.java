@@ -1962,9 +1962,9 @@ public class PurchaseOrderController {
 		List<ImportExcelForPo> list = new ArrayList<>();
 		try {
 			  
-			String excelFilePath = "C:/pdf/Books.xlsx";
+			//String excelFilePath = "C:/pdf/Books.xlsx";
 			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
-			//String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books.xlsx";
+			String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books.xlsx";
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 	         
 	        Workbook workbook = new XSSFWorkbook(inputStream);

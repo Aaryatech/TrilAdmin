@@ -122,8 +122,14 @@ hr {
 		</p>
 		<!-- p -->
 
+				<table width="100%">
+							<tr>
+								<td width="25%" > 
+									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="100" height="70" />
+								</td>
 
-		<h4 align="center">${company.companyName}</h4>
+								<td width="75%" style="text-align: center;">
+ <h4 align="center">${company.companyName}</h4>
 
 
 
@@ -131,9 +137,13 @@ hr {
 			& Billing Addr.: ${company.factoryAdd}</h6>
 		<h6 style="font-weight: normal; margin: 0px;" align="center">CIN
 			NO : ${company.cinNumber}</h6>
+								</td>
+
+							</tr>
+
+						</table>
+ 
 		 
-		<br> 
-		
 		 <span style="float: left; font-weight: bold; font-size: 13px;">GST&nbsp; NO&nbsp; : ${company.gstNumber}
 		 <br>PAN &nbsp;NO&nbsp; : ${company.panNumber}
 			</span>
@@ -341,7 +351,7 @@ hr {
 		<br>
 
 		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: bold; padding-bottom: 5px"
+			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: bold; padding-bottom: 6px"
 			align="center">------------------------------------------------------------------------------------------*
 			ORDER VALIDITY : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp; DAYS *
@@ -376,18 +386,26 @@ hr {
 		</p>
 
 
+					<table width="100%">
+							<tr>
+								<td width="25%" > 
+									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="100" height="70" />
+								</td>
 
-		<h4 align="center">${company.companyName}</h4>
+								<td width="75%" style="text-align: center;">
+ <h4 align="center">${company.companyName}</h4>
 
- 
+
 
 		<h6 style="font-weight: bold; margin: 0px;" align="center">Delivery
-			& Billing Addr.:${company.factoryAdd}</h6>
+			& Billing Addr.: ${company.factoryAdd}</h6>
 		<h6 style="font-weight: normal; margin: 0px;" align="center">CIN
 			NO : ${company.cinNumber}</h6>
-			 
+								</td>
 
-		<br>
+							</tr>
+
+						</table>
 		 
         <span style="float: left; font-weight: bold; font-size: 13px;">GST&nbsp; NO&nbsp; : ${company.gstNumber}
 		 <br>PAN &nbsp;NO&nbsp; : ${company.panNumber}

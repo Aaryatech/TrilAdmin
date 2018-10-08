@@ -8,7 +8,7 @@ public class TempIndentDetail {
 	String itemName;
 	float qty;
 	String uom;
-	int curStock;
+	float curStock;
 	int schDays;
 	String date;
 	
@@ -45,7 +45,7 @@ public class TempIndentDetail {
 	public String getUom() {
 		return uom;
 	}
-	public int getCurStock() {
+	public float getCurStock() {
 		return curStock;
 	}
 	public int getSchDays() {
@@ -62,7 +62,7 @@ public class TempIndentDetail {
 	public void setUom(String uom) {
 		this.uom = uom;
 	}
-	public void setCurStock(int curStock) {
+	public void setCurStock(float curStock) {
 		this.curStock = curStock;
 	}
 	public void setSchDays(int schDays) {

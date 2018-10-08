@@ -226,6 +226,8 @@ public class IndentController {
 		return total;
 	}
 	
+	String fromDateForStock;
+	String toDateForStock;
 	
 	@RequestMapping(value = "/showIndent", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
@@ -260,22 +262,14 @@ public class IndentController {
 			date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-			String fromDate = stockHeader.getYear() + "-" + stockHeader.getMonth() + "-" + "01";
-			String toDate = sf.format(date);
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("fromDate", fromDate);
-			map.add("toDate", toDate);
-			/*
-			 * GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url +
-			 * "/getCurrentStock", map, GetCurrentStock[].class); List<GetCurrentStock>
-			 * stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
-			 */
-
-			// System.out.println("stockList " + stockList);
-			
+			fromDateForStock = stockHeader.getYear() + "-" + stockHeader.getMonth() + "-" + "01";
+			toDateForStock = sf.format(date);
+			 
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
+			
+			
 			
 			getValueFunction();
 			
@@ -477,6 +471,14 @@ public class IndentController {
 						float qty = Float.parseFloat(request.getParameter("qty"));
 						int schDay = Integer.parseInt(request.getParameter("schDay"));
 						String indDate = request.getParameter("indentDate");
+						
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+						map.add("fromDate", fromDateForStock);
+						map.add("toDate", toDateForStock);
+						map.add("itemId", itemId);
+						GetCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getCurrentStockByItemId",map,GetCurrentStock.class);
+			 			
+						
 						TempIndentDetail detail = new TempIndentDetail();
 						String uom = null;
 						String itemCode = null;
@@ -497,7 +499,8 @@ public class IndentController {
 						System.out.println(date);
 
 						// Date d=LocalDate.now().plusDays(schDay);
-						detail.setCurStock(0);
+						detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApprovedQtyValue()-
+								getCurrentStockByItemId.getIssueQty()-getCurrentStockByItemId.getDamageQty());
 						detail.setItemId(itemId);
 						detail.setItemName(itemName);
 						detail.setQty(qty);
@@ -521,6 +524,13 @@ public class IndentController {
 
 					String uom = null;
 					String itemCode = null;
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate", fromDateForStock);
+					map.add("toDate", toDateForStock);
+					map.add("itemId", itemId);
+					GetCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getCurrentStockByItemId",map,GetCurrentStock.class);
+		 			
 
 					for (int j = 0; j < itemList.size(); j++) {
 
@@ -546,7 +556,8 @@ public class IndentController {
 					System.out.println(date);
 
 					// Date d=LocalDate.now().plusDays(schDay);
-					detail.setCurStock(0);
+					detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApprovedQtyValue()-
+							getCurrentStockByItemId.getIssueQty()-getCurrentStockByItemId.getDamageQty());
 					detail.setItemId(itemId);
 					detail.setItemName(itemName);
 					detail.setQty(qty);
@@ -1413,11 +1424,11 @@ public class IndentController {
 		try {
 			  Date date = new Date();
 			  SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-			String excelFilePath = "C:/pdf/Books2.xlsx";
+			//String excelFilePath = "C:/pdf/Books2.xlsx";
 			int catId = Integer.parseInt(request.getParameter("catId")); 
 			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
-			//String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books.xlsx";
+			String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books2.xlsx";
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 	         
 	        Workbook workbook = new XSSFWorkbook(inputStream);
