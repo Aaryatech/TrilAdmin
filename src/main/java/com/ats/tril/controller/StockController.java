@@ -1,5 +1,15 @@
 package com.ats.tril.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,9 +19,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +35,24 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.MinAndRolLevelReport;
 import com.ats.tril.model.StockDetail;
-import com.ats.tril.model.StockHeader; 
+import com.ats.tril.model.StockHeader;
+import com.ats.tril.model.StockValuationCategoryWise;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter; 
 
 @Controller
 @Scope("session")
@@ -34,6 +60,8 @@ public class StockController {
 	
 	List<GetCurrentStock> stockListForMonthEnd = new ArrayList<>();
 	StockHeader stockHeader = new StockHeader();
+	String fromDateForPdf;
+	String toDateForPdf;
 	
 	RestTemplate rest = new RestTemplate();
 	
@@ -254,6 +282,8 @@ public class StockController {
 		return "redirect:/monthEndStock";
 	}
 	
+	List<GetCurrentStock> getStockBetweenDateForPdf = new ArrayList<>();
+	
 	@RequestMapping(value = "/stockBetweenDate", method = RequestMethod.GET)
 	public ModelAndView stockBetweenDate(HttpServletRequest request, HttpServletResponse response) {
 
@@ -282,6 +312,9 @@ public class StockController {
 					model.addObject("toDate", dd.format(date));
 					model.addObject("stockList", getStockBetweenDate);
 					model.addObject("selectedQty", 1);
+					
+					fromDateForPdf=firstDate;
+					toDateForPdf=dd.format(date);
 				 
 			}
 			else {
@@ -350,7 +383,71 @@ public class StockController {
 					model.addObject("toDate", toDate);
 					model.addObject("stockList", getStockBetweenDate);
 					model.addObject("selectedQty", selectedQty);
+					fromDateForPdf=fromDate;
+					toDateForPdf=toDate;
 			}
+			
+			getStockBetweenDateForPdf=getStockBetweenDate;
+			
+			//----------------exel-------------------------
+			
+			
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("ITEM NAME");
+			rowData.add("OP QTY");
+			rowData.add("OP VALUE");
+			rowData.add("MRN QTY");
+			rowData.add("MRN VALUE");
+			rowData.add("ISSUE QTY");
+			rowData.add("ISSUE VALUE");
+			rowData.add("DAMAGE QTY");
+			rowData.add("DAMAGE VALUE");
+			rowData.add("C\\L QTY");
+			rowData.add("C\\L VALUE");
+			
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < getStockBetweenDate.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i+1)+"");
+				rowData.add(getStockBetweenDate.get(i).getItemCode());
+				rowData.add(""+getStockBetweenDate.get(i).getOpeningStock());
+				rowData.add(""+getStockBetweenDate.get(i).getOpStockValue());
+				rowData.add(""+getStockBetweenDate.get(i).getApproveQty());
+				rowData.add(""+getStockBetweenDate.get(i).getApprovedQtyValue());
+				rowData.add(""+getStockBetweenDate.get(i).getIssueQty());
+				rowData.add(""+getStockBetweenDate.get(i).getIssueQtyValue());
+				rowData.add(""+getStockBetweenDate.get(i).getDamageQty());
+				rowData.add(""+getStockBetweenDate.get(i).getDamagValue());
+				
+				float closingQty = getStockBetweenDate.get(i).getOpeningStock()+getStockBetweenDate.get(i).getApproveQty()-
+						getStockBetweenDate.get(i).getIssueQty()-getStockBetweenDate.get(i).getDamageQty();
+				
+				float closingValue = getStockBetweenDate.get(i).getOpStockValue()+getStockBetweenDate.get(i).getApprovedQtyValue()-
+						getStockBetweenDate.get(i).getIssueQtyValue()-getStockBetweenDate.get(i).getDamagValue();
+				
+				
+				rowData.add(""+closingQty);
+				rowData.add(""+closingValue);
+
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "dateWiseStock");
+
 			
 			System.out.println(getStockBetweenDate);
 			
@@ -361,6 +458,282 @@ public class StockController {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/stockBetweenDateReportItemWisePDF", method = RequestMethod.GET)
+	public void stockBetweenDateReportItemWisePDF(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+	
+		PdfPTable table = new PdfPTable(12);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.4f, 2.7f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("ITEM", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OP QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OP VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DAMAGE QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DAMAGE VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			
+			int index = 0;
+			if(!getStockBetweenDateForPdf.isEmpty()) {
+					for (int k = 0; k < getStockBetweenDateForPdf.size(); k++) {
+                            
+						if(getStockBetweenDateForPdf.get(k).getOpeningStock()>0 || getStockBetweenDateForPdf.get(k).getOpStockValue()>0 
+								|| getStockBetweenDateForPdf.get(k).getApproveQty()>0 || getStockBetweenDateForPdf.get(k).getApprovedQtyValue()>0
+								|| getStockBetweenDateForPdf.get(k).getIssueQty()>0 || getStockBetweenDateForPdf.get(k).getIssueQtyValue()>0
+								|| getStockBetweenDateForPdf.get(k).getDamageQty()>0 || getStockBetweenDateForPdf.get(k).getDamagValue()>0) {
+							
+						
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(getStockBetweenDateForPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getOpeningStock(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getOpStockValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getApproveQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getIssueQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getIssueQtyValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getDamageQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getDamagValue(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							float closingQty = getStockBetweenDateForPdf.get(k).getOpeningStock()+getStockBetweenDateForPdf.get(k).getApproveQty()-
+									getStockBetweenDateForPdf.get(k).getIssueQty()-getStockBetweenDateForPdf.get(k).getDamageQty();
+							
+							float closingValue = getStockBetweenDateForPdf.get(k).getOpStockValue()+getStockBetweenDateForPdf.get(k).getApprovedQtyValue()-
+									getStockBetweenDateForPdf.get(k).getIssueQtyValue()-getStockBetweenDateForPdf.get(k).getDamagValue();
+							
+							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						}
+					}
+			}
+			
+			document.open();
+			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+
+				Paragraph headingDate=new Paragraph("Date Wise Stock Report , From Date: " + fromDateForPdf+"  To Date: "+toDateForPdf+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
+			document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	 
 	
 	@RequestMapping(value = "/getStockBetweenDate", method = RequestMethod.GET) 
 	public ModelAndView getStockBetweenDate(HttpServletRequest request, HttpServletResponse response) {

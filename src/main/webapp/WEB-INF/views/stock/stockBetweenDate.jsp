@@ -116,7 +116,9 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"  value="Submit"> 
+								<input type="submit" class="btn btn-primary"  value="Submit"> 
+								 <input type="button" value="PDF" class="btn btn-primary" onclick="genPdf()" /> 
+								<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 							</div>
 						</div> <br>
 							 
@@ -399,7 +401,14 @@ function myFunction() {
      
   }
 }
- 
+function genPdf(){
+	window.open('${pageContext.request.contextPath}/stockBetweenDateReportItemWisePDF/');
+}
+function exportToExcel()
+{
+	window.open("${pageContext.request.contextPath}/exportToExcel");
+	document.getElementById("expExcel").disabled=true;
+}
 </script>
 
 </body>
