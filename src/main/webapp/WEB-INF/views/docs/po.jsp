@@ -48,7 +48,7 @@ p {
 h4 {
 	color: black;
 	font-family: sans-serif;
-	font-size: 80%;
+	font-size: 100%;
 	font-weight: bold;
 	padding-bottom: 10px;
 	margin: 0;
@@ -124,11 +124,11 @@ hr {
 
 				<table width="100%">
 							<tr>
-								<td width="25%" > 
-									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="100" height="70" />
+								<td width="15%" > 
+									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="80" height="70" />
 								</td>
 
-								<td width="75%" style="text-align: center;">
+								<td width="85%" style="text-align: center;">
  <h4 align="center">${company.companyName}</h4>
 
 
@@ -173,7 +173,7 @@ hr {
 							<tr>
 								<td width="900px	" valign="top"
 									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px; font-weight: bold;">To,<br>
-									${item.vendorName}<br>${item.vendorAdd1}
+									${item.vendorName}<br>${item.vendorAdd1}<br>GST No. : ${item.vendorGstNo}
 								</td>
 
 								<td width="50%"
@@ -186,7 +186,7 @@ hr {
 													<table>
 														<tr>
 
-															<td width="50%" valign="top">Party Cd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendorCode}</td>
+															<td width="50%" valign="top">Party Cd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendorCode} &nbsp;&nbsp;&nbsp;&nbsp; Order Validity : ${item.approvStatus}</td>
 
 															 
 
@@ -216,6 +216,9 @@ hr {
 
 		</h5>
 		
+		<c:set var="pageCount" value="1" />
+		<c:set var="totalPage" value="${item.pOReportDetailList.size()/8}" />
+		
 		<table align="center" border="1" cellpadding="0" cellspacing="0"
 			style="table-layout: fixed; display: block; height: 476px; width: 100%;"
 			id="table_grid">
@@ -223,18 +226,19 @@ hr {
 				<tr style="font-size: 15px;">
 					<th height="5px" style="max-height: 10px; max-width: 30px;"
 						width="30px">SR.</th>
-					<th width=5%>ITEM</th>
-					<th width=38%>DESCRIPTION</th>
+					<th width=5%>Item</th>
+					<th width=35%>Description</th>
 					<th width=5%>UOM</th>
-					<th align="right" width=7%>QTY</th>
-					<th align="right" width=10%>RATE Rs.</th>
-					<th align="right" width=10%>VALUE Rs.</th>
-					<th align="center" width=30%>SCHEDULE</th>
+					<th align="right" width=7%>Qty</th>
+					<th align="right" width=10%>Rate</th>
+					<th align="right" width=3%>Disc%</th>
+					<th align="right" width=10%>Value</th>
+					<th align="center" width=30%>Schedule</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="10" />
+				<c:set var="maxRowCount" value="8" />
 				<c:set var="total" value="0" />
 
 				<c:forEach items="${item.pOReportDetailList}" var="row"
@@ -259,7 +263,7 @@ hr {
 
 
 		<p style="text-align: left; font-weight: normal;">
-			<span style="float: right; margin-right: 110px;">TOTAL -
+			<span style="float: right; margin-right: 96px;">TOTAL -
 				<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${total}" /></span>
 		</p>
@@ -267,14 +271,14 @@ hr {
 
 		<br>
 
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
+		
+			<table cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%">
 
-				<tr class="information">
-					<td colspan="2" valign="top">
+				<tr >
+					<td colspan="12" valign="top">
 						<table>
 							<tr>
-								<td width="50%" valign="top"
+								<td colspan="6" width="50%" valign="top"
 									style="border-bottom: 1px solid #313131; border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 12px;">Delivery
 									Terms : ${item.deliveryDesc}<br> <br> Payment Terms :
 									${item.pymtDesc} <br> <br> Dispatch Mode :
@@ -284,14 +288,14 @@ hr {
 										Ensure that your supplies are full filling current goverment
 										rules/regulations as applicable.</p>
 								</td>
-								<td width="50%" valign="top"
+								<td colspan="6" width="50%" valign="top"
 									style="border-bottom: 1px solid #313131; border-top: 1px solid #313131; border-left: 1px solid #313131; border-right: 1px solid #313131; padding: 10px; color: #000; font-size: 12px;">Packing/Forwarding
-									&nbsp;&nbsp;&nbsp;- ${item.poPackRemark}/${item.poPackVal} <br> <br> GST
+									&nbsp;&nbsp;&nbsp;- ${item.poPackRemark} <br> <br> GST
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
-									GST ${item.poTaxPer} AS APPLICABLE. <br> <br> Freight/Transport
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.poFrtRemark}/${item.poFrtVal} <br> <br>
+									AS APPLICABLE. <br> <br> Freight/Transport
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.poFrtRemark} <br> <br>
 									Other Charges &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;- ${item.otherChargeAfterRemark}/${item.otherChargeAfter}
+									&nbsp;&nbsp;&nbsp;- ${item.otherChargeAfterRemark}
 
 								</td>
 
@@ -303,12 +307,13 @@ hr {
 					</td>
 				</tr>
 			</table>
-		</div>
+		
 
 		<br>
+		 
 		<p
 			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-			REMARKS IF ANY : ${item.deliveryDesc }<br> 
+			REMARKS IF ANY : ${item.poRemark }<br> 
 		</p>
 
 
@@ -326,13 +331,14 @@ hr {
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
 					<p
 						style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-						1) ITEMCODE, PARTY CODE & PO.NO ON YOUR D/C.<br> 2) PL.
+						1) ITEMCODE, PARTY CODE & PO.NO ON YOUR D/C./Invoice <br> 2) PL.
 						PROVIDE YOUR TEST & INSP.CERTIFICATE -YES/NO<br> 3)
 						INSPECTION SUBJECT TO OUR / YOUR END.<br> 4) EXPIRY DATE OF
 						EACH ITEM.<br> 5) IF MTRL.REJECTED, PLS.ARRANGE TO COLLECT
 						FROM OUR FACTORY SITE &nbsp;&nbsp;&nbsp;&nbsp;WITHIN 8 DAYS
-						OTHERWISE WE WILL NIT RESPONSIBLE FOR ANY LOSS OR
-						&nbsp;&nbsp;&nbsp;&nbsp;DAMAGE.
+						OTHERWISE WE WILL NOT RESPONSIBLE FOR ANY LOSS OR
+						&nbsp;&nbsp;&nbsp;&nbsp;DAMAGE.<br> 6) IF REJECTION PLEASE SUBMIT INVOICE 
+						ONLY FOR ACCEPTED MATERIAL.
 
 					</p>
 				</td>
@@ -349,14 +355,6 @@ hr {
 		</table>
 
 		<br>
-
-		<p
-			style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: bold; padding-bottom: 6px"
-			align="center">------------------------------------------------------------------------------------------*
-			ORDER VALIDITY : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp; DAYS *
-			-----------------------------------------------------------------------------------------------------
-		</p>
  
 		<h5 style="font-weight: normal; margin: 0px;" align="left">NASHIK
 			OFFICE : ${company.officeAdd}</h5>
@@ -364,8 +362,14 @@ hr {
 		<h5 style="font-weight: normal; margin: 0px;" align="left">PHONE:
 			${company.officePhoneNumber}, FAX : ${company.officeFaxNumber}, Email : ${company.purchaseEmail}</h5>
 
-		<h5 style="font-weight: bold; margin: 0px; padding-bottom: 5px" align="left" >WORKS:
+		<h5 style="font-weight: bold; margin: 0px; padding-bottom: 5px" align="left" >FACTORY/WORKS:
 			${company.factoryAdd}</h5>
+			
+			<p
+			style="font-weight: normal; margin: 0px; padding-bottom: 5px"
+			align="right">${pageCount}/<fmt:formatNumber value="${totalPage+(1-(totalPage%1))%1}" type="number" pattern="#"/>
+			<c:set var="pageCount" value="${pageCount+1}" />
+		</p>
 
 
 		<!-- END Main Content -->
@@ -388,11 +392,11 @@ hr {
 
 					<table width="100%">
 							<tr>
-								<td width="25%" > 
-									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="100" height="70" />
+								<td width="15%" > 
+									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="80" height="70" />
 								</td>
 
-								<td width="75%" style="text-align: center;">
+								<td width="85%" style="text-align: center;">
  <h4 align="center">${company.companyName}</h4>
 
 
@@ -431,7 +435,7 @@ hr {
 							<tr>
 								<td width="900px	" valign="top"
 									style="font-weight: bold; border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">To,<br>
-									${item.vendorName}<br>${item.vendorAdd1}
+									${item.vendorName}<br>${item.vendorAdd1}<br>GST No. : ${item.vendorGstNo}
 								</td>
 
 								<td width="50%"
@@ -445,7 +449,7 @@ hr {
 														<tr>
 
 															<td width="50%" valign="top">Party Cd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
-																${item.vendorCode}</td>
+																${item.vendorCode} &nbsp;&nbsp;&nbsp;&nbsp; Order Validity : ${item.approvStatus}</td>
  
 														</tr>
 													</table>
@@ -478,13 +482,14 @@ hr {
 				<tr style="font-size: 15px;">
 					<th height="5px" style="max-height: 10px; max-width: 30px;"
 						width="30px">SR.</th>
-					<th width=5%>ITEM</th>
-					<th width=38%>DESCRIPTION</th>
+					<th width=5%>Item</th>
+					<th width=35%>Description</th>
 					<th width=5%>UOM</th>
-					<th align="right" width=7%>QTY</th>
-					<th align="right" width=10%>RATE Rs.</th>
-					<th align="right" width=10%>VALUE Rs.</th>
-					<th align="center" width=30%>SCHEDULE</th>
+					<th align="right" width=7%>Qty</th>
+					<th align="right" width=10%>Rate</th>
+					<th align="right" width=3%>Disc%</th>
+					<th align="right" width=10%>Value</th>
+					<th align="center" width=30%>Schedule</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -493,7 +498,7 @@ hr {
 
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="10" />
+				<c:set var="maxRowCount" value="8" />
 				<c:set var="total" value="0" />
 
 
@@ -507,7 +512,7 @@ hr {
 
 				<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
-				<c:set var="total" value="${total+row.basicValue}" />
+				<c:set var="total" value="${total+row.basicValue-row.discValue}" />
 				<tr style="font-size: 13px;">
 					<td height="5px" style="max-height: 5px" align="center"
 						width="30px"><c:out value="${count.index+1}" /></td>
@@ -520,7 +525,10 @@ hr {
 										value="${row.itemRate}" /> </td>
 					<td align="right" style="padding: 5px;">
 					<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${row.basicValue}" /> </td>
+										value="${row.discPer}" /> </td>
+					<td align="right" style="padding: 5px;">
+					<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${row.basicValue-row.discValue}" /> </td>
 					<td align="center"><c:out
 							value="On / Before ${row.schDate} ${row.schRemark} " /></td>
 
@@ -533,7 +541,7 @@ hr {
 
 
 	<p style="text-align: left; font-weight: normal;">
-		<span style="float: right; margin-right: 110px;">TOTAL -
+		<span style="float: right; margin-right: 96px;">TOTAL -
 			<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${total}" /></span>
 	</p>
@@ -541,48 +549,46 @@ hr {
 
 	<br>
 
-	<div class="invoice-box">
-		<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%">
 
-			<tr class="information">
-				<td colspan="2" valign="top">
-					<table>
-						<tr>
-							<td valign="top"
-								width="50%" style="border-bottom: 1px solid #313131; border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 12px;">Delivery
-								Terms : ${item.deliveryDesc}<br> <br> Payment Terms :
-								${item.pymtDesc} <br> <br> Dispatch Mode :
-								${item.dispModeDesc}<br> <br>
-								<p
-									style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: bold;">*
-									Ensure that your supplies are full filling current goverment
-									rules/regulations as applicable.</p>
-							</td>
-							<td width="50%" valign="top"
-								style="border-bottom: 1px solid #313131; border-top: 1px solid #313131; border-left: 1px solid #313131; border-right: 1px solid #313131; padding: 10px; color: #000; font-size: 12px;">Packing/Forwarding
-								&nbsp;&nbsp;&nbsp;- ${item.poPackRemark}/${item.poPackVal} <br> <br> GST
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
-								GST ${item.poTaxPer} AS APPLICABLE. <br> <br> Freight/Transport
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.poFrtRemark}/${item.poFrtVal} <br> <br>
-								Other Charges &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								&nbsp;&nbsp;&nbsp;- ${item.otherChargeAfterRemark}/${item.otherChargeAfter}
+				<tr >
+					<td colspan="12" valign="top">
+						<table>
+							<tr>
+								<td colspan="6" width="50%" valign="top"
+									style="border-bottom: 1px solid #313131; border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 12px;">Delivery
+									Terms : ${item.deliveryDesc}<br> <br> Payment Terms :
+									${item.pymtDesc} <br> <br> Dispatch Mode :
+									${item.dispModeDesc}<br> <br>
+									<p
+										style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: bold;">*
+										Ensure that your supplies are full filling current goverment
+										rules/regulations as applicable.</p>
+								</td>
+								<td colspan="6" width="50%" valign="top"
+									style="border-bottom: 1px solid #313131; border-top: 1px solid #313131; border-left: 1px solid #313131; border-right: 1px solid #313131; padding: 10px; color: #000; font-size: 12px;">Packing/Forwarding
+									&nbsp;&nbsp;&nbsp;- ${item.poPackRemark} <br> <br> GST
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+									AS APPLICABLE. <br> <br> Freight/Transport
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.poFrtRemark} <br> <br>
+									Other Charges &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;- ${item.otherChargeAfterRemark}
 
-							</td>
+								</td>
 
-						</tr>
-
+							</tr>
 
 
-					</table>
-				</td>
-			</tr>
-		</table>
-	</div>
+
+						</table>
+					</td>
+				</tr>
+			</table>
 
 	<br>
 	<p
 		style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-		REMARKS IF ANY : ${item.deliveryDesc }<br>  
+		REMARKS IF ANY : ${item.poRemark }<br>  
 	</p>
 
 
@@ -602,12 +608,13 @@ hr {
 				style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
 				<p
 					style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: normal;">
-					1) ITEMCODE, PARTY CODE & PO.NO ON YOUR D/C.<br> 2) PL.
+					1) ITEMCODE, PARTY CODE & PO.NO ON YOUR D/C./Invoice<br> 2) PL.
 					PROVIDE YOUR TEST & INSP.CERTIFICATE -YES/NO<br> 3) INSPECTION
 					SUBJECT TO OUR / YOUR END.<br> 4) EXPIRY DATE OF EACH ITEM.<br>
 					5) IF MTRL.REJECTED, PLS.ARRANGE TO COLLECT FROM OUR FACTORY SITE
-					&nbsp;&nbsp;&nbsp;&nbsp;WITHIN 8 DAYS OTHERWISE WE WILL NIT
-					RESPONSIBLE FOR ANY LOSS OR &nbsp;&nbsp;&nbsp;&nbsp;DAMAGE.
+					&nbsp;&nbsp;&nbsp;&nbsp;WITHIN 8 DAYS OTHERWISE WE WILL NOT
+					RESPONSIBLE FOR ANY LOSS OR &nbsp;&nbsp;&nbsp;&nbsp;DAMAGE.<br> 6) IF REJECTION PLEASE SUBMIT INVOICE 
+						ONLY FOR ACCEPTED MATERIAL.
 
 				</p>
 			</td>
@@ -623,30 +630,29 @@ hr {
 
 	</table>
 
-	<br>
-
-	<p
-		style="color: #000; font-size: 10px; text-align: left; margin: 0px; font-weight: bold; padding-bottom: 5px"
-		align="center">------------------------------------------------------------------------------------------*
-		ORDER VALIDITY : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		&nbsp;&nbsp;&nbsp; DAYS *
-		-----------------------------------------------------------------------------------------------------
-	</p>
- 
-
-	<h5 style="font-weight: normal; margin: 0px;" align="left">${company.officeAdd}</h5>
+	<c:choose>
+		<c:when test="${totalPage+(1-(totalPage%1))%1>1}">
+		<br>
+		</c:when>
+		<c:otherwise>
+		<div style="padding-bottom:13px; "> </div>
+		</c:otherwise>
+	</c:choose>
+	 
+	<h5 style="font-weight: normal; margin: 0px;" align="left">NASHIK
+			OFFICE : ${company.officeAdd}</h5>
 
 	<h5 style="font-weight: normal; margin: 0px;" align="left">PHONE:${company.officePhoneNumber}, FAX : ${company.officeFaxNumber}, Email : ${company.purchaseEmail}</h5>
 
-	<h5 style="font-weight: bold; margin: 0px;" align="left">WORKS:
+	<h5 style="font-weight: bold; margin: 0px; padding-bottom: 5px"  align="left">FACTORY/WORKS:
 		${company.factoryAdd}</h5>
 
-
+<p style="font-weight: normal; margin: 0px; padding-bottom: 10px"
+		align="right"> ${pageCount}/<fmt:formatNumber value="${totalPage+(1-(totalPage%1))%1}" type="number" pattern="#"/> 
+		<c:set var="pageCount" value="${pageCount+1}" />
+	</p>
 	<!-- END Main Content -->
-
-	 
-
-
+ 
 	</c:forEach>
 </body>
 </html>

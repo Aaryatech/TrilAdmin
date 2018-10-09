@@ -223,7 +223,7 @@
 									<div class="col-md-2">Item Description*</div>
 									<div class="col-md-10">
 										<input id="itemDesc" class="form-control"
-											placeholder="Item Description" value="${editItem.itemDesc}"
+											placeholder="Item Description" value='${editItem.itemDesc}'
 											style="text-align: left;" name="itemDesc" type="text"
 											required>
 									</div>

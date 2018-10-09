@@ -110,7 +110,8 @@ public class PurchaseOrderController {
 			model.addObject("remarkTemp", "-");
 			model.addObject("quotationDateTemp", sf.format(date));
 			model.addObject("isFromDashBoard", 0);
-			 
+			model.addObject("orderValidityTemp", 1);
+			
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
@@ -476,6 +477,12 @@ public class PurchaseOrderController {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+			try {
+				String orderValidityTemp = request.getParameter("orderValidityTemp");
+				model.addObject("orderValidityTemp", orderValidityTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			
 			int poTypeTemp = Integer.parseInt(request.getParameter("poTypeTemp"));
 			model.addObject("poTypeTemp", poTypeTemp);
@@ -689,6 +696,7 @@ public class PurchaseOrderController {
 			int payId = Integer.parseInt(request.getParameter("payId"));
 			int deliveryId = Integer.parseInt(request.getParameter("deliveryId"));
 			int dispatchMode = Integer.parseInt(request.getParameter("dispatchMode"));
+			int orderValidity = Integer.parseInt(request.getParameter("orderValidity"));
 			String quotationDate = request.getParameter("quotationDate");
 			String poDate = request.getParameter("poDate");
 			String poNo = request.getParameter("poNo");
@@ -747,6 +755,7 @@ public class PurchaseOrderController {
 			PoHeader.setDelStatus(1);
 			PoHeader.setPoRemark(poRemark);
 			PoHeader.setPoStatus(9);
+			PoHeader.setApprovStatus(orderValidity);
 			System.out.println(PoHeader);
 			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", PoHeader, PoHeader.class);
 			System.out.println(save);
@@ -1493,6 +1502,7 @@ public class PurchaseOrderController {
 			int payId = Integer.parseInt(request.getParameter("payId"));
 			int deliveryId = Integer.parseInt(request.getParameter("deliveryId"));
 			int dispatchMode = Integer.parseInt(request.getParameter("dispatchMode"));
+			int orderValidity = Integer.parseInt(request.getParameter("orderValidity"));
 			String quotationDate = request.getParameter("quotationDate");
 			String poDate = request.getParameter("poDate");
 			String poNo = request.getParameter("poNo");
@@ -1518,6 +1528,8 @@ public class PurchaseOrderController {
 			getPoHeader.setPoPackRemark(packRemark);
 			getPoHeader.setDelStatus(1);
 			getPoHeader.setPoRemark(poRemark);
+			getPoHeader.setApprovStatus(orderValidity);
+			
 			System.out.println(getPoHeader);
 
 			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {

@@ -300,6 +300,12 @@ body {
 												</c:forEach>
 										 </select>
 									</div>
+									
+									<div class="col-md-2">Order Validity</div>
+										<div class="col-md-3">
+											<input type="number" placeholder="Order Validity"  value="${getPoHeader.approvStatus}" name="orderValidity" id="orderValidity" class="form-control" required>
+										</div>
+										
 								</div><br/>
 								 
 								
@@ -342,6 +348,7 @@ body {
 										<th class="col-md-1"><font size="2">PO Qty</font></th>
 										<th><font size="2">Bal QTY</font></th>
 										<th class="col-md-1"><font size="2">Rate</font></th>
+										<th><font size="2">Value</font></th>
 										<th><font size="2">Disc%</font></th>
 										<th><font size="2">Sch Days</font></th>
 										<th><font size="2">Remark</font></th>
@@ -380,6 +387,7 @@ body {
 													  			  <c:choose>
 													  			 	<c:when test="${(poDetailList.status==7 or poDetailList.status==9) && (getPoHeader.poStatus==9 or getPoHeader.poStatus==7)}">
 															  			 	<td align="right"><font size="2"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font> </td>
+															  			 	<td align="right" id="value${count.index}"><font size="2"><c:out value="${poDetailList.basicValue}" /></font></td>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font></td>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:50px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></font></td>
 													  						<td align="left"><font size="2"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></font></td> 
@@ -387,6 +395,7 @@ body {
 															  		</c:when>
 															  		<c:otherwise>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></font> </td>
+															  				<td align="right" id="value${count.index}"><font size="2"><c:out value="${poDetailList.basicValue}" /></font></td>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></font></td>
 															  				<td align="right"><font size="2"><input style="text-align:right; width:50px" type="text" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></font></td>
 													  						<td align="left"><font size="2"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" readonly></font></td> 
@@ -1106,6 +1115,7 @@ function changeItemRate(key)
   				document.getElementById("taxValue").value = data.poTaxValue;
   				document.getElementById("finalValue").value = data.poBasicValue-data.discValue+data.poPackVal+data.poInsuVal
   				+data.poFrtVal+data.poTaxValue+data.otherChargeAfter;
+  				document.getElementById("value"+key).innerText=rate*poQty;
 				
 			});
 	

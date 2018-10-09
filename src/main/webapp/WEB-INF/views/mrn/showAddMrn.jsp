@@ -243,7 +243,7 @@ body {
 														class="form-control chosen" placeholder="Vendor"
 														data-rule-required="true">
 
-														<option value="-1"><c:out value="SELECT VENDOR"/></option>
+														<option value=""><c:out value="SELECT VENDOR"/></option>
 														<c:forEach items="${vendorList}" var="vendor"
 															varStatus="count">
 															<c:choose>
@@ -1112,68 +1112,68 @@ body {
 					alert("Please Select Grn Type");
 					isValid = false;
 				}
-				if (vendor_id == null || vendor_id == "") {
+				else if (vendor_id == null || vendor_id == "") {
 					alert("Please Select Vendor Type");
 					isValid = false;
 				}
 
-				if (grn_no == null || grn_no == "") {
+				else if (grn_no == null || grn_no == "") {
 					alert("Please Select Grn No");
 					isValid = false;
 				}
-				if (grn_date == null || grn_date == "") {
+				else if (grn_date == null || grn_date == "") {
 					alert("Please Select Grn Date");
 					isValid = false;
 				}
 
-				if (gate_entry_no == null || gate_entry_no == "") {
+				else if (gate_entry_no == null || gate_entry_no == "") {
 					alert("Please Select Gate Entry No");
 					isValid = false;
 				}
-				if (gate_entry_date == null || gate_entry_date == "") {
+				else if (gate_entry_date == null || gate_entry_date == "") {
 					alert("Please Select Gate Entry Date");
 					isValid = false;
 				}
 
-				if (chalan_no == null || chalan_no == "") {
+				else if (chalan_no == null || chalan_no == "") {
 					alert("Please Select Chalan No");
 					isValid = false;
 				}
 
-				if (chalan_date == null || chalan_date == "") {
+				else if (chalan_date == null || chalan_date == "") {
 					alert("Please Select Chalan Date");
 					isValid = false;
 				}
-				if (bill_no == null || bill_no == "") {
+				else if (bill_no == null || bill_no == "") {
 					alert("Please Select Bill No");
 					isValid = false;
 				}
 
-				if (bill_date == null || bill_date == "") {
+				else if (bill_date == null || bill_date == "") {
 					alert("Please Select Bill Date");
 					isValid = false;
 				}
 
-				if (lorry_date == null || lorry_date == "") {
+				else if (lorry_date == null || lorry_date == "") {
 					alert("Please Select Lorry Date");
 					isValid = false;
 				}
-				if (lorry_no == null || lorry_no == "") {
+				else if (lorry_no == null || lorry_no == "") {
 					alert("Please Select Lorry No");
 					isValid = false;
 				}
 				//lorry_remark,transport
 
-				if (lorry_remark == null || lorry_remark == "") {
+				else if (lorry_remark == null || lorry_remark == "") {
 					alert("Please Select Lorry Remark");
 					isValid = false;
 				}
-				if (transport == null || transport == "") {
+				else if (transport == null || transport == "") {
 					alert("Please Select Transport");
 					isValid = false;
 				}
 
-				if (isValid == true) {
+				else if (isValid == true) {
 					$('#loader').show();
 					on();
 					$
@@ -1464,6 +1464,12 @@ function exportExcel()
 					
 				});
 }
+
+$(document).keypress(function (e) {
+    if (e.which == 13) {
+    	insertMrn();
+    }
+});
 </script>
 </body>
 </html>

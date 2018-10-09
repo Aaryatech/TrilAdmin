@@ -404,6 +404,11 @@ body {
 												</c:forEach>
 										 </select>
 									</div>
+									
+									<div class="col-md-2">Order Validity</div>
+										<div class="col-md-3">
+											<input type="number" placeholder="Order Validity"  value="${orderValidityTemp}" name="orderValidity" id="orderValidity" class="form-control" required>
+										</div>
 								</div><br/>
 								 
 								
@@ -668,6 +673,7 @@ body {
 					<input   type="hidden" value="0" name="dispatchModeTemp" id="dispatchModeTemp"    >
 					<input   type="hidden" value="0" name="poDateTemp" id="poDateTemp"    >
 					<input   type="hidden" value="${code}" name="poNoTemp" id="poNoTemp"    >
+					<input   type="hidden" value="1" name="orderValidityTemp" id="orderValidityTemp"    >
 					<input   type="hidden" value="${isFromDashBoard}" name="isFromDashBoard" id="isFromDashBoard"    >
 					<input   type="hidden" value="${isGeneralPurchase}" name="isGeneralPurchase" id="isGeneralPurchase"    >
 						<input   type="hidden"   name="remarkTemp" id="remarkTemp"    >
@@ -1230,6 +1236,8 @@ function requiredField(key)
 	document.getElementById("dispatchModeTemp").value=document.getElementById("dispatchMode").value;
 	document.getElementById("poDateTemp").value=document.getElementById("poDate").value;
 	document.getElementById("remarkTemp").value=document.getElementById("poRemark").value;
+	document.getElementById("orderValidityTemp").value=document.getElementById("orderValidity").value;
+	
 	
 } 
   function calculateBalaceQty(key)
