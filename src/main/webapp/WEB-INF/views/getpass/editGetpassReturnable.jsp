@@ -261,6 +261,18 @@
  
 								</div>
 								<br> 
+								
+								<div class="box-content">
+								
+								<div class="col-md-2">Description</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Description"
+											class="form-control" />
+
+									</div>
+									  
+								</div><br>
+								
 								<div class="box-content">
 								
 								<div class="col-md-2">Qty</div>
@@ -279,16 +291,7 @@
 							 
 								</div><br>
 								
-								<div class="box-content">
-								
-								<div class="col-md-2">Remark</div>
-									<div class="col-md-10">
-										<input type="text" name="remark" id="remark" placeholder="Remark"
-											class="form-control" />
-
-									</div>
-									  
-								</div><br><br>
+								<br>
 								
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">

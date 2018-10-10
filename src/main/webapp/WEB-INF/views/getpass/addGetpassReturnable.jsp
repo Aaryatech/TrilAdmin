@@ -232,6 +232,17 @@
 
 								</div>
 								<br> 
+								
+								<div class="box-content">
+								<div class="col-md-2">Description</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Description"
+											class="form-control"/>
+
+									</div>
+									 
+								</div><br>
+								
 								<div class="box-content">
 								<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
@@ -247,17 +258,8 @@
 									</div>
 									 
 									
-								</div><br> 
-								
-								<div class="box-content">
-								<div class="col-md-2">Remark</div>
-									<div class="col-md-10">
-										<input type="text" name="remark" id="remark" placeholder="Remark"
-											class="form-control"/>
-
-									</div>
-									 
-								</div><br> <br> 
+								</div><br>  
+								 <br> 
 								
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
@@ -288,9 +290,9 @@
 													<tr>
 														<th style="width:2%;">Sr.No.</th>
 														<th class="col-md-5">Name</th>
+														<th class="col-md-1">Description</th>
 														<th class="col-md-1">Qty</th>
-														<th class="col-md-1">No Of Days</th>
-														<th class="col-md-1">Remark</th>
+														<th class="col-md-1">No Of Days</th> 
 														<th class="col-md-1">Action</th>
 
 													</tr>
@@ -588,6 +590,11 @@
 																	.html(
 																			itemList.itemCode));
 													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
+													tr
 															.append($(
 																	'<td></td>')
 																	.html(
@@ -597,11 +604,7 @@
 																	'<td></td>')
 																	.html(
 																			itemList.gpNoDays));
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	itemList.remark));
+													
 
 													tr
 															.append($(
@@ -720,6 +723,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.itemCode));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(
@@ -731,11 +739,7 @@
 															'<td></td>')
 															.html(
 																	itemList.gpNoDays));
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	itemList.remark));
+													
 
 													tr
 															.append($(

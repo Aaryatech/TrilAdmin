@@ -122,7 +122,8 @@ public class GetpassController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			int grpId = Integer.parseInt(request.getParameter("grpId"));
 			float qty = Float.parseFloat(request.getParameter("qty"));
-
+			String remark = request.getParameter("remark");
+			
 			String editIndex = request.getParameter("editIndex");
 
 			Date date = new Date();
@@ -149,7 +150,8 @@ public class GetpassController {
 				getpassDetail.setGroupId(grpId);
 				getpassDetail.setGpRemQty(0);
 				getpassDetail.setGpRetQty(0);
-
+				getpassDetail.setRemark(remark);
+				
 				addItemInGetpassDetail.add(getpassDetail);
 			} else {
 				int index = Integer.parseInt(editIndex);
@@ -164,7 +166,7 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setIsUsed(1);
 				addItemInGetpassDetail.get(index).setGpRemQty(0);
 				addItemInGetpassDetail.get(index).setGpRetQty(0);
-
+				addItemInGetpassDetail.get(index).setRemark(remark);
 			}
 
 		} catch (Exception e) {

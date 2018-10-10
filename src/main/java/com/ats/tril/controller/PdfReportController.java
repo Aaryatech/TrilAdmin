@@ -42,6 +42,7 @@ import com.ats.tril.model.EnquiryDetail;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.GatePassReport;
 import com.ats.tril.model.doc.IndentReport;
@@ -460,6 +461,13 @@ public class PdfReportController {
 			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
 					DocumentBean.class);
 			model.addObject("documentBean", documentBean);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "oneTimeItem"); 
+			System.out.println("map " + map);
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			 String[] oneTimeItem = settingValue.getValue().split(",");
+				model.addObject("oneTimeItem", oneTimeItem);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -512,6 +520,13 @@ public class PdfReportController {
 			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
 					DocumentBean.class);
 			model.addObject("documentBean", documentBean);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "oneTimeItem"); 
+			System.out.println("map " + map);
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			 String[] oneTimeItem = settingValue.getValue().split(",");
+			model.addObject("oneTimeItem", oneTimeItem);
 
 		} catch (Exception e) {
 			e.printStackTrace();

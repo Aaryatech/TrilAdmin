@@ -261,6 +261,17 @@
 								</div><br>
 								
 								<div class="box-content">
+								
+								<div class="col-md-2">Description</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Description"
+											class="form-control" />
+
+									</div>
+									  
+								</div><br>
+								
+								<div class="box-content">
  
 									<div class="col-md-2">Qty</div>
 									<div class="col-md-3">
@@ -306,6 +317,7 @@
 													<tr>
 														<th style="width:2%;">Sr.No.</th>
 														<th class="col-md-6">Name</th>
+														<th class="col-md-1">Description</th>
 														<th class="col-md-1">Qty</th>
 
 														<th class="col-md-1">Action</th>
@@ -321,7 +333,9 @@
 
 															<td><c:out
 																	value="${getpassDetailItemNameList.itemCode}" /></td>
-
+															
+															<td><c:out
+																	value="${getpassDetailItemNameList.remark}" /></td>
 															<td><c:out
 																	value="${getpassDetailItemNameList.gpQty}" /></td>
 
@@ -526,6 +540,7 @@
 								document.getElementById("qty").value = data.gpQty;
 								document.getElementById("catId").value = data.catId;
 								$('#catId').trigger("chosen:updated");
+								document.getElementById("remark").value = data.remark;
 
 								$
 										.getJSON(
@@ -600,7 +615,8 @@
 			var catId = $("#catId").val();
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
-
+			var remark = $("#remark").val();
+			
 			var editIndex = $("#editIndex").val();
 			if(validation()==true){
 			$('#loader').show();
@@ -613,6 +629,7 @@
 
 								itemId : itemId,
 								qty : qty,
+								remark : remark,
 								catId : catId,
 								grpId : grpId,
 								noOfDays :0,
@@ -646,6 +663,12 @@
 																	.html(
 																			itemList.itemCode));
 													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
+													
+													tr
 															.append($(
 																	'<td></td>')
 																	.html(
@@ -677,6 +700,7 @@
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
+								document.getElementById("remark").value = "";
 							});
 			}
 
@@ -759,6 +783,12 @@
 																	'<td></td>')
 																	.html(
 																			itemList.itemCode));
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(

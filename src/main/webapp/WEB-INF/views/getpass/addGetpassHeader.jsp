@@ -209,6 +209,16 @@
 								</div><br>
 								
 								<div class="box-content">
+								<div class="col-md-2">Description</div>
+									<div class="col-md-10">
+										<input type="text" name="remark" id="remark" placeholder="Description"
+											class="form-control"/>
+
+									</div>
+									 
+								</div><br>
+								
+								<div class="box-content">
 
 									 
 									<div class="col-md-2">Qty</div>
@@ -220,6 +230,8 @@
 
 								</div> 
 								<br> 
+								
+								<br>
 								
 									<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
@@ -251,6 +263,7 @@
 													<tr>
 														<th style="width:2%;">Sr.No.</th>
 														<th class="col-md-6">Name</th>
+														<th class="col-md-2">Description</th>
 														<th class="col-md-1">Qty</th>
 
 														<th class="col-md-1">Action</th>
@@ -427,6 +440,7 @@
 								document.getElementById("editIndex").value = key;
 								document.getElementById("qty").value = data.gpQty;
 								document.getElementById("catId").value = data.catId;
+								document.getElementById("remark").value = data.remark;
 								$('#catId').trigger("chosen:updated");
 
 								$
@@ -502,6 +516,7 @@
 			var catId = $("#catId").val();
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
+			var remark = $("#remark").val();
 			if(validation()==true){
 			var editIndex = $("#editIndex").val();
 
@@ -515,6 +530,7 @@
 
 								itemId : itemId,
 								qty : qty,
+								remark : remark,
 								catId : catId,
 								grpId : grpId,
 
@@ -545,6 +561,13 @@
 																	'<td></td>')
 																	.html(
 																			itemList.itemCode));
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
+													
 													tr
 															.append($(
 																	'<td></td>')
@@ -577,6 +600,7 @@
 								document.getElementById("itemId").value = "";
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
+								document.getElementById("remark").value = "";
 							});
 			}
 
@@ -660,6 +684,12 @@
 																	'<td></td>')
 																	.html(
 																			itemList.itemCode));
+													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.remark));
 
 													tr
 															.append($(

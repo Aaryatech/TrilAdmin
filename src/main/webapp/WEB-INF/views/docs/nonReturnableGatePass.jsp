@@ -170,8 +170,7 @@ hr {
 					<th>ITEM NO.</th>
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>QTY</th>
-					<th>REMARKS</th>
+					<th>QTY</th> 
 				</tr>
 			</thead>
 			<tbody>
@@ -257,8 +256,7 @@ hr {
 					<th>ITEM NO.</th>
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>QTY</th>
-					<th>REMARKS</th>
+					<th>QTY</th> 
 				</tr>
 			</thead>
 			<tbody>
@@ -281,11 +279,31 @@ hr {
 				<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 
-					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="center">
+					<c:out value="${row.itemCode}" /></td>
+					<c:set var="find" value="0"></c:set>
+					<td width="50%" align="left" style="padding: 10px;">
+							  <c:forEach items="${oneTimeItem}" var="oneTimeItem" varStatus="count">
+								<c:choose>
+									<c:when test="${oneTimeItem==row.gpItemId}"> 
+									<c:set var="find" value="1"></c:set>
+									</c:when> 
+								</c:choose> 
+							</c:forEach>  
+					
+					<c:choose>
+						<c:when test="${find==1}">
+						<c:out value="${row.remark}" />
+						</c:when>
+						<c:otherwise>  
+						${row.itemDesc}<br>${row.remark}
+						  </c:otherwise>
+					</c:choose>
+				 
+					
+					</td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.gpQty}" /></td>
-					<td width="0" align="center"><c:out value="NA" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.gpQty}" /></td> 
 
 				</tr>
 				</c:forEach>
