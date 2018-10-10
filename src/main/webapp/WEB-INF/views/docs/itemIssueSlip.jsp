@@ -141,7 +141,7 @@ hr {
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: 0001
+								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo}
 									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
 									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

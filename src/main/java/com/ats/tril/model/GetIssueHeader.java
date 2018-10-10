@@ -17,6 +17,7 @@ public class GetIssueHeader {
 	private String deptCode; 
 	private String subDeptCode; 
 	private String accHeadDesc;
+	private String issueSlipNo;
 	List<GetIssueDetail> issueDetailList;
 	public int getIssueId() {
 		return issueId;
@@ -98,13 +99,20 @@ public class GetIssueHeader {
 	public void setAccHeadDesc(String accHeadDesc) {
 		this.accHeadDesc = accHeadDesc;
 	}
+	
+	public String getIssueSlipNo() {
+		return issueSlipNo;
+	}
+	public void setIssueSlipNo(String issueSlipNo) {
+		this.issueSlipNo = issueSlipNo;
+	}
 	@Override
 	public String toString() {
 		return "GetIssueHeader [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
 				+ ", issueDate=" + issueDate + ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", accHead="
 				+ accHead + ", deleteStatus=" + deleteStatus + ", status=" + status + ", deptCode=" + deptCode
-				+ ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", issueDetailList="
-				+ issueDetailList + "]";
+				+ ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", issueSlipNo=" + issueSlipNo
+				+ ", issueDetailList=" + issueDetailList + "]";
 	}
 	 
 	

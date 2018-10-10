@@ -14,6 +14,7 @@ public class IssueHeader {
 	private int accHead;
 	private int deleteStatus; 
 	private int status; 
+	private String issueSlipNo;
 	List<IssueDetail> issueDetailList;
 	
 	public int getIssueId() {
@@ -77,12 +78,19 @@ public class IssueHeader {
 	public void setAccHead(int accHead) {
 		this.accHead = accHead;
 	}
+	
+	public String getIssueSlipNo() {
+		return issueSlipNo;
+	}
+	public void setIssueSlipNo(String issueSlipNo) {
+		this.issueSlipNo = issueSlipNo;
+	}
 	@Override
 	public String toString() {
 		return "IssueHeader [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
 				+ ", issueDate=" + issueDate + ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", accHead="
-				+ accHead + ", deleteStatus=" + deleteStatus + ", status=" + status + ", issueDetailList="
-				+ issueDetailList + "]";
+				+ accHead + ", deleteStatus=" + deleteStatus + ", status=" + status + ", issueSlipNo=" + issueSlipNo
+				+ ", issueDetailList=" + issueDetailList + "]";
 	}
 	
 	

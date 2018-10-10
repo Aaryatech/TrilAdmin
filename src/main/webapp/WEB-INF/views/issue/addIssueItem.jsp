@@ -172,6 +172,15 @@
 									 
 								</div><br> 
 							
+							<div class="box-content">
+							
+								<div class="col-md-2">Issue Slip No *</div>
+									<div class="col-md-3">
+										<input id=issueSlipNo class="form-control"
+								 placeholder="Issue Slip No"  name="issueSlipNo" type="text"  required> 
+								 
+								 </div>
+								 </div><br>
 							  
 							<hr/>
 							

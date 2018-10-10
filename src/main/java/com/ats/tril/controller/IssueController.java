@@ -300,6 +300,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
 			int acc = Integer.parseInt(request.getParameter("acc"));
 			int type = Integer.parseInt(request.getParameter("type"));
+			String issueSlipNo = request.getParameter("issueSlipNo"); 
+			
 			System.out.println("issueDate " + issueDate);
 			 IssueHeader issueHeader = new IssueHeader();
 		 
@@ -341,6 +343,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 issueHeader.setSubDeptId(subDeptId);
 			 issueHeader.setAccHead(acc);
 			 issueHeader.setItemCategory(type);
+			 issueHeader.setIssueSlipNo(issueSlipNo);
+			 
 			 String mrnDetailList = new String();
 			 
 			 for(int i=0 ; i<issueDetailList.size() ; i++)
@@ -788,13 +792,15 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			int deptId = Integer.parseInt(request.getParameter("deptId"));
 			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
 			int acc = Integer.parseInt(request.getParameter("acc"));
-			 
+			String issueSlipNo = request.getParameter("issueSlipNo"); 
+			
 			getIssueHeader.setIssueDate(issueDate);
 			//getIssueHeader.setIssueNo(issueNo);
 			getIssueHeader.setDeleteStatus(1);
 			getIssueHeader.setDeptId(deptId);
 			getIssueHeader.setSubDeptId(subDeptId);
 			getIssueHeader.setAccHead(acc);
+			getIssueHeader.setIssueSlipNo(issueSlipNo);
 			getIssueHeader.setIssueDetailList(issueDetailEditList); 
 			
 			String mrnDetailList = new String();
