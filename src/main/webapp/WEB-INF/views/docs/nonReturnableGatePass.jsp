@@ -133,12 +133,12 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 
 								</td>
 
-								<td align="right" valign="top"><br> Date :
+								<td align="right" valign="top" width="20%"><br> Date :
 									${item.gpReturnDate}</td>
 
 							</tr>
@@ -219,12 +219,12 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 
 								</td>
 
-								<td align="right" valign="top"><br> Date :
+								<td align="right" valign="top" width="20%"><br> Date :
 									${item.gpReturnDate}</td>
 
 							</tr>
@@ -282,7 +282,7 @@ hr {
 					<td width="0" align="center">
 					<c:out value="${row.itemCode}" /></td>
 					<c:set var="find" value="0"></c:set>
-					<td width="50%" align="left" style="padding: 10px;">
+					<td width="60%" align="left" style="padding: 10px;">
 							  <c:forEach items="${oneTimeItem}" var="oneTimeItem" varStatus="count">
 								<c:choose>
 									<c:when test="${oneTimeItem==row.gpItemId}"> 

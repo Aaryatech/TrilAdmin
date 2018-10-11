@@ -43,6 +43,7 @@ import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.GetpassReturnVendor;
 import com.ats.tril.model.Type;
+import com.ats.tril.model.Uom;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
@@ -83,6 +84,10 @@ public class GetpassController {
 			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
 
 			model.addObject("catList", catList);
+			
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,6 +128,8 @@ public class GetpassController {
 			int grpId = Integer.parseInt(request.getParameter("grpId"));
 			float qty = Float.parseFloat(request.getParameter("qty"));
 			String remark = request.getParameter("remark");
+			int uomId = Integer.parseInt(request.getParameter("uomId")); 
+			String uomName = request.getParameter("uomName");
 			
 			String editIndex = request.getParameter("editIndex");
 
@@ -151,6 +158,8 @@ public class GetpassController {
 				getpassDetail.setGpRemQty(0);
 				getpassDetail.setGpRetQty(0);
 				getpassDetail.setRemark(remark);
+				getpassDetail.setUom(uomId);
+				getpassDetail.setUomName(uomName);
 				
 				addItemInGetpassDetail.add(getpassDetail);
 			} else {
@@ -167,6 +176,8 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setGpRemQty(0);
 				addItemInGetpassDetail.get(index).setGpRetQty(0);
 				addItemInGetpassDetail.get(index).setRemark(remark);
+				addItemInGetpassDetail.get(index).setUom(uomId);
+				addItemInGetpassDetail.get(index).setUomName(uomName);
 			}
 
 		} catch (Exception e) {
@@ -395,6 +406,10 @@ public class GetpassController {
 			model.addObject("itemList", itemList);*/
 
 			model.addObject("editGetpassHeaderNon", editGetpassHeaderNon);
+			
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -483,6 +498,10 @@ public class GetpassController {
 			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
 
 			model.addObject("catList", catList);
+			
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -504,6 +523,8 @@ public class GetpassController {
 			float qty = Float.parseFloat(request.getParameter("qty"));
 			int noOfDays = Integer.parseInt(request.getParameter("noOfDays"));
 			String remark = request.getParameter("remark");
+			int uomId = Integer.parseInt(request.getParameter("uomId"));
+			String uomName = request.getParameter("uomName");
 			String editIndex = request.getParameter("editIndex");
 
 			Date date = new Date();
@@ -542,6 +563,8 @@ public class GetpassController {
 				getpassDetail.setGroupId(grpId);
 				getpassDetail.setGpRemQty(qty);
 				getpassDetail.setGpRetQty(0);
+				getpassDetail.setUom(uomId);
+				getpassDetail.setUomName(uomName);
 				getpassDetail.setRemark(remark);
 				addItemInGetpassDetail.add(getpassDetail);
 			} else {
@@ -557,6 +580,8 @@ public class GetpassController {
 				addItemInGetpassDetail.get(index).setGpRemQty(qty); 
 				addItemInGetpassDetail.get(index).setGpNoDays(noOfDays);
 				addItemInGetpassDetail.get(index).setRemark(remark);
+				addItemInGetpassDetail.get(index).setUom(uomId);
+				addItemInGetpassDetail.get(index).setUomName(uomName);
 			}
 
 		} catch (Exception e) {
@@ -870,6 +895,10 @@ public class GetpassController {
 
 			editGatepassHeaderList = editGatepassHeader.getGetpassDetailItemNameList();
 			model.addObject("editGetpassHeader", editGatepassHeader);
+			
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -932,6 +961,8 @@ public class GetpassController {
 			int grpId = Integer.parseInt(request.getParameter("grpId"));
 			float qty = Float.parseFloat(request.getParameter("qty"));
 			int noOfDays = Integer.parseInt(request.getParameter("noOfDays"));
+			int uomId = Integer.parseInt(request.getParameter("uomId"));
+			String uomName = request.getParameter("uomName");
 			String remark = request.getParameter("remark");
 			String editIndex = request.getParameter("editIndex");
 
@@ -972,6 +1003,8 @@ public class GetpassController {
 				getpassDetail.setGpRemQty(qty);
 				getpassDetail.setGpRetQty(0);
 				getpassDetail.setRemark(remark);
+				getpassDetail.setUom(uomId);
+				getpassDetail.setUomName(uomName);
 				editGatepassHeaderList.add(getpassDetail);
 			} else {
 				int index = Integer.parseInt(editIndex);
@@ -985,6 +1018,8 @@ public class GetpassController {
 				editGatepassHeaderList.get(index).setGpRemQty(qty); 
 				editGatepassHeaderList.get(index).setGpNoDays(noOfDays);
 				editGatepassHeaderList.get(index).setRemark(remark);
+				editGatepassHeaderList.get(index).setUom(uomId);
+				editGatepassHeaderList.get(index).setUomName(uomName);
 			}
 
 		} catch (Exception e) {

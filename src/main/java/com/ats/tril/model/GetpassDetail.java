@@ -18,7 +18,9 @@ public class GetpassDetail {
 	private String remark;
 	private float gpRemQty;
 	private float gpRetQty;
-
+	private int uom;
+	private String uomName;
+	
 	public int getGpDetailId() {
 		return gpDetailId;
 	}
@@ -132,12 +134,29 @@ public class GetpassDetail {
 		this.remark = remark;
 	}
 
+	public int getUom() {
+		return uom;
+	}
+
+	public void setUom(int uom) {
+		this.uom = uom;
+	}
+
+	public String getUomName() {
+		return uomName;
+	}
+
+	public void setUomName(String uomName) {
+		this.uomName = uomName;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetail [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId + ", gpQty="
 				+ gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus
 				+ ", isUsed=" + isUsed + ", itemCode=" + itemCode + ", catId=" + catId + ", groupId=" + groupId
-				+ ", remark=" + remark + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + "]";
+				+ ", remark=" + remark + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", uom=" + uom
+				+ ", uomName=" + uomName + "]";
 	}
 
 }

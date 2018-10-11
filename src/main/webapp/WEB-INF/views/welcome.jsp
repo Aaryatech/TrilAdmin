@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i> Welcome To Inventry Management System
+								<i class="fa fa-table"></i> Welcome To Inventory Management System
 							</h3>
 							<div class="box-tool">
 								 <a data-action="collapse" href="#"><i

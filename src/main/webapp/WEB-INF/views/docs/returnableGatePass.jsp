@@ -11,7 +11,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Non Returnable Gate Pass</title>
+<title> Returnable Gate Pass</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -134,11 +134,11 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 								</td>
 
-								<td align="right"><br> Date : ${item.gpReturnDate }</td>
+								<td align="right" width="20%"><br> Date : ${item.gpReturnDate }</td>
 							</tr>
 						</table>
 					</td>
@@ -231,11 +231,11 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 								</td>
 
-								<td align="right"><br> Date : ${item.gpReturnDate }</td>
+								<td align="right" width="20%"><br> Date : ${item.gpReturnDate }</td>
 							</tr>
 						</table>
 					</td>
@@ -322,7 +322,7 @@ hr {
 						
 						</td>
 						<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-						<td width="0" align="right" style="padding: 10px;">99999.99</td>
+						<td width="0" align="right" style="padding: 10px;">${row.gpQty}</td>
 						<td width="0" align="center"><c:out value="${row.gpReturnDate}" /></td>
 
 					</tr>

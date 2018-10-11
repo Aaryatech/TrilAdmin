@@ -231,7 +231,28 @@
 								</div> 
 								<br> 
 								
-								<br>
+								<div class="box-content">
+
+									<div class="col-md-2">Select UOM</div>
+									<div class="col-md-10">
+										<select  class="form-control chosen" name="uomId" 
+											id="uomId">
+											<option value="">Select UOM</option>
+
+											<c:forEach items="${uomList}" var="uomList">
+
+												<option value="${uomList.uomId}"><c:out
+														value="${uomList.uom}"></c:out>
+												</option>
+
+
+											</c:forEach>
+										</select>
+									</div>
+ 
+ 
+								</div>
+								<br> <br>
 								
 									<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
@@ -263,6 +284,7 @@
 													<tr>
 														<th style="width:2%;">Sr.No.</th>
 														<th class="col-md-6">Name</th>
+														<th class="col-md-1">UOM</th>
 														<th class="col-md-2">Description</th>
 														<th class="col-md-1">Qty</th>
 
@@ -442,6 +464,8 @@
 								document.getElementById("catId").value = data.catId;
 								document.getElementById("remark").value = data.remark;
 								$('#catId').trigger("chosen:updated");
+								document.getElementById("uomId").value = data.uom;
+								$('#uomId').trigger("chosen:updated");
 
 								$
 										.getJSON(
@@ -517,6 +541,8 @@
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val();
 			var remark = $("#remark").val();
+			var uomId = $("#uomId").val();
+			var uomName = $("#uomId option:selected ").text();
 			if(validation()==true){
 			var editIndex = $("#editIndex").val();
 
@@ -532,8 +558,9 @@
 								qty : qty,
 								remark : remark,
 								catId : catId,
-								grpId : grpId,
-
+								grpId : grpId, 
+								uomId : uomId,
+								uomName : uomName,
 								editIndex : editIndex,
 								ajax : 'true'
 
@@ -561,7 +588,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.itemCode));
-													
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.uomName));
 													tr
 													.append($(
 															'<td></td>')
@@ -601,6 +632,8 @@
 								$('#itemId').trigger("chosen:updated");
 								document.getElementById("editIndex").value = "";
 								document.getElementById("remark").value = "";
+								document.getElementById("uomId").value = "";
+								$('#uomId').trigger("chosen:updated");
 							});
 			}
 
@@ -612,7 +645,8 @@
 			var catId = $("#catId").val();
 			var grpId = $("#grpId").val();
 			var qty = $("#qty").val(); 
-
+			var uomId = $("#uomId").val();
+			
 			var isValid = true;
 			if (catId == "" || catId == null) {
 				isValid = false;
@@ -631,6 +665,10 @@
 			else if (isNaN(qty) || qty < 1 || qty == "") {
 				isValid = false;
 				alert("Please enter Quantity");
+			}
+			else if (uomId == "" || uomId == null) {
+				isValid = false;
+				alert("Please Select UOM ");
 			}
  
 			return isValid;
@@ -684,6 +722,11 @@
 																	'<td></td>')
 																	.html(
 																			itemList.itemCode));
+													tr
+													.append($(
+															'<td></td>')
+															.html(
+																	itemList.uomName));
 													
 													tr
 													.append($(
