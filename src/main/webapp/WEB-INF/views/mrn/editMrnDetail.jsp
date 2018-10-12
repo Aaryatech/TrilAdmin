@@ -798,17 +798,17 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 		//alert("pending qty " +pendingQty);
 		//alert("Qty  " +qty);
 		
-		if(parseInt(qty)>parseInt(pendingQty)){
+		/* if(parseInt(qty)>parseInt(pendingQty)){
 
 			alert("Received Qty can not be greater than Pending Qty");
 			
 
 		}else{
-			
+		 */	
 			getPoDetail(qty,poDId);
 
 
-		}
+		/* } */
 		
 	}
 	

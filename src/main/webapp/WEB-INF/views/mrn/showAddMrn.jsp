@@ -113,7 +113,7 @@ body {
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <body onload="callToInvoice()">
-<div id="overlay2" >  <div id="text2"> Saving Mrn....
+<div id="overlay2" >  <div id="text2"> Saving MRN....
 
 </div></div>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
@@ -923,11 +923,11 @@ body {
 						+ itemId).value;
 
 				//alert("Qty  " +qty  +"chalan Qty  " +chalanQty);
-				if (parseInt(qty) > parseInt(pendingQty)) {
+				/* if (parseInt(qty) > parseInt(pendingQty)) {
 					document.getElementById("recQty" + poDId + itemId).value = 0;
 					alert("Received Qty can not be greater than Pending Qty");
 
-				} else {
+				} else { */
 
 					if (chalanQty > 0) {
 						addMrnQty(qty, poDId, chalanQty);
@@ -938,7 +938,7 @@ body {
 					}
 					//getPoDetail(qty, poDId);
 
-				}
+				//}
 
 			}
 			function checkMe(checking) {
