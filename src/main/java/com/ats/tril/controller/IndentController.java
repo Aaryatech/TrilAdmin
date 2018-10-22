@@ -499,7 +499,7 @@ public class IndentController {
 						System.out.println(date);
 
 						// Date d=LocalDate.now().plusDays(schDay);
-						detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApprovedQtyValue()-
+						detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApproveQty()-
 								getCurrentStockByItemId.getIssueQty()-getCurrentStockByItemId.getDamageQty());
 						detail.setItemId(itemId);
 						detail.setItemName(itemName);
@@ -556,7 +556,7 @@ public class IndentController {
 					System.out.println(date);
 
 					// Date d=LocalDate.now().plusDays(schDay);
-					detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApprovedQtyValue()-
+					detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApproveQty()-
 							getCurrentStockByItemId.getIssueQty()-getCurrentStockByItemId.getDamageQty());
 					detail.setItemId(itemId);
 					detail.setItemName(itemName);

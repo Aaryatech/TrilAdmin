@@ -75,8 +75,7 @@
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control "
 								 placeholder="From Date" value="${fromDate}" name="fromDate" type="text" readonly>
-
-
+ 
 									</div>
 									<div class="col-md-1"></div>
 									<div class="col-md-2">To Date</div>

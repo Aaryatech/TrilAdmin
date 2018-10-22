@@ -126,44 +126,64 @@ hr {
 		</div>
 
 		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
+ 		
+ 		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0" width="1000px">
 
-
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0" >
 				<tr class="information">
-					<td colspan="3" valign="top">
-						<table>
+					<td valign="top">
+						<table width="1000px">
 							<tr>
-
-<td width="20%"></td>
-
-								<td width="58%" valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">&nbsp;&nbsp;&nbsp;&nbsp;PUR. REQUISITION / INDENT</td>
- 
-							 	<td width="23%" align="left">Indent No.&nbsp;&nbsp;:
-									${item.indMNo}<br> Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-									${item.indMDate}
+								<td width="200px"  valign="top" align="center" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;"> 
+								</td>
+								<td width="600px"  valign="top" align="center" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">PUR. REQUISITION / INDENT
+								</td>
+								<td width="200px"  valign="top" align="left" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">
 								</td> 
-								
-								
-							</tr>
+							</tr> 
 						</table>
 					</td>
 				</tr>
 			</table>
 		</div>
-
-
-
+		
 		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0" width="1000px">
 
 				<tr class="information">
-					<td colspan="1" valign="top">
-						<table>
+					<td valign="top">
+						<table width="1000px"> 
 							<tr>
-								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">Indenting
+								<td  width="600px"  valign="top" align="left" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;"> Indent No. : ${item.indMNo}
+								</td>
+								 
+								  
+								<td width="400px"  valign="top" align="right" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">Date : ${item.indMDate}
+								</td>
+								 
+
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div> 
+		 
+		 <div class="invoice-box">
+			<table cellpadding="0" cellspacing="0" width="1000px">
+
+				<tr class="information">
+					<td valign="top">
+						<table width="1000px">
+							<tr>
+								<td width="500px" valign="top"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">Indenting
 									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
@@ -172,19 +192,16 @@ hr {
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
-								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000;">
-
+								<td width="500px"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">
 									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
 									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
 										<c:when test="${item.indIsmonthly==1}">YES</c:when><c:otherwise>NO</c:otherwise>
 									</c:choose>
-
-
-
-								</td>
  
+								</td>
+
 							</tr>
 
 						</table>
@@ -192,31 +209,31 @@ hr {
 				</tr>
 			</table>
 		</div>
-
-
+		  
 		<br>
-
-
-		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+		
+		<table align="center" border="1" cellpadding="0" cellspacing="0"
+			style="table-layout: fixed; display: block; height: 300px; width: 100%;"
+			id="table_grid">
 			<thead>
-				<tr>
+				<tr style="font-size: 95%;">
 					<th>Sr.</th>
 
 					<th width="40%">Description</th>
 					<th>UOM</th>
 					<th>Qty. Req.</th>
 					<th>When Req. / Stock/ Avg.</th>
-
 				</tr>
 			</thead>
 			<tbody>
-
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="5" />
+				<c:set var="maxRowCount" value="3" />
+				<c:set var="total" value="0" />
 
 				<c:forEach items="${item.indentReportDetailList}" var="row"
 					varStatus="count">
+
+
 
 					<c:choose>
 
@@ -224,13 +241,68 @@ hr {
 
 							<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
-							<div style="page-break-after: always;"></div>
 
 
 
 							<!-- new page -->
 			</tbody>
 		</table>
+
+		<!-- start of footer -->
+		
+		<table cellpadding="0" cellspacing="0">
+
+				<tr class="information">
+					<td colspan="1" valign="top">
+						<table>
+							<tr>
+								<td width="25%" valign="top" align="left"
+									style="padding: 8px; color: #000;  ">
+
+									Purpose &nbsp;&nbsp;&nbsp;- </td>
+
+
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+<br><br>
+		
+		<div class="invoice-box">
+			 
+						<table width="1000px">
+							<tr >
+								<td width="250px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Requisitioned By</td>
+
+								<td width="250px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Stores</td>
+
+								<td width="250px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Dept.Head</td>
+
+								<td width="250px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Approved By</td>
+
+							</tr>
+
+						</table> 
+
+			<hr
+				style="height: 1px; border: none; color: black; background-color: black;">
+
+		</div><br>
+ 
 
 
 		 <div align="left">
@@ -239,56 +311,75 @@ hr {
 
 
 		<h4 align="center" align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
+ 
+ 		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0" width="1000px">
 
-
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
 				<tr class="information">
-					<td colspan="3" valign="top">
-						<table>
+					<td valign="top">
+						<table width="1000px">
 							<tr>
-
-								<td width="20%"></td>
-
-								<td width="58%" valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">&nbsp;&nbsp;&nbsp;&nbsp;PUR. REQUISITION / INDENT</td>
-  
-							 	<td width="23%" align="left">Indent No.&nbsp;&nbsp;:
-									${item.indMNo}<br> Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-									${item.indMDate}
+								<td width="200px"  valign="top" align="center" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;"> 
+								</td>
+								<td width="600px"  valign="top" align="center" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">PUR. REQUISITION / INDENT
+								</td>
+								<td width="200px"  valign="top" align="left" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">
 								</td> 
-		
-							</tr>
+							</tr> 
 						</table>
 					</td>
 				</tr>
 			</table>
 		</div>
-
-
-
+		
 		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0" width="1000px">
 
 				<tr class="information">
-					<td colspan="2" valign="top">
-						<table>
+					<td valign="top">
+						<table width="1000px"> 
 							<tr>
-								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;&nbsp;- ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.accHeadDesc} <br> For
+								<td  width="600px"  valign="top" align="left" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;"> Indent No. : ${item.indMNo}
+								</td>
+								  
+								<td width="400px"  valign="top" align="right" 
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">Date : ${item.indMDate}
+								</td>
+								 
+
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div> 
+		 
+		 <div class="invoice-box">
+			<table cellpadding="0" cellspacing="0" width="1000px">
+
+				<tr class="information">
+					<td valign="top">
+						<table width="1000px">
+							<tr>
+								<td width="500px" valign="top"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">Indenting
+									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
 										<c:when test="${item.indIsdev==1}">YES</c:when><c:otherwise>NO</c:otherwise>
 									</c:choose><br> Indent Type
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.typeName}
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
-								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000;">
-
+								<td width="500px"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">
 									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
-									&nbsp;&nbsp;&nbsp;  - ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
+									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
 										<c:when test="${item.indIsmonthly==1}">YES</c:when><c:otherwise>NO</c:otherwise>
 									</c:choose>
@@ -302,27 +393,32 @@ hr {
 				</tr>
 			</table>
 		</div>
-
-
 		<br>
 
 
-		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+		<table align="center" border="1" cellpadding="0" cellspacing="0"
+			style="table-layout: fixed; display: block; height: 300px; width: 100%;"
+			id="table_grid">
 			<thead>
-				<tr>
-					<th>Sr. No.</th>
-					<th >Description</th>
+				<tr style="font-size: 95%;">
+					<th>Sr.</th>
+
+					<th width="40%">Description</th>
 					<th>UOM</th>
 					<th>Qty. Req.</th>
 					<th>When Req. / Stock/ Avg.</th>
-
 				</tr>
 			</thead>
 			<tbody>
 
+
+
+
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="5" />
+				<c:set var="maxRowCount" value="3" />
+				<c:set var="total" value="0" />
+
+
 
 
 				<!-- end of new page -->
@@ -331,8 +427,10 @@ hr {
 
 				</c:choose>
 
+				<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
-				<tr>
+				 
+				<tr style="font-size: 95%;">
 					<td width="5%" align="center"><c:out value="${count.index+1}" /></td>
 					<td   align="left" style="padding: 10px;"><c:out value="${row.indItemDesc}" /></td>
 					<td width="6%" align="center"><c:out value="${row.indItemUom}" /></td>
@@ -341,14 +439,10 @@ hr {
 							value="${row.indItemSchddt}" /></td>
 
 				</tr>
+	</c:forEach>
 
-
-
-
-				</c:forEach>
-
-			</tbody>
-		</table>
+	</tbody>
+	</table>
 
 		<br>
 		
@@ -374,39 +468,32 @@ hr {
 			</table>
 <br><br>
 		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
-
-				<tr class="information">
-					<td colspan="4" valign="top">
-						<table>
+			 
+						<table width="1000px">
 							<tr>
-								<td width="25%" valign="top" align="center"
+								<td width="250px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Requisitioned By</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="250px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Stores</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="250px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Dept.Head</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="250px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Approved By</td>
 
 							</tr>
 
-						</table>
-					</td>
-				</tr>
-			</table>
-
+						</table> 
 			<hr
 				style="height: 1px; border: none; color: black; background-color: black;">
 

@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,6 +56,8 @@ public class QueryItemController {
 	
 	List<GetRetNonRetQueryItem> retNonRetItemList;
 	
+	List<GetItem> itemList;
+	
 	
 	RestTemplate rest = new RestTemplate();
 	@RequestMapping(value = "/getQueryItemList", method = RequestMethod.GET)
@@ -64,7 +67,7 @@ public class QueryItemController {
 		try {
 
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
-			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+			 itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			model.addObject("itemList", itemList);
 
 			
@@ -83,6 +86,36 @@ public class QueryItemController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/getItemFromItemListforQuery", method = RequestMethod.GET)
+	@ResponseBody
+	public GetItem getItemFromItemListforQuery(HttpServletRequest request, HttpServletResponse response) {
+
+		GetItem getItem = new GetItem();
+		
+		try {
+
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			
+			 for(int i=0 ; i<itemList.size();i++) {
+				 
+				 if(itemList.get(i).getItemId()==itemId) {
+					 
+					 getItem=itemList.get(i);
+					 break;
+				 }
+			 }
+ 
+			System.out.println(getItem);
+		} catch (Exception e) {
+			
+			System.err.println("Exception in getting getQueryItemList" +e.getMessage());
+			
+			e.printStackTrace();
+		}
+
+		return getItem;
 	}
 	
 	//
