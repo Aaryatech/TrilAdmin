@@ -305,6 +305,7 @@
 												
 													<th class="col-md-1" style="text-align: center;">Indent
 														Qty</th>
+													<th class="col-md-1" style="text-align: center;">Cur Stock</th>
 													<th class="col-md-1" style="text-align: center;">Sch Day</th>
 													<th class="col-md-1" style="text-align: center;">Sch
 														Date</th>
@@ -372,6 +373,7 @@
 															name="indQty${indDetail.indDId}"> --%>
 															<c:out value="${indDetail.indQty}"></c:out>
 															</td>
+															<td style="text-align: center;" class="col-md-1"><c:out value="${indDetail.indItemCurstk}"></c:out></td>
 														<td style="text-align: center;" class="col-md-1"><c:out value="${indDetail.indItemSchd}"></c:out>
 														<%-- <input type="number" readonly class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /> --%></td>
 

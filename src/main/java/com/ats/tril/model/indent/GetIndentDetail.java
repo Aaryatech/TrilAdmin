@@ -23,7 +23,7 @@ public class GetIndentDetail {
 	
 	private String indItemDesc;
 	
-	private int indItemCurstk;
+	private float indItemCurstk;
 	
 	private int indItemSchd;
 	
@@ -78,7 +78,7 @@ public class GetIndentDetail {
 	public String getIndItemDesc() {
 		return indItemDesc;
 	}
-	public int getIndItemCurstk() {
+	public float getIndItemCurstk() {
 		return indItemCurstk;
 	}
 	public int getIndItemSchd() {
@@ -130,7 +130,7 @@ public class GetIndentDetail {
 	public void setIndItemDesc(String indItemDesc) {
 		this.indItemDesc = indItemDesc;
 	}
-	public void setIndItemCurstk(int indItemCurstk) {
+	public void setIndItemCurstk(float indItemCurstk) {
 		this.indItemCurstk = indItemCurstk;
 	}
 	public void setIndItemSchd(int indItemSchd) {

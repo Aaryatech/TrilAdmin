@@ -32,7 +32,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<<!-- div class="page-title">
+			 <!-- div class="page-title">
 				<div>
 					<h1>
 

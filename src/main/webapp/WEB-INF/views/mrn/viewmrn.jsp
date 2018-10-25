@@ -142,8 +142,9 @@
 														value="0" />All</th>
 													<th class="col-md-1" >Mrn No</th>
 													<th class="col-md-1">Date</th>
-													<th class="col-md-5">Vendor</th>
+													<th class="col-md-3">Vendor</th>
 													<th class="col-md-1">Type</th>
+													<th class="col-md-2">Status</th>
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -177,7 +178,28 @@
 														</c:forEach>
 													
 														<td ><c:out value="${mrnType}" /></td>
-
+														
+														<c:set var="mrnSts" value="-"></c:set>
+														  
+														<c:choose>
+															<c:when test="${mrn.mrnStatus==0}">
+																<c:set var="mrnSts" value="Inspection Pending"></c:set>
+															</c:when> 
+															<c:when test="${mrn.mrnStatus==1}">
+																<c:set var="mrnSts" value="Inspection Partially Pending"></c:set>
+															</c:when>
+															<c:when test="${mrn.mrnStatus==2}">
+																<c:set var="mrnSts" value="Inspection Complete"></c:set>
+															</c:when>
+															<c:when test="${mrn.mrnStatus==3}">
+																<c:set var="mrnSts" value="1st Approve Complete"></c:set>
+															</c:when>
+															<c:when test="${mrn.mrnStatus==4}">
+																<c:set var="mrnSts" value="2nd Approve Complete"></c:set>
+															</c:when>
+															 
+														</c:choose>
+														  <td ><c:out value="${mrnSts}" /></td>
 														<td   >
 														
 														<a href="javascript:genPdf(${ mrn.mrnId});" title="PDF"><i

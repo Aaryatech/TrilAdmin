@@ -1296,12 +1296,44 @@ public class IndentController {
 					GetIndentDetail[].class);
 
 			indAprItemList = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
-
+ 
 			System.err.println("Indent Detail  indAprItemList " + indAprItemList.toString());
 			model.addObject("indDetailList", indAprItemList);
 
 			model.addObject("toDate", indToDate);
 			model.addObject("apr", apr);
+			
+			
+			/*StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+					StockHeader.class);
+
+			date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			fromDateForStock = stockHeader.getYear() + "-" + stockHeader.getMonth() + "-" + "01";
+			toDateForStock = sf.format(date);
+			
+			 map = new LinkedMultiValueMap<>();
+			 map.add("fromDate", fromDate);
+			 map.add("toDate", toDate);
+			 
+			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
+			
+			
+			for(int i = 0 ; i<indAprItemList.size(); i++) {
+				
+				for(int j = 0 ; j<stockList.size(); j++) {
+					
+					if(indAprItemList.get(i).getItemId()==stockList.get(j).getItemId()) {
+						
+						indAprItemList.get(i).setIndItemCurstk(stockList.get(j).getOpeningStock()+stockList.get(j).getApproveQty()-
+								stockList.get(j).getIssueQty()-stockList.get(j).getDamageQty());
+						break;
+					}
+					
+				}
+			}*/
 
 		} catch (Exception e) {
 
