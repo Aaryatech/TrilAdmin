@@ -156,7 +156,7 @@ public class IndentController {
 			 
 			int flag = Integer.parseInt(request.getParameter("flag"));
 			float itemQty = Integer.parseInt(request.getParameter("qty"));
-			 totalIndentValueText = Integer.parseInt(request.getParameter("totalIndentValueText"));
+			 totalIndentValueText = Float.parseFloat(request.getParameter("totalIndentValueText"));
 			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();  
 			 
 			 
@@ -1304,7 +1304,7 @@ public class IndentController {
 			model.addObject("apr", apr);
 			
 			
-			/*StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+			 StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
 					StockHeader.class);
 
 			date = new Date();
@@ -1314,8 +1314,8 @@ public class IndentController {
 			toDateForStock = sf.format(date);
 			
 			 map = new LinkedMultiValueMap<>();
-			 map.add("fromDate", fromDate);
-			 map.add("toDate", toDate);
+			 map.add("fromDate", fromDateForStock);
+			 map.add("toDate", toDateForStock);
 			 
 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
 			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
@@ -1333,8 +1333,8 @@ public class IndentController {
 					}
 					
 				}
-			}*/
-
+			} 
+			getValueFunction();
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing getIndItemForApproval1/{indMId} -indAprItemList" + e.getMessage());
