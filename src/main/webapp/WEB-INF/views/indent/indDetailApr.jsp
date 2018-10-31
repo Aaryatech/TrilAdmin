@@ -309,7 +309,9 @@
 													<th class="col-md-1" style="text-align: center;">Sch Day</th>
 													<th class="col-md-1" style="text-align: center;">Sch
 														Date</th>
-														<th class="col-md-2" style="text-align: left;">Remark</th>
+														<th class="col-md-1" style="text-align: left;">Remark</th>
+													<th class="col-md-1" style="text-align: center;">Rate</th>
+													<th class="col-md-1" style="text-align: center;">Value</th>
 														<!-- <th class="col-md-1" style="text-align: center;">Action
 														</th> -->
 												</tr>
@@ -380,8 +382,19 @@
 														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchddt}" /></td>
 
-														<td style="text-align: left;" class="col-md-2"><c:out
+														<td style="text-align: left;" class="col-md-1"><c:out
 																value="${indDetail.indRemark}" /></td>
+														
+															<c:forEach items="${itemList}" var="itemList">
+															<c:choose>
+																<c:when test="${itemList.itemId==indDetail.itemId}">
+																	<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemClRate}" /></td>	
+																	<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemClRate*indDetail.indQty}" /></td>
+																</c:when>
+															</c:choose>
+															</c:forEach>
+													
+															
 <%-- 
 														<td style="text-align: center;" class="col-md-1">
 															<input

@@ -1316,8 +1316,9 @@ public class IndentController {
 			 map = new LinkedMultiValueMap<>();
 			 map.add("fromDate", fromDateForStock);
 			 map.add("toDate", toDateForStock);
-			 
-			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+			 map.add("catId", getIndent.getCatId());
+	 		 map.add("typeId", 0);
+			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
 			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
 			
 			
@@ -1334,6 +1335,28 @@ public class IndentController {
 					
 				}
 			} 
+			
+			 	map = new LinkedMultiValueMap<>();
+				RestTemplate rest = new RestTemplate();
+				map.add("catId", getIndent.getCatId());
+				GetItem[] getItem = rest.postForObject(Constants.url + "/itemListByCatId",map, GetItem[].class);
+				List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(getItem));
+				
+				model.addObject("itemList", itemList);
+				
+				
+				/*for(int i = 0 ; i<indAprItemList.size(); i++) {
+					
+					for(int j = 0 ; j<itemList.size(); j++) {
+						
+						if(indAprItemList.get(i).getItemId()==itemList.get(j).getItemId()) {
+							
+						}
+						
+					}
+					
+				}*/
+				
 			getValueFunction();
 		} catch (Exception e) {
 
