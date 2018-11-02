@@ -47,11 +47,11 @@
 							<h3>
 								<i class="fa fa-table"></i>Approve<c:choose>
 								<c:when test="${approve==1}">1</c:when><c:when test="${approve==2}">2</c:when>
-								</c:choose> Mrn
+								</c:choose> Issue
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
-									Add PO</a> <a data-action="collapse" href="#"><i
+								<%-- <a href="${pageContext.request.contextPath}/addPurchaseOrder">
+									Add PO</a> --%> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -83,6 +83,7 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Issue No</th>
 											<th class="col-md-1">Issue TYPE</th> 
+											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -109,6 +110,21 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
+												
+												<c:set var="issueStatus" value="-"></c:set>
+														  
+														<c:choose>
+															<c:when test="${list.status==0}">
+																<c:set var="issueStatus" value="Pending 1st Approve"></c:set>
+															</c:when> 
+															<c:when test="${list.status==1}">
+																<c:set var="issueStatus" value="Pending 2nd Approve"></c:set>
+															</c:when>
+															<c:when test="${list.status==2}">
+																<c:set var="issueStatus" value="Approve Completed"></c:set>
+															</c:when> 
+														</c:choose>
+														  <td ><c:out value="${issueStatus}" /></td> 
 												 
 												<td> 
 													<a href="${pageContext.request.contextPath}/approveIssueDetail/${list.issueId}/${approve}"><abbr
@@ -146,6 +162,7 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Issue No</th>
 											<th class="col-md-1">Issue TYPE</th> 
+											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -172,6 +189,20 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
+												<c:set var="issueStatus" value="-"></c:set>
+														  
+														<c:choose>
+															<c:when test="${list.status==0}">
+																<c:set var="issueStatus" value="Pending 1st Approve"></c:set>
+															</c:when> 
+															<c:when test="${list.status==1}">
+																<c:set var="issueStatus" value="Pending 2nd Approve"></c:set>
+															</c:when>
+															<c:when test="${list.status==2}">
+																<c:set var="issueStatus" value="Approve Completed"></c:set>
+															</c:when> 
+														</c:choose>
+														  <td ><c:out value="${issueStatus}" /></td> 
 												 
 												<td> 
 													<a href="${pageContext.request.contextPath}/approveIssueDetail/${list.issueId}/${approve}"><abbr
@@ -402,7 +433,7 @@ function myFunction() {
   table = document.getElementById("table1");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[5];
+    td = tr[i].getElementsByTagName("td")[2];
     td1 = tr[i].getElementsByTagName("td")[3];
     td2 = tr[i].getElementsByTagName("td")[4];
     if (td || td1 || td2) {

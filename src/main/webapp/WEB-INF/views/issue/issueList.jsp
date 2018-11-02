@@ -115,6 +115,7 @@
 										<th class="col-md-1">Issue Date</th>
 										<th class="col-md-3">Department</th> 
 										<th class="col-md-3">Sub Department</th>  
+										<th class="col-md-2">Status</th>
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -140,7 +141,22 @@
 													value="${issueHeaderList.deptCode}" /></td> 
 											
 											<td ><c:out
-													value="${issueHeaderList.subDeptCode}" /></td>  
+													value="${issueHeaderList.subDeptCode}" /></td>
+													
+													<c:set var="issueStatus" value="-"></c:set>
+														  
+														<c:choose>
+															<c:when test="${issueHeaderList.status==0}">
+																<c:set var="issueStatus" value="Pending 1st Approve"></c:set>
+															</c:when> 
+															<c:when test="${issueHeaderList.status==1}">
+																<c:set var="issueStatus" value="Pending 2nd Approve"></c:set>
+															</c:when>
+															<c:when test="${issueHeaderList.status==2}">
+																<c:set var="issueStatus" value="Approve Completed"></c:set>
+															</c:when> 
+														</c:choose>
+														  <td ><c:out value="${issueStatus}" /></td>  
  
 											<td>
 											<a href="javascript:genPdf(${issueHeaderList.issueId});"><abbr title="PDF"><i

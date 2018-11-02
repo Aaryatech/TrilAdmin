@@ -83,8 +83,9 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">PO No</th>
 											<th class="col-md-1">PO TYPE</th>
-											<th class="col-md-4">Vendor Name</th>
+											<th class="col-md-3">Vendor Name</th>
 											<th class="col-md-2">Indent No</th>
+											<th class="col-md-1">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -111,10 +112,33 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
-												<td class="col-md-4"><c:out
+												<td class="col-md-3"><c:out
 														value="${poList.vendorName}" /></td>
 
 												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
+												
+												<c:set var="poStatus" value=""></c:set>
+												<c:choose>
+													<c:when test="${poList.poStatus==9}">
+													<c:set var="poStatus" value="1st Approve Pending "></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==7}">
+													<c:set var="poStatus" value="2st Approve Pending "></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==0}">
+													<c:set var="poStatus" value="Grn Pending"></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==1}">
+													<c:set var="poStatus" value="Partially Grn "></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==2}">
+													<c:set var="poStatus" value="Grn Completed"></c:set>
+													</c:when>
+													
+												</c:choose>
+												
+												<td class="col-md-1"><c:out
+														value="${poStatus}" /></td>
 
 												<td> 
 													<a href="${pageContext.request.contextPath}/approvePoDetail/${poList.poId}/${approve}"><abbr
@@ -152,8 +176,9 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">PO No</th>
 											<th class="col-md-1">PO TYPE</th>
-											<th class="col-md-4">Vendor Name</th>
+											<th class="col-md-3">Vendor Name</th>
 											<th class="col-md-2">Indent No</th>
+											<th class="col-md-1">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -180,10 +205,33 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
-												<td class="col-md-4"><c:out
+												<td class="col-md-3"><c:out
 														value="${poList.vendorName}" /></td>
 
 												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
+												
+												<c:set var="poStatus" value=""></c:set>
+												<c:choose>
+													<c:when test="${poList.poStatus==9}">
+													<c:set var="poStatus" value="1st Approve Pending "></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==7}">
+													<c:set var="poStatus" value="2st Approve Pending "></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==0}">
+													<c:set var="poStatus" value="Grn Pending"></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==1}">
+													<c:set var="poStatus" value="Partially Grn "></c:set>
+													</c:when>
+													<c:when test="${poList.poStatus==2}">
+													<c:set var="poStatus" value="Grn Completed"></c:set>
+													</c:when>
+													
+												</c:choose>
+												
+												<td class="col-md-1"><c:out
+														value="${poStatus}" /></td>
 
 												<td> 
 													<a href="${pageContext.request.contextPath}/approvePoDetail/${poList.poId}/${approve}"><abbr

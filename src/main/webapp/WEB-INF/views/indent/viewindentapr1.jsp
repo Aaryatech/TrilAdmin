@@ -121,13 +121,14 @@
 														<th width="4%" style="text-align: center;">Sr</th>
 													<th width="180" style="text-align: center;"
 														style="width: 150px">Indent No</th>
-													<th width="100" style="text-align: center;" align="center">Date</th>
+													<th width="130" style="text-align: center;" align="center">Date</th>
 													<th width="150" style="text-align: center;" align="center">Category</th>
 													<th width="150" style="text-align: center;" align="center">Account Head</th>
 
 													<th width="150" style="text-align: center;" align="center">Type</th>
 													<th width="150" style="text-align: center;" align="center">Development</th>
 													<th width="150" style="text-align: center;" align="center">Monthly</th>
+													<th width="150" style="text-align: center;" align="center">Status</th>
 													<th width="150" style="text-align: center;" align="center">Action</th>
 												</tr>
 											</thead>
@@ -201,6 +202,28 @@
 
 														<td align="left" style="text-align: center;"><c:out
 																value="${indIsmonthly}" /></td>
+																
+																<c:set var="indSts" value="-"></c:set>
+																<c:choose>
+															<c:when test="${indent.indMStatus==9}">
+																<c:set var="indSts" value="1st Approve Pending"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==7}">
+																<c:set var="indSts" value="2nd Approve Pending"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==0}">
+																<c:set var="indSts" value="Indent Pending"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==1}">
+																<c:set var="indSts" value="Partially Indent Pending"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==2}">
+																<c:set var="indSts" value="Indent Complete"></c:set>
+															</c:when>
+															 
+														</c:choose>
+														<td align="left" style="text-align: center;"><c:out
+																value="${indSts}" /></td>
 
 														<td align="left" style="text-align: center;">
 															<a
