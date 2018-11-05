@@ -287,11 +287,17 @@
 
 
 	<script type="text/javascript">
-		function genPdf(id) {
+		  /* function genPdf(id) {
 
 			window.open('pdfForReport?url=/pdf/indentPdfDoc/' + id);
 
-		}
+		}  */ 
+		
+		  function genPdf(id) {
+
+			window.open('indentPdfDoc/' + id);
+
+		}  
 		
 		
 		

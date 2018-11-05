@@ -126,47 +126,62 @@ hr {
 
 		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
 
+		
 
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
-				<tr class="information">
-					<td colspan="3" valign="top">
-						<table>
-							<tr>
+		 
+					<table>
+						<tr>
 
-								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
+								<td width="20%"> </td>
 
 
 								<td width="60%" valign="top" align="center"
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo}
-									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<td width="20%" align="right">  
 
 								</td>
 							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</div>
+						<tr>
+
+								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
+
+
+								<td width="60%" valign="top" align="center"
+									style="font-weight: bold;"> </td>
+
+
+								<td width="20%" align="right">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo} 
+
+								</td>
+							</tr>
+							<tr>
+
+								<td width="20%"> </td>
+
+
+								<td width="60%" valign="top" align="center"
+									style="font-weight: bold;"> </td>
+
+
+								<td width="20%" align="right"> Date :
+									${item.issueDate} 
+
+								</td>
+							</tr>
+						</table> 
 
 
 
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
-
-				<tr class="information">
-					<td colspan="1" valign="top">
+		 
 						<table>
 							<tr>
-								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">
+								<td    >
 									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
 									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
 								</td>
+								
 
 								<!-- 	<td width="50%" valign="top"
 								style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"> &nbsp; ..
@@ -174,11 +189,7 @@ hr {
 
 							</tr>
 
-						</table>
-					</td>
-				</tr>
-			</table>
-		</div>
+						</table> 
 
 
 		<br>
@@ -229,31 +240,48 @@ hr {
 		<h4 align="center">${company.companyName}</h4>
 
 
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
-				<tr class="information">
-					<td colspan="3" valign="top">
-						<table>
-							<tr>
+		<table>
+						<tr>
 
-								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
+								<td width="20%"> </td>
 
 
 								<td width="60%" valign="top" align="center"
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: 0001
-									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<td width="20%" align="right">  
 
 								</td>
 							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</div>
+						<tr>
+
+								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
+
+
+								<td width="60%" valign="top" align="center"
+									style="font-weight: bold;"> </td>
+
+
+								<td width="20%" align="right">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo} 
+
+								</td>
+							</tr>
+							<tr>
+
+								<td width="20%"> </td>
+
+
+								<td width="60%" valign="top" align="center"
+									style="font-weight: bold;"> </td>
+
+
+								<td width="20%" align="right"> Date :
+									${item.issueDate} 
+
+								</td>
+							</tr>
+						</table> 
 
 
 

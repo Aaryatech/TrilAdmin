@@ -76,16 +76,16 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 				<td colspan="3" valign="top">
 					<table>
 						<tr>
-							<td valign="top" width="20%">
+							<td valign="top" width="20%" style=" font-family: arial; font-weight: bold; font-size: 110%;">
 								Party Code :&nbsp;&nbsp; ${item.vendorCode}<br>
 								${item.vendorName}
 								</td>
 
-<td valign="top" width="60%" align="center" style="font-weight: bold;  ">
+<td valign="top" width="60%" align="center" style=" font-family: arial; font-weight: bold; font-size: 110%;">
 GOODS RECEIPT NOTE
 								</td>
 
-							<td align="left" width="20">GRN NO : &nbsp;&nbsp;${item.mrnNo }<br>
+							<td align="right" width="20" style=" font-family: arial; font-weight: bold; font-size: 110%;">GRN NO : &nbsp;&nbsp;${item.mrnNo }<br>
 							Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; ${item.mrnDate }
 							</td>
 						</tr>
@@ -111,18 +111,18 @@ GOODS RECEIPT NOTE
 				<td colspan="3" valign="top">
 					<table>
 						<tr>
-							<td valign="top" width="33%" align="left">
+							<td valign="top" width="33%" align="left" style=" font-family: arial; font-weight: bold; font-size: 110%;">
 								Gate Entry No : ${item.gateEntryNo }<br>
 								Gate Entry Dt. : ${item.gateEntryDate }</td>
 
 
 
-							<td align="left" width="33%">Invoice No : ${item.billNo }<br>
+							<td align="left" width="33%" style=" font-family: arial; font-weight: bold; font-size: 110%;">Invoice No : ${item.billNo }<br>
 							Invoice Dt&nbsp;&nbsp;: ${item.billDate }
 							</td>
 							
 							
-							<td align="left"  width="33%">D/C No. - ${item.docNo } <br>
+							<td align="left"  width="33%" style=" font-family: arial; font-weight: bold; font-size: 110%;">D/C No. - ${item.docNo } <br>
 							D/C Dt.&nbsp;&nbsp;- ${item.docDate }
 							</td>
 						</tr>
@@ -135,9 +135,9 @@ GOODS RECEIPT NOTE
 <hr style="height:1px; border:none; color:black; background-color:black;">
 
 	<table  align="center" border="1" cellspacing="0" cellpadding="1" 
-		id="table_grid" class="table table-bordered">
+		id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 		<thead>
-			<tr >
+			<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 				<th >SR.</th>
 				<th >ITEM</th>
 				<th >DESCRIPTION</th>
@@ -147,9 +147,22 @@ GOODS RECEIPT NOTE
 			</tr>
 		</thead>
 		<tbody>
+			<c:set var="totalRowCount" value="0" />
+				<c:set var="maxRowCount" value="3" />
+				<c:set var="total" value="0" />
+
+				<c:forEach items="${item.mrnReportDetailList}" var="row"
+					varStatus="count">
+
+
+
+					<c:choose>
+
+						<c:when test="${totalRowCount eq maxRowCount}">
+
+							<c:set var="totalRowCount" value="${totalRowCount+1}" />
 			
-			
-			<c:forEach items="${item.mrnReportDetailList}" var="row"
+			<%-- <c:forEach items="${item.mrnReportDetailList}" var="row"
 					varStatus="count">
 			
 			<tr>
@@ -161,7 +174,7 @@ GOODS RECEIPT NOTE
 					<td width="0" align="center"><c:out value="NA" /></td>
 
 				</tr>
-			</c:forEach>
+			</c:forEach> --%>
 				
 		</tbody>
 	</table>
@@ -176,19 +189,208 @@ GOODS RECEIPT NOTE
 				<td colspan="2" valign="top">
 					<table>
 						<tr>
-							<td valign="top" width="33%" align="left">
-								Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.transport } <br>
-								Vehicle No &nbsp;&nbsp;&nbsp;&nbsp; - <br>
-								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  ${item.lrNo } <br>
-								Remark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.remark1 }
+							<td valign="top" width="400px" align="left">
+								Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.transport } 
+								</td>
+ 
+							<td align="left" width="400px" >
+							Vehicle No &nbsp;&nbsp;&nbsp;&nbsp; - </td>
+							<td align="left" width="400px" >
+							Remark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.remark1 }</td>
+							 
+							
+						</tr>
+						<tr>
+							<td valign="top" width="400px" align="left">
+								 
+								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  ${item.lrNo }  
+								 
+								</td>
+ 
+							<td align="left" width="400px" >
+							Date -   ${item.lrDate } &nbsp;</td>
+							 
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+	
+	
+	<br><br>
+
+
+
+<div class="invoice-box">
+		<table cellpadding="0" cellspacing="0">
+
+			<tr class="information">
+				<td colspan="2" valign="top">
+					<table>
+						<tr>
+							<td width="50%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Prepared By</td>
 								
-								
-								
+							<td width="50%" valign="top" align="center"
+								style=" padding: 8px; color: #000;   font-weight: bold;">
+
+								Checked By</td>
+
+						
+						</tr>
+
+					</table>
+				</td>
+			</tr>
+		</table>
+														<hr	style="height: 1px; border: none; color: black; background-color: black;">
+		
+	</div><br>
+	
+	<div align="left"> <h5>${documentBean.docIsoSerialNumber}</h5></div>
+
+<h3 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h3>
+ 
+<div class="invoice-box">
+		<table cellpadding="0" cellspacing="0">
+
+			<tr class="information">
+				<td colspan="3" valign="top">
+					<table>
+						<tr>
+							<td valign="top" width="20%" style=" font-family: arial; font-weight: bold; font-size: 110%;">
+								Party Code :&nbsp;&nbsp; ${item.vendorCode}<br>
+								${item.vendorName}
+								</td>
+
+<td valign="top" width="60%" align="center" style="font-weight: bold;  ">
+GOODS RECEIPT NOTE
+								</td>
+
+							<td align="left" width="20" style=" font-family: arial; font-weight: bold; font-size: 110%;">GRN NO : &nbsp;&nbsp;${item.mrnNo }<br>
+							Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; ${item.mrnDate }
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
+
+<hr style="height:1px; border:none; color:black; background-color:black;">
+
+
+
+
+
+
+<div class="invoice-box">
+		<table cellpadding="0" cellspacing="0">
+
+			<tr class="information">
+				<td colspan="3" valign="top">
+					<table>
+						<tr>
+							<td valign="top" width="33%" align="left" style=" font-family: arial; font-weight: bold; font-size: 110%;">
+								Gate Entry No : ${item.gateEntryNo }<br>
+								Gate Entry Dt. : ${item.gateEntryDate }</td>
+
+
+
+							<td align="left" width="33%" style=" font-family: arial; font-weight: bold; font-size: 110%;">Invoice No : ${item.billNo }<br>
+							Invoice Dt&nbsp;&nbsp;: ${item.billDate }
+							</td>
+							
+							
+							<td align="left"  width="33%" style=" font-family: arial; font-weight: bold; font-size: 110%;">D/C No. - ${item.docNo } <br>
+							D/C Dt.&nbsp;&nbsp;- ${item.docDate }
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<table  align="center" border="1" cellspacing="0" cellpadding="1" 
+		id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
+		<thead>
+			<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+				<th >SR.</th>
+				<th >ITEM</th>
+				<th >DESCRIPTION</th>
+				<th >CHLN.QTY</th>
+				<th >RECT.QTY</th>
+				<th >WT/SIZE</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		<c:set var="totalRowCount" value="0" />
+				<c:set var="maxRowCount" value="3" />
+				<c:set var="total" value="0" />
+
+
+
+
+				<!-- end of new page -->
+
+				</c:when>
+
+				</c:choose>
+				
+				<c:set var="totalRowCount" value="${totalRowCount+1}" />
+				
+				<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
+					<td width="0" align="center" style="padding: 10px;"><c:out value="${row.itemCode}" /></td>
+					<td width="70%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.mrnQty}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.rejectQty }" /></td>
+					<td width="0" align="center"><c:out value="NA" /></td>
+
+				</tr>
+		</c:forEach>
+		</tbody>
+		</table>
+		<br>
+		
+		<div class="invoice-box">
+		<table cellpadding="0" cellspacing="0">
+
+			<tr class="information">
+				<td colspan="2" valign="top">
+					<table>
+					
+						<tr>
+							<td valign="top" width="400px" align="left">
+								Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.transport } 
+								</td>
+ 
+							<td align="left" width="400px" >
+							Vehicle No &nbsp;&nbsp;&nbsp;&nbsp; - </td>
+							<td align="left" width="400px" >
+							Remark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.remark1 }</td>
+							 
+							
+						</tr>
+						<tr>
+							<td valign="top" width="400px" align="left">
+								 
+								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  ${item.lrNo }  
+								 
 								</td>
 
 
 
-							<td align="left" width="60%" >
+							<td align="left" width="400px" >
 							Date -   ${item.lrDate } &nbsp;</td>
 							
 							
@@ -234,6 +436,7 @@ GOODS RECEIPT NOTE
 														<hr	style="height: 1px; border: none; color: black; background-color: black;">
 		
 	</div>
+	
 </c:forEach>
 
 	<!-- END Main Content -->

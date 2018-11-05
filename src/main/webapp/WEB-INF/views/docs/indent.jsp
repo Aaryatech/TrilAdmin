@@ -128,20 +128,19 @@ hr {
 		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
  		
  		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0" width="1000px">
-
+			<table cellpadding="0" cellspacing="0" width="1000px"> 
 				<tr class="information">
 					<td valign="top">
 						<table width="1000px">
 							<tr>
-								<td width="200px"  valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;"> 
+								<td width="300px"  valign="top" align="center" 
+								style=" font-family: arial; font-weight: bold; font-size: 110%;"> 
 								</td>
 								<td width="600px"  valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">PUR. REQUISITION / INDENT
+								style=" font-family: arial; font-weight: bold; font-size: 110%;">PUR. REQUISITION / INDENT
 								</td>
-								<td width="200px"  valign="top" align="left" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">
+								<td width="300px"  valign="top" align="left" 
+								style=" font-family: arial; font-weight: bold; font-size: 110%;">
 								</td> 
 							</tr> 
 						</table>
@@ -158,12 +157,12 @@ hr {
 						<table width="1000px"> 
 							<tr>
 								<td  width="600px"  valign="top" align="left" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;"> Indent No. : ${item.indMNo}
+								style=" font-family: arial; font-weight: bold; font-size: 110%;"> Indent No. : ${item.indMNo}
 								</td>
 								 
 								  
-								<td width="400px"  valign="top" align="right" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">Date : ${item.indMDate}
+								<td width="600px"  valign="top" align="right" 
+								style=" font-family: arial; font-weight: bold; font-size: 110%;">Date : ${item.indMDate}
 								</td>
 								 
 
@@ -176,14 +175,14 @@ hr {
 		</div> 
 		 
 		 <div class="invoice-box">
-			<table cellpadding="0" cellspacing="0" width="1000px">
+			<table cellpadding="0" cellspacing="0" width="1200px">
 
 				<tr class="information">
 					<td valign="top">
-						<table width="1000px">
+						<table width="1200px">
 							<tr>
-								<td width="500px" valign="top"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">Indenting
+								<td width="600px" valign="top"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 110%;">Indenting
 									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
@@ -192,8 +191,8 @@ hr {
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
-								<td width="500px"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">
+								<td width="600px"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 110%;">
 									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
 									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
@@ -216,7 +215,7 @@ hr {
 			style="table-layout: fixed; display: block; height: 300px; width: 100%;"
 			id="table_grid">
 			<thead>
-				<tr style="font-size: 95%;">
+				<tr style="font-size: 110%;">
 					<th>Sr.</th>
 
 					<th width="40%">Description</th>
@@ -274,22 +273,22 @@ hr {
 			 
 						<table width="1000px">
 							<tr >
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Requisitioned By</td>
 
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Stores</td>
 
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Dept.Head</td>
 
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Approved By</td>
@@ -319,14 +318,14 @@ hr {
 					<td valign="top">
 						<table width="1000px">
 							<tr>
-								<td width="200px"  valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;"> 
+								<td width="300px"  valign="top" align="center" 
+								style=" font-family: arial; font-weight: bold; font-size: 110%;"> 
 								</td>
 								<td width="600px"  valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">PUR. REQUISITION / INDENT
+								style=" font-family: arial; font-weight: bold; font-size: 110%;">PUR. REQUISITION / INDENT
 								</td>
-								<td width="200px"  valign="top" align="left" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">
+								<td width="300px"  valign="top" align="left" 
+								style=" font-family: arial; font-weight: bold; font-size: 110%;">
 								</td> 
 							</tr> 
 						</table>
@@ -343,11 +342,11 @@ hr {
 						<table width="1000px"> 
 							<tr>
 								<td  width="600px"  valign="top" align="left" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;"> Indent No. : ${item.indMNo}
+								style=" font-family: arial; font-weight: bold; font-size: 110%;"> Indent No. : ${item.indMNo}
 								</td>
 								  
-								<td width="400px"  valign="top" align="right" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">Date : ${item.indMDate}
+								<td width="600px"  valign="top" align="right" 
+								style=" font-family: arial; font-weight: bold; font-size: 110%;">Date : ${item.indMDate}
 								</td>
 								 
 
@@ -360,14 +359,14 @@ hr {
 		</div> 
 		 
 		 <div class="invoice-box">
-			<table cellpadding="0" cellspacing="0" width="1000px">
+			<table cellpadding="0" cellspacing="0" width="1200px">
 
 				<tr class="information">
 					<td valign="top">
-						<table width="1000px">
+						<table width="1200px">
 							<tr>
-								<td width="500px" valign="top"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">Indenting
+								<td width="600px" valign="top"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 110%;">Indenting
 									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
@@ -376,8 +375,8 @@ hr {
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
-								<td width="500px"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">
+								<td width="600px"
+									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 110%;">
 									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
 									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
@@ -400,7 +399,7 @@ hr {
 			style="table-layout: fixed; display: block; height: 300px; width: 100%;"
 			id="table_grid">
 			<thead>
-				<tr style="font-size: 95%;">
+				<tr style="font-size: 110%;">
 					<th>Sr.</th>
 
 					<th width="40%">Description</th>
@@ -430,7 +429,7 @@ hr {
 				<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
 				 
-				<tr style="font-size: 95%;">
+				<tr style="font-size: 110%;">
 					<td width="5%" align="center"><c:out value="${count.index+1}" /></td>
 					<td   align="left" style="padding: 10px;"><c:out value="${row.indItemDesc}" /></td>
 					<td width="6%" align="center"><c:out value="${row.indItemUom}" /></td>
@@ -471,22 +470,22 @@ hr {
 			 
 						<table width="1000px">
 							<tr>
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Requisitioned By</td>
 
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Stores</td>
 
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Dept.Head</td>
 
-								<td width="250px" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Approved By</td>
