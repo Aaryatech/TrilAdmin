@@ -134,11 +134,11 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="1000px">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 								</td>
-
-								<td align="right" width="20%"><br> Date : ${item.gpReturnDate }</td>
+								 
+								<td align="right" width="200px"><br> Date : ${item.gpReturnDate }</td>
 							</tr>
 						</table>
 					</td>
@@ -146,10 +146,8 @@ hr {
 			</table>
 		</div>
 
-<br>
-<br>
-
-<p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
+<br> 
+<p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 85%;">
 			For :  <c:choose>
 			<c:when test="${item.forRepair==0}">
 			Repair
@@ -160,21 +158,21 @@ hr {
 			<c:when test="${item.forRepair==2}">
 			Job Work
 			</c:when>
-			</c:choose><br>
+			</c:choose> 
 
 		</p>
 		<br>
-		<p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
+		<%-- <p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
 			Sending following materials personally / Vehicle No. - ${item.sendingWith}<br>
 			as per details given below. <br>
 
 		</p>
 
-<br>
+<br> --%>
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 			<thead>
 				<tr>
 					<th>SR.</th>
@@ -199,22 +197,65 @@ hr {
 						<c:when test="${totalRowCount eq maxRowCount}">
 
 							<c:set var="totalRowCount" value="${totalRowCount+1}" />
-
-							<div style="page-break-after: always;"></div>
-
+ 
 
 
 							<!-- new page -->
 			</tbody>
 		</table>
+		
+		<br>
+				
+			<p
+			style="color: #000; font-family: arial; font-weight: bold; font-size: 90%; text-align: left; margin: 0px;  ">
+			Reason : ${item.remark1} <br>
+		</p>
+				
+		<br>
+	 
+		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0">
+
+				<tr class="information">
+					<td colspan="4" valign="top">
+						<table>
+							<tr>
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Receiver Signature</td>
+
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Prepared By</td>
+									
+										<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Approved By</td>
+										<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Authorised By</td>
 
 
+							</tr>
 
-
+						</table>
+					</td>
+				</tr>
+			</table>
+			
+			<hr	style="height: 1px; border: none; color: black; background-color: black;">
+			
+			
+		</div>
+ 
 <hr	style="height: 1px; border: none; color: black; background-color: black;">
 
 
-<<div align="left">
+<div align="left">
 			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
 
@@ -231,11 +272,11 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="1000px">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 								</td>
-
-								<td align="right" width="20%"><br> Date : ${item.gpReturnDate }</td>
+								 
+								<td align="right" width="200px"><br> Date : ${item.gpReturnDate }</td>
 							</tr>
 						</table>
 					</td>
@@ -246,7 +287,7 @@ hr {
 <br>
 <br>
 
-<p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
+<p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 85%;">
 			For :  <c:choose>
 			<c:when test="${item.forRepair==0}">
 			Repair
@@ -257,21 +298,21 @@ hr {
 			<c:when test="${item.forRepair==2}">
 			Job Work
 			</c:when>
-			</c:choose><br>
+			</c:choose> 
 
 		</p>
 		<br>
-		<p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
+		<%-- <p	style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
 			Sending following materials personally / Vehicle No. - ${item.sendingWith}<br>
 			as per details given below. <br>
 
 		</p>
 
-<br>
+<br> --%>
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 			<thead>
 				<tr>
 					<th>SR.</th>
@@ -300,7 +341,7 @@ hr {
 					<tr>
 						<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 						<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-						<td width="50%" align="left" style="padding: 10px;">
+						<td width="75%" align="left" style="padding: 10px;">
 						
 						<c:set var="find" value="0"></c:set>
 						<c:forEach items="${oneTimeItem}" var="oneTimeItem" varStatus="count">
@@ -323,7 +364,7 @@ hr {
 						</td>
 						<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
 						<td width="0" align="right" style="padding: 10px;">${row.gpQty}</td>
-						<td width="0" align="center"><c:out value="${row.gpReturnDate}" /></td>
+						<td width="10%" align="center"><c:out value="${row.gpReturnDate}" /></td>
 
 					</tr>
 				</c:forEach>
@@ -339,9 +380,7 @@ hr {
 		</p>
 				
 		<br>
-		<br>
-
-
+		 
 		<div class="invoice-box">
 			<table cellpadding="0" cellspacing="0">
 
@@ -349,21 +388,21 @@ hr {
 					<td colspan="4" valign="top">
 						<table>
 							<tr>
-								<td width="25" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Receiver Signature</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Prepared By</td>
 									
-										<td width="25%" valign="top" align="center"
+										<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Approved By</td>
-										<td width="25%" valign="top" align="center"
+										<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Authorised By</td>

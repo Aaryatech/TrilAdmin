@@ -260,10 +260,18 @@
 	
 	
 <script type="text/javascript">
-			function genPdf(id) {
+			/* function genPdf(id) {
 			
 		
 				window.open('pdfForReport?url=/pdf/grnPdf/'+id
+						 );
+
+			} */
+			
+			function genPdf(id) {
+				
+				
+				window.open('grnPdf/'+id
 						 );
 
 			}
@@ -277,7 +285,7 @@
 								list.push($(this).val());
 				});
 							
-							window.open('pdfForReport?url=/pdf/grnPdf/' + list);
+							window.open('grnPdf/' + list);
 
 						}
 			

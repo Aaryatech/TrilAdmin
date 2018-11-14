@@ -360,8 +360,7 @@ GOODS RECEIPT NOTE
 		</c:forEach>
 		</tbody>
 		</table>
-		<br>
-		
+		 
 		<div class="invoice-box">
 		<table cellpadding="0" cellspacing="0">
 

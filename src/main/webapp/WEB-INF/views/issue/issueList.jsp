@@ -372,7 +372,7 @@ function myFunction() {
 			function genPdf(id) {
 				//alert(id);
 		
-				window.open('pdfForReport?url=/pdf/issueListDoc/'
+				window.open('pdf/issueListDoc/'
 						+ id );
 
 			}
@@ -387,7 +387,7 @@ function myFunction() {
 					list.push($(this).val());
 				});
 
-				window.open('pdfForReport?url=/pdf/issueListDoc/' + list);
+				window.open('pdf/issueListDoc/' + list);
 
 			}
 			

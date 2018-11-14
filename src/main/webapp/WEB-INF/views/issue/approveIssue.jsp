@@ -83,6 +83,9 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Issue No</th>
 											<th class="col-md-1">Issue TYPE</th> 
+											<th class="col-md-1">Department</th> 
+											<th class="col-md-1">Sub Department</th> 
+											<th class="col-md-1">Acc Head</th>
 											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
@@ -110,6 +113,9 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
+												<td class="col-md-1"><c:out value="${list.deptCode}" /></td>
+												<td class="col-md-1"><c:out value="${list.subDeptCode}" /></td>
+												<td class="col-md-1"><c:out value="${list.accHeadDesc}" /></td>
 												
 												<c:set var="issueStatus" value="-"></c:set>
 														  
@@ -162,6 +168,9 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Issue No</th>
 											<th class="col-md-1">Issue TYPE</th> 
+											<th class="col-md-1">Department</th> 
+											<th class="col-md-1">Sub Department</th> 
+											<th class="col-md-1">Acc Head</th>
 											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
@@ -189,6 +198,9 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
+												<td class="col-md-1"><c:out value="${list.deptCode}" /></td>
+												<td class="col-md-1"><c:out value="${list.subDeptCode}" /></td>
+												<td class="col-md-1"><c:out value="${list.accHeadDesc}" /></td>
 												<c:set var="issueStatus" value="-"></c:set>
 														  
 														<c:choose>

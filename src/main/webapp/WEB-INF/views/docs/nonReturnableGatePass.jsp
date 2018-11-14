@@ -133,12 +133,12 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="1000px">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 
 								</td>
 
-								<td align="right" valign="top" width="20%"><br> Date :
+								<td align="right" valign="top" width="200px"><br> Date :
 									${item.gpReturnDate}</td>
 
 							</tr>
@@ -148,22 +148,21 @@ hr {
 			</table>
 		</div>
 
-		<br>
-		<br>
+		<br> 
 
-		<p
+		<%-- <p
 			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
 			Sending following materials personally / Vehicle No. -
 			${item.sendingWith}<br> as per details given below. <br>
 
 		</p>
 
-		<br>
+		<br> --%>
 
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 			<thead>
 				<tr>
 					<th>SR.</th>
@@ -186,14 +185,67 @@ hr {
 						<c:when test="${totalRowCount eq maxRowCount}">
 
 							<c:set var="totalRowCount" value="${totalRowCount+1}" />
-
-							<div style="page-break-after: always;"></div>
-
-
+ 
 
 							<!-- new page -->
 			</tbody>
 		</table>
+		
+		<br>
+
+
+
+
+
+		<p
+			style="color: #000; font-family: arial; font-weight: bold; font-size: 90%; text-align: left; margin: 0px;  ">
+			Reason : ${item.remark1} <br>
+
+		</p>
+
+
+		<br>
+
+
+		<br>
+		
+		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0">
+
+				<tr class="information">
+					<td colspan="4" valign="top">
+						<table>
+							<tr>
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Receiver Signature</td>
+
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Prepared By</td>
+
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Approved By</td>
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Authorised By</td>
+
+
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+			<hr
+				style="height: 1px; border: none; color: black; background-color: black;">
+
+		</div><br>
 
 
 
@@ -219,12 +271,12 @@ hr {
 					<td colspan="2" valign="top">
 						<table>
 							<tr>
-								<td valign="top" width="80%">GP No. : ${item.gpNo}<br> To,<br>
+								<td valign="top" width="1000px">GP No. : ${item.gpNo}<br> To,<br>
 									${item.vendorName} ,<br> ${item.vendorAdd1}
 
 								</td>
 
-								<td align="right" valign="top" width="20%"><br> Date :
+								<td align="right" valign="top" width="200px"><br> Date :
 									${item.gpReturnDate}</td>
 
 							</tr>
@@ -233,23 +285,22 @@ hr {
 				</tr>
 			</table>
 		</div>
-
+ 
 		<br>
-		<br>
 
-		 <p
+		 <%-- <p
 			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
 			Sending following materials personally / Vehicle No. -
 			${item.sendingWith}<br> as per details given below. <br>
 
 		</p>  
 
-		<br>
+		<br> --%>
 
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 			<thead>
 				<tr>
 					<th>SR.</th>
@@ -277,12 +328,12 @@ hr {
 
 
 				<tr>
-					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
+					<td width="5%" align="center"><c:out value="${count.index+1}" /></td>
 
-					<td width="0" align="center">
+					<td width="10%" align="center">
 					<c:out value="${row.itemCode}" /></td>
 					<c:set var="find" value="0"></c:set>
-					<td width="60%" align="left" style="padding: 10px;">
+					<td width="90%" align="left" style="padding: 10px;">
 							  <c:forEach items="${oneTimeItem}" var="oneTimeItem" varStatus="count">
 								<c:choose>
 									<c:when test="${oneTimeItem==row.gpItemId}"> 
@@ -302,8 +353,8 @@ hr {
 				 
 					
 					</td>
-					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.gpQty}" /></td> 
+					<td width="10%" align="center"><c:out value="${row.itemUom}" /></td>
+					<td width="10%" align="right" style="padding: 10px;"><c:out value="${row.gpQty}" /></td> 
 
 				</tr>
 				</c:forEach>
@@ -338,21 +389,21 @@ hr {
 					<td colspan="4" valign="top">
 						<table>
 							<tr>
-								<td width="25" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Receiver Signature</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Prepared By</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Approved By</td>
-								<td width="25%" valign="top" align="center"
+								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Authorised By</td>

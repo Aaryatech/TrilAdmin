@@ -122,7 +122,70 @@ public class PdfReportController {
 	
 	// Indent Doc
 
-	@RequestMapping(value = "/pdf/indentPdfDoc/{indId}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/pdf/indentPdfDoc/{indId}", method = RequestMethod.GET)
+	public ModelAndView showIndentDocs(@PathVariable int[] indId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		System.out.println("Doc indent for " + indId.toString());
+
+		ModelAndView model = new ModelAndView("docs/indent");
+
+		
+		try {
+			
+		RestTemplate restTemplate = new RestTemplate();
+		
+	    MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+	    List<Integer> integersList = new ArrayList<Integer>();
+
+		for (int i = 0; i < indId.length; i++) {
+
+			if (indId[i] > 0) {
+
+				integersList.add(indId[i]);
+			}
+		}
+
+		String listOfIds = integersList.stream().map(Object::toString).collect(Collectors.joining(","));
+
+		
+		
+		System.out.println("Doc indent ids " + integersList.toString());
+
+		map.add("indentIdList", listOfIds);
+
+		IndentReport[] reports = restTemplate.postForObject(Constants.url + "getIndentListHeaderDetailReport", map,
+				IndentReport[].class);
+		
+		List<IndentReport> indentReportList = new ArrayList<IndentReport>(Arrays.asList(reports));
+
+		System.out.println("Report Data " + indentReportList.toString());
+		
+		model.addObject("list", indentReportList);
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 1);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return model;
+	}*/
+
+	@RequestMapping(value = "/indentPdfDoc/{indId}", method = RequestMethod.GET)
 	public ModelAndView showIndentDocs(@PathVariable int[] indId, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -184,11 +247,10 @@ public class PdfReportController {
 		}
 		return model;
 	}
-
 	
 	// GRN
 	
-	@RequestMapping(value = "/pdf/grnPdf/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/grnPdf/{id}", method = RequestMethod.GET)
 	public ModelAndView addCategory ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		

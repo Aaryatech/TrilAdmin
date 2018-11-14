@@ -311,7 +311,7 @@
 			function genPdf(id) {
 			
 		
-				window.open('pdfForReport?url=/pdf/grnInspectionPdf/'+id
+				window.open('pdf/grnInspectionPdf/'+id
 						 );
 
 			}

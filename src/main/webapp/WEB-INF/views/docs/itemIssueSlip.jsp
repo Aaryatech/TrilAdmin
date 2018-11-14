@@ -118,7 +118,7 @@ hr {
 
 
 	<c:forEach items="${list}" var="item" varStatus="count">
- 
+ <br>
 		<div align="left">
 			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
@@ -126,46 +126,31 @@ hr {
 
 		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
 
-		
+					<table>
+						<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+ 
+								<td width="1200px" valign="top" align="center"
+									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
+ 
+							</tr> 
+						</table>
 
 		 
 					<table>
-						<tr>
+						 
+						<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 
-								<td width="20%"> </td>
-
-
-								<td width="60%" valign="top" align="center"
-									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
-
-
-								<td width="20%" align="right">  
+								<td width="600px">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
+ 
+								<td width="600px" align="right">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo} 
 
 								</td>
 							</tr>
-						<tr>
+							<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 
-								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
-
-
-								<td width="60%" valign="top" align="center"
-									style="font-weight: bold;"> </td>
-
-
-								<td width="20%" align="right">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo} 
-
-								</td>
-							</tr>
-							<tr>
-
-								<td width="20%"> </td>
-
-
-								<td width="60%" valign="top" align="center"
-									style="font-weight: bold;"> </td>
-
-
-								<td width="20%" align="right"> Date :
+								<td width="600px"> </td>
+ 
+								<td width="600px" align="right"> Date :
 									${item.issueDate} 
 
 								</td>
@@ -176,7 +161,7 @@ hr {
 
 		 
 						<table>
-							<tr>
+							<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 								<td    >
 									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
 									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
@@ -196,9 +181,9 @@ hr {
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 			<thead>
-				<tr>
+				<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 					<th>SR.</th>
 					<th>ITEM</th>
 					<th>DESCRIPTION</th>
@@ -212,7 +197,7 @@ hr {
 			<tbody>
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="5" />
+				<c:set var="maxRowCount" value="3" />
 
 				<c:forEach items="${item.issueReportDetailList}" var="row"
 					varStatus="count">
@@ -223,84 +208,48 @@ hr {
 
 							<c:set var="totalRowCount" value="${totalRowCount+1}" />
 
-							<div style="page-break-after: always;"></div>
+							 
 
 
 
 							<!-- new page -->
 			</tbody>
 		</table>
+		 
+		<br>
 
 
-		<div align="left">
-			<h5>${documentBean.docIsoSerialNumber}</h5>
-		</div>
 
+		<p
+			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 90%;">
+			Remark - <br> <br>  
+			<br>
 
-		<h4 align="center">${company.companyName}</h4>
-
-
-		<table>
-						<tr>
-
-								<td width="20%"> </td>
-
-
-								<td width="60%" valign="top" align="center"
-									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
-
-
-								<td width="20%" align="right">  
-
-								</td>
-							</tr>
-						<tr>
-
-								<td width="20%">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
-
-
-								<td width="60%" valign="top" align="center"
-									style="font-weight: bold;"> </td>
-
-
-								<td width="20%" align="right">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo} 
-
-								</td>
-							</tr>
-							<tr>
-
-								<td width="20%"> </td>
-
-
-								<td width="60%" valign="top" align="center"
-									style="font-weight: bold;"> </td>
-
-
-								<td width="20%" align="right"> Date :
-									${item.issueDate} 
-
-								</td>
-							</tr>
-						</table> 
-
-
+		</p>
 
 		<div class="invoice-box">
 			<table cellpadding="0" cellspacing="0">
 
 				<tr class="information">
-					<td colspan="1" valign="top">
+					<td colspan="3" valign="top">
 						<table>
 							<tr>
-								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
-									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
-									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
-								</td>
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
-								<!-- 	<td width="50%" valign="top"
-								style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"> &nbsp; ..
-							</td> -->
+									Authorised By</td>
+
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Issued By</td>
+
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Received By</td>
+
+
 
 							</tr>
 
@@ -308,16 +257,76 @@ hr {
 					</td>
 				</tr>
 			</table>
+															<hr	style="height: 1px; border: none; color: black; background-color: black;">
+			
+		</div><br><br>
+
+
+		<div align="left">
+			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
+
+
+		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
+
+
+		<table>
+						<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+ 
+								<td width="1200px" valign="top" align="center"
+									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
+ 
+							</tr> 
+						</table>
+
+		 
+					<table>
+						 
+						<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+
+								<td width="600px">Issue No. : &nbsp;&nbsp;${item.issueNo}</td>
+ 
+								<td width="600px" align="right">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo} 
+
+								</td>
+							</tr>
+							<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+
+								<td width="600px"> </td>
+ 
+								<td width="600px" align="right"> Date :
+									${item.issueDate} 
+
+								</td>
+							</tr>
+						</table>
+
+
+
+					<table>
+							<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
+								<td    >
+									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
+								</td>
+								
+
+								<!-- 	<td width="50%" valign="top"
+								style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"> &nbsp; ..
+							</td> -->
+
+							</tr>
+
+						</table> 
 
 
 		<br>
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
 			<thead>
-				<tr>
+				<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 					<th>SR.</th>
 					<th>ITEM</th>
 					<th>DESCRIPTION</th>
@@ -331,7 +340,7 @@ hr {
 			<tbody>
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="5" />
+				<c:set var="maxRowCount" value="3" />
 
 
 				<!-- end of new page -->
@@ -340,8 +349,8 @@ hr {
 
 				</c:choose>
 
-
-				<tr>
+ 				<c:set var="totalRowCount" value="${totalRowCount+1}" />
+				<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
 					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
@@ -363,13 +372,11 @@ hr {
 		</table>
 
 		<br>
-		<br>
-
-
+		 
 
 		<p
 			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 90%;">
-			Remark - <br> <br> <br> <br>
+			Remark - <br> <br>  
 			<br>
 
 		</p>
@@ -381,17 +388,17 @@ hr {
 					<td colspan="3" valign="top">
 						<table>
 							<tr>
-								<td width="25%" valign="top" align="center"
+								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Authorised By</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Issued By</td>
 
-								<td width="25%" valign="top" align="center"
+								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
 									Received By</td>
@@ -405,7 +412,7 @@ hr {
 				</tr>
 			</table>
 															<hr	style="height: 1px; border: none; color: black; background-color: black;">
-			
+			 
 		</div>
 	</c:forEach>
 
