@@ -150,19 +150,19 @@ hr {
 
 		<br> 
 
-		<%-- <p
+		  <p
 			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
 			Sending following materials personally / Vehicle No. -
 			${item.sendingWith}<br> as per details given below. <br>
 
 		</p>
 
-		<br> --%>
+		<br>  
 
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 240px; width: 100%;">
 			<thead>
 				<tr>
 					<th>SR.</th>
@@ -175,7 +175,7 @@ hr {
 			<tbody>
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="3" />
+				<c:set var="maxRowCount" value="2" />
 
 				<c:forEach items="${item.gatepassReportDetailList}" var="row"
 					varStatus="count">
@@ -288,19 +288,19 @@ hr {
  
 		<br>
 
-		 <%-- <p
+		   <p
 			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
 			Sending following materials personally / Vehicle No. -
 			${item.sendingWith}<br> as per details given below. <br>
 
 		</p>  
 
-		<br> --%>
+		<br>  
 
 
 
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 300px; width: 100%;">
+			id="table_grid" class="table table-bordered" style="table-layout: fixed; display: block; height: 240px; width: 100%;">
 			<thead>
 				<tr>
 					<th>SR.</th>
@@ -313,7 +313,7 @@ hr {
 			<tbody>
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="3" />
+				<c:set var="maxRowCount" value="2" />
 
 
 				<!-- end of new page -->

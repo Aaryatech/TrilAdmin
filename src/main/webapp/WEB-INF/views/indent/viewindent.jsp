@@ -213,13 +213,13 @@
 																<c:set var="indSts" value="2nd Approve Pending"></c:set>
 															</c:when>
 															<c:when test="${indent.indMStatus==0}">
-																<c:set var="indSts" value="Indent Pending"></c:set>
+																<c:set var="indSts" value="PO Pending"></c:set>
 															</c:when>
 															<c:when test="${indent.indMStatus==1}">
-																<c:set var="indSts" value="Partially Indent Pending"></c:set>
+																<c:set var="indSts" value="Partially PO Complete"></c:set>
 															</c:when>
 															<c:when test="${indent.indMStatus==2}">
-																<c:set var="indSts" value="Indent Complete"></c:set>
+																<c:set var="indSts" value="PO Complete"></c:set>
 															</c:when>
 															 
 														</c:choose>
