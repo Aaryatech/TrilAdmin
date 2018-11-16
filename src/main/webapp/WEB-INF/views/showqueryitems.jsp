@@ -28,7 +28,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<div class="page-title">
+			<!-- <div class="page-title">
 				<div>
 					<h1>
 
@@ -36,7 +36,7 @@
 
 					</h1>
 				</div>
-			</div>
+			</div> --><br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -48,15 +48,14 @@
 								<i class="fa fa-table"></i>View Query Items
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addItem"> Add
-									Item</a>&nbsp;&nbsp;&nbsp; <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addItem"> </a>&nbsp;&nbsp;&nbsp; <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>&nbsp;&nbsp;&nbsp;
 							</div>
 
 						</div>
 
 						<div class="box-content">
-						<form id="validation-form" method="post">
+						<form id="validation-form" method="get">
 						<div class="form-group">
 						
 									<input type="hidden" name="itemId" id="itemId" value="0">
@@ -276,18 +275,24 @@
 
 	<script type="text/javascript">
 	
-		function getQueryItemDetail(itemId,docType) {
+		function getQueryItemDetail(itemId,docId) {
 			
 			//alert("Item " +itemId+"doc Type  " +docType);
 			document.getElementById("itemId").value=itemId;
-			document.getElementById("docType").value=docType;
+			document.getElementById("docType").value=docId;
 			
-		    var form = document.getElementById("validation-form")
+			var date = $("#date").val();
+			
+		   /*  var form = document.getElementById("validation-form")
 		    form.action ="${pageContext.request.contextPath}/getQueryItemDetail";
-		    form.submit();
+		    form.submit(); */
 			//window.open("${pageContext.request.contextPath}/getQueryItemDetail");
 			//document.getElementById("expExcel").disabled = true;
+			
+		    window.open('${pageContext.request.contextPath}/getQueryItemDetail/'+itemId+'/'+docId+'/'+date);
 		}
+		
+		  
 	</script>
 
 	<script type="text/javascript">

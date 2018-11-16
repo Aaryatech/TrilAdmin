@@ -1935,6 +1935,26 @@ public class PurchaseOrderController {
 							  SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
  
 						 }
+						 
+						 //update rate in item master
+						 
+						 for (int i = 0; i < poHeaderForApprove.getPoDetailList().size(); i++) {
+								if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0 || poHeaderForApprove.getPoDetailList().get(i).getStatus()==2) {
+									 try {
+										 
+										 map = new LinkedMultiValueMap<String, Object>();
+										 map.add("itemId", poHeaderForApprove.getPoDetailList().get(i).getItemId());
+										 map.add("rate", poHeaderForApprove.getPoDetailList().get(i).getItemRate());
+									
+										 ErrorMessage updateRate = rest.postForObject(Constants.url + "/updateRateOfItemAfterApproveRate", map, ErrorMessage.class);
+								
+									 }catch(Exception e)
+									 {
+										 //e.printStackTrace();
+									 }
+								}
+								 
+							}
 					
 				}
 				 

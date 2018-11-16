@@ -342,7 +342,7 @@
 										<input id="clQty" class="form-control"
 											placeholder="Item OP Qty" name="clQty"
 											value="${editItem.itemClQty}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" readonly>
+											title="Enter in Number Formate" type="number" required>
 
 
 									</div>
@@ -353,7 +353,7 @@
 											placeholder="Item CL Rate" name="clRate"
 											value="${editItem.itemClRate}"
 											pattern="[+-]?([0-9]*[.])?[0-9]+" style="text-align: left;"
-											title="Enter in Number Formate" type="text" readonly>
+											title="Enter in Number Formate" type="text" required>
 
 
 									</div>

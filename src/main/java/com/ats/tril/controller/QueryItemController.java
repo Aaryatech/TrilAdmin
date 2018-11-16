@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -119,13 +121,14 @@ public class QueryItemController {
 	}
 	
 	//
-	@RequestMapping(value = "/getQueryItemDetail", method = RequestMethod.POST)
-	public ModelAndView getIndentQueryItems(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/getQueryItemDetail/{itemId}/{docId}/{date}", method = RequestMethod.GET)
+	public ModelAndView getIndentQueryItems(@PathVariable int itemId,@PathVariable int docId,
+			@PathVariable String date,HttpServletRequest request, HttpServletResponse response) {
 
-	int docId = Integer.parseInt(request.getParameter("docType"));
-	int itemId = Integer.parseInt(request.getParameter("itemId"));
+	/*int docId = Integer.parseInt(request.getParameter("docType"));
+	int itemId = Integer.parseInt(request.getParameter("itemId"));*/
 	String docName="";
-	String date = request.getParameter("date");
+	//String date = request.getParameter("date");
 	ModelAndView model=null;
 	try {
 		
