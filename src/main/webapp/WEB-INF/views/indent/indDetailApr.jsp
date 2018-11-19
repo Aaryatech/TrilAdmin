@@ -227,6 +227,24 @@
 										</select>
 									</div>
 								</div>
+								
+								<div class="form-group">
+
+										 
+							<div class="col-md-1"></div>
+									<div class="col-md-2">Department</div>
+									<div class="col-md-3">
+										<c:out value="${indent.deptCode}"></c:out>
+									</div>
+									 
+									
+									<div class="col-md-2">Sub-Department</div>
+									<div class="col-md-3">
+										<c:out value="${indent.subDeptCode}"></c:out>
+										 
+									</div>
+									 
+								</div>
 								<br /> 
 <hr/>
 <div class="box-content">
