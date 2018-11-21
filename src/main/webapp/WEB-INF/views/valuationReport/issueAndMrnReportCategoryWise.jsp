@@ -206,7 +206,7 @@
 													value="${categoryWiseReport.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${categoryWiseReport.issueQtyValue}" /></td> 
-											 <td><a href="${pageContext.request.contextPath}/issueAndMrnReportGroupWise/${categoryWiseReport.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td><a href="javascript:getDetailReport(${categoryWiseReport.catId});"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 											</c:when>
@@ -509,7 +509,16 @@ function showChart(){
 
 	<script type="text/javascript">
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/issueAndMrnCategoryWisePDF/');
+		var typeName = $("#typeId option:selected").text();
+		var isDev = $("#isDev option:selected").text();
+		window.open('${pageContext.request.contextPath}/issueAndMrnCategoryWisePDF/'+typeName+'/'+isDev);
+	}
+	function getDetailReport(id) {
+		var typeName = $("#typeId option:selected").text();
+		var isDev = $("#isDev option:selected").text();
+		location.href='${pageContext.request.contextPath}/issueAndMrnReportGroupWise/'
+				+ id +"/" + typeName + "/" + isDev;
+
 	}
 	function exportToExcel()
 	{

@@ -111,7 +111,8 @@
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 											&nbsp;
 											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
-											  
+											   <input type="hidden" id="type" name="type" value="${type}">
+											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
 							</div>
 						</div> <br>
 							<div class="col-md-9"></div>
@@ -256,7 +257,9 @@
 
 	<script type="text/javascript">
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/issueAndMrnItemWisePDF/');
+		var typeName = $("#type").val();
+		var isDevName = $("#isDevName").val();
+		window.open('${pageContext.request.contextPath}/issueAndMrnItemWisePDF/'+typeName+"/"+isDevName);
 	}
 	function exportToExcel()
 	{

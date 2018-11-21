@@ -119,6 +119,7 @@
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
 								</label> 
+								 <input type="hidden" id="type" name="type" value="${type}">
 					<br /> <br />
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
@@ -280,7 +281,8 @@
 
 	<script type="text/javascript">
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDF/');
+		var typeName = $("#type").val();
+		window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDF/'+typeName);
 	}
 	function exportToExcel()
 	{

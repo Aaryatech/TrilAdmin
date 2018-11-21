@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ExportToExcel;
@@ -84,6 +87,8 @@ public class ValuationReport {
 	int deptId;
 	int subDeptId;
 	int catId;
+	Company companyInfo = new Company();
+	DecimalFormat df = new DecimalFormat("####0.00");
 	
 	List<IssueMonthWiseList> listGlobal;List<Dept> deparmentList;
 	@RequestMapping(value = "/stockBetweenDateWithCatId", method = RequestMethod.GET)
@@ -458,6 +463,9 @@ public class ValuationReport {
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "CategoryWiseStockValue");
 			
+			 companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -465,8 +473,8 @@ public class ValuationReport {
 		return model;
 	}
 	
-	@RequestMapping(value = "/stockValuetionReportCategoryWisePDF", method = RequestMethod.GET)
-	public void stockValuetionReportCategoryWisePDF(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/stockValuetionReportCategoryWisePDF/{type}", method = RequestMethod.GET)
+	public void stockValuetionReportCategoryWisePDF(@PathVariable String type,HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -476,7 +484,7 @@ public class ValuationReport {
         document.addHeader("Date: ", reportDate);
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-
+		 
 		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
 		String timeStamp = dateFormat.format(cal.getTime());
 		String FILE_PATH = Constants.REPORT_SAVE;
@@ -497,8 +505,8 @@ public class ValuationReport {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
 			table.setWidths(new float[] {0.4f, 1.7f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
-			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 8, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 9, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 
@@ -565,6 +573,17 @@ public class ValuationReport {
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 
+			float totalOpQty=0;
+			float totalOpValue=0;
+			float totalMrnQty=0;
+			float totalMrnValue=0;
+			float totalIssueQty=0;
+			float totalIssueValue=0;
+			float totalDamageQty=0;
+			float totalDamageValue=0;
+			float totalClQty=0;
+			float totalClValue=0;
+			
 			
 			int index = 0;
 			if(!stockCategoryWiseListForPdf.isEmpty()) {
@@ -600,6 +619,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpQty=totalOpQty+stockCategoryWiseListForPdf.get(k).getOpeningStock();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getOpStockValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -607,6 +627,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpValue=totalOpValue+stockCategoryWiseListForPdf.get(k).getOpStockValue();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getApproveQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -614,6 +635,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnQty=totalMrnQty+stockCategoryWiseListForPdf.get(k).getApproveQty();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -621,6 +643,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnValue=totalMrnValue+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getIssueQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -628,6 +651,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueQty=totalIssueQty+stockCategoryWiseListForPdf.get(k).getIssueQty();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getIssueQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -635,6 +659,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueValue=totalIssueValue+stockCategoryWiseListForPdf.get(k).getIssueQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getDamageQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -642,6 +667,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageQty=totalDamageQty+stockCategoryWiseListForPdf.get(k).getDamageQty();
 							
 							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getDamageValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -649,6 +675,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageValue=totalDamageValue+stockCategoryWiseListForPdf.get(k).getDamageValue();
 							
 							float closingQty = stockCategoryWiseListForPdf.get(k).getOpeningStock()+stockCategoryWiseListForPdf.get(k).getApproveQty()-
 									stockCategoryWiseListForPdf.get(k).getIssueQty()-stockCategoryWiseListForPdf.get(k).getDamageQty();
@@ -662,6 +689,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalClQty=totalClQty+closingQty;
 							
 							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -669,25 +697,123 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalClValue=totalClValue+closingValue;
 						}
 					}
 			}
 			
+			PdfPCell cell;
+		 
+			cell = new PdfPCell(new Phrase("Total ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+		
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			  
+		 
+			cell = new PdfPCell(new Phrase(""+df.format(totalClQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalClValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			 
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
 
-				Paragraph headingDate=new Paragraph("Category Wise Stock Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				Paragraph reportName=new Paragraph("STOCK VALUEATION REPORT",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
+				
+				Paragraph typeName=new Paragraph("Type : " + type,f1);
+				typeName.setAlignment(Element.ALIGN_CENTER);
+				document.add(typeName);
+				
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
-			document.add(headingDate);
+				document.add(headingDate);
 			
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);
@@ -750,8 +876,8 @@ public class ValuationReport {
 	
 	List<GetCurrentStock> itemWiseStockValuetionListForPDF = new ArrayList<>();
 	
-	@RequestMapping(value = "/stockSummaryWithCatId/{catId}", method = RequestMethod.GET)
-	public ModelAndView stockSummaryWithCatId(@PathVariable int catId, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/stockSummaryWithCatId/{catId}/{type}", method = RequestMethod.GET)
+	public ModelAndView stockSummaryWithCatId(@PathVariable int catId,@PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/stockSummaryWithCatId");
 		List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
@@ -822,7 +948,7 @@ public class ValuationReport {
 			 }
 			 itemWiseStockValuetionListForPDF=getStockBetweenDate;
 			 model.addObject("list",getStockBetweenDate);
-			 
+			 model.addObject("type",type);
 			//----------------exel-------------------------
 				
 				
@@ -897,8 +1023,8 @@ public class ValuationReport {
 		return model;
 	}
 	
-	@RequestMapping(value = "/stockValuetionReportItemWisePDF", method = RequestMethod.GET)
-	public void stockValuetionReportItemWisePDF(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/stockValuetionReportItemWisePDF/{type}", method = RequestMethod.GET)
+	public void stockValuetionReportItemWisePDF(@PathVariable String type, HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -923,6 +1049,17 @@ public class ValuationReport {
 
 			e.printStackTrace();
 		}
+		
+		float totalOpQty=0;
+		float totalOpValue=0;
+		float totalMrnQty=0;
+		float totalMrnValue=0;
+		float totalIssueQty=0;
+		float totalIssueValue=0;
+		float totalDamageQty=0;
+		float totalDamageValue=0;
+		float totalClQty=0;
+		float totalClValue=0;
 	
 		PdfPTable table = new PdfPTable(12);
 		try {
@@ -1010,14 +1147,13 @@ public class ValuationReport {
 						
 							index++;
 						
-							PdfPCell cell;
+							PdfPCell cell; 
 							
 							cell = new PdfPCell(new Phrase(""+index, headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 							cell.setPadding(3);
 							table.addCell(cell);
-
 						
 							cell = new PdfPCell(new Phrase(itemWiseStockValuetionListForPDF.get(k).getItemCode(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1032,6 +1168,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpQty=totalOpQty+itemWiseStockValuetionListForPDF.get(k).getOpeningStock();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getOpStockValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1039,6 +1176,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpValue=totalOpValue+itemWiseStockValuetionListForPDF.get(k).getOpStockValue();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getApproveQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1046,6 +1184,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnQty=totalMrnQty+itemWiseStockValuetionListForPDF.get(k).getApproveQty();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1053,6 +1192,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnValue=totalMrnValue+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getIssueQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1060,6 +1200,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueQty=totalIssueQty+itemWiseStockValuetionListForPDF.get(k).getIssueQty();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1067,6 +1208,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueValue=totalIssueValue+itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getDamageQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1074,6 +1216,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageQty=totalDamageQty+itemWiseStockValuetionListForPDF.get(k).getDamageQty();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getDamagValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1081,12 +1224,16 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageValue=totalDamageValue+itemWiseStockValuetionListForPDF.get(k).getDamagValue();
 							
 							float closingQty = itemWiseStockValuetionListForPDF.get(k).getOpeningStock()+itemWiseStockValuetionListForPDF.get(k).getApproveQty()-
 									itemWiseStockValuetionListForPDF.get(k).getIssueQty()-itemWiseStockValuetionListForPDF.get(k).getDamageQty();
 							
 							float closingValue = itemWiseStockValuetionListForPDF.get(k).getOpStockValue()+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue()-
 									itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue()-itemWiseStockValuetionListForPDF.get(k).getDamagValue();
+							
+							totalClQty=totalClQty+closingQty;
+							totalClValue=totalClValue+closingValue;
 							
 							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1105,21 +1252,118 @@ public class ValuationReport {
 					}
 			}
 			
+			PdfPCell cell;
+			 
+			cell = new PdfPCell(new Phrase("Total ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+		
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			  
+		 
+			cell = new PdfPCell(new Phrase(""+df.format(totalClQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalClValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
-
-				Paragraph headingDate=new Paragraph("Item Wise Stock Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				
+				Paragraph reportName=new Paragraph("STOCK VALUEATION REPORT ITEM WISE",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
+				
+				Paragraph typeName=new Paragraph("Type : " + type,f1);
+				typeName.setAlignment(Element.ALIGN_CENTER);
+				document.add(typeName);
+				
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
-			document.add(headingDate);
+				document.add(headingDate);
+ 
 			
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);
@@ -1278,6 +1522,9 @@ public class ValuationReport {
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "CategoryWiseMrnAndIssue");
 			
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1292,8 +1539,8 @@ public class ValuationReport {
 		return categoryWiseIssueAndMrnForPdf;
 	}
 	
-	@RequestMapping(value = "/issueAndMrnCategoryWisePDF", method = RequestMethod.GET)
-	public void issueAndMrnCategoryWisePDF(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueAndMrnCategoryWisePDF/{type}/{isDev}", method = RequestMethod.GET)
+	public void issueAndMrnCategoryWisePDF(@PathVariable String type,@PathVariable String isDev,HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -1318,6 +1565,11 @@ public class ValuationReport {
 
 			e.printStackTrace();
 		}
+		
+		float totalMrnQty=0;
+		float totalMrnValue=0;
+		float totalIssueQty=0;
+		float totalIssueValue=0;
 	
 		PdfPTable table = new PdfPTable(6);
 		try {
@@ -1396,6 +1648,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnQty=totalMrnQty+categoryWiseIssueAndMrnForPdf.get(k).getApproveQty();
 							
 							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getApprovedQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1403,6 +1656,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnValue=totalMrnValue+categoryWiseIssueAndMrnForPdf.get(k).getApprovedQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getIssueQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1410,6 +1664,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueQty=totalIssueQty+categoryWiseIssueAndMrnForPdf.get(k).getIssueQty();
 							
 							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getIssueQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1417,27 +1672,73 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueValue=totalIssueValue+categoryWiseIssueAndMrnForPdf.get(k).getIssueQtyValue();
 							 
 						}
 					}
 			}
 			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
-
-				Paragraph headingDate=new Paragraph("Category Wise Issue And Mrn Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				
+				Paragraph reportName=new Paragraph("RECEIPT/ISSUE VALUEATION REPORT",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
+				
+				Paragraph typeName=new Paragraph("Type : " + type +",  Is Dev :"+isDev,f1);
+				typeName.setAlignment(Element.ALIGN_CENTER);
+				document.add(typeName);
+				
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
-			document.add(headingDate);
-			
+				document.add(headingDate);
+ 
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);
 			table.setHeaderRows(1);
@@ -1491,8 +1792,9 @@ public class ValuationReport {
 	
 	List<IssueAndMrnGroupWise> issueAndMrnGroupWiseListForPdf = new ArrayList<IssueAndMrnGroupWise>();
 	
-	@RequestMapping(value = "/issueAndMrnReportGroupWise/{catId}", method = RequestMethod.GET)
-	public ModelAndView issueAndMrnReportGroupWise(@PathVariable int catId, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/issueAndMrnReportGroupWise/{catId}/{type}/{isDevName}", method = RequestMethod.GET)
+	public ModelAndView issueAndMrnReportGroupWise(@PathVariable int catId,@PathVariable String type,
+			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportGroupWise");
 		List<IssueAndMrnGroupWise> groupWiseList = new ArrayList<IssueAndMrnGroupWise>();
@@ -1551,6 +1853,8 @@ public class ValuationReport {
 				issueAndMrnGroupWiseListForPdf = groupWiseList;
 				
 			 model.addObject("list",groupWiseList);
+			 model.addObject("type",type);
+			 model.addObject("isDevName",isDevName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1566,8 +1870,9 @@ public class ValuationReport {
 		return issueAndMrnGroupWiseListForPdf;
 	}
 	
-	@RequestMapping(value = "/issueAndMrnGroupWisePDF", method = RequestMethod.GET)
-	public void issueAndMrnGroupWisePDF(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueAndMrnGroupWisePDF/{type}/{isDevName}", method = RequestMethod.GET)
+	public void issueAndMrnGroupWisePDF(@PathVariable String type,@PathVariable String isDevName,
+			HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -1592,6 +1897,11 @@ public class ValuationReport {
 
 			e.printStackTrace();
 		}
+		
+		float totalMrnQty=0;
+		float totalMrnValue=0;
+		float totalIssueQty=0;
+		float totalIssueValue=0;
 	
 		PdfPTable table = new PdfPTable(6);
 		try {
@@ -1669,6 +1979,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnQty=totalMrnQty+issueAndMrnGroupWiseListForPdf.get(k).getApproveQty();
 							
 							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getApprovedQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1676,6 +1987,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnValue=totalMrnValue+issueAndMrnGroupWiseListForPdf.get(k).getApprovedQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getIssueQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1683,6 +1995,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueQty=totalIssueQty+issueAndMrnGroupWiseListForPdf.get(k).getIssueQty();
 							
 							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getIssueQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1690,26 +2003,71 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
-							 
+							totalIssueValue=totalIssueValue+issueAndMrnGroupWiseListForPdf.get(k).getIssueQtyValue();
 						}
 					}
 			}
 			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
-
-				Paragraph headingDate=new Paragraph("Group Wise Issue And Mrn Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				
+				Paragraph reportName=new Paragraph("RECEIPT/ISSUE VALUEATION REPORT GROUP WISE",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
+				
+				Paragraph typeName=new Paragraph("Type : " + type +",  Is Dev :"+isDevName,f1);
+				typeName.setAlignment(Element.ALIGN_CENTER);
+				document.add(typeName);
+				
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
-			document.add(headingDate);
+				document.add(headingDate);
 			
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);
@@ -1764,8 +2122,9 @@ public class ValuationReport {
 	
 	List<IssueAndMrnItemWise> itemWiseIssueAndMrnListForPdf = new ArrayList<IssueAndMrnItemWise>();
 	
-	@RequestMapping(value = "/issueAndMrnReportItemWise/{groupId}", method = RequestMethod.GET)
-	public ModelAndView issueAndMrnReportItemWise(@PathVariable int groupId, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/issueAndMrnReportItemWise/{groupId}/{type}/{isDevName}", method = RequestMethod.GET)
+	public ModelAndView issueAndMrnReportItemWise(@PathVariable int groupId,@PathVariable String type,
+			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportItemWise");
 		List<IssueAndMrnItemWise> itemWiseList = new ArrayList<IssueAndMrnItemWise>();
@@ -1822,6 +2181,8 @@ public class ValuationReport {
 				session.setAttribute("excelName", "ItemWiseMrnAndIssue");
 			 
 			 model.addObject("list",itemWiseList);
+			 model.addObject("type",type);
+			 model.addObject("isDevName",isDevName);
 			 itemWiseIssueAndMrnListForPdf=itemWiseList;
 			 
 		} catch (Exception e) {
@@ -1832,8 +2193,9 @@ public class ValuationReport {
 		return model;
 	}
 	
-	@RequestMapping(value = "/issueAndMrnItemWisePDF", method = RequestMethod.GET)
-	public void issueAndMrnItemWisePDF(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueAndMrnItemWisePDF/{type}/{isDevName}", method = RequestMethod.GET)
+	public void issueAndMrnItemWisePDF(@PathVariable String type,
+			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -1858,6 +2220,11 @@ public class ValuationReport {
 
 			e.printStackTrace();
 		}
+		
+		float totalMrnQty=0;
+		float totalMrnValue=0;
+		float totalIssueQty=0;
+		float totalIssueValue=0;
 	
 		PdfPTable table = new PdfPTable(6);
 		try {
@@ -1935,6 +2302,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnQty=totalMrnQty+itemWiseIssueAndMrnListForPdf.get(k).getApproveQty();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getApprovedQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1942,6 +2310,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalMrnValue=totalMrnValue+itemWiseIssueAndMrnListForPdf.get(k).getApprovedQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getIssueQty(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1949,6 +2318,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueQty=totalIssueQty+itemWiseIssueAndMrnListForPdf.get(k).getIssueQty();
 							
 							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getIssueQtyValue(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1956,26 +2326,72 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueValue=totalIssueValue+itemWiseIssueAndMrnListForPdf.get(k).getIssueQtyValue();
 							 
 						}
 					}
 			}
 			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalMrnValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
-
-				Paragraph headingDate=new Paragraph("Item Wise Issue And Mrn Report , From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				
+				Paragraph reportName=new Paragraph("RECEIPT/ISSUE VALUEATION REPORT ITEM WISE",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
+				
+				Paragraph typeName=new Paragraph("Type : " + type +",  Is Dev :"+isDevName,f1);
+				typeName.setAlignment(Element.ALIGN_CENTER);
+				document.add(typeName);
+				
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
-			document.add(headingDate);
+				document.add(headingDate);
 			
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);

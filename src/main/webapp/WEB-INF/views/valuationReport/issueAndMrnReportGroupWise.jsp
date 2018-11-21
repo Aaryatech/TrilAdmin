@@ -112,7 +112,8 @@
 											&nbsp;
 											    <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">
 											     <input type="button" class="btn btn-primary" onclick="showTable()"  value="Table">   
-											  
+											  <input type="hidden" id="type" name="type" value="${type}">
+											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
 							</div>
 						</div> <br>
 							<div class="col-md-9"></div>
@@ -156,7 +157,7 @@
 													value="${list.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${list.issueQtyValue}" /></td>
-												<td><a href="${pageContext.request.contextPath}/issueAndMrnReportItemWise/${list.grpId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td><a href="javascript:getDetailReport(${list.grpId});" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 												 
 											 
 											</tr>
@@ -466,12 +467,22 @@ function showChart(){
 	<script type="text/javascript">
 	
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/issueAndMrnGroupWisePDF/');
+		var typeName = $("#type").val();
+		var isDevName = $("#isDevName").val();
+		window.open('${pageContext.request.contextPath}/issueAndMrnGroupWisePDF/'+typeName+'/'+isDevName);
 	}
 	function exportToExcel()
 	{
 		window.open("${pageContext.request.contextPath}/exportToExcel");
 		document.getElementById("expExcel").disabled=true;
+	}
+	
+	function getDetailReport(id) {
+		var typeName = $("#type").val();
+		var isDevName = $("#isDevName").val();
+		location.href='${pageContext.request.contextPath}/issueAndMrnReportItemWise/'
+				+ id +"/" + typeName + "/" + isDevName;
+
 	}
 	
 	function search() {
