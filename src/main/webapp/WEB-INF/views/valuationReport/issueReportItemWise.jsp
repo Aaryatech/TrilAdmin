@@ -179,6 +179,8 @@
 									type="text1" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name" class="form-style-search" style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
 								</label> 
+								<input type="hidden" id="type" name="type" value="${typeName}">
+											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
 					<br /> <br />
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
@@ -412,7 +414,9 @@ function exportToExcel()
 <script type="text/javascript">
 
 function genPdf(){
-	window.open('${pageContext.request.contextPath}/issueReportItemWisePDF/');
+	var typeName = $("#type").val();
+	var isDevName = $("#isDevName").val();
+	window.open('${pageContext.request.contextPath}/issueReportItemWisePDF/'+typeName+'/'+isDevName);
 }
 
 </script>

@@ -61,7 +61,8 @@
 								   <input type="hidden" name="typeId" id="typeId" value="${typeId}"/>
 								    <input type="hidden" name="isDev" id="isDev" value="${isDev}"/>
 								 								     --%>   <input type="hidden" name="deptId" id="deptId" value="${deptId}" />
-
+									<input type="hidden" id="type" name="type" value="${typeName}">
+											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
 								 
 								<%-- <div class="box-content">
 							
@@ -213,7 +214,7 @@
 													value="${deptWiselist.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
-											 <td><a href="${pageContext.request.contextPath}/issueReportItemWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId});" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</td>
 											</c:when>
 											</c:choose>
@@ -337,9 +338,17 @@
 <script type="text/javascript">
 
 function genPdf(){
-	window.open('${pageContext.request.contextPath}/issueReportSubDeptWisePDF/');
+	var typeName = $("#type").val();
+	var isDevName = $("#isDevName").val();
+	window.open('${pageContext.request.contextPath}/issueReportSubDeptWisePDF/'+typeName+'/'+isDevName);
 }
+function getDetailReport(id) {
+	var typeName = $("#type").val();
+	var isDevName = $("#isDevName").val();
+	location.href='${pageContext.request.contextPath}/issueReportItemWise/'
+			+ id +"/" + typeName + "/" + isDevName;
 
+}
 </script>
 
 	<script type="text/javascript">
