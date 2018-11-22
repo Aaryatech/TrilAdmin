@@ -37,6 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.EnquiryDetail;
@@ -81,6 +82,7 @@ public class DashboardController {
 	
 	String fromDateForPdf;
 	String toDateForPdf;
+	Company companyInfo = new Company();
 	
 	@RequestMapping(value = "/showPurchaseDashboard", method = RequestMethod.GET)
 	public ModelAndView showPurchaseDashboard(HttpServletRequest request, HttpServletResponse response) {
@@ -246,9 +248,14 @@ public class DashboardController {
 				 
 				 
 			}
+			
+			
 				catch (Exception e) {
 					e.printStackTrace();
 				}
+			
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -326,7 +333,7 @@ public class DashboardController {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
-		Document document = new Document(PageSize.A3);
+		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
 		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 		String reportDate = DF.format(new Date());
         document.addHeader("Date: ", reportDate);
@@ -367,8 +374,8 @@ public class DashboardController {
 			System.out.println("arry " + Arrays.toString(arry)  + arry.length);
 			
 			table.setWidths(arry);
-			Font headFont = new Font(FontFamily.TIMES_ROMAN,6, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 			PdfPCell hcell = new PdfPCell();
@@ -471,18 +478,22 @@ public class DashboardController {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
-				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+			Paragraph heading1 = new Paragraph(
+					companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
+				
+				Paragraph reportName=new Paragraph("MRN VALUEATION REPORT",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
 
-				Paragraph headingDate=new Paragraph("Mrn Consumption Report  From Date: "   + DateConvertor.convertToDMY(fromDate)+"  To Date: "+DateConvertor.convertToDMY(toDate)+"",f1);
+				Paragraph headingDate=new Paragraph(" From Date: "   + DateConvertor.convertToDMY(fromDate)+"  To Date: "+DateConvertor.convertToDMY(toDate)+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
 			
@@ -662,7 +673,7 @@ public class DashboardController {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
-		Document document = new Document(PageSize.A3);
+		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
 		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 		String reportDate = DF.format(new Date());
         document.addHeader("Date: ", reportDate);
@@ -703,8 +714,8 @@ public class DashboardController {
 			System.out.println("arry " + Arrays.toString(arry)  + arry.length);
 			
 			table.setWidths(arry);
-			Font headFont = new Font(FontFamily.TIMES_ROMAN,6, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 			PdfPCell hcell = new PdfPCell();
@@ -807,18 +818,22 @@ public class DashboardController {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
-				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+			Paragraph heading1 = new Paragraph(
+					companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
 				document.add(ex2);
+				
+				Paragraph reportName=new Paragraph("ISSUE VALUEATION REPORT",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
 
-				Paragraph headingDate=new Paragraph("Issue Consumption Report  From Date: "   + DateConvertor.convertToDMY(fromDate)+"  To Date: "+DateConvertor.convertToDMY(toDate)+"",f1);
+				Paragraph headingDate=new Paragraph(" From Date: "   + DateConvertor.convertToDMY(fromDate)+"  To Date: "+DateConvertor.convertToDMY(toDate)+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
 			
