@@ -114,6 +114,10 @@
 											     <input type="button" class="btn btn-primary" onclick="showTable()"  value="Table">   
 											  <input type="hidden" id="type" name="type" value="${type}">
 											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
+											  <input type="hidden" id="catDesc" name="catDesc" value="${catDesc}">
+							</div>
+							<div class="col-md-12" style="text-align: center">
+								   Category: ${catDesc},&nbsp; Type: ${type},&nbsp; Is Dev: ${isDevName}
 							</div>
 						</div> <br>
 							<div class="col-md-9"></div>
@@ -157,7 +161,7 @@
 													value="${list.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${list.issueQtyValue}" /></td>
-												<td><a href="javascript:getDetailReport(${list.grpId});" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td><a href="javascript:getDetailReport(${list.grpId},/ ${list.grpCode} /);" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 												 
 											 
 											</tr>
@@ -469,7 +473,8 @@ function showChart(){
 	function genPdf(){
 		var typeName = $("#type").val();
 		var isDevName = $("#isDevName").val();
-		window.open('${pageContext.request.contextPath}/issueAndMrnGroupWisePDF/'+typeName+'/'+isDevName);
+		var catDesc = $("#catDesc").val();
+		window.open('${pageContext.request.contextPath}/issueAndMrnGroupWisePDF/'+typeName+'/'+isDevName+'/'+catDesc);
 	}
 	function exportToExcel()
 	{
@@ -477,11 +482,12 @@ function showChart(){
 		document.getElementById("expExcel").disabled=true;
 	}
 	
-	function getDetailReport(id) {
+	function getDetailReport(id,grpCode) {
 		var typeName = $("#type").val();
 		var isDevName = $("#isDevName").val();
+		var catDesc = $("#catDesc").val();
 		location.href='${pageContext.request.contextPath}/issueAndMrnReportItemWise/'
-				+ id +"/" + typeName + "/" + isDevName;
+				+ id +"/" + typeName + "/" + isDevName + "/" + catDesc +""+grpCode;
 
 	}
 	

@@ -113,6 +113,14 @@
 											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
 											   <input type="hidden" id="type" name="type" value="${type}">
 											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
+											  <input type="hidden" id="catDesc" name="catDesc" value="${catDesc}">
+											  <input type="hidden" id="grpCode" name="grpCode" value="${grpCode}">
+							</div>
+							<div class="col-md-12" style="text-align: center">
+								  
+											 Category : ${catDesc} ,&nbsp;  Group : ${grpCode}, &nbsp;  Type: ${type}, &nbsp;  Is Dev : ${isDevName}
+											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
+											    
 							</div>
 						</div> <br>
 							<div class="col-md-9"></div>
@@ -259,7 +267,9 @@
 	function genPdf(){
 		var typeName = $("#type").val();
 		var isDevName = $("#isDevName").val();
-		window.open('${pageContext.request.contextPath}/issueAndMrnItemWisePDF/'+typeName+"/"+isDevName);
+		var catDesc = $("#catDesc").val();
+		var grpCode = $("#grpCode").val();
+		window.open('${pageContext.request.contextPath}/issueAndMrnItemWisePDF/'+typeName+"/"+isDevName+"/"+catDesc+"/"+grpCode);
 	}
 	function exportToExcel()
 	{

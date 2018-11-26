@@ -55,121 +55,18 @@
 						</div>
 						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueReportDeptWise" method="get">
 								<div class="box-content">
-							<%-- 	
-								 <input type="hidden" name="fromDate" id="fromDate" value="${fromDate}"/>
-								  <input type="hidden" name="toDate" id="toDate" value="${toDate}"/>
-								   <input type="hidden" name="typeId" id="typeId" value="${typeId}"/>
-								    <input type="hidden" name="isDev" id="isDev" value="${isDev}"/>
-								 								     --%>   <input type="hidden" name="deptId" id="deptId" value="${deptId}" />
+							 <input type="hidden" name="deptId" id="deptId" value="${deptId}" />
 									<input type="hidden" id="type" name="type" value="${typeName}">
 											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
-								 
-								<%-- <div class="box-content">
-							
-								<div class="col-md-2">From Date</div>
-									<div class="col-md-3">
-										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"  value="${fromDate}" name="fromDate" type="text"  >
-
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">To Date</div>
-									<div class="col-md-3">
-										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date" value="${toDate}"  name="toDate" type="text"  >
-
-
-									</div>
-								
-				 
-							</div><br> --%>
-							
-							<%-- <div class="box-content">
-
-									<div class="col-md-2">Select Type*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="typeId" id="typeId"
-											required>
-											<option value="0">All</option>
-											<c:forEach items="${typeList}" var="typeList">
-											<c:choose>
-												<c:when test="${typeList.typeId==typeId}">
-												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${typeList.typeId}">${typeList.typeName}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Is Development*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="isDev" id="isDev"
-											required>
-											<c:choose>
-												<c:when test="${isDevelompent==-1}">
-													<option value="-1" selected>All</option>
-													 <option value="0">No</option>
-													 <option value="1">Yes</option>
-												</c:when>
-												<c:when test="${isDevelompent==0}">
-													<option value="-1" >All</option>
-													 <option value="0" selected>No</option>
-													 <option value="1">Yes</option>
-												</c:when>
-											
-											 <c:when test="${isDevelompent==1}">
-													<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1"selected>Yes</option>
-												</c:when>  
-												<c:otherwise>
-												<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1" >Yes</option>
-												</c:otherwise>
-												</c:choose>
-										</select>
-
-									</div>
-								</div><br>  --%>
-								<%-- <div class="box-content">
-
-									<div class="col-md-2">Select Type*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="deptId" id="deptId"
-											required>
-											<option value="0">All</option>
-											<c:forEach items="${deparmentList}" var="deparmentList">
-											<c:choose>
-												<c:when test="${deparmentList.deptId==deptId}">
-												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc} </option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									 
-								</div><br><br> --%>
-							
-							<!-- <div class="row">
-							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
+											  <input type="hidden" id="deptName" name="deptName" value="${deptName}">
+											  
+											  <div class="col-md-12" style="text-align: center">
+								  
+											 Department : ${deptName} ,  &nbsp;  Type: ${type}, &nbsp;  Is Dev : ${isDevName}
+											  
+											    
 							</div>
-						</div> <br> -->
-							 
-								
+								  
 								<div align="center" id="loader" style="display: none">
 
 								<span>
@@ -214,7 +111,7 @@
 													value="${deptWiselist.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
-											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId});" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId},/${deptWiselist.deptCode}/);" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</td>
 											</c:when>
 											</c:choose>
@@ -340,13 +237,15 @@
 function genPdf(){
 	var typeName = $("#type").val();
 	var isDevName = $("#isDevName").val();
-	window.open('${pageContext.request.contextPath}/issueReportSubDeptWisePDF/'+typeName+'/'+isDevName);
+	var deptName = $("#deptName").val();
+	window.open('${pageContext.request.contextPath}/issueReportSubDeptWisePDF/'+typeName+'/'+isDevName+'/'+deptName);
 }
-function getDetailReport(id) {
+function getDetailReport(id,subDeptCode) {
 	var typeName = $("#type").val();
 	var isDevName = $("#isDevName").val();
+	var deptName = $("#deptName").val();
 	location.href='${pageContext.request.contextPath}/issueReportItemWise/'
-			+ id +"/" + typeName + "/" + isDevName;
+			+ id +"/" + typeName + "/" + isDevName + "/" +deptName+""+subDeptCode;
 
 }
 </script>

@@ -876,8 +876,8 @@ public class ValuationReport {
 	
 	List<GetCurrentStock> itemWiseStockValuetionListForPDF = new ArrayList<>();
 	
-	@RequestMapping(value = "/stockSummaryWithCatId/{catId}/{type}", method = RequestMethod.GET)
-	public ModelAndView stockSummaryWithCatId(@PathVariable int catId,@PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/stockSummaryWithCatId/{catId}/{type}/{catDesc}", method = RequestMethod.GET)
+	public ModelAndView stockSummaryWithCatId(@PathVariable int catId,@PathVariable String type,@PathVariable String catDesc, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/stockSummaryWithCatId");
 		List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
@@ -949,6 +949,7 @@ public class ValuationReport {
 			 itemWiseStockValuetionListForPDF=getStockBetweenDate;
 			 model.addObject("list",getStockBetweenDate);
 			 model.addObject("type",type);
+			 model.addObject("catDesc",catDesc);
 			//----------------exel-------------------------
 				
 				
@@ -1023,8 +1024,8 @@ public class ValuationReport {
 		return model;
 	}
 	
-	@RequestMapping(value = "/stockValuetionReportItemWisePDF/{type}", method = RequestMethod.GET)
-	public void stockValuetionReportItemWisePDF(@PathVariable String type, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/stockValuetionReportItemWisePDF/{type}/{catDesc}", method = RequestMethod.GET)
+	public void stockValuetionReportItemWisePDF(@PathVariable String type,@PathVariable String catDesc, HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -1356,7 +1357,7 @@ public class ValuationReport {
 				reportName.setAlignment(Element.ALIGN_CENTER);
 				document.add(reportName);
 				
-				Paragraph typeName=new Paragraph("Type : " + type,f1);
+				Paragraph typeName=new Paragraph("Category : "+ catDesc +", Type : " + type,f1);
 				typeName.setAlignment(Element.ALIGN_CENTER);
 				document.add(typeName);
 				
@@ -1792,9 +1793,9 @@ public class ValuationReport {
 	
 	List<IssueAndMrnGroupWise> issueAndMrnGroupWiseListForPdf = new ArrayList<IssueAndMrnGroupWise>();
 	
-	@RequestMapping(value = "/issueAndMrnReportGroupWise/{catId}/{type}/{isDevName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/issueAndMrnReportGroupWise/{catId}/{type}/{isDevName}/{catDesc}", method = RequestMethod.GET)
 	public ModelAndView issueAndMrnReportGroupWise(@PathVariable int catId,@PathVariable String type,
-			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String isDevName,@PathVariable String catDesc,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportGroupWise");
 		List<IssueAndMrnGroupWise> groupWiseList = new ArrayList<IssueAndMrnGroupWise>();
@@ -1855,6 +1856,7 @@ public class ValuationReport {
 			 model.addObject("list",groupWiseList);
 			 model.addObject("type",type);
 			 model.addObject("isDevName",isDevName);
+			 model.addObject("catDesc",catDesc); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1870,8 +1872,8 @@ public class ValuationReport {
 		return issueAndMrnGroupWiseListForPdf;
 	}
 	
-	@RequestMapping(value = "/issueAndMrnGroupWisePDF/{type}/{isDevName}", method = RequestMethod.GET)
-	public void issueAndMrnGroupWisePDF(@PathVariable String type,@PathVariable String isDevName,
+	@RequestMapping(value = "/issueAndMrnGroupWisePDF/{type}/{isDevName}/{catDesc}", method = RequestMethod.GET)
+	public void issueAndMrnGroupWisePDF(@PathVariable String type,@PathVariable String isDevName,@PathVariable String catDesc,
 			HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
@@ -2061,7 +2063,7 @@ public class ValuationReport {
 				reportName.setAlignment(Element.ALIGN_CENTER);
 				document.add(reportName);
 				
-				Paragraph typeName=new Paragraph("Type : " + type +",  Is Dev :"+isDevName,f1);
+				Paragraph typeName=new Paragraph("Category: " + catDesc + ", Type : " + type +",  Is Dev :"+isDevName,f1);
 				typeName.setAlignment(Element.ALIGN_CENTER);
 				document.add(typeName);
 				
@@ -2122,9 +2124,9 @@ public class ValuationReport {
 	
 	List<IssueAndMrnItemWise> itemWiseIssueAndMrnListForPdf = new ArrayList<IssueAndMrnItemWise>();
 	
-	@RequestMapping(value = "/issueAndMrnReportItemWise/{groupId}/{type}/{isDevName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/issueAndMrnReportItemWise/{groupId}/{type}/{isDevName}/{catDesc}/{grpCode}", method = RequestMethod.GET)
 	public ModelAndView issueAndMrnReportItemWise(@PathVariable int groupId,@PathVariable String type,
-			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String isDevName,@PathVariable String catDesc,@PathVariable String grpCode,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportItemWise");
 		List<IssueAndMrnItemWise> itemWiseList = new ArrayList<IssueAndMrnItemWise>();
@@ -2183,6 +2185,8 @@ public class ValuationReport {
 			 model.addObject("list",itemWiseList);
 			 model.addObject("type",type);
 			 model.addObject("isDevName",isDevName);
+			 model.addObject("catDesc",catDesc);
+			 model.addObject("grpCode",grpCode);
 			 itemWiseIssueAndMrnListForPdf=itemWiseList;
 			 
 		} catch (Exception e) {
@@ -2193,9 +2197,9 @@ public class ValuationReport {
 		return model;
 	}
 	
-	@RequestMapping(value = "/issueAndMrnItemWisePDF/{type}/{isDevName}", method = RequestMethod.GET)
-	public void issueAndMrnItemWisePDF(@PathVariable String type,
-			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueAndMrnItemWisePDF/{type}/{isDevName}/{catDesc}/{grpCode}", method = RequestMethod.GET)
+	public void issueAndMrnItemWisePDF(@PathVariable String type, @PathVariable String isDevName,
+			@PathVariable String catDesc,@PathVariable String grpCode,HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -2385,7 +2389,7 @@ public class ValuationReport {
 				reportName.setAlignment(Element.ALIGN_CENTER);
 				document.add(reportName);
 				
-				Paragraph typeName=new Paragraph("Type : " + type +",  Is Dev :"+isDevName,f1);
+				Paragraph typeName=new Paragraph("Category : " + catDesc +", Group : " + grpCode + ", Type : " + type +", Is Dev :"+isDevName,f1);
 				typeName.setAlignment(Element.ALIGN_CENTER);
 				document.add(typeName);
 				
@@ -2596,8 +2600,8 @@ public class ValuationReport {
 		}
 		return deptWiselist;
 	}
-	@RequestMapping(value = "/issueReportSubDeptWise/{deptId}/{typeName}/{isDevName}", method = RequestMethod.GET)
-	public ModelAndView issueReportSubDeptWise(@PathVariable int deptId,@PathVariable String typeName,@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/issueReportSubDeptWise/{deptId}/{typeName}/{isDevName}/{deptName}", method = RequestMethod.GET)
+	public ModelAndView issueReportSubDeptWise(@PathVariable int deptId,@PathVariable String typeName,@PathVariable String isDevName,@PathVariable String deptName,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueReportSubDeptWise");
 		try {
@@ -2617,6 +2621,7 @@ public class ValuationReport {
 				model.addObject("deptId", deptId);
 				model.addObject("typeName", typeName);
 				model.addObject("isDevName", isDevName);
+				model.addObject("deptName", deptName);
 				   deptWiselistGlobal=deptWiselist;
 				//------------------------ Export To Excel--------------------------------------
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -2682,9 +2687,9 @@ public class ValuationReport {
 		}
 		return deptWiselist;
 	}
-	@RequestMapping(value = "/issueReportItemWise/{subDeptId}/{typeName}/{isDevName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/issueReportItemWise/{subDeptId}/{typeName}/{isDevName}/{deptName}/{subDeptCode}", method = RequestMethod.GET)
 	public ModelAndView issueReportItemWise(@PathVariable int subDeptId,@PathVariable String typeName
-			,@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
+			,@PathVariable String isDevName,@PathVariable String deptName,@PathVariable String subDeptCode,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueReportItemWise");
 		try {
@@ -2703,6 +2708,8 @@ public class ValuationReport {
 				model.addObject("itemWiselist", itemWiselist);
 				model.addObject("typeName", typeName);
 				model.addObject("isDevName", isDevName);
+				model.addObject("deptName", deptName);
+				model.addObject("subDeptCode", subDeptCode);
 				//------------------------ Export To Excel--------------------------------------
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -2951,8 +2958,8 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 	}
-	@RequestMapping(value = "/issueReportSubDeptWisePDF/{typeName}/{isDevName}", method = RequestMethod.GET)
-	public void issueReportSubDeptWisePDF(@PathVariable String typeName,@PathVariable String isDevName, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueReportSubDeptWisePDF/{typeName}/{isDevName}/{deptName}", method = RequestMethod.GET)
+	public void issueReportSubDeptWisePDF(@PathVariable String typeName,@PathVariable String isDevName,@PathVariable String deptName, HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -3098,7 +3105,7 @@ public class ValuationReport {
 				report.setAlignment(Element.ALIGN_CENTER);
 				document.add(report);
 				
-				Paragraph type=new Paragraph(" Type : " + typeName + ", Is Dev : " + isDevName,f1);
+				Paragraph type=new Paragraph("Department : "+deptName+", Type : " + typeName + ", Is Dev : " + isDevName,f1);
 				type.setAlignment(Element.ALIGN_CENTER);
 				document.add(type);
 				
@@ -3156,8 +3163,9 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 	}
-	@RequestMapping(value = "/issueReportItemWisePDF/{typeName}/{isDevName}", method = RequestMethod.GET)
-	public void issueReportItemWisePDF(@PathVariable String typeName,@PathVariable String isDevName, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueReportItemWisePDF/{typeName}/{isDevName}/{deptName}/{subDeptName}", method = RequestMethod.GET)
+	public void issueReportItemWisePDF(@PathVariable String typeName,@PathVariable String isDevName,@PathVariable String deptName,
+			@PathVariable String subDeptName,HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -3303,7 +3311,7 @@ public class ValuationReport {
 				report.setAlignment(Element.ALIGN_CENTER);
 				document.add(report);
 				
-				Paragraph type=new Paragraph(" Type : " + typeName + ", Is Dev : " + isDevName,f1);
+				Paragraph type=new Paragraph(" Department : " + deptName + ", Sub-Dept: " + subDeptName + ", Type : " + typeName + ", Is Dev : " + isDevName,f1);
 				type.setAlignment(Element.ALIGN_CENTER);
 				document.add(type);
 				
@@ -3654,7 +3662,7 @@ public class ValuationReport {
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK); 
 			table.addCell(hcell);
-			
+			 
 			float aprTotal=0;
 			float mayTotal=0;
 			float junTotal=0;
@@ -3918,9 +3926,9 @@ public class ValuationReport {
 	List<IssueMonthWiseList> subDeptWiselistForPdf = new ArrayList<IssueMonthWiseList>();
 	List<GetSubDept> subDeptList = new ArrayList<>();
 	int deptIdForPdf=0;
-	@RequestMapping(value = "/issueMonthSubDeptWieReportByDeptId/{deptId}/{typeName}/{isDevName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/issueMonthSubDeptWieReportByDeptId/{deptId}/{typeName}/{isDevName}/{deptName}", method = RequestMethod.GET)
 	public ModelAndView issueMonthSubDeptWieReportByDeptId(@PathVariable int deptId,@PathVariable String typeName,
-			@PathVariable String isDevName,HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String isDevName,@PathVariable String deptName,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueReportMonthSubDeptWise");
 		try {
@@ -3944,6 +3952,7 @@ public class ValuationReport {
 				model.addObject("deptId", deptId);
 				model.addObject("type", typeName);
 				model.addObject("isDevName", isDevName);
+				model.addObject("deptName", deptName);
 				deptIdForPdf=deptId;
 				//------------------------ Export To Excel--------------------------------------
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -4054,8 +4063,8 @@ public class ValuationReport {
 		return subDeptList;
 	}
 	
-	@RequestMapping(value = "/issueMonthSubDeptWiseReportPdf/{typeName}/{isDevName}", method = RequestMethod.GET)
-	public void issueMonthSubDeptWiseReportPdf(@PathVariable String typeName, @PathVariable String isDevName, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/issueMonthSubDeptWiseReportPdf/{typeName}/{isDevName}/{deptName}", method = RequestMethod.GET)
+	public void issueMonthSubDeptWiseReportPdf(@PathVariable String typeName, @PathVariable String isDevName, @PathVariable String deptName, HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -4377,7 +4386,7 @@ public class ValuationReport {
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
 			
-			Paragraph type=new Paragraph("Type : " + typeName +", Is Dev : " + isDevName,f1);
+			Paragraph type=new Paragraph("Department: "+deptName+", Type : " + typeName +", Is Dev : " + isDevName,f1);
 			type.setAlignment(Element.ALIGN_CENTER);
 		document.add(type);
 			
@@ -4923,12 +4932,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -5166,6 +5175,8 @@ public class ValuationReport {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "MrnCategoryMonthWiseList");
+			 companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -5188,18 +5199,18 @@ public class ValuationReport {
 		return categoryList;
 	}
 	
-	@RequestMapping(value = "/mrnCategoryMonthWiseReportPdf", method = RequestMethod.GET)
-	public void mrnCategoryMonthWiseReportPdf(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/mrnCategoryMonthWiseReportPdf/{typeName}/{isDevName}/{deptName}/{subDeptName}", method = RequestMethod.GET)
+	public void mrnCategoryMonthWiseReportPdf(@PathVariable String typeName,@PathVariable String isDevName,@PathVariable String deptName,@PathVariable String subDeptName, HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
-		Document document = new Document(PageSize.A3);
+		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
 		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 		String reportDate = DF.format(new Date());
         document.addHeader("Date: ", reportDate);
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-
+ 
 		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
 		String timeStamp = dateFormat.format(cal.getTime());
 		String FILE_PATH = Constants.REPORT_SAVE;
@@ -5214,12 +5225,25 @@ public class ValuationReport {
 
 			e.printStackTrace();
 		}
-	
-		PdfPTable table = new PdfPTable(14);
+	 
+			float aprTotal=0;
+			float mayTotal=0;
+			float junTotal=0;
+			float julTotal=0;
+			float augTotal=0;
+			float sepTotal=0;
+			float octTotal=0;
+			float novTotal=0;
+			float decTotal=0;
+			float janTotal=0;
+			float febTotal=0;
+			float marTotal=0;
+			
+		PdfPTable table = new PdfPTable(15);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {0.4f, 1.7f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+			table.setWidths(new float[] {0.4f, 1.7f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
 			Font headFont = new Font(FontFamily.TIMES_ROMAN,9, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -5296,225 +5320,20 @@ public class ValuationReport {
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK); 
 			table.addCell(hcell);
-
-			/*hcell.setPadding(4);
-			hcell = new PdfPCell(new Phrase("SR.", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-
-			hcell = new PdfPCell(new Phrase("Cat Name", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("APR", headFont1));
+			hcell = new PdfPCell(new Phrase("TOTAL", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
+			hcell.setBackgroundColor(BaseColor.PINK); 
 			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("MAY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("JUN", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("JUL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("AUG", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("SEP", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("OCT", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("NOV", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("DEC", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("JAN", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("FEB", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("MAR", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			
-		    
-		    hcell = new PdfPCell();
-			hcell.setPadding(4);
-			hcell = new PdfPCell(new Phrase(" ", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-
-			hcell = new PdfPCell(new Phrase(" ", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);*/
-			
-			 
+ 
 			int index = 0;
 			if(!mrnCategoryMonthWiseListForPdf.isEmpty()) {
 					for (int k = 0; k < categoryList.size(); k++) {
 						 
 							index++;
 						
+							float mrnQtyValue=0;
+							
 							PdfPCell cell;
 							
 							cell = new PdfPCell(new Phrase(""+index, headFont));
@@ -5539,33 +5358,158 @@ public class ValuationReport {
 								{
 									if(monthList.get(l).getCatId()==categoryList.get(k).getCatId())
 									{
-											/*cell = new PdfPCell(new Phrase(""+monthList.get(l).getApproveQty(), headFont));
-											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-											cell.setPaddingRight(2);
-											cell.setPadding(3);
-											table.addCell(cell);*/
+											 
 											cell = new PdfPCell(new Phrase(""+monthList.get(l).getApprovedQtyValue(), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
+											
+											mrnQtyValue=mrnQtyValue+monthList.get(l).getApprovedQtyValue();
+											
+											if(monthList.get(l).getMonthNo()==1) {
+												 janTotal=janTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==2) {
+												 febTotal=febTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==3) {
+												 marTotal=marTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==4) {
+												 aprTotal=aprTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==5) {
+												 mayTotal=mayTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==6) {
+												 junTotal=junTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==7) {
+												 julTotal=julTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==8) {
+												 augTotal=augTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==9) {
+												 sepTotal=sepTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==10) {
+												 octTotal=octTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==11) {
+												 novTotal=novTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											 if(monthList.get(l).getMonthNo()==12) {
+												 decTotal=decTotal+monthList.get(l).getApprovedQtyValue();
+											 }
 									}
 								}
 							}
+							
+							cell = new PdfPCell(new Phrase(""+df.format(mrnQtyValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPadding(3);
+							table.addCell(cell);
 					
 					}
 				 
 			}
 			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(aprTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(mayTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase(""+df.format(junTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase(""+df.format(julTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase(""+df.format(augTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(sepTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(octTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(novTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(decTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(janTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(febTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(marTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format((marTotal+aprTotal+mayTotal+junTotal+julTotal+augTotal+sepTotal+octTotal+novTotal+decTotal+febTotal+janTotal)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -5574,6 +5518,10 @@ public class ValuationReport {
 				Paragraph headingDate=new Paragraph("Mrn Category Month Wise Report ",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
+			
+			Paragraph type=new Paragraph("Type: "+typeName+", Is Dev: "+isDevName+", Department: "+deptName+", Sub-Dept: "+subDeptName,f1);
+			type.setAlignment(Element.ALIGN_CENTER);
+		document.add(type);
 			
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);
@@ -5628,8 +5576,9 @@ public class ValuationReport {
 	
 	List<MrnMonthWiseList> mrnItemMonthWiseListForPdf = new ArrayList<MrnMonthWiseList>();
 	
-	@RequestMapping(value = "/mrnMonthItemWiseReportBycatId/{catId}", method = RequestMethod.GET)
-	public ModelAndView mrnMonthItemWiseReportBycatId(@PathVariable int catId,HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/mrnMonthItemWiseReportBycatId/{catId}/{typeName}/{isDevName}/{deptName}/{subDeptName}/{catDesc}", method = RequestMethod.GET)
+	public ModelAndView mrnMonthItemWiseReportBycatId(@PathVariable int catId,@PathVariable String typeName,@PathVariable String isDevName
+			,@PathVariable String deptName,@PathVariable String subDeptName,@PathVariable String catDesc,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/mrnMonthItemWiseReport");
 		try {
@@ -5657,6 +5606,11 @@ public class ValuationReport {
 				GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 				List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 				model.addObject("itemList", itemList);
+				model.addObject("typeName", typeName);
+				model.addObject("isDevName", isDevName);
+				model.addObject("deptName", deptName);
+				model.addObject("subDeptName", subDeptName); 
+				model.addObject("catDesc", catDesc);
 				
 				 itemListforPdf=itemList;
 				 deptIdForPdf=catId;
@@ -5754,18 +5708,19 @@ public class ValuationReport {
 		return model;
 	}
 	
-	@RequestMapping(value = "/mrnItemMonthWiseReportPdf", method = RequestMethod.GET)
-	public void mrnItemMonthWiseReportPdf(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/mrnItemMonthWiseReportPdf/{typeName}/{catDesc}/{isDevName}/{deptName}/{subDeptName}", method = RequestMethod.GET)
+	public void mrnItemMonthWiseReportPdf(@PathVariable String typeName, @PathVariable String catDesc
+			,@PathVariable String isDevName,@PathVariable String deptName,@PathVariable String subDeptName,HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
-		Document document = new Document(PageSize.A3);
+		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
 		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 		String reportDate = DF.format(new Date());
         document.addHeader("Date: ", reportDate);
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-
+ 
 		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
 		String timeStamp = dateFormat.format(cal.getTime());
 		String FILE_PATH = Constants.REPORT_SAVE;
@@ -5780,229 +5735,31 @@ public class ValuationReport {
 
 			e.printStackTrace();
 		}
+		
+		float aprTotal=0;
+		float mayTotal=0;
+		float junTotal=0;
+		float julTotal=0;
+		float augTotal=0;
+		float sepTotal=0;
+		float octTotal=0;
+		float novTotal=0;
+		float decTotal=0;
+		float janTotal=0;
+		float febTotal=0;
+		float marTotal=0;
 	
-		PdfPTable table = new PdfPTable(14);
+		PdfPTable table = new PdfPTable(15);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {0.4f, 3.0f, 0.8f,   0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f});
+			table.setWidths(new float[] {0.4f, 3.0f, 0.8f,   0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f,  0.8f});
 			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 			PdfPCell hcell = new PdfPCell();
-
-			/*hcell.setPadding(4);
-			hcell = new PdfPCell(new Phrase("SR.", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-
-			hcell = new PdfPCell(new Phrase("Item Name", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("APR", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("MAY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("JUN", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("JUL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("AUG", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("SEP", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("OCT", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("NOV", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("DEC", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("JAN", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("FEB", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("MAR", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setColspan(2);
-			table.addCell(hcell);
-			
-			
-		    
-		    hcell = new PdfPCell();
-			hcell.setPadding(4);
-			hcell = new PdfPCell(new Phrase(" ", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-
-			hcell = new PdfPCell(new Phrase(" ", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("VAL", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);*/
-			
+  
 			hcell.setPadding(4);
 			hcell = new PdfPCell(new Phrase("SR.", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -6070,6 +5827,11 @@ public class ValuationReport {
 			table.addCell(hcell);
 			
 			hcell = new PdfPCell(new Phrase("MAR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK); 
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("TOTAL", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK); 
 			table.addCell(hcell);
@@ -6082,6 +5844,8 @@ public class ValuationReport {
 							index++;
 						
 							PdfPCell cell;
+							
+							float mrnQtyValue=0;
 							
 							cell = new PdfPCell(new Phrase(""+index, headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -6105,33 +5869,158 @@ public class ValuationReport {
 								{
 									if(monthList.get(l).getItemId()==itemListforPdf.get(k).getItemId())
 									{
-											/*cell = new PdfPCell(new Phrase(""+monthList.get(l).getApproveQty(), headFont));
-											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-											cell.setPaddingRight(2);
-											cell.setPadding(3);
-											table.addCell(cell);*/
+											 
 											cell = new PdfPCell(new Phrase(""+monthList.get(l).getApprovedQtyValue(), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
+											
+											mrnQtyValue=mrnQtyValue+monthList.get(l).getApprovedQtyValue();
+											
+											if(monthList.get(l).getMonthNo()==1) {
+												 janTotal=janTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==2) {
+												 febTotal=febTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==3) {
+												 marTotal=marTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==4) {
+												 aprTotal=aprTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==5) {
+												 mayTotal=mayTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==6) {
+												 junTotal=junTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==7) {
+												 julTotal=julTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==8) {
+												 augTotal=augTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==9) {
+												 sepTotal=sepTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==10) {
+												 octTotal=octTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											if(monthList.get(l).getMonthNo()==11) {
+												 novTotal=novTotal+monthList.get(l).getApprovedQtyValue();
+											 }
+											 if(monthList.get(l).getMonthNo()==12) {
+												 decTotal=decTotal+monthList.get(l).getApprovedQtyValue();
+											 }
 									}
 								}
 							}
+							
+							cell = new PdfPCell(new Phrase(""+df.format(mrnQtyValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPadding(3);
+							table.addCell(cell);
 					
 					}
 					}
 			}
 			
+PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(aprTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(mayTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase(""+df.format(junTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase(""+df.format(julTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase(""+df.format(augTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(sepTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(octTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(novTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(decTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(janTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(febTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(""+df.format(marTotal), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format((marTotal+aprTotal+mayTotal+junTotal+julTotal+augTotal+sepTotal+octTotal+novTotal+decTotal+febTotal+janTotal)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPadding(3); 
+			table.addCell(cell);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						companyInfo.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -6140,6 +6029,10 @@ public class ValuationReport {
 				Paragraph headingDate=new Paragraph("Mrn Item Month Wise Report ",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
+			
+			Paragraph type=new Paragraph("Category: " + catDesc+", Type: "+typeName+", Department: "+deptName+", Sub-Dept: "+subDeptName,f1);
+			type.setAlignment(Element.ALIGN_CENTER);
+		document.add(type);
 			
 			Paragraph ex3=new Paragraph("\n");
 			document.add(ex3);

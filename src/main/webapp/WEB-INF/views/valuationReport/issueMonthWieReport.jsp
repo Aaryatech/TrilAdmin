@@ -260,7 +260,7 @@
 														</c:choose> 
 														</c:forEach> 
 												</c:forEach>
-												<td><a href="javascript:getDetailReport(${deparmentList.deptId});"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td><a href="javascript:getDetailReport(${deparmentList.deptId},/ ${deparmentList.deptCode} ${deparmentList.deptDesc} /);"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 										</c:forEach>
@@ -490,11 +490,11 @@ function exportToExcel()
 	window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled=true;
 }
-function getDetailReport(id) {
+function getDetailReport(id,deptName) {
 	var typeName = $("#typeId option:selected").text();
 	var isDev = $("#isDev option:selected").text();
 	location.href='${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/'
-			+ id +"/" + typeName + "/" + isDev;
+			+ id +"/" + typeName + "/" + isDev+''+deptName;
 
 }
 	</script>

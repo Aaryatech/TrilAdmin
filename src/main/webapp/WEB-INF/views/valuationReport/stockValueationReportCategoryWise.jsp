@@ -205,7 +205,7 @@
 												
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
-											 <td><a href="javascript:getDetailReport(${categoryWiseReport.catId});" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td><a href='javascript:getDetailReport(${categoryWiseReport.catId},/ ${categoryWiseReport.catDesc} /);' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 											</c:when>
@@ -571,12 +571,13 @@ function showChart(){
 		window.open("${pageContext.request.contextPath}/exportToExcel");
 		document.getElementById("expExcel").disabled=true;
 	}
-	function getDetailReport(id) {
-		var typeName = $("#typeId option:selected").text();
-		location.href='${pageContext.request.contextPath}/stockSummaryWithCatId/'
-				+ id +"/" + typeName;
+	  function getDetailReport(id,catDesc) {
+		 var typeName = $("#typeId option:selected").text();
+		//alert(catDesc);
+		  location.href='${pageContext.request.contextPath}/stockSummaryWithCatId/'
+				+ id +'/' + typeName+''+catDesc;  
 
-	}
+	}  
 	function search() {
 		  
 		

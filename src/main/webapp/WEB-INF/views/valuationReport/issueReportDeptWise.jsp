@@ -227,7 +227,7 @@
 													value="${deptWiselist.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
-											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId});"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId},/ ${deptWiselist.deptCode} /);"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</c:when>
 											 </c:choose>
 											</tr>
@@ -436,11 +436,11 @@ function genPdf(){
 	window.open('${pageContext.request.contextPath}/issueReportDeptWisePDF/'+typeName+'/'+isDev);
 }
 
-function getDetailReport(id) {
+function getDetailReport(id,deptName) {
 	var typeName = $("#typeId option:selected").text();
 	var isDev = $("#isDev option:selected").text();
 	location.href='${pageContext.request.contextPath}/issueReportSubDeptWise/'
-			+ id +"/" + typeName + "/" + isDev;
+			+ id +"/" + typeName + "/" + isDev +"/"+deptName;
 
 }
 

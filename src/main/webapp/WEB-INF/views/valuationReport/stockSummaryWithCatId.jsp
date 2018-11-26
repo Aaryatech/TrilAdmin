@@ -112,6 +112,13 @@
 											 
 											   
 							</div>
+							<div class="col-md-12" style="text-align: center">
+								 
+											 Category: ${catDesc}&nbsp;,
+											 Type : ${type}
+											 
+											   
+							</div>
 						</div> <br>
 							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
@@ -120,6 +127,7 @@
 									placeholder="Search.." title="Type in a name">
 								</label> 
 								 <input type="hidden" id="type" name="type" value="${type}">
+								 <input type="hidden" id="catDesc" name="catDesc" value="${catDesc}">
 					<br /> <br />
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
@@ -282,7 +290,9 @@
 	<script type="text/javascript">
 	function genPdf(){
 		var typeName = $("#type").val();
-		window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDF/'+typeName);
+		var catDesc = $("#catDesc").val();
+		 
+		window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDF/'+typeName+'/'+catDesc);
 	}
 	function exportToExcel()
 	{

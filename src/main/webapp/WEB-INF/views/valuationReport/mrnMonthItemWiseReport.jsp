@@ -56,113 +56,7 @@
 						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueReportDeptWise" method="get">
 								<div class="box-content">
 								
-								 
-								<%-- <div class="box-content">
-							
-								<div class="col-md-2">From Date</div>
-									<div class="col-md-3">
-										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"  value="${fromDate}" name="fromDate" type="text"  >
-
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">To Date</div>
-									<div class="col-md-3">
-										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date" value="${toDate}"  name="toDate" type="text"  >
-
-
-									</div>
-								
-				 
-							</div><br> --%>
-							
-							<%-- <div class="box-content">
-
-									<div class="col-md-2">Select Type*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="typeId" id="typeId"
-											required>
-											<option value="0">All</option>
-											<c:forEach items="${typeList}" var="typeList">
-											<c:choose>
-												<c:when test="${typeList.typeId==typeId}">
-												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${typeList.typeId}">${typeList.typeName}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Is Development*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="isDev" id="isDev"
-											required>
-											<c:choose>
-												<c:when test="${isDevelompent==-1}">
-													<option value="-1" selected>All</option>
-													 <option value="0">No</option>
-													 <option value="1">Yes</option>
-												</c:when>
-												<c:when test="${isDevelompent==0}">
-													<option value="-1" >All</option>
-													 <option value="0" selected>No</option>
-													 <option value="1">Yes</option>
-												</c:when>
-											
-											 <c:when test="${isDevelompent==1}">
-													<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1"selected>Yes</option>
-												</c:when>  
-												<c:otherwise>
-												<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1" >Yes</option>
-												</c:otherwise>
-												</c:choose>
-										</select>
-
-									</div>
-								</div><br>  --%>
-								<%-- <div class="box-content">
-
-									<div class="col-md-2">Select Type*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="deptId" id="deptId"
-											required>
-											<option value="0">All</option>
-											<c:forEach items="${deparmentList}" var="deparmentList">
-											<c:choose>
-												<c:when test="${deparmentList.deptId==deptId}">
-												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc} </option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp; ${deparmentList.deptDesc}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									 
-								</div><br><br> --%>
-							
-							<!-- <div class="row">
-							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
-							</div>
-						</div> <br> -->
-							 
-								
+					 
 								<div class="row">
 							<div class="col-md-12" style="text-align: center">
 								<input type="button" value="PDF" class="btn btn-primary"
@@ -170,6 +64,17 @@
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 											&nbsp;
 											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
+											   </div>
+											   
+											   <div class="col-md-12" style="text-align: center">
+								 Category: ${catDesc},&nbsp; Type: ${typeName},&nbsp; Is Dev: ${isDevName},&nbsp; Department: ${deptName},&nbsp; Sub-Dept: ${subDeptName}
+											  <input type="hidden" id="typeName" name="typeName" value="${typeName}">
+								 <input type="hidden" id="catDesc" name="catDesc" value="${catDesc}">
+								 <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
+								 <input type="hidden" id="deptName" name="deptName" value="${deptName}">
+								 <input type="hidden" id="subDeptName" name="subDeptName" value="${subDeptName}">
+											&nbsp;
+											   
 											   </div>
 											   </div>
 							<div class="col-md-9"></div>
@@ -372,7 +277,13 @@
 	<script type="text/javascript">
 	
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/mrnItemMonthWiseReportPdf/');
+		var typeName = $("#typeName").val();
+		var catDesc = $("#catDesc").val();
+		var isDevName = $("#isDevName").val();
+		var deptName = $("#deptName").val();
+		var subDeptName = $("#subDeptName").val();
+		 
+		window.open('${pageContext.request.contextPath}/mrnItemMonthWiseReportPdf/'+typeName+'/'+catDesc+'/'+isDevName+'/'+deptName+'/'+subDeptName);
 	}
 	function exportToExcel()
 	{

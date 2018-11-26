@@ -173,7 +173,13 @@
 											      <input type="hidden"  id="deptId" name="deptId"  value="${deptId}">  
 											       <input type="hidden" id="type" name="type" value="${type}">
 											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
+											   <input type="hidden" id="deptName" name="deptName" value="${deptName}">
 											   </div>
+											   
+											  <div class="col-md-12" style="text-align: center">
+								 Department: ${deptName}, &nbsp; Type : ${type},&nbsp; Is Dev : ${isDevName}
+											   </div>
+											   
 											   </div>
 							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
@@ -1110,7 +1116,8 @@ function showChart(){
 	function genPdf(){
 		var typeName = $("#type").val();
 		var isDevName = $("#isDevName").val();
-		window.open('${pageContext.request.contextPath}/issueMonthSubDeptWiseReportPdf/'+typeName+'/'+isDevName);
+		var deptName = $("#deptName").val();
+		window.open('${pageContext.request.contextPath}/issueMonthSubDeptWiseReportPdf/'+typeName+'/'+isDevName+'/'+deptName);
 	}
 	function exportToExcel()
 	{

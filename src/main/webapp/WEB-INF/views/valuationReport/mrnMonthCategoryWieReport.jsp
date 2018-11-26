@@ -284,7 +284,7 @@
 														</c:choose> 
 														</c:forEach> 
 												</c:forEach>
-												<td><a href="${pageContext.request.contextPath}/mrnMonthItemWiseReportBycatId/${categoryList.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td><a href='javascript:getDetailReport(${categoryList.catId},/ ${categoryList.catDesc} /);' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 										</c:forEach>
@@ -1074,8 +1074,22 @@
 	</script>
 	<script type="text/javascript">
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/mrnCategoryMonthWiseReportPdf/');
+		var typeName = $("#typeId option:selected").text();
+		var isDevName = $("#isDev option:selected").text();
+		var deptName = $("#deptId option:selected").text();
+		var subDeptName = $("#subDeptId option:selected").text();
+		window.open('${pageContext.request.contextPath}/mrnCategoryMonthWiseReportPdf/'+typeName+'/'+isDevName+'/'+deptName+'/'+subDeptName);
 	}
+	
+	function getDetailReport(id,catDesc) {
+		var typeName = $("#typeId option:selected").text();
+		var isDevName = $("#isDev option:selected").text();
+		var deptName = $("#deptId option:selected").text();
+		var subDeptName = $("#subDeptId option:selected").text();
+		  location.href='${pageContext.request.contextPath}/mrnMonthItemWiseReportBycatId/'
+				+ id +'/' + typeName+'/'+isDevName+'/'+deptName+'/'+subDeptName+''+catDesc;  
+
+	}  
 	function exportToExcel()
 	{
 		window.open("${pageContext.request.contextPath}/exportToExcel");
