@@ -355,7 +355,7 @@ public class DashboardController {
 			e.printStackTrace();
 		}
 		
-		int colmSize=(categoryList.size()*2)+2;
+		int colmSize=(categoryList.size()*2)+4;
 		PdfPTable table = new PdfPTable(colmSize);
 		
 		try {
@@ -375,7 +375,7 @@ public class DashboardController {
 			
 			table.setWidths(arry);
 			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 			PdfPCell hcell = new PdfPCell();
@@ -400,6 +400,12 @@ public class DashboardController {
 				hcell.setColspan(2); 
 				table.addCell(hcell);
 			}
+			
+			hcell = new PdfPCell(new Phrase("Total", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			hcell.setColspan(2); 
+			table.addCell(hcell);
 			 
 		    hcell = new PdfPCell();
 			hcell.setPadding(4);
@@ -426,7 +432,15 @@ public class DashboardController {
 				table.addCell(hcell);
 			}
 			
+			hcell = new PdfPCell(new Phrase("MONTHLY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
 			
+			hcell = new PdfPCell(new Phrase("YTD", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
 			
 			
  
@@ -438,6 +452,9 @@ public class DashboardController {
 						 
 							index++;
 						
+							float typeMonthlyTotal=0;
+							float typeYtdTotal=0;
+							
 							PdfPCell cell;
 							
 							cell = new PdfPCell(new Phrase(""+index, headFont));
@@ -463,17 +480,94 @@ public class DashboardController {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
+											typeMonthlyTotal=typeMonthlyTotal+mrnReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue();
+											
 											cell = new PdfPCell(new Phrase(""+mrnReportList.get(k).getConsumptionReportList().get(j).getYtd(), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
-									 
+											typeYtdTotal=typeYtdTotal+mrnReportList.get(k).getConsumptionReportList().get(j).getYtd();
 								 
 							}
-					
+							
+							cell = new PdfPCell(new Phrase(""+typeMonthlyTotal, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+							cell = new PdfPCell(new Phrase(""+typeYtdTotal, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
 					}
+					
+					PdfPCell cell;
+					cell = new PdfPCell(new Phrase("Total ", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setPadding(3);
+					cell.setColspan(2);
+					table.addCell(cell);
+ 
+					float finalMonthly=0;
+					float finalTotalYear=0;
+					
+					for (int i = 0; i < categoryList.size(); i++) {
+						
+						float catTotalMonthly=0;
+						float catTotalYear=0;
+						
+						for (int k = 0; k < mrnReportList.size(); k++) {
+							
+							for (int j = 0; j < mrnReportList.get(k).getConsumptionReportList().size(); j++) {
+								
+								if(categoryList.get(i).getCatId()==mrnReportList.get(k).getConsumptionReportList().get(j).getCatId()) {
+									catTotalMonthly=catTotalMonthly+mrnReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue();
+									catTotalYear=catTotalYear+mrnReportList.get(k).getConsumptionReportList().get(j).getYtd();
+								} 
+							}
+							
+						}
+						
+						cell = new PdfPCell(new Phrase(""+catTotalMonthly, headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						 
+						cell = new PdfPCell(new Phrase(""+catTotalYear, headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						finalMonthly=finalMonthly+catTotalMonthly;
+						finalTotalYear=finalTotalYear+catTotalYear;
+						 
+					}
+					
+					cell = new PdfPCell(new Phrase(""+finalMonthly , headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+					 
+					cell = new PdfPCell(new Phrase(""+finalTotalYear , headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+					
 				 
 			}
 			
@@ -695,7 +789,7 @@ public class DashboardController {
 			e.printStackTrace();
 		}
 		
-		int colmSize=(categoryList.size()*2)+2;
+		int colmSize=(categoryList.size()*2)+4;
 		PdfPTable table = new PdfPTable(colmSize);
 		
 		try {
@@ -715,7 +809,7 @@ public class DashboardController {
 			
 			table.setWidths(arry);
 			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 			PdfPCell hcell = new PdfPCell();
@@ -740,6 +834,12 @@ public class DashboardController {
 				hcell.setColspan(2); 
 				table.addCell(hcell);
 			}
+			
+			hcell = new PdfPCell(new Phrase("Total", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			hcell.setColspan(2); 
+			table.addCell(hcell);
 			 
 		    hcell = new PdfPCell();
 			hcell.setPadding(4);
@@ -766,10 +866,16 @@ public class DashboardController {
 				table.addCell(hcell);
 			}
 			
+			hcell = new PdfPCell(new Phrase("MONTHLY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
 			
-			
-			
- 
+			hcell = new PdfPCell(new Phrase("YTD", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			 
 			
 			 
 			int index = 0;
@@ -777,7 +883,8 @@ public class DashboardController {
 					for (int k = 0; k < issueReportList.size(); k++) {
 						 
 							index++;
-						
+							float typeMonthlyTotal=0;
+							float typeYtdTotal=0;
 							PdfPCell cell;
 							
 							cell = new PdfPCell(new Phrase(""+index, headFont));
@@ -803,17 +910,95 @@ public class DashboardController {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
+											typeMonthlyTotal=typeMonthlyTotal+issueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue();
+											
 											cell = new PdfPCell(new Phrase(""+issueReportList.get(k).getConsumptionReportList().get(j).getYtd(), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
-									 
+											typeYtdTotal=typeYtdTotal+issueReportList.get(k).getConsumptionReportList().get(j).getYtd();
 								 
 							}
+							
+							cell = new PdfPCell(new Phrase(""+typeMonthlyTotal, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+							
+							cell = new PdfPCell(new Phrase(""+typeYtdTotal, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
 					
 					}
+					
+					PdfPCell cell;
+					cell = new PdfPCell(new Phrase("Total ", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setPadding(3);
+					cell.setColspan(2);
+					table.addCell(cell);
+ 
+					float finalMonthly=0;
+					float finalTotalYear=0;
+					
+					for (int i = 0; i < categoryList.size(); i++) {
+						
+						float catTotalMonthly=0;
+						float catTotalYear=0;
+						
+						for (int k = 0; k < issueReportList.size(); k++) {
+							
+							for (int j = 0; j < issueReportList.get(k).getConsumptionReportList().size(); j++) {
+								
+								if(categoryList.get(i).getCatId()==issueReportList.get(k).getConsumptionReportList().get(j).getCatId()) {
+									catTotalMonthly=catTotalMonthly+issueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue();
+									catTotalYear=catTotalYear+issueReportList.get(k).getConsumptionReportList().get(j).getYtd();
+								} 
+							}
+							
+						}
+						
+						cell = new PdfPCell(new Phrase(""+catTotalMonthly, headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						 
+						cell = new PdfPCell(new Phrase(""+catTotalYear, headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						finalMonthly=finalMonthly+catTotalMonthly;
+						finalTotalYear=finalTotalYear+catTotalYear;
+						 
+					}
+					
+					cell = new PdfPCell(new Phrase(""+finalMonthly , headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+					 
+					cell = new PdfPCell(new Phrase(""+finalTotalYear , headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
 				 
 			}
 			

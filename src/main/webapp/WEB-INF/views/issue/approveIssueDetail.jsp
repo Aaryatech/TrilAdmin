@@ -99,28 +99,32 @@
  
 									</div>
  
-										<%-- <div class="col-md-2">Indent No:</div>
+										  <div class="col-md-2">Acc Head :</div>
 									<div class="col-md-3">
-									${poHeaderForApprove.indNo}
+									${issueForApprove.accHeadDesc}
  
-									</div> --%>
+									</div>  
 									</div>
 									<br>
 
 									  
-									<%-- <div class="box-content">
+									  <div class="box-content">
 
 
 
-										<div class="col-md-2">Remark:</div>
+										<div class="col-md-2">Department:</div>
 										<div class="col-md-3">
-										${issueForApprove.remark1}
-											<input type="text" name="remark" id="remark"
-												placeholder="Remark" class="form-control"  value="${editRejection.rejectionRemark}"/>
+										 ${issueForApprove.deptCode}
+
+										</div>
+										
+										<div class="col-md-2">Sub-Department:</div>
+										<div class="col-md-3">
+										 ${issueForApprove.subDeptCode}
 
 										</div>
 										 
-									</div> --%>
+									</div>  
 
 									<br>
 									

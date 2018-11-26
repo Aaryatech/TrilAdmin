@@ -15,7 +15,7 @@ public class IndentReportDetail {
 
 	private int itemId;
 
-	private int indQty;
+	private float indQty;
 
 	private String indItemUom;
 
@@ -76,11 +76,11 @@ public class IndentReportDetail {
 		this.itemId = itemId;
 	}
 
-	public int getIndQty() {
+	public float getIndQty() {
 		return indQty;
 	}
 
-	public void setIndQty(int indQty) {
+	public void setIndQty(float indQty) {
 		this.indQty = indQty;
 	}
 

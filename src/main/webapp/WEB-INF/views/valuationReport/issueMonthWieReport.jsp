@@ -260,7 +260,7 @@
 														</c:choose> 
 														</c:forEach> 
 												</c:forEach>
-												<td><a href="${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/${deparmentList.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td><a href="javascript:getDetailReport(${deparmentList.deptId});"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 										</c:forEach>
@@ -477,7 +477,9 @@ function myFunction() {
 <script type="text/javascript">
 
 function genPdf(){
-	window.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/');
+	var typeName = $("#typeId option:selected").text();
+	var isDevName = $("#isDev option:selected").text();
+	window.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/'+typeName+'/'+isDevName);
 }
 
 </script>
@@ -488,7 +490,13 @@ function exportToExcel()
 	window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled=true;
 }
+function getDetailReport(id) {
+	var typeName = $("#typeId option:selected").text();
+	var isDev = $("#isDev option:selected").text();
+	location.href='${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/'
+			+ id +"/" + typeName + "/" + isDev;
 
+}
 	</script>
 </body>
 </html>

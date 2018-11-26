@@ -171,6 +171,8 @@
 											   <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">
 											     <input type="button" class="btn btn-primary" onclick="showTable()"  value="Table">  
 											      <input type="hidden"  id="deptId" name="deptId"  value="${deptId}">  
+											       <input type="hidden" id="type" name="type" value="${type}">
+											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
 											   </div>
 											   </div>
 							<div class="col-md-9"></div>
@@ -1106,7 +1108,9 @@ function showChart(){
 	<script type="text/javascript">
 	
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/issueMonthSubDeptWiseReportPdf/');
+		var typeName = $("#type").val();
+		var isDevName = $("#isDevName").val();
+		window.open('${pageContext.request.contextPath}/issueMonthSubDeptWiseReportPdf/'+typeName+'/'+isDevName);
 	}
 	function exportToExcel()
 	{
