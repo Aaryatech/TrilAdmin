@@ -237,7 +237,7 @@
 																value="${indSts}" /></td>
 
 														<td  ><a
-															href="javascript:genPdf(${indent.indMId});" title="PDF"><span
+															href="javascript:genPdf(${indent.indMId},${indent.indIsmonthly});" title="PDF"><span
 																class="glyphicon glyphicon glyphicon-file"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 															<a
 															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}" title="View/Edit"><span
@@ -293,9 +293,17 @@
 
 		}  */ 
 		
-		  function genPdf(id) {
+		  function genPdf(id,isMonthly) {
+			
+			if(isMonthly==0){
+				window.open('indentPdfDoc/' + id);
+			}
+			else{
+				 
+				window.open('indentPdfDocFullPage/' + id);
+			}
 
-			window.open('indentPdfDoc/' + id);
+			
 
 		}  
 		
