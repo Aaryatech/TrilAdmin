@@ -36,13 +36,16 @@ import org.zefer.pd4ml.PD4ML;
 import org.zefer.pd4ml.PD4PageMark;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Company;
 import com.ats.tril.model.EnquiryDetail;
+import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.SettingValue;
+import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.GatePassReport;
 import com.ats.tril.model.doc.IndentReport;
@@ -288,6 +291,42 @@ public class PdfReportController {
 
 		System.out.println("Report Data " + indentReportList.toString());
 		
+		 try {
+		StockHeader stockHeader = restTemplate.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+		
+		Date date = new Date();
+		 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 
+		 String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+		 String toDate=sf.format(date);
+		    
+			map = new LinkedMultiValueMap<>();
+			map.add("fromDate",fromDate);
+			map.add("toDate",toDate);  
+			System.out.println(map);
+			GetCurrentStock[] getCurrentStock = restTemplate.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
+			List<GetCurrentStock> diffDateStock = new ArrayList<>(Arrays.asList(getCurrentStock));
+			
+			for(int i = 0 ; i<indentReportList.size();i++) {
+				 
+				for(int j = 0 ; j<indentReportList.get(i).getIndentReportDetailList().size();j++) {
+			 
+					for(int k = 0 ; k<diffDateStock.size();k++) {
+						 
+						if(indentReportList.get(i).getIndentReportDetailList().get(j).getItemId()==diffDateStock.get(k).getItemId()) {
+							 
+							indentReportList.get(i).getIndentReportDetailList().get(j).setCurntStock(diffDateStock.get(k).getOpeningStock()+diffDateStock.get(k).getApproveQty()-
+									diffDateStock.get(k).getIssueQty()-diffDateStock.get(k).getDamageQty());
+						 
+							break;
+						}
+					}
+					
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		} 
 		model.addObject("list", indentReportList);
 		
 		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",

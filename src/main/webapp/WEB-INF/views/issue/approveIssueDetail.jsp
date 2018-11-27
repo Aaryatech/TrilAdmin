@@ -142,7 +142,9 @@
 																	<th  ><input type="checkbox" id="allCheckTable1"   onClick="selectAll(this)"  />All</th>
 																		<th style="width:2%;">Sr.No.</th>
 																		<th>Item Name</th>
-																		<th class="col-md-2">Issue Qty</th> 
+																		<th class="col-md-2" align="right">Issue Qty</th> 
+																		 <th class="col-md-2" align="right">Item Rate</th> 
+																		 <th class="col-md-2" align="right">Value</th> 
 				 
 																	</tr>
 																</thead>
@@ -170,6 +172,8 @@
 																					value="${issueDetailList.itemCode}" /></td>
 				
 																			<td  >${issueDetailList.itemIssueQty}</td> 
+																			<td  >${issueDetailList.itemRate}</td> 
+																			<td  >${issueDetailList.itemIssueQty*issueDetailList.itemRate}</td> 
 				 
 																		</tr>
 																	</c:forEach>
@@ -191,8 +195,9 @@
 																	<th  ><input type="checkbox" id="allCheckTable1"   onClick="selectAll(this)"  />All</th>
 																		<th style="width:2%;">Sr.No.</th>
 																		<th>Item Name</th>
-																		<th class="col-md-2">Issue Qty</th> 
-				 
+																		<th class="col-md-2" align="right">Issue Qty</th> 
+																		 <th class="col-md-2" align="right">Item Rate</th> 
+																		 <th class="col-md-2" align="right">Value</th> 
 																	</tr>
 																</thead>
 				
@@ -218,7 +223,9 @@
 																			<td  ><c:out
 																					value="${issueDetailList.itemCode}" /></td>
 				
-																			<td  >${issueDetailList.itemIssueQty}</td> 
+																			<td  >${issueDetailList.itemIssueQty}</td>
+																			<td  >${issueDetailList.itemRate}</td> 
+																			<td  >${issueDetailList.itemIssueQty*issueDetailList.itemRate}</td> 
 				 
 																		</tr>
 																	</c:forEach>

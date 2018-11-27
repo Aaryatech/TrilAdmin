@@ -1279,6 +1279,8 @@ function requiredField(key)
   	var taxPer = $("#taxPer option:selected").text();
   	var taxId = $("#taxPer").val();
   	
+  	alert(taxId);
+  	
   	if(packPer=="" || packPer==null) {
   		document.getElementById("packPer").value =0;
   		packPer=0;

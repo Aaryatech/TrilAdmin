@@ -706,6 +706,7 @@ public class PurchaseOrderController {
 			String freghtRemark = request.getParameter("freghtRemark");
 			String otherRemark = request.getParameter("otherRemark");
 			String poRemark = request.getParameter("poRemark");
+			int taxId = Integer.parseInt(request.getParameter("taxPer"));
 			
 			// ----------------------------Inv No---------------------------------
 			DocumentBean docBean = null;
@@ -756,6 +757,8 @@ public class PurchaseOrderController {
 			PoHeader.setPoRemark(poRemark);
 			PoHeader.setPoStatus(9);
 			PoHeader.setApprovStatus(orderValidity);
+			PoHeader.setPoTaxId(taxId);
+			
 			System.out.println(PoHeader);
 			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", PoHeader, PoHeader.class);
 			System.out.println(save);

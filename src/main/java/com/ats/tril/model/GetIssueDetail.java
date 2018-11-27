@@ -23,6 +23,8 @@ public class GetIssueDetail {
 	private String deptCode; 
 	private String subDeptCode; 
 	private String accHeadDesc;
+	private float itemRate;
+	
 	public int getIssueDetailId() {
 		return issueDetailId;
 	}
@@ -139,6 +141,13 @@ public class GetIssueDetail {
 	public void setMrnDetailId(int mrnDetailId) {
 		this.mrnDetailId = mrnDetailId;
 	}
+	
+	public float getItemRate() {
+		return itemRate;
+	}
+	public void setItemRate(float itemRate) {
+		this.itemRate = itemRate;
+	}
 	@Override
 	public String toString() {
 		return "GetIssueDetail [issueDetailId=" + issueDetailId + ", issueId=" + issueId + ", itemGroupId="
@@ -146,7 +155,8 @@ public class GetIssueDetail {
 				+ itemId + ", itemIssueQty=" + itemIssueQty + ", itemRequestQty=" + itemRequestQty + ", itemPendingQty="
 				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", batchNo=" + batchNo
 				+ ", mrnDetailId=" + mrnDetailId + ", itemCode=" + itemCode + ", grpCode=" + grpCode + ", deptCode="
-				+ deptCode + ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + "]";
+				+ deptCode + ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", itemRate=" + itemRate
+				+ "]";
 	}
 	
 	

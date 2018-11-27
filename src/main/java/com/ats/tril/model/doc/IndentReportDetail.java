@@ -35,6 +35,9 @@ public class IndentReportDetail {
 
 	private int indFyr;
 	
+	private float itemMaxLevel;
+	
+	private float curntStock;
 
 	public int getIndDId() {
 		return indDId;
@@ -156,13 +159,30 @@ public class IndentReportDetail {
 		this.indFyr = indFyr;
 	}
 
+	public float getCurntStock() {
+		return curntStock;
+	}
+
+	public void setCurntStock(float curntStock) {
+		this.curntStock = curntStock;
+	}
+
+	public float getItemMaxLevel() {
+		return itemMaxLevel;
+	}
+
+	public void setItemMaxLevel(float itemMaxLevel) {
+		this.itemMaxLevel = itemMaxLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentReportDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
 				+ indMDate + ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom
 				+ ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd
 				+ ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus
-				+ ", delStatus=" + delStatus + ", indFyr=" + indFyr + "]";
+				+ ", delStatus=" + delStatus + ", indFyr=" + indFyr + ", itemMaxLevel=" + itemMaxLevel + ", curntStock="
+				+ curntStock + "]";
 	}
 
 	

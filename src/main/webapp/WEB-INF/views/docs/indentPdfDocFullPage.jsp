@@ -118,9 +118,7 @@ hr {
 
 
 	<c:forEach items="${list}" var="item" varStatus="count">
-
-
-		 
+	 
 <div align="left">
 			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
@@ -210,9 +208,10 @@ hr {
 		</div>
 		  
 		<br>
-		
+		<c:set var="pageCount" value="1" />
+		<c:set var="totalPage" value="${item.indentReportDetailList.size()/7}" />
 		<table align="center" border="1" cellpadding="0" cellspacing="0"
-			style="table-layout: fixed; display: block; height: 640px; width: 100%;"
+			style="table-layout: fixed; display: block; height: 700px; width: 100%;"
 			id="table_grid">
 			<thead>
 				<tr style="font-size: 110%;">
@@ -220,13 +219,15 @@ hr {
 
 					<th width="40%">Description</th>
 					<th>UOM</th>
+					<th>Max Level</th>
+					<th>Stock In Store </th>
 					<th>Qty. Req.</th>
 					<th>When Req. / Stock/ Avg.</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="8" />
+				<c:set var="maxRowCount" value="7" />
 				<c:set var="total" value="0" />
 
 				<c:forEach items="${item.indentReportDetailList}" var="row"
@@ -301,7 +302,7 @@ hr {
 				style="height: 1px; border: none; color: black; background-color: black;">
 
 		</div><br>
- 
+ 		<c:set var="pageCount" value="${pageCount+1}" />
 
 
 		 <div align="left">
@@ -394,16 +395,27 @@ hr {
 		</div>
 		<br>
 
-
-		<table align="center" border="1" cellpadding="0" cellspacing="0"
-			style="table-layout: fixed; display: block; height: 640px; width: 100%;"
-			id="table_grid">
+			<c:choose>
+				<c:when test="${(totalPage+(1-(totalPage%1))%1)==pageCount}">
+				<table align="center" border="1" cellpadding="0" cellspacing="0"
+						style="table-layout: fixed; display: block; height: 640px; width: 100%;"
+						id="table_grid">
+				</c:when>
+				<c:otherwise>
+				<table align="center" border="1" cellpadding="0" cellspacing="0"
+				style="table-layout: fixed; display: block; height: 700px; width: 100%;"
+				id="table_grid">
+				</c:otherwise>
+			</c:choose>
+		
 			<thead>
 				<tr style="font-size: 110%;">
 					<th>Sr.</th>
 
 					<th width="40%">Description</th>
 					<th>UOM</th>
+					<th>Max Level</th>
+					<th>Stock In Store </th>
 					<th>Qty. Req.</th>
 					<th>When Req. / Stock/ Avg.</th>
 				</tr>
@@ -414,7 +426,7 @@ hr {
 
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="8" />
+				<c:set var="maxRowCount" value="7" />
 				<c:set var="total" value="0" />
 
 
@@ -433,6 +445,8 @@ hr {
 					<td width="5%" align="center"><c:out value="${count.index+1}" /></td>
 					<td   align="left" style="padding: 10px;"><c:out value="${row.indItemDesc}" /></td>
 					<td width="6%" align="center"><c:out value="${row.indItemUom}" /></td>
+					<td width="6%" align="right" style="padding: 10px;"><c:out value="${row.itemMaxLevel}" /></td>
+					<td width="6%" align="right" style="padding: 10px;"><c:out value="${row.curntStock}" /></td>
 					<td width="6%" align="right" style="padding: 10px;"><c:out value="${row.indQty}" /></td>
 					<td width="15%" align="center"><c:out
 							value="${row.indItemSchddt}" /></td>
@@ -497,6 +511,25 @@ hr {
 				style="height: 1px; border: none; color: black; background-color: black;">
 
 		</div>
+		
+		<table cellpadding="0" cellspacing="0">
+
+				<tr class="information">
+					<td colspan="1" valign="top">
+						<table>
+							<tr>
+								<td width="25%" valign="top" align="left"
+									style="padding: 8px; color: #000;  ">
+
+									 If any abnormality found such as damaged and quality problem to the Container/Consumable Etc. Observed during the Monthly be noted below and will be informed the Department Head</td>
+
+
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table> 
 	</c:forEach>
 
 	<!-- END Main Content -->
