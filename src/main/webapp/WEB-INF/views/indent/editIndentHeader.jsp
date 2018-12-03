@@ -250,6 +250,27 @@
 									</div>
 								</div>
 								<br /> 
+								
+								<c:choose>
+									<c:when test="${(indent.apprvRemark1!=null || indent.apprvRemark1!='') || (indent.apprvRemark2!=null || indent.apprvRemark2!='')}">
+									
+											<div class="form-group"><div class="col-md-1"></div>
+										<div class="col-md-2">Reject Remark1</div>
+		
+											<div class="col-md-3">
+												 ${indent.apprvRemark1}
+											</div>
+		
+											<div class="col-md-2"> Reject Remark2
+											</div>
+											<div class="col-md-3">
+												 ${indent.apprvRemark2}
+											</div>
+										</div>
+										<br />
+									
+									</c:when>
+								</c:choose>
 <hr/>
 								<div>
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
@@ -310,11 +331,11 @@
  
 									</div><br><br>
 									
-									
+								 
 								<div class="row">
 						<div class="col-md-12" style="text-align: center">
 						<c:choose>
-											<c:when test="${indent.indMStatus==7 || indent.indMStatus==9}">
+											<c:when test="${indent.indMStatus==8 || indent.indMStatus==9}">
 											<input type="button" onclick="insertIndentDetail()"
 											class="btn btn-info" value="Submit">
 												
@@ -340,12 +361,12 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1" >Sr</th>
-													<th class="col-md-1" >Item
+													<th width="2%" >Sr</th>
+													<th width="5%" >Item
 														Code</th>
 													<th class="col-md-3" >Item
 														Desc</th>
-													<th class="col-md-1" >UOM</th>
+													<th width="5%" >UOM</th>
 												
 													<th class="col-md-1" >Indent
 														Qty</th>
@@ -353,7 +374,9 @@
 													<th class="col-md-1" >Sch
 														Date</th>
 														<th class="col-md-1" >Remark</th>
-														<th class="col-md-1" >Action
+														<th class="col-md-1" >Reject1</th>
+														<th class="col-md-1" >Reject2</th>
+														<th width="4%" >Action
 														</th>
 												</tr>
 											</thead>
@@ -362,17 +385,17 @@
 													varStatus="count">
 
 													<tr>
-														<td  class="col-sm-1"><c:out
+														<td ><c:out
 																value="${count.index+1}" /></td>
 																
-																<td  class="col-md-1"><c:out
+																<td  width="5%"><c:out
 																value="${indDetail.itemCode}" /></td>
 
 														<td  class="col-md-3"><c:out
 																value="${indDetail.itemDesc}" /></td>
 																
 																	
-																<td  class="col-md-1"><c:out
+																<td  width="5%"><c:out
 																value="${indDetail.itemUom}" /></td>
 																
 
@@ -389,13 +412,18 @@
 
 														<td  class="col-md-1"><input type="text" class="form-control" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
 
-														<td  class="col-md-1">
+														<td  class="col-md-1"><c:out
+																value="${indDetail.apprvRemark1}" /></td>
+														<td  class="col-md-1"><c:out
+																value="${indDetail.apprvRemark2}" /></td>
+														
+														<td  width="4%">
 															<%-- <input
 															type="button" value="update"
 															onclick="updateCall(${indDetail.indDId},${indent.indMId})"> --%>
 
 															<c:choose>
-																<c:when test="${ indDetail.indDStatus==7 || indDetail.indDStatus==9 }">
+																<c:when test="${(indDetail.indDStatus==7 || indDetail.indDStatus==9) && (indent.indMStatus==8 || indent.indMStatus==9)}">
 
 																	<a href="#" class="action_btn" title="Update" 
 																		onclick="updateCall(${indDetail.indDId},${indent.indMId},0)"><i id="updateButton${indDetail.indDId}"
@@ -417,7 +445,7 @@
 									<div class="col-md-12" style="text-align: center">
 
 										<c:choose>
-											<c:when test="${indent.indMStatus==7 || indent.indMStatus==9}">
+											<c:when test="${indent.indMStatus==8 || indent.indMStatus==9}">
 											<input type="submit" class="btn btn-info"
 													value="Submit">
 												
@@ -601,11 +629,11 @@
 						alert("Item Already Added in Indent");
 					}
 					var tr = $('<tr></tr>');
-					tr.append($('<td  class="col-sm-1"></td>').html(key + 1));
-					tr.append($('<td  class="col-md-1"></td>').html(trans.itemCode));
+					tr.append($('<td  width="2%"></td>').html(key + 1));
+					tr.append($('<td   width="5%"></td>').html(trans.itemCode));
 
-					tr.append($('<td  class="col-md-2"></td>').html(trans.itemDesc));
-					tr.append($('<td  class="col-md-1"></td>').html(trans.itemUom));
+					tr.append($('<td  class="col-md-3"></td>').html(trans.itemDesc));
+					tr.append($('<td   width="5%"></td>').html(trans.itemUom));
 
 					//tr.append($('<td></td>').html(trans.qty));
 				tr
@@ -637,12 +665,14 @@
 							+ trans.indDId
 							+ " value='"
 							+ trans.indRemark
-							+ "' >"));					
+							+ "' >"));	
+					tr.append($('<td  class="col-md-1"></td>').html(trans.apprvRemark1));
+					tr.append($('<td  class="col-md-1"></td>').html(trans.apprvRemark2));
 					if(trans.indDStatus==0 || trans.indDStatus==7 || trans.indDStatus==9 )
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" ></td>')
+							'<td  width="4%" ></td>')
 							.html(
 									"<a href='#'  class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)  title='Update'><i id='updateButton+"+trans.indMId+"' class='fa fa-edit'></i></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1) title='Delete'><i class='fa fa-trash-o'></i></a>"));
 				  	
@@ -653,7 +683,7 @@
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" ></td>')
+							'<td width="4%" ></td>')
 							.html(''));
 				  	
 					}
@@ -727,11 +757,11 @@
 			$('#table1 td').remove();
 			$.each(data, function(key, trans) {
 			var tr = $('<tr></tr>');
-				tr.append($('<td  class="col-sm-1"></td>').html(key + 1));
-				tr.append($('<td  class="col-md-1"></td>').html(trans.itemCode));
+				tr.append($('<td  width="2%"></td>').html(key + 1));
+				tr.append($('<td  width="5%"></td>').html(trans.itemCode));
 
-				tr.append($('<td  class="col-md-2"></td>').html(trans.itemDesc));
-				tr.append($('<td  class="col-md-1"></td>').html(trans.itemUom));
+				tr.append($('<td  class="col-md-3"></td>').html(trans.itemDesc));
+				tr.append($('<td  width="5%"></td>').html(trans.itemUom));
 
 				//tr.append($('<td></td>').html(trans.indQty));
 				
@@ -755,12 +785,13 @@
 						+ trans.indDId
 						+ " value='"+trans.indRemark+"'>"));					
 				//tr.append($('<td></td>').html(trans.indMDate));
-				
+				tr.append($('<td  class="col-md-1"></td>').html(trans.apprvRemark1));
+				tr.append($('<td  class="col-md-1"></td>').html(trans.apprvRemark1));
 				if(trans.indDStatus==0 || trans.indDStatus==7 || trans.indDStatus==9)
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" ></td>')
+							'<td width="4%" ></td>')
 							.html(
 									"<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",0)><abbr title='Update'><i  id='updateButton+"+trans.indMId+"' class='fa fa-edit'></i></abbr></a>&nbsp;&nbsp;<a href='#' class='action_btn'onclick=updateCall("+trans.indDId+","+trans.indMId+",1)><abbr title='Delete'><i class='fa fa-trash-o'></i></abbr></a>"));
 				  	
@@ -769,7 +800,7 @@
 					{
 					tr
 					.append($(
-							'<td class="col-md-1" ></td>')
+							'<td width="4%" ></td>')
 							.html(''));
 				  	
 					}

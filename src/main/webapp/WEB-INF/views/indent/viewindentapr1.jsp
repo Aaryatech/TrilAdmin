@@ -205,11 +205,17 @@
 																
 																<c:set var="indSts" value="-"></c:set>
 																<c:choose>
-															<c:when test="${indent.indMStatus==9}">
+															<c:when test="${indent.indMStatus==9 && (indent.apprvRemark1==null || indent.apprvRemark1=='')}">
 																<c:set var="indSts" value="1st Approve Pending"></c:set>
 															</c:when>
-															<c:when test="${indent.indMStatus==7}">
+															<c:when test="${indent.indMStatus==7 && (indent.apprvRemark2==null || indent.apprvRemark2=='')}">
 																<c:set var="indSts" value="2nd Approve Pending"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==9 && (indent.apprvRemark1!=null || indent.apprvRemark1!='')}">
+																<c:set var="indSts" value="Send Back to 1st Approve "></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==7 && (indent.apprvRemark2!=null || indent.apprvRemark2!='')}">
+																<c:set var="indSts" value="Send Back to 2nd Approve"></c:set>
 															</c:when>
 															<c:when test="${indent.indMStatus==0}">
 																<c:set var="indSts" value="Indent Pending"></c:set>
@@ -220,7 +226,12 @@
 															<c:when test="${indent.indMStatus==2}">
 																<c:set var="indSts" value="Indent Complete"></c:set>
 															</c:when>
-															 
+															 <c:when test="${indent.indMStatus==6}">
+																<c:set var="indSts" value="Rejected By 2nd"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==8}">
+																<c:set var="indSts" value="Rejected By 1st"></c:set>
+															</c:when>
 														</c:choose>
 														<td align="left" style="text-align: center;"><c:out
 																value="${indSts}" /></td>

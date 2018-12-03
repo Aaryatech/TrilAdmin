@@ -206,11 +206,17 @@
 														<c:set var="indSts" value="-"></c:set>
 
 														<c:choose>
-															<c:when test="${indent.indMStatus==9}">
+															<c:when test="${indent.indMStatus==9 && (indent.apprvRemark1==null || indent.apprvRemark1=='')}">
 																<c:set var="indSts" value="1st Approve Pending"></c:set>
 															</c:when>
-															<c:when test="${indent.indMStatus==7}">
+															<c:when test="${indent.indMStatus==7 && (indent.apprvRemark2==null || indent.apprvRemark2=='')}">
 																<c:set var="indSts" value="2nd Approve Pending"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==9 && (indent.apprvRemark1!=null || indent.apprvRemark1!='')}">
+																<c:set var="indSts" value="Send Back to 1st Approve "></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==7 && (indent.apprvRemark2!=null || indent.apprvRemark2!='')}">
+																<c:set var="indSts" value="Send Back to 2nd Approve"></c:set>
 															</c:when>
 															<c:when test="${indent.indMStatus==0}">
 																<c:set var="indSts" value="PO Pending"></c:set>
@@ -220,6 +226,12 @@
 															</c:when>
 															<c:when test="${indent.indMStatus==2}">
 																<c:set var="indSts" value="PO Complete"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==8}">
+																<c:set var="indSts" value="Rejected By 1st"></c:set>
+															</c:when>
+															<c:when test="${indent.indMStatus==6}">
+																<c:set var="indSts" value="Rejected By 2nd"></c:set>
 															</c:when>
 															 
 														</c:choose>
@@ -242,7 +254,7 @@
 															<a
 															href="${pageContext.request.contextPath}/editIndent/${indent.indMId}" title="View/Edit"><span
 																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;
-																<c:if test="${indent.indMStatus==7 || indent.indMStatus==9}">
+																<c:if test="${indent.indMStatus==8 || indent.indMStatus==9}">
 																	 <a
 															href="${pageContext.request.contextPath}/deleteIndent/${indent.indMId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="glyphicon glyphicon-trash"></span></a>

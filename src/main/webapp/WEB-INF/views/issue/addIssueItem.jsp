@@ -846,7 +846,7 @@ function getInvoiceNo() {
 	var date = $("#issueDate").val();
 	var toDateValue = date.split('-'); 
 	var type = $("#poTyped").val();
-	var min = toDateValue[2]+"-"+(toDateValue[1] - 1 )+"-"+toDateValue[0];
+	var min = toDateValue[2]+"-"+(toDateValue[1])+"-"+toDateValue[0];
 	 
 	$.getJSON('${getInvoiceNo}', {
 

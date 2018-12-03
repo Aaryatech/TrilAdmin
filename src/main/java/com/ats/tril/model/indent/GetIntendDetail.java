@@ -24,8 +24,9 @@ public class GetIntendDetail {
 	private float	poQty;
 	private float	pendingQty;
 	private float disc;
-	private float rate;
-	
+	private float rate; 
+	private String apprvRemark1; 
+	private String apprvRemark2;
 	public float getPendingQty() {
 		return pendingQty;
 	}
@@ -162,6 +163,19 @@ public class GetIntendDetail {
 	public void setIndApr2Date(String indApr2Date) {
 		this.indApr2Date = indApr2Date;
 	}
+	
+	public String getApprvRemark1() {
+		return apprvRemark1;
+	}
+	public void setApprvRemark1(String apprvRemark1) {
+		this.apprvRemark1 = apprvRemark1;
+	}
+	public String getApprvRemark2() {
+		return apprvRemark2;
+	}
+	public void setApprvRemark2(String apprvRemark2) {
+		this.apprvRemark2 = apprvRemark2;
+	}
 	@Override
 	public String toString() {
 		return "GetIntendDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
@@ -170,7 +184,7 @@ public class GetIntendDetail {
 				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", delStatus="
 				+ delStatus + ", indDStatus=" + indDStatus + ", indApr1Date=" + indApr1Date + ", indApr2Date="
 				+ indApr2Date + ", indFyr=" + indFyr + ", poQty=" + poQty + ", pendingQty=" + pendingQty + ", disc="
-				+ disc + ", rate=" + rate + "]";
+				+ disc + ", rate=" + rate + ", apprvRemark1=" + apprvRemark1 + ", apprvRemark2=" + apprvRemark2 + "]";
 	}
 	
 	

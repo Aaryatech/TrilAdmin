@@ -245,6 +245,44 @@
 									</div>
 									 
 								</div>
+								<br />
+								<div class="form-group">
+
+										 <c:choose>
+										 	<c:when test="${apr==1}">
+										 		<div class="col-md-1"></div>
+														<div class="col-md-2">Reject Remark1</div>
+														<div class="col-md-3">
+															<input type="text" name="rejectRemark1" id="rejectRemark1"
+																value="${indent.apprvRemark1}" class="form-control" placeholder="Reject Remark1"  
+																 />
+														</div> 
+														<div class="col-md-2">Reject Remark2</div>
+														<div class="col-md-3">
+															<input type="text" name="rejectRemark2" id="rejectRemark2"
+															value="${indent.apprvRemark2}"	class="form-control" placeholder="Reject Remark2" readonly="readonly"
+																 /> 
+														</div>
+										 	
+										 	</c:when>
+										 	<c:otherwise> 
+										 		<div class="col-md-1"></div>
+														<div class="col-md-2">Reject Remark1</div>
+														<div class="col-md-3">
+															<input type="text" name="rejectRemark1" id="rejectRemark1"
+																value="${indent.apprvRemark1}" class="form-control" placeholder="Reject Remark1"  readonly="readonly"
+																 />
+														</div> 
+														<div class="col-md-2">Reject Remark2</div>
+														<div class="col-md-3">
+															<input type="text" name="rejectRemark2" id="rejectRemark2"
+																value="${indent.apprvRemark2}" class="form-control" placeholder="Reject Remark2" 
+																 /> 
+														</div> 
+										 	</c:otherwise>
+										 </c:choose> 
+									 
+								</div>
 								<br /> 
 <hr/>
 <div class="box-content">
@@ -312,14 +350,14 @@
 											<thead>
 												<tr class="bgpink">
 													<th  style="text-align: center; padding: 0px; align-items: center;"
-														width="2%"><input type="checkbox" name="name1"
+														width="1%"><input type="checkbox" name="name1"
 														value="0" /> &nbsp;&nbsp;&nbsp;All</th>
-													<th width="4%" style="text-align: center;">Sr</th>
-													<th class="col-md-1" style="text-align: center;">Item
+													<th width="2%" style="text-align: center;">Sr</th>
+													<th width="5%" style="text-align: center;">Item
 														Code</th>
 													<th class="col-md-3" style="text-align: center;">Item
 														Desc</th>
-													<th class="col-md-1" style="text-align: center;">UOM</th>
+													<th width="5%" style="text-align: center;">UOM</th>
 												
 													<th class="col-md-1" style="text-align: center;">Indent
 														Qty</th>
@@ -328,8 +366,11 @@
 													<th class="col-md-1" style="text-align: center;">Sch
 														Date</th>
 														<th class="col-md-1" style="text-align: left;">Remark</th>
+														<th class="col-md-1" style="text-align: center;">Monthly Req</th>
 													<th class="col-md-1" style="text-align: center;">Rate</th>
 													<th class="col-md-1" style="text-align: center;">Value</th>
+													<th class="col-md-1" style="text-align: center;">Reject remark1</th>
+													<th class="col-md-1" style="text-align: center;">Reject remark2</th> 
 														<!-- <th class="col-md-1" style="text-align: center;">Action
 														</th> -->
 												</tr>
@@ -337,11 +378,11 @@
 											<tbody>
 												<c:forEach items="${indDetailList}" var="indDetail"
 													varStatus="count">
-<input type="hidden" name="apr" value="${apr}">
+<input type="hidden" name="apr" id="apr" value="${apr}"><input type="hidden" name="aprOrReject" id="aprOrReject" value="1"><input type="hidden" name="sts" id="sts" value="${indent.indMStatus}">
 													<tr>
 												
 													<td  style="text-align: left; padding: 0px; align-items: center; align-content: center;"
-															width="2%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															width="1%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 															<c:choose>
 															<c:when test="${apr==1}">
 															<c:choose>
@@ -371,17 +412,17 @@
 															</c:choose>
 															
 															</td>
-														<td style="text-align: center;" width="4%"><c:out
+														<td style="text-align: center;" width="2%"><c:out
 																value="${count.index+1}" /></td>
 																
-																<td style="text-align: center;" class="col-md-1"><c:out
+																<td style="text-align: center;" width="5%"><c:out
 																value="${indDetail.itemCode}" /></td>
 
 														<td style="text-align: left;" class="col-md-3"><c:out
 																value="${indDetail.itemDesc}" /></td>
 																
 																	
-																<td style="text-align: center;" class="col-md-1"><c:out
+																<td style="text-align: center;" width="5%"><c:out
 																value="${indDetail.itemUom}" /></td>
 																
 
@@ -406,12 +447,69 @@
 															<c:forEach items="${itemList}" var="itemList">
 															<c:choose>
 																<c:when test="${itemList.itemId==indDetail.itemId}">
+																<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemMaxLevel}" /></td>	
 																	<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemClRate}" /></td>	
 																	<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemClRate*indDetail.indQty}" /></td>
 																</c:when>
 															</c:choose>
 															</c:forEach>
+															
+															<c:set var="rejRem1" value=""></c:set>
+															<c:set var="rejRem2" value=""></c:set>
+								
+															<c:choose>
+																<c:when test="${indDetail.apprvRemark1==null || indDetail.apprvRemark1==''}">
+																	<c:set var="rejRem1" value="-"></c:set>
+																</c:when>
+																<c:otherwise>
+																	<c:set var="rejRem1" value="${indDetail.apprvRemark1}"></c:set>
+																</c:otherwise>
+															</c:choose>
+															
+															<c:choose>
+																<c:when test="${indDetail.apprvRemark2==null || indDetail.apprvRemark2==''}">
+																	<c:set var="rejRem2" value="-"></c:set>
+																</c:when>
+																<c:otherwise>
+																	<c:set var="rejRem2" value="${indDetail.apprvRemark2}"></c:set>
+																</c:otherwise>
+															</c:choose>
+								
+													<td style="text-align: left;" class="col-md-1"> 
+														 <c:choose>
+										 					<c:when test="${apr==1}">
+																<input
+																		type="text" class="form-control" 
+																		id="apprvRemark1${indDetail.indDId}"
+																	 value="${rejRem1}" name="apprvRemark1${indDetail.indDId}">
+															</c:when>
+															<c:otherwise>
+															<input
+																		type="text" class="form-control" 
+																		id="apprvRemark1${indDetail.indDId}"
+																		value="${rejRem1}" name="apprvRemark1${indDetail.indDId}" readonly>
+															</c:otherwise>
+															</c:choose>
 													
+													</td>
+													
+													<td style="text-align: left;" class="col-md-1"> 
+													 <c:choose>
+										 					<c:when test="${apr==1}">
+															<input
+																	type="text" class="form-control" 
+																	id="apprvRemark2${indDetail.indDId}"
+																	value="${rejRem2}" name="apprvRemark2${indDetail.indDId}" readonly>
+															</c:when>
+															<c:otherwise>
+															<input
+																	type="text" class="form-control" 
+																	id="apprvRemark2${indDetail.indDId}"
+																	value="${rejRem2}" name="apprvRemark2${indDetail.indDId}">
+															</c:otherwise>
+															</c:choose>
+													
+													</td>
 															
 <%-- 
 														<td style="text-align: center;" class="col-md-1">
@@ -443,6 +541,17 @@
 									
 												<input type="button" class="btn btn-info"
 													value="Submit" onclick="callApproveIndent(${apr})">
+													
+													<c:choose>
+														<c:when test="${(indent.indMStatus==9 || indent.indMStatus==6) && (apr==1)}">
+														<input type="button" class="btn btn-info"
+													value="Reject" onclick="rejectIntent(${indent.indMStatus},${apr},${indent.indMId})">
+														</c:when>
+														<c:when test="${apr==2 && indent.indMStatus==7 }">
+														<input type="button" class="btn btn-info"
+													value="Reject" onclick="rejectIntent(${indent.indMStatus},${apr},${indent.indMId})">
+														</c:when>
+													</c:choose>
 
 									</div>
 								</div>
@@ -667,16 +776,114 @@ function getLastRate(qty,flag) {
 				
 				if(x==true)
 			{
+					document.getElementById("aprOrReject").value = 1;
+					
 			var form = document.getElementById("validation-form");
 			form.action = "${pageContext.request.contextPath}/aprIndentProcess";
 			form.submit();
 			}
 			}
 			else{
+				document.getElementById("aprOrReject").value = 1;
 				var form = document.getElementById("validation-form");
 				form.action = "${pageContext.request.contextPath}/aprIndentProcess";
 				form.submit();
 			}
+				
+				
+
+		}
+		
+function rejectIntent(sts,apr,indId) {
+			
+	 
+	var checkboxs=document.getElementsByName("name1");
+    var okay=true;
+    if(apr==1){
+    	
+    	for(var i=1;i<checkboxs.length;i++)
+        {
+        	var x = checkboxs[i].value; 
+        	var re = document.getElementById("apprvRemark1"+x).value; 
+            if(document.getElementById("apprvRemark1"+checkboxs[i].value).value=="" || document.getElementById("apprvRemark1"+checkboxs[i].value).value==null)
+            {
+                okay=false;
+                break;
+            }
+             
+        }
+    	var rejectRemark1=document.getElementById("rejectRemark1").value ;
+    	if(rejectRemark1=="" || rejectRemark1==null){
+    		alert("Enter Reject Remark1")
+    	}
+    	else{
+    		
+    		if(okay==true){
+    			var sub=confirm("You Want To Reject Indent ");
+    			
+    			if(sub==true)
+    			{
+    				document.getElementById("aprOrReject").value = 2;
+    	        	var form = document.getElementById("validation-form");
+    				form.action = "${pageContext.request.contextPath}/aprIndentProcess";
+    				form.submit();
+    			}
+            }
+            else{
+            	alert("Fill All Reject Remark 1 ");
+            }
+    	}
+        
+        
+    }else{
+    	
+    	for(var i=1;i<checkboxs.length;i++)
+        {
+        	var x = checkboxs[i].value;
+        	 
+        	var re = document.getElementById("apprvRemark2"+x).value;
+        	  
+            if(document.getElementById("apprvRemark2"+checkboxs[i].value).value=="" || document.getElementById("apprvRemark2"+checkboxs[i].value).value==null)
+            {
+                okay=false;
+                break;
+            }
+             
+        }
+    	var rejectRemark2=document.getElementById("rejectRemark2").value ;
+    	if(rejectRemark2=="" || rejectRemark2==null){
+    		alert("Enter Reject Remark2")
+    	}
+    	
+    	else{
+    		
+	        if(okay==true){
+	        	var sub=confirm("You Want To Reject Indent ");
+				
+				if(sub==true)
+				{
+					document.getElementById("aprOrReject").value = 2;
+		        	var form = document.getElementById("validation-form");
+					form.action = "${pageContext.request.contextPath}/aprIndentProcess";
+					form.submit();
+				}
+	        }
+	        else{
+	        	alert("Fill All Reject Remark 2 ");
+	        }
+    	}
+    }
+    
+			 
+				/* var x=confirm("You Want To Reject Indent ");
+				
+			if(x==true)
+			{
+				document.getElementById("aprOrReject").value = 2;
+				location.href='${pageContext.request.contextPath}/rejectIndent/'
+					+ sts+'/'+apr+'/'+indId;  
+			} */
+			 
 				
 				
 

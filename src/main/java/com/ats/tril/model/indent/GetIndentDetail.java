@@ -45,7 +45,8 @@ public class GetIndentDetail {
 	//transient/temp field
 	
 	int isDuplicate;
-	
+	private String apprvRemark1; 
+	private String apprvRemark2;
 	
 	
 	public int getIsDuplicate() {
@@ -166,6 +167,19 @@ public class GetIndentDetail {
 	public void setIndItemSchddt(String indItemSchddt) {
 		this.indItemSchddt = indItemSchddt;
 	}
+	
+	public String getApprvRemark1() {
+		return apprvRemark1;
+	}
+	public void setApprvRemark1(String apprvRemark1) {
+		this.apprvRemark1 = apprvRemark1;
+	}
+	public String getApprvRemark2() {
+		return apprvRemark2;
+	}
+	public void setApprvRemark2(String apprvRemark2) {
+		this.apprvRemark2 = apprvRemark2;
+	}
 	@Override
 	public String toString() {
 		return "GetIndentDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
@@ -173,7 +187,8 @@ public class GetIndentDetail {
 				+ ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd
 				+ ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus
 				+ ", delStatus=" + delStatus + ", indFyr=" + indFyr + ", itemDesc=" + itemDesc + ", itemCode="
-				+ itemCode + ", itemUom=" + itemUom + "]";
+				+ itemCode + ", itemUom=" + itemUom + ", isDuplicate=" + isDuplicate + ", apprvRemark1=" + apprvRemark1
+				+ ", apprvRemark2=" + apprvRemark2 + "]";
 	}
 	
 	

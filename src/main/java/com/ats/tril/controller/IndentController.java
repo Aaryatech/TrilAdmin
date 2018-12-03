@@ -54,7 +54,9 @@ import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIndentDetail;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentTrans;
+import com.ats.tril.model.indent.RejectRemarkList;
 import com.ats.tril.model.indent.TempIndentDetail;
+import com.ats.tril.model.indent.UpdateData;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
 
@@ -64,6 +66,48 @@ public class IndentController {
 
 	RestTemplate rest = new RestTemplate();
 	List<ConsumptionReportWithCatId> mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
+	
+	
+	
+	public List<ConsumptionReportWithCatId> getValueFunctionByIndentDate(String Date ) {
+		 
+		mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
+		
+		try {
+			 
+			System.out.println(Date);
+			
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = dd.parse(Date);
+			
+			  Calendar calendar = Calendar.getInstance();
+			  calendar.setTime(date);
+			   
+			 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 
+			 calendar.add(Calendar.MONTH, 1);  
+		        calendar.set(Calendar.DAY_OF_MONTH, 1);  
+		        calendar.add(Calendar.DATE, -1);  
+
+		        Date lastDayOfMonth = calendar.getTime();
+		        
+			 String toDate = yy.format(lastDayOfMonth);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate", toDate); 
+			 			System.out.println(map);
+			 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionMrnData",map, ConsumptionReportWithCatId[].class);
+			 		 mrnReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
+					   
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mrnReportList;
+	}
 	
 	public List<ConsumptionReportWithCatId> getValueFunction() {
 		 
@@ -920,7 +964,7 @@ public class IndentController {
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
 
 			}
-			map.add("status", "0,1,2,9,7");
+			map.add("status", "0,1,2,9,7,8,6");
 
 			model = new ModelAndView("indent/viewindent");
 			GetIndent[] indents = rest.postForObject(Constants.url + "/getIndents", map, GetIndent[].class);
@@ -968,7 +1012,7 @@ public class IndentController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 
-			map.add("status", "0,1,2,9,7");
+			map.add("status", "0,1,2,9,7,8,6");
 
 			GetIndent[] indents = rest.postForObject(Constants.url + "/getIndents", map, GetIndent[].class);
 
@@ -1088,7 +1132,7 @@ public class IndentController {
 			map.add("indIsmonthly", isMonthly);
 			map.add("indMId", indentId);
 			map.add("indRemark", indRemark);
-			
+			map.add("status", 9);
 			ErrorMessage editIndentHeaderResponse = rest.postForObject(Constants.url + "/editIndentHeader", map,
 					ErrorMessage.class);
 			System.err.println("editIndentHeaderResponse " + editIndentHeaderResponse.toString());
@@ -1100,7 +1144,7 @@ public class IndentController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/editIndent/" + indentId;
+		return "redirect:/getIndents";
 
 	}
 
@@ -1208,7 +1252,7 @@ public class IndentController {
 				System.out.println("toDate " + indToDate);
 			}
 			if (apr == 1) {
-				map.add("status", "9,7");
+				map.add("status", "9,6");
 			} else if (apr == 2) {
 				map.add("status", "7");
 			}
@@ -1260,7 +1304,8 @@ public class IndentController {
 
 			map.add("toDate", DateConvertor.convertToYMD(indToDate));
 			if (apr == 1) {
-				map.add("status", "9,7");
+				map.add("status", "9,7,6");
+				
 			} else if (apr == 2) {
 				map.add("status", "7");
 			}
@@ -1304,7 +1349,7 @@ public class IndentController {
 			model.addObject("apr", apr);
 			
 			
-			 StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+			  /*StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
 					StockHeader.class);
 
 			date = new Date();
@@ -1334,7 +1379,7 @@ public class IndentController {
 					}
 					
 				}
-			} 
+			}   */
 			
 			 	map = new LinkedMultiValueMap<>();
 				RestTemplate rest = new RestTemplate();
@@ -1357,7 +1402,7 @@ public class IndentController {
 					
 				}*/
 				
-			getValueFunction();
+			 getValueFunctionByIndentDate(getIndent.getIndMDate());
 		} catch (Exception e) {
 
 			System.err.println("Exception in showing getIndItemForApproval1/{indMId} -indAprItemList" + e.getMessage());
@@ -1430,37 +1475,76 @@ public class IndentController {
 		ModelAndView model = null;
 		try {
 
-			System.err.println("Inside  aprIndentProcess");
-			String indDetail[] = request.getParameterValues("name1");
-
-			// indentId
+			
+			int aprOrReject = Integer.parseInt(request.getParameter("aprOrReject"));
 			int indentId = Integer.parseInt(request.getParameter("indentId"));
-			System.err.println("apr  " + apr);
-
-			String indDetailIdList = new String();
-			//List<String> ind = new ArrayList<>();
-			for (int i = 0; i < indDetail.length; i++) {
-
-				System.err.println("Ind Id at index  " + i + "is" + indDetail[i]);
-				indDetailIdList = indDetailIdList + "," + indDetail[i];
+			int sts = Integer.parseInt(request.getParameter("sts"));
+			if(aprOrReject==1) {
+				System.out.println("in if");
+				System.err.println("Inside  aprIndentProcess");
+				String indDetail[] = request.getParameterValues("name1");
+	
+				// indentId
+				
+				System.err.println("apr  " + apr);
+	
+				String indDetailIdList = new String();
+				//List<String> ind = new ArrayList<>();
+				for (int i = 0; i < indDetail.length; i++) {
+	
+					System.err.println("Ind Id at index  " + i + "is" + indDetail[i]);
+					indDetailIdList = indDetailIdList + "," + indDetail[i];
+					
+				}
+	
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				// ind.remove(ind.get(0));
+				if (apr == 1) {
+					map.add("indDStatus", 7);
+	
+				} else if (apr == 2) {
+					map.add("indDStatus", 0);
+				}
+				
+				// approveIndent webservice
+				map.add("indDetailIdList", indDetailIdList.substring(1, indDetailIdList.length()));
+				map.add("indentId", indentId);
+				
+				ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/approveIndent", map,
+						ErrorMessage.class);
+			}
+			else {
+				
+				List<RejectRemarkList> rejectRemarkList = new ArrayList<RejectRemarkList>();
+				System.out.println("in else");
+				/*if(apr==1) {*/
+					
+				String rejectRemark1 = request.getParameter("rejectRemark1");
+				String rejectRemark2 = request.getParameter("rejectRemark2");
+				
+					for (int i = 0; i < indAprItemList.size(); i++) {
+						RejectRemarkList rejectRemar = new RejectRemarkList();
+						rejectRemar.setIndDetailId(indAprItemList.get(i).getIndDId());
+						rejectRemar.setRejectRemark1(request.getParameter("apprvRemark1"+indAprItemList.get(i).getIndDId()));
+						rejectRemar.setRejectRemark2(request.getParameter("apprvRemark2"+indAprItemList.get(i).getIndDId()));
+						 System.out.println(request.getParameter("apprvRemark1"+indAprItemList.get(i).getIndDId()));
+						 rejectRemarkList.add(rejectRemar);
+						
+					}
+				/*}
+				else {
+					
+					for (int i = 0; i < indAprItemList.size(); i++) {
+						
+						 System.out.println(request.getParameter("apprvRemark2"+indAprItemList.get(i).getIndDId()));
+						
+					}
+					
+				}*/
+				
+				rejectIndent(sts,apr,indentId,rejectRemarkList,rejectRemark1,rejectRemark2);
 				
 			}
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			// ind.remove(ind.get(0));
-			if (apr == 1) {
-				map.add("indDStatus", 7);
-
-			} else if (apr == 2) {
-				map.add("indDStatus", 0);
-			}
-			
-			// approveIndent webservice
-			map.add("indDetailIdList", indDetailIdList.substring(1, indDetailIdList.length()));
-			map.add("indentId", indentId);
-			
-			ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/approveIndent", map,
-					ErrorMessage.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in appr Indent  " + e.getMessage());
@@ -1558,6 +1642,43 @@ public class IndentController {
 		}
 
 		return tempIndentList;
+	}
+	
+	//@RequestMapping(value = "/rejectIndent/{sts}/{apr}/{indId}", method = RequestMethod.GET)
+	public void rejectIndent(int sts, int apr, int indId, List<RejectRemarkList> rejectRemarkList, String rejectRemark1, String rejectRemark2) {
+		 
+		ErrorMessage rejectIndent = new ErrorMessage();
+		try {
+			int status=8;
+			if(sts==7) {
+				status=6;
+			}
+
+		  UpdateData updateData = new UpdateData();
+		 updateData.setIndId(indId);
+		 updateData.setSts(status);
+		 updateData.setRejectRemark1(rejectRemark1);
+		 updateData.setRejectRemark2(rejectRemark2);
+		 updateData.setRejectRemarkList(rejectRemarkList);
+		 
+		 
+			/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>(); 
+			map.add("status", status);
+			map.add("indId", indId);
+			map.add("rejectRemarkList", rejectRemarkList);
+			map.add("rejectRemark1", rejectRemark1);
+			map.add("rejectRemark2", rejectRemark2);*/
+			
+			 rejectIndent = rest.postForObject(Constants.url + "/rejectIndent", updateData,
+					ErrorMessage.class);
+			 
+			 System.out.println(rejectIndent);
+
+		} catch (Exception e) {
+			System.err.println("Exce in appr Indent  " + e.getMessage());
+			e.printStackTrace();
+		}
+		  
 	}
 
 }// end of Class
