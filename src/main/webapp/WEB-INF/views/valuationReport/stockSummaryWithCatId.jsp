@@ -104,7 +104,34 @@
 							 
 								
 								<div class="row">
+								
+								<div class="box-content"  >
+<div class="col-md-4"></div>
+									<div class="col-md-1">Select *</div>
+									<div class="col-md-2">
+										<select class="form-control chosen" name="stockSummery" id="stockSummery"
+											required>
+											  
+												 
+													<option value="1" selected>Stock Summary</option>
+													<option value="2"  >Op Stock</option>
+													<option value="3"  >Cl Stock</option>
+													  
+										</select>
+
+									</div>
+									 
+								</div> <br><br>
+							
 							<div class="col-md-12" style="text-align: center">
+								 
+											 Category: ${catDesc}&nbsp;,
+											 Type : ${type}
+											 
+											   
+							</div><br>
+							 
+								<div class="col-md-12" style="text-align: center">
 								 
 											 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
@@ -112,13 +139,7 @@
 											 
 											   
 							</div>
-							<div class="col-md-12" style="text-align: center">
-								 
-											 Category: ${catDesc}&nbsp;,
-											 Type : ${type}
-											 
-											   
-							</div>
+								
 						</div> <br>
 							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
@@ -289,10 +310,19 @@
 
 	<script type="text/javascript">
 	function genPdf(){
+		var stockSummery = $("#stockSummery").val();
 		var typeName = $("#type").val();
 		var catDesc = $("#catDesc").val();
-		 
-		window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDF/'+typeName+'/'+catDesc);
+		 if(stockSummery==1){
+			 window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDF/'+typeName+'/'+catDesc);
+		 }
+		 else if(stockSummery==2){
+			 window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDFOnlyOpStock/'+typeName+'/'+catDesc);
+		 }
+		 else if(stockSummery==3){
+			 window.open('${pageContext.request.contextPath}/stockValuetionReportItemWisePDFOnlyClStock/'+typeName+'/'+catDesc);
+		 }
+		
 	}
 	function exportToExcel()
 	{
