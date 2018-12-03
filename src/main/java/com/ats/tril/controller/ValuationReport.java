@@ -2450,6 +2450,7 @@ public class ValuationReport {
 	
 	
 	List<IssueDeptWise> deptWiselistGlobal=null; 
+	String catIds = new String();
 	@RequestMapping(value = "/issueReportDeptWise", method = RequestMethod.GET)
 	public ModelAndView issueReportDeptWise(HttpServletRequest request, HttpServletResponse response) {
 
@@ -2464,6 +2465,11 @@ public class ValuationReport {
 
 			model.addObject("deparmentList", deparmentList); 
 			model.addObject("typeList", typeList);
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+			catIds = new String();
+			model.addObject("categoryList", categoryList);
 			
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null || 
 					request.getParameter("isDev")==null || request.getParameter("deptId")==null) {
@@ -2480,13 +2486,16 @@ public class ValuationReport {
 				 typeId=0;
 				 isDev=-1;
 				 deptId=0;
-				 
+				 for(int i=0;i<categoryList.size();i++) {
+						catIds=catIds+categoryList.get(i).getCatId()+",";
+					}
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				 map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",yy.format(date)); 
 		 			map.add("typeId", typeId);
 		 			map.add("isDev", isDev);
 		 			map.add("deptId", deptId);
+		 			map.add("catIds", catIds.substring(0, catIds.length()-1));
 		 			System.out.println(map);
 		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueDepartmentWiseReport",map, IssueDeptWise[].class);
 					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
@@ -2502,12 +2511,25 @@ public class ValuationReport {
 				typeId = Integer.parseInt(request.getParameter("typeId"));
 				isDev =Integer.parseInt(request.getParameter("isDev"));
 				deptId = Integer.parseInt(request.getParameter("deptId"));
+				catId = Integer.parseInt(request.getParameter("catId"));
+				
+				 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
 		 			map.add("typeId", typeId);
 		 			map.add("isDev", isDev);
 		 			map.add("deptId", deptId);
+		 			if(catId==0) {
+						for(int i=0;i<categoryList.size();i++) {
+							catIds=catIds+categoryList.get(i).getCatId()+",";
+						}
+						map.add("catIds", catIds.substring(0, catIds.length()-1));
+					}
+					else{
+						map.add("catIds", catId);
+					}
+		 			
 		 			System.out.println(map);
 		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueDepartmentWiseReport",map, IssueDeptWise[].class);
 					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
@@ -2519,6 +2541,8 @@ public class ValuationReport {
 				model.addObject("typeId", typeId);
 				model.addObject("isDevelompent", isDev);
 				model.addObject("deptId", deptId);
+				model.addObject("isDevelompent", isDev);
+				model.addObject("catId", catId);
 				
 			}
 			//------------------------ Export To Excel--------------------------------------
@@ -2586,6 +2610,15 @@ public class ValuationReport {
 		 			map.add("typeId", typeId);
 		 			map.add("isDev", isDev);
 		 			map.add("deptId", deptId);
+		 			if(catId==0) {
+						for(int i=0;i<categoryList.size();i++) {
+							catIds=catIds+categoryList.get(i).getCatId()+",";
+						}
+						map.add("catIds", catIds.substring(0, catIds.length()-1));
+					}
+					else{
+						map.add("catIds", catId);
+					}
 		 			System.out.println(map);
 		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueDepartmentWiseReport",map, IssueDeptWise[].class);
 					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
@@ -2613,6 +2646,13 @@ public class ValuationReport {
 		 			map.add("typeId", typeId);
 		 			map.add("isDev", isDev);
 		 			map.add("deptId", deptId);
+		 			if(catId==0) { 
+		 				
+						map.add("catIds", catIds.substring(0, catIds.length()-1));
+					}
+					else{
+						map.add("catIds", catId);
+					}
 		 			System.out.println(map);
 		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueSubDepartmentWiseReport",map, IssueDeptWise[].class);
 					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
@@ -2675,6 +2715,13 @@ public class ValuationReport {
 		 			map.add("typeId", typeId);
 		 			map.add("isDev", isDev);
 		 			map.add("deptId", deptId);
+		 			if(catId==0) { 
+		 				
+						map.add("catIds", catIds.substring(0, catIds.length()-1));
+					}
+					else{
+						map.add("catIds", catId);
+					}
 		 			System.out.println(map);
 		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueSubDepartmentWiseReport",map, IssueDeptWise[].class);
 					 deptWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));
@@ -2701,6 +2748,13 @@ public class ValuationReport {
 		 			map.add("typeId", typeId);
 		 			map.add("isDev", isDev);
 		 			map.add("subDept", subDeptId);
+		 			if(catId==0) { 
+		 				
+						map.add("catIds", catIds.substring(0, catIds.length()-1));
+					}
+					else{
+						map.add("catIds", catId);
+					}
 		 			System.out.println(map);
 		 			IssueDeptWise[] IssueDeptWise = rest.postForObject(Constants.url + "/issueItemWiseReportBySubDept",map, IssueDeptWise[].class);
 		 			itemWiselist = new ArrayList<IssueDeptWise>(Arrays.asList(IssueDeptWise));

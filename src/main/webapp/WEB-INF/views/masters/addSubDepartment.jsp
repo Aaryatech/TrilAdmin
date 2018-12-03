@@ -121,7 +121,7 @@
 									<div class="col-md-10">
 										<input id="subDeptDesc" class="form-control"
 											placeholder="Sub Department"
-											value="${editSubDept.subDeptDesc}" style="text-align: left;"
+											value='${editSubDept.subDeptDesc}' style="text-align: left;"
 											name="subDeptDesc"  type="text" required> <input
 											id="subDeptId" class="form-control" name="subDeptId"
 											value="${editSubDept.subDeptId}" type="hidden">

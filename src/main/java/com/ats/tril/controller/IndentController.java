@@ -1349,7 +1349,7 @@ public class IndentController {
 			model.addObject("apr", apr);
 			
 			
-			  /*StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+			  StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
 					StockHeader.class);
 
 			date = new Date();
@@ -1379,7 +1379,7 @@ public class IndentController {
 					}
 					
 				}
-			}   */
+			}    
 			
 			 	map = new LinkedMultiValueMap<>();
 				RestTemplate rest = new RestTemplate();

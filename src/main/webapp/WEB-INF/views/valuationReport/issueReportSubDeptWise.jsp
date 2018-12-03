@@ -111,7 +111,7 @@
 													value="${deptWiselist.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
-											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId},/${deptWiselist.deptCode}/);" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId},/ ${deptWiselist.deptCode} /);" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</td>
 											</c:when>
 											</c:choose>
