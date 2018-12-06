@@ -166,9 +166,10 @@ h6{
      <c:url var="getPoListRes" value="/getPoListRes"></c:url>
      <c:url var="consumptionIssueReportCategoryWise" value="/consumptionIssueReportCategoryWise"></c:url>
      <c:url var="consumptionMrnReportCategoryWise" value="/consumptionMrnReportCategoryWise"></c:url>
-     
+     <c:url var="mrnIssueMixDashboardReportCategoryWise" value="/mrnIssueMixDashboardReportCategoryWise"></c:url>
       <c:url var="consumptionMrnReportCategoryWiseExel" value="/consumptionMrnReportCategoryWiseExel"></c:url>
        <c:url var="consumptionIssueReportCategoryWiseExel" value="/consumptionIssueReportCategoryWiseExel"></c:url>
+        <c:url var="mrnIssueReportDashboardCategoryWiseExel" value="/mrnIssueReportDashboardCategoryWiseExel"></c:url>
 <c:url var="listMrnConsumptionGraph" value="/listMrnConsumptionGraph"></c:url>
 <c:url var="listIssueConsumptionGraph" value="/listIssueConsumptionGraph"></c:url>
 	<!-- BEGIN Container -->
@@ -219,6 +220,7 @@ h6{
     <a href="#"  onclick="enableDiv(2)" ><i class="fa fa-question-circle"></i>Pending MRN</a>
     <a href="#" onclick="enableDiv(3)"><i class="fa fa-file-pdf-o" ></i>Receipt  Valuation  </a>
        <a href="#" onclick="enableDiv(4)"><i class="fa fa-file-pdf-o" ></i>Issue  Valuation </a>
+       <a href="#" onclick="enableDiv(5)"><i class="fa fa-file-pdf-o" ></i>MRN/Issue  Valuation </a>
     <!-- <a href="#"><i class="fab fa-superpowers"></i>Black Panther</a> -->
   </nav>
 </div>
@@ -742,6 +744,138 @@ h6{
 
 												<td  ><c:out value="${issueReportList.typeName}" /></td>
 												 <c:forEach items="${issueReportList.consumptionReportList}" var="consumptionReportList" varStatus="count">
+												 <td  ><c:out value="${consumptionReportList.monthlyValue}" /></td>
+												 <td  ><c:out value="${consumptionReportList.ytd}" /></td>
+												 
+												 </c:forEach>
+												 
+											</tr>
+											 
+										</c:forEach>
+										</tbody>
+
+								</table>
+  
+					</div>
+					<div id="chart1" style="display: none"><br> <hr>
+		<div id="chart_div1" style="width:100%; height:500px" align="center"></div>
+		
+			<div   id="PiechartApr1" style="width:33.33%; height:300; float: Left;" ></div>
+			<div   id="PiechartMay1" style="width:33.33%; height:300; float: Left;" ></div>  
+			<div   id="PiechartJun1" style="width:33.33%; height:300; float: Left;" ></div>
+			<div   id="PiechartJul1" style="width:33.33%; height:300; float: Left;" ></div>
+			<div   id="PiechartAug1" style="width:33.33%; height:300; float: Left;" ></div>
+			<div   id="PiechartSep1" style="width:33.33%; height:300; float: Left;" ></div>
+				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
+				</div>
+				</div>
+						</div>
+                                </div>
+                            </div>
+    </div>
+    
+    <div id="consumptionReportIssueMrn" style="display: none;">
+      <div class="row">
+                        <div class="col-md-12">
+                      <div class="box" id="todayslist">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>MRN/Issue Valuation
+							</h3>
+							<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/addItem">
+									</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
+							</div>
+
+						</div>
+				<div class="box-content">
+				<div class="box-content">
+							
+								<div class="col-md-2">From Date</div>
+									<div class="col-md-3">
+										<input id="fromDate2" class="form-control date-picker"  value="${fromDate}" name="fromDate2" type="date"  >
+
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">To Date</div>
+									<div class="col-md-3">
+										<input id="toDate2" class="form-control date-picker"  value="${toDate}"  name="toDate2" type="date"  >
+
+
+									</div>
+								
+				 
+							</div><br><br>
+							<div align="center" id="loader" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+							<div class="row">
+							<div class="col-md-12" style="text-align: center">
+									  <input type="button" class="btn btn-primary"
+										value="Submit" onclick="searchMrnIssueData()"> 
+										  <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genMrnIssuePdf()" />&nbsp;
+											 <input type="button" id="expExcel2" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportIssueMrnExcel();" >
+											 <!--  <input type="button" class="btn btn-primary" onclick="showChart1()"  value="Graph">   --> 
+										 
+								</div>
+							</div>
+							<div align="center" id="loader2" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+							<br>
+							<br>
+					<div class="clearfix"></div>
+					<div style="overflow:scroll;height:100%;width:100%;overflow:auto" id="tbl1">
+									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
+										style="width: 100%" id="table_grid2"> 
+									<thead>
+									<tr class="bgpink">
+										  <th class="col-sm-1"></th>
+											<th class="col-md-1"></th>
+												<c:forEach items="${categoryList}" var="category" varStatus="count">
+											<th class="col-md-1" colspan="2">${category.catDesc}</th>
+											</c:forEach>
+										</tr>
+										<tr class="bgpink">
+										  <th class="col-sm-1">Sr No</th>
+											<th class="col-md-1">Type</th>
+												<c:forEach items="${categoryList}" var="category" varStatus="count">
+											
+											<th class="col-md-1">MRN</th>
+											<th class="col-md-1">ISSUE</th>
+											</c:forEach>
+										</tr>
+									</thead>
+									<tbody>
+									<c:set var="sr" value="0" ></c:set>
+                                     <c:forEach items="${mrnIssueReportList}" var="mrnIssueReportList" varStatus="count">
+								 
+											<tr>
+											
+												 
+												<td  ><c:out value="${sr+1}" /></td> 
+												<c:set var="sr" value="${sr+1}" ></c:set>
+
+
+												<td  ><c:out value="${mrnIssueReportList.typeName}" /></td>
+												 <c:forEach items="${mrnIssueReportList.consumptionReportList}" var="consumptionReportList" varStatus="count">
 												 <td  ><c:out value="${consumptionReportList.monthlyValue}" /></td>
 												 <td  ><c:out value="${consumptionReportList.ytd}" /></td>
 												 
@@ -1594,6 +1728,13 @@ function genIssuePdf(){
 	var toDate = $("#toDate1").val();
 	window.open('${pageContext.request.contextPath}/consumptionIssueReportCategoryWisePdf/'+fromDate+'/'+toDate);
 }
+
+function genMrnIssuePdf(){
+	var fromDate = $("#fromDate2").val();
+	var toDate = $("#toDate2").val();
+	window.open('${pageContext.request.contextPath}/mrnIssueDashboardReportCategoryWisePdf/'+fromDate+'/'+toDate);
+}
+
 function exportToExcel()
 {
 	window.open("${pageContext.request.contextPath}/exportToExcel");
@@ -1630,6 +1771,22 @@ function exportIssueExcel()
 			},
 			function(data) {
 				document.getElementById("expExcel1").disabled=true;
+				exportToExcel();
+ 
+			});
+}
+function exportIssueMrnExcel()
+{
+	$ .getJSON(
+			'${mrnIssueReportDashboardCategoryWiseExel}',
+
+			{
+				  
+				ajax : 'true'
+
+			},
+			function(data) {
+				document.getElementById("expExcel2").disabled=true;
 				exportToExcel();
  
 			});
@@ -1764,6 +1921,71 @@ function searchIssueData() {
 					}); 
 	}
 }
+
+function searchMrnIssueData() {
+	  
+	
+	var fromDate = $("#fromDate2").val();
+	var toDate = $("#toDate2").val();
+	
+	if(fromDate=="" || fromDate == null){
+		alert("Select From Date");
+	}
+	else if (toDate=="" || toDate == null){
+		alert("Select To Date");
+	}
+	else{
+		 
+	$('#loader2').show();
+
+	$
+			.getJSON(
+					'${mrnIssueMixDashboardReportCategoryWise}',
+
+					{
+						 
+						fromDate : fromDate,
+						toDate : toDate, 
+						ajax : 'true'
+
+					},
+					function(data) {
+
+						$('#table_grid2 td').remove();
+						$('#loader2').hide();
+
+						if (data == "") {
+							alert("No records found !!");
+
+						}
+					 
+						document.getElementById("expExcel2").disabled=false;
+					  $.each(
+									data,
+									function(key, itemList) {
+									
+
+										var tr = $('<tr></tr>');
+										  
+									  	tr.append($('<td></td>').html(key+1));
+									  	tr.append($('<td></td>').html(itemList.typeName));
+									  	
+									  	for(var i=0 ; i<itemList.consumptionReportList.length ;i++){
+									  		
+									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].monthlyValue));
+									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].ytd));
+									  		
+									  	}
+									   
+									  	
+									    $('#table_grid2 tbody').append(tr); 
+									})  
+									
+						 
+					}); 
+	}
+}
+
 function getPoList() {
 	  
 		var poType = $("#poType").val();
@@ -1886,6 +2108,8 @@ function enableDiv(status) {
     z.style.display = "none";
     var z1 = document.getElementById("consumptionReportIssue");
     z1.style.display = "none";
+    var z2 = document.getElementById("consumptionReportIssueMrn");
+    z2.style.display = "none";
 	}
 	else if(status==2)
 		{
@@ -1897,6 +2121,8 @@ function enableDiv(status) {
 		    z.style.display = "none";
 		    var z1 = document.getElementById("consumptionReportIssue");
 		    z1.style.display = "none";
+		    var z2 = document.getElementById("consumptionReportIssueMrn");
+		    z2.style.display = "none";
 		}
 	else if(status==3)
 	{
@@ -1908,6 +2134,8 @@ function enableDiv(status) {
 		    z.style.display = "block";
 		    var z1 = document.getElementById("consumptionReportIssue");
 		    z1.style.display = "none";
+		    var z2 = document.getElementById("consumptionReportIssueMrn");
+		    z2.style.display = "none";
 	}
 	else if(status==4)
 	{
@@ -1919,6 +2147,21 @@ function enableDiv(status) {
 		    z.style.display = "none";
 		    var z1 = document.getElementById("consumptionReportIssue");
 		    z1.style.display = "block";
+		    var z2 = document.getElementById("consumptionReportIssueMrn");
+		    z2.style.display = "none";
+	}
+	else if(status==5)
+	{
+		 var x = document.getElementById("poPending");
+		    x.style.display = "none";
+		    var y = document.getElementById("mrnPending");
+		    y.style.display = "none";
+		    var z = document.getElementById("consumptionReport");
+		    z.style.display = "none";
+		    var z1 = document.getElementById("consumptionReportIssue");
+		    z1.style.display = "none";
+		    var z2 = document.getElementById("consumptionReportIssueMrn");
+		    z2.style.display = "block";
 	}
 }
 function enableDiv1(status) {

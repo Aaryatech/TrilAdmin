@@ -79,6 +79,7 @@ public class DashboardController {
 	List<ConsumptionReportWithCatId> mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
 	List<ConsumptionReportWithCatId> issueReportList = new ArrayList<ConsumptionReportWithCatId>();
 	List<Category> categoryList = new ArrayList<Category>( );
+	List<ConsumptionReportWithCatId> mrnIssueReportList = new ArrayList<ConsumptionReportWithCatId>();
 	
 	String fromDateForPdf;
 	String toDateForPdf;
@@ -214,7 +215,8 @@ public class DashboardController {
 				
 				 mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
 				 issueReportList = new ArrayList<ConsumptionReportWithCatId>();
-				
+				  mrnIssueReportList = new ArrayList<ConsumptionReportWithCatId>();
+				 
 				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
 				Date date = new Date();
@@ -234,9 +236,50 @@ public class DashboardController {
 				 			ConsumptionReportWithCatId[] consumptionReportWithCatId1 = rest.postForObject(Constants.url + "/getConsumptionIssueData",map, ConsumptionReportWithCatId[].class);
 				 			issueReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId1));
 						 
+				 			 
+				 			
+				 			  /*for(int i=0; i<mrnReportList.size() ; i++) {
+				 				
+				 				ConsumptionReportWithCatId obj = new ConsumptionReportWithCatId();
+				 				
+				 				obj.setTypeId(mrnReportList.get(i).getTypeId());
+				 				obj.setTypeName(mrnReportList.get(i).getTypeName());
+				 				obj.setConsumptionReportList(mrnReportList.get(i).getConsumptionReportList());
+				 				mrnIssueReportList.add(obj);
+				 			}
+				 			
+				 			 for(int i=0; i<mrnIssueReportList.size() ; i++) {
+				 				
+				 				for(int j=0; j<issueReportList.size() ; j++) {
+				 					
+				 					if(mrnIssueReportList.get(i).getTypeId()==issueReportList.get(j).getTypeId()) {
+				 						
+				 						for(int k=0; k<issueReportList.get(j).getConsumptionReportList().size() ; k++) {
+				 							
+				 							for(int m=0; m<mrnIssueReportList.get(i).getConsumptionReportList().size() ; m++) {
+				 								
+				 								if(issueReportList.get(j).getConsumptionReportList().get(k).getCatId()==mrnIssueReportList.get(i).getConsumptionReportList().get(m).getCatId()) {
+				 									
+				 									mrnIssueReportList.get(i).getConsumptionReportList().get(m).setYtd(issueReportList.get(j).getConsumptionReportList().get(k).getMonthlyValue());
+				 									break;
+				 									
+				 								}
+				 								
+				 							}
+				 						}
+				 						
+				 					}
+				 					
+				 				}
+				 				
+				 			} 
+				 			System.out.println("mrnReportList " + mrnReportList);
+				 			System.out.println("issueReportList " + issueReportList);
+				 			System.out.println("mrnIssueReportList " + mrnIssueReportList);*/  
 				 			
 						  model.addObject("mrnReportList", mrnReportList);
 						  model.addObject("issueReportList", issueReportList);
+						  /*model.addObject("mrnIssueReportList", mrnIssueReportList);*/
 						  
 						  model.addObject("fromDate", DateConvertor.convertToYMD(fromDate));
 						  model.addObject("toDate", toDate);
@@ -307,7 +350,7 @@ public class DashboardController {
 				for(int j=0;j<mrnReportList.get(i).getConsumptionReportList().size();j++) {
 					 
 						rowData.add(""+mrnReportList.get(i).getConsumptionReportList().get(j).getMonthlyValue());
-						rowData.add(""+mrnReportList.get(i).getConsumptionReportList().get(j).getMonthlyValue()); 
+						rowData.add(""+mrnReportList.get(i).getConsumptionReportList().get(j).getYtd()); 
 				 
 				}
 			 
@@ -675,7 +718,7 @@ public class DashboardController {
 	@ResponseBody
 	public List<ConsumptionReportWithCatId> consumptionIssueReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
 
-
+  
 		try {
 			
 			String fromDate = request.getParameter("fromDate");
@@ -683,19 +726,90 @@ public class DashboardController {
 				
 			  
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
-		 			map.add("fromDate", fromDate);
+					  map.add("fromDate", fromDate);
 		 			map.add("toDate", toDate); 
 		 			System.out.println(map);
 		 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionIssueData",map, ConsumptionReportWithCatId[].class);
 		 			issueReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
 				 
-				  System.out.println(issueReportList); 
+				  System.out.println(issueReportList);  
+	 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return issueReportList;
+	}
+	
+	@RequestMapping(value = "/mrnIssueMixDashboardReportCategoryWise", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> mrnIssueMixDashboardReportCategoryWise(HttpServletRequest request, HttpServletResponse response) {
+
+
+		 mrnIssueReportList = new ArrayList<ConsumptionReportWithCatId>();
+		
+		try {
+			
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+				
+			  
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();  
+				 map = new LinkedMultiValueMap<>(); 
+	 			map.add("fromDate",  fromDate );
+	 			map.add("toDate", toDate); 
+	 			System.out.println(map);
+	 			ConsumptionReportWithCatId[] consumptionReportWithCatId = rest.postForObject(Constants.url + "/getConsumptionMrnData",map, ConsumptionReportWithCatId[].class);
+	 			List<ConsumptionReportWithCatId> mrnReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId));
+			  
+	 			ConsumptionReportWithCatId[] consumptionReportWithCatId1 = rest.postForObject(Constants.url + "/getConsumptionIssueData",map, ConsumptionReportWithCatId[].class);
+	 			List<ConsumptionReportWithCatId>  issueReportList = new ArrayList<ConsumptionReportWithCatId>(Arrays.asList(consumptionReportWithCatId1));
+			 
+	 			
+	 			
+	 			for(int i=0; i<mrnReportList.size() ; i++) {
+	 				
+	 				ConsumptionReportWithCatId obj = new ConsumptionReportWithCatId();
+	 				
+	 				obj.setTypeId(mrnReportList.get(i).getTypeId());
+	 				obj.setTypeName(mrnReportList.get(i).getTypeName());
+	 				obj.setConsumptionReportList(mrnReportList.get(i).getConsumptionReportList());
+	 				mrnIssueReportList.add(obj);
+	 			}
+	 			
+	 			 for(int i=0; i<mrnIssueReportList.size() ; i++) {
+	 				
+	 				for(int j=0; j<issueReportList.size() ; j++) {
+	 					
+	 					if(mrnIssueReportList.get(i).getTypeId()==issueReportList.get(j).getTypeId()) {
+	 						
+	 						for(int k=0; k<issueReportList.get(j).getConsumptionReportList().size() ; k++) {
+	 							
+	 							for(int m=0; m<mrnIssueReportList.get(i).getConsumptionReportList().size() ; m++) {
+	 								
+	 								if(issueReportList.get(j).getConsumptionReportList().get(k).getCatId()==mrnIssueReportList.get(i).getConsumptionReportList().get(m).getCatId()) {
+	 									
+	 									mrnIssueReportList.get(i).getConsumptionReportList().get(m).setYtd(issueReportList.get(j).getConsumptionReportList().get(k).getMonthlyValue());
+	 									break;
+	 									
+	 								}
+	 								
+	 							}
+	 						}
+	 						
+	 					}
+	 					
+	 				}
+	 				
+	 			} 
+				  
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mrnIssueReportList;
 	}
 	
 	@RequestMapping(value = "/listIssueConsumptionGraph", method = RequestMethod.GET)
@@ -754,6 +868,63 @@ public class DashboardController {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "dashbordIssueList");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return issueReportList;
+	}
+	
+	@RequestMapping(value = "/mrnIssueReportDashboardCategoryWiseExel", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ConsumptionReportWithCatId> mrnIssueReportDashboardCategoryWiseExel(HttpServletRequest request, HttpServletResponse response) {
+
+
+		try {
+			
+			//------------------------ Export To Excel--------------------------------------
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+ 
+				 
+				rowData.add("SR. No");
+				rowData.add("Type NAME");
+				for (int i = 0; i < categoryList.size(); i++) {
+					
+					rowData.add(categoryList.get(i).getCatDesc() + " MRN");
+					rowData.add(categoryList.get(i).getCatDesc() + " ISSUE");
+				}
+				  
+				expoExcel.setRowData(rowData);
+			
+			exportToExcelList.add(expoExcel);
+			int index = 0;
+			for (int i = 0; i < mrnIssueReportList.size(); i++) {
+				
+				
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				index++;
+				rowData.add((index)+"");
+				rowData.add(mrnIssueReportList.get(i).getTypeName()); 
+				for(int j=0;j<mrnIssueReportList.get(i).getConsumptionReportList().size();j++) {
+					 
+						rowData.add(""+mrnIssueReportList.get(i).getConsumptionReportList().get(j).getMonthlyValue());
+						rowData.add(""+mrnIssueReportList.get(i).getConsumptionReportList().get(j).getYtd()); 
+				 
+				}
+			 
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				 
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "dashbordMrnIssueList");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -894,7 +1065,7 @@ public class DashboardController {
 							table.addCell(cell);
 
 						
-							cell = new PdfPCell(new Phrase(mrnReportList.get(k).getTypeName(), headFont));
+							cell = new PdfPCell(new Phrase(issueReportList.get(k).getTypeName(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 							cell.setPaddingRight(2);
@@ -1015,6 +1186,318 @@ public class DashboardController {
 				document.add(ex2);
 				
 				Paragraph reportName=new Paragraph("ISSUE VALUEATION REPORT",f1);
+				reportName.setAlignment(Element.ALIGN_CENTER);
+				document.add(reportName);
+
+				Paragraph headingDate=new Paragraph(" From Date: "   + DateConvertor.convertToDMY(fromDate)+"  To Date: "+DateConvertor.convertToDMY(toDate)+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
+			document.add(headingDate);
+			
+			  
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/mrnIssueDashboardReportCategoryWisePdf/{fromDate}/{toDate}", method = RequestMethod.GET)
+	public void mrnIssueDashboardReportCategoryWisePdf(@PathVariable String fromDate,@PathVariable String toDate , HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+		
+		int colmSize=(categoryList.size()*2)+4;
+		PdfPTable table = new PdfPTable(colmSize);
+		
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			float[] arry = new float[colmSize] ;
+			arry[0]=0.4f;
+			arry[1]=1.7f;
+			
+			
+			for(int i=2; i < colmSize ;i++) {
+				arry[i]=1.0f;
+			}
+			
+			System.out.println("colmSize " + colmSize);
+			System.out.println("arry " + Arrays.toString(arry)  + arry.length);
+			
+			table.setWidths(arry);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+			PdfPCell hcell = new PdfPCell();
+
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Cat Name", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			
+			for (int i = 0; i < categoryList.size(); i++) {
+				
+				hcell = new PdfPCell(new Phrase(categoryList.get(i).getCatDesc(), headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setColspan(2); 
+				table.addCell(hcell);
+			}
+			
+			hcell = new PdfPCell(new Phrase("Total", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			hcell.setColspan(2); 
+			table.addCell(hcell);
+			 
+		    hcell = new PdfPCell();
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase(" ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase(" ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			for (int i = 0; i < categoryList.size(); i++) {
+				
+				hcell = new PdfPCell(new Phrase("MRN", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+				
+				hcell = new PdfPCell(new Phrase("ISSUE", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+			}
+			
+			hcell = new PdfPCell(new Phrase("MRN", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ISSUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			 
+			
+			 
+			int index = 0;
+			if(!mrnIssueReportList.isEmpty()) {
+					for (int k = 0; k < mrnIssueReportList.size(); k++) {
+						 
+							index++;
+							float typeMonthlyTotal=0;
+							float typeYtdTotal=0;
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(mrnIssueReportList.get(k).getTypeName(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							for (int j = 0; j < mrnIssueReportList.get(k).getConsumptionReportList().size(); j++) {
+								 
+									 
+											cell = new PdfPCell(new Phrase(""+mrnIssueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue(), headFont));
+											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+											cell.setPaddingRight(2);
+											cell.setPadding(3);
+											table.addCell(cell);
+											typeMonthlyTotal=typeMonthlyTotal+mrnIssueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue();
+											
+											cell = new PdfPCell(new Phrase(""+mrnIssueReportList.get(k).getConsumptionReportList().get(j).getYtd(), headFont));
+											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+											cell.setPaddingRight(2);
+											cell.setPadding(3);
+											table.addCell(cell);
+											typeYtdTotal=typeYtdTotal+mrnIssueReportList.get(k).getConsumptionReportList().get(j).getYtd();
+								 
+							}
+							
+							cell = new PdfPCell(new Phrase(""+typeMonthlyTotal, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+							
+							cell = new PdfPCell(new Phrase(""+typeYtdTotal, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+					
+					}
+					
+					PdfPCell cell;
+					cell = new PdfPCell(new Phrase("Total ", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setPadding(3);
+					cell.setColspan(2);
+					table.addCell(cell);
+ 
+					float finalMonthly=0;
+					float finalTotalYear=0;
+					
+					for (int i = 0; i < categoryList.size(); i++) {
+						
+						float catTotalMonthly=0;
+						float catTotalYear=0;
+						
+						for (int k = 0; k < mrnIssueReportList.size(); k++) {
+							
+							for (int j = 0; j < mrnIssueReportList.get(k).getConsumptionReportList().size(); j++) {
+								
+								if(categoryList.get(i).getCatId()==mrnIssueReportList.get(k).getConsumptionReportList().get(j).getCatId()) {
+									catTotalMonthly=catTotalMonthly+mrnIssueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue();
+									catTotalYear=catTotalYear+mrnIssueReportList.get(k).getConsumptionReportList().get(j).getYtd();
+								} 
+							}
+							
+						}
+						
+						cell = new PdfPCell(new Phrase(""+catTotalMonthly, headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						 
+						cell = new PdfPCell(new Phrase(""+catTotalYear, headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						finalMonthly=finalMonthly+catTotalMonthly;
+						finalTotalYear=finalTotalYear+catTotalYear;
+						 
+					}
+					
+					cell = new PdfPCell(new Phrase(""+finalMonthly , headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+					 
+					cell = new PdfPCell(new Phrase(""+finalTotalYear , headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				 
+			}
+			
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+			Paragraph heading1 = new Paragraph(
+					companyInfo.getFactoryAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+				
+				Paragraph reportName=new Paragraph("MRN/ISSUE VALUEATION REPORT",f1);
 				reportName.setAlignment(Element.ALIGN_CENTER);
 				document.add(reportName);
 

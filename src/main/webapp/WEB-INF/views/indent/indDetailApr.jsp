@@ -73,22 +73,19 @@
 								method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
-
-										<c:set var="indmtype" value="o"></c:set>
-									<c:choose>
-										<c:when test="${indent.indMType==1}">
-											<c:set var="indmtype" value="Regular"></c:set>
+								
+								
+								<c:set var="indmtype" value="o"></c:set>
+								
+								<c:forEach items="${typeList}" var="typeList" >
+								<c:choose>
+										<c:when test="${indent.indMType==typeList.typeId}">
+											<c:set var="indmtype" value="${typeList.typeName}"></c:set>
 										</c:when>
-										<c:when test="${indent.indMType==2}">
-											<c:set var="indmtype" value="Job Work"></c:set>
-										</c:when>
-										<c:when test="${indent.indMType==3}">
-											<c:set var="indmtype" value="General"></c:set>
-										</c:when>
-										<c:otherwise>
-											<c:set var="indmtype" value="Other"></c:set>
-										</c:otherwise>
-									</c:choose>
+										 
+									</c:choose> 
+												</c:forEach>
+ 
 <div class="col-md-1"></div>
 									<div class="col-md-2">Indent
 										Type</div>
