@@ -171,6 +171,7 @@ public class IndentController {
 			 			map.add("catId", catId);
 			 			map.add("typeId", typeId);
 			 			map.add("status", "0,1,2");
+			 			map.add("detailStatus", "0,1,2");
 			 			System.out.println(map);
 			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
 			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
@@ -251,6 +252,7 @@ public class IndentController {
 			 			map.add("catId", catId);
 			 			map.add("typeId", typeId);
 			 			map.add("status", "7,9");
+			 			map.add("detailStatus", "9,8,7,6");
 			 			System.out.println(map);
 			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
 			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
@@ -1572,11 +1574,11 @@ public class IndentController {
 		try {
 			  Date date = new Date();
 			  SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-			//String excelFilePath = "C:/pdf/Books2.xlsx";
+			String excelFilePath = "/home/lenovo/Downloads/Books2.xlsx";
 			int catId = Integer.parseInt(request.getParameter("catId")); 
 			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
-			String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books2.xlsx";
+			//String excelFilePath = "/opt/apache-tomcat-8.5.6/webapps/triladmin/Books2.xlsx";
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 	         
 	        Workbook workbook = new XSSFWorkbook(inputStream);
@@ -1595,7 +1597,7 @@ public class IndentController {
 	            while (cellIterator.hasNext()) {
 	                Cell cell = cellIterator.next();
 	                
-	                 
+	                try {
 	                 	if(index==0) {
 	                 		detail.setItemId(Integer.parseInt(formatter.formatCellValue(cell)));
 	                 	} 
@@ -1628,6 +1630,9 @@ public class IndentController {
 	                index++;
 	                
 	                System.out.print(" - ");
+	                }catch (Exception e) {
+						// TODO: handle exception
+					}
 	            }
 	            if(index!=0) {
 	            	detail.setDate(sf.format(date));

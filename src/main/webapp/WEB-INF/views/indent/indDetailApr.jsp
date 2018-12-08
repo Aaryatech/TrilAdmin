@@ -373,6 +373,8 @@
 												</tr>
 											</thead>
 											<tbody>
+											<c:set var="thisIndentValue" value="0"></c:set>
+											
 												<c:forEach items="${indDetailList}" var="indDetail"
 													varStatus="count">
 <input type="hidden" name="apr" id="apr" value="${apr}"><input type="hidden" name="aprOrReject" id="aprOrReject" value="1"><input type="hidden" name="sts" id="sts" value="${indent.indMStatus}">
@@ -446,7 +448,11 @@
 																<c:when test="${itemList.itemId==indDetail.itemId}">
 																<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemMaxLevel}" /></td>	
 																	<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemClRate}" /></td>	
-																	<td style="text-align: center;" class="col-md-1"><c:out value="${itemList.itemClRate*indDetail.indQty}" /></td>
+																	<td style="text-align: center;" class="col-md-1">
+																	<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${itemList.itemClRate*indDetail.indQty}" /> </td>
+										
+										<c:set var="thisIndentValue" value="${thisIndentValue+(itemList.itemClRate*indDetail.indQty)}"></c:set>
 																</c:when>
 															</c:choose>
 															</c:forEach>
@@ -528,6 +534,15 @@
 														</td> --%>
 													</tr>
 												</c:forEach>
+												<tr>
+												
+													<td colspan="12"><c:out
+																value="Total" /></td>
+													<td class="col-md-1"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${thisIndentValue}" /> </td>
+													<td colspan="2"><c:out
+																value="-" /></td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
