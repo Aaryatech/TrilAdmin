@@ -91,6 +91,33 @@
 								</div>
 							</div>
 							<br>
+							
+							<c:set value="0" var="isEdit"></c:set>
+								<c:set value="0" var="isDelete"></c:set>
+								 
+				 <c:forEach items="${sessionScope.newModuleList}" var="allModuleList" >
+						<c:choose>
+							<c:when test="${allModuleList.moduleId==sessionScope.sessionModuleId}">
+								  <c:forEach items="${allModuleList.subModuleJsonList}" var="subModuleJsonList" >
+								  		<c:choose>
+										  	<c:when test="${subModuleJsonList.subModuleId==sessionScope.sessionSubModuleId}">
+										  		  <c:choose>
+										  				<c:when test="${subModuleJsonList.editReject eq 'visible'}">
+										  				<c:set value="1" var="isEdit"></c:set>
+										  				</c:when>
+										  			</c:choose>
+													<c:choose>
+										  				<c:when test="${subModuleJsonList.deleteRejectApprove eq 'visible'}">
+										  				<c:set value="1" var="isDelete"></c:set>
+										  				</c:when>
+										  			</c:choose>
+										  	</c:when>
+									  	</c:choose>
+								  </c:forEach>
+							</c:when> 
+						</c:choose>
+					 
+					</c:forEach>  
 
 							<div align="center" id="loader" style="display: none">
 
@@ -185,15 +212,23 @@
 
 												<td><a href="javascript:genPdf(${ poList.poId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
-															 
-													<a href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a>
+														<c:choose>
+																<c:when test="${isEdit==1}">	 
+																<a href="${pageContext.request.contextPath}/editPurchaseOrder/${poList.poId}"><abbr
+																	title="Edit"><i class="fa fa-edit"></i></abbr></a>
+															</c:when>
+														</c:choose>
+														
+														<c:choose>
+												<c:when test="${isDelete==1}">
 														<c:choose>
 															<c:when test="${poList.poStatus==9 or poList.poStatus==7}">
 															<a href="${pageContext.request.contextPath}/deletePurchaseOrder/${poList.poId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a>
 															</c:when>
+														</c:choose>
+														</c:when>
 														</c:choose>
 														 </td>
 

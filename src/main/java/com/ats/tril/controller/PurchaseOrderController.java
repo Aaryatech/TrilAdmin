@@ -540,7 +540,7 @@ public class PurchaseOrderController {
 						poDetail.setPendingQty(
 								Float.parseFloat(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
 						poDetail.setDiscPer(
-								Integer.parseInt(request.getParameter("disc" + intendDetailList.get(i).getIndDId())));
+								Float.parseFloat(request.getParameter("disc" + intendDetailList.get(i).getIndDId())));
 						poDetail.setItemRate(
 								Float.parseFloat(request.getParameter("rate" + intendDetailList.get(i).getIndDId())));
 						poDetail.setSchRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));

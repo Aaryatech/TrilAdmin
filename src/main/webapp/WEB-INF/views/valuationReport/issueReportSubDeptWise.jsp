@@ -58,11 +58,11 @@
 							 <input type="hidden" name="deptId" id="deptId" value="${deptId}" />
 									<input type="hidden" id="type" name="type" value="${typeName}">
 											  <input type="hidden" id="isDevName" name="isDevName" value="${isDevName}">
-											  <input type="hidden" id="deptName" name="deptName" value="${deptName}">
+											  <input type="hidden" id="deptName" name="deptName" value='${deptName}'>
 											  
 											  <div class="col-md-12" style="text-align: center">
 								  
-											 Department : ${deptName} ,  &nbsp;  Type: ${type}, &nbsp;  Is Dev : ${isDevName}
+											 Department : ${deptName} ,  &nbsp;  Type: ${typeName}, &nbsp;  Is Dev : ${isDevName}
 											  
 											    
 							</div>
@@ -111,7 +111,9 @@
 													value="${deptWiselist.issueQty}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
-											 <td><a href="javascript:getDetailReport(${deptWiselist.deptId},/ ${deptWiselist.deptCode} /);" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <%-- <td><a href="javascript:getDetailReport(${deptWiselist.deptId},/ ${deptWiselist.deptCode} /);" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											</td> --%>' 
+			<td><a href='${pageContext.request.contextPath}/issueReportItemWise/${deptWiselist.deptId}/${typeName}/${isDevName}/${deptName}/${deptWiselist.deptCode}' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</td>
 											</c:when>
 											</c:choose>
@@ -244,6 +246,7 @@ function getDetailReport(id,subDeptCode) {
 	var typeName = $("#type").val();
 	var isDevName = $("#isDevName").val();
 	var deptName = $("#deptName").val();
+	alert(deptName)
 	location.href='${pageContext.request.contextPath}/issueReportItemWise/'
 			+ id +"/" + typeName + "/" + isDevName + "/" +deptName+""+subDeptCode;
 

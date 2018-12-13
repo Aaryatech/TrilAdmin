@@ -1588,7 +1588,7 @@ public class DashboardController {
 
 		return model;
 	}
-	@RequestMapping(value = "/getMrnInspForVendor", method = RequestMethod.POST)
+	@RequestMapping(value = "/getMrnInspForVendor", method = RequestMethod.GET)
 	public ModelAndView getMrnInspForVendor(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("mrn/mrnInspectionHeader");

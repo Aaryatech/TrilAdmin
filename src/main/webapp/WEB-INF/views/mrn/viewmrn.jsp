@@ -111,7 +111,32 @@
         <i class="fa fa-search"></i>
     </span>
 </div>
-<br/>
+<br/> 
+									<c:set value="0" var="isEdit"></c:set>
+								<c:set value="0" var="isDelete"></c:set>
+									<c:forEach items="${sessionScope.newModuleList}" var="allModuleList" >
+															<c:choose>
+																<c:when test="${allModuleList.moduleId==sessionScope.sessionModuleId}">
+																	  <c:forEach items="${allModuleList.subModuleJsonList}" var="subModuleJsonList" >
+																	  		<c:choose>
+																			  	<c:when test="${subModuleJsonList.subModuleId==sessionScope.sessionSubModuleId}">
+																			  		  <c:choose>
+																			  				<c:when test="${subModuleJsonList.editReject eq 'visible'}">
+																			  				<c:set value="1" var="isEdit"></c:set>
+																			  				</c:when>
+																			  			</c:choose>
+																			  			<c:choose>
+																			  				<c:when test="${subModuleJsonList.deleteRejectApprove eq 'visible'}">
+																			  				<c:set value="1" var="isDelete"></c:set>
+																			  				</c:when>
+																			  			</c:choose>
+																			  	</c:when>
+																		  	</c:choose>
+																	  </c:forEach>
+																</c:when> 
+															</c:choose>
+														 
+														</c:forEach> 
 
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
@@ -206,19 +231,26 @@
 															class="glyphicon glyphicon glyphicon-file"></i></a>
 													
 														&nbsp;&nbsp;&nbsp;
+														<c:choose>
+																<c:when test="${isEdit==1}">
 														<a
 															href="${pageContext.request.contextPath}/showEditViewMrnDetail/${mrn.mrnId}" title="View/Edit"><span
 																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
-															<%-- 	<a
-															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
-											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
-											 					
+														</c:when>
+														</c:choose>
+															 
+															 <c:choose>
+											 					<c:when test="${isDelete==1}">
+														
 											 					<c:choose>
 											 						<c:when test="${mrn.mrnStatus==0}">
 											 						<a href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="fa fa-trash-o"></span></a>
 											 						</c:when> 
 											 					</c:choose>
+											 					</c:when>
+											 					</c:choose>
+											 					
 																
 														</td>
 													</tr>

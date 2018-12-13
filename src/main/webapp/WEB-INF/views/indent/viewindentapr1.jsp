@@ -118,18 +118,20 @@
 														style="text-align: center; padding: 0px; align-items: center;"
 														width="60"><input type="checkbox" name="name1"
 														value="0" /> &nbsp;&nbsp;&nbsp;All</th> -->
-														<th width="4%" style="text-align: center;">Sr</th>
-													<th width="180" style="text-align: center;"
-														style="width: 150px">Indent No</th>
-													<th width="130" style="text-align: center;" align="center">Date</th>
-													<th width="150" style="text-align: center;" align="center">Category</th>
-													<th width="150" style="text-align: center;" align="center">Account Head</th>
+														<th width="2%"  >Sr</th>
+													<th class="col-md-1"  
+														 >Indent No</th>
+													<th class="col-md-1"  >Date</th>
+													<th class="col-md-1"  >Category</th>
+													<th class="col-md-1"  >Account Head</th>
 
-													<th width="150" style="text-align: center;" align="center">Type</th>
-													<th width="150" style="text-align: center;" align="center">Development</th>
-													<th width="150" style="text-align: center;" align="center">Monthly</th>
-													<th width="150" style="text-align: center;" align="center">Status</th>
-													<th width="150" style="text-align: center;" align="center">Action</th>
+													<th class="col-md-1"  >Type</th>
+													<th style="width:2%;"  >Development</th>
+													<th style="width:2%;"  >Monthly</th>
+													<th class="col-md-1"  >Status</th>
+													<th class="col-md-1">Rej Sts1</th>
+													<th class="col-md-1">Rej Sts2</th>
+													<th width="5%"  >Action</th>
 												</tr>
 											</thead>
 											<!-- 	<div class="table-responsive" style="border: 0">
@@ -152,15 +154,15 @@
 															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
 															width="60">&nbsp;&nbsp;<input type="checkbox"
 															name="name1" value="${indent.indMId}" /></td> --%>
-															<td style="text-align: center;" width="4%"><c:out
+															<td style="text-align: center;" width="2%"><c:out
 																value="${count.index+1}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indent.indMNo}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indent.indMDate}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indent.catDesc}" /></td>
-																<td align="left" style="text-align: center;"><c:out
+																<td align="left"  ><c:out
 																value="${indent.accHeadDesc}" /></td>
 														<c:set var="indmtype" value="o"></c:set>
 														<c:forEach items="${typeList}" var="typeList"  varStatus="count">
@@ -194,13 +196,13 @@
 															</c:otherwise>
 														</c:choose>
 
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indmtype}" /></td>
 
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indIsDev}" /></td>
 
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indIsmonthly}" /></td>
 																
 																<c:set var="indSts" value="-"></c:set>
@@ -233,10 +235,14 @@
 																<c:set var="indSts" value="Rejected By 1st"></c:set>
 															</c:when>
 														</c:choose>
-														<td align="left" style="text-align: center;"><c:out
+														<td align="left"  ><c:out
 																value="${indSts}" /></td>
+														<td  ><c:out
+																value="${indent.apprvRemark1}" /></td>
+														<td  ><c:out
+																value="${indent.apprvRemark2}" /></td>
 
-														<td align="left" style="text-align: center;">
+														<td align="left"  >
 															<a
 															href="${pageContext.request.contextPath}/getIndentDetailToApprove/${indent.indMId}/${apr}" title="Get Indent To Approve "><span
 																class="glyphicon glyphicon-th-list"></span></a>&nbsp;&nbsp;&nbsp;
