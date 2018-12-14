@@ -400,7 +400,7 @@ body {
 															<c:choose>
 																<c:when test="${(mrnDetail.mrnDetailStatus==0) && (mrnHeader.mrnStatus==0)}">
 																	<a
-															href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}" title="Delete"><span
+															href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}/${mrnHeader.mrnId}" title="Delete"><span
 																class="fa fa-trash-o"></span></a>
 																</c:when> 
 																    

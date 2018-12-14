@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.LogSave;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
@@ -39,6 +41,7 @@ import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.login.User;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.sun.org.apache.bcel.internal.generic.NEWARRAY; 
@@ -390,6 +393,21 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 	        		}catch (Exception e) {
 						e.printStackTrace();
 					}
+	        		try {
+						
+	        			HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						LogSave logSave = new LogSave();
+						logSave.setReqUserId(user.getId());
+						logSave.setDocType(6);
+						logSave.setDocTranId(res.getIssueId());
+						 
+						LogSave logSaveres = rest.postForObject(Constants.url + "/saveLogRecord",
+								logSave, LogSave.class);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 	        		
 	        		 MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
 	    					 MrnDetail[].class);
@@ -525,6 +543,17 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
    					 MrnDetail[].class);
 				System.out.println(update);
+				 
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 6);
+					 map.add("docTranId", issueId);
+					 map.add("userId", user.getId());
+					 
+					LogSave res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+							map, LogSave.class);
+				 
 			}
 			 
 			 
@@ -855,6 +884,18 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
 	   					 MrnDetail[].class);
 					System.out.println(update);
+					
+					 
+						HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						 map = new LinkedMultiValueMap<String, Object>();
+						 map.add("docId", 6);
+						 map.add("docTranId", getIssueHeader.getIssueId());
+						 map.add("userId", user.getId());
+						 
+						 ErrorMessage updateRes = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+								map, ErrorMessage.class);
+					 
 			 } 
 
 		} catch (Exception e) {
@@ -1000,7 +1041,32 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			System.out.println("map " + map);
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileIssueApprov", map, ErrorMessage.class);
 			
+			if(approve==1 && approved.isError()==false) {
+				
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 6);
+				 map.add("docTranId", issueId);
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
+						map, ErrorMessage.class);
+				
+			}
+			
 			if(approve==2 && approved.isError()==false) {
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 6);
+				 map.add("docTranId", issueId);
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
+						map, ErrorMessage.class);
 				
 				issueForApprove = new GetIssueHeader();
 				map = new LinkedMultiValueMap<String, Object>();

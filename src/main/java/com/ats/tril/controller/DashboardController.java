@@ -41,6 +41,7 @@ import com.ats.tril.model.Company;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.EnquiryDetail;
+import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
@@ -49,6 +50,7 @@ import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.indent.GetIndents;
+import com.ats.tril.model.login.User;
 import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
@@ -1714,7 +1716,15 @@ public class DashboardController {
 			 List<MrnDetail> mrnDetailList = restTemp.postForObject(Constants.url + "/saveMrnData", getMrnDetailList, List.class);
 
 			System.err.println("mrnDetailList " + mrnDetailList.toString()); 
-			
+			 HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 3);
+				 map.add("docTranId", getMrnHeader.getMrnId());
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage resp = rest.postForObject(Constants.url + "/updateInspDateAndTime",
+							map, ErrorMessage.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();

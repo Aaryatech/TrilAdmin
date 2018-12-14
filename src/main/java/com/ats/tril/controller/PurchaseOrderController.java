@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -47,6 +48,7 @@ import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.LogSave;
 import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.SettingValue;
@@ -59,6 +61,7 @@ import com.ats.tril.model.getqueryitems.GetPoQueryItem;
 import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.GetIntendDetail;
 import com.ats.tril.model.indent.IndentTrans;
+import com.ats.tril.model.login.User;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.po.PoHeader;
@@ -771,6 +774,23 @@ public class PurchaseOrderController {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				try {
+					
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					
+					LogSave logSave = new LogSave();
+					logSave.setReqUserId(user.getId());
+					logSave.setDocType(2);
+					logSave.setDocTranId(save.getPoId());
+					 
+					LogSave res = rest.postForObject(Constants.url + "/saveLogRecord",
+							logSave, LogSave.class);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			if (save != null  && getIntendDetailforJsp.size()>0) {
 				for (int i = 0; i < getIntendDetailforJsp.size(); i++) {
@@ -919,6 +939,19 @@ public class PurchaseOrderController {
 				 errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty", updateIntendQty,
 							ErrorMessage.class);
 					System.out.println(errorMessage);
+			}
+			
+			if(errorMessage.isError()==false) {
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 2);
+				 map.add("docTranId", poId);
+				 map.add("userId", user.getId());
+				 
+				ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+						map, ErrorMessage.class);
 			}
 
 		} catch (Exception e) {
@@ -1212,6 +1245,18 @@ public class PurchaseOrderController {
 				//getPoHeader.setPoDetailList(poDetailList);
 
 			}
+			if(save!=null)
+			{
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 2);
+				 map.add("docTranId", getPoHeader.getPoId());
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+						map, ErrorMessage.class);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1318,6 +1363,19 @@ public class PurchaseOrderController {
 				errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
 						getIntendDetailListforEdit, ErrorMessage.class);
 				System.out.println(errorMessage);
+				
+				if(save!=null)
+				{
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 2);
+					 map.add("docTranId", getPoHeader.getPoId());
+					 map.add("userId", user.getId());
+					 
+					 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+							map, ErrorMessage.class);
+				}
 			} 
 			  
 		} catch (Exception e) {
@@ -1573,7 +1631,20 @@ public class PurchaseOrderController {
 				 ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateIndendPendingQty",
 						getIntendDetailListforEdit, ErrorMessage.class);
 				System.out.println(errorMessage);
-			} 
+			}
+			
+			if(save!=null)
+			{
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 2);
+				 map.add("docTranId", getPoHeader.getPoId());
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+						map, ErrorMessage.class);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1698,6 +1769,19 @@ public class PurchaseOrderController {
 				System.out.println("map " + map);
 				ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileApprov", map, ErrorMessage.class);
 				
+				if(approved.isError()==false) {
+					
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 2);
+					 map.add("docTranId", poId);
+					 map.add("userId", user.getId());
+					 
+					 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
+							map, ErrorMessage.class);
+				}
+				
 			}
 			else if(approve==2){
 				
@@ -1816,6 +1900,20 @@ public class PurchaseOrderController {
 				
 				 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", poHeaderForApprove, PoHeader.class);
 				System.out.println(save);
+				
+				
+				if(save!=null) {
+					
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 2);
+					 map.add("docTranId", poId);
+					 map.add("userId", user.getId());
+					 
+					 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
+							map, ErrorMessage.class);
+				}
 				 
 				if(save!=null) {
 					
@@ -1936,6 +2034,23 @@ public class PurchaseOrderController {
 											MrnHeader.class);
 								
 							  SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+							  
+							  try {
+									
+									HttpSession session = request.getSession();
+									User user = (User) session.getAttribute("userInfo");
+									
+									LogSave logSave = new LogSave();
+									logSave.setReqUserId(user.getId());
+									logSave.setDocType(3);
+									logSave.setDocTranId(mrnHeaderRes.getMrnId());
+									 
+									LogSave res = rest.postForObject(Constants.url + "/saveLogRecord",
+											logSave, LogSave.class);
+
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
  
 						 }
 						 

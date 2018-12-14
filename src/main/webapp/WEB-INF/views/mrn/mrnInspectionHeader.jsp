@@ -182,7 +182,7 @@
 									     <td class="col-md-1">
 									     <a href="javascript:genPdf(${ getMrnHeaderList.mrnId});" title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></a>
-										<c:choose><c:when test="${getMrnHeaderList.mrnStatus==0}"><a href="${pageContext.request.contextPath}/getMrnDetail/${getMrnHeaderList.mrnId}"><abbr title="Details"><i  class="fa fa-list"></i></abbr></a></c:when></c:choose></td> 
+										<c:choose><c:when test="${getMrnHeaderList.mrnStatus==0 || getMrnHeaderList.mrnStatus==1}"><a href="${pageContext.request.contextPath}/getMrnDetail/${getMrnHeaderList.mrnId}"><abbr title="Details"><i  class="fa fa-list"></i></abbr></a></c:when></c:choose></td> 
 									</tr>
 								</c:forEach>  
 

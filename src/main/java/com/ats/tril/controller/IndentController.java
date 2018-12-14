@@ -349,8 +349,8 @@ public class IndentController {
 				 map.add("docTranId", indId);
 				 map.add("userId", user.getId());
 				 
-				LogSave res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
-						map, LogSave.class);
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+						map, ErrorMessage.class);
 			}
 
 		} catch (Exception e) {
@@ -751,8 +751,8 @@ public class IndentController {
 						 map.add("docTranId", indent.getIndMId());
 						 map.add("userId", user.getId());
 						 
-						LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
-								map, LogSave.class);
+						 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+								map, ErrorMessage.class);
 					 
 				} // end of if flag==0
 			} // end of if key==-1;
@@ -1194,8 +1194,8 @@ public class IndentController {
 				 map.add("docTranId", indentId);
 				 map.add("userId", user.getId());
 				 
-				LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
-						map, LogSave.class);
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+						map, ErrorMessage.class);
 			}
 			 
 
@@ -1262,8 +1262,8 @@ public class IndentController {
 					 map.add("userId", user.getId());
 					 
 					  
-						 LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
-									map, LogSave.class);
+					 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+									map, ErrorMessage.class);
 					 
 				}
 
@@ -1290,8 +1290,8 @@ public class IndentController {
 					 map.add("userId", user.getId());
 					 
 					  
-						 LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
-									map, LogSave.class);
+					 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+									map, ErrorMessage.class);
 					 
 				}
 
@@ -1629,12 +1629,12 @@ public class IndentController {
 					 
 					 if(apr==1) {
 						 
-						 LogSave res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
-							map, LogSave.class);
+						 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
+							map, ErrorMessage.class);
 					 }
 					 else {
-						 LogSave res = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
-									map, LogSave.class);
+						 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
+									map, ErrorMessage.class);
 					 }
 				}
 			}
@@ -1811,12 +1811,12 @@ public class IndentController {
 					 
 					 if(apr==1) {
 						 
-						 LogSave res = rest.postForObject(Constants.url + "/updateRej1DateAndTime",
-							map, LogSave.class);
+						 ErrorMessage res = rest.postForObject(Constants.url + "/updateRej1DateAndTime",
+							map, ErrorMessage.class);
 					 }
 					 else {
-						 LogSave res = rest.postForObject(Constants.url + "/updateRej2DateAndTime",
-									map, LogSave.class);
+						 ErrorMessage res = rest.postForObject(Constants.url + "/updateRej2DateAndTime",
+									map, ErrorMessage.class);
 					 }
 				}
 			 

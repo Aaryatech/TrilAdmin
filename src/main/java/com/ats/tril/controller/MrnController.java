@@ -44,6 +44,7 @@ import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.LogSave;
 import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
@@ -52,6 +53,7 @@ import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIntendDetail;
 import com.ats.tril.model.indent.Indent;
+import com.ats.tril.model.login.User;
 //import com.ats.tril.model.login.UserResponse;
 import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
@@ -498,6 +500,23 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 	        		}catch (Exception e) {
 						e.printStackTrace();
 					}
+	        		
+	        		try {
+						
+						HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						
+						LogSave logSave = new LogSave();
+						logSave.setReqUserId(user.getId());
+						logSave.setDocType(3);
+						logSave.setDocTranId(mrnHeaderRes.getMrnId());
+						 
+						LogSave res = rest.postForObject(Constants.url + "/saveLogRecord",
+								logSave, LogSave.class);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 	          }
 			System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
 
@@ -763,9 +782,24 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 		MrnHeader	 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHead,
 				MrnHeader.class);
 		
+		
+		
 		GetMrnDetail[] mrnDetail = rest.postForObject(Constants.url + "/getMrnDetailByMrnId", map,
 				GetMrnDetail[].class);
 
+		if(mrnHeaderRes!=null)
+		{
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userInfo");
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 3);
+			 map.add("docTranId", mrnHeaderRes.getMrnId());
+			 map.add("userId", user.getId());
+			 
+			 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+					map, ErrorMessage.class);
+		}
+		
 		mrnDetailList = new ArrayList<GetMrnDetail>(Arrays.asList(mrnDetail));
 		poDetailForEditMrn.clear();
 
@@ -921,6 +955,19 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 			 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
 					MrnHeader.class);
+			 
+			 if(mrnHeaderRes!=null)
+				{
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 3);
+					 map.add("docTranId", mrnHeaderRes.getMrnId());
+					 map.add("userId", user.getId());
+					 
+					 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+							map, ErrorMessage.class);
+				}
 
 			System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
 
@@ -948,6 +995,19 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 			ErrorMessage errMsg = rest.postForObject(Constants.url + "/deleteMrnHeader", map, ErrorMessage.class);
 			System.err.println("Delete Mrn Response  " + errMsg.getMessage());
+			
+			if(errMsg.isError()==false) {
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 3);
+				 map.add("docTranId", mrnId);
+				 map.add("userId", user.getId());
+				 
+				LogSave res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+						map, LogSave.class);
+			}
 
 		} catch (Exception e) {
 
@@ -959,9 +1019,9 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 		return "redirect:/getMrnHeaders";
 	}
 	
-	@RequestMapping(value = "/deleteMrnDetail/{mrnDetailId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteMrnDetail/{mrnDetailId}/{mrnId}", method = RequestMethod.GET)
 	public String deleteMrnDetail(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("mrnDetailId") int mrnDetailId) {
+			@PathVariable("mrnDetailId") int mrnDetailId,@PathVariable("mrnId") int mrnId) {
 
 		ModelAndView model = null;
 		try {
@@ -972,6 +1032,19 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 			ErrorMessage errMsg = rest.postForObject(Constants.url + "/deleteMrnDetail", map, ErrorMessage.class);
 			System.err.println("Delete Mrn Response  " + errMsg.getMessage());
+			
+			 if(errMsg.isError()==false)
+			{
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 3);
+				 map.add("docTranId", mrnId);
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+						map, ErrorMessage.class);
+			} 
 
 		} catch (Exception e) {
 
@@ -1121,7 +1194,31 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			System.out.println("map " + map);
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileMrnApprov", map, ErrorMessage.class);
 			
+			
+			if(approve==1 && approved.isError()==false) {
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 3);
+				 map.add("docTranId", mrnId);
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
+						map, ErrorMessage.class);
+			}
+			
 			 if(approve==2 && approved.isError()==false) {
+				 
+				 HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 3);
+					 map.add("docTranId", mrnId);
+					 map.add("userId", user.getId());
+					 
+					 ErrorMessage resp = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
+							map, ErrorMessage.class);
 				 
 				 GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 					List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item)); 
@@ -1255,6 +1352,21 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 						  MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
 			    					 MrnDetail[].class);
 						  SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+						  
+						  try {
+								
+								  
+								LogSave logSave = new LogSave();
+								logSave.setReqUserId(user.getId());
+								logSave.setDocType(6);
+								logSave.setDocTranId(res.getIssueId());
+								 
+								LogSave logSaveres = rest.postForObject(Constants.url + "/saveLogRecord",
+										logSave, LogSave.class);
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 
 						 
 					 }
