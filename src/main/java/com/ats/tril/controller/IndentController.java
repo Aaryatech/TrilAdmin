@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-
+ 
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
@@ -46,6 +47,7 @@ import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IndentValueLimit;
+import com.ats.tril.model.LogSave;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
@@ -59,6 +61,7 @@ import com.ats.tril.model.indent.TempIndentDetail;
 import com.ats.tril.model.indent.UpdateData;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.login.User;
 
 @Controller
 @Scope("session")
@@ -336,6 +339,19 @@ public class IndentController {
 			map.add("indId", indId);
 
 			ErrorMessage ErrorMessage = rest.postForObject(Constants.url + "/deleteIndent", map, ErrorMessage.class);
+			
+			if(ErrorMessage.isError()==false) {
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 1);
+				 map.add("docTranId", indId);
+				 map.add("userId", user.getId());
+				 
+				LogSave res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+						map, LogSave.class);
+			}
 
 		} catch (Exception e) {
 
@@ -725,6 +741,19 @@ public class IndentController {
 							GetIndentDetail[].class);
 
 					indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
+					
+					 
+						
+						HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						 map = new LinkedMultiValueMap<String, Object>();
+						 map.add("docId", 1);
+						 map.add("docTranId", indent.getIndMId());
+						 map.add("userId", user.getId());
+						 
+						LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+								map, LogSave.class);
+					 
 				} // end of if flag==0
 			} // end of if key==-1;
 		} catch (Exception e) {
@@ -908,6 +937,23 @@ public class IndentController {
 
 						SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc",
 								docBean.getSubDocument(), SubDocument.class);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					try {
+						
+						HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						
+						LogSave logSave = new LogSave();
+						logSave.setReqUserId(user.getId());
+						logSave.setDocType(1);
+						logSave.setDocTranId(indRes.getIndMId());
+						 
+						LogSave res = restTemp.postForObject(Constants.url + "/saveLogRecord",
+								logSave, LogSave.class);
 
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -1138,6 +1184,20 @@ public class IndentController {
 			ErrorMessage editIndentHeaderResponse = rest.postForObject(Constants.url + "/editIndentHeader", map,
 					ErrorMessage.class);
 			System.err.println("editIndentHeaderResponse " + editIndentHeaderResponse.toString());
+			
+			if(editIndentHeaderResponse.isError()==false) {
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 1);
+				 map.add("docTranId", indentId);
+				 map.add("userId", user.getId());
+				 
+				LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+						map, LogSave.class);
+			}
+			 
 
 		}
 
@@ -1190,6 +1250,22 @@ public class IndentController {
 				ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentDetail", map,
 						ErrorMessage.class);
 				System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+				 
+				if(editIndentDetailResponse.isError()==false) {
+					
+					
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 1);
+					 map.add("docTranId", indentId);
+					 map.add("userId", user.getId());
+					 
+					  
+						 LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+									map, LogSave.class);
+					 
+				}
 
 			} else {
 
@@ -1202,6 +1278,22 @@ public class IndentController {
 				ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/delteIndentDetailItem",
 						map, ErrorMessage.class);
 				System.err.println("editIndentDetailResponse " + editIndentDetailResponse.toString());
+				
+				if(editIndentDetailResponse.isError()==false) {
+					
+					
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 1);
+					 map.add("docTranId", indentId);
+					 map.add("userId", user.getId());
+					 
+					  
+						 LogSave res = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+									map, LogSave.class);
+					 
+				}
 
 			}
 			map = new LinkedMultiValueMap<String, Object>();
@@ -1523,6 +1615,28 @@ public class IndentController {
 				
 				ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/approveIndent", map,
 						ErrorMessage.class);
+				
+				
+				if(editIndentDetailResponse.isError()==false) {
+					
+					
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 1);
+					 map.add("docTranId", indentId);
+					 map.add("userId", user.getId());
+					 
+					 if(apr==1) {
+						 
+						 LogSave res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
+							map, LogSave.class);
+					 }
+					 else {
+						 LogSave res = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
+									map, LogSave.class);
+					 }
+				}
 			}
 			else {
 				
@@ -1552,8 +1666,9 @@ public class IndentController {
 					}
 					
 				}*/
-				
-				rejectIndent(sts,apr,indentId,rejectRemarkList,rejectRemark1,rejectRemark2);
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+				rejectIndent(sts,apr,indentId,rejectRemarkList,rejectRemark1,rejectRemark2,user.getId());
 				
 			}
 
@@ -1659,7 +1774,7 @@ public class IndentController {
 	}
 	
 	//@RequestMapping(value = "/rejectIndent/{sts}/{apr}/{indId}", method = RequestMethod.GET)
-	public void rejectIndent(int sts, int apr, int indId, List<RejectRemarkList> rejectRemarkList, String rejectRemark1, String rejectRemark2) {
+	public void rejectIndent(int sts, int apr, int indId, List<RejectRemarkList> rejectRemarkList, String rejectRemark1, String rejectRemark2, int userId) {
 		 
 		ErrorMessage rejectIndent = new ErrorMessage();
 		try {
@@ -1685,6 +1800,25 @@ public class IndentController {
 			
 			 rejectIndent = rest.postForObject(Constants.url + "/rejectIndent", updateData,
 					ErrorMessage.class);
+			 if(rejectIndent.isError()==false) {
+					
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					 
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 1);
+					 map.add("docTranId", indId);
+					 map.add("userId", userId);
+					 
+					 if(apr==1) {
+						 
+						 LogSave res = rest.postForObject(Constants.url + "/updateRej1DateAndTime",
+							map, LogSave.class);
+					 }
+					 else {
+						 LogSave res = rest.postForObject(Constants.url + "/updateRej2DateAndTime",
+									map, LogSave.class);
+					 }
+				}
 			 
 			 System.out.println(rejectIndent);
 
