@@ -20,11 +20,6 @@ public class Constants {
 	public static int delStatus = 1;
 	public static int subAct=0;
 	public static int mainAct=0;
-	
-	
-	/*select id.ind_d_id,id.item_id from indtrans id,indent ih where id.del_status=1 and id.ind_d_status in (9,7) and id.ind_m_id=ih.ind_m_id 
-			and ih.ind_m_status in (9,7) and ih.del_status=1 and ih.ind_m_type=1 and ih.cat_id=2*/
-	
-	
+	 
 
 }

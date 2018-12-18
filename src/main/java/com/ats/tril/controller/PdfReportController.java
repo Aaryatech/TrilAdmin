@@ -44,6 +44,7 @@ import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetLogRecord;
 import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.doc.DocumentBean;
@@ -444,8 +445,16 @@ public class PdfReportController {
 		
 		System.out.println("GRN Report data " + reportsList.toString());
 
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("docId", 3);
+		map.add("docTranId", listOfIds);
+		
+		GetLogRecord[] getLogRecord =restTemplate.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+		
+		List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
 		
 		model.addObject("list", reportsList);
+		model.addObject("getLogRecordList", getLogRecordList);
 		
 		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
 				Company.class);

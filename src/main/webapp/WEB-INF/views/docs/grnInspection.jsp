@@ -198,26 +198,59 @@ GOODS INSPECTION REPORT
 				<td colspan="2" valign="top">
 					<table>
 						<tr>
-						
+						<c:set var="logRecordFind" value="0"></c:set>
+						<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.mrnId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 						<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Inspected By</td>
+								Inspected By <br> ${getLogRecordList.usrName} </td>
 								
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Prepared By</td>
+								Prepared By <br> ${getLogRecordList.usrName}</td>
 								
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Approved By</td>
+								Approved By <br> ${getLogRecordList.app1UserName}</td>
 								
 								<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Authorised By</td>
+								Authorised By <br> ${getLogRecordList.app2UserName}</td>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Inspected By <br></td>
+								
+							<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Prepared By <br> AKS</td>
+								
+							<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;   font-weight: bold;">
+
+								Approved By <br> VBM</td>
+								
+								<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;   font-weight: bold;">
+
+								Authorised By <br> SCH</td>
+								
+								</c:when>
+							</c:choose>
 
 						
 						</tr>
@@ -362,25 +395,59 @@ GOODS INSPECTION REPORT
 					<table>
 						<tr>
 						
+						<c:set var="logRecordFind" value="0"></c:set>
+						<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.mrnId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 						<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Inspected By</td>
+								Inspected By <br> ${getLogRecordList.usrName} </td>
 								
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Prepared By</td>
+								Prepared By <br> ${getLogRecordList.usrName}</td>
 								
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Approved By</td>
+								Approved By <br> ${getLogRecordList.app1UserName}</td>
 								
 								<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Authorised By</td>
+								Authorised By <br> ${getLogRecordList.app2UserName}</td>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Inspected By <br></td>
+								
+							<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Prepared By <br> AKS</td>
+								
+							<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;   font-weight: bold;">
+
+								Approved By <br> VBM</td>
+								
+								<td width="25%" valign="top" align="center"
+								style=" padding: 8px; color: #000;   font-weight: bold;">
+
+								Authorised By <br> SCH</td>
+								
+								</c:when>
+							</c:choose>
 
 						
 						</tr>
