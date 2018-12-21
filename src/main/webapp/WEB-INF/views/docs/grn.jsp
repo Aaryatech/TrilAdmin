@@ -231,7 +231,31 @@ GOODS RECEIPT NOTE
 				<td colspan="2" valign="top">
 					<table>
 						<tr>
+						
+						<c:set var="logRecordFind" value="0"></c:set>
+						<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.mrnId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 							<td width="50%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Prepared By <br> ${getLogRecordList.usrName} </td>
+								
+							<td width="50%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Checked By <br> ${getLogRecordList.usrName}</td>
+								
+							 
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="50%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
 								Prepared By</td>
@@ -240,7 +264,10 @@ GOODS RECEIPT NOTE
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
 								Checked By</td>
-
+								
+								</c:when>
+							</c:choose>
+							 
 						
 						</tr>
 
@@ -415,15 +442,41 @@ GOODS RECEIPT NOTE
 				<td colspan="2" valign="top">
 					<table>
 						<tr>
+							<c:set var="logRecordFind" value="0"></c:set>
+						<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.mrnId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 							<td width="50%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Prepared By</td>
+								Prepared By <br> ${getLogRecordList.usrName} </td>
+								
+							<td width="50%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Checked By <br> ${getLogRecordList.usrName}</td>
+								
+							 
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="50%" valign="top" align="center"
+								style=" padding: 8px; color: #000;  font-weight: bold;">
+
+								Prepared By <br> - </td>
 								
 							<td width="50%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Checked By</td>
+								Checked By <br> -</td>
+								
+								</c:when>
+							</c:choose>
 
 						
 						</tr>

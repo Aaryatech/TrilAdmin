@@ -7143,7 +7143,7 @@ PdfPCell cell;
 		return model;
 	}
 	 
-	
+	List<GetCurrentStock> abcAnalysisItemWiseLisPdf = new ArrayList<>();
 	@RequestMapping(value = "/abcAnalysisItemWiseReport/{catId}/{catDesc}", method = RequestMethod.GET)
 	public ModelAndView abcAnalysisItemWiseReport(@PathVariable("catId") int catId,@PathVariable("catDesc") String catDesc, HttpServletRequest request, HttpServletResponse response) {
 
@@ -7201,6 +7201,7 @@ PdfPCell cell;
 	 					 }
 		 			 }
 	 			 }
+	 			abcAnalysisItemWiseLisPdf=getStockBetweenDate;
 			 }
 			 else
 			 {
@@ -7212,6 +7213,7 @@ PdfPCell cell;
 	 			System.out.println(map);
 	 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
 	 			getStockBetweenDate = new ArrayList<>(Arrays.asList(getCurrentStock));
+	 			abcAnalysisItemWiseLisPdf=getStockBetweenDate;
 			 }
 			 model.addObject("getStockBetweenDate", getStockBetweenDate);
 			 
@@ -7240,6 +7242,289 @@ PdfPCell cell;
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/abcAnalysisItemWiseReportPdf/{classType}", method = RequestMethod.GET)
+	public void abcAnalysisItemWiseReportPdf(@PathVariable int classType,  HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		
+		 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "A"); 
+			System.out.println("map " + map);
+			SettingValue a = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "B"); 
+			System.out.println("map " + map);
+			SettingValue b = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "C"); 
+			System.out.println("map " + map);
+			SettingValue c = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+		   
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+		
+		float issueQty=0;
+		float issueValue=0;
+	
+		PdfPTable table = new PdfPTable(3);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.9f, 7.0f, 2.3f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR.NO.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("ITEM NAME", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("VALUATION", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			 
+			
+			float total = 0;
+			
+			int index = 0;
+			if(!abcAnalysisItemWiseLisPdf.isEmpty()) {
+					for (int k = 0; k < abcAnalysisItemWiseLisPdf.size(); k++) {
+						
+						 
+						
+						float closingValue = abcAnalysisItemWiseLisPdf.get(k).getOpStockValue()+abcAnalysisItemWiseLisPdf.get(k).getApprovedQtyValue()-
+								abcAnalysisItemWiseLisPdf.get(k).getIssueQtyValue()-abcAnalysisItemWiseLisPdf.get(k).getDamagValue();
+						
+						if(closingValue>=Float.parseFloat(a.getValue()) && closingValue>0 && classType==1) {
+                            
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisItemWiseLisPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							total=total+closingValue;
+							 
+						}else if(closingValue<Float.parseFloat(a.getValue()) && closingValue>=Float.parseFloat(c.getValue()) && closingValue>0 && classType==2) {
+                            
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisItemWiseLisPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							total=total+closingValue;
+							 
+						}else if(closingValue<Float.parseFloat(c.getValue()) && closingValue>0 && classType==3){
+							
+							index++;
+							
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisItemWiseLisPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							total=total+closingValue;
+							
+						}
+					
+					}
+			}
+			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+ 
+			cell = new PdfPCell(new Phrase(""+df.format(total), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			   
+			  
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						companyInfo.getFactoryAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+				 
+				if(classType==1) {
+					Paragraph report=new Paragraph("ABC Analysis Report Class A ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+				}else if(classType==2){
+				
+					Paragraph report=new Paragraph("ABC Analysis Report Class B ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+					
+				}else {
+					
+					Paragraph report=new Paragraph("ABC Analysis Report Class C ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+					
+				}
+				
+				 
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER); 
+				document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

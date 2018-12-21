@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -42,13 +43,16 @@ import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.LogSave;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.login.User;
 import com.ats.tril.model.mrn.GetMrnHeader;
+import com.ats.tril.model.mrn.MrnDetail;
 import com.fasterxml.jackson.databind.util.Converter;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -304,6 +308,22 @@ public class GetpassController {
 	        		}catch (Exception e) {
 						e.printStackTrace();
 					}
+	        		
+	        		try {
+						
+	        			HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						LogSave logSave = new LogSave();
+						logSave.setReqUserId(user.getId());
+						logSave.setDocType(5);
+						logSave.setDocTranId(res.getGpId());
+						 
+						LogSave logSaveres = rest.postForObject(Constants.url + "/saveLogRecord",
+								logSave, LogSave.class);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 	          }
 			System.out.println(res);
 
@@ -366,6 +386,21 @@ public class GetpassController {
 			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteGetpassHeader", map,
 					ErrorMessage.class);
 			System.out.println(errorMessage);
+			
+			if(errorMessage.isError()==false)
+			{
+			 
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 5);
+					 map.add("docTranId", gpId);
+					 map.add("userId", user.getId());
+					 
+					ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+							map, ErrorMessage.class);
+				 
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -737,6 +772,21 @@ public class GetpassController {
 	        		}catch (Exception e) {
 						e.printStackTrace();
 					}
+	        		try {
+						
+	        			HttpSession session = request.getSession();
+						User user = (User) session.getAttribute("userInfo");
+						LogSave logSave = new LogSave();
+						logSave.setReqUserId(user.getId());
+						logSave.setDocType(4);
+						logSave.setDocTranId(res.getGpId());
+						 
+						LogSave logSaveres = rest.postForObject(Constants.url + "/saveLogRecord",
+								logSave, LogSave.class);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 	          }
 			System.out.println(res);
 
@@ -850,6 +900,21 @@ public class GetpassController {
 			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteGetpassHeader", map,
 					ErrorMessage.class);
 			System.out.println(errorMessage);
+			
+			if(errorMessage.isError()==false)
+			{
+				 
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 4);
+					 map.add("docTranId", gpId);
+					 map.add("userId", user.getId());
+					 
+					ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+							map, ErrorMessage.class);
+				 
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1097,6 +1162,16 @@ public class GetpassController {
 			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", editGatepassHeader,
 					GetpassHeader.class);
 			System.out.println(res);
+			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userInfo");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 4);
+			 map.add("docTranId", res.getGpId());
+			 map.add("userId", user.getId());
+			 
+			 ErrorMessage updateRes = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+					map, ErrorMessage.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1145,6 +1220,16 @@ public class GetpassController {
 			GetpassHeader res = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail", editGetpassHeaderNon,
 					GetpassHeader.class);
 			System.out.println(res);
+			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userInfo");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 5);
+			 map.add("docTranId", res.getGpId());
+			 map.add("userId", user.getId());
+			 
+			 ErrorMessage updateRes = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+					map, ErrorMessage.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1306,6 +1391,22 @@ public class GetpassController {
 
 		        		
 		        		}catch (Exception e) {
+							e.printStackTrace();
+						}
+		        		
+		        		try {
+							
+		        			HttpSession session = request.getSession();
+							User user = (User) session.getAttribute("userInfo");
+							LogSave logSave = new LogSave();
+							logSave.setReqUserId(user.getId());
+							logSave.setDocType(7);
+							logSave.setDocTranId(res.getReturnId());
+							 
+							LogSave logSaveres = rest.postForObject(Constants.url + "/saveLogRecord",
+									logSave, LogSave.class);
+
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 		          }
@@ -1513,6 +1614,16 @@ public class GetpassController {
 						GetpassHeader.class);
 				
 				System.out.println(result);
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 7);
+				 map.add("docTranId", returnId);
+				 map.add("userId", user.getId());
+				 
+				ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+						map, ErrorMessage.class);
 			}
 
 		} catch (Exception e) {
@@ -1601,6 +1712,16 @@ public class GetpassController {
 				GetpassHeader result = rest.postForObject(Constants.url + "/saveGetPassHeaderDetail",
 						editGatepassHeader, GetpassHeader.class);
 				System.out.println(result);
+				
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("userInfo");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 map.add("docId", 7);
+				 map.add("docTranId", res.getReturnId());
+				 map.add("userId", user.getId());
+				 
+				 ErrorMessage updateRes = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+						map, ErrorMessage.class);
 			} 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1759,7 +1880,31 @@ public class GetpassController {
 			map.add("status", status);
 			System.out.println("map " + map);
 			ErrorMessage approved = rest.postForObject(Constants.url + "/updateStatusWhileGatepassApprov", map, ErrorMessage.class);
- 
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			
+			if(gatepassFroApprove.getGpType()==0) {  
+				 map.add("docId", 5); 
+			}//Non Returnable
+			else {
+				 map.add("docId", 4);
+			}//returnable
+			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userInfo");  
+			 map.add("docTranId", gatepassFroApprove.getGpId());
+			 map.add("userId", user.getId());
+			 
+			if(approve==1 && approved.isError()==false) {
+				 
+				 ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv1DateAndTime",
+						map, ErrorMessage.class);
+				
+			}else if(approve==2 && approved.isError()==false){
+				
+				ErrorMessage res = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
+						map, ErrorMessage.class);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

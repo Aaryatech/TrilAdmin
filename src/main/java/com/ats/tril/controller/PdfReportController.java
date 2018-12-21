@@ -229,6 +229,15 @@ public class PdfReportController {
 
 		System.out.println("Report Data " + indentReportList.toString());
 		
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("docId", 1);
+		map.add("docTranId", listOfIds);
+		
+		GetLogRecord[] getLogRecord =restTemplate.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+		
+		List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+		model.addObject("getLogRecordList", getLogRecordList);
+		
 		model.addObject("list", indentReportList);
 		
 		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
@@ -325,6 +334,16 @@ public class PdfReportController {
 					
 				}
 			}
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("docId", 1);
+			map.add("docTranId", listOfIds);
+			
+			GetLogRecord[] getLogRecord =restTemplate.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+			
+			List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+			model.addObject("getLogRecordList", getLogRecordList);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		} 
@@ -389,6 +408,15 @@ public class PdfReportController {
 
 		
 		model.addObject("list", reportsList);
+		
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("docId", 3);
+		map.add("docTranId", listOfIds);
+		
+		GetLogRecord[] getLogRecord =restTemplate.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+		
+		List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+		model.addObject("getLogRecordList", getLogRecordList);
 		
 		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
 				Company.class);
@@ -530,6 +558,16 @@ public class PdfReportController {
 				DocumentBean.class);
 		model.addObject("documentBean", documentBean);
 		
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("docId", 6);
+		map.add("docTranId", listOfIds);
+		
+		GetLogRecord[] getLogRecord =restTemplate.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+		
+		List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+		
+		model.addObject("getLogRecordList", getLogRecordList);
+		
 		}catch (Exception e) {
 			
 			e.printStackTrace();
@@ -641,6 +679,16 @@ public class PdfReportController {
 			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 			 String[] oneTimeItem = settingValue.getValue().split(",");
 				model.addObject("oneTimeItem", oneTimeItem);
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("docId", 5);
+				map.add("docTranId", listOfIds);
+				
+				GetLogRecord[] getLogRecord =rest.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+				
+				List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+				
+				model.addObject("getLogRecordList", getLogRecordList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -700,6 +748,16 @@ public class PdfReportController {
 			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 			 String[] oneTimeItem = settingValue.getValue().split(",");
 			model.addObject("oneTimeItem", oneTimeItem);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("docId", 4);
+			map.add("docTranId", listOfIds);
+			
+			GetLogRecord[] getLogRecord =rest.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+			
+			List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+			
+			model.addObject("getLogRecordList", getLogRecordList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -16,11 +16,11 @@ public class IssueReportDetail {
 
 	private int itemId;
 
-	private int itemIssueQty;
+	private float itemIssueQty;
 
-	private int itemRequestQty;
+	private float itemRequestQty;
 
-	private int itemPendingQty;
+	private float itemPendingQty;
 
 	private int status;
 	private int delStatus;
@@ -85,22 +85,22 @@ public class IssueReportDetail {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public int getItemIssueQty() {
+	public float getItemIssueQty() {
 		return itemIssueQty;
 	}
-	public void setItemIssueQty(int itemIssueQty) {
+	public void setItemIssueQty(float itemIssueQty) {
 		this.itemIssueQty = itemIssueQty;
 	}
-	public int getItemRequestQty() {
+	public float getItemRequestQty() {
 		return itemRequestQty;
 	}
-	public void setItemRequestQty(int itemRequestQty) {
+	public void setItemRequestQty(float itemRequestQty) {
 		this.itemRequestQty = itemRequestQty;
 	}
-	public int getItemPendingQty() {
+	public float getItemPendingQty() {
 		return itemPendingQty;
 	}
-	public void setItemPendingQty(int itemPendingQty) {
+	public void setItemPendingQty(float itemPendingQty) {
 		this.itemPendingQty = itemPendingQty;
 	}
 	public int getStatus() {

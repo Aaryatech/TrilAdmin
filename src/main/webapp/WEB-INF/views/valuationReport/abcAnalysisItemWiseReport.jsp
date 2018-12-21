@@ -60,32 +60,32 @@
 								
 								 
 								 
-							<%-- 
+							  
 							<div class="box-content">
 
-									<div class="col-md-2">Select Type*</div>
+									<div class="col-md-2">Select </div>
 									<div class="col-md-3">
-										<select class="form-control chosen" name="typeId" id="typeId"
+										<select class="form-control chosen" name="classType" id="classType"
 											required>
-											<option value="0">All</option>
-											<c:forEach items="${typeList}" var="typeList">
-											<c:choose>
-												<c:when test="${typeList.typeId==typeId}">
-												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${typeList.typeId}">${typeList.typeName}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
-											</c:forEach>
+											<option value="1" selected>Class A</option>
+											<option value="2">Class B</option>
+											<option value="3">Class C</option> 
+											 
 										</select>
 
 									</div>
 									<div class="col-md-1"></div>
 									  <div class="col-md-3"></div>
-								</div>--%><br><br> 
-							
+								</div><br><br> 
+							 <div class="row">
+							<div class="col-md-12" style="text-align: center">
+								 
+											 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 
+											
+							</div>
+						</div> <br>
 							  
 								<div align="center" id="loader" style="display: none">
 
@@ -121,7 +121,7 @@
 								<c:set var="closingStockValue" value="${getStockBetweenDate.opStockValue+getStockBetweenDate.approvedQtyValue-getStockBetweenDate.issueQtyValue-getStockBetweenDate.damagValue}" ></c:set>
 												
 												<c:choose>
-													<c:when test="${closingStockValue>=a.value}">
+													<c:when test="${closingStockValue>=a.value && closingStockValue>0}">
 													<tr>
 											 
 												<td  ><c:out value="${sr+1}" /></td> 
@@ -164,7 +164,7 @@
 								<c:set var="closingStockValue" value="${getStockBetweenDate.opStockValue+getStockBetweenDate.approvedQtyValue-getStockBetweenDate.issueQtyValue-getStockBetweenDate.damagValue}" ></c:set>
 												
 												<c:choose>
-													<c:when test="${closingStockValue>=c.value && closingStockValue<a.value}">
+													<c:when test="${closingStockValue>=c.value && closingStockValue<a.value && closingStockValue>0}">
 													<tr>
 											 
 												<td  ><c:out value="${sr+1}" /></td> 
@@ -209,7 +209,7 @@
 								<c:set var="closingStockValue" value="${getStockBetweenDate.opStockValue+getStockBetweenDate.approvedQtyValue-getStockBetweenDate.issueQtyValue-getStockBetweenDate.damagValue}" ></c:set>
 												
 												<c:choose>
-													<c:when test="${closingStockValue<=c.value }">
+													<c:when test="${closingStockValue<=c.value && closingStockValue>0}">
 													<tr>
 											 
 												<td  ><c:out value="${sr+1}" /></td> 
@@ -579,9 +579,9 @@ function showChart(){
 </script>
 	<script type="text/javascript">
 	function genPdf(){
-		var typeName = $("#typeId option:selected").text();
+		var classType = $("#classType").val();
 		//alert(typeName);
-		window.open('${pageContext.request.contextPath}/stockValuetionReportCategoryWisePDF/'+typeName);
+		window.open('${pageContext.request.contextPath}/abcAnalysisItemWiseReportPdf/'+classType);
 	}
 	function exportToExcel()
 	{

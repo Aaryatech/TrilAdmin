@@ -237,17 +237,17 @@ GOODS INSPECTION REPORT
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Prepared By <br> AKS</td>
+								Prepared By <br> aks</td>
 								
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Approved By <br> VBM</td>
+								Approved By <br> vbm</td>
 								
 								<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Authorised By <br> SCH</td>
+								Authorised By <br> sch</td>
 								
 								</c:when>
 							</c:choose>
@@ -434,17 +434,17 @@ GOODS INSPECTION REPORT
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;  font-weight: bold;">
 
-								Prepared By <br> AKS</td>
+								Prepared By <br> aks</td>
 								
 							<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Approved By <br> VBM</td>
+								Approved By <br> vbm</td>
 								
 								<td width="25%" valign="top" align="center"
 								style=" padding: 8px; color: #000;   font-weight: bold;">
 
-								Authorised By <br> SCH</td>
+								Authorised By <br>sch</td>
 								
 								</c:when>
 							</c:choose>

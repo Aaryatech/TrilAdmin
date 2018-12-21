@@ -153,6 +153,14 @@
 														<c:set var="modType" value="Return"></c:set>
 
 													</c:when>
+													<c:when test="${passList.gpStatus==9}">
+														<c:set var="modType" value="1st Approve Pending"></c:set>
+
+													</c:when>
+													<c:when test="${passList.gpStatus==7}">
+														<c:set var="modType" value="2nd Approve Pending"></c:set>
+
+													</c:when>
 
 												</c:choose>
 												<tr>

@@ -254,7 +254,7 @@ public class IndentController {
 			 			map.add("toDate", toDate);
 			 			map.add("catId", catId);
 			 			map.add("typeId", typeId);
-			 			map.add("status", "7,9");
+			 			map.add("status", "9,8,7,6");
 			 			map.add("detailStatus", "9,8,7,6");
 			 			System.out.println(map);
 			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);

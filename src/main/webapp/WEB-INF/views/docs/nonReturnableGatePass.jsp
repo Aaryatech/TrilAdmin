@@ -216,24 +216,60 @@ hr {
 					<td colspan="4" valign="top">
 						<table>
 							<tr>
+								  
+									<c:set var="logRecordFind" value="0"></c:set>
+							<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.gpId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Receiver Signature</td>
-
+									Receiver Signature <br> </td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Prepared By</td>
-
+									Prepared By <br> ${getLogRecordList.usrName}</td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Approved By</td>
+									Approved By <br> ${getLogRecordList.app1UserName}</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Approved By <br> ${getLogRecordList.app2UserName}</td>
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Authorised By</td>
+									Receiver Signature <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Prepared By <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Approved By <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Authorised By <br>  -</td>
+								
+								</c:when>
+							</c:choose>
 
 
 							</tr>
@@ -389,24 +425,59 @@ hr {
 					<td colspan="4" valign="top">
 						<table>
 							<tr>
+								<c:set var="logRecordFind" value="0"></c:set>
+							<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.gpId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Receiver Signature</td>
-
+									Receiver Signature <br> </td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Prepared By</td>
-
+									Prepared By <br> ${getLogRecordList.usrName}</td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Approved By</td>
+									Approved By <br> ${getLogRecordList.app1UserName}</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Approved By <br> ${getLogRecordList.app2UserName}</td>
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Authorised By</td>
+									Receiver Signature <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Prepared By <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Approved By <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Authorised By <br>  -</td>
+								
+								</c:when>
+							</c:choose>
 
 
 							</tr>

@@ -273,26 +273,60 @@ hr {
 			 
 						<table width="1000px">
 							<tr >
+							<c:set var="logRecordFind" value="0"></c:set>
+							<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.indMId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Requisitioned By</td>
-
+									Requisitioned By <br> ${getLogRecordList.usrName} </td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Stores</td>
-
+									Stores <br> ${getLogRecordList.usrName}</td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Dept.Head</td>
-
+									Dept.Head <br> ${getLogRecordList.app1UserName}</td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Approved By</td>
+									Approved By <br> ${getLogRecordList.app2UserName}</td>
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
 
+									Requisitioned By <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Stores <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Dept.Head <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Approved By <br>  -</td>
+								
+								</c:when>
+							</c:choose>
+								  
 							</tr>
 
 						</table> 
@@ -470,25 +504,59 @@ hr {
 			 
 						<table width="1000px">
 							<tr>
+							<c:set var="logRecordFind" value="0"></c:set>
+								<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.indMId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Requisitioned By</td>
-
+									Requisitioned By <br> ${getLogRecordList.usrName} </td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Stores</td>
-
+									Stores <br> ${getLogRecordList.usrName}</td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Dept.Head</td>
-
+									Dept.Head <br> ${getLogRecordList.app1UserName}</td>
+								
 								<td width="300px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Approved By</td>
+									Approved By <br> ${getLogRecordList.app2UserName}</td>
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Requisitioned By <br> - </td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Stores <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Dept.Head <br>  -</td>
+								
+								<td width="300px" valign="top" align="center"
+									style="padding: 8px; color: #000;  font-weight: bold;">
+
+									Approved By <br> - </td>
+								
+								</c:when>
+							</c:choose>
 
 							</tr>
 

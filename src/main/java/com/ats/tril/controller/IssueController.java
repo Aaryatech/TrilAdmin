@@ -551,8 +551,8 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					 map.add("docTranId", issueId);
 					 map.add("userId", user.getId());
 					 
-					LogSave res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
-							map, LogSave.class);
+					ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+							map, ErrorMessage.class);
 				 
 			}
 			 

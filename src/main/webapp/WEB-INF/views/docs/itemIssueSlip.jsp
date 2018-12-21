@@ -234,23 +234,52 @@ hr {
 					<td colspan="3" valign="top">
 						<table>
 							<tr>
+							
+							<c:set var="logRecordFind" value="0"></c:set>
+							<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.issueId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Authorised By</td>
-
+									Authorised By <br> ${getLogRecordList.app2UserName} </td>
+								
 								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Issued By</td>
-
+									Issued By  <br> ${getLogRecordList.usrName}</td>
+								
+								 
 								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Received By</td>
+									Received By <br> </td>
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Authorised By <br> - </td>
+								
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Issued By  <br> -</td>
+									
+									<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Received By <br> </td>
+								
+								</c:when>
+							</c:choose>
+ 
 							</tr>
 
 						</table>
@@ -353,7 +382,7 @@ hr {
 				<tr style=" font-family: arial; font-weight: bold; font-size: 110%;">
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="60%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
 					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.itemIssueQty}" /></td>
 					<td width="0" align="center"><c:out
@@ -388,22 +417,51 @@ hr {
 					<td colspan="3" valign="top">
 						<table>
 							<tr>
+							
+							<c:set var="logRecordFind" value="0"></c:set>
+							<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.issueId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Authorised By</td>
-
+									Authorised By <br> ${getLogRecordList.app2UserName} </td>
+								
 								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Issued By</td>
-
+									Issued By  <br> ${getLogRecordList.usrName}</td>
+								
+								 
 								<td width="400px" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Received By</td>
+									Received By <br> </td>
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Authorised By <br> - </td>
+								
+								<td width="400px" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Issued By  <br> -</td>
+									
+									<td width="400px" valign="top" align="center" style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Received By <br> </td>
+								
+								</c:when>
+							</c:choose>
+								 
 
 							</tr>
 
