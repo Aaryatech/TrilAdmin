@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,12 +36,15 @@ import com.ats.tril.model.GetMrnHeaderRej;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.LogSave;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.login.User;
 import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
+import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.rejection.GetRejectionMemo;
 import com.ats.tril.model.rejection.GetRejectionMemoDetail;
@@ -242,8 +246,21 @@ public class RejectionController {
 
 			//}
 			System.out.println("rejectionMemoList" + rejectionMemoList);
-			List<RejectionMemo> res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
-					rejectionMemoList, List.class);
+			RejectionMemo[] res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
+					rejectionMemoList, RejectionMemo[].class);
+			
+			List<RejectionMemo> list = new ArrayList<>(Arrays.asList(res));
+			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userInfo");
+			LogSave logSave = new LogSave();
+			logSave.setReqUserId(user.getId());
+			logSave.setDocType(9);
+			logSave.setDocTranId(list.get(0).getRejectionId());
+			 
+			LogSave logSaveres = rest.postForObject(Constants.url + "/saveLogRecord",
+					logSave, LogSave.class);
+			
 			System.out.println("response:" + res);
 
 		} catch (Exception e) {
@@ -337,6 +354,21 @@ public class RejectionController {
 			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteRejectionMemo", map,
 					ErrorMessage.class);
 			System.out.println(errorMessage);
+			
+			if(errorMessage.isError()==false)
+			{
+				 
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("userInfo");
+					 map = new LinkedMultiValueMap<String, Object>();
+					 map.add("docId", 9);
+					 map.add("docTranId", rejectionId);
+					 map.add("userId", user.getId());
+					 
+					ErrorMessage res = rest.postForObject(Constants.url + "/updateDeleteDateAndTime",
+							map, ErrorMessage.class);
+				 
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -496,6 +528,16 @@ public class RejectionController {
 			List<RejectionMemo> res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
 					rejectionMemoList, List.class);
 			System.out.println("edit rejectionMemoList response:" + res);
+			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userInfo");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 9);
+			 map.add("docTranId", editRejection.getRejectionId());
+			 map.add("userId", user.getId());
+			 
+			 ErrorMessage updateRes = rest.postForObject(Constants.url + "/updateEditDateAndTime",
+					map, ErrorMessage.class);
 
 		} catch (Exception e) {
 
