@@ -60,12 +60,15 @@
 
 						<div class="box-content">
 							<form method="post" class="form-horizontal" id="validation-form">
+							
+							<input type="hidden" name="limitEnabled" id="limitEnabled" value="1"/>
 
 								<div class="box-content"> 
 								
 								<label class="col-md-2">Indent
 										Type</label>
 									<div class="col-md-3">
+									<input type="hidden" name="typeId" id="typeId" value="0"/>
 										<select name="indent_type" onchange="getInvoiceNo()" id="indent_type"
 											data-rule-required="true" class="form-control chosen"  data-rule-required="true">
 											<option value="">Select Indent Type</option>
@@ -647,78 +650,175 @@ $(document).ready(function() {
 		 var itemName=$("#item_name option:selected").html();
 		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
-		  
-		if(qty>0 && (itemId!="" || itemId!=null) && schDay>=0){
-		$.getJSON('${getIndentDetail}', {
-			itemId : itemId,
-			qty : qty,
-			remark : remark,
-			itemName : itemName,
-			schDay : schDay,
-			indentDate : indentDate,
-			key : -1,
-			ajax : 'true',
-
-		}, function(data) {
-			//alert(data);
-		
-			var len = data.length;
-			$('#table1 td').remove();
-			$.each(data,function(key, trans) {
-				if(trans.isDuplicate==1){
-					alert("Item Already Added in Indent");
-				}
-			var tr = $('<tr></tr>');
-			tr.append($('<td class="col-sm-1" ></td>').html(key+1));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
-		  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
-
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
-		  	
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
-
-		  	
-		  	/* tr
-			.append($(
-					'<td class="col-md-1" style="text-align: center;"></td>')
-					.html(
-							"<input type=button style='text-align:center; width:40px' class=form-control name=delete_indent_item"
-									+ trans.itemId+ "id=delete_indent_item"
-									+ trans.itemId
-									+ " onclick='deleteIndentItem("+trans.itemId+","+key+")'  />"));
- */
-		  	
-		  	tr
-			.append($(
-					'<td class="col-md-1" style="text-align: center;"></td>')
-					.html(
-							"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
-		  	
-			$('#table1 tbody').append(tr);
-			//document.getElementById("ind_cat").disabled=true;
-			  $('#ind_cat').prop('disabled', true).trigger("chosen:updated");
-			 
-			document.getElementById("catId").value = catId;   
-			document.getElementById("submitt").disabled=false;
-			
-			})
-		
-			getLastRate(qty,1);
-		});
-		document.getElementById("quantity").value = "0"; 
-		 document.getElementById("remark").value="";
-		//document.getElementById("item_name").selectedIndex = "0";
-		 document.getElementById("sch_days").value = "0";  
+		 var typeId = $("#indent_type").val();
+		 var limitEnabled = $("#limitEnabled").val();
 		 
-		   $("#group").focus();
-		 //document.getElementById("rm_cat").selectedIndex = "0";  
-		 }else{
-			 alert("Please Enter  valid Infromation");
-		 }
+		 
+		 var limit = parseFloat(document.getElementById("mrnLimitText").value) ;
+		 var currentMrn = parseFloat(document.getElementById("totalmrnText").value) ;
+		 var currentTotalIndentValue = parseFloat(document.getElementById("totalIndentValueText").value) ;
+		  if(typeId==null || typeId==""){
+			  alert("Select Indent Type");
+		  }else{
+			  if(limitEnabled==1){
+				  
+				  if(limit>(currentMrn+currentTotalIndentValue)){
+					  
+						if(qty>0 && (itemId!="" || itemId!=null) && schDay>=0){
+						$.getJSON('${getIndentDetail}', {
+							itemId : itemId,
+							qty : qty,
+							remark : remark,
+							itemName : itemName,
+							schDay : schDay,
+							indentDate : indentDate,
+							key : -1,
+							ajax : 'true',
+				
+						}, function(data) {
+							//alert(data);
+						
+							var len = data.length;
+							$('#table1 td').remove();
+							$.each(data,function(key, trans) {
+								if(trans.isDuplicate==1){
+									alert("Item Already Added in Indent");
+								}
+							var tr = $('<tr></tr>');
+							tr.append($('<td class="col-sm-1" ></td>').html(key+1));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
+						  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
+				
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
+						  	
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
+				
+						  	
+						  	/* tr
+							.append($(
+									'<td class="col-md-1" style="text-align: center;"></td>')
+									.html(
+											"<input type=button style='text-align:center; width:40px' class=form-control name=delete_indent_item"
+													+ trans.itemId+ "id=delete_indent_item"
+													+ trans.itemId
+													+ " onclick='deleteIndentItem("+trans.itemId+","+key+")'  />"));
+				 */
+						  	
+						  	tr
+							.append($(
+									'<td class="col-md-1" style="text-align: center;"></td>')
+									.html(
+											"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
+						  	
+							$('#table1 tbody').append(tr);
+							//document.getElementById("ind_cat").disabled=true;
+							  $('#ind_cat').prop('disabled', true).trigger("chosen:updated");
+							  $('#indent_type').prop('disabled', true).trigger("chosen:updated");
+							  
+							document.getElementById("catId").value = catId;
+							document.getElementById("typeId").value = typeId; 
+							document.getElementById("submitt").disabled=false;
+							
+							})
+						
+							getLastRate(qty,1);
+						});
+						document.getElementById("quantity").value = "0"; 
+						 document.getElementById("remark").value="";
+						//document.getElementById("item_name").selectedIndex = "0";
+						 document.getElementById("sch_days").value = "0";  
+						 
+						   $("#group").focus();
+						 //document.getElementById("rm_cat").selectedIndex = "0";  
+						 }else{
+							 alert("Please Enter  valid Infromation");
+						 }
+				 }else{
+					 alert("Limit Cross");
+				 }
+			  }else{
+				  
+				  if(qty>0 && (itemId!="" || itemId!=null) && schDay>=0){
+						$.getJSON('${getIndentDetail}', {
+							itemId : itemId,
+							qty : qty,
+							remark : remark,
+							itemName : itemName,
+							schDay : schDay,
+							indentDate : indentDate,
+							key : -1,
+							ajax : 'true',
+				
+						}, function(data) {
+							//alert(data);
+						
+							var len = data.length;
+							$('#table1 td').remove();
+							$.each(data,function(key, trans) {
+								if(trans.isDuplicate==1){
+									alert("Item Already Added in Indent");
+								}
+							var tr = $('<tr></tr>');
+							tr.append($('<td class="col-sm-1" ></td>').html(key+1));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
+						  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
+				
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
+						  	
+						  	tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
+				
+						  	
+						  	/* tr
+							.append($(
+									'<td class="col-md-1" style="text-align: center;"></td>')
+									.html(
+											"<input type=button style='text-align:center; width:40px' class=form-control name=delete_indent_item"
+													+ trans.itemId+ "id=delete_indent_item"
+													+ trans.itemId
+													+ " onclick='deleteIndentItem("+trans.itemId+","+key+")'  />"));
+				 */
+						  	
+						  	tr
+							.append($(
+									'<td class="col-md-1" style="text-align: center;"></td>')
+									.html(
+											"<a href='#' class='action_btn'onclick=deleteIndentItem("+trans.itemId+","+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
+						  	
+							$('#table1 tbody').append(tr);
+							//document.getElementById("ind_cat").disabled=true;
+							  $('#ind_cat').prop('disabled', true).trigger("chosen:updated");
+							  $('#indent_type').prop('disabled', true).trigger("chosen:updated");
+							  
+							document.getElementById("catId").value = catId;
+							document.getElementById("typeId").value = typeId; 
+							document.getElementById("submitt").disabled=false;
+							
+							})
+						
+							getLastRate(qty,1);
+						});
+						document.getElementById("quantity").value = "0"; 
+						 document.getElementById("remark").value="";
+						//document.getElementById("item_name").selectedIndex = "0";
+						 document.getElementById("sch_days").value = "0";  
+						 
+						   $("#group").focus();
+						 //document.getElementById("rm_cat").selectedIndex = "0";  
+						 }else{
+							 alert("Please Enter  valid Infromation");
+						 }
+				  
+			  }
+			 
+			}
 		}
 	</script>
 	<script>
@@ -767,6 +867,7 @@ function deleteIndentItem(itemId,key){
 		if(data==""){
 			alert("No Record ");
 			  $('#ind_cat').prop('disabled', false).trigger("chosen:updated");  
+			  $('#indent_type').prop('disabled', false).trigger("chosen:updated"); 
 			document.getElementById("submitt").disabled=true;
 			var html = '<option value="" selected >Select Item</option>';
 			html += '</option>';
@@ -833,7 +934,9 @@ function getInvoiceNo() {
 		
 	document.getElementById("indent_no").value=data.code;  
 	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix;
-	document.getElementById("mrnLimitText").value = data.subDocument.categoryPostfix;;
+	document.getElementById("mrnLimitText").value = data.subDocument.categoryPostfix;
+	document.getElementById("limitEnabled").value = data.subDocument.printPostfix;
+	
 	getlimitationValue(catId,typeId);
 	getIndentValueLimit(catId,typeId);
 	

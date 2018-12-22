@@ -620,6 +620,16 @@ public class PdfReportController {
 			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
 					DocumentBean.class);
 			model.addObject("documentBean", documentBean);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("docId", 9);
+			map.add("docTranId", listOfIds);
+			
+			GetLogRecord[] getLogRecord =rest.postForObject(Constants.url + "/getLogsRecordBydocTypeAndTranIds", map,GetLogRecord[].class );
+			
+			List<GetLogRecord>getLogRecordList=new ArrayList<GetLogRecord>(Arrays.asList(getLogRecord));
+			
+			model.addObject("getLogRecordList", getLogRecordList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

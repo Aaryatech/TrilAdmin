@@ -202,24 +202,59 @@ hr {
 				<tr class="information">
 					<td colspan="3" valign="top">
 						<table>
-							<tr>
+							 
+							
+							<tr >
+							<c:set var="logRecordFind" value="0"></c:set>
+							<c:forEach items="${getLogRecordList}" var="getLogRecordList" >
+							<c:choose>
+								<c:when test="${getLogRecordList.docTranId==item.rejectionId}"> 
+								<c:set var="logRecordFind" value="1"></c:set>
 								<td width="33%" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Stores</td>
-
+									Stores <br> ${getLogRecordList.usrName} </td>
+								
 								<td width="33%" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Rejected By</td>
-
+									Rejected By <br> ${getLogRecordList.usrName}</td>
+								
 								<td width="33%" valign="top" align="center"
 									style="padding: 8px; color: #000;   font-weight: bold;">
 
-									Authorised Sign</td>
+									Authorised Sign <br> ${getLogRecordList.app1UserName}</td>
+								
+								 
+									</c:when>
+								</c:choose>
+							</c:forEach> 
+							
+							<c:choose>
+								<c:when test="${logRecordFind==0}"> 
+								
+								<td width="33%" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Stores <br>  -</td>
+								
+								<td width="33%" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
 
+									Rejected By <br>-</td>
+								
+								<td width="33%" valign="top" align="center"
+									style="padding: 8px; color: #000;   font-weight: bold;">
+
+									Authorised Sign <br></td>
+								
+								 
+								
+								</c:when>
+							</c:choose>
+								  
 							</tr>
+								 
 
 						</table>
 					</td>

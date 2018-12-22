@@ -824,7 +824,7 @@ public class IndentController {
 
 			String indNo = request.getParameter("indent_no");
 
-			int indType = Integer.parseInt(request.getParameter("indent_type"));
+			int indType = Integer.parseInt(request.getParameter("typeId"));
 			
 			String indHeaderRemark = request.getParameter("indHeaderRemark");
 
