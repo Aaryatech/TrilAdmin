@@ -689,8 +689,8 @@ function getInvoiceNo() {
 	}, function(data) { 
 		 
 	 
-	document.getElementById("mrnLimit").innerHTML = data.subDocument.categoryPostfix;
-	document.getElementById("mrnLimitText").value = data.subDocument.categoryPostfix;;
+	document.getElementById("mrnLimit").innerHTML = (parseFloat(data.subDocument.categoryPostfix)).toFixed(2);
+	document.getElementById("mrnLimitText").value = (parseFloat(data.subDocument.categoryPostfix)).toFixed(2);
 	getlimitationValue(catId,typeId);
 	getIndentValueLimit(catId,typeId);
 	
@@ -717,8 +717,8 @@ function getlimitationValue(catId,typeId) {
 				if(data[i].consumptionReportList[j].catId==catId){
 					
 					//alert("Monthly Value Is " + data[i].consumptionReportList[j].monthlyValue);
-					document.getElementById("totalmrn").innerHTML = data[i].consumptionReportList[j].monthlyValue;
-					document.getElementById("totalmrnText").value = data[i].consumptionReportList[j].monthlyValue;
+					document.getElementById("totalmrn").innerHTML = (parseFloat(data[i].consumptionReportList[j].monthlyValue)).toFixed(2);
+					document.getElementById("totalmrnText").value = (parseFloat(data[i].consumptionReportList[j].monthlyValue)).toFixed(2);
 					flag=1;
 					break;
 				}
@@ -742,8 +742,8 @@ function getIndentValueLimit(catId,typeId) {
 
 	}, function(data) { 
 		 
-		document.getElementById("approvedIndentValue").innerHTML = data;
-		document.getElementById("approvedIndentValueText").value = data;
+		document.getElementById("approvedIndentValue").innerHTML = (parseFloat(data)).toFixed(2);
+		document.getElementById("approvedIndentValueText").value = (parseFloat(data)).toFixed(2);
 		getIndentPeningValueLimit(catId,typeId);
 	});
 
@@ -759,13 +759,13 @@ function getIndentPeningValueLimit(catId,typeId) {
 
 	}, function(data) {  
 		 
-		document.getElementById("totalIndentPendingValue").innerHTML = data;
-		document.getElementById("totalIndentPendingValueText").value = data;
+		document.getElementById("totalIndentPendingValue").innerHTML = (parseFloat(data)).toFixed(2);
+		document.getElementById("totalIndentPendingValueText").value = (parseFloat(data)).toFixed(2);
 		
 		var approvedIndentValueText = parseFloat($("#approvedIndentValueText").val());
 		
-		document.getElementById("totalIndentValue").innerHTML = parseFloat(approvedIndentValueText+data);
-		document.getElementById("totalIndentValueText").value = parseFloat(approvedIndentValueText+data);
+		document.getElementById("totalIndentValue").innerHTML = (parseFloat(approvedIndentValueText+data)).toFixed(2);
+		document.getElementById("totalIndentValueText").value = (parseFloat(approvedIndentValueText+data)).toFixed(2);
 	});
 
 }
@@ -784,8 +784,8 @@ function getLastRate(qty,flag) {
 
 	}, function(data) {  
 		   
-			document.getElementById("totalIndentValue").innerHTML = data;
-			document.getElementById("totalIndentValueText").value = data;
+			document.getElementById("totalIndentValue").innerHTML = (parseFloat(data)).toFixed(2);
+			document.getElementById("totalIndentValueText").value = (parseFloat(data)).toFixed(2);
 		  
 	});
 
