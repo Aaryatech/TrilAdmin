@@ -97,7 +97,7 @@
 						
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitIssueReciept" 
+							<form id="submitForm" action="${pageContext.request.contextPath}/submitIssueReciept" 
 							onsubmit="return confirm('Do you really want to submit the Issue ?');" method="post" >
 							 
 							
@@ -894,7 +894,15 @@ function check()
 	  
 	
 }
-
+$(function() {
+	$('#submitForm').submit(
+			function() {
+				$("input[type='submit']", this).val("Please Wait...")
+						.attr('disabled', 'disabled');
+				
+				return true;
+			});
+});
 </script>
 								
 							

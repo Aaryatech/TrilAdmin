@@ -171,9 +171,9 @@ body {
 				<div class=" box-content">
 					 
 		<div>
-			<form id="submitPurchaseOrder"
+			<form id="submitForm"
 				action="${pageContext.request.contextPath}/submitPurchaseOrder"
-				onsubmit="return confirm('Do you really want to submit the Purchase Order ?');" method="post">
+				onsubmit="return confirm('Do you really want to submit the Purchase Order ?');" method="post" >
 			<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">
@@ -871,7 +871,15 @@ function IsNumeric(e) {
    // document.getElementById("error").style.display = ret ? "none" : "inline";
     return ret;
 }
-
+$(function() {
+	$('#submitForm').submit(
+			function() {
+				$("input[type='submit']", this).val("Please Wait...")
+						.attr('disabled', 'disabled');
+				
+				return true;
+			});
+});
 function check()
 {
 	 	   

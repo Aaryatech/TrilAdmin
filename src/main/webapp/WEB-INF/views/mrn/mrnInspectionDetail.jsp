@@ -152,7 +152,7 @@ body {
 				<div class="box-content">
 					 
 		<div class="col-md-12">
-			<form id="submitPurchaseOrder"
+			<form id="submitForm"
 				action="${pageContext.request.contextPath}/submitMrnInspection"
 				method="post">
 			<div class="box-content">
@@ -173,22 +173,14 @@ body {
 				 
 					<div class="col-md-2" >MRN Type</div>
 									<div class="col-md-3">
+									<c:forEach items="${typeList}" var="typeList" >
 										<c:choose>
-											<c:when test="${getMrnHeader.mrnType==1}">
-												Regular
+											<c:when test="${getMrnHeader.mrnType==typeList.typeId}">
+												${typeList.typeName}
 											</c:when>
-											<c:when test="${getMrnHeader.mrnType==2}">
-												Job Work
-											</c:when>
-											<c:when test="${getMrnHeader.mrnType==3}">
-								             General
-											</c:when>
-											<c:when test="${getMrnHeader.mrnType==4}">
-												Other
-											</c:when>
-										
+											 
 										</c:choose>
-										
+										</c:forEach>
 									</div>
 				 
 			</div><br/>
@@ -204,8 +196,19 @@ body {
 							</div>
 			<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item For MRN Inspection "  id="myBtn"></div>
 		
-							</div><br/>
-	
+							</div><br/> 
+							
+							<div class="box-content">
+
+												<div class="col-md-2 ">Inspection Remark </div>
+
+												<div class="col-md-9">
+													<input class="form-control" id="inspRemark"
+														  type="text" name="inspRemark" value="${getMrnHeader.remark2}"
+														  required />
+												</div>
+											 
+											</div><br><br>	
 								
 				<div class=" box-content">
 					<div class="row">
@@ -655,6 +658,15 @@ function itemByIntendId()
 		}
 		
 	}
+	$(function() {
+		$('#submitForm').submit(
+				function() {
+					$("input[type='submit']", this).val("Please Wait...")
+							.attr('disabled', 'disabled');
+					
+					return true;
+				});
+	});
 	</script>	
 		
 </body>

@@ -153,7 +153,7 @@ body {
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Edit MRN111
+								<i class="fa fa-bars"></i> Edit MRN
 							</h3>
 							<div class="box-tool">
 							<a href="${pageContext.request.contextPath}/getMrnHeaders">Back

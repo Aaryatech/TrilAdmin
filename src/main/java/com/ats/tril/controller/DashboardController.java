@@ -1649,6 +1649,10 @@ public class DashboardController {
             model.addObject("getMrnHeader", getMrnHeader);
             System.out.println("getMrnHeader -------- " + getMrnHeader);
             
+            Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+            
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1704,6 +1708,9 @@ public class DashboardController {
 		try {
 			
 			RestTemplate restTemp = new RestTemplate();
+			
+			String remark = request.getParameter("inspRemark");
+			
              if(!getMrnDetailList.isEmpty()) {
             	 for(int i=0;i<getMrnDetailList.size();i++)
             	 {
@@ -1714,11 +1721,18 @@ public class DashboardController {
              }
              System.out.println(" final getMrnHeader -------- " + getMrnHeader);
 			 List<MrnDetail> mrnDetailList = restTemp.postForObject(Constants.url + "/saveMrnData", getMrnDetailList, List.class);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			 map.add("mrnId", getMrnHeader.getMrnId());
+			 map.add("remark", remark); 
+			 
+			 ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateInspectionRemark",
+						map, ErrorMessage.class);
 
 			System.err.println("mrnDetailList " + mrnDetailList.toString()); 
 			 HttpSession session = request.getSession();
 				User user = (User) session.getAttribute("userInfo");
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 map = new LinkedMultiValueMap<String, Object>();
 				 map.add("docId", 3);
 				 map.add("docTranId", getMrnHeader.getMrnId());
 				 map.add("userId", user.getId());

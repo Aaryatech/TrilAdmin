@@ -61,7 +61,7 @@
 
 						<div class="box-content">
 
-							<form id="submitMaterialStore"
+							<form id="submitForm"
 								action="${pageContext.request.contextPath}/submitMrnApprove"
 								method="post">
 
@@ -126,6 +126,22 @@
 										<div class="col-md-2">Remark:</div>
 										<div class="col-md-3">
 										${mrnFroApprove.remark1}
+											<%-- <input type="text" name="remark" id="remark"
+												placeholder="Remark" class="form-control"  value="${editRejection.rejectionRemark}"/> --%>
+
+										</div>
+										 
+									</div>
+
+									<br>
+									
+									<div class="box-content">
+
+
+
+										<div class="col-md-2">Inspection Remark:</div>
+										<div class="col-md-3">
+										${mrnFroApprove.remark2}
 											<%-- <input type="text" name="remark" id="remark"
 												placeholder="Remark" class="form-control"  value="${editRejection.rejectionRemark}"/> --%>
 
@@ -418,6 +434,15 @@
 
 							});
 		}
+		$(function() {
+			$('#submitForm').submit(
+					function() {
+						$("input[type='submit']", this).val("Please Wait...")
+								.attr('disabled', 'disabled');
+						
+						return true;
+					});
+		});
 	</script>
 	
 	<script type="text/javascript">

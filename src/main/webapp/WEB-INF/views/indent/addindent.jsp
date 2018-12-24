@@ -515,6 +515,8 @@ function insertIndent(){
  else{
 	 
 	 if(confirm("Do you really want Submit Indent ?")){
+		 
+		 $('#submitt').attr('disabled', true);
 		 form.action ="${pageContext.request.contextPath}/saveIndent";
 		    form.submit();
 	 }

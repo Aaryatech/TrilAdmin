@@ -61,7 +61,7 @@
 
 						<div class="box-content">
 
-							<form id="submitMaterialStore"
+							<form id="submitForm"
 								action="${pageContext.request.contextPath}/submitIssueApprove"
 								method="post">
 
@@ -428,6 +428,15 @@
 			});
 		
 	}
+	$(function() {
+		$('#submitForm').submit(
+				function() {
+					$("input[type='submit']", this).val("Please Wait...")
+							.attr('disabled', 'disabled');
+					
+					return true;
+				});
+	});
 	</script>
 
 

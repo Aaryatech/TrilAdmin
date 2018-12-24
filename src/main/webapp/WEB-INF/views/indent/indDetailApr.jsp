@@ -564,16 +564,16 @@
 									<div class="col-md-12" style="text-align: center">
 									
 												<input type="button" class="btn btn-info"
-													value="Submit" onclick="callApproveIndent(${apr})">
+													value="Submit" onclick="callApproveIndent(${apr})" id="aprIndentBtn">
 													
 													<c:choose>
 														<c:when test="${(indent.indMStatus==9 || indent.indMStatus==6) && (apr==1)}">
 														<input type="button" class="btn btn-info"
-													value="Reject" onclick="rejectIntent(${indent.indMStatus},${apr},${indent.indMId})">
+													value="Reject" onclick="rejectIntent(${indent.indMStatus},${apr},${indent.indMId})" id="rejectIndentBtn">
 														</c:when>
 														<c:when test="${apr==2 && indent.indMStatus==7 }">
 														<input type="button" class="btn btn-info"
-													value="Reject" onclick="rejectIntent(${indent.indMStatus},${apr},${indent.indMId})">
+													value="Reject" onclick="rejectIntent(${indent.indMStatus},${apr},${indent.indMId})" id="rejectIndentBtn">
 														</c:when>
 													</c:choose>
 
@@ -671,7 +671,15 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 		<script type="text/javascript">
-
+		/* $(function() {
+			$('#submitForm').submit(
+					function() {
+						$("input[type='submit']", this).val("Please Wait...")
+								.attr('disabled', 'disabled');
+						
+						return true;
+					});
+		}); */
 function getInvoiceNo() {
 	
 	var date = $("#indent_date").val(); 
@@ -803,6 +811,7 @@ function getLastRate(qty,flag) {
 					document.getElementById("aprOrReject").value = 1;
 					
 			var form = document.getElementById("validation-form");
+			$('#aprIndentBtn').attr('disabled', true);
 			form.action = "${pageContext.request.contextPath}/aprIndentProcess";
 			form.submit();
 			}
@@ -810,6 +819,7 @@ function getLastRate(qty,flag) {
 			else{
 				document.getElementById("aprOrReject").value = 1;
 				var form = document.getElementById("validation-form");
+				$('#aprIndentBtn').attr('disabled', true);
 				form.action = "${pageContext.request.contextPath}/aprIndentProcess";
 				form.submit();
 			}
@@ -849,6 +859,7 @@ function rejectIntent(sts,apr,indId) {
     			{
     				document.getElementById("aprOrReject").value = 2;
     	        	var form = document.getElementById("validation-form");
+    	        	$('#rejectIndentBtn').attr('disabled', true);
     				form.action = "${pageContext.request.contextPath}/aprIndentProcess";
     				form.submit();
     			}
@@ -888,6 +899,7 @@ function rejectIntent(sts,apr,indId) {
 				{
 					document.getElementById("aprOrReject").value = 2;
 		        	var form = document.getElementById("validation-form");
+		        	$('#rejectIndentBtn').attr('disabled', true);
 					form.action = "${pageContext.request.contextPath}/aprIndentProcess";
 					form.submit();
 				}
