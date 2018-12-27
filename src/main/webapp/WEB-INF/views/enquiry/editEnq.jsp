@@ -254,7 +254,7 @@ body {
 													</tr>
 												</thead>
 												<tbody>
-
+							<c:set var="sr" value="0"></c:set>
 													<c:forEach items="${detailList}" var="detailList"
 														varStatus="count">
 														
@@ -262,7 +262,7 @@ body {
 															<c:when test="${detailList.delStatus==1}">
 															<tr>
 
-															<td  ><c:out value="${count.index+1}" /></td>
+															<td  ><c:out value="${sr+1}" /></td>
 
 															<td ><c:out value="${detailList.itemCode}" /></td> 
 															<td ><c:out
@@ -276,6 +276,7 @@ body {
 															</td>
 
 														</tr>
+														<c:set var="sr" value="${sr+1}"></c:set>
 															</c:when>
 														</c:choose>
 
@@ -595,18 +596,21 @@ body {
 
 						}
 					 
-
+						 var index=0;
 					  $.each( data,
 									function(key, itemList) {
+						  
+						 
 									 if(itemList.delStatus==1)
 										 {
 										var tr = $('<tr></tr>'); 
-									  	tr.append($('<td></td>').html(key+1)); 
+									  	tr.append($('<td></td>').html(index+1)); 
 									  	tr.append($('<td></td>').html(itemList.itemCode)); 
 									  	tr.append($('<td></td>').html(itemList.enqQty));
 									  	tr.append($('<td></td>').html(itemList.enqDetailDate));
 									  	tr.append($('<td></td>').html(' <a href="#"><span class="glyphicon glyphicon-remove" onclick="del('+key+')" id="del'+key+'"></span></a>'));
 									    $('#table_grid tbody').append(tr);
+									    index=index+1;
 										 }
 									  	
 									})

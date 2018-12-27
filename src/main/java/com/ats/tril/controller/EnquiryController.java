@@ -544,29 +544,29 @@ public class EnquiryController {
 
 		try {
 
-			int qutId = Integer.parseInt(request.getParameter("qutId"));
+			String qutId =  request.getParameter("qutId") ;
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("qutId", qutId);
-			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutId", map,
+			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutIds", map,
 					GetQuatationDetail[].class);
 			getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>(Arrays.asList(indentTrans));
 			
 			System.out.println("getQuatationDetailListForEnq " + getQuatationDetailListForEnq);
-			if(qutId==enquiryHeaderFromQuat.getIndId())
-			{
+			/*if(qutId==enquiryHeaderFromQuat.getIndId())
+			{*/
 				for(int i = 0 ; i < getQuatationDetailListForEnq.size() ; i++)
 				{
 					for(int j = 0 ; j < enqDetailList.size() ; j++)
 					{
-						if(getQuatationDetailListForEnq.get(i).getItemId()==enqDetailList.get(j).getItemId()) {
+						if(getQuatationDetailListForEnq.get(i).getEnqDetailId()==enqDetailList.get(j).getIndId()) {
 							getQuatationDetailListForEnq.get(i).setPoQty(enqDetailList.get(j).getEnqQty());
 							break;
 						}
 					}
 					
 				}
-			}
+			//}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -585,13 +585,17 @@ public class EnquiryController {
 			enquiryHeaderFromQuat = new EnquiryHeader();
  
 
-			int enqId = Integer.parseInt(request.getParameter("indMId"));
+			String enqId =  request.getParameter("indMId") ;
+			
 			String[] checkbox = request.getParameterValues("select_to_approve");
 
 			try {
-				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
-				model.addObject("vendIdTemp", vendIdTemp);
+				String vendIdTemp =  request.getParameter("vendIdTemp") ;
 				System.out.println(vendIdTemp);
+				String[] vendIds= vendIdTemp.split(","); 
+				System.out.println(Arrays.toString(vendIds));
+				model.addObject("vendIdTemp", vendIds); 
+				
 			} catch (Exception e) {
 				 
 			}
@@ -620,13 +624,16 @@ public class EnquiryController {
 			List<GetQuatationHeader> getQuatationHeaderList = new ArrayList<GetQuatationHeader>(Arrays.asList(getQuatationHeader));
 			model.addObject("getQuatationHeaderList", getQuatationHeaderList); 
 			
+			String indMIds = new String();
+			String indNos = new String();
+			 
 			try {
 				for (int i = 0; i < getQuatationDetailListForEnq.size(); i++) {
 					for (int j = 0; j < checkbox.length; j++) {
 						System.out.println(checkbox[j] + getQuatationDetailListForEnq.get(i).getEnqDetailId());
 						if (Integer.parseInt(checkbox[j]) == getQuatationDetailListForEnq.get(i).getEnqDetailId()) {
 							EnquiryDetail enqDetail = new EnquiryDetail();
-							enqDetail.setIndId(getQuatationDetailListForEnq.get(i).getEnqId());
+							enqDetail.setIndId(getQuatationDetailListForEnq.get(i).getEnqDetailId());
 							enqDetail.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
 							enqDetail.setItemCode(getQuatationDetailListForEnq.get(i).getItemCode());
 							enqDetail.setItemId(getQuatationDetailListForEnq.get(i).getItemId()); 
@@ -638,9 +645,10 @@ public class EnquiryController {
 							enqDetail.setEnqRemark(request.getParameter("indRemark" + getQuatationDetailListForEnq.get(i).getEnqDetailId()));
 
 							enqDetailList.add(enqDetail);
-
-							enquiryHeaderFromQuat.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
-							enquiryHeaderFromQuat.setIndId(enqId);
+							indMIds=indMIds+","+getQuatationDetailListForEnq.get(i).getEnqId();
+							 indNos=indNos+","+getQuatationDetailListForEnq.get(i).getIndNo();
+							//enquiryHeaderFromQuat.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
+							//enquiryHeaderFromQuat.setIndId(enqId);
 						}
 
 					}
@@ -651,10 +659,66 @@ public class EnquiryController {
 			}
 			
 			
+			String[] indIdsDouble= indMIds.split(",");
+			String[] indNosDouble= indNos.split(",");
+			
+			for(int i=0; i<indIdsDouble.length ; i++ ) {
+				
+				String[] x = new String[0];
+				try {
+					 x= enquiryHeaderFromQuat.getIndId().split(",");
+					
+				}catch(Exception e) {
+					
+				}
+				
+				int flag =1;
+				
+				for(int j=0 ; j<x.length ; j++) {
+					
+					if(x[j].equals(indIdsDouble[i])) {
+						
+						flag=0;
+						break;
+					}
+					 
+				}
+				if(flag==1) {
+					enquiryHeaderFromQuat.setIndId(enquiryHeaderFromQuat.getIndId()+","+indIdsDouble[i]);
+				}
+			}
+			
+			for(int i=0; i<indNosDouble.length ; i++ ) {
+				
+				String[] x = new String[0];
+				try {
+					 x= enquiryHeaderFromQuat.getIndNo().split(",");
+					
+				}catch(Exception e) {
+					
+				}
+				
+				int flag =1;
+				
+				for(int j=0 ; j<x.length ; j++) {
+					
+					if(x[j].equals(indNosDouble[i])) {
+						
+						flag=0;
+						break;
+					}
+					 
+				}
+				if(flag==1) {
+					enquiryHeaderFromQuat.setIndNo(enquiryHeaderFromQuat.getIndNo()+","+indNosDouble[i]);
+				}
+			}
+			enquiryHeaderFromQuat.setIndId(enquiryHeaderFromQuat.getIndId().substring(6, enquiryHeaderFromQuat.getIndId().length()));
+			enquiryHeaderFromQuat.setIndNo(enquiryHeaderFromQuat.getIndNo().substring(6, enquiryHeaderFromQuat.getIndNo().length()));
 			System.out.println("enqDetailList" + enqDetailList);
-
+			String[] x= enquiryHeaderFromQuat.getIndId().split(",");
 			model.addObject("enqDetailList", enqDetailList);
-			model.addObject("enqId", enqId);
+			model.addObject("enqId", x);
 			model.addObject("enquiryHeader", enquiryHeaderFromQuat);
 
 		} catch (Exception e) {
@@ -906,18 +970,18 @@ public class EnquiryController {
 
 		try {
 
-			int qutId = Integer.parseInt(request.getParameter("qutId"));
+			String qutId =  request.getParameter("qutId") ;
 
 			MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<String, Object>();
 			map1.add("qutId", qutId);
-			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutId", map1,
+			GetQuatationDetail[] indentTrans = rest.postForObject(Constants.url + "/getQuotationDetailByQutIds", map1,
 					GetQuatationDetail[].class);
 			getQuatationDetailListForEnq = new ArrayList<GetQuatationDetail>(Arrays.asList(indentTrans)); 
 			 
 			for(int j = 0 ; j<detailList.size() ; j++) {
 			 		
 				for(int i = 0 ; i<getQuatationDetailListForEnq.size() ; i++) {
-					if(getQuatationDetailListForEnq.get(i).getItemId()==detailList.get(j).getItemId() && detailList.get(j).getDelStatus()==1)
+					if(getQuatationDetailListForEnq.get(i).getEnqDetailId()==detailList.get(j).getIndId() && detailList.get(j).getDelStatus()==1)
 					{
 						getQuatationDetailListForEnq.remove(i);
 					}
@@ -985,7 +1049,7 @@ public class EnquiryController {
 						System.out.println(checkbox[j] + getQuatationDetailListForEnq.get(i).getEnqDetailId());
 						if (Integer.parseInt(checkbox[j]) == getQuatationDetailListForEnq.get(i).getEnqDetailId()) {
 							GetEnquiryDetail enqDetail = new GetEnquiryDetail();
-							enqDetail.setIndId(getQuatationDetailListForEnq.get(i).getIndId());
+							enqDetail.setIndId(getQuatationDetailListForEnq.get(i).getEnqDetailId());
 							enqDetail.setIndNo(getQuatationDetailListForEnq.get(i).getIndNo());
 							enqDetail.setItemCode(getQuatationDetailListForEnq.get(i).getItemCode());
 							enqDetail.setItemId(getQuatationDetailListForEnq.get(i).getItemId()); 

@@ -153,20 +153,33 @@ body {
 
 									<div class="col-md-2">Select Vendor</div>
 									<div class="col-md-10">
-
+ 
 										<select name="vendId" id="vendId" class="form-control chosen"
 											multiple="multiple"  required>
 											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList">
-												<c:choose>
-													<c:when test="${vendorList.vendorId==vendIdTemp}">
-														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
-													</c:otherwise>
-												</c:choose>
+											
+											<c:forEach items="${vendorList}" var="vendorList"> 
+											<c:choose>
+												<c:when test="${vendIdTemp==null || vendIdTemp==''}">
+													<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+												</c:when>
+												<c:otherwise>
+													<c:forEach var="vendIdTemp" items="${vendIdTemp}">
+														<c:choose>
+															<c:when test="${vendorList.vendorId==vendIdTemp}">
+																<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												
+												</c:otherwise>
+											</c:choose>
+											 
 											</c:forEach>
+											 
 										</select>
 
 									</div>
@@ -209,22 +222,29 @@ body {
 								<div class="box-content">
 									<div class="col-md-2">Select Indent No.</div>
 									<div class="col-md-3">
-										<select name="indId" id="indId" class="form-control chosen"
-											 >
+										<select name="indId" id="indId" multiple="multiple" class="form-control chosen" >
 											<option value="">Select</option>
 											<c:forEach items="${intedList}" var="intedList">
-												<c:choose>
-													<c:when test="${intedList.indMId==indId}">
-														<option value="${intedList.indMId}" selected>
-															${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${intedList.indMId}">
-															${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-													</c:otherwise>
-												</c:choose>
-
-
+											<c:choose>
+												<c:when test="${indIds==null || indIds==''}">
+													<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												</c:when> 
+												<c:otherwise>
+													<c:forEach var="indIds" items="${indIds}">
+														<c:choose>
+															<c:when test="${intedList.indMId==indIds}">
+																<option value="${intedList.indMId}" selected>
+																	${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												
+												</c:otherwise>
+											</c:choose>
+												 
 											</c:forEach>
 										</select>
 									</div>
@@ -315,7 +335,7 @@ body {
 								action="${pageContext.request.contextPath}/submitEnqList"
 								method="post">
 								<div id="myModal" class="modal">
-									<input type="hidden" value="0" name="indMId" id="indMId">
+									<input type="hidden" value="0" name="indMIds" id="indMIds">
 									<input type="hidden" value="0" name="vendIdTemp"
 										id="vendIdTemp"> <input type="hidden" value="0"
 										name="enqDateTemp" id="enqDateTemp"> <input
@@ -491,8 +511,20 @@ body {
 
 		function itemByIntendId() {
 
-			var indId = $("#indId").val();
-			//alert(indId);
+		 
+			var indId = document.getElementById('indId'); 
+			var indIds=0;
+
+			for (var i = 0; i < indId.options.length; i++) {
+				  if (indId.options[i].selected) {
+				     
+				    indIds=indIds+","+indId.options[i].value;
+				  }
+				}
+			 
+			/* indIds = indIds.substring(1, indIds.length);
+			alert(indIds); */
+			
 			$('#loader').show();
 			$
 					.getJSON(
@@ -500,18 +532,20 @@ body {
 
 							{
 
-								indId : indId,
+								indId : indIds,
 								ajax : 'true'
 
 							},
 							function(data) {
-
+ 
 								$('#table_grid1 td').remove();
 								$('#loader').hide();
 
 								if (data == "") {
 									alert("No records found !!");
 
+								}else{
+									document.getElementById("indMIds").value=indIds;
 								}
 
 								$
@@ -589,7 +623,7 @@ body {
 														tr .append($( '<td ></td>') .html( '<input style="text-align:right; width:200px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
 													}
 													
-														document.getElementById("indMId").value=itemList.indMId; 
+														  
 													$('#table_grid1 tbody')
 															.append(tr);
 
@@ -600,8 +634,27 @@ body {
 
 		function getValue() {
 
-			document.getElementById("vendIdTemp").value = document
-					.getElementById("vendId").value;
+			var indId = document.getElementById('indId'); 
+			var indIds=0;
+
+			for (var i = 0; i < indId.options.length; i++) {
+				  if (indId.options[i].selected) {
+				     
+				    indIds=indIds+","+indId.options[i].value;
+				  }
+				}
+			
+			var vendId = document.getElementById('vendId'); 
+			var vendIds=0;
+
+			for (var i = 0; i < vendId.options.length; i++) {
+				  if (vendId.options[i].selected) {
+				     
+					  vendIds=vendIds+","+vendId.options[i].value;
+				  }
+				}
+			
+			document.getElementById("vendIdTemp").value = vendIds;
 
 			document.getElementById("enqDateTemp").value = document
 					.getElementById("enqDate").value;
@@ -609,8 +662,7 @@ body {
 			document.getElementById("enqRemarkTemp").value = document
 					.getElementById("enqRemark").value;
 
-			document.getElementById("indIdTemp").value = document
-					.getElementById("indId").value;
+			document.getElementById("indIdTemp").value = indIds;
 
 		}
 		

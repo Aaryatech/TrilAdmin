@@ -15,7 +15,7 @@ public class GetEnquiryHeader {
 	private int delStatus;
 	private String enqNo;
 	private String indNo;
-	private int indId;
+	private String indId;
 	List<GetEnquiryDetail> enquiryDetailList;
 
 	public int getEnqId() {
@@ -90,11 +90,11 @@ public class GetEnquiryHeader {
 		this.indNo = indNo;
 	}
 
-	public int getIndId() {
+	public String getIndId() {
 		return indId;
 	}
 
-	public void setIndId(int indId) {
+	public void setIndId(String indId) {
 		this.indId = indId;
 	}
 

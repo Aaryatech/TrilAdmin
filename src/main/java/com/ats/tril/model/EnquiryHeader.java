@@ -13,7 +13,7 @@ public class EnquiryHeader {
 	private int delStatus; 
 	private String enqNo; 
 	private String indNo; 
-	private int indId;
+	private String indId;
 	 
 	List<EnquiryDetail> enquiryDetailList;
 
@@ -81,11 +81,11 @@ public class EnquiryHeader {
 		this.indNo = indNo;
 	}
 
-	public int getIndId() {
+	public String getIndId() {
 		return indId;
 	}
 
-	public void setIndId(int indId) {
+	public void setIndId(String indId) {
 		this.indId = indId;
 	}
 

@@ -139,15 +139,14 @@ body {
 							</div>
 
 						</div>
-
-
+												  
 						<div class="box-content">
 
 							<form id="submitMaterialStore"
 								action="${pageContext.request.contextPath}/insertEnquiryByQuotation"
 								method="post">
 
-
+ 
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor</div>
@@ -156,15 +155,26 @@ body {
 										<select name="vendId" id="vendId" class="form-control chosen"
 											multiple="multiple"  required>
 											<option value="">Select Vendor</option>
-											<c:forEach items="${vendorList}" var="vendorList">
-												<c:choose>
-													<c:when test="${vendorList.vendorId==vendIdTemp}">
-														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
-													</c:otherwise>
-												</c:choose>
+											<c:forEach items="${vendorList}" var="vendorList"> 
+											<c:choose>
+												<c:when test="${vendIdTemp==null || vendIdTemp==''}">
+													<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+												</c:when>
+												<c:otherwise>
+													<c:forEach var="vendIdTemp" items="${vendIdTemp}">
+														<c:choose>
+															<c:when test="${vendorList.vendorId==vendIdTemp}">
+																<option value="${vendorList.vendorId}" selected>${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${vendorList.vendorId}">${vendorList.vendorName} &nbsp;&nbsp; ${vendorList.vendorCode}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												
+												</c:otherwise>
+											</c:choose>
+											 
 											</c:forEach>
 										</select>
 
@@ -208,21 +218,32 @@ body {
 									<div class="col-md-2">Select Quotation No.</div>
 									<div class="col-md-3">
 										<select name="qutId" id="qutId" class="form-control chosen"
-											 >
+											 multiple="multiple">
 											<option value="">Select</option>
+											 
 											<c:forEach items="${getQuatationHeaderList}" var="getQuatationHeaderList">
-												<c:choose>
-													<c:when test="${getQuatationHeaderList.enqId==enqId}">
-														<option value="${getQuatationHeaderList.enqId}" selected>
+											
+											<c:choose>
+												<c:when test="${enqId==null || enqId==''}">
+													<option value="${getQuatationHeaderList.enqId}">
 															${getQuatationHeaderList.enqNo} &nbsp;&nbsp; ${getQuatationHeaderList.enqDate}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${getQuatationHeaderList.enqId}">
-															${getQuatationHeaderList.enqNo} &nbsp;&nbsp; ${getQuatationHeaderList.enqDate}</option>
-													</c:otherwise>
-												</c:choose>
-
-
+												</c:when> 
+												<c:otherwise>
+												<c:forEach items="${enqId}" var="enqId">
+													<c:choose>
+														<c:when test="${getQuatationHeaderList.enqId==enqId}">
+															<option value="${getQuatationHeaderList.enqId}" selected>
+																${getQuatationHeaderList.enqNo} &nbsp;&nbsp; ${getQuatationHeaderList.enqDate}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${getQuatationHeaderList.enqId}">
+																${getQuatationHeaderList.enqNo} &nbsp;&nbsp; ${getQuatationHeaderList.enqDate}</option>
+														</c:otherwise>
+													</c:choose> 
+												</c:forEach>
+												</c:otherwise>
+											</c:choose>
+												 
 											</c:forEach>
 										</select>
 									</div>
@@ -488,7 +509,16 @@ body {
 
 		function itemByIntendId() {
 
-			var qutId = $("#qutId").val();
+			 
+			var indId = document.getElementById('qutId'); 
+			var indIds=0;
+
+			for (var i = 0; i < indId.options.length; i++) {
+				  if (indId.options[i].selected) {
+				     
+				    indIds=indIds+","+indId.options[i].value;
+				  }
+				}
 			//alert(qutId);
 			//alert(indId);
 			$('#loader').show();
@@ -498,7 +528,7 @@ body {
 
 							{
 
-								qutId : qutId,
+								qutId : indIds,
 								ajax : 'true'
 
 							},
@@ -511,7 +541,7 @@ body {
 									alert("No records found !!");
 
 								}
-
+								document.getElementById("indMId").value=indIds; 
 								$
 										.each(
 												data,
@@ -583,7 +613,7 @@ body {
 														tr .append($( '<td ></td>') .html( '<input style="text-align:right; width:200px" type="text" id="indRemark'+itemList.enqDetailId+'" name="indRemark'+itemList.enqDetailId+'" value="'+itemList.enqRemark+'"  class="form-control"  >'));
 													}
 													
-														document.getElementById("indMId").value=itemList.enqId; 
+														
 													$('#table_grid1 tbody')
 															.append(tr);
 
@@ -593,9 +623,28 @@ body {
 		}
 
 		function getValue() {
+			
+			var indId = document.getElementById('qutId'); 
+			var indIds=0;
 
-			document.getElementById("vendIdTemp").value = document
-					.getElementById("vendId").value;
+			for (var i = 0; i < indId.options.length; i++) {
+				  if (indId.options[i].selected) {
+				     
+				    indIds=indIds+","+indId.options[i].value;
+				  }
+				}
+			
+			var vendId = document.getElementById('vendId'); 
+			var vendIds=0;
+
+			for (var i = 0; i < vendId.options.length; i++) {
+				  if (vendId.options[i].selected) {
+				     
+					  vendIds=vendIds+","+vendId.options[i].value;
+				  }
+				}
+
+			document.getElementById("vendIdTemp").value = vendIds;
 
 			document.getElementById("enqDateTemp").value = document
 					.getElementById("enqDate").value;
@@ -603,8 +652,7 @@ body {
 			document.getElementById("enqRemarkTemp").value = document
 					.getElementById("enqRemark").value;
 
-			document.getElementById("indIdTemp").value = document
-					.getElementById("indId").value;
+			document.getElementById("indIdTemp").value = indIds;
 
 		}
 		

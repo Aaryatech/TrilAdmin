@@ -123,10 +123,10 @@
 									<thead>
 										<tr class="bgpink">
 											<th style="width:2%;">Sr</th>
-											<th class="col-md-1">Date</th> 
-											<th class="col-md-5">Vendor Name</th>
 											<th class="col-md-1">Enquiry No</th>
-											<th class="col-md-1">Indent No</th>
+											<th class="col-md-1">Date</th> 
+											<th class="col-md-3">Vendor Name</th> 
+											<th class="col-md-2">Indent No</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -135,23 +135,21 @@
 										<c:forEach items="${enquiryList}" var="enquiryList"
 											varStatus="count">
 											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
-
+												<td style="width:2%;"><c:out value="${count.index+1}" /></td>
+												
+												<td class="col-md-1"><c:out
+														value="${enquiryList.enqNo}" /></td> 
 
 												<td class="col-md-1"><c:out
 														value="${enquiryList.enqDate}" /></td>
  
-												<td class="col-md-1"><c:out
+												<td class="col-md-3"><c:out
 														value="${enquiryList.vendorName}" /></td>
 
-												<td class="col-md-1"><c:out
-														value="${enquiryList.enqNo}" /></td>
-
-												<td class="col-md-1"><c:out
-														value="${enquiryList.indNo}" /></td>
-
-
-
+												 
+												<td class="col-md-2"><c:out
+														value="${enquiryList.indNo}" /></td> 
+ 
 												<td>
 												<a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>

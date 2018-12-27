@@ -86,28 +86,31 @@ public class EnqController {
 
 		try {
 
-			int indIdForGetList = Integer.parseInt(request.getParameter("indId"));
+			String indIdForGetList =  request.getParameter("indId") ;
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("indId", indIdForGetList);
-			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
+			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendIds", map,
 					GetIntendDetail[].class);
 			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
 			
-			if(indIdForGetList==enquiryHeader.getIndId())
-			{
+			/*String[] indIds = indIdForGetList.split(",");
+			String[] enqIndIds = enquiryHeader.getIndId().split(",");
+			
+			 if(indIdForGetList==enquiryHeader.getIndId())
+			{*/
 				for(int i = 0 ; i < intendDetailList.size() ; i++)
 				{
 					for(int j = 0 ; j < enqDetailList.size() ; j++)
 					{
-						if(intendDetailList.get(i).getItemId()==enqDetailList.get(j).getItemId()) {
+						if(intendDetailList.get(i).getIndDId()==enqDetailList.get(j).getIndId()) {
 							intendDetailList.get(i).setPoQty(enqDetailList.get(j).getEnqQty());
 							break;
 						}
 					}
 					
 				}
-			}
+			//} 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,12 +130,16 @@ public class EnqController {
 
 			getIntendDetailforJsp = new ArrayList<>();
 
-			int indId = Integer.parseInt(request.getParameter("indMId"));
+			String indId =  request.getParameter("indMIds") ;
+			String[] indIds= indId.split(",");
+			
 			String[] checkbox = request.getParameterValues("select_to_approve");
 
 			try {
-				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
-				model.addObject("vendIdTemp", vendIdTemp);
+				String vendIdTemp =  request.getParameter("vendIdTemp") ;
+				 String[] vendIds= vendIdTemp.split(",");
+				
+				model.addObject("vendIdTemp", vendIds);
 				System.out.println(vendIdTemp);
 			} catch (Exception e) {
 				 
@@ -165,13 +172,16 @@ public class EnqController {
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);
 			
+			String indMIds = new String();
+			 String indNos = new String();
+			
 			try {
 				for (int i = 0; i < intendDetailList.size(); i++) {
 					for (int j = 0; j < checkbox.length; j++) {
-						System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
+						//System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
 						if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
 							EnquiryDetail enqDetail = new EnquiryDetail();
-							enqDetail.setIndId(intendDetailList.get(i).getIndMId());
+							enqDetail.setIndId(intendDetailList.get(i).getIndDId());
 							enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
 							enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
 							enqDetail.setItemId(intendDetailList.get(i).getItemId());
@@ -185,9 +195,10 @@ public class EnqController {
 							enqDetail.setEnqRemark(request.getParameter("indRemark" + intendDetailList.get(i).getIndDId()));
 
 							enqDetailList.add(enqDetail);
-
-							enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
-							enquiryHeader.setIndId(indId);
+							indMIds=indMIds+","+intendDetailList.get(i).getIndMId();
+							 indNos=indNos+","+intendDetailList.get(i).getIndMNo();
+							//enquiryHeader.setIndNo(intendDetailList.get(i).getIndMNo());
+							
 						}
 
 					}
@@ -196,12 +207,71 @@ public class EnqController {
 			{
 				e.printStackTrace();
 			}
+			 
+			String[] indIdsDouble= indMIds.split(",");
+			String[] indNosDouble= indNos.split(",");
 			
+			for(int i=0; i<indIdsDouble.length ; i++ ) {
+				
+				String[] x = new String[0];
+				try {
+					 x= enquiryHeader.getIndId().split(",");
+					
+				}catch(Exception e) {
+					
+				}
+				
+				int flag =1;
+				
+				for(int j=0 ; j<x.length ; j++) {
+					
+					if(x[j].equals(indIdsDouble[i])) {
+						
+						flag=0;
+						break;
+					}
+					 
+				}
+				if(flag==1) {
+					enquiryHeader.setIndId(enquiryHeader.getIndId()+","+indIdsDouble[i]);
+				}
+			}
 			
+			for(int i=0; i<indNosDouble.length ; i++ ) {
+				
+				String[] x = new String[0];
+				try {
+					 x= enquiryHeader.getIndNo().split(",");
+					
+				}catch(Exception e) {
+					
+				}
+				
+				int flag =1;
+				
+				for(int j=0 ; j<x.length ; j++) {
+					
+					if(x[j].equals(indNosDouble[i])) {
+						
+						flag=0;
+						break;
+					}
+					 
+				}
+				if(flag==1) {
+					enquiryHeader.setIndNo(enquiryHeader.getIndNo()+","+indNosDouble[i]);
+				}
+			}
+			
+			enquiryHeader.setIndId(enquiryHeader.getIndId().substring(6, enquiryHeader.getIndId().length()));
+			enquiryHeader.setIndNo(enquiryHeader.getIndNo().substring(6, enquiryHeader.getIndNo().length()));
+			System.out.println(enquiryHeader.getIndId()+ " " + enquiryHeader.getIndNo());
+		 
+			String[] x= enquiryHeader.getIndId().split(",");
 			System.out.println("enqDetailList" + enqDetailList);
 
 			model.addObject("enqDetailList", enqDetailList);
-			model.addObject("indId", indId);
+			model.addObject("indIds", x);
 			model.addObject("enquiryHeader", enquiryHeader);
 
 		} catch (Exception e) {
@@ -222,7 +292,7 @@ public class EnqController {
 			String enqRemark = request.getParameter("enqRemark");
 			String enqDate = request.getParameter("enqDate");
 
-			int indId = Integer.parseInt(request.getParameter("indId"));
+			String[] indId =  request.getParameterValues("indId") ;
 
 			String Date = DateConvertor.convertToYMD(enqDate);
 			List<SubDocument> docList = new ArrayList<SubDocument>();
@@ -410,11 +480,11 @@ public class EnqController {
 			List<GetIndentByStatus> intedList = new ArrayList<GetIndentByStatus>(Arrays.asList(inted));
 			model.addObject("intedList", intedList);*/
 
-			int indIdForGetList = editEnquiry.getIndId();
+			String[] indIdForGetList = editEnquiry.getIndId().split(",");
 			System.out.println("indIdForGetList" + indIdForGetList);
 			MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<String, Object>();
-			map1.add("indId", indIdForGetList);
-			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map1,
+			map1.add("indId", editEnquiry.getIndId());
+			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendIds", map1,
 					GetIntendDetail[].class);
 			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
 			model.addObject("intendDetailList", intendDetailList);
@@ -455,18 +525,18 @@ public class EnqController {
 
 		try {
 
-			int indIdForGetList = Integer.parseInt(request.getParameter("indId"));
+			String[] indIdForGetList =  request.getParameterValues("indId") ;
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("indId", indIdForGetList);
-			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
+			map.add("indId", editEnquiry.getIndId());
+			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendIds", map,
 					GetIntendDetail[].class);
 			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
 			 
 			for(int j = 0 ; j<detailList.size() ; j++) {
 			 		
 				for(int i = 0 ; i<intendDetailList.size() ; i++) {
-					if(intendDetailList.get(i).getItemId()==detailList.get(j).getItemId() && detailList.get(j).getDelStatus()==1)
+					if(detailList.get(j).getDelStatus()==1 && intendDetailList.get(i).getIndDId()==detailList.get(j).getIndId())
 					{
 						intendDetailList.remove(i);
 					}
@@ -573,7 +643,7 @@ public class EnqController {
 						System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
 						if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
 							GetEnquiryDetail enqDetail = new GetEnquiryDetail();
-							enqDetail.setIndId(intendDetailList.get(i).getIndMId());
+							enqDetail.setIndId(intendDetailList.get(i).getIndDId());
 							enqDetail.setIndNo(intendDetailList.get(i).getIndMNo());
 							enqDetail.setItemCode(intendDetailList.get(i).getItemCode());
 							enqDetail.setItemId(intendDetailList.get(i).getItemId());
