@@ -188,7 +188,7 @@
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
 											   
-											   <td class="col-md-1"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
+											   <td class="col-md-1"><%-- <a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> --%> <abbr title='detailes'> <i class='fa fa-list' onclick="getValuationDetail(${list.itemId},${list.openingStock})"></i></abbr><!-- </a> --></td> 
 											</tr>
 											</c:when>
 											</c:choose>
@@ -289,6 +289,13 @@
 
 
 	<script type="text/javascript">
+	
+	function getValuationDetail(itemId,stock) {
+		
+		 
+	    window.open('${pageContext.request.contextPath}/valueationReportDetail/'+itemId+'/'+stock);
+	}
+	
 	function search() {
 		  
 		
