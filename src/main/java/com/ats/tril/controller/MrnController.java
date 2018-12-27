@@ -443,7 +443,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			mrnHeader.setMrnStatus(0);
 			mrnHeader.setMrnType(grnType);
 			mrnHeader.setRemark1(lorryRemark);
-			mrnHeader.setRemark2("def");
+			mrnHeader.setRemark2("-");
 			mrnHeader.setTransport(transport);
 			mrnHeader.setUserId(1);
 			mrnHeader.setVendorId(vendorId);
@@ -908,7 +908,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			// mrnHeader.setMrnNo("default MRN NO");
 			mrnHeader.setMrnStatus(0);
 			mrnHeader.setRemark1(lorryRemark);
-			mrnHeader.setRemark2("def");
+			mrnHeader.setRemark2("-");
 			mrnHeader.setTransport(transport);
 			mrnHeader.setUserId(1);
 

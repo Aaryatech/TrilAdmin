@@ -152,10 +152,10 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th  >CAT NAME</th>
-										<th class="col-md-2" align="right">Class A</th>
-										<th class="col-md-2" align="right">Class B</th>
-										<th class="col-md-2" align="right">Class C</th> 
-										<th class="col-md-1">Action</th>
+										<th class="col-md-2" style="text-align: right;">Class A</th>
+										<th class="col-md-2" style="text-align: right;">Class B</th>
+										<th class="col-md-2" style="text-align: right;">Class C</th> 
+										<th class="col-md-1" style="text-align: center;">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -178,7 +178,7 @@
 										 
 											<td class="col-md-2" align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueQtyValue}"/> </td>
 													  
-											 <td><a href='javascript:getDetailReport(${categoryWiseReport.catId},/ ${categoryWiseReport.catDesc} /);' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td align="center"><a href='javascript:getDetailReport(${categoryWiseReport.catId},/ ${categoryWiseReport.catDesc} /);' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 											</c:when>

@@ -184,7 +184,7 @@ GOODS INSPECTION REPORT
 	<br>
 	
 	 <p style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
-			Insp. Remark - 
+			Insp. Remark - ${item.remark2}
 		</p>
 	
 	<br><br>
@@ -380,7 +380,7 @@ GOODS INSPECTION REPORT
 		<br>
 	
 	 <p style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 100%;">
-			Insp. Remark - 
+			Insp. Remark - ${item.remark2}
 		</p>
 	
 	<br><br>

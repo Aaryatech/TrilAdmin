@@ -8,8 +8,8 @@ public class Constants {
 	//public static final String url="http://tomcat.aaryatechindia.in:2908/webapi/"; 
 	//public static final String url="http://132.148.143.124:8080/TrilWebApi/"; 
 	//public static final String ReportURL = "http://tomcat.aaryatechindia.in:2908/admin";
-	//public static final String ReportURL = "http://localhost:8081/tril";
-	public static final String ReportURL = "http://132.148.143.124:8080/triladmin";
+	public static final String ReportURL = "http://localhost:8080/tril";
+	//public static final String ReportURL = "http://132.148.143.124:8080/triladmin";
 	public static final int ItemImage = 1;  
 	//public static final String Item_Image_URL ="C:/pdf/";
 	//public static final String Item_Image_URL ="http://tomcat.aaryatechindia.in:2908/uploads/Item/";

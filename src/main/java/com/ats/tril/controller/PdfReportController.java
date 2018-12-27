@@ -45,6 +45,8 @@ import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetLogRecord;
+import com.ats.tril.model.GetQuatationDetail;
+import com.ats.tril.model.GetQuatationHeader;
 import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.doc.DocumentBean;
@@ -823,6 +825,44 @@ public class PdfReportController {
 		return model;
 	}
 
+	//Quotation pdf 
+	
+	@RequestMapping(value = "/pdf/quotationPdf/{enqId}", method = RequestMethod.GET)
+	public ModelAndView quotationPdf(@PathVariable int enqId, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("docs/quatation");
+		try {
+
+			RestTemplate rest = new RestTemplate();
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("enqId", enqId);
+			 
+			GetQuatationHeader quatation = rest.postForObject(Constants.url + "/getQuatationHeaderAndDetail",map, GetQuatationHeader.class);
+
+			  
+			model.addObject("editEnquiry", quatation);
+			
+			Company company = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			model.addObject("company", company);
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docId", 11);
+			 map.add("date", sf.format(date));
+			DocumentBean documentBean = rest.postForObject(Constants.url + "getDocumentInfo",map,
+					DocumentBean.class);
+			model.addObject("documentBean", documentBean);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
 	// pdf function
 
 	private Dimension format = PD4Constants.A4;
@@ -845,9 +885,9 @@ public class PdfReportController {
 		// String url="/showEditViewIndentDetail/1";
 		System.out.println("URL " + url);
 
-		File f = new File("/report.pdf");
+		//File f = new File("/report.pdf");
 		//File f = new File("C:/pdf/report.pdf");
-		//File f = new File("/home/lenovo/Documents/pdf/Report.pdf");
+		File f = new File("/home/lenovo/Documents/pdf/Report.pdf");
 		 
 		try {
 			runConverter(Constants.ReportURL + url, f, request, response);
@@ -861,10 +901,10 @@ public class PdfReportController {
 		// get absolute path of the application
 		ServletContext context = request.getSession().getServletContext();
 		String appPath = context.getRealPath("");
-		String filePath = "/report.pdf";
+		//String filePath = "/report.pdf";
 
 		//String filePath ="C:/pdf/report.pdf";
-		//String filePath ="/home/lenovo/Documents/pdf/Report.pdf";
+		String filePath ="/home/lenovo/Documents/pdf/Report.pdf";
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;
 		File downloadFile = new File(filePath);

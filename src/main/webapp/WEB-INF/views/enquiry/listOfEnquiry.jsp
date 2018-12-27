@@ -140,8 +140,8 @@
 
 												 
 												<td class="col-md-1">
-												<%-- <a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a> --%>
+												  <a href="javascript:genPdf(${ enquiryList.enqId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a> 
 												<a
 													href="${pageContext.request.contextPath}/editEnquiry/${enquiryList.enqId}"><abbr
 														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
@@ -352,7 +352,7 @@ function myFunction() {
 	<script type="text/javascript">
 		function genPdf(id) {
 
-			window.open('pdfForReport?url=/pdf/enquiryPdf/' + id);
+			window.open('pdfForReport?url=/pdf/quotationPdf/' + id);
 
 		}
 	</script>
