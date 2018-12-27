@@ -845,9 +845,9 @@ public class PdfReportController {
 		// String url="/showEditViewIndentDetail/1";
 		System.out.println("URL " + url);
 
-		//File f = new File("/report.pdf");
+		File f = new File("/report.pdf");
 		//File f = new File("C:/pdf/report.pdf");
-		File f = new File("/home/lenovo/Documents/pdf/Report.pdf");
+		//File f = new File("/home/lenovo/Documents/pdf/Report.pdf");
 		 
 		try {
 			runConverter(Constants.ReportURL + url, f, request, response);
@@ -861,10 +861,10 @@ public class PdfReportController {
 		// get absolute path of the application
 		ServletContext context = request.getSession().getServletContext();
 		String appPath = context.getRealPath("");
-		//String filePath = "/report.pdf";
+		String filePath = "/report.pdf";
 
 		//String filePath ="C:/pdf/report.pdf";
-		String filePath ="/home/lenovo/Documents/pdf/Report.pdf";
+		//String filePath ="/home/lenovo/Documents/pdf/Report.pdf";
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;
 		File downloadFile = new File(filePath);

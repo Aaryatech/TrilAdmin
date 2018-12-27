@@ -1670,9 +1670,10 @@ public class DashboardController {
 		try {
 		 getMrnDetailList = new ArrayList<>();
 			
-			int mrnId =Integer.parseInt(request.getParameter("mrnId"));
+			int mrnId =Integer.parseInt(request.getParameter("mrnId")); 
+			String remark2 = request.getParameter("remark2") ;
 			String[] checkbox=request.getParameterValues("select_to_approve");
-			
+			getMrnHeader.setRemark2(remark2);
 			
 			for (int i = 0; i < getMrnHeader.getGetMrnDetailList().size(); i++) 
 			{

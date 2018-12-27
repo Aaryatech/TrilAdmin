@@ -117,19 +117,19 @@
 														<c:set var="mrnSts" value="-"></c:set>
 														  
 														<c:choose>
-															<c:when test="${mrn.mrnStatus==0}">
+															<c:when test="${mrnList.mrnStatus==0}">
 																<c:set var="mrnSts" value="Inspection Pending"></c:set>
 															</c:when> 
-															<c:when test="${mrn.mrnStatus==1}">
+															<c:when test="${mrnList.mrnStatus==1}">
 																<c:set var="mrnSts" value="Inspection Partially Pending"></c:set>
 															</c:when>
-															<c:when test="${mrn.mrnStatus==2}">
+															<c:when test="${mrnList.mrnStatus==2}">
 																<c:set var="mrnSts" value="Inspection Complete"></c:set>
 															</c:when>
-															<c:when test="${mrn.mrnStatus==3}">
+															<c:when test="${mrnList.mrnStatus==3}">
 																<c:set var="mrnSts" value="1st Approve Complete"></c:set>
 															</c:when>
-															<c:when test="${mrn.mrnStatus==4}">
+															<c:when test="${mrnList.mrnStatus==4}">
 																<c:set var="mrnSts" value="2nd Approve Complete"></c:set>
 															</c:when>
 															 
@@ -208,19 +208,19 @@
 														<c:set var="mrnSts" value="-"></c:set>
 														  
 														<c:choose>
-															<c:when test="${mrn.mrnStatus==0}">
+															<c:when test="${mrnList.mrnStatus==0}">
 																<c:set var="mrnSts" value="Inspection Pending"></c:set>
 															</c:when> 
-															<c:when test="${mrn.mrnStatus==1}">
+															<c:when test="${mrnList.mrnStatus==1}">
 																<c:set var="mrnSts" value="Inspection Partially Pending"></c:set>
 															</c:when>
-															<c:when test="${mrn.mrnStatus==2}">
+															<c:when test="${mrnList.mrnStatus==2}">
 																<c:set var="mrnSts" value="Inspection Complete"></c:set>
 															</c:when>
-															<c:when test="${mrn.mrnStatus==3}">
+															<c:when test="${mrnList.mrnStatus==3}">
 																<c:set var="mrnSts" value="1st Approve Complete"></c:set>
 															</c:when>
-															<c:when test="${mrn.mrnStatus==4}">
+															<c:when test="${mrnList.mrnStatus==4}">
 																<c:set var="mrnSts" value="2nd Approve Complete"></c:set>
 															</c:when>
 															 

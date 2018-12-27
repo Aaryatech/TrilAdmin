@@ -109,8 +109,8 @@
 							<div class="col-md-12" style="text-align: center">
 								<input type="submit" class="btn btn-info"   value="Search"> 
 								
-								<%-- <c:choose>
-												<c:when test="${fromDate!=null}">
+								 <%--<c:choose>
+												<c:when test="${fromDate!=null}">--%>
 									 
 								 
 											 
@@ -118,7 +118,7 @@
 											
 											 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											<%-- <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 											&nbsp;
 											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph"> 
 											 
@@ -535,9 +535,9 @@ function showChart(){
 </script>
 	<script type="text/javascript">
 	function genPdf(){
-		var typeName = $("#typeId option:selected").text();
+		//var typeName = $("#typeId option:selected").text();
 		//alert(typeName);
-		window.open('${pageContext.request.contextPath}/stockValuetionReportCategoryWisePDF/'+typeName);
+		window.open('${pageContext.request.contextPath}/abcAnalysisCategoryWiseReportPdf/');
 	}
 	function exportToExcel()
 	{

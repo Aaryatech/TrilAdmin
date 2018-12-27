@@ -111,7 +111,8 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th  >Item Name</th> 
-										<th class="col-md-2">Valuation(Class A)</th>
+										<th class="col-md-2" style="text-align: right;">QTY</th>
+										<th class="col-md-2" style="text-align: right;">Valuation(Class A)</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -131,7 +132,7 @@
 												<td  ><c:out value="${getStockBetweenDate.itemCode}" /></td>
 												  
 												 
-										 
+										 <td class="col-md-2" align="right"> <fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${getStockBetweenDate.openingStock+getStockBetweenDate.approveQty-getStockBetweenDate.issueQty-getStockBetweenDate.damageQty}"/></td>
 											<td class="col-md-2" align="right"> <fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/> </td>
 													   
 											</tr>
@@ -154,7 +155,8 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th  >Item Name</th> 
-										<th class="col-md-2">Valuation(Class B)</th>
+										<th class="col-md-2" style="text-align: right;">QTY</th>
+										<th class="col-md-2" style="text-align: right;">Valuation(Class B)</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -174,7 +176,8 @@
 												<td  ><c:out value="${getStockBetweenDate.itemCode}" /></td>
 												  
 												 
-										 
+										 <td class="col-md-2" align="right"> <fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${getStockBetweenDate.openingStock+getStockBetweenDate.approveQty-getStockBetweenDate.issueQty-getStockBetweenDate.damageQty}"/></td>
+											
 											<td class="col-md-2" align="right"> <fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
 													   
 											</tr>
@@ -199,7 +202,8 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th  >Item Name</th> 
-										<th class="col-md-2">Valuation(Class C)</th>
+										<th class="col-md-2" style="text-align: right;">QTY</th>
+										<th class="col-md-2" style="text-align: right;">Valuation(Class C)</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -219,7 +223,8 @@
 												<td  ><c:out value="${getStockBetweenDate.itemCode}" /></td>
 												  
 												 
-										 
+										 <td class="col-md-2" align="right"> <fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${getStockBetweenDate.openingStock+getStockBetweenDate.approveQty-getStockBetweenDate.issueQty-getStockBetweenDate.damageQty}"/></td>
+											
 											<td class="col-md-2" align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
 													   
 											</tr>

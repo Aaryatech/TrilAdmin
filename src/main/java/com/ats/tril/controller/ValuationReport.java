@@ -6904,7 +6904,8 @@ PdfPCell cell;
 		}
 	}
 	
-	 
+	List<StockValuationCategoryWise> abcAnalysisReport = new ArrayList<StockValuationCategoryWise>();
+	
 	@RequestMapping(value = "/abcAnalysisReport", method = RequestMethod.GET)
 	public ModelAndView abcAnalysisReport(HttpServletRequest request, HttpServletResponse response) {
 
@@ -6912,7 +6913,7 @@ PdfPCell cell;
 		try {
 			
 			
-			List<StockValuationCategoryWise> categoryWiseReport = new ArrayList<StockValuationCategoryWise>();
+			 abcAnalysisReport = new ArrayList<StockValuationCategoryWise>();
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
@@ -6986,15 +6987,15 @@ PdfPCell cell;
 			 			StockValuationCategoryWise.setOpStockValue(clsValueA);
 		 				StockValuationCategoryWise.setApprovedQtyValue(clsValueB);
 		 				StockValuationCategoryWise.setIssueQtyValue(clsValueC);
-		 				categoryWiseReport.add(StockValuationCategoryWise);
+		 				abcAnalysisReport.add(StockValuationCategoryWise);
 				 }
 				  
 					
-					model.addObject("categoryWiseReport", categoryWiseReport);
+					model.addObject("categoryWiseReport", abcAnalysisReport);
 					model.addObject("fromDate", fromDate);
 					model.addObject("toDate", dd.format(date));
 					
-					System.out.println("categoryWiseReport count " + categoryWiseReport.size());
+					System.out.println("categoryWiseReport count " + abcAnalysisReport.size());
 					 
 			}
 			else {
@@ -7081,7 +7082,7 @@ PdfPCell cell;
 				 			StockValuationCategoryWise.setOpStockValue(clsValueA);
 			 				StockValuationCategoryWise.setApprovedQtyValue(clsValueB);
 			 				StockValuationCategoryWise.setIssueQtyValue(clsValueC);
-			 				categoryWiseReport.add(StockValuationCategoryWise);
+			 				abcAnalysisReport.add(StockValuationCategoryWise);
 					 }
 				 }
 				 else
@@ -7123,11 +7124,11 @@ PdfPCell cell;
 				 			StockValuationCategoryWise.setOpStockValue(clsValueA);
 			 				StockValuationCategoryWise.setApprovedQtyValue(clsValueB);
 			 				StockValuationCategoryWise.setIssueQtyValue(clsValueC);
-			 				categoryWiseReport.add(StockValuationCategoryWise);
+			 				abcAnalysisReport.add(StockValuationCategoryWise);
 					 }
 				 }
 				 
-				model.addObject("categoryWiseReport", categoryWiseReport);
+				model.addObject("categoryWiseReport", abcAnalysisReport);
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
 				model.addObject("typeId", typeId);
@@ -7141,6 +7142,205 @@ PdfPCell cell;
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/abcAnalysisCategoryWiseReportPdf", method = RequestMethod.GET)
+	public void abcAnalysisCategoryWiseReportPdf( HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		 
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+		   
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+		
+		float issueQty=0;
+		float issueValue=0;
+	
+		PdfPTable table = new PdfPTable(5);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.9f, 7.0f, 2.3f, 2.3f, 2.3f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR.NO.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("ITEM NAME", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLASS A", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLASS B", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLASS C", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			 
+			
+			float total = 0;
+			
+			int index = 0;
+			if(!abcAnalysisReport.isEmpty()) {
+					for (int k = 0; k < abcAnalysisReport.size(); k++) {
+						
+						 
+						  
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisReport.get(k).getCatDesc(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisReport.get(k).getOpStockValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisReport.get(k).getApprovedQtyValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisReport.get(k).getIssueQtyValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							 
+					
+					}
+			}
+			
+			 
+			  
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						companyInfo.getFactoryAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+				 
+			 
+					Paragraph report=new Paragraph("ABC Analysis Report  ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+				 
+					
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER); 
+				document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	 
 	List<GetCurrentStock> abcAnalysisItemWiseLisPdf = new ArrayList<>();
@@ -7294,11 +7494,11 @@ PdfPCell cell;
 		float issueQty=0;
 		float issueValue=0;
 	
-		PdfPTable table = new PdfPTable(3);
+		PdfPTable table = new PdfPTable(4);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {0.9f, 7.0f, 2.3f});
+			table.setWidths(new float[] {0.9f, 7.0f, 2.3f, 2.3f});
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -7313,6 +7513,11 @@ PdfPCell cell;
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("ITEM NAME", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("QTY", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
@@ -7354,6 +7559,14 @@ PdfPCell cell;
 							cell.setPadding(3);
 							table.addCell(cell);
 						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisItemWiseLisPdf.get(k).getOpeningStock()+abcAnalysisItemWiseLisPdf.get(k).getApproveQty()-
+									abcAnalysisItemWiseLisPdf.get(k).getIssueQty()-abcAnalysisItemWiseLisPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
 							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -7383,6 +7596,14 @@ PdfPCell cell;
 							cell.setPadding(3);
 							table.addCell(cell);
 						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisItemWiseLisPdf.get(k).getOpeningStock()+abcAnalysisItemWiseLisPdf.get(k).getApproveQty()-
+									abcAnalysisItemWiseLisPdf.get(k).getIssueQty()-abcAnalysisItemWiseLisPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
 							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -7411,6 +7632,14 @@ PdfPCell cell;
 							cell.setPadding(3);
 							table.addCell(cell);
 						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisItemWiseLisPdf.get(k).getOpeningStock()+abcAnalysisItemWiseLisPdf.get(k).getApproveQty()-
+									abcAnalysisItemWiseLisPdf.get(k).getIssueQty()-abcAnalysisItemWiseLisPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
 							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);

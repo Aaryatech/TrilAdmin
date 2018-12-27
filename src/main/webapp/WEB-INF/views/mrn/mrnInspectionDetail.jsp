@@ -272,7 +272,7 @@ body {
 				method="post">
 			<div id="myModal" class="modal">
 					<input  type="hidden" value="0" name="mrnId" id="mrnId"    >
-					
+					<input  type="hidden" value="0" name="remark2" id="remark2"    >
 										      
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
@@ -321,7 +321,7 @@ body {
 						</div><br>
 						<div class="row">
 						<div class="col-md-12" style="text-align: center">
-							<input type="submit" class="btn btn-info" value="Submit" >
+							<input type="submit" onclick="getRemark2()" class="btn btn-info" value="Submit" >
 
 
 						</div>
@@ -656,6 +656,14 @@ function itemByIntendId()
 			document.getElementById('rejectQty'+mrnDetailId).value=0;
 			
 		}
+		
+	}function getRemark2()
+	{
+		
+		var inspRemark = $("#inspRemark").val(); 
+	 
+		   document.getElementById('remark2').value=inspRemark;
+		 
 		
 	}
 	$(function() {
