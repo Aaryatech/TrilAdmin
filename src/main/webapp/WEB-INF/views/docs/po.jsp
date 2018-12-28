@@ -124,12 +124,12 @@ hr {
 
 				<table width="100%">
 							<tr>
-								<td width="15%" > 
+								<td width="20%" > 
 									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="80" height="70" />
 								</td>
 
-								<td width="85%" style="text-align: center;">
- <h4 align="center">${company.companyName}</h4>
+								<td width="60%" style="text-align: center;" align="center">
+ 			<h4 align="center">${company.companyName}</h4>
 
 
 
@@ -137,6 +137,10 @@ hr {
 			& Billing Addr.: ${company.factoryAdd}</h6>
 		<h6 style="font-weight: normal; margin: 0px;" align="center">CIN
 			NO : ${company.cinNumber}</h6>
+								</td>
+								
+								<td width="20%" > 
+									 
 								</td>
 
 							</tr>
@@ -392,11 +396,11 @@ hr {
 
 					<table width="100%">
 							<tr>
-								<td width="15%" > 
+								<td width="20%" > 
 									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="80" height="70" />
 								</td>
 
-								<td width="85%" style="text-align: center;">
+								<td width="60%" style="text-align: center;">
  <h4 align="center">${company.companyName}</h4>
 
 
@@ -405,6 +409,10 @@ hr {
 			& Billing Addr.: ${company.factoryAdd}</h6>
 		<h6 style="font-weight: normal; margin: 0px;" align="center">CIN
 			NO : ${company.cinNumber}</h6>
+								</td>
+								
+								<td width="20%" > 
+									 
 								</td>
 
 							</tr>
