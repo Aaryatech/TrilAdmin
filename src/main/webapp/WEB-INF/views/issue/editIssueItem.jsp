@@ -260,12 +260,12 @@
 								style="width: 100%" id="table_grid">
 								<thead>
 									<tr>
-										<th>Sr.No.</th>
+										<th style="width: 2%;">Sr.No.</th>
 										<!-- <th>Group Name</th> -->
 										<th>Item Name</th> 
 										 
-										<th>QTY</th> 
-										<th>Action</th> 
+										<th class="col-md-1">QTY</th> 
+										<th class="col-md-1">Action</th> 
 									</tr>
 								</thead>
 								<tbody>

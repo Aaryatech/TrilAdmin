@@ -1577,7 +1577,7 @@ public class DashboardController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			 map.add("status","0,1");
 			 map.add("venId","0");
-			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  List.class);
+			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderListForInspection", map,  List.class);
             model.addObject("getMrnHeaderList", getMrnHeaderList);
             
             Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
@@ -1617,7 +1617,7 @@ public class DashboardController {
 
 			}
 			 map.add("venId",vendorId);
-			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderList", map,  List.class);
+			List<GetMrnHeader> getMrnHeaderList=rest.postForObject(Constants.url+"getMrnHeaderListForInspection", map,  List.class);
 			System.err.println("Mrn Header List  " +getMrnHeaderList);
 			
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);

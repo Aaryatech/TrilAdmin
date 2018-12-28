@@ -1220,8 +1220,8 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 					 ErrorMessage resp = rest.postForObject(Constants.url + "/updateAppv2DateAndTime",
 							map, ErrorMessage.class);
 				 
-				 GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
-					List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item)); 
+					 
+					
 					map = new LinkedMultiValueMap<String, Object>();
 					map.add("name", "autoIssue"); 
 					System.out.println("map " + map);
@@ -1239,6 +1239,22 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 					 }
 					 
 					 if(flag==1) {
+						 
+						 String itemIds="0";
+						 
+						 for(int i=0 ; i<mrnFroApprove.getGetMrnDetailList().size() ; i++)
+						 { 
+								 if(mrnFroApprove.getGetMrnDetailList().get(i).getMrnDetailStatus()==4) {
+									 
+									 itemIds=itemIds+","+mrnFroApprove.getGetMrnDetailList().get(i).getItemId();
+								 }
+							  
+						 }
+						 
+						map = new LinkedMultiValueMap<String, Object>();
+						map.add("itemIds", itemIds); 
+						GetItem[] item = rest.postForObject(Constants.url + "/getItemByItemIds",map,  GetItem[].class); 
+						List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item)); 
 						 
 						 IssueHeader issueHeader = new IssueHeader(); 
 						 issueHeader.setIssueDate(DateConvertor.convertToYMD(mrnFroApprove.getMrnDate()));
@@ -1300,7 +1316,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 						 {
 							 for(int j=0 ; j<itemList.size() ;j++)
 							 {
-								 if(itemList.get(j).getItemId()==mrnFroApprove.getGetMrnDetailList().get(i).getItemId()) {
+								 if(itemList.get(j).getItemId()==mrnFroApprove.getGetMrnDetailList().get(i).getItemId() && mrnFroApprove.getGetMrnDetailList().get(i).getMrnDetailStatus()==4) {
 									 IssueDetail issueDetail = new IssueDetail();
 									 issueDetail.setItemId(mrnFroApprove.getGetMrnDetailList().get(i).getItemId());
 									 issueDetail.setItemIssueQty(mrnFroApprove.getGetMrnDetailList().get(i).getMrnQty());
