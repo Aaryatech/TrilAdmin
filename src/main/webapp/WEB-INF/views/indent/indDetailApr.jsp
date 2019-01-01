@@ -27,7 +27,8 @@
 	<c:url var="getLastRate" value="/getLastRate" />
 
 	<div class="container" id="main-container">
-
+<c:url var="getIndentValueLimitByDate" value="/getIndentValueLimitByDate" />
+	<c:url var="getIndentPendingValueLimitByDate" value="/getIndentPendingValueLimitByDate" />
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
 
@@ -742,10 +743,13 @@ function getlimitationValue(catId,typeId) {
 
 function getIndentValueLimit(catId,typeId) {
 	 
-	$.getJSON('${getIndentValueLimit}', {
+	var date = $("#indent_date").val(); 
+	
+	$.getJSON('${getIndentValueLimitByDate}', {
  
 		catId:catId,  
 		typeId : typeId,
+		date : date,
 		ajax : 'true',
 
 	}, function(data) { 
@@ -759,10 +763,13 @@ function getIndentValueLimit(catId,typeId) {
 
 function getIndentPeningValueLimit(catId,typeId) {
 	 
-	$.getJSON('${getIndentPendingValueLimit}', {
+	var date = $("#indent_date").val(); 
+	
+	$.getJSON('${getIndentPendingValueLimitByDate}', {
  
 		catId:catId,  
 		typeId : typeId,
+		date : date,
 		ajax : 'true',
 
 	}, function(data) {  

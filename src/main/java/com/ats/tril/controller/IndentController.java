@@ -112,6 +112,110 @@ public class IndentController {
 		return mrnReportList;
 	}
 	
+	@RequestMapping(value = "/getIndentValueLimitByDate", method = RequestMethod.GET)
+	@ResponseBody
+	public float getIndentValueLimitByDate(HttpServletRequest request, HttpServletResponse response) {
+  
+		float total = 0;
+		try {
+			List<IndentValueLimit> list = new ArrayList<IndentValueLimit>();
+			
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			String indDate = request.getParameter("date");
+			
+			
+			SimpleDateFormat yy = new SimpleDateFormat("dd-MM-yyyy"); 
+			Date date = yy.parse(indDate);
+			Calendar calendar = Calendar.getInstance();  
+	        calendar.setTime(date);
+			 
+			 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 
+			 	calendar.add(Calendar.MONTH, 1);  
+		        calendar.set(Calendar.DAY_OF_MONTH, 1);  
+		        calendar.add(Calendar.DATE, -1);  
+
+		        Date lastDayOfMonth = calendar.getTime(); 
+			 String toDate = yy.format(lastDayOfMonth);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			 			map.add("catId", catId);
+			 			map.add("typeId", typeId);
+			 			map.add("status", "0,1,2");
+			 			map.add("detailStatus", "0,1,2");
+			 			System.out.println(map);
+			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
+			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
+			
+			 			System.out.println("list " + list);
+			 			
+			 			for(int i=0; i<list.size() ; i++) {
+			 				
+			 				total=total+(list.get(i).getQty()*list.get(i).getRate());
+			 				System.out.println("total ----------" + total);
+			 			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+	
+	@RequestMapping(value = "/getIndentPendingValueLimitByDate", method = RequestMethod.GET)
+	@ResponseBody
+	public float getIndentPendingValueLimitByDate(HttpServletRequest request, HttpServletResponse response) {
+  
+		float total = 0;
+		try {
+			List<IndentValueLimit> list = new ArrayList<IndentValueLimit>();
+			
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			String indDate = request.getParameter("date");
+			
+			SimpleDateFormat yy = new SimpleDateFormat("dd-MM-yyyy"); 
+			Date date = yy.parse(indDate);
+			  Calendar calendar = Calendar.getInstance();
+			  calendar.setTime(date);
+			   
+			 String fromDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 
+			 calendar.add(Calendar.MONTH, 1);  
+		        calendar.set(Calendar.DAY_OF_MONTH, 1);  
+		        calendar.add(Calendar.DATE, -1);  
+
+		        Date lastDayOfMonth = calendar.getTime(); 
+			 String toDate = yy.format(lastDayOfMonth);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			 			map.add("catId", catId);
+			 			map.add("typeId", typeId);
+			 			map.add("status", "9,8,7,6");
+			 			map.add("detailStatus", "9,8,7,6");
+			 			System.out.println(map);
+			 			IndentValueLimit[] indentValueLimit = rest.postForObject(Constants.url + "/getIndentValueLimit",map, IndentValueLimit[].class);
+			 			list = new ArrayList<IndentValueLimit>(Arrays.asList(indentValueLimit));
+			
+			 			System.out.println("list " + list);
+			 			
+			 			for(int i=0; i<list.size() ; i++) {
+			 				System.out.println("total ----------" + total);
+			 				total=total+(list.get(i).getQty()*list.get(i).getRate());
+			 				
+			 				
+			 			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+	
 	public List<ConsumptionReportWithCatId> getValueFunction() {
 		 
 		mrnReportList = new ArrayList<ConsumptionReportWithCatId>();

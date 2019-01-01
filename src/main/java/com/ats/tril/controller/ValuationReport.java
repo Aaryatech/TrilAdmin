@@ -6914,12 +6914,14 @@ PdfPCell cell;
 			
 			
 			 abcAnalysisReport = new ArrayList<StockValuationCategoryWise>();
-			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			/*Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
-			model.addObject("typeList", typeList);
+			model.addObject("typeList", typeList);*/
 			
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
 			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+			
+			System.out.println("categoryList size " + categoryList.size());
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<String, Object>();
