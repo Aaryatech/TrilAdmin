@@ -6941,8 +6941,8 @@ PdfPCell cell;
 		 			map.add("typeId",typeId); 
 		 			map.add("catId",catId);
 		 			if(sts==0) {
-		 				map.add("detailStatus","0,1");
-		 				map.add("headerStatus","0,1");
+		 				map.add("detailStatus","0,1,2");
+		 				map.add("headerStatus","0,1,2");
 		 			}else {
 		 				map.add("detailStatus","7,9");
 		 				map.add("headerStatus","9,8,7,6");

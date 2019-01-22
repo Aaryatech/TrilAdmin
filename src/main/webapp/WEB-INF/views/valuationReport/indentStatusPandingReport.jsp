@@ -174,7 +174,7 @@
 										<th class="col-md-1">SCH DATE</th>
 										<th class="col-md-1">EXPRESS DAYS</th>
 										<th class="col-md-1" style="text-align: right;" >INDENT QTY</th> 
-										<th class="col-md-1" style="text-align: right;" >Bal QTY</th> 
+										<!-- <th class="col-md-1" style="text-align: right;" >Bal QTY</th>  -->
 										<th class="col-md-1" style="text-align: right;" >Rate</th> 
 										<th class="col-md-1" style="text-align: right;" >Total</th> 
 									</tr>
@@ -201,17 +201,17 @@
 											<td ><c:out
 													value="${list.excessDays}" /></td> 
 											 <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.indQty}"/> </td>
-											 <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.balQty}"/> </td>
+											 <%-- <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.balQty}"/> </td> --%>
 											 <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.rate}"/> </td>
-											 <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.balQty*list.rate}"/> </td>
-											 <c:set var="total" value="${total+(list.balQty*list.rate)}"> </c:set>
+											 <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.indQty*list.rate}"/> </td>
+											 <c:set var="total" value="${total+(list.indQty*list.rate)}"> </c:set>
 											 </tr>
 										 
 										</c:forEach>
 										
 										<tr>
 											 
-												<td colspan="9" style="text-align: center;">Total</td>  
+												<td colspan="8" style="text-align: center;">Total</td>  
 											 <td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${total}"/> </td>
 											 </tr>
   

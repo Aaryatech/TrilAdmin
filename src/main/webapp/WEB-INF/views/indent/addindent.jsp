@@ -664,7 +664,7 @@ $(document).ready(function() {
 		  }else{
 			  if(limitEnabled==1){
 				  
-				  if(limit>(currentMrn+currentTotalIndentValue)){
+				  if(limit>(currentTotalIndentValue)){
 					  
 						if(qty>0 && (itemId!="" || itemId!=null) && schDay>=0){
 						$.getJSON('${getIndentDetail}', {
