@@ -207,6 +207,7 @@
 											<td class="col-md-1"><c:out
 													value="${categoryWiseReport.issueQtyValue}" /></td> 
 											 <td><a href="javascript:getDetailReport(${categoryWiseReport.catId},/${categoryWiseReport.catDesc}/);"  class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											<a href="javascript:getDetailReport1(${categoryWiseReport.catId},/${categoryWiseReport.catDesc}/);"  class='action_btn'> <abbr title='Item Wise Details'> <i class='fa fa-list' ></i></abbr></a></td>
 											
 											</tr>
 											</c:when>
@@ -518,6 +519,14 @@ function showChart(){
 		var isDev = $("#isDev option:selected").text();
 		location.href='${pageContext.request.contextPath}/issueAndMrnReportGroupWise/'
 				+ id +"/" + typeName + "/" + isDev+''+catDesc;
+
+	}
+	
+	function getDetailReport1(catId,catDesc) {
+		var typeName = $("#typeId option:selected").text();
+		var isDev = $("#isDev option:selected").text();
+		location.href='${pageContext.request.contextPath}/issueAndMrnItemWiseReportByCatId/'
+				+ catId +"/" + typeName + "/" + isDev+''+catDesc;
 
 	}
 	function exportToExcel()

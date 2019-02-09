@@ -186,6 +186,9 @@
 											 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											 <input type="button" id="expExcel2" class="btn btn-primary" value="Excel Dept SubDept All" onclick="exportToExcel2();" >
+											 	 <input type="button" value=" Dept SubDept All PDF" class="btn btn-primary"
+													onclick="genPdf2()" />&nbsp;
 											&nbsp;
 											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph"> 
 											</c:when></c:choose>
@@ -446,6 +449,14 @@ function exportToExcel()
 	window.open("${pageContext.request.contextPath}/exportToExcel");
 	document.getElementById("expExcel").disabled=true;
 }
+
+function exportToExcel2()
+{
+	window.open("${pageContext.request.contextPath}/exportToExcel2");
+	document.getElementById("expExcel2").disabled=true;
+}
+
+
 </script>
 <script type="text/javascript">
 
@@ -453,6 +464,12 @@ function genPdf(){
 	var typeName = $("#typeId option:selected").text();
 	var isDev = $("#isDev option:selected").text();
 	window.open('${pageContext.request.contextPath}/issueReportDeptWisePDF/'+typeName+'/'+isDev);
+}
+
+function genPdf2(){
+	var typeName = $("#typeId option:selected").text();
+	var isDev = $("#isDev option:selected").text();
+	window.open('${pageContext.request.contextPath}/getDeptSubDeptIsuuePdf');
 }
 
 function getDetailReport(id,deptName) {

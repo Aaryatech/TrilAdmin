@@ -43,6 +43,10 @@ public class ExportExcelController {
 
 	
 	List<ExportToExcel> exportToExcelList=new ArrayList<ExportToExcel>();
+	
+	List<ExportToExcel> exportToExcelList2 = new ArrayList<ExportToExcel>();
+
+	
 	  @RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
 	    @ResponseBody
 	    public void downloadSpreadsheet(HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -133,4 +137,58 @@ public class ExportExcelController {
 	 
 	        return style;
 	    }
+	    
+	    
+	    
+		@RequestMapping(value = "/exportToExcel2", method = RequestMethod.GET)
+
+		public void exportToExcel2(HttpServletResponse response, HttpServletRequest request) throws Exception {
+			XSSFWorkbook wb = null;
+			HttpSession session = request.getSession();
+			try {
+
+				exportToExcelList2 = (List) session.getAttribute("exportExcelList2");
+				System.out.println("Excel List2 :" + exportToExcelList2.toString());
+
+				String excelName = (String) session.getAttribute("excelName2");
+				wb = createWorkbook2();
+
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + excelName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+			session.removeAttribute("exportExcelList2");
+			System.out.println("Session List" + session.getAttribute("exportExcelList2"));
+		}
+
+		private XSSFWorkbook createWorkbook2() throws IOException {
+			XSSFWorkbook wb = new XSSFWorkbook();
+			XSSFSheet sheet = wb.createSheet("Sheet1");
+
+			/*
+			 * writeHeaders(wb, sheet); writeHeaders(wb, sheet); writeHeaders(wb, sheet);
+			 */
+
+			for (int rowIndex = 0; rowIndex < exportToExcelList2.size(); rowIndex++) {
+				XSSFRow row = sheet.createRow(rowIndex);
+				for (int j = 0; j < exportToExcelList2.get(rowIndex).getRowData().size(); j++) {
+
+					XSSFCell cell = row.createCell(j);
+
+					cell.setCellValue(exportToExcelList2.get(rowIndex).getRowData().get(j));
+
+				}
+				if (rowIndex == 0)
+					row.setRowStyle(createHeaderStyle(wb));
+			}
+			return wb;
+		}
 }
