@@ -100,10 +100,9 @@
 									<select name="grnType" id="grn_type"
 										class="form-control chosen" tabindex="6" multiple="multiple">
 										<option value="-1">All</option>
-										<option value="1">Regular</option>
-										<option value="2">Job Work</option>
-										<option value="3">General</option>
-										<option value="4">Other</option>
+											<c:forEach items="${typeList}" var="typeList">
+										<option  value="${typeList.typeId}">${typeList.typeName}</option>
+										</c:forEach>
 
 									</select>
 

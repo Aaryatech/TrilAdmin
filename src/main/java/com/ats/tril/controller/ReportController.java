@@ -45,6 +45,7 @@ import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.indent.IndentReport;
@@ -1397,7 +1398,7 @@ public class ReportController {
 
 		return model;
 	}
-
+	List<Type> typeList;
 	@RequestMapping(value = "/pendingPoReportList", method = RequestMethod.GET)
 	public ModelAndView pendingPoReportList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1416,6 +1417,10 @@ public class ReportController {
 			map.add("date", sf.format(date));
 			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForPO", map, DocumentBean.class);
 			System.out.println("resList" + resList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 			model.addObject("newDate", DateConvertor.convertToDMY(resList.getFromDate()));
 

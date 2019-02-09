@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ExportToExcel;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.indent.IndentReport;
@@ -56,6 +57,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
 public class MrnReportController {
+	List<Type> typeList;
 
 	@RequestMapping(value = "/showMrnReport", method = RequestMethod.GET)
 	public ModelAndView showMrnRpoert(HttpServletRequest request, HttpServletResponse response) {
@@ -66,6 +68,9 @@ public class MrnReportController {
 			model = new ModelAndView("mrn/report/mrnReport");
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 			model.addObject("vendorList", vendorList);
 		} catch (Exception e) {
@@ -95,6 +100,10 @@ public class MrnReportController {
 			map.add("date", sf.format(date));
 			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForMrn", map, DocumentBean.class);
 			System.out.println("resList" + resList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 			model.addObject("newDate", DateConvertor.convertToDMY(resList.getFromDate()));
 		} catch (Exception e) {

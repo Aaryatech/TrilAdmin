@@ -371,7 +371,7 @@
 				list.push($(this).val());
 			});
 
-			window.open('pdfForReport?url=/pdf/indentPdfDoc/' + list);
+			window.open('indentPdfDoc/' + list);
 
 		}
 	</script>
