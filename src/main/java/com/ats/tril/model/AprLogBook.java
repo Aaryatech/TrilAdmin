@@ -1,16 +1,27 @@
 package com.ats.tril.model;
 
+import java.util.Date;
+
 public class AprLogBook {
 
 	
 	private int logId;
+	private int docTranId;
+	public int getDocTranId() {
+		return docTranId;
+	}
+	public void setDocTranId(int docTranId) {
+		this.docTranId = docTranId;
+	}
+
 	private int docType;
 	private String reqDate;
-	private String app1Date;
-	private String app2Date;
+	private String aprDate1;
+	private String aprDate2;
 	
-	private String apr1User;
-	private String apr2User;
+	private String aprUser1;
+	private String aprUser2;
+	
 	
 	private String docNo;
 	private String docDate;
@@ -32,30 +43,7 @@ public class AprLogBook {
 	public void setReqDate(String reqDate) {
 		this.reqDate = reqDate;
 	}
-	public String getApp1Date() {
-		return app1Date;
-	}
-	public void setApp1Date(String app1Date) {
-		this.app1Date = app1Date;
-	}
-	public String getApp2Date() {
-		return app2Date;
-	}
-	public void setApp2Date(String app2Date) {
-		this.app2Date = app2Date;
-	}
-	public String getApr1User() {
-		return apr1User;
-	}
-	public void setApr1User(String apr1User) {
-		this.apr1User = apr1User;
-	}
-	public String getApr2User() {
-		return apr2User;
-	}
-	public void setApr2User(String apr2User) {
-		this.apr2User = apr2User;
-	}
+	
 	public String getDocNo() {
 		return docNo;
 	}
@@ -69,11 +57,39 @@ public class AprLogBook {
 		this.docDate = docDate;
 	}
 	
+	
+	
+	
+	public String getAprDate1() {
+		return aprDate1;
+	}
+	public void setAprDate1(String aprDate1) {
+		this.aprDate1 = aprDate1;
+	}
+	public String getAprDate2() {
+		return aprDate2;
+	}
+	public void setAprDate2(String aprDate2) {
+		this.aprDate2 = aprDate2;
+	}
+	public String getAprUser1() {
+		return aprUser1;
+	}
+	public void setAprUser1(String aprUser1) {
+		this.aprUser1 = aprUser1;
+	}
+	public String getAprUser2() {
+		return aprUser2;
+	}
+	public void setAprUser2(String aprUser2) {
+		this.aprUser2 = aprUser2;
+	}
+	
 	@Override
 	public String toString() {
-		return "AprLogBook [logId=" + logId + ", docType=" + docType + ", reqDate=" + reqDate + ", app1Date=" + app1Date
-				+ ", app2Date=" + app2Date + ", apr1User=" + apr1User + ", apr2User=" + apr2User + ", docNo=" + docNo
-				+ ", docDate=" + docDate + "]";
+		return "AprLogBook [logId=" + logId + ", docTranId=" + docTranId + ", docType=" + docType + ", reqDate="
+				+ reqDate + ", aprDate1=" + aprDate1 + ", aprDate2=" + aprDate2 + ", aprUser1=" + aprUser1
+				+ ", aprUser2=" + aprUser2 + ", docNo=" + docNo + ", docDate=" + docDate + "]";
 	}
 	
 }

@@ -58,7 +58,7 @@
 
 						<div class="box-content">
 							<form
-								action="${pageContext.request.contextPath}/getAprovalLogBook"
+								action="${pageContext.request.contextPath}/getApprovalLogBook"
 								class="form-horizontal" id="validation-form" method="post">
 
 
@@ -117,6 +117,7 @@
 										<select id="docId" name="docId" class="form-control chosen"
 											placeholder="Document"
 											data-rule-required="true">
+											
 											<option value="1">Indent</option>
 											<option value="2">PO</option>
 											<option value="3">Mrn</option>
@@ -217,13 +218,13 @@
 														<td><c:out value="${logBook.reqDate}" /></td>
 														<td><c:out value="${logBook.docDate}" /></td>
 
-														<td><c:out value="${logBook.apr1User}" /></td>
+														<td><c:out value="${logBook.aprUser1}" /></td>
 
-														<td><c:out value="${logBook.app1Date}" /></td>
+														<td><c:out value="${logBook.aprDate1}" /></td>
 
-														<td><c:out value="${logBook.apr1User}" /></td>
+														<td><c:out value="${logBook.aprUser2}" /></td>
 
-														<td><c:out value="${logBook.app2Date}" /></td>
+														<td><c:out value="${logBook.aprDate2}" /></td>
 													</tr>
 												</c:forEach>
 
