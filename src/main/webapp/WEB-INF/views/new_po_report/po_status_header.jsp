@@ -117,18 +117,19 @@
 										<select id="catId" name="catId" class="form-control chosen"
 											placeholder=" Category" onchange="getInvoiceNo()"
 											data-rule-required="true">
+											<option value="0">Select All</option>
 											<c:forEach items="${categoryList}" var="cat"
 												varStatus="count">
 												<c:choose>
-												<c:when test="${cat.catId==catId}">
-												<option selected value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
-												
-												</c:when>
-												<c:otherwise>
-												<option value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
-												
-												</c:otherwise>
-												
+													<c:when test="${cat.catId==catId}">
+														<option selected value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
+
+													</c:when>
+													<c:otherwise>
+														<option value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
+
+													</c:otherwise>
+
 												</c:choose>
 											</c:forEach>
 										</select>
@@ -139,6 +140,63 @@
 										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
 										<input type="submit" value="Submit" class="btn btn-primary">
 									</div>
+
+								</div>
+
+
+
+
+								<div class="box-content">
+									<div class="col-md-1"></div>
+
+									<label class="col-md-1"> Status</label>
+									<div class="col-md-3">
+										<select name="po_status" id="po_status"
+											data-rule-required="true" class="form-control chosen"
+											data-rule-required="true">
+											
+											<c:choose>
+											<c:when test="${poStatus==-1}">
+											<option selected value="-1">Select All</option>
+											<option value="0">Pending</option>
+											<option value="2">Completed</option>
+											</c:when>
+											
+											<c:when test="${poStatus==0}">
+											<option  value="-1">Select All</option>
+											<option selected value="0">Pending</option>
+											<option value="2">Completed</option>
+											</c:when>
+											
+											<c:when test="${poStatus==1}">
+											<option  value="-1">Select All</option>
+											<option value="0">Pending</option>
+											<option value="2">Completed</option>
+											</c:when>
+											
+											<c:when test="${poStatus==2}">
+										    <option  value="-1">Select All</option>
+											<option value="0">Pending</option>
+											<option selected value="2">Completed</option>
+											</c:when>
+											<c:otherwise>
+												<option  value="-1">Select All</option>
+											<option value="0">Pending</option>
+											<option  value="2">Completed</option>
+											
+											</c:otherwise>
+											
+											</c:choose>
+											
+										</select>
+									</div>
+									<div class="col-md-1"></div>
+
+
+									<!-- <div
+										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
+										<input type="submit" value="Submit" class="btn btn-primary">
+									</div> -->
 
 								</div>
 
@@ -230,9 +288,9 @@
 														<td><c:out value="${po.poDate}" /></td>
 														<td><c:out value="${po.indentNo}" /></td>
 
-														<td><c:out value="${po.vendorCode}" /></td>
+														<td><c:out value="${po.vendorName}" /></td>
 
-														<td><c:out value="${po.itemCode}" /></td>
+														<td><c:out value="${po.itemCode}-${po.itemDesc}" /></td>
 
 														<td><c:out value="${po.poQty}" /></td>
 
@@ -243,7 +301,7 @@
 
 
 														<td><a
-															href="${pageContext.request.contextPath}/getPoStatusReportDetail/${po.poDetailId}/${po.itemCode}"
+															href="${pageContext.request.contextPath}/getPoStatusReportDetail/${po.poDetailId}/${po.itemCode}/${count.index}"
 															target="_blank" title="Detail"
 															onclick="getDetail1(${po.poDetailId},${po.itemCode});"><span
 																class="glyphicon glyphicon glyphicon-file"></span></a></td>
@@ -255,20 +313,23 @@
 
 
 										<br> <br>
-										
+
 									</div>
 
 								</div>
-								
-									<div class="box-content">
-									<div class="col-md-2"><button
+
+								<div class="box-content">
+									<div class="col-md-2">
+										<button
 											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
-											onclick="commonPdf()">PDF</button></div>
-											<div class="col-md-2">
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
-											 </div>
-									
+											onclick="commonPdf()">PDF</button>
 									</div>
+									<div class="col-md-2">
+										<input type="button" id="expExcel" class="btn btn-primary"
+											value="EXPORT TO Excel" onclick="exportToExcel();">
+									</div>
+
+								</div>
 							</form>
 						</div>
 					</div>
@@ -322,12 +383,18 @@ function myFunction() {
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[5];
     td1 = tr[i].getElementsByTagName("td")[1];
+    td4=tr[i].getElementsByTagName("td")[4];
+    	td3=tr[i].getElementsByTagName("td")[3];
     if (td || td1) {
       if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
         tr[i].style.display = "";
       }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
         tr[i].style.display = "";
-      }  else {
+      } else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
         tr[i].style.display = "none";
       }
     }       

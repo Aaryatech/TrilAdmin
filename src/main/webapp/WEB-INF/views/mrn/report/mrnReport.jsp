@@ -153,6 +153,17 @@
 							</div>
 
 							<br /> <br />
+							
+							<div class="col-md-8"></div>
+
+									<div class="input-group">
+										<input type="text" id="myInput"
+											style="text-align: left; color: green;" class="form-control"
+											onkeyup="myFunction()" placeholder="Search " /> <span
+											class="input-group-addon"> <i class="fa fa-search"></i>
+										</span>
+									</div>
+									<br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
 								<table class="table table-advance" id="table1">
@@ -420,6 +431,37 @@
 			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
+	
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td,td1, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    td4=tr[i].getElementsByTagName("td")[4];
+    	td3=tr[i].getElementsByTagName("td")[5];
+    if (td || td1) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }//end of for
+  
+ 
+  
+}</script>
 
 </body>
 </html>

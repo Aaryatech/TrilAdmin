@@ -117,11 +117,45 @@
 										<select id="docId" name="docId" class="form-control chosen"
 											placeholder="Document"
 											data-rule-required="true">
+											<c:choose>
 											
-											<option value="1">Indent</option>
+											<c:when test="${docId==1}">
+											<option selected value="1">Indent</option>
 											<option value="2">PO</option>
 											<option value="3">Mrn</option>
-											<option value="4">Issue</option>
+											<option value="6">Issue</option>
+											</c:when>
+											
+											<c:when test="${docId==2}">
+											<option  value="1">Indent</option>
+											<option selected value="2">PO</option>
+											<option value="3">Mrn</option>
+											<option value="6">Issue</option>
+											</c:when>
+												<c:when test="${docId==3}">
+											<option  value="1">Indent</option>
+											<option  value="2">PO</option>
+											<option selected value="3">Mrn</option>
+											<option value="6">Issue</option>
+											</c:when>
+											<c:when test="${docId==6}">
+											<option  value="1">Indent</option>
+											<option  value="2">PO</option>
+											<option value="3">Mrn</option>
+											<option selected value="6">Issue</option>
+											</c:when>
+											<c:otherwise>
+											<option  value="1">Indent</option>
+											<option  value="2">PO</option>
+											<option value="3">Mrn</option>
+											<option  value="6">Issue</option>
+											
+											</c:otherwise>
+											
+											
+											</c:choose>
+											
+										
 										</select>
 									</div>
 
@@ -198,8 +232,9 @@
 
 													<th width="3%">Sr No</th>
 													<th class="col-md-1">Doc No</th>
-													<th class="col-md-1">Req Date</th>
-													<th class="col-md-1">Doc Date</th>
+												    <th class="col-md-1">Doc Date</th>
+													
+													<th class="col-md-1">Entry Date</th>
 													<th class="col-md-1">1st Approver</th>
 													<th class="col-md-1">Apr Date 1</th>
 													<th class="col-md-1">2nd Approver</th>
@@ -215,8 +250,9 @@
 
 														<td><c:out value="${count.index+1}" /></td>
 														<td><c:out value="${logBook.docNo}" /></td>
-														<td><c:out value="${logBook.reqDate}" /></td>
 														<td><c:out value="${logBook.docDate}" /></td>
+														
+														<td><c:out value="${logBook.reqDate}" /></td>
 
 														<td><c:out value="${logBook.aprUser1}" /></td>
 

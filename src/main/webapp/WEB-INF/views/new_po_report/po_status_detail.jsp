@@ -45,7 +45,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Po Status Report Detail ${itemCode}
+								<i class="fa fa-bars"></i>Po Status Report Detail
 							</h3>
 							<div class="box-tool">
 								<div class="box-tool">
@@ -56,6 +56,23 @@
 							
 						</div>
 
+
+<%-- <div class="box-title">
+							<h3>
+								<i class="fa fa-bars"></i>Item Name ${headerInfo.itemDesc}-${itemCode}
+							</h3>
+							<h3>
+								<i class="fa fa-bars"></i>Party Name ${headerInfo.vendorName} Po Date ${headerInfo.poDate} Po No ${headerInfo.poNo}
+							</h3>
+							<div class="box-tool">
+								<div class="box-tool">
+								<a href="${pageContext.request.contextPath}/showIndent">Add Indent</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a> 
+							</div>
+							</div>
+							
+						</div>
+ --%>
 
 						<div class="box-content">
 							<form 
@@ -165,7 +182,7 @@
 											</thead>
 										</table>
 
-									</div><div class="col-md-8" ></div> 
+									</div><div class="col-md-8" ><b>Item Name</b> ${headerInfo.itemDesc}-${itemCode}<br><b>Party Name</b> ${headerInfo.vendorName} <b>Po No</b> ${headerInfo.poNo} <b>Po Date</b> ${headerInfo.poDate} <b>Indent No </b>${headerInfo.indentNo}  </div> 
 		
 										<div class="input-group">
     <input type="text"  id="myInput"  style="text-align: left; color: green;" class="form-control" onkeyup="myFunction()" placeholder="Search  By No "/>

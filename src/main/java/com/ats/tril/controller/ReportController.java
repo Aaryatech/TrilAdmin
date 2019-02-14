@@ -1389,16 +1389,22 @@ public class ReportController {
 		ModelAndView model = new ModelAndView("report/poHeaderReport");
 		try {
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
-			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			 vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
+
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
 	}
+
 	List<Type> typeList;
+
 	@RequestMapping(value = "/pendingPoReportList", method = RequestMethod.GET)
 	public ModelAndView pendingPoReportList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1417,7 +1423,7 @@ public class ReportController {
 			map.add("date", sf.format(date));
 			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForPO", map, DocumentBean.class);
 			System.out.println("resList" + resList);
-			
+
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
@@ -1466,6 +1472,35 @@ public class ReportController {
 			}
 			String items2 = sb.toString();
 			items2 = items2.substring(0, items2.length() - 1);
+
+			/*if (items1.contains("-1")) {
+System.err.println("All Type selected " );
+				for (int i = 0; i < typeList.size(); i++)
+					items = items + "," + typeList.get(i).getTypeId();
+				items = items.substring(0, items.length() - 1);
+				System.err.println("Type List " +items);
+			}
+
+			if (items2.contains("-1")) {
+				System.err.println("All Po Status selected " );
+
+					items2 ="0,1,2";
+				
+				System.err.println("PO Status List " +items2);
+
+			}
+			
+
+			if (items.contains("-1")) {
+				System.err.println("All Vendor selected " );
+
+				for (int i = 0; i < vendorList.size(); i++)
+					items = items + "," + vendorList.get(i).getVendorId();
+				items = items.substring(0, items.length() - 1);
+				
+				System.err.println("Vendor List " +items);
+
+			}*/
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));

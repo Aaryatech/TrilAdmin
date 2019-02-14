@@ -120,6 +120,18 @@ public class NewReportController {
 			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			int catId = Integer.parseInt(request.getParameter("catId"));
 
+			int poStatus = Integer.parseInt(request.getParameter("po_status"));
+
+			if (poStatus == -1) {
+				System.err.println("All PO Status Selected ");
+				map.add("statusList", "0,1,2");
+			} else if(poStatus==0) {
+				map.add("statusList", "0,1");
+			}else {
+				map.add("statusList", poStatus);
+
+			}
+			
 			System.out.println("From Date And :" + fromDate + "ToDATE" + toDate);
 
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
@@ -137,6 +149,8 @@ public class NewReportController {
 
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
+			model.addObject("poStatus", poStatus);
+			
 
 			// Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			// List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
@@ -205,9 +219,9 @@ public class NewReportController {
 
 	List<PoStatusReportDetail> poDetailStatusList;
 
-	@RequestMapping(value = "/getPoStatusReportDetail/{poDetailId}/{itemCode}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getPoStatusReportDetail/{poDetailId}/{itemCode}/{index}", method = RequestMethod.GET)
 	public ModelAndView getPoStatusReportDetail(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable int poDetailId, @PathVariable String itemCode) {
+			@PathVariable int poDetailId, @PathVariable String itemCode, @PathVariable int index) {
 
 		ModelAndView model = null;
 		try {
@@ -264,6 +278,8 @@ public class NewReportController {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "PoStatusReportDetail_" + itemCode);
+
+			model.addObject("headerInfo", poHeaderStatusList.get(index));
 
 		} catch (Exception e) {
 
@@ -782,7 +798,7 @@ public class NewReportController {
 			toDate = request.getParameter("to_date");
 			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			int docId = Integer.parseInt(request.getParameter("docId"));
-			
+
 			String typeIdList = new String();
 
 			if (typeId == 0) {

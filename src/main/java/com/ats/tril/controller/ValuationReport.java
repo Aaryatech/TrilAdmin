@@ -74,6 +74,7 @@ import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
 
 @Controller
 @Scope("session")
@@ -2665,14 +2666,13 @@ public class ValuationReport {
 
 		return model;
 	}
-	
-	
-	//issueAndMrnItemWiseReportByCatId Sac
-	
+
+	// issueAndMrnItemWiseReportByCatId Sac
+
 	@RequestMapping(value = "/issueAndMrnItemWiseReportByCatId/{catId}/{type}/{isDevName}/{catDesc}", method = RequestMethod.GET)
 	public ModelAndView issueAndMrnItemWiseReportByCatId(@PathVariable int catId, @PathVariable String type,
-			@PathVariable String isDevName, @PathVariable String catDesc,
-			HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String isDevName, @PathVariable String catDesc, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/issueAndMrnReportItemWise");
 		List<IssueAndMrnItemWise> itemWiseList = new ArrayList<IssueAndMrnItemWise>();
@@ -2741,9 +2741,6 @@ public class ValuationReport {
 
 		return model;
 	}
-	
-	
-	
 
 	@RequestMapping(value = "/issueAndMrnItemWisePDF/{type}/{isDevName}/{catDesc}/{grpCode}", method = RequestMethod.GET)
 	public void issueAndMrnItemWisePDF(@PathVariable String type, @PathVariable String isDevName,
@@ -3001,8 +2998,8 @@ public class ValuationReport {
 
 	List<IssueDeptWise> deptWiselistGlobal = null;
 	String catIds = new String();
-	List<DeptSubDeptValReport> deptSubDeptList;//Sac
-	
+	List<DeptSubDeptValReport> deptSubDeptList;// Sac
+
 	@RequestMapping(value = "/issueReportDeptWise", method = RequestMethod.GET)
 	public ModelAndView issueReportDeptWise(HttpServletRequest request, HttpServletResponse response) {
 
@@ -3150,8 +3147,7 @@ public class ValuationReport {
 			 */
 			DeptSubDeptValReport[] IssueDeptWise = rest.postForObject(Constants.url + "/getDeptSubDeptValIssueReport",
 					map, DeptSubDeptValReport[].class);
-			 deptSubDeptList = new ArrayList<DeptSubDeptValReport>(
-					Arrays.asList(IssueDeptWise));
+			deptSubDeptList = new ArrayList<DeptSubDeptValReport>(Arrays.asList(IssueDeptWise));
 
 			List<Integer> deptIds = new ArrayList<>();
 			for (int i = 0; i < deptSubDeptList.size(); i++) {
@@ -3164,7 +3160,7 @@ public class ValuationReport {
 			deptIds.addAll(uniqDetSet);
 			System.err.println("Dept Ids " + deptIds);
 			List<ExportToExcel> exportToExcelList2 = new ArrayList<ExportToExcel>();
-			System.err.println("deptSubDeptList " +deptSubDeptList.toString());
+			System.err.println("deptSubDeptList " + deptSubDeptList.toString());
 			ExportToExcel expoExcel2 = new ExportToExcel();
 			List<String> rowData2 = new ArrayList<String>();
 
@@ -3176,28 +3172,53 @@ public class ValuationReport {
 			expoExcel2.setRowData(rowData2);
 			exportToExcelList2.add(expoExcel2);
 
+			int srNo = 0;
+			float grandTotal = 0;
 			for (int j = 0; j < deptIds.size(); j++) {
 				float subDeptTot = 0;
 
+				String deptCode = new String();
+				int count = 0;
+
 				for (int i = 0; i < deptSubDeptList.size(); i++) {
-				
+
 					if (deptIds.get(j) == deptSubDeptList.get(i).getDeptId()) {
-						
+						deptCode = deptSubDeptList.get(i).getDeptCode();
 						subDeptTot = subDeptTot + deptSubDeptList.get(i).getIssueQtyValue();
-						expoExcel2 = new ExportToExcel();
-						rowData2 = new ArrayList<String>();
+						if (deptSubDeptList.get(i).getIssueQtyValue() > 0) {
 
-						rowData2.add((j + 1) + "");
-					
-						
-						rowData2.add(deptSubDeptList.get(i).getDeptCode());
+							count = count + 1;
+							expoExcel2 = new ExportToExcel();
+							rowData2 = new ArrayList<String>();
 
-						rowData2.add(deptSubDeptList.get(i).getSubDeptCode());
-						
-						rowData2.add("" + deptSubDeptList.get(i).getIssueQtyValue());
+							if (count == 1) {
+								srNo = srNo + 1;
+								rowData2.add("" + srNo);
+								rowData2.add("" + deptCode);
 
-						expoExcel2.setRowData(rowData2);
-						exportToExcelList2.add(expoExcel2);
+							} else {
+
+								rowData2.add("");
+								rowData2.add("");
+							}
+
+							/*
+							 * if(j==0) { rowData2.add((j + 1) + "");
+							 * 
+							 * rowData2.add(deptSubDeptList.get(i).getDeptCode());
+							 * 
+							 * }else {
+							 */
+							// rowData2.add("");//now c
+							// rowData2.add("");
+							// }
+							rowData2.add(deptSubDeptList.get(i).getSubDeptCode());
+
+							rowData2.add("" + deptSubDeptList.get(i).getIssueQtyValue());
+
+							expoExcel2.setRowData(rowData2);
+							exportToExcelList2.add(expoExcel2);
+						}
 
 					}
 
@@ -3205,16 +3226,55 @@ public class ValuationReport {
 				expoExcel2 = new ExportToExcel();
 				rowData2 = new ArrayList<String>();
 
-				rowData2.add("");
-				rowData2.add("Sub Total");
-				rowData2.add("=");
-				rowData2.add(""+subDeptTot);
+				if (count == 0) {
+					System.err.println("count ==0");
+					rowData2.add("");
+					rowData2.add("");
+					rowData2.add("");
+					rowData2.add("");
+
+				} else {
+					rowData2.add("");
+					rowData2.add("Sub Total");
+					rowData2.add("");
+					rowData2.add("" + subDeptTot);
+				}
+
+				// if(subDeptTot>0) {
+				// rowData2.add((srNo) + "");
+				grandTotal = grandTotal + subDeptTot;
+				// rowData2.add(deptCode);
 
 				expoExcel2.setRowData(rowData2);
 				exportToExcelList2.add(expoExcel2);
-				
+
+				/*
+				 * expoExcel2 = new ExportToExcel(); rowData2 = new ArrayList<String>();
+				 * 
+				 * rowData2.add("");
+				 * 
+				 * rowData2.add("");
+				 * 
+				 * rowData2.add(""); rowData2.add("");
+				 * 
+				 * expoExcel2.setRowData(rowData2); exportToExcelList2.add(expoExcel2);
+				 */
+				// }
 
 			}
+
+			expoExcel2 = new ExportToExcel();
+			rowData2 = new ArrayList<String>();
+
+			rowData2.add("");
+
+			rowData2.add("");
+
+			rowData2.add("Grand Total");
+			rowData2.add("" + grandTotal);
+
+			expoExcel2.setRowData(rowData2);
+			exportToExcelList2.add(expoExcel2);
 			session = request.getSession();
 			session.setAttribute("exportExcelList2", exportToExcelList2);
 			session.setAttribute("excelName2", "DeptSubDept(Issues)");
@@ -3226,11 +3286,9 @@ public class ValuationReport {
 		return model;
 	}
 
-	
-
 	@RequestMapping(value = "/getDeptSubDeptIsuuePdf", method = RequestMethod.GET)
-	public void getDeptSubDeptIsuuePdf(HttpServletRequest request,
-			HttpServletResponse response) throws FileNotFoundException {
+	public void getDeptSubDeptIsuuePdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
 			Document document = new Document(PageSize.A4);
@@ -3259,7 +3317,7 @@ public class ValuationReport {
 			try {
 				System.out.println("Inside PDF Table try");
 				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 0.4f, 1.2f, 1.2f, 1.2f});
+				table.setWidths(new float[] { 0.4f, 1.2f, 1.2f, 1.2f });
 				Font headFont = new Font(FontFamily.TIMES_ROMAN, 8, Font.NORMAL, BaseColor.BLACK);
 				Font headFont1 = new Font(FontFamily.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK);
 				Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -3288,8 +3346,6 @@ public class ValuationReport {
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table.addCell(hcell);
 
-				
-
 				List<Integer> deptIds = new ArrayList<>();
 				for (int i = 0; i < deptSubDeptList.size(); i++) {
 					deptIds.add(deptSubDeptList.get(i).getDeptId());
@@ -3300,92 +3356,157 @@ public class ValuationReport {
 				deptIds = new ArrayList<>();
 				deptIds.addAll(uniqDetSet);
 				System.err.println("Dept Ids " + deptIds);
-
-
-				
-
+				float grandTotal = 0;
+				int srNo = 0;
 				for (int j = 0; j < deptIds.size(); j++) {
 					float subDeptTot = 0;
+					//srNo = srNo + 1;
+					String deptCode = new String();
+
+					int count = 0;
 
 					for (int i = 0; i < deptSubDeptList.size(); i++) {
-					
+
 						if (deptIds.get(j) == deptSubDeptList.get(i).getDeptId()) {
 							subDeptTot = subDeptTot + deptSubDeptList.get(i).getIssueQtyValue();
-						
-							
-							PdfPCell cell;
-							
-							cell = new PdfPCell(new Phrase(j+1+"", headFont));
-							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-							cell.setPadding(3);
-							table.addCell(cell);
+							deptCode = deptSubDeptList.get(i).getDeptCode();
 
-							cell = new PdfPCell(new Phrase(deptSubDeptList.get(i).getDeptCode(), headFont));
-							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-							cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-							cell.setPaddingRight(2);
-							cell.setPadding(3);
-							table.addCell(cell);
+							if (deptSubDeptList.get(i).getIssueQtyValue() > 0) {
+								PdfPCell cell;
+								count = count + 1;
 
-							cell = new PdfPCell(new Phrase(
-									"" +deptSubDeptList.get(i).getSubDeptCode(), headFont));
-							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-							cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-							cell.setPaddingRight(2);
-							cell.setPadding(3);
-							table.addCell(cell);
+								if (count == 1) {
+									srNo = srNo + 1;
+									cell = new PdfPCell(new Phrase("" + srNo, headFont));
 
-							cell = new PdfPCell(new Phrase(
-									"" + df.format(deptSubDeptList.get(i).getIssueQtyValue()), headFont));
-							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-							cell.setPaddingRight(2);
-							cell.setPadding(3);
-							table.addCell(cell);
-							
-							
-						}//end of if 
-						
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+									cell.setPadding(3);
+									table.addCell(cell);
+
+									cell = new PdfPCell(new Phrase("" + deptCode, headFont));
+
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+									cell.setPaddingRight(2);
+									cell.setPadding(3);
+									table.addCell(cell);
+
+								} else {
+
+									cell = new PdfPCell(new Phrase("", headFont));
+
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+									cell.setPadding(3);
+									table.addCell(cell);
+
+									cell = new PdfPCell(new Phrase("", headFont));
+
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+									cell.setPaddingRight(2);
+									cell.setPadding(3);
+									table.addCell(cell);
+
+								}
+
+								cell = new PdfPCell(new Phrase("" + deptSubDeptList.get(i).getSubDeptCode(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+
+								cell = new PdfPCell(new Phrase(
+										"" + df.format(deptSubDeptList.get(i).getIssueQtyValue()), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+							} // end of if subDeptTot>0
+						} // end of if
+
 					} // end of inner for
-					
+
 					PdfPCell cell;
 					
-					cell = new PdfPCell(new Phrase("" , headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setPadding(3);
-					table.addCell(cell);
+					if(count==0) {
+						
+						cell = new PdfPCell(new Phrase("", headFont));
 
-					cell = new PdfPCell(new Phrase("Sub Toatal", headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPadding(3);
+						table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase(
-							"=" , headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
+						cell = new PdfPCell(new Phrase("", headFont));
 
-					cell = new PdfPCell(new Phrase(
-							"" + df.format(subDeptTot), headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						
+						
+						cell = new PdfPCell(new Phrase("", headFont));
+
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("", headFont));
+
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						
+						
+					}else {
+						
+						cell = new PdfPCell(new Phrase("" , headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPadding(3);
+						table.addCell(cell);
+						
+						
+						cell = new PdfPCell(new Phrase("Sub Toatal", headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" , headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						
+
+						cell = new PdfPCell(new Phrase("" + df.format(subDeptTot), headFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);	
+						
+					}
+
+					grandTotal = grandTotal + subDeptTot;
 				}
 
-				
-					Company companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
+				Company companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
 
 				document.open();
+
 				Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
 				company.setAlignment(Element.ALIGN_CENTER);
 				document.add(company);
@@ -3400,7 +3521,6 @@ public class ValuationReport {
 				reportName.setAlignment(Element.ALIGN_CENTER);
 				document.add(reportName);
 
-
 				Paragraph headingDate = new Paragraph("From Date: " + fromDate + "  To Date: " + toDate + "", f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 				document.add(headingDate);
@@ -3409,6 +3529,10 @@ public class ValuationReport {
 				document.add(ex3);
 				table.setHeaderRows(1);
 				document.add(table);
+
+				Paragraph gt = new Paragraph("Grand Total " + df.format(grandTotal));
+				gt.setAlignment(Element.ALIGN_RIGHT);
+				document.add(gt);
 
 				int totalPages = writer.getPageNumber();
 
@@ -3453,9 +3577,7 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/getIssueReportDeptWise", method = RequestMethod.GET)
 	public @ResponseBody List<IssueDeptWise> getIssueReportDeptWise(HttpServletRequest request,
 			HttpServletResponse response) {

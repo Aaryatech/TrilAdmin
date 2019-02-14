@@ -71,7 +71,17 @@ public class MrnReportController {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
 
+			String fromDate = "01" + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
+			String toDate = dd.format(date);
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
+			
 			model.addObject("vendorList", vendorList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,19 +147,28 @@ public class MrnReportController {
 
 			String selectedStatus = request.getParameter("status_list");
 
-			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
-			selectedGrnType = selectedGrnType.replaceAll("\"", "");
-
 			List<String> grnTypeList = new ArrayList<String>();
 			grnTypeList = Arrays.asList(selectedGrnType);
 
-			if (grnTypeList.contains("-1")) {
 
-				map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
+			if (selectedGrnType.contains("-1")) {
+				System.err.println("-1 " );
+				for(int i=0;i<typeList.size();i++) {
+					System.err.println("In for "  +selectedGrnType);
+
+					selectedGrnType=selectedGrnType+","+typeList.get(i).getTypeId();
+				}
+				
+				//map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
 			} else {
 
-				map.add("grnTypeList", selectedGrnType);
+				//map.add("grnTypeList", selectedGrnType);
 			}
+			
+			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
+			selectedGrnType = selectedGrnType.replaceAll("\"", "");
+
+			map.add("grnTypeList", selectedGrnType);
 
 			selectedVendor = selectedVendor.substring(1, selectedVendor.length() - 1);
 			selectedVendor = selectedVendor.replaceAll("\"", "");
@@ -213,7 +232,7 @@ public class MrnReportController {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 				cnt = cnt + i;
-				rowData.add("" + (cnt));
+				rowData.add("" + (i+1));
 				rowData.add("" + report.getMrnNo());
 				rowData.add("" + report.getVendorName());
 				rowData.add("" + report.getMrnDate());

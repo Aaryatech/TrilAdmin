@@ -231,7 +231,7 @@ hr {
     <td colspan="6"  width="50%" style="border-bottom:1px solid #313131;border-top:1px solid #313131;border-left:1px solid #313131; padding:10px;color:#000; font-size:12px;">
      <p style="color:#000; font-size:10px; text-align:left;margin:0px;">NOTE - Your quotation will be considered only if received on or before the due date.</p>
 </td>
-    <td align="center" colspan="6" width="38%" style="border-bottom:1px solid #313131;border-top:0px solid #313131;border-left:1px solid #313131; padding:10px;color:#000;font-size:12px;">Purchase Officer</td>
+    <td align="center" colspan="6" width="38%" style="border-bottom:1px solid #313131;border-top:0px solid #313131;border-left:1px solid #313131; padding:10px;color:#000;font-size:12px;">Purchase Manager</td>
   </tr>
   
 </table>

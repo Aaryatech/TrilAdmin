@@ -35,6 +35,13 @@
 			      day = '0' + day.toString(); 
 			  var maxDate = year + '-' + month + '-' + day;  
 	  		$('#issueDate').attr('min', maxDate);
+	  		$("#poTyped").val("1").change();	
+			$("#poTyped").trigger("chosen:updated");
+			$("#acc").val("1").change();	
+			$("#acc").trigger("chosen:updated");
+			
+			
+
 	  		getInvoiceNo();
 	  
 	 }
@@ -102,16 +109,7 @@
 							 
 							
 							<div class="box-content">
-							
-								<div class="col-md-2">Issue No*</div>
-									<div class="col-md-3">
-									
-									<input id="issueNo" class="form-control"
-								 placeholder="Issue No" value="1" name="issueNo" type="text" readonly>
-									
-									</div>
-									
-									<div class="col-md-2">Type*</div>
+							<div class="col-md-2">Type*</div>
 									<div class="col-md-3">
 									<input type="hidden" id="type" name="type"  >
 											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"    >
@@ -124,6 +122,15 @@
 														</select>
 								 </div>
 				 
+								<div class="col-md-2">Issue No*</div>
+									<div class="col-md-3">
+									
+									<input id="issueNo" class="form-control"
+								 placeholder="Issue No" value="1" name="issueNo" type="text" readonly>
+									
+									</div>
+									
+									
 							</div><br>
 							
 							<div class="box-content">
