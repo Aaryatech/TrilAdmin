@@ -421,7 +421,7 @@
 				ajax : 'true'
 			}, function(data) {
 
-				document.getElementById("batchQty").value = data.remainingQty;
+				document.getElementById("batchQty").value = (data.remainingQty).toFixed(2);
 			});
 		}
 		function getBatchByItemId() {
@@ -443,10 +443,10 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					 
-						if(data[i].remainingQty>0){
+						if((data[i].remainingQty).toFixed(2)>0){
 						
 						html += '<option value="' + data[i].mrnDetailId + '">'
-						+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+						+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ (data[i].remainingQty).toFixed(2)+'</option>';
 					}
 				}
 				html += '</option>';

@@ -1007,6 +1007,16 @@ public class ReportController {
 			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
 
 			model.addObject("catList", catList);
+			Date date=new Date();
+			
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+
+			String fromDate = "01" + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
+			String toDate = dd.format(date);
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1046,7 +1056,7 @@ public class ReportController {
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 2.4f, 5.0f, 4.8f, 5.2f, 3.2f, 3.2f, 3.6f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -1130,7 +1140,7 @@ public class ReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
+			/*	cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -1142,7 +1152,7 @@ public class ReportController {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
-				table.addCell(cell);
+				table.addCell(cell);*/
 
 				cell = new PdfPCell(new Phrase("" + bill.getCatDesc(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1185,14 +1195,7 @@ public class ReportController {
 					table.addCell(cell);
 				}
 
-				if (bill.getIndMStatus() == 0) {
-					cell = new PdfPCell(new Phrase("Pending", headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-				} else if (bill.getIndMStatus() == 1) {
+				 if (bill.getIndMStatus() == 1) {
 					cell = new PdfPCell(new Phrase("Partial Pending", headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -1200,13 +1203,21 @@ public class ReportController {
 					cell.setPadding(3);
 					table.addCell(cell);
 				} else if (bill.getIndMStatus() == 2) {
-					cell = new PdfPCell(new Phrase("Return", headFont));
+					cell = new PdfPCell(new Phrase("Completed", headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 					cell.setPaddingRight(2);
 					cell.setPadding(3);
 					table.addCell(cell);
-				}
+				}//if (bill.getIndMStatus() == 0) {
+				else {
+					cell = new PdfPCell(new Phrase("Pending", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+				} 
 
 				cell = new PdfPCell(new Phrase("" + bill.getNoOfDays(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1338,8 +1349,8 @@ public class ReportController {
 			for (int i = 0; i < getlist1.size(); i++) {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
-				cnt = cnt + i;
-				rowData.add("" + (cnt));
+				
+				rowData.add("" + (i+1));
 				rowData.add("" + getlist1.get(i).getIndMNo());
 				rowData.add("" + getlist1.get(i).getIndMDate());
 				rowData.add("" + getlist1.get(i).getCatDesc());
@@ -1356,13 +1367,16 @@ public class ReportController {
 					rowData.add("Yes");
 				}
 
-				if (getlist1.get(i).getIndMStatus() == 0) {
-					rowData.add("Pending");
+				//if (getlist1.get(i).getIndMStatus() == 0) {
+				//	rowData.add("Pending");
 
-				} else if (getlist1.get(i).getIndMStatus() == 1) {
+				//} else 
+				if (getlist1.get(i).getIndMStatus() == 1) {
 					rowData.add("Partial Pending");
 				} else if (getlist1.get(i).getIndMStatus() == 2) {
-					rowData.add("Closed");
+					rowData.add("Completed");
+				}else {
+					rowData.add("Pending");
 				}
 
 				rowData.add("" + getlist1.get(i).getNoOfDays());
@@ -1389,13 +1403,24 @@ public class ReportController {
 		ModelAndView model = new ModelAndView("report/poHeaderReport");
 		try {
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
-			 vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
 
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
+
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+
+			String fromDate = "01" + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
+			String toDate = dd.format(date);
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1456,51 +1481,45 @@ public class ReportController {
 				sb = sb.append(vendorIdList[i] + ",");
 
 			}
+
 			String items = sb.toString();
 			items = items.substring(0, items.length() - 1);
-			sb = new StringBuilder();
-			for (int j = 0; j < poTypeList.length; j++) {
-				sb = sb.append(poTypeList[j] + ",");
 
-			}
-			String items1 = sb.toString();
-			items1 = items1.substring(0, items1.length() - 1);
 			sb = new StringBuilder();
 			for (int k = 0; k < poStatus.length; k++) {
 				sb = sb.append(poStatus[k] + ",");
 
 			}
+
 			String items2 = sb.toString();
 			items2 = items2.substring(0, items2.length() - 1);
 
-			/*if (items1.contains("-1")) {
-System.err.println("All Type selected " );
-				for (int i = 0; i < typeList.size(); i++)
-					items = items + "," + typeList.get(i).getTypeId();
-				items = items.substring(0, items.length() - 1);
-				System.err.println("Type List " +items);
+			if (poStatus[0].toString().equals("-1")) {
+				System.err.println("Po Status is -1 ");
+				items2 = "0,1,2";
 			}
 
-			if (items2.contains("-1")) {
-				System.err.println("All Po Status selected " );
-
-					items2 ="0,1,2";
-				
-				System.err.println("PO Status List " +items2);
-
-			}
+			String items1 = new String();
 			
+			if (poTypeList[0].toString().equals("0")) {
+				System.err.println("Po poTypeList is 0 ");
+				for (int i = 0; i < typeList.size(); i++) {
 
-			if (items.contains("-1")) {
-				System.err.println("All Vendor selected " );
+					items1 = items1 + "," + typeList.get(i).getTypeId();
+				}
 
-				for (int i = 0; i < vendorList.size(); i++)
-					items = items + "," + vendorList.get(i).getVendorId();
-				items = items.substring(0, items.length() - 1);
-				
-				System.err.println("Vendor List " +items);
+			} else {
+				System.err.println("Po poTypeList not 0 ");
+				sb = new StringBuilder();
+				for (int j = 0; j < poTypeList.length; j++) {
+					sb = sb.append(poTypeList[j] + ",");
 
-			}*/
+				}
+				items1 = sb.toString();
+
+			}
+
+			items1 = items1.substring(0, items1.length() - 1);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
@@ -1508,6 +1527,32 @@ System.err.println("All Type selected " );
 			map.add("vendorIdList", items);
 			map.add("poTypeList", items1);
 			map.add("poStatus", items2);
+
+			/*
+			 * if (items1.contains("-1")) { System.err.println("All Type selected " ); for
+			 * (int i = 0; i < typeList.size(); i++) items = items + "," +
+			 * typeList.get(i).getTypeId(); items = items.substring(0, items.length() - 1);
+			 * System.err.println("Type List " +items); }
+			 * 
+			 * if (items2.contains("-1")) { System.err.println("All Po Status selected " );
+			 * 
+			 * items2 ="0,1,2";
+			 * 
+			 * System.err.println("PO Status List " +items2);
+			 * 
+			 * }
+			 * 
+			 * 
+			 * if (items.contains("-1")) { System.err.println("All Vendor selected " );
+			 * 
+			 * for (int i = 0; i < vendorList.size(); i++) items = items + "," +
+			 * vendorList.get(i).getVendorId(); items = items.substring(0, items.length() -
+			 * 1);
+			 * 
+			 * System.err.println("Vendor List " +items);
+			 * 
+			 * }
+			 */
 
 			GetPoHeaderList[] getlist = rest.postForObject(Constants.url + "/getPoHeaderListReport", map,
 					GetPoHeaderList[].class);
@@ -1530,7 +1575,7 @@ System.err.println("All Type selected " );
 			rowData.add("Tax Appliacble");
 
 			rowData.add("Po Status");
-			rowData.add("Po Type");
+			//rowData.add("Po Type");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -1553,9 +1598,9 @@ System.err.println("All Type selected " );
 				} else if (getPoList.get(i).getPoStatus() == 1) {
 					rowData.add("Partial Pending");
 				} else if (getPoList.get(i).getPoStatus() == 2) {
-					rowData.add("Return");
+					rowData.add("Completed");
 				}
-				if (getPoList.get(i).getPoType() == 1) {
+				/*if (getPoList.get(i).getPoType() == 1) {
 					rowData.add("Regular");
 				} else if (getPoList.get(i).getPoType() == 2) {
 					rowData.add("Job Work");
@@ -1563,7 +1608,7 @@ System.err.println("All Type selected " );
 					rowData.add("General");
 				} else if (getPoList.get(i).getPoType() == 4) {
 					rowData.add("Other");
-				}
+				}*/
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 
@@ -1607,11 +1652,11 @@ System.err.println("All Type selected " );
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(9);
+		PdfPTable table = new PdfPTable(8);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f, 5.2f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 2.4f, 5.0f, 5.2f, 5.2f, 5.2f, 5.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -1668,12 +1713,12 @@ System.err.println("All Type selected " );
 			hcell.setBackgroundColor(BaseColor.PINK);
 
 			table.addCell(hcell);
-
+/*
 			hcell = new PdfPCell(new Phrase("PO Type", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
-			table.addCell(hcell);
+			table.addCell(hcell);*/
 
 			int index = 0;
 			for (GetPoHeaderList bill : getPoList) {
@@ -1744,7 +1789,7 @@ System.err.println("All Type selected " );
 					cell.setPadding(3);
 					table.addCell(cell);
 				} else if (bill.getPoStatus() == 2) {
-					cell = new PdfPCell(new Phrase("Return", headFont));
+					cell = new PdfPCell(new Phrase("Completed", headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 					cell.setPaddingRight(2);
@@ -1752,7 +1797,7 @@ System.err.println("All Type selected " );
 					table.addCell(cell);
 				}
 
-				if (bill.getPoType() == 1) {
+				/*if (bill.getPoType() == 1) {
 					cell = new PdfPCell(new Phrase("Regular", headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -1783,7 +1828,7 @@ System.err.println("All Type selected " );
 					cell.setPadding(3);
 					table.addCell(cell);
 
-				}
+				}*/
 
 			}
 			document.open();

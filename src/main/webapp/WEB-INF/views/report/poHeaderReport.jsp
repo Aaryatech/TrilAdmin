@@ -61,7 +61,7 @@
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${date}" name="fromDate"
+										placeholder="From Date" value="${fromDate}" name="fromDate"
 										type="text" required>
 
 
@@ -70,7 +70,7 @@
 								<div class="col-md-2">To Date*</div>
 								<div class="col-md-3">
 									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${date}" name="toDate"
+										placeholder="To Date" value="${toDate}" name="toDate"
 										type="text" required>
 
 
@@ -121,8 +121,7 @@
 										<option value="-1">All</option>
 										<option value="0">Pending</option>
 										<option value="1">Partial Pending</option>
-										<option value="2">Return</option>
-
+										<option value="2">Completed</option>
 									</select>
 
 								</div>
@@ -151,6 +150,17 @@
 							</div>
 
 							<br /> <br />
+							
+								<div class="col-md-8"></div>
+
+									<div class="input-group">
+										<input type="text" id="myInput"
+											style="text-align: left; color: green;" class="form-control"
+											onkeyup="myFunction()" placeholder="Search " /> <span
+											class="input-group-addon"> <i class="fa fa-search"></i>
+										</span>
+									</div>
+									<br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
 								<table class="table table-advance" id="table1">
@@ -164,7 +174,7 @@
 											<th class="col-md-1">Po Total Value</th>
 											<th class="col-md-1">Tax Applicable</th>
 											<th class="col-md-1">Po Status</th>
-											<th class="col-md-1">Po Type</th>
+											<!-- <th class="col-md-1">Po Type</th> -->
 										</tr>
 									</thead>
 									<tbody>
@@ -185,7 +195,7 @@
 												<td class="col-md-1"><c:out value="${list.poTaxValue}" /></td>
 
 												<td class="col-md-1"><c:out value="${list.poStatus}" /></td>
-												<td class="col-md-1"><c:out value="${list.poType}" /></td>
+												<%-- <td class="col-md-1"><c:out value="${list.poType}" /></td> --%>
 
 
 
@@ -349,7 +359,7 @@
 					} else if (itemList.poStatus == 1) {
 						modType = "Partial Pending";
 					} else if (itemList.poStatus == 2) {
-						modType = "Return";
+						modType = "Completed";
 					}
 					tr.append($('<td></td>').html(modType));
 
@@ -363,7 +373,7 @@
 					} else if (itemList.poType == 4) {
 						modType1 = "Other";
 					}
-					tr.append($('<td></td>').html(modType1));
+					//tr.append($('<td></td>').html(modType1));
 
 					$('#table1 tbody').append(tr);
 				})
@@ -381,16 +391,44 @@
 
 	<script type="text/javascript">
 		function genPdf() {
-			alert("hiii");
+			//alert("hiii");
 			var fromDate = document.getElementById("fromDate").value;
 			var toDate = document.getElementById("toDate").value;
 
 			window.open('${pageContext.request.contextPath}/showPOPdf/'
 					+ fromDate + '/' + toDate);
-			document.getElementById("expExcel").disabled = true;
+			//document.getElementById("expExcel").disabled = true;
 
 		}
 	</script>
+	
+	<script>
+function myFunction() {
+  var input, filter, table, tr, td,td1, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    	td3=tr[i].getElementsByTagName("td")[3];
+    if (td || td1) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }//end of for
+  
+ 
+  
+}</script>
 
 </body>
 </html>

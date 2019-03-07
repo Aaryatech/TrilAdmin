@@ -87,7 +87,7 @@
 								</div>
 
 
-								<div class="box-content">
+								<div class="form-group">
 									<div class="col-md-1"></div>
 
 									<label class="col-md-1"> Type</label>
@@ -136,10 +136,6 @@
 									</div>
 
 
-									<div
-										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
-										<input type="submit" value="Submit" class="btn btn-primary">
-									</div>
 
 								</div>
 
@@ -192,13 +188,35 @@
 									</div>
 									<div class="col-md-1"></div>
 
+<label class="col-md-1"> Vendor </label>
+									<div class="col-md-3">
+									<select name="vendor_id" id="vendor_id" data-rule-required="true"
+											class="form-control chosen">
+											<option value="-1">Select All</option>
+											<c:forEach items="${vendorList}" var="vendor">
+												<c:choose>
+													<c:when test="${vendor.vendorId==vendorId}">
+														<option selected value="${vendor.vendorId}">${vendor.vendorName}</option>
 
-									<!-- <div
-										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
-										<input type="submit" value="Submit" class="btn btn-primary">
-									</div> -->
+													</c:when>
+													<c:otherwise>
+														<option value="${vendor.vendorId}">${vendor.vendorName}</option>
+
+													</c:otherwise>
+
+												</c:choose>
+											</c:forEach>
+										</select>
+										</div>
 
 								</div>
+								<!--class="col-sm-10 col-sm-offset-1 col-lg-15 col-lg-offset-4"  -->
+									 <!-- <div
+										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0"> -->
+										<br></br>
+										<div class="col-sm-10 col-sm-offset-1 col-lg-15 col-lg-offset-4">
+										<input type="submit" value="Submit" class="btn btn-primary">
+									</div>
 
 								<c:set value="0" var="isEdit"></c:set>
 								<c:set value="0" var="isDelete"></c:set>

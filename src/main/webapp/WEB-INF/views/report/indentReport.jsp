@@ -62,7 +62,7 @@
 								<div class="col-md-2">From Date*</div>
 								<div class="col-md-3">
 									<input id="fromDate" class="form-control date-picker"
-										placeholder="From Date" value="${date}" name="fromDate"
+										placeholder="From Date" value="${fromDate}" name="fromDate"
 										type="text" required>
 
 
@@ -71,7 +71,7 @@
 								<div class="col-md-2">To Date*</div>
 								<div class="col-md-3">
 									<input id="toDate" class="form-control date-picker"
-										placeholder="To Date" value="${date}" name="toDate"
+										placeholder="To Date" value="${toDate}" name="toDate"
 										type="text" required>
 
 
@@ -154,6 +154,17 @@
 							</div>
 
 							<br /> <br />
+							
+							<div class="col-md-8"></div>
+
+									<div class="input-group">
+										<input type="text" id="myInput"
+											style="text-align: left; color: green;" class="form-control"
+											onkeyup="myFunction()" placeholder="Search  By No/Date/Category " /> <span
+											class="input-group-addon"> <i class="fa fa-search"></i>
+										</span>
+									</div>
+									<br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
 								<table class="table table-advance" id="table1">
@@ -347,7 +358,7 @@
 				ajax : 'true'
 
 			}, function(data) {
-				alert(data);
+				//alert(data);
 
 				$('#table1 td').remove();
 				$('#loader').hide();
@@ -390,7 +401,7 @@
 					} else if (itemList.indMStatus == 1) {
 						modType = "Partial Pending";
 					} else if (itemList.indMStatus == 2) {
-						modType = "Closed";
+						modType = "Completed";
 					}
 					tr.append($('<td></td>').html(modType));
 					if (itemList.indMStatus == 3) {
@@ -415,15 +426,42 @@
 
 	<script type="text/javascript">
 		function genPdf() {
-			alert("hiii");
+			//alert("hiii");
 			var fromDate = document.getElementById("fromDate").value;
 			var toDate = document.getElementById("toDate").value;
 
 			window.open('${pageContext.request.contextPath}/showIndentPdf/'
 					+ fromDate + '/' + toDate);
-			document.getElementById("expExcel").disabled = true;
+			//document.getElementById("expExcel").disabled = true;
 
 		}
+		
+		function myFunction() {
+			  var input, filter, table, tr, td,td1, i;
+			  input = document.getElementById("myInput");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("table1");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+			    td1 = tr[i].getElementsByTagName("td")[1];
+			    td4=tr[i].getElementsByTagName("td")[2];
+			    	td3=tr[i].getElementsByTagName("td")[3];
+			    if (td || td1) {
+			       if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			        tr[i].style.display = "";
+			      } else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			        tr[i].style.display = "";
+			      }else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			        tr[i].style.display = "";
+			      } else {
+			        tr[i].style.display = "none";
+			      }
+			    }       
+			  }//end of for
+			  
+			 
+			  
+			}
 	</script>
 </body>
 </html>

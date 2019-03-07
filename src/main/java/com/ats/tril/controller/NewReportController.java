@@ -42,6 +42,7 @@ import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.PoStatusReportDetail;
 import com.ats.tril.model.PoStatusReportHeader;
 import com.ats.tril.model.Type;
+import com.ats.tril.model.Vendor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -62,6 +63,7 @@ public class NewReportController {
 	RestTemplate rest = new RestTemplate();
 	List<Type> typeList;
 	List<Category> categoryList;
+	List<Vendor> vendorList = null;
 
 	@RequestMapping(value = "/showPoStatusReport", method = RequestMethod.GET)
 	public ModelAndView showPoStatusReport(HttpServletRequest request, HttpServletResponse response) {
@@ -69,7 +71,7 @@ public class NewReportController {
 		ModelAndView model = null;
 		try {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			//MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			Date date = new Date();
 			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -77,14 +79,20 @@ public class NewReportController {
 			toDate = df.format(date);
 			System.out.println("From Date And :" + fromDate + "ToDATE" + toDate);
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			//map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			//map.add("toDate", DateConvertor.convertToYMD(toDate));
 
 			model = new ModelAndView("new_po_report/po_status_header");
 
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+
+			String fromDate = "01" + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
+			String toDate = dd.format(date);
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
-
+			
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
@@ -95,6 +103,12 @@ public class NewReportController {
 
 			model.addObject("typeId", 0);
 			model.addObject("catId", 0);
+			
+			
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			model.addObject("vendorList", vendorList);
+			
 
 		} catch (Exception e) {
 
@@ -132,6 +146,44 @@ public class NewReportController {
 
 			}
 			
+			String selectedVendors=request.getParameter("vendor_id");
+			
+			model = new ModelAndView("new_po_report/po_status_header");
+
+			if (selectedVendors.contains("-1")) {
+				model.addObject("vendorId", -1);
+				
+			}else {
+				model.addObject("vendorId", selectedVendors);
+				
+			}
+			
+			System.err.println("selectedVendors " +selectedVendors);
+			
+			if (selectedVendors.contains("-1")) {
+				System.err.println("vedor is -1 " );
+				for(int i=0;i<vendorList.size();i++) {
+					//System.err.println("In for "  +selectedVendors);
+
+					selectedVendors=selectedVendors+","+vendorList.get(i).getVendorId();
+				}
+				
+				selectedVendors = selectedVendors.substring(1, selectedVendors.length() - 1);
+				selectedVendors = selectedVendors.replaceAll("\"", "");
+
+				
+				//map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
+			} else if(selectedVendors.contains(",")){
+				System.err.println("Comma vendors 	");
+				
+			/*	selectedVendors = selectedVendors.substring(1, selectedVendors.length() - 1);
+				selectedVendors = selectedVendors.replaceAll("\"", "");*/
+				//map.add("grnTypeList", selectedGrnType);
+			}
+			
+
+			map.add("vendorList", selectedVendors);
+
 			System.out.println("From Date And :" + fromDate + "ToDATE" + toDate);
 
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
@@ -143,7 +195,6 @@ public class NewReportController {
 					PoStatusReportHeader[].class);
 			poHeaderStatusList = new ArrayList<>(Arrays.asList(poStatHeader));
 			System.err.println("poHeS " + poHeaderStatusList.toString());
-			model = new ModelAndView("new_po_report/po_status_header");
 
 			model.addObject("poHeaderStatusList", poHeaderStatusList);
 
@@ -151,7 +202,10 @@ public class NewReportController {
 			model.addObject("toDate", toDate);
 			model.addObject("poStatus", poStatus);
 			
-
+			model.addObject("vendorList", vendorList);
+			
+			
+			
 			// Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			// List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
@@ -163,6 +217,7 @@ public class NewReportController {
 			model.addObject("categoryList", categoryList);
 			model.addObject("typeId", typeId);
 			model.addObject("catId", catId);
+			
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -190,8 +245,8 @@ public class NewReportController {
 				rowData.add(poHeaderStatusList.get(i).getPoNo());
 				rowData.add("" + poHeaderStatusList.get(i).getPoDate());
 				rowData.add("" + poHeaderStatusList.get(i).getIndentNo());
-				rowData.add("" + poHeaderStatusList.get(i).getVendorCode());
-				rowData.add("" + poHeaderStatusList.get(i).getItemCode());
+				rowData.add("" + poHeaderStatusList.get(i).getVendorName());
+				rowData.add("" + poHeaderStatusList.get(i).getItemCode()+"_"+poHeaderStatusList.get(i).getItemDesc());
 				rowData.add("" + poHeaderStatusList.get(i).getPoQty());
 				rowData.add("" + poHeaderStatusList.get(i).getRecvQty());
 				rowData.add("" + poHeaderStatusList.get(i).getBalQty());
@@ -318,11 +373,11 @@ public class NewReportController {
 				e.printStackTrace();
 			}
 
-			PdfPTable table = new PdfPTable(10);
+			PdfPTable table = new PdfPTable(9);
 			try {
 				System.out.println("Inside PDF Table try");
 				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 0.4f, 1f, 1f, 1f, 1.2f, 1.2f, 1.0f, 1.0f, 1.0f, 1.0f });
+				table.setWidths(new float[] { 0.4f, 1f,1f,  1.6f, 1.2f, 1.2f, 1.0f, 1.0f, 1.0f });
 				Font headFont = new Font(FontFamily.TIMES_ROMAN, 8, Font.NORMAL, BaseColor.BLACK);
 				Font headFont1 = new Font(FontFamily.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK);
 				Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -345,12 +400,12 @@ public class NewReportController {
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table.addCell(hcell);
-
+/*
 				hcell = new PdfPCell(new Phrase("Indent No", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table.addCell(hcell);
-
+*/
 				hcell = new PdfPCell(new Phrase("Party Name", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
@@ -408,21 +463,21 @@ public class NewReportController {
 					cell.setPadding(3);
 					table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase("" + poHeaderStatusList.get(k).getIndentNo(), headFont));
+				/*	cell = new PdfPCell(new Phrase("" + poHeaderStatusList.get(k).getIndentNo(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);*/
+
+					cell = new PdfPCell(new Phrase("" + poHeaderStatusList.get(k).getVendorName(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					cell.setPaddingRight(2);
 					cell.setPadding(3);
 					table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase("" + poHeaderStatusList.get(k).getVendorCode(), headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + poHeaderStatusList.get(k).getItemCode(), headFont));
+					cell = new PdfPCell(new Phrase("" + poHeaderStatusList.get(k).getItemCode()+"_"+poHeaderStatusList.get(k).getItemDesc(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					cell.setPaddingRight(2);
