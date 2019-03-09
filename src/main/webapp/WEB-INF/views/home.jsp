@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -229,24 +230,44 @@ h6 {
 																				value="${lowReorderItemList.itemName}" /></td>
 																		<td class="col-md-1"><c:out
 																				value="${lowReorderItemList.itemUom}" /></td>
-																		<td class="col-md-1"><c:out
-																				value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" /></td>
+																		<td class="col-md-1"><fmt:formatNumber
+																				type="number" maxFractionDigits="2"
+																				minFractionDigits="2"
+																				value="${lowReorderItemList.openingStock+lowReorderItemList.approveQty-lowReorderItemList.issueQty+lowReorderItemList.returnIssueQty-lowReorderItemList.damageQty-lowReorderItemList.gatepassQty+lowReorderItemList.gatepassReturnQty}" />
+																		</td>
 
-																		<td class="col-md-1"><c:out
+
+																		<td class="col-md-1"><fmt:formatNumber
+																				type="number" maxFractionDigits="2"
+																				minFractionDigits="2"
 																				value="${lowReorderItemList.rolLevel}" /></td>
-																		<td class="col-md-1"><c:out
+
+																		<td class="col-md-1"><fmt:formatNumber
+																				type="number" maxFractionDigits="2"
+																				minFractionDigits="2"
 																				value="${lowReorderItemList.itemMaxLevel}" /></td>
-																		<td class="col-md-1"><c:out
+
+
+																		<td class="col-md-1"><fmt:formatNumber
+																				type="number" maxFractionDigits="2"
+																				minFractionDigits="2"
 																				value="${lowReorderItemList.itemMinLevel}" /></td>
+
+
+
 
 																	</tr>
 																</c:when>
 															</c:choose>
+
+
+
 														</c:forEach>
 
 
-													</tbody>
 
+
+													</tbody>
 												</table>
 
 											</div>

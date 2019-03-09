@@ -7546,7 +7546,7 @@ public class ValuationReport {
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 4.0f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -8069,7 +8069,7 @@ public class ValuationReport {
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 4.0f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);

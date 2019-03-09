@@ -480,7 +480,7 @@ public class HomeController {
 			try {
 				System.out.println("Inside PDF Table try");
 				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 0.4f, 3.0f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f });
+				table.setWidths(new float[] { 0.4f, 1.0f, 3.0f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f });
 				Font headFont = new Font(FontFamily.TIMES_ROMAN, 8, Font.NORMAL, BaseColor.BLACK);
 				Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
 				Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -605,7 +605,7 @@ public class HomeController {
 				}
 
 				document.open();
-				Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
+				Paragraph company = new Paragraph("TRIL" + "\n", f);
 				company.setAlignment(Element.ALIGN_CENTER);
 				document.add(company);
 
