@@ -45,6 +45,7 @@ import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.IssueReportItemwise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
@@ -1007,8 +1008,8 @@ public class ReportController {
 			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
 
 			model.addObject("catList", catList);
-			Date date=new Date();
-			
+			Date date = new Date();
+
 			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);
@@ -1140,19 +1141,17 @@ public class ReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-			/*	cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
-
-				cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);*/
+				/*
+				 * cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
+				 * cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				 * cell.setHorizontalAlignment(Element.ALIGN_RIGHT); cell.setPaddingRight(2);
+				 * cell.setPadding(3); table.addCell(cell);
+				 * 
+				 * cell = new PdfPCell(new Phrase("" + bill.getIndMDate(), headFont));
+				 * cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				 * cell.setHorizontalAlignment(Element.ALIGN_RIGHT); cell.setPaddingRight(2);
+				 * cell.setPadding(3); table.addCell(cell);
+				 */
 
 				cell = new PdfPCell(new Phrase("" + bill.getCatDesc(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1195,7 +1194,7 @@ public class ReportController {
 					table.addCell(cell);
 				}
 
-				 if (bill.getIndMStatus() == 1) {
+				if (bill.getIndMStatus() == 1) {
 					cell = new PdfPCell(new Phrase("Partial Pending", headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -1209,7 +1208,7 @@ public class ReportController {
 					cell.setPaddingRight(2);
 					cell.setPadding(3);
 					table.addCell(cell);
-				}//if (bill.getIndMStatus() == 0) {
+				} // if (bill.getIndMStatus() == 0) {
 				else {
 					cell = new PdfPCell(new Phrase("Pending", headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1217,7 +1216,7 @@ public class ReportController {
 					cell.setPaddingRight(2);
 					cell.setPadding(3);
 					table.addCell(cell);
-				} 
+				}
 
 				cell = new PdfPCell(new Phrase("" + bill.getNoOfDays(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1349,8 +1348,8 @@ public class ReportController {
 			for (int i = 0; i < getlist1.size(); i++) {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
-				
-				rowData.add("" + (i+1));
+
+				rowData.add("" + (i + 1));
 				rowData.add("" + getlist1.get(i).getIndMNo());
 				rowData.add("" + getlist1.get(i).getIndMDate());
 				rowData.add("" + getlist1.get(i).getCatDesc());
@@ -1367,15 +1366,15 @@ public class ReportController {
 					rowData.add("Yes");
 				}
 
-				//if (getlist1.get(i).getIndMStatus() == 0) {
-				//	rowData.add("Pending");
+				// if (getlist1.get(i).getIndMStatus() == 0) {
+				// rowData.add("Pending");
 
-				//} else 
+				// } else
 				if (getlist1.get(i).getIndMStatus() == 1) {
 					rowData.add("Partial Pending");
 				} else if (getlist1.get(i).getIndMStatus() == 2) {
 					rowData.add("Completed");
-				}else {
+				} else {
 					rowData.add("Pending");
 				}
 
@@ -1500,7 +1499,7 @@ public class ReportController {
 			}
 
 			String items1 = new String();
-			
+
 			if (poTypeList[0].toString().equals("0")) {
 				System.err.println("Po poTypeList is 0 ");
 				for (int i = 0; i < typeList.size(); i++) {
@@ -1575,7 +1574,7 @@ public class ReportController {
 			rowData.add("Tax Appliacble");
 
 			rowData.add("Po Status");
-			//rowData.add("Po Type");
+			// rowData.add("Po Type");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -1600,15 +1599,12 @@ public class ReportController {
 				} else if (getPoList.get(i).getPoStatus() == 2) {
 					rowData.add("Completed");
 				}
-				/*if (getPoList.get(i).getPoType() == 1) {
-					rowData.add("Regular");
-				} else if (getPoList.get(i).getPoType() == 2) {
-					rowData.add("Job Work");
-				} else if (getPoList.get(i).getPoType() == 3) {
-					rowData.add("General");
-				} else if (getPoList.get(i).getPoType() == 4) {
-					rowData.add("Other");
-				}*/
+				/*
+				 * if (getPoList.get(i).getPoType() == 1) { rowData.add("Regular"); } else if
+				 * (getPoList.get(i).getPoType() == 2) { rowData.add("Job Work"); } else if
+				 * (getPoList.get(i).getPoType() == 3) { rowData.add("General"); } else if
+				 * (getPoList.get(i).getPoType() == 4) { rowData.add("Other"); }
+				 */
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 
@@ -1713,12 +1709,13 @@ public class ReportController {
 			hcell.setBackgroundColor(BaseColor.PINK);
 
 			table.addCell(hcell);
-/*
-			hcell = new PdfPCell(new Phrase("PO Type", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-
-			table.addCell(hcell);*/
+			/*
+			 * hcell = new PdfPCell(new Phrase("PO Type", headFont1));
+			 * hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			 * hcell.setBackgroundColor(BaseColor.PINK);
+			 * 
+			 * table.addCell(hcell);
+			 */
 
 			int index = 0;
 			for (GetPoHeaderList bill : getPoList) {
@@ -1797,38 +1794,28 @@ public class ReportController {
 					table.addCell(cell);
 				}
 
-				/*if (bill.getPoType() == 1) {
-					cell = new PdfPCell(new Phrase("Regular", headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-				} else if (bill.getPoType() == 2) {
-					cell = new PdfPCell(new Phrase("Job Work", headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-
-				} else if (bill.getPoType() == 3) {
-					cell = new PdfPCell(new Phrase("General", headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-
-				} else if (bill.getPoType() == 4) {
-					cell = new PdfPCell(new Phrase("Other", headFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-
-				}*/
+				/*
+				 * if (bill.getPoType() == 1) { cell = new PdfPCell(new Phrase("Regular",
+				 * headFont)); cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				 * cell.setHorizontalAlignment(Element.ALIGN_RIGHT); cell.setPaddingRight(2);
+				 * cell.setPadding(3); table.addCell(cell); } else if (bill.getPoType() == 2) {
+				 * cell = new PdfPCell(new Phrase("Job Work", headFont));
+				 * cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				 * cell.setHorizontalAlignment(Element.ALIGN_RIGHT); cell.setPaddingRight(2);
+				 * cell.setPadding(3); table.addCell(cell);
+				 * 
+				 * } else if (bill.getPoType() == 3) { cell = new PdfPCell(new Phrase("General",
+				 * headFont)); cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				 * cell.setHorizontalAlignment(Element.ALIGN_RIGHT); cell.setPaddingRight(2);
+				 * cell.setPadding(3); table.addCell(cell);
+				 * 
+				 * } else if (bill.getPoType() == 4) { cell = new PdfPCell(new Phrase("Other",
+				 * headFont)); cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				 * cell.setHorizontalAlignment(Element.ALIGN_RIGHT); cell.setPaddingRight(2);
+				 * cell.setPadding(3); table.addCell(cell);
+				 * 
+				 * }
+				 */
 
 			}
 			document.open();
@@ -2568,5 +2555,7 @@ public class ReportController {
 
 		return docList;
 	}
+	
+	
 
 }

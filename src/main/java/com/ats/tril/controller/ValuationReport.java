@@ -47,6 +47,7 @@ import com.ats.tril.model.Dept;
 import com.ats.tril.model.DeptSubDeptValReport;
 import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetCurrentStock;
+import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.IndentStatusReport;
@@ -54,6 +55,7 @@ import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.IssueDeptWise;
 import com.ats.tril.model.IssueMonthWiseList;
+import com.ats.tril.model.IssueReportItemwise;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.MonthCategoryWiseMrnReport;
 import com.ats.tril.model.MonthItemWiseMrnReport;
@@ -62,6 +64,11 @@ import com.ats.tril.model.MonthWiseIssueReport;
 import com.ats.tril.model.MrnMonthWiseList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
+import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.trl.model.report.ItemEnqAgQuotReport;
+import com.ats.trl.model.report.MrnCatwiseReport;
+import com.ats.trl.model.report.QuotReport;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -3360,7 +3367,7 @@ public class ValuationReport {
 				int srNo = 0;
 				for (int j = 0; j < deptIds.size(); j++) {
 					float subDeptTot = 0;
-					//srNo = srNo + 1;
+					// srNo = srNo + 1;
 					String deptCode = new String();
 
 					int count = 0;
@@ -3431,9 +3438,9 @@ public class ValuationReport {
 					} // end of inner for
 
 					PdfPCell cell;
-					
-					if(count==0) {
-						
+
+					if (count == 0) {
+
 						cell = new PdfPCell(new Phrase("", headFont));
 
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -3448,8 +3455,7 @@ public class ValuationReport {
 						cell.setPaddingRight(2);
 						cell.setPadding(3);
 						table.addCell(cell);
-						
-						
+
 						cell = new PdfPCell(new Phrase("", headFont));
 
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -3464,17 +3470,15 @@ public class ValuationReport {
 						cell.setPaddingRight(2);
 						cell.setPadding(3);
 						table.addCell(cell);
-						
-						
-					}else {
-						
-						cell = new PdfPCell(new Phrase("" , headFont));
+
+					} else {
+
+						cell = new PdfPCell(new Phrase("", headFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 						cell.setPadding(3);
 						table.addCell(cell);
-						
-						
+
 						cell = new PdfPCell(new Phrase("Sub Toatal", headFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -3482,22 +3486,20 @@ public class ValuationReport {
 						cell.setPadding(3);
 						table.addCell(cell);
 
-						cell = new PdfPCell(new Phrase("" , headFont));
+						cell = new PdfPCell(new Phrase("", headFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 						cell.setPaddingRight(2);
 						cell.setPadding(3);
 						table.addCell(cell);
 
-						
-
 						cell = new PdfPCell(new Phrase("" + df.format(subDeptTot), headFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 						cell.setPaddingRight(2);
 						cell.setPadding(3);
-						table.addCell(cell);	
-						
+						table.addCell(cell);
+
 					}
 
 					grandTotal = grandTotal + subDeptTot;
@@ -7334,6 +7336,1286 @@ public class ValuationReport {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	// issueListItemwiseReport
+
+	@RequestMapping(value = "/mrnCatwiseReport", method = RequestMethod.GET)
+	public ModelAndView mrnCatwiseReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/mrnReport");
+		try {
+
+			Category[] categoryRes = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
+
+			model.addObject("catList", catList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	List<MrnCatwiseReport> mrnCatwiseList = new ArrayList<MrnCatwiseReport>();
+
+	@RequestMapping(value = "/getMrnReportCatwise", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MrnCatwiseReport> getMrnReportCatwise(HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+		try {
+
+			String catIdList = request.getParameter("catIdList");
+
+			catIdList = catIdList.substring(1, catIdList.length() - 1);
+			catIdList = catIdList.replaceAll("\"", "");
+
+			System.out.println(catIdList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("catIdList", catIdList);
+
+			MrnCatwiseReport[] list = rest.postForObject(Constants.url + "/getMrnReportCatwise", map,
+					MrnCatwiseReport[].class);
+			mrnCatwiseList = new ArrayList<MrnCatwiseReport>(Arrays.asList(list));
+
+			System.out.println("mrnCatwiseList===================" + mrnCatwiseList.toString());
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("Categoty");
+			rowData.add("Item Description");
+			rowData.add("MRN No.");
+			rowData.add("Date");
+
+			rowData.add("QTY");
+			rowData.add("Reamaining QTY");
+			rowData.add("Item Rate");
+			rowData.add("Value");
+			rowData.add("Days");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < mrnCatwiseList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i + 1) + "");
+				rowData.add(mrnCatwiseList.get(i).getCatDesc());
+				rowData.add("" + mrnCatwiseList.get(i).getItemDesc());
+				rowData.add("" + mrnCatwiseList.get(i).getMrnNo());
+				rowData.add("" + mrnCatwiseList.get(i).getMrnDate());
+				rowData.add("" + mrnCatwiseList.get(i).getMrnQty());
+				rowData.add("" + mrnCatwiseList.get(i).getRemainingQty());
+				rowData.add("" + mrnCatwiseList.get(i).getItemRate());
+
+				float value = mrnCatwiseList.get(i).getMrnQty() * mrnCatwiseList.get(i).getItemRate();
+				;
+				rowData.add("" + value);
+				rowData.add("" + mrnCatwiseList.get(i).getDays());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "QuotReport");
+
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		}
+
+		return mrnCatwiseList;
+	}
+
+	@RequestMapping(value = "/quotationReport", method = RequestMethod.GET)
+	public ModelAndView quotationReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/quotationReport");
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	List<QuotReport> quotwiseList = new ArrayList<QuotReport>();
+
+	@RequestMapping(value = "/getQuotReportBetDAte", method = RequestMethod.GET)
+	@ResponseBody
+	public List<QuotReport> getQuotReportBetDAte(HttpServletRequest request, HttpServletResponse response) {
+
+		/* System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"); */
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			String statusList = request.getParameter("status");
+
+			map.add("status", statusList);
+
+			QuotReport[] list = rest.postForObject(Constants.url + "/getQuotReport", map, QuotReport[].class);
+			quotwiseList = new ArrayList<QuotReport>(Arrays.asList(list));
+			// ----------------exel-------------------------
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("Quotation No");
+			rowData.add("Date");
+			rowData.add("Item Description");
+			rowData.add("QTY");
+			rowData.add("Item Remark");
+			rowData.add("Header Remark");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < quotwiseList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i + 1) + "");
+				rowData.add(quotwiseList.get(i).getEnqNo());
+				rowData.add("" + quotwiseList.get(i).getEnqDate());
+				rowData.add("" + quotwiseList.get(i).getItemDesc());
+				rowData.add("" + quotwiseList.get(i).getEnqQty());
+				rowData.add("" + quotwiseList.get(i).getEnqRemark());
+				rowData.add("" + quotwiseList.get(i).getHeaderRemark());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "QuotReport");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return quotwiseList;
+	}
+
+	@RequestMapping(value = "/showQuotationReportPdf/{fromDate}/{toDate}", method = RequestMethod.GET)
+	public void showQuotationReportPdf(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate,
+			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		System.out.println("Inside Pdf showQuotationReportPdf");
+		Document document = new Document(PageSize.A4);
+
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+
+		PdfPTable table = new PdfPTable(7);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+			headFont1.setColor(BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			hcell.setPadding(3);
+			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Quotation No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Qty ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Remark", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			hcell = new PdfPCell(new Phrase("Header Remark", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			int index = 0;
+			for (QuotReport work : quotwiseList) {
+				index++;
+				PdfPCell cell;
+
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPadding(3);
+				cell.setPaddingRight(2);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqDate(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqQty(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqRemark(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getHeaderRemark(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+			}
+			document.open();
+			Paragraph name = new Paragraph("TRIL\n", f);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph(" "));
+			Paragraph company = new Paragraph("Itemwise Quotation Report\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			document.add(new Paragraph(" "));
+
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+			String reportDate = DF.format(new Date());
+			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
+			p1.setAlignment(Element.ALIGN_CENTER);
+			/*
+			 * document.add(p1); document.add(new Paragraph("\n"));
+			 */
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error: " + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+
+	}
+
+	@RequestMapping(value = "/showMRNCatwiseReportPdf", method = RequestMethod.GET)
+	public void showMRNCatwiseReportPdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		System.out.println("Inside Pdf showMRNCatwiseReportPdf");
+		Document document = new Document(PageSize.A4);
+
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+
+		PdfPTable table = new PdfPTable(10);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+			headFont1.setColor(BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			hcell.setPadding(3);
+			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Category", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("MRN N0. ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Qty ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Remaining Qty ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Rate", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			hcell = new PdfPCell(new Phrase("Value", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Days", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			int index = 0;
+			for (MrnCatwiseReport work : mrnCatwiseList) {
+				index++;
+				PdfPCell cell;
+
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPadding(3);
+				cell.setPaddingRight(2);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getCatDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getMrnNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getMrnDate(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getMrnQty(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getRemainingQty(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemRate(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				float value = work.getItemRate() * work.getMrnQty();
+
+				cell = new PdfPCell(new Phrase("" + value, headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+				cell = new PdfPCell(new Phrase("" + work.getDays(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+			}
+			document.open();
+			Paragraph name = new Paragraph("TRIL\n", f);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph(" "));
+			Paragraph company = new Paragraph("MRN Catwise Report\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			document.add(new Paragraph(" "));
+
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+			String reportDate = DF.format(new Date());
+			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
+			p1.setAlignment(Element.ALIGN_CENTER);
+			/*
+			 * document.add(p1); document.add(new Paragraph("\n"));
+			 */
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error: " + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+
+	}
+
+	@RequestMapping(value = "/enqAgainstQuotReport", method = RequestMethod.GET)
+	public ModelAndView enqAgainstQuotReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/enqAgQuotReport");
+		try {
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			model.addObject("vendorList", vendorList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	List<ItemEnqAgQuotReport> itemEnqAgQuotReportList = new ArrayList<ItemEnqAgQuotReport>();
+
+	@RequestMapping(value = "/getItemEnqAgReportBetDAte", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ItemEnqAgQuotReport> getItemEnqAgReportBetDAte(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			int status = Integer.parseInt(request.getParameter("status"));
+
+			String vendorIdList = request.getParameter("vendorIdList");
+			vendorIdList = vendorIdList.substring(1, vendorIdList.length() - 1);
+			vendorIdList = vendorIdList.replaceAll("\"", "");
+
+			System.out.println(vendorIdList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			map.add("status", status);
+			map.add("vendorIdList", vendorIdList);
+
+			ItemEnqAgQuotReport[] list = rest.postForObject(Constants.url + "/getEnqAgQuotReport", map,
+					ItemEnqAgQuotReport[].class);
+			itemEnqAgQuotReportList = new ArrayList<ItemEnqAgQuotReport>(Arrays.asList(list));
+
+			System.out.println("itemEnqAgQuotReportList" + itemEnqAgQuotReportList.toString());
+			// ----------------exel-------------------------
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("Enq No");
+			rowData.add("Date");
+			rowData.add("Quotation No");
+			rowData.add("Item Description");
+			rowData.add("QTY");
+			rowData.add("Enq Remark");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < itemEnqAgQuotReportList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i + 1) + "");
+				rowData.add(itemEnqAgQuotReportList.get(i).getEnqNo());
+				rowData.add("" + itemEnqAgQuotReportList.get(i).getEnqDate());
+				rowData.add("" + itemEnqAgQuotReportList.get(i).getIndNo());
+				rowData.add("" + itemEnqAgQuotReportList.get(i).getItemDesc());
+				rowData.add("" + itemEnqAgQuotReportList.get(i).getEnqQty());
+				rowData.add("" + itemEnqAgQuotReportList.get(i).getEnqRemark());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "ItemEnqAgQuotReport");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return itemEnqAgQuotReportList;
+	}
+
+	@RequestMapping(value = "/showEnqAgQuotReportPdf", method = RequestMethod.GET)
+	public void showEnqAgQuotReportPdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		System.out.println("Inside Pdf showEnqAgQuotReportPdf");
+		Document document = new Document(PageSize.A4);
+
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+
+		PdfPTable table = new PdfPTable(7);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+			headFont1.setColor(BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			hcell.setPadding(3);
+			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Enq No", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Ind No. ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Qty ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Remark", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			int index = 0;
+			for (ItemEnqAgQuotReport work : itemEnqAgQuotReportList) {
+				index++;
+				PdfPCell cell;
+
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPadding(3);
+				cell.setPaddingRight(2);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqDate(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIndNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqQty(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getEnqRemark(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+			}
+			document.open();
+			Paragraph name = new Paragraph("TRIL\n", f);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph(" "));
+			Paragraph company = new Paragraph("Item Enquiry Report\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			document.add(new Paragraph(" "));
+
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+			String reportDate = DF.format(new Date());
+			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
+			p1.setAlignment(Element.ALIGN_CENTER);
+			/*
+			 * document.add(p1); document.add(new Paragraph("\n"));
+			 */
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error: " + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+
+	}
+
+	@RequestMapping(value = "/issueListItemwiseReport", method = RequestMethod.GET)
+	public ModelAndView issueListItemwiseReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/issueListItemwiseReport");
+		try {
+
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
+			model.addObject("deparmentList", deparmentList);
+
+			Category[] categoryRes = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
+
+			model.addObject("catList", catList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/getAllCatByAjax", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Category> getAllCatByAjax(HttpServletRequest request, HttpServletResponse response) {
+
+		Category[] categoryRes = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+		List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
+
+		return catList;
+	}
+
+	@RequestMapping(value = "/getAllTypeByAjax", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Type> getAllTypeByAjax(HttpServletRequest request, HttpServletResponse response) {
+
+		Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+		List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+
+		return typeList;
+	}
+
+	@RequestMapping(value = "/getAllDeptByAjax", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Dept> getAllDeptByAjax(HttpServletRequest request, HttpServletResponse response) {
+		Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+		List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
+
+		return deparmentList;
+	}
+
+	List<IssueReportItemwise> issueList1 = new ArrayList<IssueReportItemwise>();
+
+	@RequestMapping(value = "/getIssBetDate", method = RequestMethod.GET)
+	@ResponseBody
+	public List<IssueReportItemwise> getIssBetDate(HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+		try {
+
+			System.out.println("4444444444");
+
+			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+
+			String catIdList = request.getParameter("catIdList");
+			String typeIdList = request.getParameter("typeIdList");
+			int appStatus = Integer.parseInt(request.getParameter("appStatus"));
+			int deptId = Integer.parseInt(request.getParameter("deptId"));
+			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
+
+			System.out.println("++++++++++++++" + catId);
+
+			catIdList = catIdList.substring(1, catIdList.length() - 1);
+			catIdList = catIdList.replaceAll("\"", "");
+
+			typeIdList = typeIdList.substring(1, typeIdList.length() - 1);
+			typeIdList = typeIdList.replaceAll("\"", "");
+
+			System.out.println(catIdList);
+			System.out.println(typeIdList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("typeId", typeIdList);
+			map.add("catIdList", catIdList);
+			map.add("deptId", deptId);
+
+			map.add("appStatus", appStatus);
+			map.add("subDeptId", subDeptId);
+
+			IssueReportItemwise[] list = rest.postForObject(Constants.url + "/getIssueHeaderDetailItemwiseReport", map,
+					IssueReportItemwise[].class);
+			issueList1 = new ArrayList<IssueReportItemwise>(Arrays.asList(list));
+
+			System.out.println("issueList1===================" + issueList1.toString());
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("Issue No");
+			rowData.add("Date");
+			rowData.add("Category");
+			rowData.add("Dept Description");
+			rowData.add("SubDept Description");
+			rowData.add("Item Description");
+			rowData.add("QTY");
+			rowData.add("Status");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < issueList1.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i + 1) + "");
+				rowData.add("" + issueList1.get(i).getIssueNo());
+				rowData.add("" + issueList1.get(i).getIssueDate());
+				rowData.add("" + issueList1.get(i).getCatDesc());
+				rowData.add("" + issueList1.get(i).getDeptDesc());
+				rowData.add("" + issueList1.get(i).getSubDeptDesc());
+				rowData.add("" + issueList1.get(i).getItemDesc());
+				rowData.add("" + issueList1.get(i).getItemIssueQty());
+				rowData.add("" + issueList1.get(i).getStatus());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "IssueReportItemwise");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return issueList1;
+	}
+
+	@RequestMapping(value = "/showIssueListReportPdf", method = RequestMethod.GET)
+	public void showIssueListReportPdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		System.out.println("Inside Pdf showIssueListReportPdf");
+		Document document = new Document(PageSize.A4);
+
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+
+		PdfPTable table = new PdfPTable(9);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+			headFont1.setColor(BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			hcell.setPadding(3);
+			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Issue No", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Category ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Dept Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Sub dept Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Qty ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("App Status", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			int index = 0;
+			for (IssueReportItemwise work : issueList1) {
+				index++;
+				PdfPCell cell;
+
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPadding(3);
+				cell.setPaddingRight(2);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIssueNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIssueDate(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getCatDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getDeptDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getSubDeptDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemIssueQty(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+				String status = "";
+
+				if (work.getStatus() == 0) {
+					status = "Pending for Approval1";
+
+				} else if (work.getStatus() == 1) {
+					status = "Pending for Approval2";
+				} else if (work.getStatus() == 2) {
+					status = "Closed";
+				}
+				cell = new PdfPCell(new Phrase(status + "", headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+			}
+			document.open();
+			Paragraph name = new Paragraph("TRIL\n", f);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph(" "));
+			Paragraph company = new Paragraph("Issue List Report\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			document.add(new Paragraph(" "));
+
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+			String reportDate = DF.format(new Date());
+			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
+			p1.setAlignment(Element.ALIGN_CENTER);
+			/*
+			 * document.add(p1); document.add(new Paragraph("\n"));
+			 */
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error: " + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+
 	}
 
 }
