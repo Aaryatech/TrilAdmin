@@ -586,6 +586,17 @@
 		}
 	</script>
 
+	<script type="text/javascript">
+		function genPdf() {
+
+		 
+
+			window
+					.open('${pageContext.request.contextPath}/showIndentListReportPdf/');
+			document.getElementById("PDFButton").disabled = true;
+		}
+	</script>
+
 
 </body>
 </html>
