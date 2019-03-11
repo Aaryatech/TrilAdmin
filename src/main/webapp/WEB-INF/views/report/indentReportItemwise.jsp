@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body onload=getSubDeptList()>
 
-	<c:url var="getIssBetDate" value="/getIssBetDate"></c:url>
+	<c:url var="getIndentReportBetDate" value="/getIndentReportBetDate"></c:url>
 	<c:url var="getAllCatByAjax" value="/getAllCatByAjax"></c:url>
 	<c:url var="getAllTypeByAjax" value="/getAllTypeByAjax"></c:url>
 
@@ -87,44 +87,7 @@
 
 								</div>
 								<br /> <br />
-								<div class="form-group">
 
-
-									<div class="col-md-2">Select Department*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="deptId" id="deptId"
-											onchange="getSubDeptList()" required>
-											<option value="0">All</option>
-											<c:forEach items="${deparmentList}" var="deparmentList">
-												<c:choose>
-													<c:when test="${deparmentList.deptId==deptId}">
-														<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}
-															&nbsp; ${deparmentList.deptDesc}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${deparmentList.deptId}">${deparmentList.deptCode}
-															&nbsp; ${deparmentList.deptDesc}</option>
-													</c:otherwise>
-												</c:choose>
-
-											</c:forEach>
-										</select>
-
-									</div>
-									<div class="col-md-1"></div>
-									<input type="hidden" value="${subDeptId}" id="subDeptIds">
-									<div class="col-md-2">Select Sub Dept *</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="subDeptId"
-											id="subDeptId" required>
-											<option value="0">All</option>
-
-										</select>
-
-									</div>
-
-								</div>
-								<br /> <br>
 
 								<div class="form-group">
 									<div class="col-md-2">Select Category*</div>
@@ -146,16 +109,16 @@
 
 									<div class="col-md-1"></div>
 
-									<div class="col-md-2">Approve Status</div>
+									<div class="col-md-2">Select Status</div>
 									<div class="col-md-3">
 
 										<select name="appStatus" id="appStatus"
 											class="form-control chosen" tabindex="6" required>
 
 											<option value="-1">All</option>
-											<option value="0">Pending for Approval1</option>
-											<option value="1">Pending for Approval2</option>
-											<option value="2">Done</option>
+											<option value="0">Pending</option>
+											<option value="1">Partial Pending</option>
+											<option value="2">Closed</option>
 
 										</select>
 
@@ -233,14 +196,15 @@
 											<tr class="bgpink">
 												<th style="width: 1%;">SR</th>
 
-												<th class="col-md-1">Issue No</th>
+												<th class="col-md-1">Indent No</th>
 												<th class="col-md-2">Date</th>
-												<th class="col-md-2">CATEGORY</th>
-												<th class="col-md-2">Dept</th>
-												<th class="col-md-1">Sub Dept</th>
 												<th class="col-md-2">Item Description</th>
-												<th class="col-md-1">Qty</th>
-												<th class="col-md-1">Approval Status</th>
+												<th class="col-md-2">Indent Qty</th>
+
+												<th class="col-md-1">Excess Days</th>
+												<th class="col-md-1">Remark</th>
+
+
 
 											</tr>
 										</thead>
@@ -369,56 +333,24 @@
 			window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled = true;
 		}
-		function getSubDeptList() {
-
-			var deptId = document.getElementById("deptId").value;
-			var subDeptIds = document.getElementById("subDeptIds").value;
-			$
-					.getJSON(
-							'${getSubDeptList}',
-							{
-
-								deptId : deptId,
-								ajax : 'true'
-							},
-							function(data) {
-
-								var html = '<option value="0">All</option>';
-
-								var len = data.length;
-								for (var i = 0; i < len; i++) {
-
-									if (subDeptIds == data[i].subDeptId) {
-										html += '<option value="' + data[i].subDeptId + '" selected>'
-												+ data[i].subDeptCode
-												+ '&nbsp;&nbsp;&nbsp;s'
-												+ data[i].subDeptDesc
-												+ '</option>';
-									} else {
-										html += '<option value="' + data[i].subDeptId + '">'
-												+ data[i].subDeptCode
-												+ '&nbsp;&nbsp;&nbsp;s'
-												+ data[i].subDeptDesc
-												+ '</option>';
-									}
-
-								}
-								html += '</option>';
-								$('#subDeptId').html(html);
-								$("#subDeptId").trigger("chosen:updated");
-							});
-		}
+	 
 		function search() {
 
-			//alert("hii");
+			 alert("hii");
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
 			var typeIdList = $("#typeId").val();
 			var catIdList = $("#catIdList").val();
-			var deptId = $("#deptId").val();
-			var subDeptId = $("#subDeptId").val();
+			 
+		 
 			var appStatus = $("#appStatus").val();
+			
+			alert(fromDate);
+			alert(toDate);
+			alert(typeIdList);
+			alert(catIdList);
+			alert(appStatus);
 
 			if (fromDate == "" || fromDate == null)
 				alert("Select From Date");
@@ -427,7 +359,7 @@
 
 			$('#loader').show();
 
-			$.getJSON('${getIssBetDate}',
+			$.getJSON('${getIndentReportBetDate}',
 
 			{
 
@@ -435,8 +367,7 @@
 				toDate : toDate,
 				catIdList : JSON.stringify(catIdList),
 				typeIdList : JSON.stringify(typeIdList),
-				deptId :  deptId,
-				subDeptId : subDeptId,
+			 
 				appStatus : appStatus,
 				ajax : 'true'
 
@@ -454,32 +385,13 @@
 
 					var tr = $('<tr></tr>');
 					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(itemList.issueNo));
-					tr.append($('<td></td>').html(itemList.issueDate));
-					tr.append($('<td></td>').html(itemList.catDesc));
-					tr.append($('<td></td>').html(itemList.deptDesc));
-					tr.append($('<td></td>').html(itemList.subDeptDesc));
+					tr.append($('<td></td>').html(itemList.indMNo));
+					tr.append($('<td></td>').html(itemList.indItemSchddt));
 					tr.append($('<td></td>').html(itemList.itemDesc));
-					tr.append($('<td></td>').html(itemList.itemIssueQty));
-					
-					var status;
-					if(itemList.status==0)
-						{status="Pending for Approval1";
-						 
-						
-						}
-					else if(itemList.status==1)
-						{
-						status="Pending for Approval2";
-						}
-					else if(itemList.status==2)
-						{
-						status="Closed";
-						}
+					tr.append($('<td></td>').html(itemList.indQty));
+					tr.append($('<td></td>').html(itemList.excessDays));
+					tr.append($('<td></td>').html(itemList.indReamrk));
 					 
-					
-					tr.append($('<td></td>').html(status));
-
 					$('#table1 tbody').append(tr);
 				})
 
@@ -643,8 +555,8 @@
 		}
 	</script>
  -->
- 
- <script>
+
+	<script>
 		function myFunction() {
 			var input, filter, table, tr, td, td1, td2, i;
 			input = document.getElementById("myInput");
@@ -678,7 +590,7 @@
 			}
 		}
 	</script>
- 
+
 
 </body>
 </html>

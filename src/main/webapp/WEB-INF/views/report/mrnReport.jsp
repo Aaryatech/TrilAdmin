@@ -28,15 +28,15 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			<!-- <div class="page-title">
+			<div class="page-title">
 				<div>
 					<h1>
 
-						<i class="fa fa-file-o"></i>Mrn Category Month Wise Report  
+						<i class="fa fa-file-o"></i>MRN Categorywise Report
 
 					</h1>
 				</div>
-			</div> -->
+			</div>
 			<br>
 			<!-- END Page Title -->
 
@@ -46,7 +46,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue List Wise Report
+								<i class="fa fa-table"></i>MRN Categorywise Report
 							</h3>
 							<div class="box-tool">
 								<a data-action="collapse" href="#"><i
@@ -357,6 +357,42 @@
 			document.getElementById("PDFButton").disabled = true;
 		}
 	</script>
+
+	<script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, td2, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				td1 = tr[i].getElementsByTagName("td")[2];
+
+				td2 = tr[i].getElementsByTagName("td")[3];
+				if (td || td1 || td2) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+
+				/*  if (td1) {
+				     if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				       tr[i].style.display = "";
+				     } else {
+				       tr[i].style.display = "none";
+				     }
+				   }   */
+			}
+		}
+	</script>
+
 
 </body>
 </html>

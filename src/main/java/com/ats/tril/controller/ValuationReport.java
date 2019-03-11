@@ -66,6 +66,7 @@ import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
+import com.ats.trl.model.report.IndentRepItemwise;
 import com.ats.trl.model.report.ItemEnqAgQuotReport;
 import com.ats.trl.model.report.MrnCatwiseReport;
 import com.ats.trl.model.report.QuotReport;
@@ -7428,6 +7429,7 @@ public class ValuationReport {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "QuotReport");
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
 
 		} catch (
 
@@ -7510,6 +7512,7 @@ public class ValuationReport {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "QuotReport");
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -7551,6 +7554,7 @@ public class ValuationReport {
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
 
 			PdfPCell hcell = new PdfPCell();
 			hcell.setBackgroundColor(BaseColor.PINK);
@@ -7652,22 +7656,23 @@ public class ValuationReport {
 
 			}
 			document.open();
-			Paragraph name = new Paragraph("TRIL\n", f);
-			name.setAlignment(Element.ALIGN_CENTER);
-			document.add(name);
-			document.add(new Paragraph(" "));
-			Paragraph company = new Paragraph("Itemwise Quotation Report\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
-			document.add(new Paragraph(" "));
 
-			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-			String reportDate = DF.format(new Date());
-			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
-			p1.setAlignment(Element.ALIGN_CENTER);
-			/*
-			 * document.add(p1); document.add(new Paragraph("\n"));
-			 */
+			Paragraph heading1 = new Paragraph(companyInfo.getFactoryAdd(), f1);
+			heading1.setAlignment(Element.ALIGN_CENTER);
+			document.add(heading1);
+			Paragraph ex2 = new Paragraph("\n");
+			document.add(ex2);
+
+			Paragraph reportName = new Paragraph("Quotation Report", f1);
+			reportName.setAlignment(Element.ALIGN_CENTER);
+			document.add(reportName);
+
+			Paragraph ex3 = new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
 			document.add(table);
 
 			int totalPages = writer.getPageNumber();
@@ -7745,6 +7750,7 @@ public class ValuationReport {
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
 
 			PdfPCell hcell = new PdfPCell();
 			hcell.setBackgroundColor(BaseColor.PINK);
@@ -7886,22 +7892,23 @@ public class ValuationReport {
 
 			}
 			document.open();
-			Paragraph name = new Paragraph("TRIL\n", f);
-			name.setAlignment(Element.ALIGN_CENTER);
-			document.add(name);
-			document.add(new Paragraph(" "));
-			Paragraph company = new Paragraph("MRN Catwise Report\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
-			document.add(new Paragraph(" "));
 
-			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-			String reportDate = DF.format(new Date());
-			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
-			p1.setAlignment(Element.ALIGN_CENTER);
-			/*
-			 * document.add(p1); document.add(new Paragraph("\n"));
-			 */
+			Paragraph heading1 = new Paragraph(companyInfo.getFactoryAdd(), f1);
+			heading1.setAlignment(Element.ALIGN_CENTER);
+			document.add(heading1);
+			Paragraph ex2 = new Paragraph("\n");
+			document.add(ex2);
+
+			Paragraph reportName = new Paragraph("MRN Categorywise Report", f1);
+			reportName.setAlignment(Element.ALIGN_CENTER);
+			document.add(reportName);
+
+			Paragraph ex3 = new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
 			document.add(table);
 
 			int totalPages = writer.getPageNumber();
@@ -8033,6 +8040,7 @@ public class ValuationReport {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "ItemEnqAgQuotReport");
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -8074,6 +8082,7 @@ public class ValuationReport {
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
 
 			PdfPCell hcell = new PdfPCell();
 			hcell.setBackgroundColor(BaseColor.PINK);
@@ -8176,22 +8185,23 @@ public class ValuationReport {
 
 			}
 			document.open();
-			Paragraph name = new Paragraph("TRIL\n", f);
-			name.setAlignment(Element.ALIGN_CENTER);
-			document.add(name);
-			document.add(new Paragraph(" "));
-			Paragraph company = new Paragraph("Item Enquiry Report\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
-			document.add(new Paragraph(" "));
 
-			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-			String reportDate = DF.format(new Date());
-			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
-			p1.setAlignment(Element.ALIGN_CENTER);
-			/*
-			 * document.add(p1); document.add(new Paragraph("\n"));
-			 */
+			Paragraph heading1 = new Paragraph(companyInfo.getFactoryAdd(), f1);
+			heading1.setAlignment(Element.ALIGN_CENTER);
+			document.add(heading1);
+			Paragraph ex2 = new Paragraph("\n");
+			document.add(ex2);
+
+			Paragraph reportName = new Paragraph("Item Enquiry Report", f1);
+			reportName.setAlignment(Element.ALIGN_CENTER);
+			document.add(reportName);
+
+			Paragraph ex3 = new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
 			document.add(table);
 
 			int totalPages = writer.getPageNumber();
@@ -8381,6 +8391,8 @@ public class ValuationReport {
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "IssueReportItemwise");
 
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -8421,6 +8433,7 @@ public class ValuationReport {
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
 
 			PdfPCell hcell = new PdfPCell();
 			hcell.setBackgroundColor(BaseColor.PINK);
@@ -8558,22 +8571,335 @@ public class ValuationReport {
 
 			}
 			document.open();
-			Paragraph name = new Paragraph("TRIL\n", f);
-			name.setAlignment(Element.ALIGN_CENTER);
-			document.add(name);
-			document.add(new Paragraph(" "));
-			Paragraph company = new Paragraph("Issue List Report\n", f);
+			Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
-			document.add(new Paragraph(" "));
 
-			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-			String reportDate = DF.format(new Date());
-			Paragraph p1 = new Paragraph("From Date:" + fromDate + "  To Date:" + toDate, headFont);
-			p1.setAlignment(Element.ALIGN_CENTER);
-			/*
-			 * document.add(p1); document.add(new Paragraph("\n"));
-			 */
+			Paragraph heading1 = new Paragraph(companyInfo.getFactoryAdd(), f1);
+			heading1.setAlignment(Element.ALIGN_CENTER);
+			document.add(heading1);
+			Paragraph ex2 = new Paragraph("\n");
+			document.add(ex2);
+
+			Paragraph reportName = new Paragraph("Itemwise Issue List", f1);
+			reportName.setAlignment(Element.ALIGN_CENTER);
+			document.add(reportName);
+
+			Paragraph ex3 = new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error: " + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+
+	}
+
+	@RequestMapping(value = "/showIndentItemwiseReport", method = RequestMethod.GET)
+	public ModelAndView showIndentItemwiseReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("report/indentReportItemwise");
+		try {
+
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+			Category[] categoryRes = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> catList = new ArrayList<Category>(Arrays.asList(categoryRes));
+
+			model.addObject("catList", catList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	List<IndentRepItemwise> indentRepList = new ArrayList<IndentRepItemwise>();
+
+	@RequestMapping(value = "/getIndentReportBetDate", method = RequestMethod.GET)
+	@ResponseBody
+	public List<IndentRepItemwise> getIndentReportBetDate(HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+
+			String catIdList = request.getParameter("catIdList");
+			String typeIdList = request.getParameter("typeIdList");
+			String appStatus = request.getParameter("appStatus");
+
+			System.out.println("++++++++++++++" + catId);
+
+			catIdList = catIdList.substring(1, catIdList.length() - 1);
+			catIdList = catIdList.replaceAll("\"", "");
+
+			typeIdList = typeIdList.substring(1, typeIdList.length() - 1);
+			typeIdList = typeIdList.replaceAll("\"", "");
+
+			System.out.println(catIdList);
+			System.out.println(typeIdList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("typeIdList", typeIdList);
+			map.add("catIdList", catIdList);
+
+			if (appStatus.contains("-1")) {
+				map.add("statusList", "0,1,2");
+			} else {
+				map.add("statusList", appStatus);
+			}
+
+			IndentRepItemwise[] list = rest.postForObject(Constants.url + "/getIndentItemwiseReport", map,
+					IndentRepItemwise[].class);
+			indentRepList = new ArrayList<IndentRepItemwise>(Arrays.asList(list));
+
+			System.out.println("indentRepList===================" + indentRepList.toString());
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("SR. No");
+			rowData.add("Indent No");
+			rowData.add("Date");
+			rowData.add("Item Description");
+
+			rowData.add("Indent QTY");
+			rowData.add("Excess Days");
+			rowData.add("Remark");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < indentRepList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add((i + 1) + "");
+				rowData.add("" + indentRepList.get(i).getIndMNo());
+				rowData.add("" + indentRepList.get(i).getIndItemSchddt());
+				rowData.add("" + indentRepList.get(i).getIndItemDesc());
+				rowData.add("" + indentRepList.get(i).getIndQty());
+
+				rowData.add("" + indentRepList.get(i).getExcessDays());
+				rowData.add("" + indentRepList.get(i).getIndReamrk());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "indentRepList");
+
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return indentRepList;
+	}
+
+	@RequestMapping(value = "/showIndentListReportPdf", method = RequestMethod.GET)
+	public void showIndentListReportPdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		System.out.println("Inside Pdf showIndentListReportPdf");
+		Document document = new Document(PageSize.A4);
+
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+
+		PdfPTable table = new PdfPTable(7);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 4.0f, 3.2f, 3.2f, 3.2f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+			headFont1.setColor(BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			hcell.setPadding(3);
+			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Indent No", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Indent Qty ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Excess Days", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Remark", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			int index = 0;
+			for (IndentRepItemwise work : indentRepList) {
+				index++;
+				PdfPCell cell;
+
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPadding(3);
+				cell.setPaddingRight(2);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIndMNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIndItemSchddt(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIndItemDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIndQty(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getExcessDays(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getIndReamrk(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+				String status = "";
+
+			}
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName() + "\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+
+			Paragraph heading1 = new Paragraph(companyInfo.getFactoryAdd(), f1);
+			heading1.setAlignment(Element.ALIGN_CENTER);
+			document.add(heading1);
+			Paragraph ex2 = new Paragraph("\n");
+			document.add(ex2);
+
+			Paragraph reportName = new Paragraph("Indent Report", f1);
+			reportName.setAlignment(Element.ALIGN_CENTER);
+			document.add(reportName);
+
+			Paragraph ex3 = new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
 			document.add(table);
 
 			int totalPages = writer.getPageNumber();
