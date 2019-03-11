@@ -336,7 +336,7 @@
 	 
 		function search() {
 
-			 alert("hii");
+			 //alert("hii");
 
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
@@ -379,21 +379,22 @@
 				if (data == "") {
 					alert("No records found !!");
 
+					alert
 				}
 
-				$.each(data, function(key, itemList) {
+				  $.each(data, function(key, itemList) {
 
 					var tr = $('<tr></tr>');
 					tr.append($('<td></td>').html(key + 1));
 					tr.append($('<td></td>').html(itemList.indMNo));
 					tr.append($('<td></td>').html(itemList.indItemSchddt));
-					tr.append($('<td></td>').html(itemList.itemDesc));
+					tr.append($('<td></td>').html(itemList.indItemDesc));
 					tr.append($('<td></td>').html(itemList.indQty));
 					tr.append($('<td></td>').html(itemList.excessDays));
 					tr.append($('<td></td>').html(itemList.indReamrk));
 					 
 					$('#table1 tbody').append(tr);
-				})
+				}) 
 
 			});
 		}
