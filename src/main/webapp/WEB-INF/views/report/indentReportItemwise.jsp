@@ -346,11 +346,11 @@
 		 
 			var appStatus = $("#appStatus").val();
 			
-			alert(fromDate);
+		/* 	alert(fromDate);
 			alert(toDate);
 			alert(typeIdList);
 			alert(catIdList);
-			alert(appStatus);
+			alert(appStatus); */
 
 			if (fromDate == "" || fromDate == null)
 				alert("Select From Date");
@@ -580,13 +580,7 @@
 					}
 				}
 
-				/*  if (td1) {
-				     if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-				       tr[i].style.display = "";
-				     } else {
-				       tr[i].style.display = "none";
-				     }
-				   }   */
+				 
 			}
 		}
 	</script>
