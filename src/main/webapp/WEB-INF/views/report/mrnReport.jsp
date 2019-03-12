@@ -122,12 +122,13 @@
 											<th style="width: 1%;">SR</th>
 
 											<th class="col-md-1">Category</th>
-											<th class="col-md-2">Item Desc</th>
+											<th class="col-md-1">Item Code</th>
+											<th class="col-md-3">Item Desc</th>
 											<th class="col-md-1">MRN No</th>
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Qty</th>
 											<th class="col-md-1">Remaining Qty</th>
-											<th class="col-md-2">Rate</th>
+											<th class="col-md-1">Rate</th>
 											<th class="col-md-1">Value</th>
 											<th class="col-md-1">MRN Days</th>
 
@@ -287,6 +288,12 @@
 																	'<td></td>')
 																	.html(
 																			itemList.catDesc));
+
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.itemCode));
 													tr
 															.append($(
 																	'<td></td>')

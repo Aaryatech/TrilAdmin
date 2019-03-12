@@ -166,7 +166,7 @@
 								<div class="form-group">
 
 									<div class="col-md-2">Select Type*</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select class="form-control chosen" name="typeId" id="typeId"
 											onchange="setTypeOptions(this.value)" multiple="multiple"
 											required>
@@ -234,11 +234,12 @@
 												<th style="width: 1%;">SR</th>
 
 												<th class="col-md-1">Issue No</th>
-												<th class="col-md-2">Date</th>
-												<th class="col-md-2">CATEGORY</th>
-												<th class="col-md-2">Dept</th>
+												<th class="col-md-1">Date</th>
+												<th class="col-md-1">CATEGORY</th>
+												<th class="col-md-1">Dept</th>
 												<th class="col-md-1">Sub Dept</th>
-												<th class="col-md-2">Item Description</th>
+												<th class="col-md-1">Item Code</th>
+												<th class="col-md-4">Item Description</th>
 												<th class="col-md-1">Qty</th>
 												<th class="col-md-1">Approval Status</th>
 
@@ -459,6 +460,7 @@
 					tr.append($('<td></td>').html(itemList.catDesc));
 					tr.append($('<td></td>').html(itemList.deptDesc));
 					tr.append($('<td></td>').html(itemList.subDeptDesc));
+					tr.append($('<td></td>').html(itemList.itemCode));
 					tr.append($('<td></td>').html(itemList.itemDesc));
 					tr.append($('<td></td>').html(itemList.itemIssueQty));
 					
@@ -643,8 +645,8 @@
 		}
 	</script>
  -->
- 
- <script>
+
+	<script>
 		function myFunction() {
 			var input, filter, table, tr, td, td1, td2, i;
 			input = document.getElementById("myInput");
@@ -678,7 +680,7 @@
 			}
 		}
 	</script>
- 
+
 
 </body>
 </html>

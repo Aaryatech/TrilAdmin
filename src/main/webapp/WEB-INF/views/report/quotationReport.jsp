@@ -135,13 +135,14 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
+											<th style="width: 3%;">Sr no.</th>
 											<th class="col-md-1">Enq No</th>
 											<th class="col-md-1">Enq Date</th>
-											<th class="col-md-2">Item Desc</th>
+											<th class="col-md-1">Item Code</th>
+											<th class="col-md-3">Item Desc</th>
 											<th class="col-md-1">Enq Qty</th>
 											<th class="col-md-2">Enq Remark</th>
-											<th class="col-md-2">Header Remark</th>
+											<th class="col-md-1">Header Remark</th>
 
 										</tr>
 									</thead>
@@ -282,6 +283,7 @@
 					tr.append($('<td></td>').html(key + 1));
 					tr.append($('<td></td>').html(v.enqNo));
 					tr.append($('<td></td>').html(v.enqDate));
+					tr.append($('<td></td>').html(v.itemCode));
 					tr.append($('<td></td>').html(v.itemDesc));
 
 					tr.append($('<td></td>').html(v.enqQty));

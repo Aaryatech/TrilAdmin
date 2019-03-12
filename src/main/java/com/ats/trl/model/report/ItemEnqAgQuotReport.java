@@ -10,6 +10,8 @@ public class ItemEnqAgQuotReport {
 	private String indNo;
 	private String enqNo;
 	private String itemDesc;
+	private String itemCode;
+
 	private float enqQty;
 
 	private String enqDate;
@@ -77,12 +79,22 @@ public class ItemEnqAgQuotReport {
 	public void setEnqStatus(int enqStatus) {
 		this.enqStatus = enqStatus;
 	}
+	
+	
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
 
 	@Override
 	public String toString() {
 		return "ItemEnqAgQuotReport [itemId=" + itemId + ", enqStatus=" + enqStatus + ", enqRemark=" + enqRemark
-				+ ", indNo=" + indNo + ", enqNo=" + enqNo + ", itemDesc=" + itemDesc + ", enqQty=" + enqQty
-				+ ", enqDate=" + enqDate + "]";
+				+ ", indNo=" + indNo + ", enqNo=" + enqNo + ", itemDesc=" + itemDesc + ", itemCode=" + itemCode
+				+ ", enqQty=" + enqQty + ", enqDate=" + enqDate + "]";
 	}
 
 }

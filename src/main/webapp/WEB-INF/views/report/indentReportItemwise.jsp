@@ -50,7 +50,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue List Itemwise Report
+								<i class="fa fa-table"></i>Indent List PO Not Generated Report
 							</h3>
 							<div class="box-tool">
 								<a data-action="collapse" href="#"><i
@@ -129,7 +129,7 @@
 								<div class="form-group">
 
 									<div class="col-md-2">Select Type*</div>
-									<div class="col-md-3">
+									<div class="col-md-10">
 										<select class="form-control chosen" name="typeId" id="typeId"
 											onchange="setTypeOptions(this.value)" multiple="multiple"
 											required>
@@ -197,12 +197,13 @@
 												<th style="width: 1%;">SR</th>
 
 												<th class="col-md-1">Indent No</th>
-												<th class="col-md-2">Date</th>
-												<th class="col-md-2">Item Description</th>
-												<th class="col-md-2">Indent Qty</th>
+												<th class="col-md-1">Date</th>
+
+												<th class="col-md-6">Item Description</th>
+												<th class="col-md-1">Indent Qty</th>
 
 												<th class="col-md-1">Excess Days</th>
-												<th class="col-md-1">Remark</th>
+												<th class="col-md-2">Remark</th>
 
 
 

@@ -7475,6 +7475,7 @@ public class ValuationReport {
 
 			QuotReport[] list = rest.postForObject(Constants.url + "/getQuotReport", map, QuotReport[].class);
 			quotwiseList = new ArrayList<QuotReport>(Arrays.asList(list));
+			System.out.println("====" + quotwiseList.toString());
 			// ----------------exel-------------------------
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -7526,7 +7527,7 @@ public class ValuationReport {
 			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showQuotationReportPdf");
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate());
 
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
@@ -7545,11 +7546,11 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(7);
+		PdfPTable table = new PdfPTable(8);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 4.0f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 1.0f, 3.2f, 3.2f, 3.2f, 6.0f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -7573,6 +7574,12 @@ public class ValuationReport {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Date ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Code ", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -7622,6 +7629,13 @@ public class ValuationReport {
 				cell = new PdfPCell(new Phrase("" + work.getEnqDate(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemCode(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
@@ -7741,11 +7755,11 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(11);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 1.2f, 3.2f, 3.2f, 7.0f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -7763,6 +7777,12 @@ public class ValuationReport {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Category", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Code ", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -7827,6 +7847,13 @@ public class ValuationReport {
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + work.getCatDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemCode(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setPaddingRight(2);
@@ -8054,7 +8081,7 @@ public class ValuationReport {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showEnqAgQuotReportPdf");
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate());
 
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
@@ -8073,11 +8100,11 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(7);
+		PdfPTable table = new PdfPTable(8);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 4.0f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 1.0f, 1.2f, 1.2f, 1.2f, 1.2f, 6.0f, 1.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -8107,6 +8134,12 @@ public class ValuationReport {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Ind No. ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Item Code ", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -8156,6 +8189,13 @@ public class ValuationReport {
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + work.getIndNo(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemCode(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setPaddingRight(2);
@@ -8405,7 +8445,7 @@ public class ValuationReport {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showIssueListReportPdf");
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate());
 
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
@@ -8424,11 +8464,11 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(9);
+		PdfPTable table = new PdfPTable(10);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 1.0f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.0f, 9.0f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -8470,6 +8510,11 @@ public class ValuationReport {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Sub dept Desc ", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+
+			table.addCell(hcell);
+			hcell = new PdfPCell(new Phrase("Item Code ", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -8533,6 +8578,13 @@ public class ValuationReport {
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + work.getSubDeptDesc(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingRight(2);
+				cell.setPadding(3);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + work.getItemCode(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setPaddingRight(2);
@@ -8672,6 +8724,8 @@ public class ValuationReport {
 
 			System.out.println("++++++++++++++" + catId);
 
+			System.out.println("");
+
 			catIdList = catIdList.substring(1, catIdList.length() - 1);
 			catIdList = catIdList.replaceAll("\"", "");
 
@@ -8751,7 +8805,7 @@ public class ValuationReport {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showIndentListReportPdf");
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate());
 
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
@@ -8774,7 +8828,7 @@ public class ValuationReport {
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 4.0f, 3.2f, 3.2f, 3.2f });
+			table.setWidths(new float[] { 1.0f, 3.2f, 3.2f, 6.0f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);

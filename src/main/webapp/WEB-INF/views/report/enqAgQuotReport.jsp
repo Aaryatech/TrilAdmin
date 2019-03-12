@@ -151,10 +151,11 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
+											<th style="width: 1%;">Sr no.</th>
 											<th class="col-md-1">Enq No</th>
 											<th class="col-md-1">Enq Date</th>
 											<th class="col-md-1">Quot No/Indent No</th>
+											<th class="col-md-1">Item Code</th>
 											<th class="col-md-3">Item Desc</th>
 											<th class="col-md-1">Enq Qty</th>
 											<th class="col-md-2">Enq Remark</th>
@@ -305,7 +306,7 @@
 					tr.append($('<td></td>').html(v.enqNo));
 					tr.append($('<td></td>').html(v.enqDate));
 					tr.append($('<td></td>').html(v.indNo));
-
+					tr.append($('<td></td>').html(v.itemCode));
 					tr.append($('<td></td>').html(v.itemDesc));
 					tr.append($('<td></td>').html(v.enqQty));
 					tr.append($('<td></td>').html(v.enqRemark));
