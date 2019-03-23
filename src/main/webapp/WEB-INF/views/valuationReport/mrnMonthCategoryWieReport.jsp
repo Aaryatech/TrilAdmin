@@ -165,10 +165,30 @@
 									</div>
 									 
 								</div><br> 
-								 <br>
+								 <br></br>
+								 
+									<div class="col-md-2">Year</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="year" id="year"
+											required>
+											
+												
+													 <option value="2018">2018-2019</option>
+													 <option value="2019">2019-2020</option>
+												
+												
+										</select>
+
+									</div>
+									
+									
+									
+								 
+								
+
 							
 							<div class="row">
-							<div class="col-md-12" style="text-align: center">
+							<div class="col-md-5" style="text-align: center">
 								<input type="submit" class="btn btn-primary"   value="Search"> 
 								<input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;

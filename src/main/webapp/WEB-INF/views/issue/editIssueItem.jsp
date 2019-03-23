@@ -118,7 +118,7 @@
 								<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control"
-								 placeholder="Issue Date" value="${date}"  name="issueDate" type="date" readonly>
+								 placeholder="Issue Date" value="${date}"  name="issueDate" type="date" >
 								 
 						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
 

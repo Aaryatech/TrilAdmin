@@ -127,17 +127,35 @@
 										</select>
 
 									</div>
-								</div><br> 
-								 <br>
+									
+									<br></br>
+									<div class="col-md-2">Year</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="Year" id="Year"
+											required>
+											
+												
+													 <option value="2018">2018-2019</option>
+													 <option value="2019">2019-2020</option>
+												
+												
+										</select>
+
+									</div>
+									
+									
+									
+								 
+								
 							
-							<div class="row">
-							<div class="col-md-12" style="text-align: center">
+							
+							<div class="col-md-6" style="text-align: right	">
 								<input type="submit" class="btn btn-primary"   value="Search"> 
 								<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" > 
 										 <input type="button" class="btn btn-primary" value="PDF" onclick="genPdf()" > 
 										    <!-- <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph"> -->   
 							</div>
-						</div> <br>
+						 <br>
 							 
 								
 								<div align="center" id="loader" style="display: none">

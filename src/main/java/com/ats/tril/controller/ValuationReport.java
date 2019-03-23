@@ -12,6 +12,9 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -93,6 +96,7 @@ public class ValuationReport {
 	String toDate;
 	int typeId;
 	int isDev;
+	int year;
 	int deptId;
 	int subDeptId;
 	int catId;
@@ -4439,8 +4443,18 @@ public class ValuationReport {
 				 * map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 				 * map.add("toDate",DateConvertor.convertToYMD(toDate));
 				 */
+				
+				Date date = new Date();
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				 year  = localDate.getYear();
+				
+				System.out.println("year"+year);
+				
+				
 				map.add("typeId", typeId);
 				map.add("isDev", isDev);
+				map.add("isDev", isDev);
+				map.add("year", year);
 				System.out.println(map);
 				IssueMonthWiseList[] issueMonthWiseList = rest
 						.postForObject(Constants.url + "/issueMonthWiseReportByDept", map, IssueMonthWiseList[].class);
@@ -4469,6 +4483,7 @@ public class ValuationReport {
 				 */
 				typeId = Integer.parseInt(request.getParameter("typeId"));
 				isDev = Integer.parseInt(request.getParameter("isDev"));
+				year = Integer.parseInt(request.getParameter("Year"));
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				/*
@@ -4477,6 +4492,7 @@ public class ValuationReport {
 				 */
 				map.add("typeId", typeId);
 				map.add("isDev", isDev);
+				map.add("year", year);
 				System.out.println(map);
 				IssueMonthWiseList[] issueMonthWiseList = rest
 						.postForObject(Constants.url + "/issueMonthWiseReportByDept", map, IssueMonthWiseList[].class);
@@ -4977,6 +4993,7 @@ public class ValuationReport {
 			map.add("typeId", typeId);
 			map.add("isDev", isDev);
 			map.add("deptId", deptId);
+			map.add("year", year);
 			System.out.println(map);
 			IssueMonthWiseList[] issueMonthWiseList = rest.postForObject(
 					Constants.url + "/issueMonthSubDeptWiseReportByDeptId", map, IssueMonthWiseList[].class);
@@ -5478,6 +5495,7 @@ public class ValuationReport {
 			map.add("typeId", typeId);
 			map.add("isDev", isDev);
 			map.add("subDeptId", subDeptId);
+			map.add("year", year);
 			System.out.println(map);
 			IssueMonthWiseList[] issueMonthWiseList = rest.postForObject(
 					Constants.url + "/issueMonthItemWiseReportBySubDeptId", map, IssueMonthWiseList[].class);
@@ -5984,8 +6002,24 @@ public class ValuationReport {
 				 * map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 				 * map.add("toDate",DateConvertor.convertToYMD(toDate));
 				 */
+				Date date = new Date();
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				 year  = localDate.getYear();
+				 int month  = localDate.getMonthValue();
+				 System.out.println("year"+year);
+				 System.out.println("month"+month);
+				 if(month<4)
+				 {
+					 year=year-1;
+					
+					 System.out.println("year"+year);	 
+				 }
+				
+				
+				
+				
 				map.add("typeId", typeId);
-
+				map.add("year", year);
 				map.add("deptId", deptId);
 				map.add("subDeptId", subDeptId);
 				if (isDev == -1) {
@@ -6029,6 +6063,7 @@ public class ValuationReport {
 
 				map.add("deptId", deptId);
 				map.add("subDeptId", subDeptId);
+				map.add("year", year);
 				if (isDev == -1) {
 					map.add("isDev", "0,1");
 				} else {
@@ -6534,6 +6569,8 @@ public class ValuationReport {
 			map.add("deptId", deptId);
 			map.add("subDeptId", subDeptId);
 			map.add("catId", catId);
+			map.add("year", year);
+			
 			if (isDev == -1) {
 				map.add("isDev", "0,1");
 			} else {
