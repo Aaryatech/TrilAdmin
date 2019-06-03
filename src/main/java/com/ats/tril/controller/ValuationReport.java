@@ -485,13 +485,45 @@ public class ValuationReport {
  			int totalPages = writer.getPageNumber();				int totalPages1 = writer.getPageNumber();
 
 
- 			System.out.println("Page no " + totalPages1);				System.out.println("Page no " + totalPages1);
-		}
-		 catch (DocumentException e) {
+ 			System.out.println("Page no " + totalPages1);				System.out.println("Page no " + totalPages);
+ 			
+ 			
+ 					document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
 
-	 			e.printStackTrace();
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
 			}
-		
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+			
 		}
 	
 
