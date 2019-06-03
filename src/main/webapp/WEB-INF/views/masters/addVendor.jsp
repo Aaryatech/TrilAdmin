@@ -293,13 +293,17 @@
 										<option value="3">Traders</option>
 										<option value="4">Manufacturer</option>
 										<option value="5">Importer</option> 
+										<option value="6">Service Provider</option> 
+										<option value="7">Other</option>
 									 </c:when>
 									 <c:when test="${editVendor.vendorType==2}">
 									 	<option value="1" >Authorized Dealer</option>
 										<option value="2" selected>Authorized Distributors</option>
 										<option value="3">Traders</option>
 										<option value="4">Manufacturer</option>
-										<option value="5">Importer</option> 
+										<option value="5">Importer</option>
+										<option value="6">Service Provider</option> 
+										<option value="7">Other</option> 
 									 </c:when>
 									 <c:when test="${editVendor.vendorType==3}">
 									 	<option value="1" >Authorized Dealer</option>
@@ -307,6 +311,8 @@
 										<option value="3" selected>Traders</option>
 										<option value="4">Manufacturer</option>
 										<option value="5">Importer</option> 
+										<option value="6">Service Provider</option> 
+										<option value="7">Other</option>
 									 </c:when>
 									 <c:when test="${editVendor.vendorType==4}">
 									 	<option value="1" >Authorized Dealer</option>
@@ -314,6 +320,8 @@
 										<option value="3">Traders</option>
 										<option value="4" selected>Manufacturer</option>
 										<option value="5">Importer</option> 
+										<option value="6">Service Provider</option> 
+										<option value="7">Other</option>
 									 </c:when>
 									  <c:when test="${editVendor.vendorType==5}">
 									 	<option value="1" >Authorized Dealer</option>
@@ -321,6 +329,26 @@
 										<option value="3">Traders</option>
 										<option value="4" >Manufacturer</option>
 										<option value="5" selected>Importer</option> 
+										<option value="6">Service Provider</option> 
+										<option value="7">Other</option>
+									 </c:when>
+									 <c:when test="${editVendor.vendorType==6}">
+									 	<option value="1" >Authorized Dealer</option>
+										<option value="2" >Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4" >Manufacturer</option>
+										<option value="5" >Importer</option> 
+										<option value="6" selected>Service Provider</option> 
+										<option value="7">Other</option>
+									 </c:when>
+									 <c:when test="${editVendor.vendorType==7}">
+									 	<option value="1" >Authorized Dealer</option>
+										<option value="2" >Authorized Distributors</option>
+										<option value="3">Traders</option>
+										<option value="4" >Manufacturer</option>
+										<option value="5">Importer</option> 
+										<option value="6">Service Provider</option> 
+										<option value="7" selected>Other</option>
 									 </c:when>
 									 <c:otherwise>
 									 <option value="1" selected>Authorized Dealer</option>

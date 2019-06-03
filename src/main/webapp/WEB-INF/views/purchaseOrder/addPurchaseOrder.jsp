@@ -752,6 +752,7 @@ body {
 										<th>PO NO</th>
 										<th>PO Date</th>
 										<th class="col-md-5">Vendor name</th> 
+										<th >Disc %</th> 
 										<th>Item Rate</th>
 										<th>Item Qty</th> 
 									</tr>
@@ -1002,6 +1003,7 @@ function previeousRecord(itemId,value)
 								  	tr.append($('<td></td>').html(itemList.poNo)); 
 								  	tr.append($('<td></td>').html(itemList.poDate)); 
 								  	tr.append($('<td></td>').html(itemList.vendorName)); 
+								  	tr.append($('<td></td>').html(itemList.indedQty));
 								  	tr.append($('<td></td>').html(itemList.itemRate)); 
 								  	tr.append($('<td></td>').html(itemList.itemQty)); 
 								  	 $('#table_grid3 tbody').append(tr);
