@@ -53,6 +53,7 @@ import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.IndentStatusPendingReport;
 import com.ats.tril.model.IndentStatusReport;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
@@ -202,6 +203,297 @@ public class ValuationReport {
 
 		return model;
 	}
+	
+	List<IndentStatusPendingReport> indentStatusPandingReportListPdf = new ArrayList<IndentStatusPendingReport>();
+
+ 	@RequestMapping(value = "/indentStatusPandingReport", method = RequestMethod.GET)
+	public ModelAndView indentStatusPandingReport(HttpServletRequest request, HttpServletResponse response) {
+
+ 		ModelAndView model = new ModelAndView("valuationReport/indentStatusPandingReport");
+		try {
+
+ 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+ 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
+
+ 			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+
+ 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+
+ 			}
+			else {
+
+ 				 fromDate = request.getParameter("fromDate");
+				 toDate = request.getParameter("toDate");
+				 int typeId = Integer.parseInt(request.getParameter("typeId"));
+				 int catId = Integer.parseInt(request.getParameter("catId"));
+				 int sts = Integer.parseInt(request.getParameter("sts"));
+
+ 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
+		 			map.add("typeId",typeId); 
+		 			map.add("catId",catId);
+		 			if(sts==0) {
+		 				map.add("detailStatus","0,1");
+		 				map.add("headerStatus","0,1");
+		 			}else {
+		 				map.add("detailStatus","7,9");
+		 				map.add("headerStatus","9,8,7,6");
+		 			}
+
+ 		 			IndentStatusPendingReport[] indentStatusReport = rest.postForObject(Constants.url + "/indentStatusPandingReport",map, IndentStatusPendingReport[].class);
+					List<IndentStatusPendingReport> list = new ArrayList<IndentStatusPendingReport>(Arrays.asList(indentStatusReport));
+
+ 					model.addObject("indentStatusReport", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", toDate);
+					model.addObject("typeId", typeId);
+					model.addObject("catId", catId);
+					model.addObject("sts", sts);
+					indentStatusPandingReportListPdf=list;
+			}
+
+
+ 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+ 		return model;
+	}
+
+ 	@RequestMapping(value = "/indentStatusPendingReportPDF", method = RequestMethod.GET)
+	public void indentStatusPendingReportPDF(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		
+		Document document = new Document(PageSize.A4);
+		document.setMargins(5f, 5f, 2f, 2f);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+ 		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+ 		PdfWriter writer = null;
+
+ 		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+ 			e.printStackTrace();
+		}
+
+ 		PdfPTable table = new PdfPTable(10);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {1.0f, 1.7f, 1.7f, 5.0f,1.7f,1.0f,1.7f,1.7f,1.7f,1.7f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.GRAY);
+
+ 			PdfPCell hcell = new PdfPCell();
+
+ 			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("INDENT NO", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("INDENT DATE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("ITEM DESC", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("SCH DATE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("DAYS", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("INDENT QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("BAL QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("RATE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+ 			hcell = new PdfPCell(new Phrase("TOTAL", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+
+ 			int index = 0;
+			float total = 0;
+			if(!indentStatusPandingReportListPdf.isEmpty()) {
+					for (int k = 0; k < indentStatusPandingReportListPdf.size(); k++) {
+
+ 							index++;
+
+ 							PdfPCell cell;
+
+ 							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+
+ 							cell = new PdfPCell(new Phrase(indentStatusPandingReportListPdf.get(k).getIndMNo(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getIndMDate(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell); 
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getIndItemSchddt(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getExcessDays(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getIndQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getBalQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+indentStatusPandingReportListPdf.get(k).getRate(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							cell = new PdfPCell(new Phrase(""+df.format(indentStatusPandingReportListPdf.get(k).getRate()*indentStatusPandingReportListPdf.get(k).getBalQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+ 							total=total+(indentStatusPandingReportListPdf.get(k).getRate()*indentStatusPandingReportListPdf.get(k).getBalQty());
+
+ 					}
+			}
+
+ 			PdfPCell cell;
+
+ 			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cell.setPadding(3);
+			cell.setColspan(9);
+			table.addCell(cell);
+
+ 			cell = new PdfPCell(new Phrase(""+df.format(total), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+
+ 			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+
+ 				Paragraph heading1 = new Paragraph(
+						companyInfo.getFactoryAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+
+ 				Paragraph headingDate=new Paragraph("Indent Status Pending Report, From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
+
+ 			document.add(headingDate);
+
+ 			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+
+
+ 			int totalPages = writer.getPageNumber();				int totalPages1 = writer.getPageNumber();
+
+
+ 			System.out.println("Page no " + totalPages1);				System.out.println("Page no " + totalPages1);
+		}
+		 catch (DocumentException e) {
+
+	 			e.printStackTrace();
+			}
+		
+		}
+	
 
 	@RequestMapping(value = "/getStockBetweenDateWithCatId", method = RequestMethod.GET)
 	@ResponseBody
