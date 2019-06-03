@@ -527,6 +527,7 @@ public class ValuationReport {
 		}
 	
 
+ 	
 	@RequestMapping(value = "/getStockBetweenDateWithCatId", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GetCurrentStock> getStockBetweenDateWithCatId(HttpServletRequest request,
