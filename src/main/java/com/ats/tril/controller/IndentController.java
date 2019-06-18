@@ -47,7 +47,9 @@ import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IndentValueLimit;
+import com.ats.tril.model.Info;
 import com.ats.tril.model.LogSave;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
@@ -421,10 +423,14 @@ public class IndentController {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
-			
-			
-			
+			 
 			getValueFunction();
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("name", "indentItemLimit"); 
+			System.out.println("map " + map);
+			SettingValue indentItemLimit = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			model.addObject("indentItemLimit", indentItemLimit);
 			
 		} catch (Exception e) {
 
@@ -434,7 +440,31 @@ public class IndentController {
 
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/checkItemPosition", method = RequestMethod.GET)
+	public @ResponseBody Info checkItemPosition(HttpServletRequest request,
+			HttpServletResponse response) {
 
+		Info info = new Info();
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+
+			
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			
+			System.out.println(itemId);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>(); 
+			map.add("itemId", itemId);  
+			info = restTemplate.postForObject(Constants.url + "/getItemPositionInfoByItemId", map, Info.class);
+
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+		return info;
+	}
+	
 	@RequestMapping(value = "/deleteIndent/{indId}", method = RequestMethod.GET)
 	public String deleteIndent(@PathVariable int indId, HttpServletRequest request, HttpServletResponse response) {
 

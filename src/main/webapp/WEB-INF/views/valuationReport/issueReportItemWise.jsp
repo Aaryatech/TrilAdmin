@@ -319,7 +319,7 @@ function genPdf(){
 	var isDevName = $("#isDevName").val();
 	var deptName = $("#deptName").val();
 	var subDeptCode = $("#subDeptCode").val();
-	window.open('${pageContext.request.contextPath}/issueReportItemWisePDF/'+typeName+'/'+isDevName+'/'+deptName+'/'+subDeptCode);
+	window.open('${pageContext.request.contextPath}/issueReportItemWisePDF/'+typeName+'/'+isDevName+'/'+subDeptCode);
 }
 
 </script>

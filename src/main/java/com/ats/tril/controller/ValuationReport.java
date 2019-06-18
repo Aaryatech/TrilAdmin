@@ -66,6 +66,7 @@ import com.ats.tril.model.MonthItemWiseMrnReport;
 import com.ats.tril.model.MonthSubDeptWiseIssueReport;
 import com.ats.tril.model.MonthWiseIssueReport;
 import com.ats.tril.model.MrnMonthWiseList;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
@@ -4539,9 +4540,9 @@ public class ValuationReport {
 		}
 	}
 
-	@RequestMapping(value = "/issueReportItemWisePDF/{typeName}/{isDevName}/{deptName}/{subDeptName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/issueReportItemWisePDF/{typeName}/{isDevName}/{subDeptName}", method = RequestMethod.GET)
 	public void issueReportItemWisePDF(@PathVariable String typeName, @PathVariable String isDevName,
-			@PathVariable String deptName, @PathVariable String subDeptName, HttpServletRequest request,
+			@PathVariable String subDeptName, HttpServletRequest request,
 			HttpServletResponse response) throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
@@ -4687,7 +4688,7 @@ public class ValuationReport {
 				report.setAlignment(Element.ALIGN_CENTER);
 				document.add(report);
 
-				Paragraph type = new Paragraph(" Department : " + deptName + ", Sub-Dept: " + subDeptName + ", Type : "
+				Paragraph type = new Paragraph(" Sub-Dept: " + subDeptName + ", Type : "
 						+ typeName + ", Is Dev : " + isDevName, f1);
 				type.setAlignment(Element.ALIGN_CENTER);
 				document.add(type);
@@ -9357,5 +9358,862 @@ public class ValuationReport {
 		}
 
 	}
+	
+	
+	
+List<StockValuationCategoryWise> abcAnalysisReport = new ArrayList<StockValuationCategoryWise>();
+	
+	@RequestMapping(value = "/abcAnalysisReport", method = RequestMethod.GET)
+	public ModelAndView abcAnalysisReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/abcAnalysisReport");
+		try {
+			
+			
+			 abcAnalysisReport = new ArrayList<StockValuationCategoryWise>();
+			/*Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);*/
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+			
+			System.out.println("categoryList size " + categoryList.size());
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "A"); 
+			System.out.println("map " + map);
+			SettingValue a = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "B"); 
+			System.out.println("map " + map);
+			SettingValue b = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "C"); 
+			System.out.println("map " + map);
+			SettingValue c = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null) {
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 
+				 fromDate =  "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date);
+				 typeId=0;
+				 
+				 for(int i=0;i<categoryList.size();i++) {
+					 
+					 	map = new LinkedMultiValueMap<>();
+						map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+			 			map.add("toDate",yy.format(date)); 
+			 			map.add("typeId",0);
+			 			map.add("catId",categoryList.get(i).getCatId());
+			 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map, GetCurrentStock[].class);
+			 			List<GetCurrentStock> list = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock));
+			 			
+			 			StockValuationCategoryWise StockValuationCategoryWise =new StockValuationCategoryWise();
+			 			StockValuationCategoryWise.setCatDesc(categoryList.get(i).getCatDesc());
+			 			StockValuationCategoryWise.setCatId(categoryList.get(i).getCatId());
+			 			
+			 			float clsValueA=0;
+			 			float clsValueB=0;
+			 			float clsValueC=0;
+			 			
+			 			for(int j=0 ; j<list.size() ; j++) {
+			 				
+			 				float clsValue=0;
+			 				clsValue =  list.get(j).getOpStockValue()+list.get(j).getApprovedQtyValue()-list.get(j).getIssueQtyValue()-list.get(j).getDamagValue() ;
+	 						
+			 				 if(clsValue>=Float.parseFloat(a.getValue())) {
+			 					clsValueA=clsValueA+clsValue;
+			 				 }else if(clsValue>=Float.parseFloat(c.getValue()) && clsValue<Float.parseFloat(a.getValue())) {
+			 					clsValueB=clsValueB+clsValue;
+			 				 }else{
+			 					clsValueC=clsValueC+clsValue;
+				 			}
+			 				 
+			 			}
+			 			
+			 			StockValuationCategoryWise.setOpStockValue(clsValueA);
+		 				StockValuationCategoryWise.setApprovedQtyValue(clsValueB);
+		 				StockValuationCategoryWise.setIssueQtyValue(clsValueC);
+		 				abcAnalysisReport.add(StockValuationCategoryWise);
+				 }
+				  
+					
+					model.addObject("categoryWiseReport", abcAnalysisReport);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", dd.format(date));
+					
+					System.out.println("categoryWiseReport count " + abcAnalysisReport.size());
+					 
+			}
+			else {
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				//typeId = Integer.parseInt(request.getParameter("typeId"));
+				
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				
+				Date date = dd.parse(fromDate);
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 String firstDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 
+				 System.out.println(DateConvertor.convertToYMD(firstDate) + DateConvertor.convertToYMD(fromDate));
+				 
+				 if(DateConvertor.convertToYMD(firstDate).compareTo(DateConvertor.convertToYMD(fromDate))<0)
+				 {
+					 for(int k=0;k<categoryList.size();k++) {
+							calendar.add(Calendar.DATE, -1);
+							String previousDate = yy.format(new Date(calendar.getTimeInMillis())); 
+							 map = new LinkedMultiValueMap<>();
+							map.add("fromDate",DateConvertor.convertToYMD(firstDate));
+				 			map.add("toDate",previousDate); 
+				 			map.add("catId", categoryList.get(k).getCatId());
+				 			map.add("typeId", 0);
+				 			System.out.println(map);
+				 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
+				 			List<GetCurrentStock> diffDateStock = new ArrayList<>(Arrays.asList(getCurrentStock));
+				 			
+				 			calendar.add(Calendar.DATE, 1);
+							String addDay = yy.format(new Date(calendar.getTimeInMillis()));
+				 			map = new LinkedMultiValueMap<>();
+							map.add("fromDate",addDay);
+				 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+				 			map.add("catId", categoryList.get(k).getCatId());
+				 			map.add("typeId", 0);
+				 			System.out.println(map);
+				 			GetCurrentStock[] getCurrentStock1 = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
+				 			 List<GetCurrentStock> list = new ArrayList<>(Arrays.asList(getCurrentStock1));
+				 			 
+				 			 for(int i = 0 ; i< list.size() ; i++)
+				 			 {
+				 				 for(int j = 0 ; j< diffDateStock.size() ; j++)
+					 			 {
+				 					 if(list.get(i).getItemId()==diffDateStock.get(j).getItemId())
+				 					 {
+				 						list.get(i).setOpeningStock(diffDateStock.get(j).getOpeningStock()+diffDateStock.get(j).getApproveQty()-diffDateStock.get(j).getIssueQty()
+										 +diffDateStock.get(j).getReturnIssueQty()-diffDateStock.get(j).getDamageQty()-diffDateStock.get(j).getGatepassQty()
+										 +diffDateStock.get(j).getGatepassReturnQty());
+				 						list.get(i).setOpStockValue(diffDateStock.get(j).getOpStockValue()+diffDateStock.get(j).getApprovedQtyValue()-diffDateStock.get(j).getIssueQtyValue()-diffDateStock.get(j).getDamagValue());
+				 						
+				 						break;
+				 					 }
+					 			 }
+				 			 }
+				 			 
+				 			StockValuationCategoryWise StockValuationCategoryWise =new StockValuationCategoryWise();
+				 			StockValuationCategoryWise.setCatDesc(categoryList.get(k).getCatDesc());
+				 			StockValuationCategoryWise.setCatId(categoryList.get(k).getCatId());
+				 			
+				 			float clsValueA=0;
+				 			float clsValueB=0;
+				 			float clsValueC=0;
+				 			
+				 			for(int j=0 ; j<list.size() ; j++) {
+				 				
+				 				float clsValue=0;
+				 				clsValue =  list.get(j).getOpStockValue()+list.get(j).getApprovedQtyValue()-list.get(j).getIssueQtyValue()-list.get(j).getDamagValue() ;
+		 						
+				 				if(clsValue>=Float.parseFloat(a.getValue())) {
+				 					clsValueA=clsValueA+clsValue;
+				 				 }else if(clsValue>=Float.parseFloat(c.getValue()) && clsValue<Float.parseFloat(a.getValue())) {
+				 					clsValueB=clsValueB+clsValue;
+				 				 }else{
+				 					clsValueC=clsValueC+clsValue;
+					 			}
+				 				 
+				 			}
+				 			
+				 			StockValuationCategoryWise.setOpStockValue(clsValueA);
+			 				StockValuationCategoryWise.setApprovedQtyValue(clsValueB);
+			 				StockValuationCategoryWise.setIssueQtyValue(clsValueC);
+			 				abcAnalysisReport.add(StockValuationCategoryWise);
+					 }
+				 }
+				 else
+				 {
+					 for(int k=0;k<categoryList.size();k++) {
+						  
+						 map = new LinkedMultiValueMap<>();
+						 map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+				 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+				 			map.add("catId", categoryList.get(k).getCatId());
+				 			map.add("typeId", 0);
+				 			System.out.println(map);
+				 			GetCurrentStock[] getCurrentStock1 = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
+				 			 List<GetCurrentStock> list = new ArrayList<>(Arrays.asList(getCurrentStock1));
+				 			 
+				 			StockValuationCategoryWise StockValuationCategoryWise =new StockValuationCategoryWise();
+				 			StockValuationCategoryWise.setCatDesc(categoryList.get(k).getCatDesc());
+				 			StockValuationCategoryWise.setCatId(categoryList.get(k).getCatId());
+				 			
+				 			float clsValueA=0;
+				 			float clsValueB=0;
+				 			float clsValueC=0;
+				 			
+				 			for(int j=0 ; j<list.size() ; j++) {
+				 				
+				 				float clsValue=0;
+				 				clsValue =  list.get(j).getOpStockValue()+list.get(j).getApprovedQtyValue()-list.get(j).getIssueQtyValue()-list.get(j).getDamagValue() ;
+		 						
+				 				if(clsValue>=Float.parseFloat(a.getValue())) {
+				 					clsValueA=clsValueA+clsValue;
+				 				 }else if(clsValue>=Float.parseFloat(c.getValue()) && clsValue<Float.parseFloat(a.getValue())) {
+				 					clsValueB=clsValueB+clsValue;
+				 				 }else{
+				 					clsValueC=clsValueC+clsValue;
+					 			}
+				 				 
+				 			}
+				 			
+				 			StockValuationCategoryWise.setOpStockValue(clsValueA);
+			 				StockValuationCategoryWise.setApprovedQtyValue(clsValueB);
+			 				StockValuationCategoryWise.setIssueQtyValue(clsValueC);
+			 				abcAnalysisReport.add(StockValuationCategoryWise);
+					 }
+				 }
+				 
+				model.addObject("categoryWiseReport", abcAnalysisReport);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				model.addObject("typeId", typeId);
+				  
+			}
+			
+			 
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/abcAnalysisCategoryWiseReportPdf", method = RequestMethod.GET)
+	public void abcAnalysisCategoryWiseReportPdf( HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		 
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+		   
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+		
+		float issueQty=0;
+		float issueValue=0;
+	
+		PdfPTable table = new PdfPTable(5);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.9f, 7.0f, 2.3f, 2.3f, 2.3f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR.NO.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("ITEM NAME", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLASS A", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLASS B", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLASS C", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			 
+			
+			float total = 0;
+			
+			int index = 0;
+			if(!abcAnalysisReport.isEmpty()) {
+					for (int k = 0; k < abcAnalysisReport.size(); k++) {
+						
+						 
+						  
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisReport.get(k).getCatDesc(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisReport.get(k).getOpStockValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisReport.get(k).getApprovedQtyValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisReport.get(k).getIssueQtyValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							 
+					
+					}
+			}
+			
+			 
+			  
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						companyInfo.getFactoryAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+				 
+			 
+					Paragraph report=new Paragraph("ABC Analysis Report  ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+				 
+					
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER); 
+				document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	 
+	List<GetCurrentStock> abcAnalysisItemWiseLisPdf = new ArrayList<>();
+	@RequestMapping(value = "/abcAnalysisItemWiseReport/{catId}/{catDesc}", method = RequestMethod.GET)
+	public ModelAndView abcAnalysisItemWiseReport(@PathVariable("catId") int catId,@PathVariable("catDesc") String catDesc, HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/abcAnalysisItemWiseReport");
+		try {
+			 
+			List<GetCurrentStock> getStockBetweenDate = new ArrayList<>();
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+			
+			Date date = dd.parse(fromDate);
+			  Calendar calendar = Calendar.getInstance();
+			  calendar.setTime(date);
+			   
+			 String firstDate = "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+			 
+			 System.out.println(DateConvertor.convertToYMD(firstDate) + DateConvertor.convertToYMD(fromDate));
+			 
+			 if(DateConvertor.convertToYMD(firstDate).compareTo(DateConvertor.convertToYMD(fromDate))<0)
+			 {
+				calendar.add(Calendar.DATE, -1);
+				String previousDate = yy.format(new Date(calendar.getTimeInMillis())); 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("fromDate",DateConvertor.convertToYMD(firstDate));
+	 			map.add("toDate",previousDate); 
+	 			map.add("catId", catId);
+	 			map.add("typeId", typeId);
+	 			System.out.println(map);
+	 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
+	 			List<GetCurrentStock> diffDateStock = new ArrayList<>(Arrays.asList(getCurrentStock));
+	 			
+	 			calendar.add(Calendar.DATE, 1);
+				String addDay = yy.format(new Date(calendar.getTimeInMillis()));
+	 			map = new LinkedMultiValueMap<>();
+				map.add("fromDate",addDay);
+	 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+	 			map.add("catId", catId);
+	 			map.add("typeId", typeId);
+	 			System.out.println(map);
+	 			GetCurrentStock[] getCurrentStock1 = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
+	 			 getStockBetweenDate = new ArrayList<>(Arrays.asList(getCurrentStock1));
+	 			 
+	 			 for(int i = 0 ; i< getStockBetweenDate.size() ; i++)
+	 			 {
+	 				 for(int j = 0 ; j< diffDateStock.size() ; j++)
+		 			 {
+	 					 if(getStockBetweenDate.get(i).getItemId()==diffDateStock.get(j).getItemId())
+	 					 {
+	 						getStockBetweenDate.get(i).setOpeningStock(diffDateStock.get(j).getOpeningStock()+diffDateStock.get(j).getApproveQty()-diffDateStock.get(j).getIssueQty()
+							 +diffDateStock.get(j).getReturnIssueQty()-diffDateStock.get(j).getDamageQty()-diffDateStock.get(j).getGatepassQty()
+							 +diffDateStock.get(j).getGatepassReturnQty());
+	 						getStockBetweenDate.get(i).setOpStockValue(diffDateStock.get(j).getOpStockValue()+diffDateStock.get(j).getApprovedQtyValue()-diffDateStock.get(j).getIssueQtyValue()-diffDateStock.get(j).getDamagValue());
+	 						
+	 						break;
+	 					 }
+		 			 }
+	 			 }
+	 			abcAnalysisItemWiseLisPdf=getStockBetweenDate;
+			 }
+			 else
+			 {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+	 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
+	 			map.add("catId", catId);
+	 			map.add("typeId", typeId);
+	 			System.out.println(map);
+	 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getStockBetweenDateWithCatIdAndTypeId",map,GetCurrentStock[].class); 
+	 			getStockBetweenDate = new ArrayList<>(Arrays.asList(getCurrentStock));
+	 			abcAnalysisItemWiseLisPdf=getStockBetweenDate;
+			 }
+			 model.addObject("getStockBetweenDate", getStockBetweenDate);
+			 
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("name", "A"); 
+				System.out.println("map " + map);
+				SettingValue a = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+				
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("name", "B"); 
+				System.out.println("map " + map);
+				SettingValue b = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("name", "C"); 
+				System.out.println("map " + map);
+				SettingValue c = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			 
+				 model.addObject("a", a);
+				 model.addObject("b", b);
+				 model.addObject("c", c);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/abcAnalysisItemWiseReportPdf/{classType}", method = RequestMethod.GET)
+	public void abcAnalysisItemWiseReportPdf(@PathVariable int classType,  HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		
+		 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "A"); 
+			System.out.println("map " + map);
+			SettingValue a = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "B"); 
+			System.out.println("map " + map);
+			SettingValue b = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "C"); 
+			System.out.println("map " + map);
+			SettingValue c = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+		   
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+		
+		float issueQty=0;
+		float issueValue=0;
+	
+		PdfPTable table = new PdfPTable(4);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.9f, 7.0f, 2.3f, 2.3f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.NORMAL, BaseColor.BLACK);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR.NO.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("ITEM NAME", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("VALUATION", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			 
+			
+			float total = 0;
+			
+			int index = 0;
+			if(!abcAnalysisItemWiseLisPdf.isEmpty()) {
+					for (int k = 0; k < abcAnalysisItemWiseLisPdf.size(); k++) {
+						
+						 
+						
+						float closingValue = abcAnalysisItemWiseLisPdf.get(k).getOpStockValue()+abcAnalysisItemWiseLisPdf.get(k).getApprovedQtyValue()-
+								abcAnalysisItemWiseLisPdf.get(k).getIssueQtyValue()-abcAnalysisItemWiseLisPdf.get(k).getDamagValue();
+						
+						if(closingValue>=Float.parseFloat(a.getValue()) && closingValue>0 && classType==1) {
+                            
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisItemWiseLisPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisItemWiseLisPdf.get(k).getOpeningStock()+abcAnalysisItemWiseLisPdf.get(k).getApproveQty()-
+									abcAnalysisItemWiseLisPdf.get(k).getIssueQty()-abcAnalysisItemWiseLisPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							total=total+closingValue;
+							 
+						}else if(closingValue<Float.parseFloat(a.getValue()) && closingValue>=Float.parseFloat(c.getValue()) && closingValue>0 && classType==2) {
+                            
+							index++;
+						
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisItemWiseLisPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisItemWiseLisPdf.get(k).getOpeningStock()+abcAnalysisItemWiseLisPdf.get(k).getApproveQty()-
+									abcAnalysisItemWiseLisPdf.get(k).getIssueQty()-abcAnalysisItemWiseLisPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							total=total+closingValue;
+							 
+						}else if(closingValue<Float.parseFloat(c.getValue()) && closingValue>0 && classType==3){
+							
+							index++;
+							
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(abcAnalysisItemWiseLisPdf.get(k).getItemCode(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						
+							cell = new PdfPCell(new Phrase(""+df.format(abcAnalysisItemWiseLisPdf.get(k).getOpeningStock()+abcAnalysisItemWiseLisPdf.get(k).getApproveQty()-
+									abcAnalysisItemWiseLisPdf.get(k).getIssueQty()-abcAnalysisItemWiseLisPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							total=total+closingValue;
+							
+						}
+					
+					}
+			}
+			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+ 
+			cell = new PdfPCell(new Phrase(""+df.format(total), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			   
+			  
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						companyInfo.getFactoryAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+				 
+				if(classType==1) {
+					Paragraph report=new Paragraph("ABC Analysis Report Class A ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+				}else if(classType==2){
+				
+					Paragraph report=new Paragraph("ABC Analysis Report Class B ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+					
+				}else {
+					
+					Paragraph report=new Paragraph("ABC Analysis Report Class C ",f1);
+					report.setAlignment(Element.ALIGN_CENTER);
+					document.add(report);
+					
+				}
+				
+				 
+				Paragraph headingDate=new Paragraph("From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER); 
+				document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }
