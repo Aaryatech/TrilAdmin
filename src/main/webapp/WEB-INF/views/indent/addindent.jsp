@@ -503,10 +503,10 @@
 								},
 								function(data) {
 
-									alert(JSON.stringify(data));
+									//alert(JSON.stringify(data));
 									if(data.error==true){
 										  
-									$("#error_itemnotadd").html("Your can't Add this Item. MRN is not Completed till now of this Item.Indent NO/PO NO.= "+data.message);
+									$("#error_itemnotadd").html("You can't Add this Item. MRN is not Completed till now of this Item.Indent NO/PO NO.= "+data.message);
 									$("#error_itemnotadd").show();
 									}else{
 									$("#error_itemnotadd").hide();

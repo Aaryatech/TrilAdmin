@@ -127,30 +127,22 @@
 											<td class="col-md-4"><c:out
 													value="${stockList.itemCode}" /></td>
 													
-											<td class="col-md-1"><c:out
-													value="${stockList.openingStock}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${stockList.opStockValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${stockList.approveQty}" /></td>
-											<td class="col-md-1"><c:out
-													value="${stockList.approvedQtyValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${stockList.issueQty}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${stockList.issueQtyValue}" /></td>
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.openingStock}"/> </td> 
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.opStockValue}"/> </td> 
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.approveQty}"/> </td>
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.approvedQtyValue}"/> </td> 
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.issueQty}"/> </td> 
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.issueQtyValue}"/>  </td>
 													
-											<td class="col-md-1"><c:out
-													value="${stockList.damageQty}" /></td>
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.damageQty}"/>  </td>
 													
-											<td class="col-md-1"><c:out
-													value="${stockList.damagValue}" /></td> 
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${stockList.damagValue}"/> </td> 
 											<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty+stockList.returnIssueQty-
 													stockList.damageQty-stockList.gatepassQty+stockList.gatepassReturnQty}" ></c:set>
 											<c:set var="closingStockValue" value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}" ></c:set>
 													
-											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+											<td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
+											 <td class="col-md-1" style="text-align: right;"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
 											
 										</tr>
 									</c:forEach>

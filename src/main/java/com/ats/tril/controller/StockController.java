@@ -115,7 +115,7 @@ public class StockController {
  			
  			List<GetCurrentStock> stockList = new ArrayList<>(Arrays.asList(getCurrentStock));
  			
- 			System.out.println(stockList);
+ 			//System.out.println(stockList);
  			model.addObject("stockList", stockList);
  			model.addObject("fromDate",DateConvertor.convertToDMY(fromDate));
  			model.addObject("toDate", DateConvertor.convertToDMY(toDate));
@@ -172,7 +172,7 @@ public class StockController {
  			
  			stockListForMonthEnd = new ArrayList<>(Arrays.asList(getCurrentStock));
  			
- 			System.out.println(stockListForMonthEnd);
+ 			//System.out.println(stockListForMonthEnd);
  			model.addObject("stockList", stockListForMonthEnd);
  			model.addObject("fromDate",DateConvertor.convertToDMY(fromDate));
  			model.addObject("toDate", DateConvertor.convertToDMY(toDate));
