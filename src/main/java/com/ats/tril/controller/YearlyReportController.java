@@ -249,7 +249,7 @@ public class YearlyReportController {
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table.addCell(hcell);
 
-				hcell = new PdfPCell(new Phrase("Cat Name", headFont1));
+				hcell = new PdfPCell(new Phrase(" ", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table.addCell(hcell);
@@ -369,7 +369,7 @@ public class YearlyReportController {
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table2.addCell(hcell);
 
-				hcell = new PdfPCell(new Phrase("Cat Name", headFont1));
+				hcell = new PdfPCell(new Phrase(" ", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
 				table2.addCell(hcell);
@@ -416,7 +416,7 @@ public class YearlyReportController {
 						index2++;
 						PdfPCell cell;
 
-						cell = new PdfPCell(new Phrase("" + index, headFont));
+						cell = new PdfPCell(new Phrase("" + index2, headFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 						cell.setPadding(3);
