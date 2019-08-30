@@ -239,6 +239,8 @@ h6 {
 									<form id="submitBillForm"
 										action="${pageContext.request.contextPath}/getMrnIssueYearlyReport"
 										method="get">
+										
+										
 
 										<div class="box-content">
 
@@ -287,12 +289,16 @@ h6 {
 
 												<div class="col-md-4" align="right">
 													<input type="submit" class="btn btn-primary" value="Search"
-														onclick="searchReport()"> <input type="button"
-														value="PDF" class="btn btn-primary"
-														onclick="genMrnIssuePdf()" />&nbsp; <input type="button"
+														onclick="searchReport()">
+														
+														 <input type="button"
+														value="PDF" class="btn btn-primary" id="expPdf"
+														onclick="genMrnIssuePdf()" <c:if test="${reportList == null}"><c:out value="disabled='disabled'"/></c:if> />&nbsp; 
+														
+														<input type="button"
 														id="expExcel" class="btn btn-primary"
 														value="EXPORT TO Excel"
-														onclick="tableToExcel('table_grid2', 'name', 'MRN_ISSUE_Yearly_Valuation.xls')">
+														onclick="tableToExcel('table_grid2', 'name', 'MRN_ISSUE_Yearly_Valuation.xls')" <c:if test="${reportList == null}"><c:out value="disabled='disabled'"/></c:if>>
 												</div>
 
 
