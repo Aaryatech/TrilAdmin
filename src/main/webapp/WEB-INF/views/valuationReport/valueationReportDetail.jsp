@@ -2,21 +2,20 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	 
+
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
 <style>
 #disableMe {
 	pointer-events: none;
 }
-
 </style>
-	<body>
-	 
+<body>
+
 	<c:url var="gateEntryList" value="/gateEntryList"></c:url>
 	<c:url var="withPoRef" value="/withPoRef"></c:url>
-	<c:url var="withPoRefDate" value="/withPoRefDate"></c:url> 
+	<c:url var="withPoRefDate" value="/withPoRefDate"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -41,7 +40,8 @@
 						<i class="fa fa-file-o"></i>Item Value Report
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -53,7 +53,9 @@
 								<i class="fa fa-table"></i>Item Ledger Report
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/stockBetweenDateWithCatId">Back to List</a> <a data-action="collapse" href="#"><i
+								<a
+									href="${pageContext.request.contextPath}/stockBetweenDateWithCatId">Back
+									to List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -68,54 +70,47 @@
 								<div class="box-content">
 									<div class="col-md-2">From Date:</div>
 
-									<div class="col-md-2">
-										${fromDate}
-									</div>
+									<div class="col-md-2">${fromDate}</div>
 									<div class="col-md-1"></div>
-									<div class="col-md-2">To Date:</div> 
-									<div class="col-md-2">
-										${toDate}
-									</div>
- 
+									<div class="col-md-2">To Date:</div>
+									<div class="col-md-2">${toDate}</div>
+
 								</div>
 								<br>
 
 								<div class="box-content">
 									<div class="col-md-2">Item :</div>
 
-									<div class="col-md-10">
-										${item.itemCode} &nbsp;&nbsp; ${item.itemDesc}
-									</div>
-									 
- 
+									<div class="col-md-10">${item.itemCode}&nbsp;&nbsp;
+										${item.itemDesc}</div>
+
+
 								</div>
 								<br>
 
 								<div class="box-content">
 									<div class="col-md-2">Category:</div>
 
-									<div class="col-md-2">
-										${item.catDesc}
-									</div>
+									<div class="col-md-2">${item.catDesc}</div>
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Group Code:</div> 
-									<div class="col-md-2">
-										${item.grpCode}
-									</div>
- 
+									<div class="col-md-2">Group Code:</div>
+									<div class="col-md-2">${item.grpCode}</div>
+
 								</div>
 								<br>
-								
+
 								<div class="box-content">
 									<div class="col-md-2">Opening Stock:</div>
 
 									<div class="col-md-2">
-										${openingStock}
+										<fmt:formatNumber type="number" maxFractionDigits="2"
+											minFractionDigits="2" value="${openingStock}"
+											groupingUsed="false" />
 										<c:set var="oppyQty" value="${openingStock}"></c:set>
 									</div>
 									<div class="col-md-1"></div>
-								 
- 
+
+
 								</div>
 								<br>
 
@@ -136,13 +131,13 @@
 														<th>IN QTY</th>
 														<th>OUT QTY</th>
 														<th>BALANCE QTY</th>
- 
+
 													</tr>
 												</thead>
 												<tbody>
 													<c:set var="srNo" value="0" />
-													<c:forEach items="${itemValuationList}" var="itemValuationList"
-														varStatus="count">
+													<c:forEach items="${itemValuationList}"
+														var="itemValuationList" varStatus="count">
 
 														<tr>
 															<td><c:out value="${count.index+1}" /></td>
@@ -153,8 +148,12 @@
 
 															<c:choose>
 																<c:when test="${itemValuationList.type==1}">
-																	<td align="right"><c:out value="${itemValuationList.qty}" /></td>
-																	<c:set var="oppyQty" value="${oppyQty+itemValuationList.qty}"></c:set>
+																	<td align="right"><fmt:formatNumber type="number"
+																			maxFractionDigits="2" minFractionDigits="2"
+																			value="${itemValuationList.qty}" groupingUsed="false" />
+																	</td>
+																	<c:set var="oppyQty"
+																		value="${oppyQty+itemValuationList.qty}"></c:set>
 																</c:when>
 																<c:otherwise>
 																	<td align="center"><c:out value="-" /></td>
@@ -163,15 +162,21 @@
 
 															<c:choose>
 																<c:when test="${itemValuationList.type==0}">
-																	<td align="right"><c:out value="${itemValuationList.qty}" /></td>
-																	<c:set var="oppyQty" value="${oppyQty-itemValuationList.qty}"></c:set>
+																	<td align="right"><fmt:formatNumber type="number"
+																			maxFractionDigits="2" minFractionDigits="2"
+																			value="${itemValuationList.qty}" groupingUsed="false" />
+																	</td>
+																	<c:set var="oppyQty"
+																		value="${oppyQty-itemValuationList.qty}"></c:set>
 																</c:when>
 																<c:otherwise>
 																	<td align="center"><c:out value="-" /></td>
 																</c:otherwise>
 															</c:choose>
-															
-															<td align="right"><c:out value="${oppyQty}" /></td>
+
+															<td align="right"><fmt:formatNumber type="number"
+																	maxFractionDigits="2" minFractionDigits="2"
+																	value="${oppyQty}" groupingUsed="false" /></td>
 													</c:forEach>
 
 
@@ -194,7 +199,7 @@
 											</div>
 										</div>
 									</c:when>
-									
+
 									<c:when test="${billOfMaterialHeader.status==1}">
 										<div align="center" class="form-group">
 											<div
@@ -202,9 +207,10 @@
 
 												<%-- <a href="${pageContext.request.contextPath}/rejectiontoBms?reqId=${billOfMaterialHeader.reqId}"><input type="button" class="btn btn-primary"
 													value="For The Rejection And Return"></a>  --%>
-												<a href="${pageContext.request.contextPath}/approveRejected?reqId=${billOfMaterialHeader.reqId}"
-													id="disableMe"><input type="button" class="btn btn-primary"
-													value="Approve Rejected" disabled></a>
+												<a
+													href="${pageContext.request.contextPath}/approveRejected?reqId=${billOfMaterialHeader.reqId}"
+													id="disableMe"><input type="button"
+													class="btn btn-primary" value="Approve Rejected" disabled></a>
 
 											</div>
 										</div>
@@ -221,8 +227,10 @@
 												class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 
 												<%-- <a href="${pageContext.request.contextPath}/rejectiontoBms?reqId=${billOfMaterialHeader.reqId}"><input type="button" class="btn btn-primary"
-													value="For The Rejection And Return"></a> --%> 
-												<a href="${pageContext.request.contextPath}/approveRejected?reqId=${billOfMaterialHeader.reqId}"><input type="button" class="btn btn-primary"
+													value="For The Rejection And Return"></a> --%>
+												<a
+													href="${pageContext.request.contextPath}/approveRejected?reqId=${billOfMaterialHeader.reqId}"><input
+													type="button" class="btn btn-primary"
 													value="Approve Rejected"></a>
 
 											</div>
@@ -241,9 +249,10 @@
 												<%-- <a href="${pageContext.request.contextPath}/rejectiontoBms?reqId=${billOfMaterialHeader.reqId}"
 													id="disableMe"><input type="button" class="btn btn-primary"
 													value="For The Rejection And Return" disabled></a>  --%>
-												<a href="${pageContext.request.contextPath}/approveRejected?reqId=${billOfMaterialHeader.reqId}"
-													id="disableMe"><input type="button" class="btn btn-primary"
-													value="Approve Rejected" disabled></a>
+												<a
+													href="${pageContext.request.contextPath}/approveRejected?reqId=${billOfMaterialHeader.reqId}"
+													id="disableMe"><input type="button"
+													class="btn btn-primary" value="Approve Rejected" disabled></a>
 
 											</div>
 										</div>
@@ -256,11 +265,8 @@
 
 
 
-								<div class="box-content">
-								</div>
-								<br>
-								<br>
-								<br>
+								<div class="box-content"></div>
+								<br> <br> <br>
 
 
 							</form>
@@ -271,7 +277,7 @@
 		</div>
 		<!-- END Main Content -->
 		<footer>
-		<p>2017 © MONGINIS.</p>
+			<p>2017 © MONGINIS.</p>
 		</footer>
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

@@ -338,9 +338,9 @@
 	<script type="text/javascript">
 	
 	function getValuationDetail(itemId,stock) {
-		
+		alert(stock);
 		 
-	    window.open('${pageContext.request.contextPath}/valueationReportDetail/'+itemId+'/'+stock);
+	    window.open('${pageContext.request.contextPath}/valueationReportDetail/'+itemId+'?stock='+stock);
 	}
 	
 	function search() {

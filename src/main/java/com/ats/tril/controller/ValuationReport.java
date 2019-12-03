@@ -608,12 +608,14 @@ public class ValuationReport {
 		return getStockBetweenDate;
 	}
 
-	@RequestMapping(value = "/valueationReportDetail/{itemId}/{openingStock}", method = RequestMethod.GET)
-	public ModelAndView valueationReportDetail(@PathVariable int itemId, @PathVariable int openingStock,
+	@RequestMapping(value = "/valueationReportDetail/{itemId}", method = RequestMethod.GET)
+	public ModelAndView valueationReportDetail(@PathVariable int itemId, 
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("valuationReport/valueationReportDetail");
 		try {
+			
+			String openingStock = request.getParameter("stock"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("itemId", itemId);
 			GetItem item = rest.postForObject(Constants.url + "/getItemByItemId", map, GetItem.class);
@@ -626,6 +628,7 @@ public class ValuationReport {
 					ItemValuationList[].class);
 			List<ItemValuationList> itemValuationList = new ArrayList<ItemValuationList>(Arrays.asList(itemValuation));
 
+			System.out.println(openingStock);
 			model.addObject("itemValuationList", itemValuationList);
 			model.addObject("openingStock", openingStock);
 			model.addObject("fromDate", fromDate);
