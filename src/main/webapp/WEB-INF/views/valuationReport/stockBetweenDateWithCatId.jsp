@@ -7,7 +7,8 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
+	<c:url var="getStockBetweenDateWithCatId"
+		value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -36,7 +37,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -48,21 +50,24 @@
 								<i class="fa fa-table"></i>Stock Between Date
 							</h3>
 							<div class="box-tool">
-								 <a data-action="collapse" href="#"><i
+								<a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/stockBetweenDateWithCatId" method="get">
+						<form id="submitPurchaseOrder"
+							action="${pageContext.request.contextPath}/stockBetweenDateWithCatId"
+							method="get">
+							<div class="box-content">
+
+
 								<div class="box-content">
-								
-								 
-								<div class="box-content">
-							
-								<div class="col-md-2">From Date</div>
+
+									<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"   name="fromDate" value="${fromDate}" type="text"  >
+											placeholder="From Date" name="fromDate" value="${fromDate}"
+											type="text">
 
 
 									</div>
@@ -70,157 +75,199 @@
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-3">
 										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date"   name="toDate" value="${toDate}" type="text"  >
+											placeholder="To Date" name="toDate" value="${toDate}"
+											type="text">
 
 
 									</div>
-								
-				 
-							</div><br>
-							
-							<div class="box-content">
+
+
+								</div>
+								<br>
+
+								<div class="box-content">
 
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="catId" id="catId"
 											required>
 											<option value="">select</option>
-											<c:forEach items="${categoryList}" var="categoryList"> 
+											<c:forEach items="${categoryList}" var="categoryList">
 												<c:choose>
 													<c:when test="${categoryList.catId==catId}">
-													<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+														<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
 													</c:when>
 													<c:otherwise>
-													<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+														<option value="${categoryList.catId}">${categoryList.catDesc}</option>
 													</c:otherwise>
 												</c:choose>
-														 
+
 											</c:forEach>
 										</select>
 
 									</div>
 									<div class="col-md-1"></div>
-									  <div class="col-md-3"></div>
-								</div><br><br>
-							
-							<div class="row">
-							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
-							</div>
-						</div> <br>
-							 
-								
+									<div class="col-md-3"></div>
+								</div>
+								<br> <br>
+
+								<div class="row">
+									<div class="col-md-12" style="text-align: center">
+										<input type="submit" class="btn btn-info" value="Search">
+									</div>
+								</div>
+								<br>
+
+
 								<div align="center" id="loader" style="display: none">
 
-								<span>
-									<h4>
-										<font color="#343690">Loading</font>
-									</h4>
-								</span> <span class="l-1"></span> <span class="l-2"></span> <span
-									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-								<span class="l-6"></span>
-							</div>
-							<div class="col-md-9"></div>
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
+								</div>
+								<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
-								</label> 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
-									<tr class="bgpink">
-										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-4">Item Name</th>
-										<th class="col-md-1">OP QTY</th>
-										<th class="col-md-1">OP VALUE</th>
-										<th class="col-md-1">APPV QTY</th>
-										<th class="col-md-1">APPV VALUE</th>
-										<th class="col-md-1">ISSUE QTY</th>
-										<th class="col-md-1">ISSUE VALUE</th> 
-										<th class="col-md-1">DAMAGE QTY</th>
-										<th class="col-md-1">DAMAGE VALUE</th> 
-										<th class="col-md-1">C/L QTY</th>
-										<th class="col-md-1">C/L VALUE</th> 
-										<th class="col-md-1">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-								
-								<c:set var="sr" value="0"> </c:set>
-								<c:forEach items="${list}" var="list" varStatus="count">
-								<c:choose>
-												 	<c:when test="${list.approveQty>0 or list.approvedQtyValue>0 
+								</label> <br /> <br />
+								<div class="clearfix"></div>
+								<div class="table-responsive" style="border: 0">
+									<table class="table table-advance" id="table1">
+										<thead>
+											<tr class="bgpink">
+												<th style="width: 1%;">Sr no.</th>
+												<th class="col-md-4">Item Name</th>
+												<th class="col-md-1" style="text-align: right;">OP QTY</th>
+												<th class="col-md-1" style="text-align: right;">OP
+													VALUE</th>
+												<th class="col-md-1" style="text-align: right;">APPV
+													QTY</th>
+												<th class="col-md-1" style="text-align: right;">APPV
+													VALUE</th>
+												<th class="col-md-1" style="text-align: right;">ISSUE
+													QTY</th>
+												<th class="col-md-1" style="text-align: right;">ISSUE
+													VALUE</th>
+												<th class="col-md-1" style="text-align: right;">DAMAGE
+													QTY</th>
+												<th class="col-md-1" style="text-align: right;">DAMAGE
+													VALUE</th>
+												<th class="col-md-1" style="text-align: right;">C/L QTY</th>
+												<th class="col-md-1" align="right">C/L VALUE</th>
+												<th class="col-md-1">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+
+											<c:set var="sr" value="0">
+											</c:set>
+											<c:forEach items="${list}" var="list" varStatus="count">
+												<c:choose>
+													<c:when
+														test="${list.approveQty>0 or list.approvedQtyValue>0 
 												 	or list.issueQty>0 or list.issueQtyValue>0 or list.damageQty>0 or list.damagValue>0 
 												 	or list.openingStock>0 or list.opStockValue>0}">
-											<tr>
-											 
-												<td  ><c:out value="${sr+1}" /></td> 
-												<c:set var="sr" value="${sr+1}" ></c:set>
+														<tr>
+
+															<td><c:out value="${sr+1}" /></td>
+															<c:set var="sr" value="${sr+1}"></c:set>
 
 
-												<td  ><c:out value="${list.itemCode}" /></td>
-												 
-												<td  ><c:out value="${list.openingStock}" /></td>
-												 
-												<td class="col-md-1"><c:out
-													value="${list.opStockValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${list.approveQty}" /></td>
-											<td class="col-md-1"><c:out
-													value="${list.approvedQtyValue}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${list.issueQty}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${list.issueQtyValue}" /></td>
-													
-											 <td class="col-md-1"><c:out
-													value="${list.damageQty}" /></td>
-													
-											 <td class="col-md-1"><c:out
-													value="${list.damagValue}" /></td>  
-											 <c:set var="closingStock" value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}" ></c:set>
-												<c:set var="closingStockValue" value="${list.opStockValue+list.approvedQtyValue
-												-list.issueQtyValue-list.damagValue}" ></c:set>
-												
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
-											   
-											   <td class="col-md-1"><%-- <a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> --%> <abbr title='detailes'> <i class='fa fa-list' onclick="getValuationDetail(${list.itemId},${list.openingStock})"></i></abbr><!-- </a> --></td> 
-											</tr>
-											</c:when>
-											</c:choose>
-											
-										</c:forEach>
-  
-								</tbody>
+															<td><c:out value="${list.itemCode}" /></td>
 
-								</table>
-  
-					</div> 
-					 
-					 
-				</div>
-							</form> 
+															<td style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.openingStock}"
+																	groupingUsed="false" /></td>
+
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.opStockValue}"
+																	groupingUsed="false" /></td>
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.approveQty}"
+																	groupingUsed="false" /></td>
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.approvedQtyValue}"
+																	groupingUsed="false" /></td>
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.issueQty}"
+																	groupingUsed="false" /></td>
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.issueQtyValue}"
+																	groupingUsed="false" /></td>
+
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.damageQty}"
+																	groupingUsed="false" /></td>
+
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.damagValue}"
+																	groupingUsed="false" /></td>
+															<c:set var="closingStock"
+																value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}"></c:set>
+															<c:set var="closingStockValue"
+																value="${list.opStockValue+list.approvedQtyValue
+												-list.issueQtyValue-list.damagValue}"></c:set>
+
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	groupingUsed="false" minFractionDigits="2"
+																	value="${closingStock}" /></td>
+															<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	groupingUsed="false" minFractionDigits="2"
+																	value="${closingStockValue}" /></td>
+
+															<td class="col-md-1">
+																<%-- <a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> --%>
+																<abbr title='detailes'> <i class='fa fa-list'
+																	onclick="getValuationDetail(${list.itemId},${list.openingStock})"></i></abbr>
+																<!-- </a> -->
+															</td>
+														</tr>
+													</c:when>
+												</c:choose>
+
+											</c:forEach>
+
+										</tbody>
+
+									</table>
+
+								</div>
 
 
-						</div>
-						
+							</div>
+						</form>
+
+
 					</div>
-					 
+
 				</div>
-				<footer>
+
+			</div>
+			<footer>
 				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
-			</div>
- 
-		 
 		</div>
-		
-		<!-- END Content -->
- 
+
+
+	</div>
+
+	<!-- END Content -->
+
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -363,7 +410,7 @@
 						}); 
 }
 	</script>
-	
+
 	<script>
 function myFunction() {
   var input, filter, table, tr, td ,td1, i;
