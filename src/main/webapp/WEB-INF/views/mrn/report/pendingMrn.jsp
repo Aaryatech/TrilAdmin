@@ -129,8 +129,8 @@
 									<input type="button" class="btn btn-primary" value="Search "
 										onclick="search()">
 
-									<!-- <button class="btn btn-primary" value="PDF" id="PDFButton"
-										disabled="disabled" onclick="genPdf()">PDF</button> -->
+									<button class="btn btn-primary" value="PDF" id="PDFButton"
+										disabled="disabled" onclick="genPdf()">PDF</button>
 
 									<input type="button" id="expExcel" class="btn btn-primary"
 										disabled="disabled" value="EXPORT TO Excel"
@@ -317,11 +317,11 @@
 
 				if (data == "") {
 					alert("No records found !!");
-					//document.getElementById("PDFButton").disabled = true;
+					document.getElementById("PDFButton").disabled = true;
 					document.getElementById("expExcel").disabled = true;
 
 				}
-				//document.getElementById("PDFButton").disabled = false;
+				document.getElementById("PDFButton").disabled = false;
 				document.getElementById("expExcel").disabled = false;
 
 				$.each(data,
