@@ -154,7 +154,7 @@ public class MrnReportController {
 			if (selectedGrnType.contains("-1")) {
 				System.err.println("-1 " );
 				for(int i=0;i<typeList.size();i++) {
-					System.err.println("In for "  +selectedGrnType);
+					//System.err.println("In for "  +selectedGrnType);
 
 					selectedGrnType=selectedGrnType+","+typeList.get(i).getTypeId();
 				}
@@ -189,7 +189,7 @@ public class MrnReportController {
 
 			if (statusList.contains("-1")) {
 
-				map.add("statusList", "0" + "," + "1" + "," + "2" + "," + "3");
+				map.add("statusList", "4");
 			} else {
 
 				map.add("statusList", selectedStatus);
@@ -198,7 +198,153 @@ public class MrnReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 
+			System.out.println(map);
 			MrnReport[] mrnReport = restTemplate.postForObject(Constants.url + "/getMrnHeadReport", map,
+					MrnReport[].class);
+
+			mrnReportList = new ArrayList<MrnReport>(Arrays.asList(mrnReport));
+
+			System.err.println("Mrn  Report  " + mrnReportList.toString());
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("MRN No");
+			rowData.add("Vendor Name");
+			rowData.add("MRN Date");
+			rowData.add("Item Code");
+
+			rowData.add("Item Desc");
+			rowData.add("Chalan Qty");
+			rowData.add("Rec Qty");
+			rowData.add("Landing Value");
+			rowData.add("Basic Value");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+
+			for (int i = 0; i < mrnReportList.size(); i++) {
+				// for (MrnReport report : mrnReportList) {
+				MrnReport report = mrnReportList.get(i);
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+				rowData.add("" + (i+1));
+				rowData.add("" + report.getMrnNo());
+				rowData.add("" + report.getVendorName());
+				rowData.add("" + report.getMrnDate());
+
+				rowData.add("" + (report.getItemCode()));
+				rowData.add("" + report.getItemDesc());
+				rowData.add("" + report.getPoQty());
+				rowData.add("" + report.getMrnQty());
+				float basicValue = report.getItemRate() * report.getMrnQty();
+
+				float landingValue = report.getLandingRate() * report.getMrnQty();
+
+				rowData.add("" + landingValue);
+				rowData.add("" + basicValue);
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "mrnReport");
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in Mrn Header Report List  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnReportList;
+
+	}
+	
+	@RequestMapping(value = "/pendingMrnReport", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MrnReport> pendingMrnReport(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			mrnReportList = new ArrayList<MrnReport>();
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			// String[] grnTypeList = request.getParameterValues("grn_type_list");
+
+			String selectedVendor = request.getParameter("vendor_list");
+
+			String selectedGrnType = request.getParameter("grn_type_list");
+
+			String selectedStatus = request.getParameter("status_list");
+
+			List<String> grnTypeList = new ArrayList<String>();
+			grnTypeList = Arrays.asList(selectedGrnType);
+
+
+			if (selectedGrnType.contains("-1")) {
+				System.err.println("-1 " );
+				for(int i=0;i<typeList.size();i++) {
+					//System.err.println("In for "  +selectedGrnType);
+
+					selectedGrnType=selectedGrnType+","+typeList.get(i).getTypeId();
+				}
+				
+				//map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
+			} else {
+
+				//map.add("grnTypeList", selectedGrnType);
+			}
+			
+			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
+			selectedGrnType = selectedGrnType.replaceAll("\"", "");
+
+			map.add("grnTypeList", selectedGrnType);
+
+			selectedVendor = selectedVendor.substring(1, selectedVendor.length() - 1);
+			selectedVendor = selectedVendor.replaceAll("\"", "");
+			List<String> vendorList = new ArrayList<String>();
+			vendorList = Arrays.asList(selectedVendor);
+			if (vendorList.contains("-1")) {
+
+				map.add("vendorIdList", "-1");
+			} else {
+
+				map.add("vendorIdList", selectedVendor);
+			}
+
+			selectedStatus = selectedStatus.substring(1, selectedStatus.length() - 1);
+			selectedStatus = selectedStatus.replaceAll("\"", "");
+			List<String> statusList = new ArrayList<String>();
+			statusList = Arrays.asList(selectedStatus);
+
+			if (statusList.contains("-1")) {
+
+				map.add("statusList", "-1");
+			} else {
+
+				map.add("statusList", selectedStatus);
+			}
+
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			System.out.println(map);
+			MrnReport[] mrnReport = restTemplate.postForObject(Constants.url + "/getMrnDetailPendingReport", map,
 					MrnReport[].class);
 
 			mrnReportList = new ArrayList<MrnReport>(Arrays.asList(mrnReport));

@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getMrnReportList" value="/getMrnReportList"></c:url>
+	<c:url var="getMrnReportList" value="/pendingMrnReport"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -100,8 +100,8 @@
 									<select name="grnType" id="grn_type"
 										class="form-control chosen" tabindex="6" multiple="multiple">
 										<option value="-1">All</option>
-											<c:forEach items="${typeList}" var="typeList">
-										<option  value="${typeList.typeId}">${typeList.typeName}</option>
+										<c:forEach items="${typeList}" var="typeList">
+											<option value="${typeList.typeId}">${typeList.typeName}</option>
 										</c:forEach>
 
 									</select>
@@ -114,12 +114,11 @@
 								<div class="col-md-3">
 
 									<select name="gpStatusList[]" id="mrn_status"
-										class="form-control chosen" multiple="multiple" tabindex="6"
-										required>
+										class="form-control chosen" tabindex="6" required>
 
 										<option value="0">Pending</option>
 										<option value="1">Partial Pending</option>
-
+										<option value="2">Completed</option>
 									</select>
 
 								</div>
@@ -130,8 +129,8 @@
 									<input type="button" class="btn btn-primary" value="Search "
 										onclick="search()">
 
-									<button class="btn btn-primary" value="PDF" id="PDFButton"
-										disabled="disabled" onclick="genPdf()">PDF</button>
+									<!-- <button class="btn btn-primary" value="PDF" id="PDFButton"
+										disabled="disabled" onclick="genPdf()">PDF</button> -->
 
 									<input type="button" id="expExcel" class="btn btn-primary"
 										disabled="disabled" value="EXPORT TO Excel"
@@ -318,44 +317,49 @@
 
 				if (data == "") {
 					alert("No records found !!");
-					document.getElementById("PDFButton").disabled = true;
+					//document.getElementById("PDFButton").disabled = true;
 					document.getElementById("expExcel").disabled = true;
 
 				}
-				document.getElementById("PDFButton").disabled = false;
+				//document.getElementById("PDFButton").disabled = false;
 				document.getElementById("expExcel").disabled = false;
 
-				$.each(data, function(key, mrnList) {
+				$.each(data,
+						function(key, mrnList) {
 
-					var tr = $('<tr></tr>');
+							var tr = $('<tr></tr>');
 
-					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(mrnList.mrnNo));
-					tr.append($('<td></td>').html(mrnList.vendorName));
+							tr.append($('<td></td>').html(key + 1));
+							tr.append($('<td></td>').html(mrnList.mrnNo));
+							tr.append($('<td></td>').html(mrnList.vendorName));
 
-					tr.append($('<td></td>').html(mrnList.mrnDate));
+							tr.append($('<td></td>').html(mrnList.mrnDate));
 
-					tr.append($('<td></td>').html(mrnList.itemCode));
+							tr.append($('<td></td>').html(mrnList.itemCode));
 
-					tr.append($('<td></td>').html(mrnList.itemDesc));
+							tr.append($('<td></td>').html(mrnList.itemDesc));
 
-					tr.append($('<td></td>').html(mrnList.poQty));
+							tr.append($('<td align="right"></td>').html(
+									mrnList.poQty));
 
-					tr.append($('<td></td>').html(mrnList.mrnQty));
+							tr.append($('<td align="right"></td>').html(
+									mrnList.mrnQty));
 
-					var landingValue = parseFloat(mrnList.landingRate)
-							* parseFloat(mrnList.mrnQty);
+							var landingValue = parseFloat(mrnList.landingRate)
+									* parseFloat(mrnList.mrnQty);
 
-					tr.append($('<td></td>').html(landingValue.toFixed(2)));
+							tr.append($('<td align="right"></td>').html(
+									landingValue.toFixed(2)));
 
-					var basicValue = parseFloat(mrnList.itemRate)
-							* parseFloat(mrnList.mrnQty);
+							var basicValue = parseFloat(mrnList.itemRate)
+									* parseFloat(mrnList.mrnQty);
 
-					tr.append($('<td></td>').html(basicValue.toFixed(2)));
+							tr.append($('<td align="right"></td>').html(
+									basicValue.toFixed(2)));
 
-					$('#table1 tbody').append(tr);
+							$('#table1 tbody').append(tr);
 
-				})
+						})
 
 			});
 		}

@@ -101,7 +101,7 @@
 										class="form-control chosen" tabindex="6" multiple="multiple">
 										<option value="-1">All</option>
 										<c:forEach items="${typeList}" var="typeList">
-										<option  value="${typeList.typeId}">${typeList.typeName}</option>
+											<option value="${typeList.typeId}">${typeList.typeName}</option>
 										</c:forEach>
 
 									</select>
@@ -116,10 +116,10 @@
 									<select name="gpStatusList[]" id="mrn_status"
 										class="form-control chosen" multiple="multiple" tabindex="6"
 										required>
-										<option value="-1">All</option>
+										<!-- <option value="-1">All</option>
 										<option value="0">Pending</option>
-										<option value="1">Partial Pending</option>
-										<option value="2">Completed</option>
+										<option value="1">Partial Pending</option> -->
+										<option value="4" selected>Completed Inspection</option>
 
 									</select>
 
@@ -130,13 +130,13 @@
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary" value="Search "
 										onclick="search()">
-										
-											<button class="btn btn-primary" value="PDF" id="PDFButton"
-									disabled="disabled" onclick="genPdf()">PDF</button>
-									
+
+									<button class="btn btn-primary" value="PDF" id="PDFButton"
+										disabled="disabled" onclick="genPdf()">PDF</button>
+
 									<input type="button" id="expExcel" class="btn btn-primary"
-											disabled="disabled" value="EXPORT TO Excel"
-											onclick="exportToExcel();">
+										disabled="disabled" value="EXPORT TO Excel"
+										onclick="exportToExcel();">
 								</div>
 							</div>
 							<br>
@@ -153,17 +153,17 @@
 							</div>
 
 							<br /> <br />
-							
+
 							<div class="col-md-8"></div>
 
-									<div class="input-group">
-										<input type="text" id="myInput"
-											style="text-align: left; color: green;" class="form-control"
-											onkeyup="myFunction()" placeholder="Search " /> <span
-											class="input-group-addon"> <i class="fa fa-search"></i>
-										</span>
-									</div>
-									<br />
+							<div class="input-group">
+								<input type="text" id="myInput"
+									style="text-align: left; color: green;" class="form-control"
+									onkeyup="myFunction()" placeholder="Search " /> <span
+									class="input-group-addon"> <i class="fa fa-search"></i>
+								</span>
+							</div>
+							<br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
 								<table class="table table-advance" id="table1">
@@ -175,7 +175,8 @@
 											<th class="col-md-1">Date</th>
 											<th class="col-md-1">Item Code</th>
 											<th class="col-md-2">Item Desc</th>
-											<th class="col-md-1">Chalan Qty</th><!--ie  po qty in mrn detail -->
+											<th class="col-md-1">Chalan Qty</th>
+											<!--ie  po qty in mrn detail -->
 											<th class="col-md-1">Rec Qty</th>
 											<th class="col-md-1">Landing Value</th>
 											<th class="col-md-1">Basic Value</th>
@@ -311,157 +312,110 @@
 
 			$('#loader').show();
 
-			$
-					.getJSON(
-							'${getMrnReportList}',
+			$.getJSON('${getMrnReportList}',
 
-							{
+			{
 
-								fromDate : fromDate,
-								toDate : toDate,
-								grn_type_list : JSON.stringify(grnTypeList),
-								vendor_list : JSON.stringify(vendorList),
-								status_list : JSON.stringify(statusList),
-								ajax : 'true'
+				fromDate : fromDate,
+				toDate : toDate,
+				grn_type_list : JSON.stringify(grnTypeList),
+				vendor_list : JSON.stringify(vendorList),
+				status_list : JSON.stringify(statusList),
+				ajax : 'true'
 
-							},
-							function(data) {
+			}, function(data) {
 
-								$('#table1 td').remove();
-								$('#loader').hide();
+				$('#table1 td').remove();
+				$('#loader').hide();
 
-								if (data == "") {
-									alert("No records found !!");
-									document.getElementById("PDFButton").disabled = true;
-									document.getElementById("expExcel").disabled = true;
+				if (data == "") {
+					alert("No records found !!");
+					document.getElementById("PDFButton").disabled = true;
+					document.getElementById("expExcel").disabled = true;
 
-								}
-								document.getElementById("PDFButton").disabled = false;
-								document.getElementById("expExcel").disabled = false;
+				}
+				document.getElementById("PDFButton").disabled = false;
+				document.getElementById("expExcel").disabled = false;
 
-								$
-										.each(
-												data,
-												function(key, mrnList) {
+				$.each(data, function(key, mrnList) {
 
-													var tr = $('<tr></tr>');
-													
-															tr
-															.append($(
-																	'<td></td>')
-																	.html(key + 1));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			mrnList.mrnNo));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			mrnList.vendorName));
-													
-													
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			mrnList.mrnDate));
-													
-												
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			mrnList.itemCode));
-													
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	mrnList.itemDesc));
-													
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	mrnList.poQty));
-													
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	mrnList.mrnQty));
-													
-													var landingValue=parseFloat(mrnList.landingRate)*parseFloat(mrnList.mrnQty);
-													
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	landingValue.toFixed(2)));
-													
-												var 	basicValue=parseFloat(mrnList.itemRate)*parseFloat(mrnList.mrnQty);
-													
-													tr
-													.append($(
-															'<td></td>')
-															.html(
-																	basicValue.toFixed(2)));
-												
-													$('#table1 tbody').append(
-															tr);
-													
-												})
+					var tr = $('<tr></tr>');
 
-							});
+					tr.append($('<td></td>').html(key + 1));
+					tr.append($('<td></td>').html(mrnList.mrnNo));
+					tr.append($('<td></td>').html(mrnList.vendorName));
+
+					tr.append($('<td></td>').html(mrnList.mrnDate));
+
+					tr.append($('<td></td>').html(mrnList.itemCode));
+
+					tr.append($('<td></td>').html(mrnList.itemDesc));
+
+					tr.append($('<td></td>').html(mrnList.poQty));
+
+					tr.append($('<td></td>').html(mrnList.mrnQty));
+
+					var landingValue = parseFloat(mrnList.landingRate)
+							* parseFloat(mrnList.mrnQty);
+
+					tr.append($('<td></td>').html(landingValue.toFixed(2)));
+
+					var basicValue = parseFloat(mrnList.itemRate)
+							* parseFloat(mrnList.mrnQty);
+
+					tr.append($('<td></td>').html(basicValue.toFixed(2)));
+
+					$('#table1 tbody').append(tr);
+
+				})
+
+			});
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 		function genPdf() {
 			window.open('${pageContext.request.contextPath}/getMrnReportPdf/');
 			document.getElementById("PDFButton").disabled = true;
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 		function exportToExcel() {
 			window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
-	
+
 	<script>
-function myFunction() {
-  var input, filter, table, tr, td,td1, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[2];
-    td1 = tr[i].getElementsByTagName("td")[1];
-    td4=tr[i].getElementsByTagName("td")[4];
-    	td3=tr[i].getElementsByTagName("td")[5];
-    if (td || td1) {
-      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      }else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }//end of for
-  
- 
-  
-}</script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[2];
+				td1 = tr[i].getElementsByTagName("td")[1];
+				td4 = tr[i].getElementsByTagName("td")[4];
+				td3 = tr[i].getElementsByTagName("td")[5];
+				if (td || td1) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}//end of for
+
+		}
+	</script>
 
 </body>
 </html>
