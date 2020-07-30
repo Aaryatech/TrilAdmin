@@ -81,7 +81,7 @@ public class MrnReportController {
 			String toDate = dd.format(date);
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
-			
+
 			model.addObject("vendorList", vendorList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,7 +110,7 @@ public class MrnReportController {
 			map.add("date", sf.format(date));
 			DocumentBean resList = rest.postForObject(Constants.url + "getDocumentDataForMrn", map, DocumentBean.class);
 			System.out.println("resList" + resList);
-			
+
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
@@ -150,21 +150,20 @@ public class MrnReportController {
 			List<String> grnTypeList = new ArrayList<String>();
 			grnTypeList = Arrays.asList(selectedGrnType);
 
-
 			if (selectedGrnType.contains("-1")) {
-				System.err.println("-1 " );
-				for(int i=0;i<typeList.size();i++) {
-					//System.err.println("In for "  +selectedGrnType);
+				System.err.println("-1 ");
+				for (int i = 0; i < typeList.size(); i++) {
+					// System.err.println("In for " +selectedGrnType);
 
-					selectedGrnType=selectedGrnType+","+typeList.get(i).getTypeId();
+					selectedGrnType = selectedGrnType + "," + typeList.get(i).getTypeId();
 				}
-				
-				//map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
+
+				// map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
 			} else {
 
-				//map.add("grnTypeList", selectedGrnType);
+				// map.add("grnTypeList", selectedGrnType);
 			}
-			
+
 			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
 			selectedGrnType = selectedGrnType.replaceAll("\"", "");
 
@@ -222,6 +221,9 @@ public class MrnReportController {
 			rowData.add("Rec Qty");
 			rowData.add("Landing Value");
 			rowData.add("Basic Value");
+			rowData.add("Rem Qty");
+			rowData.add("Landing Value (Rem)");
+			rowData.add("Basic Value (Rem)");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -233,7 +235,7 @@ public class MrnReportController {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 				cnt = cnt + i;
-				rowData.add("" + (i+1));
+				rowData.add("" + (i + 1));
 				rowData.add("" + report.getMrnNo());
 				rowData.add("" + report.getVendorName());
 				rowData.add("" + report.getMrnDate());
@@ -248,7 +250,9 @@ public class MrnReportController {
 
 				rowData.add("" + landingValue);
 				rowData.add("" + basicValue);
-
+				rowData.add("" + report.getRemainingQty());
+				rowData.add("" + report.getLandingValueation());
+				rowData.add("" + report.getBasicValueation());
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 
@@ -269,7 +273,7 @@ public class MrnReportController {
 		return mrnReportList;
 
 	}
-	
+
 	@RequestMapping(value = "/pendingMrnReport", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MrnReport> pendingMrnReport(HttpServletRequest request, HttpServletResponse response) {
@@ -295,21 +299,20 @@ public class MrnReportController {
 			List<String> grnTypeList = new ArrayList<String>();
 			grnTypeList = Arrays.asList(selectedGrnType);
 
-
 			if (selectedGrnType.contains("-1")) {
-				System.err.println("-1 " );
-				for(int i=0;i<typeList.size();i++) {
-					//System.err.println("In for "  +selectedGrnType);
+				System.err.println("-1 ");
+				for (int i = 0; i < typeList.size(); i++) {
+					// System.err.println("In for " +selectedGrnType);
 
-					selectedGrnType=selectedGrnType+","+typeList.get(i).getTypeId();
+					selectedGrnType = selectedGrnType + "," + typeList.get(i).getTypeId();
 				}
-				
-				//map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
+
+				// map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
 			} else {
 
-				//map.add("grnTypeList", selectedGrnType);
+				// map.add("grnTypeList", selectedGrnType);
 			}
-			
+
 			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
 			selectedGrnType = selectedGrnType.replaceAll("\"", "");
 
@@ -367,6 +370,9 @@ public class MrnReportController {
 			rowData.add("Rec Qty");
 			rowData.add("Landing Value");
 			rowData.add("Basic Value");
+			rowData.add("Rem Qty");
+			rowData.add("Landing Value (Rem)");
+			rowData.add("Basic Value (Rem)");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -378,7 +384,7 @@ public class MrnReportController {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 				cnt = cnt + i;
-				rowData.add("" + (i+1));
+				rowData.add("" + (i + 1));
 				rowData.add("" + report.getMrnNo());
 				rowData.add("" + report.getVendorName());
 				rowData.add("" + report.getMrnDate());
@@ -393,7 +399,9 @@ public class MrnReportController {
 
 				rowData.add("" + landingValue);
 				rowData.add("" + basicValue);
-
+				rowData.add("" + report.getRemainingQty());
+				rowData.add("" + report.getLandingValueation());
+				rowData.add("" + report.getBasicValueation());
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 
@@ -451,11 +459,12 @@ public class MrnReportController {
 
 			e.printStackTrace();
 		}
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(13);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 0.7f, 1.4f, 1.4f, 1.4f, 1.4f, 1.6f, 1.2f, 1.2f, 1.4f, 1.4f });
+			table.setWidths(
+					new float[] { 0.7f, 1.4f, 1.4f, 1.4f, 1.4f, 1.6f, 1.2f, 1.2f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f });
 			Font headFont = new Font(FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 8, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -520,6 +529,21 @@ public class MrnReportController {
 
 			table.addCell(hcell);
 
+			hcell = new PdfPCell(new Phrase("Rem Qty", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Landing Valuation (Rem)", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Basec Valuation (Rem)", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
 			int index = 0;
 			for (MrnReport report : mrnReportList) {
 				index++;
@@ -562,12 +586,12 @@ public class MrnReportController {
 
 				cell = new PdfPCell(new Phrase(String.valueOf(report.getPoQty()), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase(String.valueOf(report.getMrnQty()), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(4);
 				table.addCell(cell);
 
@@ -577,13 +601,31 @@ public class MrnReportController {
 
 				cell = new PdfPCell(new Phrase(String.valueOf(landingValue), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(4);
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase(String.valueOf(basicValue), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(4);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase(String.valueOf(report.getRemainingQty()), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(4);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase(String.valueOf(report.getLandingValueation()), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(4);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase(String.valueOf(report.getBasicValueation()), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(4);
 				table.addCell(cell);
 

@@ -61,6 +61,10 @@ public class MrnReport {
 
 	private float itemRate;
 
+	private float landingValueation;
+
+	private float basicValueation;
+
 	public int getMrnDetailId() {
 		return mrnDetailId;
 	}
@@ -157,7 +161,6 @@ public class MrnReport {
 		return userId;
 	}
 
-	
 	public void setMrnDetailId(int mrnDetailId) {
 		this.mrnDetailId = mrnDetailId;
 	}
@@ -278,6 +281,22 @@ public class MrnReport {
 		this.itemRate = itemRate;
 	}
 
+	public float getLandingValueation() {
+		return landingValueation;
+	}
+
+	public void setLandingValueation(float landingValueation) {
+		this.landingValueation = landingValueation;
+	}
+
+	public float getBasicValueation() {
+		return basicValueation;
+	}
+
+	public void setBasicValueation(float basicValueation) {
+		this.basicValueation = basicValueation;
+	}
+
 	@Override
 	public String toString() {
 		return "MrnReport [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty="
@@ -287,7 +306,8 @@ public class MrnReport {
 				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", itemCode=" + itemCode
 				+ ", itemDesc=" + itemDesc + ", mrnNo=" + mrnNo + ", mrnDate=" + mrnDate + ", mrnType=" + mrnType
 				+ ", vendorName=" + vendorName + ", mrnStatus=" + mrnStatus + ", userId=" + userId + ", landingRate="
-				+ landingRate + ", itemRate=" + itemRate + "]";
+				+ landingRate + ", itemRate=" + itemRate + ", landingValueation=" + landingValueation
+				+ ", basicValueation=" + basicValueation + "]";
 	}
 
 }

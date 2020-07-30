@@ -167,6 +167,9 @@
 											<th class="col-md-1">Rec Qty</th>
 											<th class="col-md-1">Landing Value</th>
 											<th class="col-md-1">Basic Value</th>
+											<th class="col-md-1">Rem Qty</th>
+											<th class="col-md-1">Landing Valuation</th>
+											<th class="col-md-1">Basic Valuation</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -356,6 +359,13 @@
 
 							tr.append($('<td align="right"></td>').html(
 									basicValue.toFixed(2)));
+
+							tr.append($('<td align="right"></td>').html(
+									mrnList.remainingQty));
+							tr.append($('<td align="right"></td>').html(
+									(mrnList.landingValueation).toFixed(2)));
+							tr.append($('<td align="right"></td>').html(
+									(mrnList.basicValueation).toFixed(2)));
 
 							$('#table1 tbody').append(tr);
 

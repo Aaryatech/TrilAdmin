@@ -180,6 +180,9 @@
 											<th class="col-md-1">Rec Qty</th>
 											<th class="col-md-1">Landing Value</th>
 											<th class="col-md-1">Basic Value</th>
+											<th class="col-md-1">Rem Qty</th>
+											<th class="col-md-1">Landing Valuation</th>
+											<th class="col-md-1">Basic Valuation</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -337,37 +340,48 @@
 				document.getElementById("PDFButton").disabled = false;
 				document.getElementById("expExcel").disabled = false;
 
-				$.each(data, function(key, mrnList) {
+				$.each(data,
+						function(key, mrnList) {
 
-					var tr = $('<tr></tr>');
+							var tr = $('<tr></tr>');
 
-					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(mrnList.mrnNo));
-					tr.append($('<td></td>').html(mrnList.vendorName));
+							tr.append($('<td></td>').html(key + 1));
+							tr.append($('<td></td>').html(mrnList.mrnNo));
+							tr.append($('<td></td>').html(mrnList.vendorName));
 
-					tr.append($('<td></td>').html(mrnList.mrnDate));
+							tr.append($('<td></td>').html(mrnList.mrnDate));
 
-					tr.append($('<td></td>').html(mrnList.itemCode));
+							tr.append($('<td></td>').html(mrnList.itemCode));
 
-					tr.append($('<td></td>').html(mrnList.itemDesc));
+							tr.append($('<td></td>').html(mrnList.itemDesc));
 
-					tr.append($('<td></td>').html(mrnList.poQty));
+							tr.append($('<td align="right"></td>').html(
+									mrnList.poQty));
 
-					tr.append($('<td></td>').html(mrnList.mrnQty));
+							tr.append($('<td align="right"></td>').html(
+									mrnList.mrnQty));
 
-					var landingValue = parseFloat(mrnList.landingRate)
-							* parseFloat(mrnList.mrnQty);
+							var landingValue = parseFloat(mrnList.landingRate)
+									* parseFloat(mrnList.mrnQty);
 
-					tr.append($('<td></td>').html(landingValue.toFixed(2)));
+							tr.append($('<td align="right"></td>').html(
+									landingValue.toFixed(2)));
 
-					var basicValue = parseFloat(mrnList.itemRate)
-							* parseFloat(mrnList.mrnQty);
+							var basicValue = parseFloat(mrnList.itemRate)
+									* parseFloat(mrnList.mrnQty);
 
-					tr.append($('<td></td>').html(basicValue.toFixed(2)));
+							tr.append($('<td align="right"></td>').html(
+									basicValue.toFixed(2)));
 
-					$('#table1 tbody').append(tr);
+							tr.append($('<td align="right"></td>').html(
+									mrnList.remainingQty));
+							tr.append($('<td align="right"></td>').html(
+									(mrnList.landingValueation).toFixed(2)));
+							tr.append($('<td align="right"></td>').html(
+									(mrnList.basicValueation).toFixed(2)));
+							$('#table1 tbody').append(tr);
 
-				})
+						})
 
 			});
 		}
