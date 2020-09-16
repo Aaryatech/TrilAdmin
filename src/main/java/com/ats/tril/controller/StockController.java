@@ -312,6 +312,7 @@ public class StockController {
 					model.addObject("toDate", dd.format(date));
 					model.addObject("stockList", getStockBetweenDate);
 					model.addObject("selectedQty", 1);
+					model.addObject("MonthlyIndend", 1);
 					
 					fromDateForPdf=firstDate;
 					toDateForPdf=dd.format(date);
@@ -321,6 +322,7 @@ public class StockController {
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
 				int selectedQty = Integer.parseInt(request.getParameter("selectedQty"));
+				int MonthlyIndend = Integer.parseInt(request.getParameter("MonthlyIndend"));
 				
 				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
@@ -377,12 +379,41 @@ public class StockController {
 		 			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class); 
 		 			getStockBetweenDate = new ArrayList<GetCurrentStock>(Arrays.asList(getCurrentStock));
 				 }
+				 List<GetCurrentStock> getStockBetweenDate1 = new ArrayList<>();
 				 
+				 if(MonthlyIndend==2)
+				 {
+					 for (int i = 0; i < getStockBetweenDate.size(); i++) {
+						 if(getStockBetweenDate.get(i).getGatepassQty()==1)
+						 {
+							 getStockBetweenDate1.add(getStockBetweenDate.get(i));
+						 }
+					}
+				 }
+				 else if(MonthlyIndend==3)
+				 {
+					 for (int i = 0; i < getStockBetweenDate.size(); i++) {
+						 if(getStockBetweenDate.get(i).getGatepassQty()==0)
+						 {
+							 getStockBetweenDate1.add(getStockBetweenDate.get(i));
+						 }
+					}
+				 }
+				 else
+				 {
+					 getStockBetweenDate1=getStockBetweenDate;
+				 }
 				 
 				 model.addObject("fromDate", fromDate);
 					model.addObject("toDate", toDate);
-					model.addObject("stockList", getStockBetweenDate);
+					model.addObject("stockList", getStockBetweenDate1);
 					model.addObject("selectedQty", selectedQty);
+					model.addObject("MonthlyIndend", MonthlyIndend);
+					
+					
+					
+					
+					
 					fromDateForPdf=fromDate;
 					toDateForPdf=toDate;
 			}

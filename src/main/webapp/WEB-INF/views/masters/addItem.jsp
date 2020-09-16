@@ -551,7 +551,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Item Con*</div>
+									<div class="col-md-2">Monthly Indent*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" title="Please Select"
 											name="itemCon" id="itemCon" required>

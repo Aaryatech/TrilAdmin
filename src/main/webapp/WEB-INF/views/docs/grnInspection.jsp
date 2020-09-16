@@ -65,9 +65,12 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 	<c:forEach items="${list}" var="item" varStatus="count">
 
 
-<div align="left"> <h5>${documentBean.docIsoSerialNumber}</h5></div>
+<div align="center"><%--  <h5>${documentBean.docIsoSerialNumber}</h5> --%>
 
-<h3 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h3>
+ <h0 align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h1><h6 style="font-weight: bold; margin: 0px;" align="center">(Formally
+						Known As Trambak Rubber Industrial Limited)</h0> 
+						
+						</div>
  
 <div class="invoice-box">
 		<table cellpadding="0" cellspacing="0">

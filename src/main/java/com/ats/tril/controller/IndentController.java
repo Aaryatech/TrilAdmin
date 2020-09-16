@@ -48,6 +48,7 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.Info;
+import com.ats.tril.model.ItemListWithCurrentStock;
 import com.ats.tril.model.LogSave;
 import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.StockHeader;
@@ -464,6 +465,41 @@ public class IndentController {
 		}
 		return info;
 	}
+	
+	@RequestMapping(value = "/getMoqQtyForValidation", method = RequestMethod.GET)
+	@ResponseBody
+	public ItemListWithCurrentStock getMoqQtyForValidation(HttpServletRequest request, HttpServletResponse response) {
+  
+		ItemListWithCurrentStock getItem  = new ItemListWithCurrentStock();
+		 
+		try {
+			   
+				 int itemId = Integer.parseInt(request.getParameter("itemId"));
+				 System.out.println("Grt item stock ");
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate", fromDateForStock);
+					map.add("toDate", toDateForStock);
+					map.add("itemId", itemId);
+					 
+					getItem = rest.postForObject(Constants.url + "/getItemListByItemIdWithStock",map,ItemListWithCurrentStock.class);
+					System.out.println("getItem"+getItem.getItemId());
+					
+					  
+				 /* for(int i=0;i<itemList.size();i++) {
+					 if(itemId==itemList.get(i).getItemId()) {
+						 System.out.println("getItem loop"+itemList.get(i).getItemId());
+						 getItem.setMaxLevel(itemList.get(i).getItemOpQty());
+					 }
+					 
+				 } */
+			 
+			 			  
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return getItem;
+	}
+	
 	
 	@RequestMapping(value = "/deleteIndent/{indId}", method = RequestMethod.GET)
 	public String deleteIndent(@PathVariable int indId, HttpServletRequest request, HttpServletResponse response) {

@@ -110,6 +110,39 @@
 
 									</div>
 									<div class="col-md-1"></div>
+									
+									<div class="col-md-2">Select Monthly Indend Type</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="MonthlyIndend" id="MonthlyIndend"
+											required>
+											  
+												<c:choose>
+													<c:when test="${1==MonthlyIndend}">
+													<option value="1" selected>Both</option>
+													<option value="2"  >Yes</option>
+													<option value="3"  >No</option>
+													</c:when>
+													<c:when test="${2==MonthlyIndend}">
+													<option value="1"  >Both</option>
+													<option value="2" selected>Yes</option>
+													<option value="3"  >No</option>
+													</c:when>
+													<c:when test="${3==MonthlyIndend}">
+													<option value="1"  >Both</option>
+													<option value="2"  >Yes</option>
+													<option value="3" selected>No</option>
+													</c:when>
+													 
+												</c:choose>
+														 
+										 
+										</select>
+
+									</div>
+									
+									
+									
+									<div class="col-md-1"></div>
 									  <div class="col-md-3"></div>
 								</div><br><br>
 							<br>

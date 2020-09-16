@@ -15,6 +15,7 @@
 	<c:url var="getSubDeptListByDeptId" value="/getSubDeptListByDeptId" />
 	<c:url var="getgroupListByCatId" value="/getgroupListByCatId" />
     <c:url var="checkItemPosition" value="/checkItemPosition" />
+    <c:url var="getMoqQtyForValidation" value="/getMoqQtyForValidation" />
 	<c:url var="getIndentDetail" value="/getIndentDetail" />
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
 	<c:url var="getlimitationValue" value="/getlimitationValue" />
@@ -289,7 +290,7 @@
 
 										<select id="item_name" name="item_name"
 											class="form-control chosen" placeholder="Item Name"
-											onchange="checkItemPosition()">
+											onchange="getMoqQty()">
 
 										</select>
 									</div>
@@ -317,7 +318,77 @@
 									</div>
 
 								</div>
-								<br> <br>
+								<br>
+								
+								<div class="box-content">
+								
+								<label class="col-md-2"> MIN. Level</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="minLevel" id="minLevel"
+											class="form-control" placeholder="min Level"
+											  readonly/>
+ 
+									</div>
+									
+									
+									<label class="col-md-2"> MAX. Level</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="maxLevel" id="maxLevel"
+											class="form-control" placeholder="max Level"
+											  readonly/>
+ 
+									</div>
+									
+									<label class="col-md-2">ROL. Level </label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="rolLevel" id="rolLevel"
+											class="form-control" placeholder="ROL. Level"
+											  readonly/>
+ 
+									</div>
+									
+				</div>
+								<br/>
+								
+								
+								<div class="box-content">
+								
+								<label class="col-md-2">Current Stock</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="clsQty" id="clsQty"
+											class="form-control" placeholder="Current Stock"
+											  readonly/>
+ 
+									</div>
+									<label class="col-md-2">Balance to be received</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="itemPendingMrnQty" id="itemPendingMrnQty"
+											class="form-control" placeholder="Balance to be received"
+											  readonly/>
+ 
+									</div>
+									<label class="col-md-2">Avg. Issue</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="itemAvgIssueQty" id="itemAvgIssueQty"
+											class="form-control" placeholder="Avg. Issue Qty"
+											  readonly/>
+ 
+									</div>
+									
+									  
+								</div>
+								<br/>
+								
+								
+								
+								
+								 <br>
 
 
 								<div class="row">
@@ -518,6 +589,30 @@
 								});
 			}
 		}
+		
+		function getMoqQty() {
+			 
+			var itemId = $("#item_name").val();
+			 alert(itemId);
+			$.getJSON('${getMoqQtyForValidation}', {
+		  
+				itemId : itemId, 
+				ajax : 'true',
+
+			}, function(data) {  
+				 alert(data.maxLevel);
+				document.getElementById("minLevel").value = data.minLevel;
+				document.getElementById("maxLevel").value = data.maxLevel;
+				document.getElementById("rolLevel").value = data.rolLevel;
+				document.getElementById("clsQty").value = data.clsQty;
+					document.getElementById("itemPendingMrnQty").value = data.poPending;
+					document.getElementById("itemAvgIssueQty").value = (data.avgIssueQty).toFixed(2);
+					document.getElementById("itemCurrentStock").value = (data.clsQty).toFixed(2);
+			});
+
+		}
+		
+		
 	</script>
 	<script type="text/javascript">
 		function insertIndent() {
