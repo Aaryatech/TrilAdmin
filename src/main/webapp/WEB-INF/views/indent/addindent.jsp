@@ -593,14 +593,14 @@
 		function getMoqQty() {
 			 
 			var itemId = $("#item_name").val();
-			 alert(itemId);
+			 //alert(itemId);
 			$.getJSON('${getMoqQtyForValidation}', {
 		  
 				itemId : itemId, 
 				ajax : 'true',
 
 			}, function(data) {  
-				 alert(data.maxLevel);
+				 //alert(data.maxLevel);
 				document.getElementById("minLevel").value = data.minLevel;
 				document.getElementById("maxLevel").value = data.maxLevel;
 				document.getElementById("rolLevel").value = data.rolLevel;
