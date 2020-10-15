@@ -124,6 +124,20 @@
 									</select>
 
 								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2">Select Category</div>
+								<div class="col-md-3">
+
+									<select name="catId" id="catId" class="form-control chosen"
+										tabindex="6" multiple="multiple">
+										<option value="-1">All</option>
+										<c:forEach items="${categoryList}" var="categoryList">
+											<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+										</c:forEach>
+
+									</select>
+
+								</div>
 							</div>
 							<br>
 							<div class="form-group">
@@ -312,7 +326,8 @@
 			var grnTypeList = $("#grn_type").val();
 			var vendorList = $("#vendId").val();
 			var statusList = $("#mrn_status").val();
-
+			var catId = $("#catId").val();
+			
 			$('#loader').show();
 
 			$.getJSON('${getMrnReportList}',
@@ -324,6 +339,7 @@
 				grn_type_list : JSON.stringify(grnTypeList),
 				vendor_list : JSON.stringify(vendorList),
 				status_list : JSON.stringify(statusList),
+				catId : JSON.stringify(catId),
 				ajax : 'true'
 
 			}, function(data) {

@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.model.Category;
 import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
@@ -58,6 +59,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Controller
 public class MrnReportController {
 	List<Type> typeList;
+	List<Category> categoryList = new ArrayList<Category>();
 
 	@RequestMapping(value = "/showMrnReport", method = RequestMethod.GET)
 	public ModelAndView showMrnRpoert(HttpServletRequest request, HttpServletResponse response) {
@@ -83,6 +85,10 @@ public class MrnReportController {
 			model.addObject("toDate", toDate);
 
 			model.addObject("vendorList", vendorList);
+
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			categoryList = new ArrayList<Category>(Arrays.asList(category));
+			model.addObject("categoryList", categoryList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,29 +152,42 @@ public class MrnReportController {
 			String selectedGrnType = request.getParameter("grn_type_list");
 
 			String selectedStatus = request.getParameter("status_list");
+			String catId = request.getParameter("catId");
 
 			List<String> grnTypeList = new ArrayList<String>();
 			grnTypeList = Arrays.asList(selectedGrnType);
 
 			if (selectedGrnType.contains("-1")) {
-				System.err.println("-1 ");
+				// System.err.println("-1 ");
+				selectedGrnType = new String();
 				for (int i = 0; i < typeList.size(); i++) {
-					// System.err.println("In for " +selectedGrnType);
 
 					selectedGrnType = selectedGrnType + "," + typeList.get(i).getTypeId();
 				}
 
 				// map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
-			} else {
+			}
 
-				// map.add("grnTypeList", selectedGrnType);
+			if (catId.contains("-1")) {
+				// System.err.println("-1 ");
+				catId = new String();
+				for (int i = 0; i < categoryList.size(); i++) {
+
+					catId = catId + "," + categoryList.get(i).getCatId();
+				}
+
+				// map.add("grnTypeList", "3" + "," + "1" + "," + "2" + "," + "4");
 			}
 
 			selectedGrnType = selectedGrnType.substring(1, selectedGrnType.length() - 1);
 			selectedGrnType = selectedGrnType.replaceAll("\"", "");
+			
+			catId = catId.substring(1, catId.length() - 1);
+			catId = catId.replaceAll("\"", "");
 
 			map.add("grnTypeList", selectedGrnType);
-
+			map.add("catId", catId);
+			
 			selectedVendor = selectedVendor.substring(1, selectedVendor.length() - 1);
 			selectedVendor = selectedVendor.replaceAll("\"", "");
 			List<String> vendorList = new ArrayList<String>();
